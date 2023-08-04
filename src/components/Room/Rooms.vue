@@ -11,6 +11,7 @@
                         more about Rooms.</a>
                 </p>
             </div>
+            
             <div class="flex justify-between">
                 <button class="header-button border-none">
                     <img src="./Rooms/Vector.svg" class="h-7 p-2 px-2" alt="" />
