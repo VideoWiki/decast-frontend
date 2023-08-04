@@ -337,6 +337,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
+    {
+      path: '/rightpart',
+      name: 'rightpart',
+      component: () => import('./views/dashboard/RightPart.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
     // -->>>>>>>>>
     {
       path: '/eventdetails/:eventId',
