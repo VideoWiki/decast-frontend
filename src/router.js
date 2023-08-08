@@ -1,0 +1,516 @@
+import Vue from 'vue';
+import Router from 'vue-router';
+import FullPage from '@/layouts/full-page/FullPage.vue';
+import Landing from '@/views/Landing.vue';
+Vue.use(Router);
+
+const router = new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
+  routes: [
+    // =============================================================================
+    // FULL PAGE LAYOUTS
+    // =============================================================================
+    {
+      path: '',
+      component: FullPage,
+      children: [
+        // =============================================================================
+        // PAGES
+        // =============================================================================
+        {
+          path: '/welcome',
+          name: 'Welcome',
+          component: () => import('./views/Index.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/about',
+          name: 'About Us',
+          component: () => import('./views/AboutUs.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/test',
+          name: 'Testing',
+          component: () => import('./views/Playground.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/EditNFT/:cast_Id',
+          name: 'Edit NFT',
+          component: () => import('./views/create-event/EditNFT.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/EditCertificate/:cast_Id',
+          name: 'Edit Certificate',
+          component: () => import('./views/create-event/EditCertificate.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/',
+          name: 'Cast VideoWiki',
+          component: Landing,
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/room',
+          name: 'Room',
+          component: () => import('./views/classroom/Classroom.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        // {
+        //   path: '/e/:session_key?',
+        //   name: 'meetingid',
+        //   component: () => import('./views/components/join/e.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        {
+          path: '/team',
+          name: 'Teams',
+          component: () => import('./views/Teams.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/goals',
+          name: 'Goals',
+          component: () => import('./views/Goals.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/vc',
+          name: 'Video Conference',
+          component: () => import('./views/VideoConference.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/awards',
+          name: 'Awards',
+          component: () => import('./views/Awards.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+
+        {
+          path: '/search',
+          name: 'Search',
+          component: () => import('./views/search/Index.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/video/:slug',
+          name: 'Video View',
+          component: () => import('./views/videos/NewDetailViewVideo.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/privacy-policy',
+          name: 'Privacy Policy',
+          component: () => import('./views/Privacy.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/terms-of-use',
+          name: 'Terms of Use',
+          component: () => import('./views/Terms.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/integration/ms-teams',
+          name: 'MsTeams',
+          component: () => import('./views/Integrations/MsTeams/MsTeams.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/integration/ocean-protocol',
+          name: 'OceanProtocol',
+          component: () =>
+            import('./views/Integrations/OceanProtocol/OceanProtocol.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/creators',
+          name: 'Creators',
+          component: () => import('./views/creators/Creators.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/feedback',
+          name: 'Feedback',
+          component: () => import('./views/cannio/Feedback.vue'),
+          meta: {
+            rule: 'isLogged',
+          },
+        },
+        {
+          path: '/user_details/:session_key?',
+          name: 'User Details',
+          component: () => import('./views/UserDetails/UserDetails.vue'),
+          meta: {
+            rule: 'isLogged',
+          },
+        },
+      ],
+    },
+    // event-registration
+    {
+      path: '/event-registration/:cast_Id?',
+      name: 'Event Register',
+      component: () => import('./views/pages/event-register/EventRegister.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    // http://localhost:8080/e/creator/join/
+    {
+      path: '/e/creator/join/:cast_Id?',
+      name: 'Joining',
+      component: () => import('./views/Verification/CreatorJoin.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/joining/:cast_Id?',
+      name: 'Waiting Room',
+      component: () => import('./views/Verification/WaitingRoom.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+      props: true,
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import('./views/register/Register.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/resetPassword',
+      name: 'PasswordReset',
+      component: () => import('./views/passwordReset/PasswordReset.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/signin',
+      name: 'LoginNew',
+      component: () => import('./views/login/LoginNew.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/signUp',
+      name: 'SignUp',
+      component: () => import('./views/register/SignUp.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('./views/login/Login.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+      // children: [
+      //   {
+      //     path: '/login/',
+      //     name: 'Login',
+      //     component: () => import('@/views/login/components/Restricted.vue'),
+      //     meta: {
+      //       rule: 'isPublic',
+      //       // layout: 'full',
+      //       pageType: 'auth',
+      //     },
+      //   },
+      // ],
+    },
+    {
+      path: '/password/reset/:token',
+      name: 'Reset Password',
+      component: () => import('@/views/passwordReset/Reset.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/password/email',
+      name: 'Reset Email',
+      component: () => import('@/views/passwordReset/Reset.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/postCast',
+      name: 'Post Cast',
+      component: () => import('./views/postCast.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: () => import('./views/dashboard/Dashboard.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/leftpart',
+      name: 'DashBoardLeftPart',
+      component: () => import('./views/dashboard/components/LeftPart.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/middlePart',
+      name: 'DashBoardMiddlePart',
+      component: () => import('./views/login/Room.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/rightpart',
+      name: 'rightpart',
+      component: () => import('./views/dashboard/components/RightPart.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/full',
+      name: 'FullDashBoard',
+      component: () => import('./views/dashboard/FullDashboard.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    // -->>>>>>>>>
+    {
+      path: '/eventdetails/:eventId',
+      name: 'Event Details',
+      component: () => import('./views/eventdetails.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/events',
+      name: 'Events',
+      component: () => import('./views/events/Events.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/live/:eventId',
+      name: 'Stream Page',
+      component: () => import('./views/events/StreamPage.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/createEvent',
+      name: 'Create Event',
+      component: () => import('./views/create-event/CreateEvent.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/editEvent/:cast_Id?',
+      name: 'Edit Event',
+      component: () => import('./views/edit-event/EditEvent.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/public/nftdrop',
+      name: 'Public NFT Drop',
+      component: () => import('./views/create-event/publicDropNfts.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/nftdrop',
+      name: 'NFT Drop',
+      component: () => import('./views/create-event/DropNfts.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/VC/:cast_id',
+      name: 'Certificate',
+      component: () => import('./views/create-event/GalaCertificate.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/mycasts',
+      name: 'My Casts',
+      component: () => import('./views/MyCasts'),
+      meta: {
+        rule: 'isLogged',
+      },
+    },
+    {
+      path: '/profile',
+      name: 'My Profile',
+      component: () => import('./views/Profile.vue'),
+      meta: {
+        rule: 'isLogged',
+      },
+    },
+    {
+      path: '/contact-us',
+      name: 'Contact Us',
+      component: () => import('./views/ContactUs.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/loader',
+      name: 'Loading',
+      component: () =>
+        import('../src/components/animatedloader/animatedLoader.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      // =============================================================================
+      // MAIN LAYOUT ROUTES
+      // =============================================================================
+      path: '',
+      component: () => import('./layouts/main/Main.vue'),
+      children: [
+        // =============================================================================
+        // Theme Routes
+        // =============================================================================
+        {
+          path: '/studio/:videoId?',
+          name: 'Studio',
+          component: () => import('./views/Home.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+      ],
+    },
+
+    {
+      // =============================================================================
+      // VideoWiki Class LAYOUT ROUTES
+      // =============================================================================
+      path: '',
+      component: () => import('./layouts/videowiki-class/Index.vue'),
+      children: [
+        // =============================================================================
+        // Theme Routes
+        // =============================================================================
+        {
+          path: '/integrations/Room',
+          name: 'Video Wiki Class Landing',
+          component: () => import('./views/videowiki-class/Landing.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+      ],
+    },
+    {
+      path: '/error/not-authorized',
+      component: () => import('./views/NotAuthorized.vue'),
+    },
+    {
+      path: '/error/404',
+      component: () => import('./views/Error404.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/e/:session_key?',
+      name: 'Join Cast',
+      component: () => import('./views/Verification/Join.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    { path: '/error/500', component: () => import('./views/Error500.vue') },
+    // Redirect to 404 page, if no match found
+    {
+      path: '*',
+      redirect: '/error/404',
+    },
+  ],
+});
+
+router.afterEach((to, from) => {
+  // Remove initial loading
+  document.title = to.name;
+  const appLoading = document.getElementById('loading-bg');
+  if (appLoading) {
+    appLoading.style.display = 'none';
+  }
+});
+
+export default router;
