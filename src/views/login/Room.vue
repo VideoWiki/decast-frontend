@@ -2,54 +2,42 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2
-          class="custom-heading"
-          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
-        >
+        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
           Rooms
         </h2>
         <p class="sub-heading pt-2">
           Rooms are social spaces for direct communication. Ideal for X Y Z.
-          <a
-            target="_blank"
-            href="#"
-            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
-            >Learn more about Rooms.</a
-          >
+          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
+            Rooms.</a>
         </p>
       </div>
       <div class="flex justify-between">
-        <button class="header-button border-none">
-          <img src="./Rooms/Vector.svg" class="h-7 p-2 px-2" alt="" />
-        </button>
-        <button
-          class="header-button p-2"
-          @click="createPopup = true"
-          style="
+        <button class="header-button p-2" @click="createPopup = true" style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          "
-        >
+          ">
           <img src="./Rooms/Plus.svg" alt="" />
         </button>
         <button class="header-button border-none dot">
-          <img src="./Rooms/Vector2.svg" class="h-7 p-2 px-2" alt="" />
+          <img src="./Rooms/Vector2.svg" class="h-7 p-1" alt="" />
         </button>
       </div>
     </div>
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button class="options-button border-none">Your Rooms</button>
-        <button class="options-button border-none px-6">Room Recordings</button>
+        <button class="options-button border-none" @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }">Your Rooms</button>
+        <button class="options-button border-none px-4" @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }">Room Recordings</button>
       </div>
 
       <div class="options-container">
         <div v-for="(room, index) in rooms" :key="index">
-          <div class="child-options flex justify-between items-center mb-5">
+          <div class="child-options flex justify-between items-center mb-4">
             <div>
               <p style="font-size: 14px; font-weight: 500">
                 {{ room.room_name }}
@@ -68,7 +56,7 @@
             </div>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -84,7 +72,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -100,7 +88,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -116,7 +104,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -132,7 +120,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -148,7 +136,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -164,7 +152,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -180,7 +168,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -196,7 +184,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -212,7 +200,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -228,7 +216,7 @@
             </button>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-5">
+        <div class="child-options flex justify-between items-center mb-4">
           <div>
             <p style="font-size: 14px; font-weight: 500">
               Room title and length limit
@@ -251,17 +239,10 @@
       <p class="m-auto">3/3</p>
       <p>
         Need more dedicated room?
-        <a target="_blank" href="#" style="color: #31a2f4; cursor: pointer"
-          >Contact us for a tailored plan</a
-        >
+        <a target="_blank" href="#" style="color: #31a2f4; cursor: pointer">Contact us for a tailored plan</a>
       </p>
     </div>
-    <vs-popup
-      title="Login/Register"
-      id="login-popup"
-      ref="login-popup"
-      :active.sync="createPopup"
-      ><template>
+    <vs-popup title="Login/Register" id="login-popup" ref="login-popup" :active.sync="createPopup"><template>
         <div class="centered-container">
           <div class="container">
             <div class="first-row">
@@ -292,6 +273,7 @@ export default {
   data() {
     return {
       createPopup: false,
+      focusYourRooms: true,
       text: '',
       rooms: [],
     };
@@ -325,6 +307,9 @@ export default {
         .catch((e) => {
           console.log(e.resonse);
         });
+    },
+    changeFocus(toYourRooms) {
+      this.focusYourRooms = toYourRooms;
     },
     getList() {
       axios.get('https://dev.api.room.video.wiki/api/list/').then((res) => {
@@ -386,9 +371,12 @@ export default {
 .center-container-full {
   justify-content: center;
   align-items: center;
-  padding: 0px 46px 0px 46px;
   background-color: #181a20;
   color: #a6a6a8;
+  max-width: 420px;
+  width: 410px;
+  margin: auto;
+  /* border: 1px solid white; */
   height: 100%;
 }
 
@@ -417,7 +405,7 @@ export default {
   cursor: pointer;
 }
 
-.options-button:focus {
+.focused-button {
   color: #d7df23;
   text-decoration: underline;
   text-underline-offset: 7px;
@@ -425,8 +413,9 @@ export default {
 }
 
 .child-options {
-  padding: 10px 10px 10px 25px;
+  padding: 10px 10px 10px 15px;
   border: 1px solid #31394e;
+  width: 380px;
   border-radius: 6px;
   height: 62px;
   font-weight: 600;
@@ -435,11 +424,13 @@ export default {
 .session-button {
   background-color: #1f272f;
   border: 1px solid #31394e;
-  padding: 8px 10px 8px 10px;
+  padding: 8px 8px 8px 8px;
   color: #a6a6a8;
   border-radius: 5px;
   font-weight: 700;
   font-weight: 12px;
+  width: 104px;
+  height: 35px;
 }
 
 .session-button:hover {
@@ -477,7 +468,7 @@ export default {
 }
 
 .options-container {
-  margin-top: 40px;
+  margin-top: 30px;
   height: 303px;
   padding-top: 0;
   overflow-y: scroll;
@@ -496,13 +487,15 @@ export default {
 .footer-content {
   width: max-content;
   text-align: center;
-  margin-top: 150px !important;
+  margin-top: 100px !important;
 }
+
 .dot {
   margin-left: 17px;
 }
+
 .choose-room {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 </style>
 <style scoped>
@@ -519,6 +512,7 @@ export default {
   height: 100vh;
   position: relative;
 }
+
 .container {
   height: 300px;
   width: 500px;
@@ -528,6 +522,7 @@ export default {
   padding: 25px;
   position: relative;
 }
+
 .custom-heading {
   font-size: 18px;
   font-weight: 500;
@@ -539,6 +534,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .text {
   color: #a6a6a8;
   padding-top: 25px;
@@ -546,6 +542,7 @@ export default {
   font-size: 14px;
   font-family: 'Karla', sans-serif;
 }
+
 .input input {
   margin-top: 20px;
   height: 45px;
@@ -557,6 +554,7 @@ export default {
   border-radius: 6px;
   border: 1px solid #31394e;
 }
+
 .close-icon {
   position: absolute;
   font-size: 20px;
@@ -587,12 +585,14 @@ export default {
   font-weight: regular;
   font-size: 13px;
 }
+
 .icon {
   position: absolute;
   right: 5px;
   top: 5px;
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
 }
+
 .icon i {
   font-size: 2em;
   color: #647181;
@@ -603,6 +603,7 @@ export default {
 input {
   font-family: Montserrat;
 }
+
 body {
   background: none transparent;
 }

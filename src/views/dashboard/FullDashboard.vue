@@ -62,7 +62,7 @@ export default {
 }
 
 .nav-bar {
-  padding: 53px 67px 0px 67px;
+  padding: 20px 67px 0px 67px;
   align-items: center;
   justify-content: space-between;
 }
