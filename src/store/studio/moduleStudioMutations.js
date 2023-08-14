@@ -34,6 +34,7 @@ export default {
     state.panel.music = false;
     state.panel.scenes = false;
     state.panel.publish = false;
+    state.panel.store = false;
   },
   toggleStyle(state) {
     state.panel.text = false;
@@ -42,6 +43,7 @@ export default {
     state.panel.music = false;
     state.panel.scenes = false;
     state.panel.publish = false;
+    state.panel.store = false;
   },
   toggleLibrary(state) {
     state.panel.text = false;
@@ -50,6 +52,7 @@ export default {
     state.panel.music = false;
     state.panel.scenes = false;
     state.panel.publish = false;
+    state.panel.store = false;
   },
   toggleMusic(state) {
     state.panel.text = false;
@@ -58,6 +61,7 @@ export default {
     state.panel.music = true;
     state.panel.scenes = false;
     state.panel.publish = false;
+    state.panel.store = false;
   },
   toggleScenes(state) {
     state.panel.text = false;
@@ -66,6 +70,7 @@ export default {
     state.panel.music = false;
     state.panel.scenes = true;
     state.panel.publish = false;
+    state.panel.store = false;
   },
   togglePublish(state) {
     state.panel.text = false;
@@ -74,6 +79,16 @@ export default {
     state.panel.music = false;
     state.panel.scenes = false;
     state.panel.publish = true;
+    state.panel.store = false;
+  },
+  toggleStorage(state) {
+    state.panel.store = true;
+    state.panel.text = false;
+    state.panel.style = false;
+    state.panel.library = false;
+    state.panel.music = false;
+    state.panel.scenes = false;
+    state.panel.publish = false;
   },
   setScript(state, value) {
     state.videoScript = value;
@@ -180,7 +195,7 @@ export default {
     const searchedVideoList = Object.values(payload.value);
     sceneVideoList.splice(0, 0, ...searchedVideoList);
     Vue.set(state.videos, payload.sceneNum, {
-      ...sceneVideoList
+      ...sceneVideoList,
     });
   },
   setSearchedImages(state, payload) {
@@ -189,7 +204,7 @@ export default {
     const searchedImageList = Object.values(payload.value);
     sceneImageList.splice(0, 0, ...searchedImageList);
     Vue.set(state.images, payload.sceneNum, {
-      ...sceneImageList
+      ...sceneImageList,
     });
   },
   setUploadedMedia(state, payload) {
@@ -262,7 +277,7 @@ export default {
   setAnimationURL(state, payload) {
     const obj = {
       ...state.selectedFromLibraryMedia[payload.sceneNum],
-      animationUrl: payload.value
+      animationUrl: payload.value,
     };
     state.selectedFromLibraryMedia.splice(payload.sceneNum, 1, obj);
     state.preparedScenesVideos.splice(payload.sceneNum, 1, null);
@@ -291,5 +306,5 @@ export default {
   },
   skipMusic(state) {
     state.skipMusic = true;
-  }
+  },
 };

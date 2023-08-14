@@ -33,7 +33,8 @@ const getDefaultState = () => {
       library: false,
       music: false,
       scenes: false,
-      publish: false
+      publish: false,
+      store: false,
     },
     scenes: {}, // 1
     activeSceneInLibrary: 1,
