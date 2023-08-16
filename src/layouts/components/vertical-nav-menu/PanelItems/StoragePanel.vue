@@ -1,31 +1,25 @@
 <template>
   <div class="storage-panel">
-    <h2>Storage Options</h2>
-    <div class="storage-options">
-      <div class="option-container flex">
+    <h3 class="top-head">Storage Options</h3>
+    <div class="storage-options mt-16">
+      <div
+        v-for="(option, index) in storageOptions"
+        :key="index"
+        :class="['option-container', 'flex', 'p-3', 'mt-5', { 'selected-option': option.selected }]"
+        @click="selectOption(option)"
+      >
         <button class="storage-buttons">
-          <vs-avatar color="primary" icon="storage" />
+          <vs-avatar :icon="option.icon" :color="option.selected ? '#7966FA' : '#D0D5DD'" />
         </button>
-        <span class='button-heading'>Local Disk</span>
+        <span class="button-heading ml-3 m-auto" :style="{ color: option.selected ? '#FFFFFF' : null }">{{ option.label }}</span>
       </div>
-      <div class="option-container flex">
-        <button class="storage-buttons">
-          <vs-avatar color="primary" icon="storage" />
-        </button>
-        <span class='button-heading'>Public Cloud</span>
-      </div>
-      <div class="option-container flex">
-        <button class="storage-buttons">
-          <vs-avatar color="primary" icon="storage" />
-        </button>
-        <span class='button-heading'>Private Cloud</span>
-      </div>
-      <div class="option-container flex">
-        <button class="storage-buttons">
-          <vs-avatar color="primary" icon="storage" />
-          <span class='button-heading'>Decentralized</span>
-        </button>
-      </div>
+    </div>
+
+    <div class="request-container flex p-3 mb-2">
+      <button class="storage-buttons">
+        <vs-avatar icon="storage" />
+      </button>
+      <span class="request-heading ml-3 m-auto">{{ requestLabel }}</span>
     </div>
   </div>
 </template>
@@ -33,34 +27,103 @@
 <script>
 export default {
   name: 'StoragePanel',
+  data() {
+    return {
+      storageOptions: [
+        { label: 'Local Disk', icon: 'storage', selected: false },
+        { label: 'Public Cloud', icon: 'storage', selected: false },
+        { label: 'Private Cloud', icon: 'storage', selected: false },
+        { label: 'Decentralized', icon: 'storage', selected: false },
+      ],
+      requestLabel: 'Request additional storage option',
+    };
+  },
+  methods: {
+    selectOption(option) {
+      this.storageOptions.forEach(opt => {
+        opt.selected = false;
+      });
 
+      option.selected = true;
+    },
+  },
 };
 </script>
 
-<style scoped>
 
-.storage-panel{
+<style>
+.top-head {
+  font-weight: 700;
+  font:bolder;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.24px;
+
+}
+
+.storage-panel {
   background-color: #EEF0F5;
   color: #D0D5DD;
+  padding: 30px;
+  width: 439px;
+  height: 100%;
+  z-index: 5;
+  top: 0;
+  left: 100px;
+  position: absolute;
 }
-.storage-buttons{
+
+.storage-options{
+  width: 380px;
+}
+
+.storage-buttons {
   width: 56px;
   height: 56px;
   border-radius: 12px;
+  background-color: #FFFFFF;
   border: 1px solid #D0D5DD;
   cursor: pointer;
 }
 
-.button-heading{
-  color:#D0D5DD;
+.button-heading {
+  color: #667085;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 21.78px;
 }
 
-.option-container{
+.request-heading{
+  color: #667085;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19.36px;
+}
+
+.option-container {
   background-color: #FFFFFF;
   justify-content: left;
-  gap:"20px";
-  margin:auto;
-  width:380px;
-  height:76px;
+  border-radius: 8px;
+  width: 380px;
+  height: 76px;
+}
+
+.option-container:focus{
+  background-color: #7966FA
+}
+
+.request-container{
+  bottom: 5px;
+  position: absolute;
+  background-color: #FFFFFF;
+  justify-content: left;
+  border-radius: 8px;
+  margin: auto;
+  width: 380px;
+  height: 76px;
+}
+
+.selected-option {
+  background-color: #7966FA;
 }
 </style>

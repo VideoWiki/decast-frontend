@@ -34,7 +34,7 @@ export default {
     state.panel.music = false;
     state.panel.scenes = false;
     state.panel.publish = false;
-    state.panel.store = false;
+    state.panel.storage = false;
   },
   toggleStyle(state) {
     state.panel.text = false;
@@ -43,7 +43,7 @@ export default {
     state.panel.music = false;
     state.panel.scenes = false;
     state.panel.publish = false;
-    state.panel.store = false;
+    state.panel.storage = false;
   },
   toggleLibrary(state) {
     state.panel.text = false;
@@ -52,7 +52,7 @@ export default {
     state.panel.music = false;
     state.panel.scenes = false;
     state.panel.publish = false;
-    state.panel.store = false;
+    state.panel.storage = false;
   },
   toggleMusic(state) {
     state.panel.text = false;
@@ -61,7 +61,7 @@ export default {
     state.panel.music = true;
     state.panel.scenes = false;
     state.panel.publish = false;
-    state.panel.store = false;
+    state.panel.storage = false;
   },
   toggleScenes(state) {
     state.panel.text = false;
@@ -70,7 +70,7 @@ export default {
     state.panel.music = false;
     state.panel.scenes = true;
     state.panel.publish = false;
-    state.panel.store = false;
+    state.panel.storage = false;
   },
   togglePublish(state) {
     state.panel.text = false;
@@ -79,10 +79,10 @@ export default {
     state.panel.music = false;
     state.panel.scenes = false;
     state.panel.publish = true;
-    state.panel.store = false;
+    state.panel.storage = false;
   },
   toggleStorage(state) {
-    state.panel.store = true;
+    state.panel.storage = true;
     state.panel.text = false;
     state.panel.style = false;
     state.panel.library = false;
