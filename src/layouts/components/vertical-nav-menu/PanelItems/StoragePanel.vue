@@ -2,22 +2,22 @@
   <div class="storage-panel">
     <h3 class="top-head">Storage Options</h3>
     <div class="storage-options mt-16">
-      <div
-        v-for="(option, index) in storageOptions"
-        :key="index"
+      <div v-for="(option, index) in storageOptions" :key="index"
         :class="['option-container', 'flex', 'p-3', 'mt-5', { 'selected-option': option.selected }]"
-        @click="selectOption(option)"
-      >
+        @click="selectOption(option)">
         <button class="storage-buttons">
-          <vs-avatar :icon="option.icon" :color="option.selected ? '#7966FA' : '#D0D5DD'" />
+
+          <img :src="getIconPath(option.icon)" :class="{ 'selected-icon': option.selected }" />
         </button>
-        <span class="button-heading ml-3 m-auto" :style="{ color: option.selected ? '#FFFFFF' : null }">{{ option.label }}</span>
+        <span class="button-heading ml-3 m-auto" :style="{ color: option.selected ? '#FFFFFF' : null }">{{ option.label
+        }}</span>
       </div>
     </div>
 
-    <div class="request-container flex p-3 mb-2">
+    <div class="request-container flex p-3 mb-2" :class="{ 'selected-request': isRequestSelected }"
+    @click="toggleRequestSelection">
       <button class="storage-buttons">
-        <vs-avatar icon="storage" />
+        <img src="@/assets/images/storage-icons/send.svg" />
       </button>
       <span class="request-heading ml-3 m-auto">{{ requestLabel }}</span>
     </div>
@@ -29,11 +29,12 @@ export default {
   name: 'StoragePanel',
   data() {
     return {
+      isRequestSelected: false,
       storageOptions: [
-        { label: 'Local Disk', icon: 'storage', selected: false },
-        { label: 'Public Cloud', icon: 'storage', selected: false },
-        { label: 'Private Cloud', icon: 'storage', selected: false },
-        { label: 'Decentralized', icon: 'storage', selected: false },
+        { label: 'Local Disk', icon: 'blockchain.svg', selected: false, action: this.performLocalDiskAction },
+        { label: 'Public Cloud', icon: 'hard-disc.svg', selected: false, action: this.performPublicCloudAction },
+        { label: 'Private Cloud', icon: 'secure.svg', selected: false, action: this.performPrivateCloudAction },
+        { label: 'Decentralized', icon: 'upload.svg', selected: false, action: this.performDecentralizedAction },
       ],
       requestLabel: 'Request additional storage option',
     };
@@ -43,8 +44,35 @@ export default {
       this.storageOptions.forEach(opt => {
         opt.selected = false;
       });
-
       option.selected = true;
+      option.action();
+    },
+    toggleRequestSelection() { 
+      this.isRequestSelected = !this.isRequestSelected;
+      console.log('Request clicked');
+    },
+    getIconPath(iconName) {
+      return require(`@/assets/images/storage-icons/${iconName}`);
+    },
+    performLocalDiskAction() {
+      // Implement logic for the Local Disk action
+      console.log("A clicked");
+    },
+    performPublicCloudAction() {
+      // Implement logic for the Public Cloud action
+      console.log("B clicked");
+    },
+    performPrivateCloudAction() {
+      // Implement logic for the Private Cloud action
+      console.log("C clicked");
+    },
+    performDecentralizedAction() {
+      // Implement logic for the Decentralized action
+      console.log("D clicked");
+    },
+    requestStorageOption() {
+      // Implement logic for the Request Storage Option action
+      console.log("D clicked");
     },
   },
 };
@@ -54,7 +82,7 @@ export default {
 <style>
 .top-head {
   font-weight: 700;
-  font:bolder;
+  font: bolder;
   font-size: 16px;
   line-height: 20px;
   letter-spacing: 0.24px;
@@ -73,7 +101,7 @@ export default {
   position: absolute;
 }
 
-.storage-options{
+.storage-options {
   width: 380px;
 }
 
@@ -93,7 +121,7 @@ export default {
   line-height: 21.78px;
 }
 
-.request-heading{
+.request-heading {
   color: #667085;
   font-weight: 600;
   font-size: 16px;
@@ -108,11 +136,11 @@ export default {
   height: 76px;
 }
 
-.option-container:focus{
+.option-container:focus {
   background-color: #7966FA
 }
 
-.request-container{
+.request-container {
   bottom: 5px;
   position: absolute;
   background-color: #FFFFFF;
@@ -121,9 +149,26 @@ export default {
   margin: auto;
   width: 380px;
   height: 76px;
+  cursor: pointer;
 }
 
 .selected-option {
   background-color: #7966FA;
+}
+
+.selected-icon {
+  fill: #7966FA;
+}
+
+.selected-request {
+  background-color: #7966FA;
+}
+
+.selected-request .storage-buttons {
+  border-color: #7966FA;
+}
+
+.selected-request .request-heading {
+  color: #ffffff;
 }
 </style>
