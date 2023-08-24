@@ -121,6 +121,9 @@
 <script>
 import constants from '../../../constant';
 import Web3 from 'web3';
+import GAuth from 'vue-google-oauth2';
+import Vue from 'vue';
+import { detectIncognito } from 'detectincognitojs';
 export default {
   data() {
     return {
@@ -129,13 +132,40 @@ export default {
       password: '',
       ValidMail: 'example@mail.com',
       checkbox_remember_me: false,
+      isIncognito: false,
+      gAccessToken: '',
+      required: false,
     };
+  },
+  props: {
+    popup: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+  },
+  mounted() {
+    this.initilizeGAuth();
+  },
+  created() {
+    detectIncognito().then((result) => {
+      console.log('this is working ', result.browserName, result.isPrivate);
+      if (result.isPrivate && result.browserName.toLowerCase() === 'chrome') {
+        this.isIncognito = true;
+      } else {
+        this.isIncognito = false;
+      }
+    });
   },
   computed: {
     emailIsValid() {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return this.email === '' || emailRegex.test(this.email);
     },
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
+
     validateForm() {
       return (
         this.emailIsValid &&
@@ -339,6 +369,17 @@ export default {
     },
     closeForm() {
       this.$refs.form.reset();
+    },
+    initilizeGAuth() {
+      this.isIncognito = false;
+      const gauthOption = {
+        clientId:
+          '819083977574-sq0gi88sfdb5skebh2kjk62t41nuegfv.apps.googleusercontent.com',
+        scope: 'profile email',
+        prompt: 'consent',
+        fetch_basic_profile: true,
+      };
+      Vue.use(GAuth, gauthOption);
     },
     async loginWithGoogle() {
       // Loading

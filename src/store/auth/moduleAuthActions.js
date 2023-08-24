@@ -11,6 +11,7 @@ import jwt from '../../http/requests/auth/jwt/index.js';
 import constants from '../../../constant';
 import router from '@/router';
 import axios from '@/axios.js';
+
 export default {
   async otpSent({ commit }, payload) {
     const email = payload.email;
@@ -144,7 +145,7 @@ export default {
   fetchAccessToken() {
     return new Promise((resolve) => {
       jwt.refreshToken().then((response) => {
-        cosnole.log('response', response);
+        console.log('response', response);
         resolve(response);
       });
     });
@@ -316,7 +317,7 @@ export default {
 
             resolve(response);
           } else {
-            reject({ message: 'Wrong Email or Password' });
+            reject( { message: 'Wrong Email or Password' } );
           }
         })
         .catch((err) => {
