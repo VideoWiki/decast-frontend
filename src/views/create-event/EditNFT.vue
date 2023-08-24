@@ -359,9 +359,7 @@
 </template>
 
 <script>
-import constants from '../../../constant';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
-import axios from '../../axios';
 export default {
   data() {
     return {
@@ -599,14 +597,11 @@ export default {
     },
     getNFTDetails() {
       this.$vs.loading();
-      axios
-        .get(
-          `${constants.apiCastUrl}/api/event/fetch/nft/details/?cast_id=${this.cast_Id}`,
-          {
-            mode: 'no-cors',
-          }
-        )
+      const payload= this.cast_Id
+      this.$store
+        .dispatch('cast/recieveNFTDetails', payload)
         .then((res) => {
+          console.log('working receieving');
           this.stepOneProps.mint_function_name = res.data.mint_function_name;
           this.stepOneProps.contract_address = res.data.contract_adress;
           this.stepOneProps.nft_description = res.data.description;
@@ -635,7 +630,7 @@ export default {
           this.$vs.loading.close();
         })
         .catch((e) => {
-          console.log(e);
+          console.log('error in receibing', e);
         });
     },
     async castInfo() {

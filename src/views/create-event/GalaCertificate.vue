@@ -335,10 +335,8 @@ export default {
         return;
       }
       this.$vs.loading();
-      await axios
-        .get(
-          constant.apiCastUrl + '/api/add/text/image/?user_name=' + this.name
-        )
+      await this.$store
+        .dispatch('cast/getImage', this.name)
         .then(async (res) => {
           this.openNotification('bottom-right', 'success', 'Creating NFT');
           this.nft_image = res.data.image_url;
@@ -703,13 +701,8 @@ export default {
             this.$router.push('/error/404');
           }
         });
-      await axios
-        .get(
-          `${constant.apiCastUrl}/api/event/fetch/nft/details/?cast_id=${this.$route.params.cast_id}&nft_type=vc`,
-          {
-            mode: 'no-cors',
-          }
-        )
+      await this.$store
+        .dispatch('cast/merkelTree', this.$route.params.cast_id)
         .then((res) => {
           this.contractAddress = res.data.contract_adress;
           this.abi = res.data.aib;

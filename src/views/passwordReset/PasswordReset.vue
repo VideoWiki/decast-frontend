@@ -3,11 +3,12 @@
     <div class="container">
       <div class="first-row">
         <h6 class="custom-heading">Reset your password</h6>
-        <button class="close-icon">✕</button>
+        <button class="close-icon" @click="navigateToLogin">✕</button>
       </div>
       <div class="text">
         Enter your VideoWiki email address so we can reset your password.
       </div>
+
       <div class="input">
         <input
           placeholder="Email"
@@ -19,14 +20,7 @@
       </div>
 
       <div class="button">
-        <button
-          class="button-text"
-          @click="emailSubmit"
-          :style="{
-            opacity: emailError ? 0.5 : 1,
-            cursor: emailError ? 'not-allowed' : 'pointer',
-          }"
-        >
+        <button class="button-text font-semibold" @click="validateAndProceed">
           Next
         </button>
       </div>
@@ -40,71 +34,51 @@ export default {
     return {
       email: '',
       errors: {},
-      emailError: false,
     };
   },
-  watch: {
-    email: function (val) {
-      if (val === '') {
-        this.emailError = true;
-      }
-    },
-  },
   methods: {
-    emailSubmit() {
-      console.log('clicked');
-      this.validateAndProceed();
-      if (this.emailError === false) {
-        this.sendResetEmail();
-        return;
-      }
+    navigateToLogin() {
+      if (this.popup) this.$emit('toLogin');
+      else this.$router.push('/login');
     },
     sendResetEmail() {
-      if (this.emailError === false) {
-        this.emailError = true;
-        setTimeout(() => {
-          this.emailError = false;
-        }, 5000);
-        this.$store
-          .dispatch('auth/sendResetEmail', this.email)
-          .then((res) => {
-            this.$vs.notify({
-              title: 'Check your mail',
-              text: 'Mail sent successfully',
-              color: 'success',
-            });
-            this.email = '';
-          })
-          .catch((e) => {
-            if (e.response.data.message === 'invalid emaiil') {
-              this.$vs.notify({
-                title: 'Error occurred',
-                text: 'Invalid email ',
-                color: 'danger',
-              });
-            } else {
-              this.$vs.notify({
-                title: 'Error occurred',
-                text: 'Try Again',
-                color: 'danger',
-              });
-            }
+      this.$store
+        .dispatch('auth/sendResetEmail', this.email)
+        .then((res) => {
+          console.log('sending sms');
+          this.$vs.notify({
+            title: 'Check your mail',
+            text: 'Mail sent successfully',
+            color: 'success',
           });
-      }
+          this.email = '';
+        })
+        .catch((e) => {
+          console.log(' can not sending sms');
+          if (e.response.data.message === 'invalid email') {
+            this.$vs.notify({
+              title: 'Error occurred',
+              text: 'Invalid email ',
+              color: 'danger',
+            });
+          } else {
+            this.$vs.notify({
+              title: 'Error occurred',
+              text: 'Try Again',
+              color: 'danger',
+            });
+          }
+        });
     },
-
     validateAndProceed() {
-      console.log('i am here');
       this.errors = {};
       if (!this.email) {
         this.errors.email = 'Email is required.';
-        this.emailError = true;
       } else if (!this.isValidEmail(this.email)) {
         this.errors.email = 'Invalid email format.';
-        this.emailError = true;
       } else {
         console.log('Form submitted with email:', this.email);
-        this.emailError = false;
+        this.sendResetEmail();
       }
     },
     isValidEmail(email) {
@@ -123,29 +97,27 @@ export default {
 *:not(i) {
   font-family: 'Karla', sans-serif;
 }
-
 .centered-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  position: relative;
 }
+
 .container {
   height: 300px;
   width: 500px;
   border: 1px solid #31394e;
   background-color: #1f272f;
   border-radius: 12px;
-  padding: 25px;
+  padding: 30px;
   position: relative;
 }
 .custom-heading {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: bold;
   color: #a6a6a8;
 }
-
 .first-row {
   display: flex;
   justify-content: space-between;
@@ -155,7 +127,7 @@ export default {
   color: #a6a6a8;
   padding-top: 25px;
   font-weight: regular;
-  font-size: 14px;
+  font-size: 13px;
   font-family: 'Karla', sans-serif;
 }
 .input input {
@@ -170,14 +142,11 @@ export default {
   border: 1px solid #31394e;
 }
 .close-icon {
-  position: absolute;
   font-size: 20px;
   cursor: pointer;
   color: #a6a6a8;
   background: none;
   border: none;
-  top: 5px;
-  right: 10px;
 }
 
 .button-text {
@@ -188,7 +157,6 @@ export default {
   border: 1px solid #31394e;
   border-radius: 6px;
 }
-
 .error-message {
   color: rgba(199, 70, 70, 0.869);
   font-weight: regular;

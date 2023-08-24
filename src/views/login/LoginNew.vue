@@ -2,14 +2,8 @@
   <div class="center-container">
     <div class="flex justify-between items-center">
       <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
-      <h6 class="custom-heading" style="color: #a6a6a8">Sign In</h6>
-
-      <button
-        class="close-icon"
-        @click="$store.commit('TOGGLE_LOGIN_POPUP', false)"
-      >
-        ✕
-      </button>
+      <h6 class="custom-heading" style="color: #a6a6a8">Sign Up</h6>
+      <button class="close-icon" @click="closeForm">✕</button>
     </div>
 
     <div class="flex justify-between items-center mt-8 mb-4">
@@ -21,14 +15,14 @@
         <p class="flex justify-start items-center">
           <img src="@/assets/images/login/google.png" class="h-6 px-3" />
           <!-- Log in with Google uncomment after design fix and remove the below line -->
-          Sign in with Google
+          Sign up with Google
         </p>
         <!-- <GoogleLogin/> -->
       </div>
 
       <div class="child-1 cursor-pointer" @click.prevent="loginWithMetamask">
         <p class="flex justify-start items-center">
-          <img src="@/assets/images/Wallet.svg" class="h-6 px-3" />Sign in with
+          <img src="@/assets/images/Wallet.svg" class="h-6 px-3" />Log in with
           Wallet
         </p>
         <!-- <SignInMetaMask/> -->
@@ -82,13 +76,13 @@
           </vs-checkbox>
         </div>
         <div>
-          <span
+          <router-link
             class="route cursor-pointer text-sm font-semibold"
             style="color: #a6a6a8; text-decoration: underline"
-            @click="$store.commit('TOGGLE_LOGIN_POPUP', 11)"
+            :to="{ path: '/resetPassword' }"
           >
             Forget password?
-          </span>
+          </router-link>
         </div>
       </div>
 
@@ -107,17 +101,17 @@
           "
           :disabled="!validateForm"
         >
-          <h3><b class="text-lg sign-in-button">Sign In</b></h3>
+          <h3><b class="text-lg">Sign In</b></h3>
         </button>
       </div>
       <div class="flex justify-center">
-        <span
+        <router-link
           class="route cursor-pointer text-sm font-semibold"
           style="color: #a6a6a8; text-decoration: underline"
-          @click="$store.commit('TOGGLE_LOGIN_POPUP', 12)"
+          :to="{ path: '/signup' }"
         >
           Don't have an account? Sign Up
-        </span>
+        </router-link>
       </div>
       <input type="submit" value="" class="text-xs" style="display: none" />
     </form>
@@ -203,7 +197,6 @@ export default {
           this.$acl.change(this.activeUserInfo.userRole);
           this.$vs.loading.close();
           this.$router.push('/');
-          this.$store.commit('TOGGLE_LOGIN_POPUP', false);
           this.$vs.notify({
             title: 'Success',
             text: 'Login Successfull',
@@ -331,177 +324,161 @@ export default {
           });
         });
     },
-
-      submitForm() {
-        if (this.validateForm) {
-          console.log('Email:', this.email);
-          console.log('Password:', this.password);
-        } else {
-          this.$vs.notify({
-            title: 'Fill all the details',
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'warning',
-          });
-        }
-      },
-      closeForm() {
-        this.$refs.form.reset();
-      },
+    submitForm() {
+      if (this.validateForm) {
+        console.log('Email:', this.email);
+        console.log('Password:', this.password);
+      } else {
+        this.$vs.notify({
+          title: 'Fill all the details',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'warning',
+        });
+      }
+    },
+    closeForm() {
+      this.$refs.form.reset();
     },
     async loginWithGoogle() {
-        // Loading
-        this.$vs.loading();
-        try {
-            const googleUser = await this.$gAuth.signIn();
-            if (googleUser) {
-            this.gAccessToken = googleUser.getAuthResponse().access_token;
-            this.$store
-                .dispatch('auth/sendAccessToken', {
-                access_token: this.gAccessToken,
-                login_type: 'web2',
-                login_challenge: this.$route.query.login_challenge,
-                })
-                .then((response) => {
-                console.log(5);
-                this.$acl.change(this.activeUserInfo.userRole);
-                this.$router.push('/');
-                this.$vs.loading.close();
-                });
-            } else {
-            this.$vs.notify({
-                title: this.$t('Login.notify.title'),
-                text: this.$t('GoogleLogin.notverified'),
-                iconPack: 'feather',
-                icon: 'icon-alert-circle',
-                color: 'danger',
+      // Loading
+      this.$vs.loading();
+      try {
+        const googleUser = await this.$gAuth.signIn();
+        if (googleUser) {
+          this.gAccessToken = googleUser.getAuthResponse().access_token;
+          this.$store
+            .dispatch('auth/sendAccessToken', {
+              access_token: this.gAccessToken,
+              login_type: 'web2',
+              login_challenge: this.$route.query.login_challenge,
+            })
+            .then((response) => {
+              console.log(5);
+              this.$acl.change(this.activeUserInfo.userRole);
+              this.$router.push('/');
+              this.$vs.loading.close();
             });
-            this.$vs.loading.close();
-            }
-        } catch (error) {
-            console.log(error, 'err');
-            if (this.isIncognito) {
-            this.$vs.notify({
-                title: this.$t('Login.notify.title'),
-                text: 'Allow Third Party Cookies',
-                iconPack: 'feather',
-                icon: 'icon-alert-circle',
-                color: 'danger',
-            });
-            } else {
-            this.$vs.notify({
-                title: this.$t('Login.notify.title'),
-                text: 'User not verified',
-                iconPack: 'feather',
-                icon: 'icon-alert-circle',
-                color: 'danger',
-            });
-            }
-            this.$vs.loading.close();
+        } else {
+          this.$vs.notify({
+            title: this.$t('Login.notify.title'),
+            text: this.$t('GoogleLogin.notverified'),
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+          this.$vs.loading.close();
         }
+      } catch (error) {
+        console.log(error, 'err');
+        if (this.isIncognito) {
+          this.$vs.notify({
+            title: this.$t('Login.notify.title'),
+            text: 'Allow Third Party Cookies',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+        } else {
+          this.$vs.notify({
+            title: this.$t('Login.notify.title'),
+            text: 'User not verified',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+        }
+        this.$vs.loading.close();
+      }
     },
+  },
+};
+</script>
 
-  };
-  </script>
-  
-  <style scoped>
-  /* Add styles for the center container as mentioned in the previous response */
-  *:not(i, #google-login) {
-    font-family: 'Karla', sans-serif;
-  }
-  
-  #google-login {
-    font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
-  }
-  
-  .center-container {
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #31394e;
-    padding: 20px;
-    border-radius: 10px;
-   
-    max-width: 500px;
-    
-    min-height: 75vh;
-    background-color: #1f272f;
-    color: #a6a6a8;
-    position: relative;
-  }
-  
-  .vs-checkbox {
-    padding-right: 5px;
-   
-  }
-  
-  .input-box {
-    border-radius: 8px;
-    background-color: #18191d;
-    color: #a6a6a8;
-    border: 1px solid #31394e;
-  }
-  
-  /* Add styles for the "or sign up with email" statement and lines */
-  .or-divider {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-  }
-  
-  .or-line {
-    flex: 1;
-    height: 1px;
-    background-color: #31394e;
-  }
-  
-  .or-text {
-    margin: 0 10px;
-    font-size: 14px;
-    color: #a6a6a8;
-  }
-  
-  .child-1 {
-    border: 1px solid black;
-    padding: 10px;
-    width: 48%;
-    text-align: center;
-    border-radius: 5px;
-    border: 1px solid #31394e;
-  }
-  
-  /* Add styles for close icon button */
-  .close-icon {
-    font-size: 20px;
-    cursor: pointer;
-    color: #a6a6a8;
-    background: none;
-    border: none;
-    position: absolute;
-    top: 5px;
-    right: 10px;
-  }
-  
-  .enabled-btn {
-    background-color: #d7df23;
-    cursor: pointer;
-  }
-  
-  
-  .custom-heading {
-    font-size: 16px;
-    font-weight: 500;
-    color: #a6a6a8;
-    }
-  .disabled-btn {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  .sign-in-button{
-    font-size: 16px;
-    font-weight: 500;
-  }
+<style>
+/* Add styles for the center container as mentioned in the previous response */
+*:not(i, #google-login) {
+  font-family: 'Karla', sans-serif;
+}
 
+#google-login {
+  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
+}
 
-  </style>
-  
+.center-container {
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #31394e;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  min-height: 75vh;
+  background-color: #1f272f;
+  color: #a6a6a8;
+}
+
+.vs-checkbox {
+  padding-right: 5px;
+}
+
+.input-box {
+  border-radius: 8px;
+  background-color: #18191d;
+  color: #a6a6a8;
+  border: 1px solid #31394e;
+}
+
+/* Add styles for the "or sign up with email" statement and lines */
+.or-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.or-line {
+  flex: 1;
+  height: 1px;
+  background-color: #31394e;
+}
+
+.or-text {
+  margin: 0 10px;
+  font-size: 14px;
+  color: #a6a6a8;
+}
+
+.child-1 {
+  border: 1px solid black;
+  padding: 10px;
+  width: 48%;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #31394e;
+}
+
+/* Add styles for close icon button */
+.close-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #a6a6a8;
+  background: none;
+  border: none;
+}
+
+.enabled-btn {
+  background-color: #d7df23;
+  cursor: pointer;
+}
+
+.disabled-btn {
+  background-color: #f0f0a3;
+  cursor: not-allowed;
+}
+
+.custom-heading {
+  font-size: 15px;
+  font-weight: bold;
+  color: #a6a6a8;
+}
+</style>

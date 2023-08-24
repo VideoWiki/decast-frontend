@@ -61,7 +61,7 @@
         }}</vs-checkbox>
         <p
           class="cursor-pointer text-sm text-primary"
-          @click="$router.push('/password/email')"
+          @click="$router.push('/resetpassword')"
         >
           {{ $t('Login.forgot') }}
         </p>
@@ -87,7 +87,7 @@
       {{ $t('Login.account') }}
       <span
         class="ml-1 text-primary cursor-pointer"
-        @click="navigateToRegister"
+        @click="navigateToSignup"
         >{{ $t('Login.create') }}</span
       >
     </div>
@@ -250,11 +250,11 @@ export default {
     },
     registerUser() {
       if (!this.checkLogin()) return;
-      this.$router.push('/register').catch(() => {});
+      this.$router.push('/signup').catch(() => {});
     },
-    navigateToRegister() {
-      if (this.popup) this.$emit('toRegister');
-      else this.$router.push('/register');
+    navigateToSignup() {
+      if (this.popup) this.$emit('toSignup');
+      else this.$router.push('/signup');
     },
   },
 };

@@ -87,8 +87,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-import constants from '../../../constant';
 
 var moment = require('moment');
 
@@ -111,42 +109,45 @@ export default {
       rejoinIterator: '',
     };
   },
+
   mounted() {
     this.rejoinIterator = setInterval(() => {
       this.castInfo();
     }, 6000);
-    axios({
-      method: 'GET',
-      url: `${constants.apiCastUrl}/api/event/meeting/info/?public_meeting_id=${this.$route.params.cast_Id}`,
-    }).then((res) => {
-      console.log('result', res);
-      this.eventName = res.data.meeting_info.event_name;
-      this.eventDescription = res.data.meeting_info.description;
-      this.eventCreatorEmail = res.data.meeting_info.event_creator_email;
-      this.eventCreator = res.data.meeting_info.event_creator_name;
-      this.meeting_running = res.data.meeting_info.running;
-      this.isExpired = res.data.meeting_info.expired;
-      if (this.eventCreator.includes('@')) {
-        this.eventCreator = this.eventCreator.split('@')[0];
-      }
-      this.eventDate = moment
-        .utc(
-          res.data.meeting_info.date + ', ' + res.data.meeting_info.time,
-          'YYYY-MM-DD, HH:mm:ss'
-        )
-        .local()
-        .format('YYYY-MM-DD HH:mm:ss');
-
-      this.startDate = moment.utc().format('yyyy-MM-DD HH:mm:ss');
-      console.log(
-        this.eventName,
-        this.eventCreator,
-        this.eventDescription,
-        this.eventDate,
-        this.startDate
-      );
-    });
+    this.$store
+      .dispatch('cast/meetingInfo', this.cast_Id)
+      .then((res) => {
+        console.log('Meeting Info Getting');
+        console.log('result', res);
+        this.eventName = res.data.meeting_info.event_name;
+        this.eventDescription = res.data.meeting_info.description;
+        this.eventCreatorEmail = res.data.meeting_info.event_creator_email;
+        this.eventCreator = res.data.meeting_info.event_creator_name;
+        this.meeting_running = res.data.meeting_info.running;
+        this.isExpired = res.data.meeting_info.expired;
+        if (this.eventCreator.includes('@')) {
+          this.eventCreator = this.eventCreator.split('@')[0];
+        }
+        const eventDateTime = moment.utc(
+          `${res.data.meeting_info.date} ${res.data.meeting_info.time}`,
+          'YYYY-MM-DD HH:mm:ss'
+        );
+        this.eventDate = eventDateTime.local().format('YYYY-MM-DD HH:mm:ss');
+        this.startDate = moment.utc().format('YYYY-MM-DD HH:mm:ss');
+        console.log(
+          this.eventName,
+          this.eventCreator,
+          this.eventDescription,
+          this.eventDate,
+          this.startDate
+        );
+      })
+      .catch((error) => {
+        console.log('Meeting Info Error');
+        console.log(error);
+      });
   },
+
   beforeDestroy() {
     clearInterval(this.rejoinIterator);
   },

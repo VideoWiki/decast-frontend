@@ -11,32 +11,21 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import constants from '../../../constant';
-
 export default {
   mounted() {
     const data = {
       id: this.$route.params.cast_Id,
       pass: this.$route.query.pass,
     };
-    axios
-      .post(constants.apiCastUrl + '/api/creator/join/cast/', data, {
-        'Content-Type': 'application/json',
-      })
+    this.$store
+      .dispatch('cast/checkCreateJoin', data)
       .then((res) => {
+        console.log('This is running');
         console.log(res);
         location.href = res.data.cast_url;
       })
       .catch((e) => {
-        console.log(e.response);
-        if (
-          e.response.status === 400 &&
-          e.response.data.message ===
-            'please check the scheduled cast start time'
-        ) {
-          location.href = '/joining/' + this.$route.params.cast_Id;
-        }
+        console.log(e);
       });
   },
 };

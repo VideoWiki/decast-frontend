@@ -1,240 +1,241 @@
 <template>
-  <div class="center-container">
-    <div class="flex justify-between items-center">
-      <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
-      <h6 class="custom-heading" style="color: #a6a6a8">Sign Up</h6>
-
-      <button class="close-icon" @click="closeForm">✕</button>
-    </div>
-
-    <div class="flex justify-between items-center mt-8 mb-4">
-      <div
-        class="child-1 cursor-pointer"
-        id="google-login"
-        @click="loginWithGoogle"
-      >
-        <p class="flex justify-start items-center">
-          <img src="@/assets/images/login/google.png" class="h-6 px-3" />
-          <!-- Log in with Google uncomment after design fix and remove the below line -->
-          <span>Sign up with Google</span>
-        </p>
-        <!-- <GoogleLogin/> -->
+  <div class="centered-container">
+    <div class="container">
+      <div class="signUp">
+        <div class="signUp-text">Sign Up</div>
+        <button class="close-icon" @click="navigateToLogin">✕</button>
       </div>
-
-      <div class="child-1 cursor-pointer" @click.prevent="loginWithMetamask">
-        <p class="flex justify-start items-center">
-          <img src="@/assets/images/Wallet.svg" class="h-6 px-3" />
-          <span>Sign up with Wallet</span>
-        </p>
-        <!-- <SignInMetaMask/> -->
-      </div>
-    </div>
-
-    <!-- Statement "or sign up with email" with lines -->
-    <div class="or-divider">
-      <div class="or-line"></div>
-      <p class="or-text text-sm">or sign-up with email</p>
-      <div class="or-line"></div>
-    </div>
-
-    <form
-      class="mt-6 rounded-lg px-4 form-container"
-      @submit.prevent="loginJWT"
-    >
-      <div class="vx-row justify-between mt-8 mb-6">
-        <div style="width: 48%">
-          <input
-            v-model="firstName"
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            class="w-full p-4 input-box"
-            autocomplete="off"
-            :style="{ 'border-color': firstNameValid ? '' : 'red' }"
-            @input="ValidMail"
-          />
-          <div v-if="!firstNameValid" class="text-sm mt-2" style="color: red">
-            First Name is required
-          </div>
-        </div>
-        <div style="width: 48%">
-          <input
-            v-model="lastName"
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            class="w-full p-4 input-box"
-            autocomplete="off"
-            :style="{ 'border-color': lastNameValid ? '' : 'red' }"
-            @input="ValidMail"
-          />
-          <div v-if="!lastNameValid" class="text-sm mt-2" style="color: red">
-            Last Name is required
-          </div>
-        </div>
-      </div>
-
-      <div class="vx-row mb-6">
-        <input
-          v-model="email"
-          type="email"
-          name="email"
-          placeholder="Email"
-          class="w-full p-4 input-box"
-          autocomplete="off"
-          :style="{ 'border-color': emailIsValid ? '' : 'red' }"
-          @input="ValidMail"
-        />
-        <div v-if="!emailIsValid" class="text-sm mt-2" style="color: red">
-          Please mention a valid email
-        </div>
-      </div>
-
-      <div class="vx-row mb-6">
-        <input
-          v-model="password"
-          type="password"
-          name="password"
-          placeholder="Password"
-          class="w-full p-4 input-box"
-          autocomplete="off"
-        />
-      </div>
-
-      <div
-        class="vx-row flex justify-between items-center mt-8 mb-4 font-semibold"
-      >
-        <div>
-          <vs-checkbox color="#d7df23" v-model="accept" class="text-sm">
-            I agree to the Video wiki
-            <span class="underline">User Agreement</span> and
-            <span class="underline">Privacy Policy</span>
-          </vs-checkbox>
-        </div>
-      </div>
-
-      <div class="vx-row mb-3">
-        <button
-          :class="[
-            'w-full p-3 mt-6 mb-4',
-            'enabled-btn',
-            { 'disabled-btn': !validateForm },
-          ]"
-          style="
-            text-size-adjust: text-sm;
-            border: none;
-            border-radius: 10px;
-            margin: auto;
-          "
-          :disabled="!validateForm"
+      <div class="singUp-box">
+        <div
+          @click="loginWithGoogle"
+          class="google box flex justify-items-start items-center font-normal cursor-pointer"
         >
-          <h3><b class="text-lg sign-in-button">Sign In</b></h3>
+          <img src="@/assets/images/login/google.png" class="h-6 px-3" />
+          <p class="google">Sign up with Google</p>
+        </div>
+        <div
+          @click="loginWithMetamask"
+          class="wallet box flex justify-items-start items-center font-normal cursor-pointer"
+        >
+          <img src="@/assets/images/Wallet.svg" class="h-6 px-3" />
+          <p>Sign up with Wallet</p>
+        </div>
+      </div>
+      <div class="partition">
+        <div class="horizontal-line"></div>
+        <div class="partition-text">or signup with email</div>
+        <div class="horizontal-line"></div>
+      </div>
+      <div class="input-name">
+        <input placeholder="Your Name" type="text" v-model="firstName" />
+        <input placeholder="Last Name" type="text" v-model="lastName" />
+      </div>
+      <div class="input-box">
+        <input placeholder="Email" type="email" v-model="email" />
+      </div>
+      <div class="input-box">
+        <input placeholder="Password" type="password" v-model="password" />
+      </div>
+      <div class="checkbox">
+        <input
+          type="checkbox"
+          id="checkbox"
+          v-model="isTermsConditionAccepted"
+          class="custom-checkbox"
+        />
+        <label class="font-medium" for="checkbox"
+          >I agree to the Video wiki
+          <span class="underline"> <a href="#"> User Agreement</a> </span> and
+          <span class="underline"><a href="#"> Privacy Policy</a></span>
+        </label>
+      </div>
+      <div class="button" :class="{ faded: !validateForm }">
+        <button :disabled="!validateForm" @click.prevent="registerUserJWt">
+          Sign Up
         </button>
       </div>
-      <div class="flex justify-center">
-        <span
-          class="route cursor-pointer text-sm font-semibold"
+      <div class="bottom-text font-semibold">
+        Already have an account? &numsp;
+        <router-link
+          class="route cursor-pointer"
           style="color: #a6a6a8; text-decoration: underline"
-          @click="goSignUp"
+          :to="{ path: '/signin' }"
         >
-          Already have an account? Sign in
-        </span>
+          Log in
+        </router-link>
       </div>
-      <input type="submit" value="" class="text-xs" style="display: none" />
-    </form>
+    </div>
   </div>
 </template>
-
 <script>
+import GAuth from 'vue-google-oauth2';
 import Web3 from 'web3';
-
+import Vue from 'vue';
+import { detectIncognito } from 'detectincognitojs';
 export default {
   name: 'SignUp',
+  props: {
+    popup: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+  },
   data() {
     return {
       firstName: '',
       lastName: '',
-      password: '',
       email: '',
-      checked: false,
-      ValidMail: 'example@mail.com',
-      accept: false,
-      firstNameValid: true,
-      lastNameValid: true,
+      password: '',
+      isTermsConditionAccepted: true,
     };
   },
+  mounted() {
+    this.initilizeGAuth();
+  },
   computed: {
-    emailIsValid() {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return this.email === '' || emailRegex.test(this.email);
-    },
     validateForm() {
+      console.log(
+        this.password,
+        !this.errors.any(),
+        this.firstName !== '',
+        this.lastName !== '',
+        this.validateEmail(),
+        this.password !== '',
+        this.isTermsConditionAccepted === true
+      );
       return (
-        this.emailIsValid &&
-        this.email !== '' &&
+        !this.errors.any() &&
+        this.firstName !== '' &&
+        this.lastName !== '' &&
+        this.validateEmail() &&
         this.password !== '' &&
-        this.accept
+        this.isTermsConditionAccepted === true
       );
     },
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
+  },
+  created() {
+    detectIncognito().then((result) => {
+      console.log('this is working ', result.browserName, result.isPrivate);
+      if (result.isPrivate && result.browserName.toLowerCase() === 'chrome') {
+        this.isIncognito = true;
+      } else {
+        this.isIncognito = false;
+      }
+    });
   },
   methods: {
-    goSignUp() {
-      this.$store.commit('TOGGLE_LOGIN_POPUP', true);
-    },
-    closeForm() {
-      this.$store.commit('TOGGLE_LOGIN_POPUP', false);
-    },
-    async loginWithGoogle() {
-      // Loading
-      this.$vs.loading();
-      try {
-        const googleUser = await this.$gAuth.signIn();
-        if (googleUser) {
-          this.gAccessToken = googleUser.getAuthResponse().access_token;
-          this.$store
-            .dispatch('auth/sendAccessToken', {
-              access_token: this.gAccessToken,
-              login_type: 'web2',
-              login_challenge: this.$route.query.login_challenge,
-            })
-            .then((response) => {
-              console.log(5);
-              this.$acl.change(this.activeUserInfo.userRole);
-              this.$router.push('/');
-              this.$vs.loading.close();
-            });
-        } else {
-          this.$vs.notify({
-            title: this.$t('Login.notify.title'),
-            text: this.$t('GoogleLogin.notverified'),
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger',
-          });
-          this.$vs.loading.close();
-        }
-      } catch (error) {
-        console.log(error, 'err');
-        if (this.isIncognito) {
-          this.$vs.notify({
-            title: this.$t('Login.notify.title'),
-            text: 'Allow Third Party Cookies',
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger',
-          });
-        } else {
-          this.$vs.notify({
-            title: this.$t('Login.notify.title'),
-            text: 'User not verified',
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger',
-          });
-        }
-        this.$vs.loading.close();
+    register() {
+      if (this.validateForm) {
+        this.registerUserJWt();
+      } else {
+        console.log('some error');
       }
     },
+    validateEmail() {
+      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,12})+$/.test(this.email);
+    },
+    checkLogin() {
+      // If user is already logged in notify
+      if (this.$store.state.auth.isUserLoggedIn()) {
+        // Close animation if passed as payload
+
+        this.$vs.notify({
+          title: 'Login Attempt',
+          text: 'You are already logged in!',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'warning',
+        });
+
+        return false;
+      }
+      return true;
+    },
+    registerUserJWt() {
+      // If form is not validated or user is already login return
+      if (!this.validateForm || !this.checkLogin()) return;
+
+      this.$vs.loading();
+
+      const payload = {
+        userDetails: {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password,
+        },
+        notify: this.$vs.notify,
+      };
+      this.$store
+        .dispatch('auth/userRegister', payload)
+        .then((response) => {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'register',
+            authenticationMethod: 'Email',
+            userId: response.data.usersData.id, // this should be replaced with an actual ID
+          });
+          const payload = {
+            checkbox_remember_me: true,
+            userDetails: {
+              email: this.email,
+              password: this.password,
+            },
+          };
+
+          this.$store
+            .dispatch('auth/login', payload)
+            .then((response) => {
+              this.$vs.loading.close();
+              this.$acl.change(this.activeUserInfo.userRole);
+              if (this.popup) this.$emit('registered');
+              else this.$router.push('/');
+            })
+            .catch((error) => {
+              this.$vs.loading.close();
+              console.log(
+                error.response.data.message,
+                error.response.data.message === 'username already exists'
+              );
+              this.$vs.notify({
+                title: 'Login Error',
+                text:
+                  error.response.data.message === 'username already exists'
+                    ? 'Email already exists'
+                    : error.response.data.message,
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger',
+              });
+            });
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          console.log(
+            error.response.data.message,
+            error.response.data.message === 'username already exists'
+          );
+          this.$vs.notify({
+            title: 'Login Error',
+            text:
+              error.response.data.message === 'username already exists'
+                ? 'Email already exists'
+                : error.response.data.message,
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+        });
+    },
+    navigateToLogin() {
+      if (this.popup) this.$emit('toLogin');
+      else this.$router.push('/login');
+    },
+    // Metamsask Connection
     async handleSignMessage(publicAddress, nonce) {
       // Loading
       this.$vs.loading();
@@ -295,7 +296,7 @@ export default {
           color: 'warning',
         });
       }
-      const accounts = await window.ethereum.request({
+      const accounts = await ethereum.request({
         method: 'eth_requestAccounts',
       });
       const account = accounts[0];
@@ -327,104 +328,229 @@ export default {
           });
         });
     },
+
+    walletUse() {
+      console.log(178);
+      this.loginWithMetamask();
+    },
+    // Google Login
+    initilizeGAuth() {
+      const gauthOption = {
+        clientId:
+          '819083977574-sq0gi88sfdb5skebh2kjk62t41nuegfv.apps.googleusercontent.com',
+        scope: ' profile email',
+        prompt: 'consent',
+        fetch_basic_profile: true,
+      };
+      Vue.use(GAuth, gauthOption);
+    },
+    async loginWithGoogle() {
+      // Loading
+      this.$vs.loading();
+      try {
+        const googleUser = await this.$gAuth.signIn();
+        if (googleUser) {
+          this.gAccessToken = googleUser.getAuthResponse().access_token;
+          this.$store
+            .dispatch('auth/sendAccessTokenReg', {
+              access_token: this.gAccessToken,
+              login_type: 'web2',
+              login_challenge: this.$route.query.login_challenge,
+            })
+            .then((response) => {
+              console.log(5);
+              this.$acl.change(this.activeUserInfo.userRole);
+              this.$router.push('/');
+              this.$vs.loading.close();
+            });
+        } else {
+          this.$vs.notify({
+            title: this.$t('Login.notify.title'),
+            text: this.$t('GoogleLogin.notverified'),
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+          this.$vs.loading.close();
+        }
+      } catch (error) {
+        console.log(error, 'err');
+        if (this.isIncognito) {
+          this.$vs.notify({
+            title: this.$t('Login.notify.title'),
+            text: 'Allow Third Party Cookies',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+        } else {
+          this.$vs.notify({
+            title: this.$t('Login.notify.title'),
+            text: 'User not verified',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+        }
+        this.$vs.loading.close();
+      }
+    },
   },
 };
 </script>
 <style>
-*:not(i) {
+:not(i) {
   font-family: 'Karla', sans-serif;
 }
 
-/* #google-login {
-  font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
-} */
-
-.center-container {
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #31394e;
-  padding: 20px;
-  border-radius: 10px;
-
-  max-width: 500px;
-
-  min-height: 75vh;
-  background-color: #1f272f;
-  color: #a6a6a8;
-  position: relative;
+.faded button {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
-
-.vs-checkbox {
-  padding-right: 5px;
-}
-
-.input-box {
-  border-radius: 8px;
-  font-size: 12px;
-  background-color: #18191d;
-  color: #a6a6a8;
-  border: 1px solid #31394e;
-}
-
-/* Add styles for the "or sign up with email" statement and lines */
-.or-divider {
+.centered-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
+  height: 100vh;
 }
-
-.or-line {
-  flex: 1;
-  height: 1px;
-  background-color: #31394e;
+.container {
+  height: 550px;
+  width: 50%;
+  max-width: 500px;
+  border: 1px solid #31394e;
+  background-color: #1f272f;
+  border-radius: 12px;
+  padding: 20px 25px;
+  position: relative;
 }
-
-.or-text {
-  margin: 0 10px;
-  font-size: 14px;
+.signUp {
+  display: flex;
+  justify-content: space-between;
+}
+.signUp-text {
+  font-family: 'Karla', sans-serif;
+  font-size: 15px;
+  font-weight: bold;
   color: #a6a6a8;
 }
-
-.child-1 {
-  border: 1px solid black;
-  padding: 10px;
+.signUp-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.signUp-icon i {
+  font-size: 2em;
+  color: #a6a6a8;
+}
+.singUp-box {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+.box {
+  height: 40px;
   width: 48%;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 5px;
+  padding: 10px;
   border: 1px solid #31394e;
+  border-radius: 8px;
+}
+.box p {
+  color: #a6a6a8;
+  font-family: 'Karla', sans-serif;
+  font-weight: regular;
 }
 
-/* Add styles for close icon button */
 .close-icon {
   font-size: 20px;
   cursor: pointer;
   color: #a6a6a8;
   background: none;
   border: none;
-  position: absolute;
-  top: 5px;
-  right: 10px;
 }
 
-.enabled-btn {
-  background-color: #d7df23;
-  cursor: pointer;
-}
-
-.custom-heading {
-  font-size: 16px;
-  font-weight: 500;
+.box i {
+  padding-right: 15px;
   color: #a6a6a8;
 }
-.disabled-btn {
-  opacity: 0.5;
-  cursor: not-allowed;
+
+.input-name {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
 }
-.sign-in-button {
-  font-size: 16px;
-  font-weight: 500;
+.input-name input {
+  height: 40px;
+  width: 49%;
+  border: 1px solid #31394e;
+  background-color: #18191b;
+  color: #a6a6a8;
+  border-radius: 6px;
+  padding: 20px;
+}
+.input-box input {
+  margin-top: 20px;
+  height: 40px;
+  width: 100%;
+  border: 1px solid #31394e;
+  background-color: #18191b;
+  color: #a6a6a8;
+  border-radius: 6px;
+  padding: 20px;
+}
+.checkbox {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+}
+.checkbox input {
+  margin-right: 10px;
+}
+.checkbox label {
+  color: #a6a6a8;
+  font-family: 'Karla', sans-serif;
+  font-weight: regular;
+  cursor: pointer;
+}
+.custom-checkbox {
+  background-color: #18191b;
+  color: #18191b;
+}
+
+.button button {
+  margin-top: 30px;
+  height: 45px;
+  width: 100%;
+  background-color: #d7df23;
+  border: 1px solid #31394e;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.bottom-text {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #a6a6a8;
+  font-family: 'Karla', sans-serif;
+  font-weight: regular;
+  cursor: pointer;
+}
+.partition {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.horizontal-line {
+  border: 0.8px solid #a6a6a8;
+  width: 35%;
+}
+.partition-text {
+  color: #a6a6a8;
+  font-family: 'Karla', sans-serif;
+}
+.underline {
+  text-decoration: underline;
+  color: #a6a6a8;
 }
 </style>

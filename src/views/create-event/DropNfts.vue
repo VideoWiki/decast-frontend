@@ -448,6 +448,7 @@ export default {
       this.$store
         .dispatch('studio/getMerkleTree', this.$route.query.cast_id)
         .then((res) => {
+          console.log('merkel tree getting');
           var leafs = res.data.map((item) => {
             return Uint8Array.from(item.data);
           });
@@ -456,7 +457,7 @@ export default {
           });
         })
         .catch((e) => {
-          console.log(e);
+          console.log('Merkel Tree Not Getting', e);
         });
     },
     async mint() {
@@ -658,33 +659,32 @@ export default {
         this.$refs.mint_popup.$el.childNodes[1].childNodes[0].style.display =
           'none';
       this.$refs.mint_popup.$el.childNodes[1].style.minWidth = '500px';
-      await axios
-        .get(
-          `${constant.apiCastUrl}/api/event/fetch/nft/details/?cast_id=${this.$route.query.cast_id}&nft_typeNFTs`,
-          {
-            mode: 'no-cors',
+      const payload = {
+        castId: this.$route.query.cast_id,
+        nftType: 'NFTs',
+      };
+      await this.$store.dispatch('cast/getNFTDetails', payload)
+      .then((res) => {
+        console.log('working');
+        this.contractAddress = res.data.contract_adress;
+        this.abi = res.data.aib;
+        this.functionName = res.data.mint_function_name;
+        this.network = res.data.network;
+        this.params = res.data.parameter;
+        this.price = res.data.price;
+        this.nft_description = res.data.description;
+        this.nft_image = res.data.image;
+        this.realImage = res.data.image;
+        this.abi.forEach((item) => {
+          if (item.name === 'setmerkleroot') {
+            this.hasMerkel = true;
           }
-        )
-        .then((res) => {
-          this.contractAddress = res.data.contract_adress;
-          this.abi = res.data.aib;
-          this.functionName = res.data.mint_function_name;
-          this.network = res.data.network;
-          this.params = res.data.parameter;
-          this.price = res.data.price;
-          this.nft_description = res.data.description;
-          this.nft_image = res.data.image;
-          this.realImage = res.data.image;
-          this.abi.forEach((item) => {
-            if (item.name === 'setmerkleroot') {
-              this.hasMerkel = true;
-            }
-          });
-          if (res.data.pub_nft_flow)
-            this.$router.push(
-              '/public/nftdrop?cast_id=' + this.$route.query.cast_id
-            );
         });
+        if (res.data.pub_nft_flow)
+          this.$router.push(
+            '/public/nftdrop?cast_id=' + this.$route.query.cast_id
+          );
+      });
     } catch (e) {
       if (e.response.data.message === 'invalid cast_id') {
         this.$vs.notify({
@@ -693,7 +693,7 @@ export default {
         });
         this.$router.push('/error/404');
       }
-      console.log(e);
+      console.log('not workiing', e);
     }
     this.switchNetworkRinkeby(this.network);
   },

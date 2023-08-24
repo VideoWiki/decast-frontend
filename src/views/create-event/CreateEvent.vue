@@ -67,7 +67,6 @@ import TheHeader from '@/layouts/components/navbar/NavbarHorizontal2.vue';
 import constants from '../../../constant';
 import { FormWizard, TabContent } from 'vue-form-wizard';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
-import axios from '../../axios';
 import Step1 from '../create-event/stepOne.vue';
 import Step2 from '../create-event/stepTwo.vue';
 import Step3 from '../create-event/stepThree.vue';
@@ -409,11 +408,8 @@ export default {
       localStorage.removeItem('Step2');
       localStorage.removeItem('Step3');
       this.$vs.loading();
-      axios
-        .post(
-          constants.apiCastUrl + '/api/event/meeting/create/',
-          this.formData
-        )
+      this.$store
+        .dispatch('cast/submitForm', this.formData)
         .then((response) => {
           setTimeout(() => {
             this.$vs.loading.close();

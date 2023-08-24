@@ -66,7 +66,6 @@ import TheHeader from '@/layouts/components/navbar/NavbarHorizontal2.vue';
 import constants from '../../../constant';
 import { FormWizard, TabContent } from 'vue-form-wizard';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
-import axios from '../../axios';
 import Step1 from './stepOne.vue';
 import moment from 'moment';
 import Step2 from './stepTwo.vue';
@@ -250,93 +249,96 @@ export default {
     if (this.$route.params.cast_Id === 'vw.svg') {
       return;
     }
-    axios({
-      method: 'GET',
-      url: `${constants.apiCastUrl}/api/event/meeting/get/details/?cast_id=${this.$route.params.cast_Id}`,
-    }).then((res) => {
-      const info = res.data.details;
-      console.log("url'", info.bbb_stream_url);
-      this.stepOneProps.event_name = info.event_name;
-      this.stepOneProps.description = info.description;
-      this.stepOneProps.schedule_time = info.schedule_time;
-      this.stepOneProps.auth_type = info.cast_type;
-      this.stepOneProps.send_otp = info.otp_private;
-      this.stepOneProps.password_auth = info.password_auth;
-      this.stepTwoProps.logo = info.logo;
-      this.stepTwoProps.cover_image = info.cover_image;
-      this.stepOneProps.public_otp = info.collect_attendee_email;
-      this.stepTwoProps.primary_color = info.primary_color;
-      this.stepTwoProps.welcome_text = info.welcome_text;
-      this.stepTwoProps.guest_policy = info.guest_policy;
-      this.stepTwoProps.moderator_only_text = info.moderator_only_text;
-      this.stepTwoProps.duration = info.duration;
-      this.stepTwoProps.logout_url = info.logout_url;
-      this.stepThreeProps.public_stream = info.public_stream;
-      this.stepThreeProps.is_streaming = info.is_streaming;
-      // this.stepThreeProps.vw_stream_url = info.bbbstream_url;
-      this.stepFourProps.record = info.record;
-      this.stepFourProps.end_when_no_moderator = info.end_when_no_moderator;
-      this.stepFourProps.allow_moderator_to_unmute_user =
-        info.allow_moderator_to_unmute_user;
-      this.auto_start_recording = info.auto_start_recording;
-      this.stepFourProps.mute_on_start = info.mute_on_start;
-      this.stepFourProps.webcam_only_for_moderator =
-        info.webcam_only_for_moderator;
-      this.stepFourProps.disable_cam = info.disable_cam;
-      this.stepFourProps.disable_mic = info.disable_mic;
-      this.stepFourProps.lock_layout = info.lock_layout;
-      this.stepFourProps.viewer_mode = info.viewer_mode;
-      this.stepFourProps.meeting_settings =
-        this.stepFourProps.record ||
-        this.stepFourProps.end_when_no_moderator ||
-        this.stepFourProps.allow_moderator_to_unmute_user ||
-        this.auto_start_recording;
-      this.stepFourProps.restrict_participants =
-        this.stepFourProps.mute_on_start ||
-        this.stepFourProps.webcam_only_for_moderator ||
-        this.stepFourProps.disable_cam ||
-        this.stepFourProps.disable_mic ||
-        this.stepFourProps.lock_layout;
-      if (info.bbb_stream_url !== null) {
-        // eslint-disable-next-line no-eval
-        console.log('dsd', eval(info.bbb_stream_url));
-        // eslint-disable-next-line no-eval
-        window.eval(info.bbb_stream_url).forEach((item) => {
-          var x = item.split('/');
-          if (item.match(/youtube/)) {
-            console.log('dsafgsad', x[-1]);
-            this.stepThreeProps.youtube_secret_key = x.pop();
-            this.stepThreeProps.youtube_rtmp_url = x.join('/');
-            this.stepThreeProps.youtube_stream_url = item;
-            this.stepThreeProps.record_youtube = true;
-          }
-          if (item.match(/video.wiki/)) {
-            this.stepThreeProps.vw_stream = true;
-          }
-          if (item.match(/facebook/)) {
-            this.stepThreeProps.facebook_secret_key = x.pop();
-            this.stepThreeProps.facebook_rtmp_url = x.join('/');
-            this.stepThreeProps.facebook_stream_url = item;
-            this.stepThreeProps.record_facebook = true;
-          }
-          if (item.match(/twitch/)) {
-            this.stepThreeProps.twitch_secret_key = x.pop();
-            this.stepThreeProps.twitch_rtmp_url = x.join('/');
-            this.stepThreeProps.twitch_stream_url = item;
-            this.stepThreeProps.record_twich = true;
-          }
-        });
-      }
-      if (info.timezone !== '') {
-        this.stepOneProps.timezone = info.timezone;
-      }
-      this.infoGathered = true;
-      setTimeout(() => {
-        var wizard = this.$refs.wizard;
-        wizard.activateAll();
-      }, 0);
-      // wizard.activateAll();
-    });
+    this.$store
+      .dispatch('cast/editEvent', this.$route.params.cast_Id)
+      .then((res) => {
+        console.log('Working edit');
+        const info = res.data.details;
+        console.log("url'", info.bbb_stream_url);
+        this.stepOneProps.event_name = info.event_name;
+        this.stepOneProps.description = info.description;
+        this.stepOneProps.schedule_time = info.schedule_time;
+        this.stepOneProps.auth_type = info.cast_type;
+        this.stepOneProps.send_otp = info.otp_private;
+        this.stepOneProps.password_auth = info.password_auth;
+        this.stepTwoProps.logo = info.logo;
+        this.stepTwoProps.cover_image = info.cover_image;
+        this.stepOneProps.public_otp = info.collect_attendee_email;
+        this.stepTwoProps.primary_color = info.primary_color;
+        this.stepTwoProps.welcome_text = info.welcome_text;
+        this.stepTwoProps.guest_policy = info.guest_policy;
+        this.stepTwoProps.moderator_only_text = info.moderator_only_text;
+        this.stepTwoProps.duration = info.duration;
+        this.stepTwoProps.logout_url = info.logout_url;
+        this.stepThreeProps.public_stream = info.public_stream;
+        this.stepThreeProps.is_streaming = info.is_streaming;
+        // this.stepThreeProps.vw_stream_url = info.bbbstream_url;
+        this.stepFourProps.record = info.record;
+        this.stepFourProps.end_when_no_moderator = info.end_when_no_moderator;
+        this.stepFourProps.allow_moderator_to_unmute_user =
+          info.allow_moderator_to_unmute_user;
+        this.auto_start_recording = info.auto_start_recording;
+        this.stepFourProps.mute_on_start = info.mute_on_start;
+        this.stepFourProps.webcam_only_for_moderator =
+          info.webcam_only_for_moderator;
+        this.stepFourProps.disable_cam = info.disable_cam;
+        this.stepFourProps.disable_mic = info.disable_mic;
+        this.stepFourProps.lock_layout = info.lock_layout;
+        this.stepFourProps.viewer_mode = info.viewer_mode;
+        this.stepFourProps.meeting_settings =
+          this.stepFourProps.record ||
+          this.stepFourProps.end_when_no_moderator ||
+          this.stepFourProps.allow_moderator_to_unmute_user ||
+          this.auto_start_recording;
+        this.stepFourProps.restrict_participants =
+          this.stepFourProps.mute_on_start ||
+          this.stepFourProps.webcam_only_for_moderator ||
+          this.stepFourProps.disable_cam ||
+          this.stepFourProps.disable_mic ||
+          this.stepFourProps.lock_layout;
+        if (info.bbb_stream_url !== null) {
+          // eslint-disable-next-line no-eval
+          console.log('dsd', eval(info.bbb_stream_url));
+          // eslint-disable-next-line no-eval
+          window.eval(info.bbb_stream_url).forEach((item) => {
+            var x = item.split('/');
+            if (item.match(/youtube/)) {
+              console.log('dsafgsad', x[-1]);
+              this.stepThreeProps.youtube_secret_key = x.pop();
+              this.stepThreeProps.youtube_rtmp_url = x.join('/');
+              this.stepThreeProps.youtube_stream_url = item;
+              this.stepThreeProps.record_youtube = true;
+            }
+            if (item.match(/video.wiki/)) {
+              this.stepThreeProps.vw_stream = true;
+            }
+            if (item.match(/facebook/)) {
+              this.stepThreeProps.facebook_secret_key = x.pop();
+              this.stepThreeProps.facebook_rtmp_url = x.join('/');
+              this.stepThreeProps.facebook_stream_url = item;
+              this.stepThreeProps.record_facebook = true;
+            }
+            if (item.match(/twitch/)) {
+              this.stepThreeProps.twitch_secret_key = x.pop();
+              this.stepThreeProps.twitch_rtmp_url = x.join('/');
+              this.stepThreeProps.twitch_stream_url = item;
+              this.stepThreeProps.record_twich = true;
+            }
+          });
+        }
+        if (info.timezone !== '') {
+          this.stepOneProps.timezone = info.timezone;
+        }
+        this.infoGathered = true;
+        setTimeout(() => {
+          var wizard = this.$refs.wizard;
+          wizard.activateAll();
+        }, 0);
+        // wizard.activateAll();
+      })
+      .catch((e) => {
+        console.log('Error editing', e);
+      });
   },
   methods: {
     /* *********Function: to preprocess the data and append it to a single object : formData ************* */
@@ -430,8 +432,8 @@ export default {
         'password_auth',
         this.stepOneProps.password_auth ? 'True' : 'False'
       );
-      axios
-        .patch(constants.apiCastUrl + '/api/event/meeting/update/', data)
+      this.$store
+        .dispatch('cast/formSubmit', data)
         .then((response) => {
           setTimeout(() => {
             this.$vs.loading.close();

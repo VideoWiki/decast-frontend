@@ -88,10 +88,9 @@
   </div>
 </template>
 <script>
-var moment = require('moment');
 import { ajaxCallMixin } from '@/http/HttpCommon';
-import axios from '../../../axios';
-import constants from '../../../../constant';
+var moment = require('moment');
+
 export default {
   name: 'NewsLetter',
   mixins: [ajaxCallMixin],
@@ -127,18 +126,19 @@ export default {
         // else{
         this.popupActive2 = false;
         this.popupActive3 = false;
-        axios
-          .post(constants.apiCastUrl + '/api/event/meeting/join/', {
-            name: this.name,
-            password: this.password,
-            public_meeting_id: this.$route.params.session_key,
-            room_type: 'private',
-            avatar_url:
-              'https://static.wikia.nocookie.net/onepiece/images/6/6d/Monkey_D._Luffy_Anime_Post_Timeskip_Infobox.png',
-            guest: false,
-            moderator_password: this.moderator_password,
-            attendee_password: this.attendee_password,
-          })
+        const data = {
+          name: this.name,
+          password: this.password,
+          public_meeting_id: this.session_key,
+          room_type: 'private',
+          avatar_url:
+            'https://static.wikia.nocookie.net/onepiece/images/6/6d/Monkey_D._Luffy_Anime_Post_Timeskip_Infobox.png',
+          guest: false,
+          moderator_password: this.moderator_password,
+          attendee_password: this.attendee_password,
+        };
+        this.$store
+          .dispatch('cast/join', data)
           .then((response) => {
             this.responsedata = response.data.url;
             window.location.href = response.data.url;
@@ -171,15 +171,13 @@ export default {
     },
   },
   created() {
-    axios
-      .get(
-        constants.apiCastUrl +
-          '/api/event/meeting/info/?public_meeting_id=' +
-          this.$route.params.session_key
-      )
+    this.$store
+      .dispatch('cast/e', {
+        session_key: this.$route.params.session_key,
+      })
       .then((response) => {
         const now = moment.utc().format('yyyy-MM-DD HH:mm:ss');
-        //const event_dtae ='2021-09-13'+' '+ '10:32:59';
+        // const event_dtae ='2021-09-13'+' '+ '10:32:59';
         const event_dtae =
           response.data.meeting_info.date +
           ' ' +

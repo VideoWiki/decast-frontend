@@ -150,7 +150,6 @@ import TheHeader from '@/layouts/components/navbar/NavbarHorizontal2.vue';
 import TheFooter from '@/layouts/components/footer/TheFooter.vue';
 import Player from '../../components/stream-player/player.vue';
 import Constants from '../../../constant';
-import axios from '../../axios';
 import MetaMaskBtn from '../login/components/PrivateLoginButtons/Metamaskbtn.vue';
 export default {
   name: 'LiveEvent',
@@ -245,15 +244,14 @@ export default {
     },
     sendOtp() {
       if (this.email.length > 0) {
-        axios
-          .get(
-            Constants.apiCastUrl +
-              '/api/event/send/otp/?email=' +
-              this.email +
-              '&cast_id=' +
-              this.$route.params.eventId
-          )
+        const data = {
+          email: this.email,
+          eventId: this.$route.params.eventId,
+        };
+        this.$store
+          .dispatch('cast/sendingOtp', data)
           .then((res) => {
+            console.log('Otp Sending');
             this.emailVerify = false;
             this.otpVerify = true;
             this.$vs.notify({
@@ -275,17 +273,15 @@ export default {
     },
     verifyOtp() {
       if (this.email.length > 0) {
-        axios
-          .get(
-            Constants.apiCastUrl +
-              '/api/event/validate/otp/?email=' +
-              this.email +
-              '&cast_id=' +
-              this.$route.params.eventId +
-              '&otp=' +
-              this.otp
-          )
+        const data = {
+          email: this.email,
+          otp: this.otp,
+          eventId: this.$route.params.eventId,
+        };
+        this.$store
+          .dispatch('cast/verifyingOtp', data)
           .then((res) => {
+            console.log('otp verifyinh');
             this.$vs.loading();
             setTimeout(() => {
               this.$vs.loading.close();

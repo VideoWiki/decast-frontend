@@ -58,6 +58,35 @@ export default {
         });
     });
   },
+  userRegister({ commit }, payload) {
+    const { firstName, lastName, email, password } = payload.userDetails;
+
+    return new Promise((resolve, reject) => {
+      jwt
+        .registerUser(firstName, lastName, email, password)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+
+  googleRegister({ commit }, payload) {
+    const { firstName, lastName, email, googleIdToken } = payload.userDetails;
+
+    return new Promise((resolve, reject) => {
+      jwt
+        .registerUser(firstName, lastName, email, googleIdToken)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
 
   registerUser({ commit }, payload) {
     const { firstName, lastName, email, password, confirmPassword } =
@@ -257,6 +286,45 @@ export default {
         });
     });
   },
+  // this is for registration
+  sendAccessTokenReg({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      jwt
+        .generateAccessToken(payload)
+        .then((response) => {
+          // If there's user data in response
+          if (response.data.usersData) {
+            // Set accessToken
+            localStorage.setItem('accessToken', response.data.accessToken);
+
+            // Extracting first and last name from the username
+            const userData = response.data.usersData;
+            const nameParts = userData.username.split(' ');
+            if (nameParts.length > 1) {
+              userData.first_name = nameParts.slice(0, -1).join(' ');
+              userData.last_name = nameParts[nameParts.length - 1];
+            } else {
+              userData.first_name = userData.username;
+              userData.last_name = '';
+            }
+
+            // Updating userdetails with first and last name
+            commit('UPDATE_USER_INFO', userData, { root: true });
+
+            // Set bearer token in axios
+            commit('SET_BEARER', response.data.accessToken);
+
+            resolve(response);
+          } else {
+            reject({ message: 'Wrong Email or Password' });
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+
   sendAccessToken({ commit }, payload) {
     return new Promise((resolve, reject) => {
       jwt
@@ -277,6 +345,9 @@ export default {
                 about: ''
               }; */
             const userData = response.data.usersData;
+            const firstName = userData.username;
+            const lastName = userData.username;
+            console.log(userData);
             commit('UPDATE_USER_INFO', userData, { root: true });
 
             // Set bearer token in axios
