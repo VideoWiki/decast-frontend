@@ -26,7 +26,7 @@
       <div class="middleOne vertical-line">
         <Rooms />
       </div>
-      <div class="sideOne">
+      <div class="sideOne last">
         <RightPart />
       </div>
     </div>
@@ -114,5 +114,27 @@ export default {
 }
 .vertical-line {
   border-right: 1px solid #31394e;
+}
+@media (max-width: 900px) {
+  .buttomPart {
+    margin: 60px auto;
+    flex-direction: column;
+    height: 1700px;
+    width: 100%;
+  }
+  .sideOne{
+    width: 100%;
+    justify-content: center;
+  }
+  .middleOne {
+    width: 100%;
+    padding: 60px 0px;
+    justify-content: center;
+  }
+  .last{
+    display: flex;
+    justify-content: center;
+  }
+
 }
 </style>

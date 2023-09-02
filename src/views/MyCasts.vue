@@ -706,7 +706,7 @@ export default {
           this.$vs.notify({
             title: 'Success',
             text: response.data.message,
-            color: 'success',
+            color: 'success', 
           });
         })
         .catch((error) => {

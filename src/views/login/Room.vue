@@ -371,7 +371,6 @@ export default {
 .center-container-full {
   justify-content: center;
   align-items: center;
-  background-color: #181a20;
   color: #a6a6a8;
   max-width: 420px;
   width: 410px;

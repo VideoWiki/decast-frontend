@@ -52,9 +52,6 @@ export default {
 .dashboard-container {
   font-family: 'Karla', sans-serif;
 }
-.left-container {
-  background-color: #181a20;
-}
 
 .text {
   font-style: italic;

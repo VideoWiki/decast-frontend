@@ -253,6 +253,14 @@ const router = new Router({
       },
     },
     {
+      path: '/joinPage/:meeting_id?',
+      name: 'joiningPage',
+      component: () => import('./views/joiningPage.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/login',
       name: 'Login',
       component: () => import('./views/login/Login.vue'),
