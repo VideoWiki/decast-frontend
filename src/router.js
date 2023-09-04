@@ -237,7 +237,7 @@ const router = new Router({
       },
     },
     {
-      path: '/signin',
+      path: '/login',
       name: 'LoginNew',
       component: () => import('./views/login/LoginNew.vue'),
       meta: {
@@ -253,7 +253,23 @@ const router = new Router({
       },
     },
     {
-      path: '/login',
+      path: '/callback',
+      name: 'Callback',
+      component: () => import('./views/login/components/Callback.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/consent',
+      name: 'Consent',
+      component: () => import('./views/login/components/Consent.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/login1',
       name: 'Login',
       component: () => import('./views/login/Login.vue'),
       meta: {

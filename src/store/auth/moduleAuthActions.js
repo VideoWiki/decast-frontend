@@ -35,24 +35,13 @@ export default {
   login({ commit }, payload) {
     return new Promise((resolve, reject) => {
       jwt
-        .login(payload.userDetails.password, payload.userDetails.email)
+        .login(
+          payload.userDetails.password,
+          payload.userDetails.email,
+          payload.params.login_challenge
+        )
         .then((response) => {
-          console.log('response.data.usersData', response.data);
-          // If there's user data in response
-          if (response.data.usersData) {
-            // Navigate User to homepage
-
-            // Set accessToken
-            localStorage.setItem('accessToken', response.data.accessToken);
-            const userData = response.data.usersData;
-            commit('UPDATE_USER_INFO', userData, { root: true });
-
-            commit('SET_BEARER', response.data.accessToken);
-
-            resolve(response);
-          } else {
-            reject({ message: 'Wrong Email or Password' });
-          }
+          resolve(response);
         })
         .catch((error) => {
           reject(error);
@@ -150,6 +139,19 @@ export default {
       });
     });
   },
+  fetchUser({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      commit('UPDATE_USER_INFO', payload, { root: true });
+      commit('SET_BEARER', payload.access_token);
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'register',
+        authenticationMethod: 'Email',
+        userId: payload.id,
+      });
+      resolve(true);
+    });
+  },
   sendOtp({ commit }, payload) {
     return new Promise((resolve, reject) => {
       jwt
@@ -192,20 +194,8 @@ export default {
       jwt
         .verifySignature(payload)
         .then((response) => {
-          // If there's user data in response
-          if (response.data.usersData) {
-            // Set accessToken
-            localStorage.setItem('accessToken', response.data.accessToken);
-            const userData = response.data.usersData;
-            commit('UPDATE_USER_INFO', userData, { root: true });
-
-            // Set bearer token in axios
-            commit('SET_BEARER', response.data.accessToken);
-
-            resolve(response);
-          } else {
-            reject({ message: 'Wrong Email or Password' });
-          }
+          console.log('response');
+          resolve(response);
         })
         .catch((err) => {
           reject(err);
@@ -317,7 +307,7 @@ export default {
 
             resolve(response);
           } else {
-            reject( { message: 'Wrong Email or Password' } );
+            reject({ message: 'Wrong Email or Password' });
           }
         })
         .catch((err) => {
@@ -331,30 +321,13 @@ export default {
       jwt
         .generateAccessToken(payload)
         .then((response) => {
+          resolve(response);
           // If there's user data in response
           if (response.data.usersData) {
-            // Navigate User to homepage
-            // router.push(router.currentRoute.query.to || '/');
-
-            // Set accessToken
-            localStorage.setItem('accessToken', response.data.accessToken);
-
-            // Update user details
-            /* const userData = {
-                uid: 0,
-                displayName: response.data.userData.profile.display_name,
-                about: ''
-              }; */
             const userData = response.data.usersData;
-            const firstName = userData.username;
-            const lastName = userData.username;
-            console.log(userData);
             commit('UPDATE_USER_INFO', userData, { root: true });
 
-            // Set bearer token in axios
             commit('SET_BEARER', response.data.accessToken);
-
-            resolve(response);
           } else {
             reject({ message: 'Wrong Email or Password' });
           }

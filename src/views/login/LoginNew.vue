@@ -185,48 +185,18 @@ export default {
           email: this.email,
           password: this.password,
         },
+        params: {
+          login_type: 'web1',
+          login_challenge: this.$route.query.login_challenge,
+        },
       };
       this.$store
         .dispatch('auth/login', payload)
         .then((response) => {
-          this.$cookies.set(
-            'Token',
-            response.data.accessToken,
-            null,
-            null,
-            'https://cast.video.wiki'
-          );
-          this.$cookies.set(
-            'userId',
-            response.data.usersData.id,
-            null,
-            null,
-            'https://cast.video.wiki'
-          );
-          this.$cookies.set(
-            'Token',
-            response.data.accessToken,
-            null,
-            null,
-            'https://class.video.wiki'
-          );
-          this.$cookies.set(
-            'userId',
-            response.data.usersData.id,
-            null,
-            null,
-            'https://class.video.wiki'
-          );
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            event: 'login',
-            authenticationMethod: 'Email',
-            userId: response.data.usersData.id, // this should be replaced with an actual ID
-          });
-          console.log(this.activeUserInfo.userRole);
+          this.$vs.loading();
+          window.location.replace(response.data.redirect_to);
           this.$acl.change(this.activeUserInfo.userRole);
           this.$vs.loading.close();
-          this.$router.push('/');
           this.$vs.notify({
             title: 'Success',
             text: 'Login Successfull',
@@ -236,6 +206,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          window.location.href = constants.challengeUri;
           this.$vs.loading.close();
           if (
             error.response.data.message ===
@@ -279,12 +250,11 @@ export default {
           .dispatch('auth/sendSignature', {
             signature: this.signature,
             nonce: this.nonce,
+            login_type: 'web3',
+            login_challenge: this.$route.query.login_challenge,
           })
           .then((res) => {
-            // uncomment the statment below before pushing wile
-            this.$vs.loading.close();
-
-            // Remove the statment below before pushing wile
+            window.location.replace(res.data.redirect_to);
             this.$vs.notify({
               title: this.$t('Login.notify.title'),
               text: 'Login Successfull',
@@ -292,8 +262,6 @@ export default {
               icon: 'icon-alert-circle',
               color: 'success',
             });
-            this.$acl.change(this.activeUserInfo.userRole);
-            this.$router.push('/');
           });
       } catch (err) {
         this.$vs.loading.close();
@@ -322,7 +290,7 @@ export default {
           color: 'warning',
         });
       }
-      const accounts = await window.ethereum.request({
+      const accounts = await ethereum.request({
         method: 'eth_requestAccounts',
       });
       const account = accounts[0];
@@ -368,6 +336,7 @@ export default {
       }
     },
     closeForm() {
+      window.close();
       this.$refs.form.reset();
     },
     initilizeGAuth() {
@@ -396,9 +365,9 @@ export default {
             })
             .then((response) => {
               console.log(5);
+              window.location.replace(response.data.redirect_to);
               this.$acl.change(this.activeUserInfo.userRole);
-              this.$router.push('/');
-              this.$vs.loading.close();
+              if (this.popup) this.$emit('loggedIn');
             });
         } else {
           this.$vs.notify({

@@ -47,22 +47,35 @@ export default {
       }
     );
   },
-  login(password, email) {
-    console.log(email.toLowerCase());
-    return axios.post(Constant.apiUrl + '/api/signin/', {
+  login(password, email, challenge) {
+    var data = JSON.stringify({
+      email: email,
       password: password,
-      email: email.toLowerCase(),
     });
+
+    var config = {
+      method: 'post',
+      // url: `https://cors-anywhere.herokuapp.com/https://openid.vwtv.pt/api/login/?login_type=web1&login_challenge=${challenge}`, //uncomment when use in local
+      url: `${Constant.hydra_ep}/api/login/?login_type=web1&login_challenge=${challenge}`, // comment when use in local
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+    return axios(config);
   },
   registerUser(firstName, lastName, email, pwd) {
-    return axios.post(Constant.apiUrl + '/api/signup/', {
+    // const url='https://cors-anywhere.herokuapp.com/' + Constant.hydra_ep + '/api/user/register/'
+    const url = Constant.hydra_ep + '/api/user/register/';
+    return axios.post(url, {
       first_name: firstName,
       last_name: lastName,
       username: email,
-      email: email.toLowerCase(),
+      email,
       password: pwd,
       profile: {
-        display_name: firstName + ' ' + lastName,
+        zip: 'your_zip_code',
+        city: 'your_city_name',
         active: true,
       },
     });
@@ -83,10 +96,32 @@ export default {
     });
   },
   generateNonce(payload) {
-    return axios.post(Constant.apiUrl + `/api/add/public/address/`, payload);
+    var FormData = require('form-data');
+    var data = new FormData();
+    data.append('public_add', payload.public_add);
+
+    var config = {
+      method: 'post',
+      // url: `https://cors-anywhere.herokuapp.com/${Constant.hydra_ep}/api/user/metamask/register/`, //uncomment when use in local
+      url: `${Constant.hydra_ep}/api/user/metamask/register/`, // comment when use in local
+      data: data,
+    };
+
+    return axios(config);
   },
   verifySignature(payload) {
-    return axios.post(Constant.apiUrl + `/api/verify/signature/`, payload);
+    console.log(payload);
+    var config = {
+      method: 'post',
+      // url: `https://cors-anywhere.herokuapp.com/${Constant.hydra_ep}/api/login/?login_challenge=${payload.login_challenge}&login_type=web3`, //uncomment when use in local
+      url: `${Constant.hydra_ep}/api/login/?login_challenge=${payload.login_challenge}&login_type=web3`, // comment when use in local
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: payload,
+    };
+
+    return axios(config);
   },
   sendOtp(payload) {
     return axios.get(Constant.apiCastUrl + '/api/event/send/otp/', {
@@ -123,15 +158,37 @@ export default {
     );
   },
   generateAccessToken(payload) {
-    return axios.post(Constant.apiUrl + `/api/google/`, payload);
+    console.log('payload', payload);
+    var data = JSON.stringify({
+      access_token: payload.access_token,
+    });
+    return axios({
+      method: 'POST',
+      // url: `https://cors-anywhere.herokuapp.com/${Constant.hydra_ep}/api/login/?login_type=web2&login_challenge=${payload.login_challenge}`, //uncomment when use in local
+      url: `${Constant.hydra_ep}/api/login/?login_type=web2&login_challenge=${payload.login_challenge}`, // comment when use in local
+      data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   },
   sendResetEmail(payload) {
     return axios.get(
-      Constant.apiUrl + `/api/password/reset/mail/?email=${payload}&origin=cast`
+      Constant.hydra_ep +
+        `/api/password/reset/mail/?email=${payload}&origin=cast`
     );
   },
   resetPassword(payload) {
-    return axios.post(Constant.apiUrl + '/api/user/password/reset/', payload);
+    return axios.post(Constant.hydra_ep + '/api/password/reset/', payload);
+  },
+  autoLogin({ username, lc, token }) {
+    return axios.get(
+      Constant.hydra_ep +
+        `/api/auto/login/?username=${username}&login_challenge=${lc}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
   },
   contactUs(payload) {
     return axios.post(Constant.apiUrl + '/community/contact_us/', payload);

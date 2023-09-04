@@ -15,7 +15,10 @@
           <img src="@/assets/images/dashboard/Wallet.svg" />
         </div>
         <div class="setting">
-          <img src="@/assets/images/dashboard/Setting.svg" />
+          <div class="">
+            <button class="butt" @click="open">Login</button>
+          </div>
+          <!-- <img src="@/assets/images/dashboard/Setting.svg" /> -->
         </div>
       </div>
     </div>
@@ -30,18 +33,35 @@
         <RightPart />
       </div>
     </div>
+    <div>
+      <iframe :src="url" :class="{ iframe: iframe, hidden: !iframe }"></iframe>
+      <button class="close-icon" @click="closeForm">✕</button>
+    </div>
   </div>
 </template>
 <script>
 import LeftPart from './components/LeftPart.vue';
 import RightPart from './components/RightPart.vue';
 import Rooms from '../login/Room.vue';
+import constants from '../../../constant';
 export default {
   name: 'FullDashBoard',
   components: {
     LeftPart,
     RightPart,
     Rooms,
+  },
+  data() {
+    return {
+      url: constants.challengeUri,
+      iframe: false,
+    };
+  },
+  methods: {
+    open() {
+      this.url = 'http://localhost:8080/login';
+      this.iframe = true;
+    },
   },
 };
 </script>
@@ -57,8 +77,27 @@ export default {
   width: 36%;
 }
 
+.iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 66.8%;
+  width: 33%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
 .sideOne {
   width: 30%;
+}
+
+.butt {
+  background: #d7df23;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
 }
 
 .nav-bar {
@@ -104,7 +143,7 @@ export default {
 .setting {
   margin-left: 24px;
   width: 16.5px;
-  height: 16.5px;
+  /* height: 16.5px; */
   color: #637181;
 }
 .buttomPart {

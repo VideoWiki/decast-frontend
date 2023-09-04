@@ -6,13 +6,19 @@ const constants = {
   streamUrl: 'https://play.stream.video.wiki/live/',
   eventDetailsUrl:
     'https://api.cast.video.wiki/api/event/meeting/info/?public_meeting_id=',
-  MoralisServerUrl: 'https://y4ur2a7c7uaq.usemoralis.com:2053/server',
-  MoralisAppID: 'wg33vantNddEU1H2dlhxSgJ0Z1NRudbjIvr0Jzc4',
   oneClickPass: '5ZfEb9iu.6YVrCXRUp7x62bqTyK0cjHrgOOasBsWT',
   contractAddress: '0x15a0b4bba8e561f13c3c1d2acd5954b7e871cfb0',
   apiKey: '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',
   web3ApiKey:
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDYxZUMxQTlhMDc5NDNlQjBjMTcwQWZhMjcxNTY4MTg4NDA5YzAyRWIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzA5NDQ2OTA5MjUsIm5hbWUiOiJiZWx1Z2EifQ.A2JdUCF0vKXJXGlaTKJ1pBNIDLT2MWa4m8OGHpCWfIA',
+  redirect_uri: 'https://dev.stream.video.wiki/callback/',
+  client_id: 'new-flow-test',
+  client_secret: 'c0X_3k~L56LzSWxGrU0XV4g9Lg',
+  hydra_ep: 'https://openid.video.wiki',
+  hydra_lg: 'https://login.video.wiki',
+  challengeUri:
+    'https://login.video.wiki/oauth2/auth?audience=&max_age=0&prompt=&redirect_uri=https://dev.home.video.wiki/callback/&response_type=code&scope=openid+offline+offline_access&client_id=new-flow-test&nonce=hognfveoohhddoralbeygsjg&state=imnweycejbfpyrmnahgqzcmm',
+  profilingUrl: 'https://openid.video.wiki',
 };
 
 if (process.env.NODE_ENV === 'production') {
