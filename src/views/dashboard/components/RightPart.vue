@@ -28,8 +28,9 @@ export default {
 .cast-section {
   height: 100%;
   padding: 0px 0px 0px 40px;
-  background-color: #181a20;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .cast-heading {
