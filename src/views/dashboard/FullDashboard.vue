@@ -33,7 +33,7 @@
         <RightPart />
       </div>
     </div>
-    <div>
+    <div class="close-container">
       <iframe :src="url" :class="{ iframe: iframe, hidden: !iframe }"></iframe>
       <button class="close-icon" @click="closeForm">✕</button>
     </div>
@@ -70,13 +70,34 @@ export default {
 }
 .container-full {
   background-color: #181a20;
+  /* border: 1px solid red; */
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.container-full::-webkit-scrollbar {
+  width: 3px;
+}
+
+.container-full::-webkit-scrollbar-thumb {
+  background-color: #31394e;
+  border-radius: 4px;
+  height: 10px;
 }
 
 .middleOne {
-  width: 36%;
+  width: fit-content;
+  padding: 0px 37px 0px 37px;
+  /* border: 1px solid red; */
+  height: 518px;
+}
+
+.close-container {
+  display: none;
 }
 
 .iframe {
+  display: none;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -89,6 +110,9 @@ export default {
 
 .sideOne {
   width: 30%;
+  /* border: 1px solid yellow; */
+  height: 518px;
+  padding-right: 37px;
 }
 
 .butt {
@@ -146,9 +170,13 @@ export default {
   color: #637181;
 }
 .buttomPart {
-  height: 735px;
+  height: fit-content !important;
+  margin: auto;
   display: flex;
-  margin: 20px auto;
+  margin: auto;
+  /* border: 1px solid red; */
+  width: fit-content !important;
+  margin-top: 20px;
 }
 .vertical-line {
   border-right: 1px solid #31394e;

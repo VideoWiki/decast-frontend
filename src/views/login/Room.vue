@@ -237,8 +237,8 @@ export default {
   justify-content: center;
   align-items: center;
   color: #a6a6a8;
-  max-width: 420px;
-  width: 410px;
+  width: 400px;
+  max-width: 450px;
   margin: auto;
   /* border: 1px solid white; */
   height: 100%;
@@ -279,10 +279,14 @@ export default {
 .child-options {
   padding: 10px 10px 10px 15px;
   border: 1px solid #31394e;
-  width: 380px;
+  width: 385px;
   border-radius: 6px;
   height: 62px;
   font-weight: 600;
+}
+
+.child-options div p {
+  width: 160px;
 }
 
 .session-button {
@@ -339,7 +343,7 @@ export default {
 }
 
 .options-container::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 
 .options-container::-webkit-scrollbar-thumb {
@@ -351,7 +355,7 @@ export default {
 .footer-content {
   width: max-content;
   text-align: center;
-  margin-top: 100px !important;
+  margin-top: 40px !important;
 }
 
 .dot {
