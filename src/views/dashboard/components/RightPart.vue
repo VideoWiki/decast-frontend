@@ -26,11 +26,16 @@ export default {
   font-family: 'Karla', sans-serif;
 }
 .cast-section {
-  height: 100%;
-  padding: 0px 0px 0px 40px;
-  position: relative;
+  height: auto;
+  width: auto;
+  height: 500px;
+  /* border: 1px solid red; */
+  /* position: relative; */
   display: flex;
   flex-direction: column;
+  margin: auto;
+  margin-left: 37px;
+  max-width: 400px;
 }
 
 .cast-heading {
@@ -61,21 +66,23 @@ export default {
   text-decoration: underline;
 }
 .bottom {
-  margin-left: 125px;
-  margin-top: 218px;
+  margin: auto;
+  width: 320px;
+  margin-left: 20px;
+  /* border: 1px solid yellow; */
 }
 
 .coming-soon {
-  width: 286px;
+  width: fit-content;
   height: 23px;
+  margin: auto;
+  /* border: 1px solid green; */
   font-family: Karla;
   font-size: 20px;
   font-weight: 500;
   line-height: 23px;
   letter-spacing: 0.76em;
   text-align: center;
-  padding: 10px;
-  margin-bottom: 10px;
   white-space: nowrap;
 }
 .coming-soon h3 {
@@ -84,22 +91,22 @@ export default {
 }
 
 .cast-featurea {
-  width: 281px;
+  width: 285px;
   font-size: 16px;
+  margin: auto !important;
   font-weight: 600;
   line-height: 25px;
-  letter-spacing: 0em;
-  text-align: center;
+  letter-spacing: 0em;  
   display: flex;
   flex-direction: column;
   white-space: nowrap;
   padding-top: 10px;
-  margin-left: 5px;
+  /* border: 1px solid red; */
 }
 
 .cast-featurea p {
   color: #6c6767;
-  margin: 0;
+  margin: auto;
 }
 
 .cast-featurea p:last-child {

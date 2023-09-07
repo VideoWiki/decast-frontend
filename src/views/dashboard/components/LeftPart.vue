@@ -51,6 +51,9 @@ export default {
 }
 .dashboard-container {
   font-family: 'Karla', sans-serif;
+  /* border: 1px solid red; */
+  width: auto;
+  max-width: 450px;
 }
 
 .text {
