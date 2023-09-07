@@ -2,23 +2,34 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
+        <h2
+          class="custom-heading"
+          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
+        >
           Rooms
         </h2>
         <p class="sub-heading pt-2">
           Rooms are social spaces for direct communication. Ideal for X Y Z.
-          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
-            Rooms.</a>
+          <a
+            target="_blank"
+            href="#"
+            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
+            >Learn more about Rooms.</a
+          >
         </p>
       </div>
       <div class="flex justify-between">
-        <button class="header-button p-2" @click="createPopup = true" style="
+        <button
+          class="header-button p-2"
+          @click="createPopup = true"
+          style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          ">
+          "
+        >
           <img src="./Rooms/Plus.svg" alt="" />
         </button>
         <button class="header-button border-none dot">
@@ -29,208 +40,55 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button class="options-button border-none" @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }">Your Rooms</button>
-        <button class="options-button border-none px-4" @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }">Room Recordings</button>
+        <button
+          class="options-button border-none"
+          @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }"
+        >
+          Your Rooms
+        </button>
+        <button
+          class="options-button border-none px-4"
+          @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }"
+        >
+          Room Recordings
+        </button>
       </div>
 
       <div class="options-container">
-        <div v-for="(room, index) in rooms" :key="index">
-          <div class="child-options flex justify-between items-center mb-4">
-            <div>
-              <p style="font-size: 14px; font-weight: 500">
-                {{ room.room_name }}
-              </p>
+        <div v-if="focusYourRooms">
+          <div v-for="(room, index) in rooms" :key="index">
+            <div class="child-options flex justify-between items-center mb-4">
+              <div>
+                <p style="font-size: 14px; font-weight: 500">
+                  {{ room.room_name }}
+                </p>
+              </div>
+              <div class="flex justify-between">
+                <button class="copy-link">
+                  <img src="./Rooms/copy.svg" alt="" />
+                </button>
+                <button
+                  class="session-button ml-4"
+                  @click="start(room.room_url)"
+                >
+                  Start Session
+                </button>
+                <button class="header-button border-none">
+                  <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+                </button>
+              </div>
             </div>
-            <div class="flex justify-between">
-              <button class="copy-link">
-                <img src="./Rooms/copy.svg" alt="" />
-              </button>
-              <button class="session-button ml-4" @click="start(room.room_url)">
-                Start Session
-              </button>
-              <button class="header-button border-none">
-                <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-              </button>
-            </div>
           </div>
         </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <div class="child-options flex justify-between items-center mb-4">
-          <div>
-            <p style="font-size: 14px; font-weight: 500">
-              Room title and length limit
-            </p>
-          </div>
-          <div class="flex justify-between">
-            <button class="copy-link">
-              <img src="./Rooms/copy.svg" alt="" />
-            </button>
-            <button class="session-button ml-4">Start Session</button>
-            <button class="header-button border-none">
-              <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-            </button>
-          </div>
+        <div v-else class="flex flex-col items-center justify-items-center">
+          <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
+          <img
+            src="@/assets/images/dashboard/NoRecordingText1.svg"
+            class="mb-3"
+          />
+          <img src="@/assets/images/dashboard/NoRecordingText.svg" />
         </div>
       </div>
     </div>
@@ -239,10 +97,17 @@
       <p class="m-auto">3/3</p>
       <p>
         Need more dedicated room?
-        <a target="_blank" href="#" style="color: #31a2f4; cursor: pointer">Contact us for a tailored plan</a>
+        <a target="_blank" href="#" style="color: #31a2f4; cursor: pointer"
+          >Contact us for a tailored plan</a
+        >
       </p>
     </div>
-    <vs-popup title="Login/Register" id="login-popup" ref="login-popup" :active.sync="createPopup"><template>
+    <vs-popup
+      title="Login/Register"
+      id="login-popup"
+      ref="login-popup"
+      :active.sync="createPopup"
+      ><template>
         <div class="centered-container">
           <div class="container">
             <div class="first-row">

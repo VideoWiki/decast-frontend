@@ -59,8 +59,7 @@ export default {
   },
   methods: {
     open() {
-      this.url = 'http://localhost:8080/login';
-      this.iframe = true;
+      window.location.href = constants.challengeUri;
     },
   },
 };
@@ -94,10 +93,12 @@ export default {
 
 .butt {
   background: #d7df23;
-  padding: 10px;
+  padding: 10px 25px;
   border: none;
   border-radius: 5px;
-  color: white;
+  color: #1f272f;
+  font-weight: 700;
+  font-size: 12px;
 }
 
 .nav-bar {
@@ -142,8 +143,6 @@ export default {
 }
 .setting {
   margin-left: 24px;
-  width: 16.5px;
-  /* height: 16.5px; */
   color: #637181;
 }
 .buttomPart {
@@ -161,7 +160,7 @@ export default {
     height: 1700px;
     width: 100%;
   }
-  .sideOne{
+  .sideOne {
     width: 100%;
     justify-content: center;
   }
@@ -170,10 +169,9 @@ export default {
     padding: 60px 0px;
     justify-content: center;
   }
-  .last{
+  .last {
     display: flex;
     justify-content: center;
   }
-
 }
 </style>
