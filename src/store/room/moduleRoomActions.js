@@ -7,7 +7,7 @@ export default {
     console.log(res);
     const { room_data } = res.data;
     if (room_data.length > 1) {
-      commit('setRooms', room_data.slice(1, room_data.length - 1));
+      commit('setRooms', room_data.slice(1, room_data.length));
     }
     commit('SET_ROOM', room_data[0]);
   },

@@ -338,6 +338,11 @@ export default {
     obj = document.getElementsByClassName('vs-popup')[0];
     Object.assign(obj.style, styles);
 
+    this.$refs['login-popup'].$el.childNodes[1].style.cssText =
+      'background:transparent !important';
+    obj = document.getElementsByClassName('vs-popup')[2];
+    Object.assign(obj.style, styles);
+
     this.$refs['share-popup'].$el.childNodes[1].childNodes[0].style.display =
       'none';
     this.$refs['share-popup'].$el.childNodes[1].style.cssText =
@@ -372,6 +377,10 @@ export default {
   font-weight: 400;
   font-size: 11px;
   line-height: 12.86px;
+}
+
+.con-vs-popup .vs-popup {
+  background: transparent !important;
 }
 
 .header-button {
