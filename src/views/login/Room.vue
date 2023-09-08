@@ -2,34 +2,23 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2
-          class="custom-heading"
-          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
-        >
+        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
           Rooms
         </h2>
         <p class="sub-heading pt-2">
           Rooms are social spaces for direct communication. Ideal for X Y Z.
-          <a
-            target="_blank"
-            href="#"
-            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
-            >Learn more about Rooms.</a
-          >
+          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
+            Rooms.</a>
         </p>
       </div>
       <div class="flex justify-between">
-        <button
-          class="header-button p-2"
-          @click="createPopup = true"
-          style="
+        <button class="header-button p-2" @click="createPopup = true" style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          "
-        >
+          ">
           <img src="./Rooms/Plus.svg" alt="" />
         </button>
         <button class="header-button border-none dot">
@@ -40,18 +29,12 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button
-          class="options-button border-none"
-          @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }"
-        >
+        <button class="options-button border-none" @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }">
           Your Rooms
         </button>
-        <button
-          class="options-button border-none px-4"
-          @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }"
-        >
+        <button class="options-button border-none px-4" @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }">
           Room Recordings
         </button>
       </div>
@@ -69,25 +52,33 @@
                 <button class="copy-link" @click="copy(room.room_url)">
                   <img src="./Rooms/copy.svg" alt="" />
                 </button>
-                <button
-                  class="session-button ml-4"
-                  @click="start(room.room_url)"
-                >
+                <button class="session-button ml-4" @click="start(room.room_url)">
                   Start Session
                 </button>
-                <button class="header-button border-none">
+                <button class="side-btn border-none" @click="togglePopup(index)">
                   <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
                 </button>
+              </div>
+              <div class="room-popup" v-if="room.showPopup">
+                <button @click="shareRoom(room)">
+                  <img src="@/assets/images/share.svg" />
+                  Share</button>
+                <button @click="downloadRoom(room)">
+                  <img src="@/assets/images/download.svg" />
+                  Download</button>
+                <button @click="copyLink(room)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy Link</button>
+                <button @click="deleteRoom(room)">
+                  <img src="@/assets/images/delete.svg" />
+                  Delete</button>
               </div>
             </div>
           </div>
         </div>
         <div v-else class="flex flex-col items-center justify-items-center">
           <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
-          <img
-            src="@/assets/images/dashboard/NoRecordingText1.svg"
-            class="mb-3"
-          />
+          <img src="@/assets/images/dashboard/NoRecordingText1.svg" class="mb-3" />
           <img src="@/assets/images/dashboard/NoRecordingText.svg" />
         </div>
       </div>
@@ -97,17 +88,10 @@
       <p class="m-auto">3/3</p>
       <p>
         Need more dedicated room?
-        <a target="_blank" href="#" style="color: #31a2f4; cursor: pointer"
-          >Contact us for a tailored plan</a
-        >
+        <a target="_blank" href="#" style="color: #31a2f4; cursor: pointer">Contact us for a tailored plan</a>
       </p>
     </div>
-    <vs-popup
-      title="Login/Register"
-      id="login-popup"
-      ref="login-popup"
-      :active.sync="createPopup"
-      ><template>
+    <vs-popup title="Login/Register" id="login-popup" ref="login-popup" :active.sync="createPopup"><template>
         <div class="centered-container">
           <div class="container">
             <div class="first-row">
@@ -141,6 +125,7 @@ export default {
       focusYourRooms: true,
       text: '',
       rooms: [],
+      showPopup: false,
     };
   },
   methods: {
@@ -205,6 +190,42 @@ export default {
         window.location.href = res.data.room_url;
       });
     },
+    togglePopup(index) {
+      this.$set(this.rooms[index], 'showPopup', !this.rooms[index].showPopup);
+    },
+    deleteRoom(room) {
+      const options = {
+        method: 'DELETE',
+        url: 'https://dev.api.room.video.wiki/api/delete/room/',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'insomnia/2023.5.8',
+          Authorization: 'Bearer CTWPfD-qNb5RjvOWAWWZkGz_ap8HuiZ9kM4WVAWQCSs.siZG6a-9j1Afl6CqfRZL0_idB3QdtcVm2JgnlAIV9PY'
+        },
+        data: { public_meeting_id: room.room_url.split('/').pop() }
+      };
+
+      axios.request(options)
+        .then(response => {
+          console.log(response.data);
+          const index = this.rooms.indexOf(room);
+          if (index !== -1) {
+            this.rooms.splice(index, 1);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      console.log('delete')
+    },
+
+    downloadRoom(room) {
+      console.log('download')
+    },
+
+    shareRoom(room) {
+      console.log('share')
+    },
   },
   mounted() {
     this.getList();
@@ -268,12 +289,54 @@ export default {
   margin-left: 5px;
 }
 
+.side-btn {
+  background: none;
+  cursor: pointer;
+  height: max-content;
+  margin-left: 5px;
+}
+
 .options-button {
   background: none;
   color: #a6a6a8;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.room-popup {
+  position: absolute;
+  width: 94px;
+  height: 100px;
+  background-color: #1F272F;
+  border: 1px solid #31394E;
+  color: #31394E;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  top: 85%;
+  left: 72%;
+  z-index: 999;
+  padding: 10px;
+  margin: auto;
+  text-align: left;
+}
+
+.room-popup>button {
+  display: flex;
+  cursor: pointer;
+  font-size: 13px;
+  gap: 5px;
+  background-color: #1F272F;
+  border: none;
+  color: #647181;
+  text-align: left;
+  margin-top: 5px;
+}
+
+.room-popup>button img {
+  width: 10px;
+  height: 10px;
+  margin: auto;
 }
 
 .focused-button {
@@ -284,6 +347,7 @@ export default {
 }
 
 .child-options {
+  position: relative;
   padding: 10px 10px 10px 15px;
   border: 1px solid #31394e;
   width: 96%;
@@ -379,7 +443,6 @@ export default {
 }
 </style>
 <style scoped>
-
 *:not(i) {
   font-family: 'Karla', sans-serif;
 }
