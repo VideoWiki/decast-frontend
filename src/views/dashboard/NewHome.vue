@@ -43,14 +43,14 @@
     /* border: 1px solid white; */
     width: 100%;
     height: 100px;
-    padding-top: 30px;
+    /* padding-top: 30px; */
     background-color: #000000;
 }
 
 .nav-cont nav {
     display: flex;
     /* border: 1px solid yellow; */
-    width: 85%;
+    width: 90%;
     max-width: 1400px;
     margin: auto;
     justify-content: space-between;
