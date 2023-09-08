@@ -27,7 +27,7 @@
           <div class="">
             <button class="butt cursor-pointer" @click="open">Login</button>
           </div>
-          <!-- <img src="@/assets/images/dashboard/Setting.svg" /> -->
+          <img src="@/assets/images/dashboard/Setting.svg" />
         </div>
       </div>
     </div> -->

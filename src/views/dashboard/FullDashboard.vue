@@ -156,7 +156,6 @@ export default {
   width: 35%;
   padding: 0px 37px 0px 37px;
   /* border: 1px solid red; */
-  height: 518px;
 }
 
 .iframe {
@@ -175,7 +174,6 @@ export default {
 .sideOne {
   width: 30%;
   /* border: 1px solid yellow; */
-  height: 518px;
   padding-right: 37px;
 }
 
@@ -234,7 +232,7 @@ export default {
   color: #637181;
 }
 .buttomPart {
-  height: fit-content !important;
+  height: 80vh !important;
   margin: auto;
   display: flex;
   margin: auto;

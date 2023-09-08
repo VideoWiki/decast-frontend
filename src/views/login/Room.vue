@@ -75,8 +75,29 @@
                 >
                   Start Session
                 </button>
-                <button class="header-button border-none">
+                <button
+                  class="side-btn border-none"
+                  @click="togglePopup(index)"
+                >
                   <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+                </button>
+              </div>
+              <div class="room-popup" v-if="room.showPopup">
+                <button @click="shareRoom(room)">
+                  <img src="@/assets/images/share.svg" />
+                  Share
+                </button>
+                <button @click="downloadRoom(room)">
+                  <img src="@/assets/images/download.svg" />
+                  Download
+                </button>
+                <button @click="copyLink(room)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy Link
+                </button>
+                <button @click="deleteRoom(room)">
+                  <img src="@/assets/images/delete.svg" />
+                  Delete
                 </button>
               </div>
             </div>
@@ -141,6 +162,7 @@ export default {
       focusYourRooms: true,
       text: '',
       // rooms: [],
+      showPopup: false,
     };
   },
   computed: {
@@ -199,6 +221,44 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+    },
+    togglePopup(index) {
+      this.$set(this.rooms[index], 'showPopup', !this.rooms[index].showPopup);
+    },
+    deleteRoom(room) {
+      const options = {
+        method: 'DELETE',
+        url: 'https://dev.api.room.video.wiki/api/delete/room/',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'insomnia/2023.5.8',
+          Authorization:
+            'Bearer CTWPfD-qNb5RjvOWAWWZkGz_ap8HuiZ9kM4WVAWQCSs.siZG6a-9j1Afl6CqfRZL0_idB3QdtcVm2JgnlAIV9PY',
+        },
+        data: { public_meeting_id: room.room_url.split('/').pop() },
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          console.log(response.data);
+          const index = this.rooms.indexOf(room);
+          if (index !== -1) {
+            this.rooms.splice(index, 1);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      console.log('delete');
+    },
+
+    downloadRoom(room) {
+      console.log('download');
+    },
+
+    shareRoom(room) {
+      console.log('share');
     },
   },
   mounted() {
@@ -263,12 +323,54 @@ export default {
   margin-left: 5px;
 }
 
+.side-btn {
+  background: none;
+  cursor: pointer;
+  height: max-content;
+  margin-left: 5px;
+}
+
 .options-button {
   background: none;
   color: #a6a6a8;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.room-popup {
+  position: absolute;
+  width: 100px;
+  height: 110px;
+  background-color: #1f272f;
+  border: 1px solid #31394e;
+  color: #31394e;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  top: 85%;
+  left: 72%;
+  z-index: 999;
+  padding: 10px;
+  margin: auto;
+  text-align: left;
+}
+
+.room-popup > button {
+  display: flex;
+  cursor: pointer;
+  font-size: 13px;
+  gap: 5px;
+  background-color: #1f272f;
+  border: none;
+  color: #647181;
+  text-align: left;
+  margin-top: 5px;
+}
+
+.room-popup > button img {
+  width: 10px;
+  height: 10px;
+  margin: auto;
 }
 
 .focused-button {
@@ -279,6 +381,7 @@ export default {
 }
 
 .child-options {
+  position: relative;
   padding: 10px 10px 10px 15px;
   border: 1px solid #31394e;
   width: 96%;
