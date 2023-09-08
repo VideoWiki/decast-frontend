@@ -332,7 +332,6 @@ export default {
 
 /* .copy-link:hover::before {
   content: 'https://room.video.wiki/b/dhe-ztu-y2w-lsi';
-  /* Add your desired tooltip text */
   position: absolute;
   top: -45px;
   left: 50%;
