@@ -361,6 +361,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
+    {
+      path: '/newhome',
+      name: 'NewHome',
+      component: () => import('./views/dashboard/NewHome.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
     // -->>>>>>>>>
     {
       path: '/eventdetails/:eventId',
