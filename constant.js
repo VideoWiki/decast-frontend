@@ -12,12 +12,12 @@ const constants = {
   web3ApiKey:
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDYxZUMxQTlhMDc5NDNlQjBjMTcwQWZhMjcxNTY4MTg4NDA5YzAyRWIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzA5NDQ2OTA5MjUsIm5hbWUiOiJiZWx1Z2EifQ.A2JdUCF0vKXJXGlaTKJ1pBNIDLT2MWa4m8OGHpCWfIA',
   redirect_uri: 'https://dev.stream.video.wiki/callback/',
-  client_id: 'new-flow-test',
-  client_secret: 'c0X_3k~L56LzSWxGrU0XV4g9Lg',
+  client_id: '034ec543-fb7c-4e13-93f7-55af40f1ce4d',
+  client_secret: 'GXkQhkjxsijknM.yz8-2BJmKM.',
   hydra_ep: 'https://openid.video.wiki',
   hydra_lg: 'https://login.video.wiki',
   challengeUri:
-    'https://login.video.wiki/oauth2/auth?audience=&max_age=0&nonce=cbcvurctcddwfhzsnltwyz343&prompt=&redirect_uri=https://dev.home.video.wiki/callback/&response_type=code&scope=openid+offline&state=dsfssfsfsfsfslmksmf&client_id=new-flow-test',
+    'https://login.video.wiki/oauth2/auth?audience=&max_age=0&prompt=&redirect_uri=https://dev.stream.video.wiki/callback/&response_type=code&scope=openid+offline+offline_access&client_id=034ec543-fb7c-4e13-93f7-55af40f1ce4d&nonce=hognfveoohhddoralbeygsjg&state=imnweycejbfpyrmnahgqzcmm',
   profilingUrl: 'https://openid.video.wiki',
 };
 
