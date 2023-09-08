@@ -15,7 +15,7 @@
         </div>
 
         <div class="log-cont">
-          <div class="child-1 cursor-pointer" @clcik="open">
+          <div class="child-1 cursor-pointer" @click="open">
             <button>Login</button>
             <div class="vertical-line sideOne"></div>
             <button>Signup</button>

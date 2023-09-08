@@ -120,7 +120,7 @@ export default {
       console.log('open');
       this.iframe = !this.iframe;
       this.url = constants.challengeUri;
-      this.url = 'http://localhost:8080/login';
+      // this.url = 'http://localhost:8080/login';
       document.getElementsByTagName('iframe')[0].style.height = '66.7%';
       document.getElementsByTagName('iframe')[0].style.width = '32%';
       console.log(this.iframe);
