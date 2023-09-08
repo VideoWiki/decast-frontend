@@ -59,7 +59,7 @@ export default {
               'accessToken',
               response.data.data.token_data.access_token
             );
-            location.href = '/';
+            location.href = '/full';
             // location.href =
             //   'https://dev.stream.video.wiki/saveInfo/?name=' +
             //   response.data.data.user_info.first_name +
@@ -89,4 +89,8 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+* {
+  overflow: hidden;
+}
+</style>

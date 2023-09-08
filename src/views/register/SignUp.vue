@@ -3,7 +3,7 @@
     <div class="container">
       <div class="signUp">
         <div class="signUp-text">Sign Up</div>
-        <button class="close-icon" @click="navigateToLogin">✕</button>
+        <button class="close-icon" @click="close">✕</button>
       </div>
       <div class="singUp-box">
         <div
@@ -45,24 +45,30 @@
         />
         <label class="font-medium" for="checkbox"
           >I agree to the Video wiki
-          <span class="underline"> <a href="#"> User Agreement</a> </span> and
-          <span class="underline"><a href="#"> Privacy Policy</a></span>
+          <span class="underline">
+            <a href="#" class="underline"> User Agreement</a>
+          </span>
+          and
+          <span class="underline"
+            ><a href="#" class="underline"> Privacy Policy</a></span
+          >
         </label>
       </div>
-      <div class="button" :class="{ faded: !validateForm }">
-        <button :disabled="!validateForm" @click.prevent="registerUserJWt">
+      <div>
+        <button
+          :class="['enb-button', { faded: !validateForm }]"
+          :disabled="!validateForm"
+          @click.prevent="registerUserJWt"
+        >
           Sign Up
         </button>
       </div>
-      <div class="bottom-text font-semibold">
-        Already have an account? &numsp;
-        <router-link
-          class="route cursor-pointer"
-          style="color: #a6a6a8; text-decoration: underline"
-          :to="{ path: '/signin' }"
-        >
-          Log in
-        </router-link>
+      <div
+        class="bottom-text text-sm font-semibold cursor-pointer"
+        style="color: #a6a6a8; text-decoration: underline"
+        @click="navigateToLogin"
+      >
+        Already have an account? Log in
       </div>
     </div>
   </div>
@@ -231,9 +237,12 @@ export default {
           });
         });
     },
+    close() {
+      window.parent.postMessage('closeIframe', '*');
+    },
     navigateToLogin() {
-      if (this.popup) this.$emit('toLogin');
-      else this.$router.push('/login');
+      window.parent.postMessage('navigateToLogin', '*');
+      this.$router.push('/login');
     },
     // Metamsask Connection
     async handleSignMessage(publicAddress, nonce) {
@@ -398,12 +407,12 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 :not(i) {
   font-family: 'Karla', sans-serif;
 }
 
-.faded button {
+.faded {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -412,12 +421,11 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background: #1f272f;
 }
 .container {
   height: 550px;
-  width: 50%;
   max-width: 500px;
-  border: 1px solid #31394e;
   background-color: #1f272f;
   border-radius: 12px;
   padding: 20px 25px;
@@ -516,7 +524,7 @@ export default {
   color: #18191b;
 }
 
-.button button {
+.enb-button {
   margin-top: 30px;
   height: 45px;
   width: 100%;
@@ -533,7 +541,6 @@ export default {
   color: #a6a6a8;
   font-family: 'Karla', sans-serif;
   font-weight: regular;
-  cursor: pointer;
 }
 .partition {
   margin-top: 25px;
@@ -543,7 +550,7 @@ export default {
 }
 .horizontal-line {
   border: 0.8px solid #a6a6a8;
-  width: 35%;
+  width: 33%;
 }
 .partition-text {
   color: #a6a6a8;
@@ -551,6 +558,6 @@ export default {
 }
 .underline {
   text-decoration: underline;
-  color: #a6a6a8;
+  color: #a6a6a8 !important;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="first-row">
         <h6 class="custom-heading">Reset your password</h6>
-        <button class="close-icon" @click="navigateToLogin">✕</button>
+        <button class="close-icon" @click="close">✕</button>
       </div>
       <div class="text">
         Enter your VideoWiki email address so we can reset your password.
@@ -37,9 +37,8 @@ export default {
     };
   },
   methods: {
-    navigateToLogin() {
-      if (this.popup) this.$emit('toLogin');
-      else this.$router.push('/login');
+    close() {
+      window.parent.postMessage('closeIframe', '*');
     },
     sendResetEmail() {
       this.$store
@@ -102,12 +101,12 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background: #1f272f;
 }
 
 .container {
   height: 300px;
   width: 500px;
-  border: 1px solid #31394e;
   background-color: #1f272f;
   border-radius: 12px;
   padding: 30px;

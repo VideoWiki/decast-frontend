@@ -76,13 +76,13 @@
           </vs-checkbox>
         </div>
         <div>
-          <router-link
+          <p
             class="route cursor-pointer text-sm font-semibold"
             style="color: #a6a6a8; text-decoration: underline"
-            :to="{ path: '/resetPassword' }"
+            @click="navigateToPassword"
           >
             Forget password?
-          </router-link>
+          </p>
         </div>
       </div>
 
@@ -105,13 +105,13 @@
         </button>
       </div>
       <div class="flex justify-center">
-        <router-link
+        <p
           class="route cursor-pointer text-sm font-semibold"
           style="color: #a6a6a8; text-decoration: underline"
-          :to="{ path: '/signup' }"
+          @click="navigateToSignUp"
         >
           Don't have an account? Sign Up
-        </router-link>
+        </p>
       </div>
       <input type="submit" value="" class="text-xs" style="display: none" />
     </form>
@@ -176,6 +176,14 @@ export default {
     },
   },
   methods: {
+    navigateToPassword() {
+      this.$router.push('/resetPassword');
+      window.parent.postMessage('navigateToPassword', '*');
+    },
+    navigateToSignUp() {
+      this.$router.push('/signup');
+      window.parent.postMessage('navigateToSignUp', '*');
+    },
     loginJWT() {
       // Loading
       this.$vs.loading();
@@ -336,8 +344,8 @@ export default {
       }
     },
     closeForm() {
-      window.close();
-      this.$refs.form.reset();
+      window.parent.postMessage('closeIframe', '*');
+      // this.$refs.form.reset();
     },
     initilizeGAuth() {
       this.isIncognito = false;
@@ -405,7 +413,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Add styles for the center container as mentioned in the previous response */
 *:not(i, #google-login) {
   font-family: 'Karla', sans-serif;
@@ -413,6 +421,11 @@ export default {
 
 #google-login {
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
+}
+
+.container {
+  height: 100vh;
+  background: #1f272f;
 }
 
 .center-container {
@@ -482,8 +495,9 @@ export default {
 }
 
 .disabled-btn {
-  background-color: #f0f0a3;
+  background-color: #d7df23;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .custom-heading {

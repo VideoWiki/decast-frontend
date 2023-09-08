@@ -66,7 +66,7 @@
                 </p>
               </div>
               <div class="flex justify-between">
-                <button class="copy-link">
+                <button class="copy-link" @click="copy(room.room_url)">
                   <img src="./Rooms/copy.svg" alt="" />
                 </button>
                 <button
@@ -144,6 +144,11 @@ export default {
     };
   },
   methods: {
+    copy(url) {
+      let id = url.split('/');
+      id = id[id.length - 1];
+      navigator.clipboard.write('https://dev.stream.video.wiki/joinpage/' + id);
+    },
     createRoom() {
       axios({
         method: 'POST',
@@ -158,16 +163,18 @@ export default {
           console.log(res.data);
           var room = {
             room_name: this.text,
-            room_url: 'https://room.video.wiki//b/' + res.data.public_cast_id,
+            room_url:
+              'https://dev.stream.video.wiki/joinpage/' +
+              res.data.public_cast_id,
           };
           this.rooms.push(room);
           this.createPopup = false;
 
           // getList();
-          //   if (joinNow) {
-          //     window.location.href = r;es.data.join_now_url;
-          //     return;
-          //   }
+          // if (joinNow) {
+          //   window.location.href = r;es.data.join_now_url;
+          //   return;
+          // }
         })
         .catch((e) => {
           console.log(e.resonse);
@@ -237,7 +244,7 @@ export default {
   justify-content: center;
   align-items: center;
   color: #a6a6a8;
-  width: 400px;
+  width: 100%;
   max-width: 450px;
   margin: auto;
   /* border: 1px solid white; */
@@ -279,7 +286,7 @@ export default {
 .child-options {
   padding: 10px 10px 10px 15px;
   border: 1px solid #31394e;
-  width: 385px;
+  width: 96%;
   border-radius: 6px;
   height: 62px;
   font-weight: 600;
@@ -318,7 +325,12 @@ export default {
   position: relative;
 }
 
-.copy-link:hover::before {
+.copy-lin:active {
+  border-color: #d7df23;
+  color: #d7df23;
+}
+
+/* .copy-link:hover::before {
   content: 'https://room.video.wiki/b/dhe-ztu-y2w-lsi';
   /* Add your desired tooltip text */
   position: absolute;
@@ -333,7 +345,7 @@ export default {
   white-space: nowrap;
   opacity: 0.9;
   z-index: 100000;
-}
+} */
 
 .options-container {
   margin-top: 30px;
@@ -377,7 +389,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: fit-content;
   position: relative;
 }
 

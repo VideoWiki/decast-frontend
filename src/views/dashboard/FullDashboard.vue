@@ -16,7 +16,7 @@
         </div>
         <div class="setting">
           <div class="">
-            <button class="butt" @click="open">Login</button>
+            <button class="butt cursor-pointer" @click="open">Login</button>
           </div>
           <!-- <img src="@/assets/images/dashboard/Setting.svg" /> -->
         </div>
@@ -35,7 +35,7 @@
     </div>
     <div class="close-container">
       <iframe :src="url" :class="{ iframe: iframe, hidden: !iframe }"></iframe>
-      <button class="close-icon" @click="closeForm">✕</button>
+      <!-- <button class="close-icon" @click="closeForm">✕</button> -->
     </div>
   </div>
 </template>
@@ -57,9 +57,42 @@ export default {
       iframe: false,
     };
   },
+  mounted() {
+    window.addEventListener('message', (event) => {
+      console.log(event.data, 'data');
+      console.log(this.iframe);
+      if (event.data === 'closeIframe') {
+        this.iframe = false;
+        this.url = '';
+        console.log(this.iframe);
+      }
+      if (event.data === 'navigateToSignUp') {
+        document.getElementsByTagName('iframe')[0].style.height = '79%';
+        document.getElementsByTagName('iframe')[0].style.width = '33%';
+      }
+      if (event.data === 'navigateToLogin') {
+        document.getElementsByTagName('iframe')[0].style.height = '66.5%';
+        document.getElementsByTagName('iframe')[0].style.width = '32%';
+      }
+      if (event.data === 'navigateToPassword') {
+        document.getElementsByTagName('iframe')[0].style.height = '41.6%';
+      }
+    });
+  },
   methods: {
+    closeIframe() {
+      var iframe = document.getElementById('myIframe');
+      iframe.style.display = 'none';
+    },
     open() {
-      window.location.href = constants.challengeUri;
+      console.log('open');
+      this.iframe = !this.iframe;
+      this.url = constants.challengeUri;
+      // this.url = 'http://localhost:8080/login';
+      document.getElementsByTagName('iframe')[0].style.height = '66.5%';
+      document.getElementsByTagName('iframe')[0].style.width = '32%';
+      console.log(this.iframe);
+      // window.location.href = constants.challengeUri;
     },
   },
 };
@@ -86,25 +119,22 @@ export default {
 }
 
 .middleOne {
-  width: fit-content;
+  width: 35%;
   padding: 0px 37px 0px 37px;
   /* border: 1px solid red; */
   height: 518px;
 }
 
-.close-container {
-  display: none;
-}
-
 .iframe {
-  display: none;
   position: absolute;
+  border: 1px solid #31394e;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 66.8%;
-  width: 33%;
+  height: 66.5%;
+  width: 32%;
   border-radius: 10px;
+  z-index: 100;
   overflow: hidden;
 }
 
@@ -175,7 +205,7 @@ export default {
   display: flex;
   margin: auto;
   /* border: 1px solid red; */
-  width: fit-content !important;
+  width: 100%;
   margin-top: 20px;
 }
 .vertical-line {
@@ -200,6 +230,7 @@ export default {
   .last {
     display: flex;
     justify-content: center;
+    width: 35% !important;
   }
 }
 </style>
