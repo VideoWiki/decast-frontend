@@ -325,9 +325,10 @@ export default {
   position: relative;
 }
 
-.copy-lin:active {
+.copy-link:active {
   border-color: #d7df23;
   color: #d7df23;
+  fill: #d7df23;
 }
 
 /* .copy-link:hover::before {
@@ -378,7 +379,6 @@ export default {
 }
 </style>
 <style scoped>
-@import url(https://allfont.net/allfont.css?fonts=karla);
 
 *:not(i) {
   font-family: 'Karla', sans-serif;

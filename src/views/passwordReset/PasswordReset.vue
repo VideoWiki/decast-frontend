@@ -91,8 +91,6 @@ export default {
 };
 </script>
 <style scoped>
-@import url(https://allfont.net/allfont.css?fonts=karla);
-
 *:not(i) {
   font-family: 'Karla', sans-serif;
 }
