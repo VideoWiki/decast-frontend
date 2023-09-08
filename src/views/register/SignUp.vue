@@ -142,6 +142,7 @@ export default {
       }
     },
     validateEmail() {
+      // eslint-disable-next-line no-useless-escape
       return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,12})+$/.test(this.email);
     },
     checkLogin() {
@@ -305,7 +306,7 @@ export default {
           color: 'warning',
         });
       }
-      const accounts = await ethereum.request({
+      const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
       const account = accounts[0];

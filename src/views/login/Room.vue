@@ -140,34 +140,28 @@ export default {
       createPopup: false,
       focusYourRooms: true,
       text: '',
-      rooms: [],
+      // rooms: [],
     };
+  },
+  computed: {
+    rooms() {
+      return this.$store.state.room.rooms;
+    },
   },
   methods: {
     copy(url) {
       let id = url.split('/');
       id = id[id.length - 1];
-      navigator.clipboard.write('https://dev.stream.video.wiki/joinpage/' + id);
+      navigator.clipboard.writeText(
+        'https://dev.stream.video.wiki/joinRoom/' + id
+      );
     },
     createRoom() {
-      axios({
-        method: 'POST',
-        url: 'https://dev.api.room.video.wiki/api/create/',
-        data: {
-          event_name: this.text,
-          room_code: '',
-          join_now: 'False',
-        },
-      })
+      this.$store
+        .dispatch('room/addRoom', this.text)
         .then(async (res) => {
           console.log(res.data);
-          var room = {
-            room_name: this.text,
-            room_url:
-              'https://dev.stream.video.wiki/joinpage/' +
-              res.data.public_cast_id,
-          };
-          this.rooms.push(room);
+          // this.rooms.push(room);
           this.createPopup = false;
 
           // getList();
@@ -184,26 +178,27 @@ export default {
       this.focusYourRooms = toYourRooms;
     },
     getList() {
-      axios.get('https://dev.api.room.video.wiki/api/list/').then((res) => {
-        console.log(res);
-        this.rooms = res.data.room_data;
-      });
+      this.$store
+        .dispatch('room/getList')
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
     start(url) {
       let id = url.split('/');
       id = id[id.length - 1];
-      axios({
-        method: 'POST',
-        url: 'https://dev.api.room.video.wiki/api/join/',
-        data: {
-          name: 'Ritik',
-          public_meeting_id: id,
-          password: '',
-        },
-      }).then((res) => {
-        console.log(res.data);
-        window.location.href = res.data.room_url;
-      });
+      this.$store
+        .dispatch('room/start', id)
+        .then((res) => {
+          console.log(res.data);
+          window.location.href = res.data.room_url;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
   mounted() {
@@ -379,7 +374,6 @@ export default {
 }
 </style>
 <style scoped>
-
 *:not(i) {
   font-family: 'Karla', sans-serif;
 }
@@ -393,7 +387,6 @@ export default {
 }
 
 .container {
-  height: 300px;
   width: 500px;
   border: 1px solid #31394e;
   background-color: #1f272f;
@@ -435,14 +428,11 @@ export default {
 }
 
 .close-icon {
-  position: absolute;
   font-size: 20px;
   cursor: pointer;
   color: #a6a6a8;
   background: none;
   border: none;
-  top: 5px;
-  right: 10px;
 }
 
 .button {

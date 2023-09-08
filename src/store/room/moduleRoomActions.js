@@ -1,0 +1,46 @@
+/* eslint-disable camelcase */
+import axios from '../../axios';
+import constant from '../../../constant';
+export default {
+  async getList({ commit }, payload) {
+    const res = await axios.get('https://dev.api.room.video.wiki/api/list/');
+    console.log(res);
+    const { room_data } = res.data;
+    if (room_data.length > 1) {
+      commit('setRooms', room_data.slice(1, room_data.length - 1));
+    }
+    commit('SET_ROOM', room_data[0]);
+  },
+  async start({ commit }, payload) {
+    const res = await axios({
+      method: 'POST',
+      url: 'https://dev.api.room.video.wiki/api/join/',
+      data: {
+        name: 'Ritik',
+        public_meeting_id: payload,
+        password: '',
+      },
+    });
+    return res;
+  },
+
+  async addRoom({ commit }, payload) {
+    const res = await axios({
+      method: 'POST',
+      url: 'https://dev.api.room.video.wiki/api/create/',
+      data: {
+        event_name: payload,
+        room_code: '',
+        join_now: 'False',
+        logout_url: 'https://dev.stream.video.wiki/full',
+      },
+    });
+    var room = {
+      room_name: payload,
+      room_url:
+        'https://dev.stream.video.wiki/joinRoom/' + res.data.public_cast_id,
+    };
+    commit('ADD_ROOM', room);
+    return res;
+  },
+};

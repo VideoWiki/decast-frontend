@@ -1,120 +1,122 @@
 <template>
-  <div class="center-container">
-    <div class="flex justify-between items-center">
-      <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
-      <h6 class="custom-heading" style="color: #a6a6a8">Sign Up</h6>
-      <button class="close-icon" @click="closeForm">✕</button>
-    </div>
-
-    <div class="flex justify-between items-center mt-8 mb-4">
-      <div
-        class="child-1 cursor-pointer"
-        id="google-login"
-        @click="loginWithGoogle"
-      >
-        <p class="flex justify-start items-center">
-          <img src="@/assets/images/login/google.png" class="h-6 px-3" />
-          <!-- Log in with Google uncomment after design fix and remove the below line -->
-          Sign up with Google
-        </p>
-        <!-- <GoogleLogin/> -->
+  <div class="center">
+    <div class="center-container">
+      <div class="flex justify-between items-center">
+        <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
+        <h6 class="custom-heading" style="color: #a6a6a8">Sign Up</h6>
+        <button class="close-icon" @click="closeForm">✕</button>
       </div>
 
-      <div class="child-1 cursor-pointer" @click.prevent="loginWithMetamask">
-        <p class="flex justify-start items-center">
-          <img src="@/assets/images/Wallet.svg" class="h-6 px-3" />Log in with
-          Wallet
-        </p>
-        <!-- <SignInMetaMask/> -->
-      </div>
-    </div>
+      <div class="flex justify-between items-center mt-8 mb-4">
+        <div
+          class="child-1 cursor-pointer"
+          id="google-login"
+          @click="loginWithGoogle"
+        >
+          <p class="flex justify-start items-center">
+            <img src="@/assets/images/login/google.png" class="h-6 px-3" />
+            <!-- Log in with Google uncomment after design fix and remove the below line -->
+            Sign up with Google
+          </p>
+          <!-- <GoogleLogin/> -->
+        </div>
 
-    <!-- Statement "or sign up with email" with lines -->
-    <div class="or-divider">
-      <div class="or-line"></div>
-      <p class="or-text text-sm">or sign-in with email</p>
-      <div class="or-line"></div>
-    </div>
-
-    <form
-      class="mt-6 rounded-lg px-4 form-container"
-      @submit.prevent="loginJWT"
-    >
-      <div class="vx-row mb-6">
-        <input
-          v-model="email"
-          type="email"
-          name="email"
-          placeholder="Email"
-          class="w-full p-4 input-box"
-          autocomplete="off"
-          :style="{ 'border-color': emailIsValid ? '' : 'red' }"
-          @input="ValidMail"
-        />
-        <div v-if="!emailIsValid" class="text-sm mt-2" style="color: red">
-          Please mention a valid email
+        <div class="child-1 cursor-pointer" @click.prevent="loginWithMetamask">
+          <p class="flex justify-start items-center">
+            <img src="@/assets/images/Wallet.svg" class="h-6 px-3" />Log in with
+            Wallet
+          </p>
+          <!-- <SignInMetaMask/> -->
         </div>
       </div>
 
-      <div class="vx-row mb-6">
-        <input
-          v-model="password"
-          type="password"
-          name="password"
-          placeholder="Password"
-          class="w-full p-4 input-box"
-          autocomplete="off"
-        />
+      <!-- Statement "or sign up with email" with lines -->
+      <div class="or-divider">
+        <div class="or-line"></div>
+        <p class="or-text text-sm">or sign-in with email</p>
+        <div class="or-line"></div>
       </div>
 
-      <div
-        class="vx-row flex justify-between items-center mt-8 mb-4 font-semibold"
+      <form
+        class="mt-6 rounded-lg px-4 form-container"
+        @submit.prevent="loginJWT"
       >
-        <div>
-          <vs-checkbox v-model="checkbox_remember_me" class="text-sm">
-            Remember me
-          </vs-checkbox>
+        <div class="vx-row mb-6">
+          <input
+            v-model="email"
+            type="email"
+            name="email"
+            placeholder="Email"
+            class="w-full p-4 input-box"
+            autocomplete="off"
+            :style="{ 'border-color': emailIsValid ? '' : 'red' }"
+            @input="ValidMail"
+          />
+          <div v-if="!emailIsValid" class="text-sm mt-2" style="color: red">
+            Please mention a valid email
+          </div>
         </div>
-        <div>
+
+        <div class="vx-row mb-6">
+          <input
+            v-model="password"
+            type="password"
+            name="password"
+            placeholder="Password"
+            class="w-full p-4 input-box"
+            autocomplete="off"
+          />
+        </div>
+
+        <div
+          class="vx-row flex justify-between items-center mt-8 mb-4 font-semibold"
+        >
+          <div>
+            <vs-checkbox v-model="checkbox_remember_me" class="text-sm">
+              Remember me
+            </vs-checkbox>
+          </div>
+          <div>
+            <p
+              class="route cursor-pointer text-sm font-semibold"
+              style="color: #a6a6a8; text-decoration: underline"
+              @click="navigateToPassword"
+            >
+              Forget password?
+            </p>
+          </div>
+        </div>
+
+        <div class="vx-row mb-3">
+          <button
+            :class="[
+              'w-full p-3 mt-6 mb-4',
+              'enabled-btn',
+              { 'disabled-btn': !validateForm },
+            ]"
+            style="
+              text-size-adjust: text-sm;
+              border: none;
+              border-radius: 10px;
+              margin: auto;
+            "
+            :disabled="!validateForm"
+          >
+            <h3><b class="text-lg">Sign In</b></h3>
+          </button>
+        </div>
+        <div class="flex justify-center">
           <p
             class="route cursor-pointer text-sm font-semibold"
             style="color: #a6a6a8; text-decoration: underline"
-            @click="navigateToPassword"
+            @click="navigateToSignUp"
           >
-            Forget password?
+            Don't have an account? Sign Up
           </p>
         </div>
-      </div>
-
-      <div class="vx-row mb-3">
-        <button
-          :class="[
-            'w-full p-3 mt-6 mb-4',
-            'enabled-btn',
-            { 'disabled-btn': !validateForm },
-          ]"
-          style="
-            text-size-adjust: text-sm;
-            border: none;
-            border-radius: 10px;
-            margin: auto;
-          "
-          :disabled="!validateForm"
-        >
-          <h3><b class="text-lg">Sign In</b></h3>
-        </button>
-      </div>
-      <div class="flex justify-center">
-        <p
-          class="route cursor-pointer text-sm font-semibold"
-          style="color: #a6a6a8; text-decoration: underline"
-          @click="navigateToSignUp"
-        >
-          Don't have an account? Sign Up
-        </p>
-      </div>
-      <input type="submit" value="" class="text-xs" style="display: none" />
-    </form>
+        <input type="submit" value="" class="text-xs" style="display: none" />
+      </form>
+    </div>
   </div>
 </template>
 
@@ -423,15 +425,18 @@ export default {
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
 }
 
-.container {
+.center {
   height: 100vh;
+  width: 100vw;
   background: #1f272f;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
 }
 
 .center-container {
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #31394e;
+  width: 100%;
   padding: 20px;
   border-radius: 10px;
   max-width: 500px;

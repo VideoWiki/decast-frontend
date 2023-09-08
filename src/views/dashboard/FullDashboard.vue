@@ -16,7 +16,24 @@
         </div>
         <div class="setting">
           <div class="">
-            <button class="butt cursor-pointer" @click="open">Login</button>
+            <div v-if="accessToken || loggedIn">
+              <div class="con-img ml-3">
+                <vs-avatar
+                  :text="getFirstLetter(activeUserInfo.first_name)"
+                  color="primary"
+                  class="m-0 shadow-md"
+                  :src="
+                    activeUserInfo.profile_image
+                      ? activeUserInfo.profile_image
+                      : ''
+                  "
+                  size="40px"
+                />
+              </div>
+            </div>
+            <button v-else class="butt cursor-pointer" @click="open">
+              Login
+            </button>
           </div>
           <!-- <img src="@/assets/images/dashboard/Setting.svg" /> -->
         </div>
@@ -44,7 +61,10 @@ import LeftPart from './components/LeftPart.vue';
 import RightPart from './components/RightPart.vue';
 import Rooms from '../login/Room.vue';
 import constants from '../../../constant';
+import { utils } from '@/mixins/index';
+
 export default {
+  mixins: [utils],
   name: 'FullDashBoard',
   components: {
     LeftPart,
@@ -57,10 +77,20 @@ export default {
       iframe: false,
     };
   },
+  computed: {
+    accessToken() {
+      return this.$store.state.auth.accessToken;
+    },
+    loggedIn() {
+      return this.$store.state.auth.loggedIn;
+    },
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
+  },
   mounted() {
+    console.log(this.accessToken || this.loggedIn, 'prof');
     window.addEventListener('message', (event) => {
-      console.log(event.data, 'data');
-      console.log(this.iframe);
       if (event.data === 'closeIframe') {
         this.iframe = false;
         this.url = '';
@@ -71,11 +101,15 @@ export default {
         document.getElementsByTagName('iframe')[0].style.width = '33%';
       }
       if (event.data === 'navigateToLogin') {
-        document.getElementsByTagName('iframe')[0].style.height = '66.5%';
+        document.getElementsByTagName('iframe')[0].style.height = '66.7%';
         document.getElementsByTagName('iframe')[0].style.width = '32%';
       }
       if (event.data === 'navigateToPassword') {
         document.getElementsByTagName('iframe')[0].style.height = '41.6%';
+      }
+      if (event.data === 'loginSuccess') {
+        this.iframe = false;
+        this.url = '';
       }
     });
   },
@@ -88,8 +122,8 @@ export default {
       console.log('open');
       this.iframe = !this.iframe;
       this.url = constants.challengeUri;
-      // this.url = 'http://localhost:8080/login';
-      document.getElementsByTagName('iframe')[0].style.height = '66.5%';
+      this.url = 'http://localhost:8080/login';
+      document.getElementsByTagName('iframe')[0].style.height = '66.7%';
       document.getElementsByTagName('iframe')[0].style.width = '32%';
       console.log(this.iframe);
       // window.location.href = constants.challengeUri;
