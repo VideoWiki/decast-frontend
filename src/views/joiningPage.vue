@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
+import axios from '../axios';
 export default {
   name: 'joiningPage',
   data() {
@@ -83,7 +83,7 @@ export default {
           console.error('Join API error:', error);
           this.$vs.notify({
             title: 'OOPS',
-            text: 'An error occurred while joining the room.',
+            text: error.response.data.message,
             color: 'danger',
           });
         });
@@ -123,7 +123,7 @@ export default {
 .logo {
   width: 91px;
   height: 91px;
-  padding-top: 53px;
+  padding-top: 20px;
 }
 .bottom {
   margin-top: 150px;

@@ -23,9 +23,7 @@
                   color="primary"
                   class="m-0 shadow-md"
                   :src="
-                    activeUserInfo.profile_image
-                      ? activeUserInfo.profile_image
-                      : ''
+                    activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''
                   "
                   size="40px"
                 />
@@ -122,7 +120,7 @@ export default {
       console.log('open');
       this.iframe = !this.iframe;
       this.url = constants.challengeUri;
-      this.url = 'http://localhost:8080/login';
+      // this.url = 'http://localhost:8080/login';
       document.getElementsByTagName('iframe')[0].style.height = '66.7%';
       document.getElementsByTagName('iframe')[0].style.width = '32%';
       console.log(this.iframe);
@@ -175,6 +173,11 @@ export default {
   width: 30%;
   /* border: 1px solid yellow; */
   padding-right: 37px;
+}
+
+.load {
+  height: 100%;
+  width: 100%;
 }
 
 .butt {

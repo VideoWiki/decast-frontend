@@ -83,7 +83,7 @@
                 </button>
               </div>
               <div class="room-popup" v-if="room.showPopup">
-                <button @click="shareRoom(room)">
+                <button @click="openShare(room)">
                   <img src="@/assets/images/share.svg" />
                   Share
                 </button>
@@ -149,6 +149,32 @@
         </div>
       </template>
     </vs-popup>
+    <vs-popup
+      title="Login/Register"
+      id="login-popup"
+      ref="share-popup"
+      :active.sync="sharePopup"
+      ><template>
+        <div class="centered-container">
+          <div class="container">
+            <div class="first-row">
+              <h6 class="custom-heading">Share room</h6>
+              <button class="close-icon" @click="sharePopup = false">✕</button>
+            </div>
+            <div class="text">User Email</div>
+            <div class="input">
+              <input placeholder="Email" type="text" v-model="email" />
+            </div>
+
+            <div class="button">
+              <button class="button-text cursor-pointer" @click="shareRoom">
+                Share Room
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
+    </vs-popup>
   </div>
 </template>
 <script>
@@ -163,6 +189,9 @@ export default {
       text: '',
       // rooms: [],
       showPopup: false,
+      sharePopup: false,
+      email: '',
+      roomUrl: '',
     };
   },
   computed: {
@@ -199,6 +228,11 @@ export default {
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
     },
+    openShare(room) {
+      this.showPopup = false;
+      this.sharePopup = true;
+      this.roomUrl = room.room_url;
+    },
     getList() {
       this.$store
         .dispatch('room/getList')
@@ -229,12 +263,6 @@ export default {
       const options = {
         method: 'DELETE',
         url: 'https://dev.api.room.video.wiki/api/delete/room/',
-        headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': 'insomnia/2023.5.8',
-          Authorization:
-            'Bearer CTWPfD-qNb5RjvOWAWWZkGz_ap8HuiZ9kM4WVAWQCSs.siZG6a-9j1Afl6CqfRZL0_idB3QdtcVm2JgnlAIV9PY',
-        },
         data: { public_meeting_id: room.room_url.split('/').pop() },
       };
 
@@ -257,21 +285,27 @@ export default {
       console.log('download');
     },
 
-    shareRoom(room) {
+    shareRoom() {
       const options = {
         method: 'POST',
         url: 'https://dev.api.room.video.wiki/api/share/room/',
         data: {
-          public_id: room.room_url.split('/').pop(),
+          public_id: this.roomUrl.split('/').pop(),
           user: 'aman@video.wiki',
         },
       };
 
       axios
         .request(options)
-        .then(function (response) {
+        .then((response) => {
           console.log(response.data);
+          this.sharePopup = false;
           this.showPopup = false;
+          this.$vs.notify({
+            color: 'success',
+            title: 'Success',
+            text: 'room shared successfully',
+          });
         })
         .catch(function (error) {
           console.error(error);
@@ -300,6 +334,13 @@ export default {
       overflow: 'hidden',
     };
     this.$refs['login-popup'].$el.childNodes[1].style.cssText =
+      'min-width:500px !important';
+    obj = document.getElementsByClassName('vs-popup')[0];
+    Object.assign(obj.style, styles);
+
+    this.$refs['share-popup'].$el.childNodes[1].childNodes[0].style.display =
+      'none';
+    this.$refs['share-popup'].$el.childNodes[1].style.cssText =
       'min-width:500px !important';
     obj = document.getElementsByClassName('vs-popup')[0];
     Object.assign(obj.style, styles);

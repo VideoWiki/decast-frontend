@@ -1,35 +1,30 @@
-<!-- =========================================================================================
-    File Name: ResetPassword.vue
-    Description: Reset Password Page
-    ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-      Author: Pixinvent
-    Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
   <div class="landing">
-    <div class="nav-bar flex">
-      <div class="leftPart">
+    <div class="nav-cont">
+      <nav>
         <div class="wiki-logo">
           <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" />
         </div>
-      </div>
-      <div class="rightPart flex">
-        <div class="search-bar flex">
-          <input placeholder="Search" type="text" />
-          <img src="@/assets/images/dashboard/Search.svg" />
+
+        <div class="opt-cont">
+          <div><a href="#">Features</a></div>
+          <div><a href="#">Pricing</a></div>
+          <div><a href="#">About</a></div>
+          <div><a href="#">Faq</a></div>
+          <div><a href="#">Contact</a></div>
         </div>
-        <div class="wallet">
-          <img src="@/assets/images/dashboard/Wallet.svg" />
-        </div>
-        <div class="setting">
-          <div class="">
-            <button class="butt cursor-pointer" @click="open">Login</button>
+
+        <div class="log-cont">
+          <div class="child-1 cursor-pointer" @click="open">
+            <button>Login</button>
+            <div class="vertical-line sideOne"></div>
+            <button>Signup</button>
           </div>
-          <!-- <img src="@/assets/images/dashboard/Setting.svg" /> -->
+          <div class="child-2">
+            <button>Book a Demo</button>
+          </div>
         </div>
-      </div>
+      </nav>
     </div>
     <div class=""><img src="@/assets/images/Home.jpg" class="img" /></div>
     <div class="close-container">
@@ -121,48 +116,83 @@ export default {
   width: 100%;
   background: #000000;
 }
-.nav-bar {
-  padding: 20px 67px 0px 67px;
-  align-items: center;
-  justify-content: space-between;
-}
 .wiki-logo img {
+  /* border: 1px solid red; */
   height: 91px;
   width: 91px;
 }
-.rightPart {
-  align-items: center;
+
+.nav-cont {
+  /* border: 1px solid white; */
+  width: 100%;
+  height: 100px;
+  padding-top: 30px;
+  background-color: #000000;
 }
-.search-bar {
-  height: 40px;
-  width: 197px;
-  border: 1px solid #31394e;
-  border-radius: 6px;
-  align-items: center;
+
+.nav-cont nav {
+  display: flex;
+  /* border: 1px solid yellow; */
+  width: 85%;
+  max-width: 1400px;
+  margin: auto;
   justify-content: space-between;
-  padding: 12px 10px 12px 10px;
 }
-.search-bar input {
-  background-color: #181a20;
-  border: none;
-  color: #ffffff;
-  font-weight: 500;
+
+.sideOne {
+  border-left: 1px solid #a6a6a6;
+  width: 1px;
+  margin: auto;
+  height: 13px;
+}
+
+.opt-cont {
+  width: fit-content;
+  /* border: 1px solid green; */
+  display: flex;
+  gap: 20px;
+  color: #a6a6a6;
+  margin: auto;
   font-size: 12px;
-  line-height: 14.03px;
+  font-weight: 500;
 }
-.search-bar img {
-  width: 16px;
-  height: 16px;
-  color: #7a7a7a;
+
+.opt-cont div a {
+  text-decoration: none;
+  color: #a6a6a6;
 }
-.wallet {
-  margin-left: 68px;
-  width: 16px;
-  height: 16px;
-  color: #637181;
+
+.log-cont {
+  /* border: 1px solid blue; */
+  width: fit-content;
+  display: flex;
+  gap: 15px;
+  /* margin: auto; */
 }
-.setting {
-  margin-left: 24px;
-  color: #637181;
+
+.child-1 {
+  display: flex;
+  gap: 5px;
+}
+
+.child-1 button {
+  background-color: #000000;
+  border: none;
+  color: #a6a6a6;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.child-2 {
+  margin: auto;
+}
+
+.child-2 button {
+  background-color: #d7df23;
+  padding: 8px;
+  border: none;
+  border-radius: 3px;
+  font-weight: 600;
+  cursor: pointer;
 }
 </style>
