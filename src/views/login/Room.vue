@@ -87,14 +87,14 @@
                   <img src="@/assets/images/share.svg" />
                   Share
                 </button>
-                <button @click="downloadRoom(room)">
+                <!-- <button @click="downloadRoom(room)">
                   <img src="@/assets/images/download.svg" />
                   Download
-                </button>
-                <button @click="copyLink(room)">
+                </button> -->
+                <!-- <button @click="copyLink(room)">
                   <img src="@/assets/images/copy.svg" />
                   Copy Link
-                </button>
+                </button> -->
                 <button @click="deleteRoom(room)">
                   <img src="@/assets/images/delete.svg" />
                   Delete
@@ -258,7 +258,24 @@ export default {
     },
 
     shareRoom(room) {
-      console.log('share');
+      const options = {
+        method: 'POST',
+        url: 'https://dev.api.room.video.wiki/api/share/room/',
+        data: {
+          public_id: room.room_url.split('/').pop(),
+          user: 'aman@video.wiki',
+        },
+      };
+
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log(response.data);
+          this.showPopup = false;
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     },
   },
   mounted() {
@@ -341,7 +358,7 @@ export default {
 .room-popup {
   position: absolute;
   width: 100px;
-  height: 110px;
+  height: fit-content;
   background-color: #1f272f;
   border: 1px solid #31394e;
   color: #31394e;
@@ -358,8 +375,8 @@ export default {
 .room-popup > button {
   display: flex;
   cursor: pointer;
-  font-size: 13px;
-  gap: 5px;
+  font-size: 14px;
+  gap: 7px;
   background-color: #1f272f;
   border: none;
   color: #647181;

@@ -232,7 +232,7 @@ export default {
   color: #637181;
 }
 .buttomPart {
-  height: 80vh !important;
+  height: 77vh !important;
   margin: auto;
   display: flex;
   margin: auto;
