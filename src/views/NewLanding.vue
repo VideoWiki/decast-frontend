@@ -1,5 +1,14 @@
+<!-- =========================================================================================
+    File Name: ResetPassword.vue
+    Description: Reset Password Page
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+========================================================================================== -->
+
 <template>
-  <div class="container-full">
+  <div class="landing">
     <div class="nav-bar flex">
       <div class="leftPart">
         <div class="wiki-logo">
@@ -16,77 +25,27 @@
         </div>
         <div class="setting">
           <div class="">
-            <div v-if="accessToken || loggedIn">
-              <div class="con-img ml-3">
-                <vs-avatar
-                  :text="getFirstLetter(activeUserInfo.first_name)"
-                  color="primary"
-                  class="m-0 shadow-md"
-                  :src="
-                    activeUserInfo.profile_image
-                      ? activeUserInfo.profile_image
-                      : ''
-                  "
-                  size="40px"
-                />
-              </div>
-            </div>
-            <button v-else class="butt cursor-pointer" @click="open">
-              Login
-            </button>
+            <button class="butt cursor-pointer" @click="open">Login</button>
           </div>
           <!-- <img src="@/assets/images/dashboard/Setting.svg" /> -->
         </div>
       </div>
     </div>
-    <div class="buttomPart">
-      <div class="vertical-line sideOne flex justify-items-center">
-        <LeftPart />
-      </div>
-      <div class="middleOne vertical-line">
-        <Rooms />
-      </div>
-      <div class="sideOne last">
-        <RightPart />
-      </div>
-    </div>
+    <div class=""><img src="@/assets/images/Home.jpg" class="img" /></div>
     <div class="close-container">
       <iframe :src="url" :class="{ iframe: iframe, hidden: !iframe }"></iframe>
       <!-- <button class="close-icon" @click="closeForm">✕</button> -->
     </div>
   </div>
 </template>
-<script>
-import LeftPart from './components/LeftPart.vue';
-import RightPart from './components/RightPart.vue';
-import Rooms from '../login/Room.vue';
-import constants from '../../../constant';
-import { utils } from '@/mixins/index';
 
+<script>
+import constants from '../../constant';
 export default {
-  mixins: [utils],
-  name: 'FullDashBoard',
-  components: {
-    LeftPart,
-    RightPart,
-    Rooms,
-  },
   data() {
     return {
-      url: constants.challengeUri,
       iframe: false,
     };
-  },
-  computed: {
-    accessToken() {
-      return this.$store.state.auth.accessToken;
-    },
-    loggedIn() {
-      return this.$store.state.auth.loggedIn;
-    },
-    activeUserInfo() {
-      return this.$store.state.AppActiveUser;
-    },
   },
   mounted() {
     console.log(this.accessToken || this.loggedIn, 'prof');
@@ -109,20 +68,17 @@ export default {
       }
       if (event.data === 'loginSuccess') {
         this.iframe = false;
+        this.$router.push('/full');
         this.url = '';
       }
     });
   },
   methods: {
-    closeIframe() {
-      var iframe = document.getElementById('myIframe');
-      iframe.style.display = 'none';
-    },
     open() {
       console.log('open');
       this.iframe = !this.iframe;
       this.url = constants.challengeUri;
-      this.url = 'http://localhost:8080/login';
+      // this.url = 'http://localhost:8080/login';
       document.getElementsByTagName('iframe')[0].style.height = '66.7%';
       document.getElementsByTagName('iframe')[0].style.width = '32%';
       console.log(this.iframe);
@@ -131,33 +87,8 @@ export default {
   },
 };
 </script>
+
 <style scoped>
-*:not(i) {
-  font-family: 'Karla', sans-serif !important;
-}
-.container-full {
-  background-color: #181a20;
-  /* border: 1px solid red; */
-  overflow-y: scroll;
-  height: 100vh;
-}
-
-.container-full::-webkit-scrollbar {
-  width: 3px;
-}
-
-.container-full::-webkit-scrollbar-thumb {
-  background-color: #31394e;
-  border-radius: 4px;
-  height: 10px;
-}
-
-.middleOne {
-  width: 35%;
-  padding: 0px 37px 0px 37px;
-  /* border: 1px solid red; */
-}
-
 .iframe {
   position: absolute;
   border: 1px solid #31394e;
@@ -171,12 +102,6 @@ export default {
   overflow: hidden;
 }
 
-.sideOne {
-  width: 30%;
-  /* border: 1px solid yellow; */
-  padding-right: 37px;
-}
-
 .butt {
   background: #d7df23;
   padding: 10px 25px;
@@ -186,7 +111,16 @@ export default {
   font-weight: 700;
   font-size: 12px;
 }
+.img {
+  width: 98vw;
+  height: 83vh;
+}
 
+.landing {
+  height: 100vh;
+  width: 100%;
+  background: #000000;
+}
 .nav-bar {
   padding: 20px 67px 0px 67px;
   align-items: center;
@@ -230,39 +164,5 @@ export default {
 .setting {
   margin-left: 24px;
   color: #637181;
-}
-.buttomPart {
-  height: 77vh !important;
-  margin: auto;
-  display: flex;
-  margin: auto;
-  /* border: 1px solid red; */
-  width: 100%;
-  margin-top: 20px;
-}
-.vertical-line {
-  border-right: 1px solid #31394e;
-}
-@media (max-width: 900px) {
-  .buttomPart {
-    margin: 60px auto;
-    flex-direction: column;
-    height: 1700px;
-    width: 100%;
-  }
-  .sideOne {
-    width: 100%;
-    justify-content: center;
-  }
-  .middleOne {
-    width: 100%;
-    padding: 60px 0px;
-    justify-content: center;
-  }
-  .last {
-    display: flex;
-    justify-content: center;
-    width: 35% !important;
-  }
 }
 </style>

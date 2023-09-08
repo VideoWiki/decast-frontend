@@ -1,5 +1,5 @@
 <template>
-  <button class="button flex cursor-pointer">
+  <button class="button flex cursor-pointer" @click="click">
     {{ buttonName }}
     <img class="img" src="@/assets/images/dashboard/Vector.svg" />
   </button>

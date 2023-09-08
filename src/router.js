@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import FullPage from '@/layouts/full-page/FullPage.vue';
-import Landing from '@/views/Landing.vue';
+// import Landing from '@/views/Landing.vue';
+import Landing from '@/views/NewLanding.vue';
 Vue.use(Router);
 
 const router = new Router({
@@ -261,8 +262,8 @@ const router = new Router({
       },
     },
     {
-      path: '/joinPage/:meeting_id?',
-      name: 'joiningPage',
+      path: '/joinRoom/:meeting_id?',
+      name: 'Joining Room',
       component: () => import('./views/joiningPage.vue'),
       meta: {
         rule: 'isPublic',

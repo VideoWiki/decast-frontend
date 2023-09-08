@@ -9,15 +9,15 @@
 
 <template>
   <div class="layout--full-page">
-    <v-nav-menu
+    <!-- <v-nav-menu
       title="VideoWiki"
       :navMenuItems="navMenuItems"
       parent=".layout--full-page"
-    />
-    <navbar-horizontal navbarType="static" class="text-base" />
+    /> -->
+    <!-- <navbar-horizontal navbarType="static" class="text-base" /> -->
     <router-view></router-view>
-    <the-footer />  
-    <back-to-top
+    <!-- <the-footer />   -->
+    <!-- <back-to-top
       bottom="8rem"
       :right="$vs.rtl ? 'calc(100% - 2.2rem - 38px)' : '30px'"
       visibleoffset="500"
@@ -28,7 +28,7 @@
         icon="icon-arrow-up"
         class="shadow-lg btn-back-to-top"
       />
-    </back-to-top>
+    </back-to-top> -->
   </div>
 </template>
 
@@ -45,17 +45,17 @@ export default {
     NavbarHorizontal,
     VNavMenu,
     TheFooter,
-    BackToTop
+    BackToTop,
   },
   data() {
     return {
-      hideScrollToTop: themeConfig.hideScrollToTop
+      hideScrollToTop: themeConfig.hideScrollToTop,
     };
   },
   computed: {
     navMenuItems() {
       return navMenuItems;
-    }
-  }
+    },
+  },
 };
 </script>

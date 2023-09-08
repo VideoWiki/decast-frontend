@@ -25,4 +25,7 @@ export default {
   SET_OPEN(state, value) {
     state.open = true;
   },
+  SET_LOGGEDIN(state, value) {
+    state.loggedIn = value;
+  },
 };

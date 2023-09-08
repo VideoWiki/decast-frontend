@@ -29,6 +29,7 @@ export default {
   },
   isGetWalletAddress: false,
   coHostUrl: '',
+  loggedIn: false,
   participantUrl: '',
   castID: '',
   open: false,

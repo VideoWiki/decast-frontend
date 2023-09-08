@@ -12,7 +12,7 @@
         </div>
         <div class="desc-text">Something here</div>
         <div class="button-full">
-          <FullLengthButton :buttonName="forRoom" />
+          <FullLengthButton :buttonName="forRoom" :click="start" />
         </div>
       </div>
       <div class="box">
@@ -42,6 +42,26 @@ export default {
       forRoom: 'Start Session',
       forCast: 'Create a Cast',
     };
+  },
+  computed: {
+    room() {
+      return this.$store.state.room.room;
+    },
+  },
+  methods: {
+    start() {
+      let id = this.room.room_url.split('/');
+      id = id[id.length - 1];
+      this.$store
+        .dispatch('room/start', id)
+        .then((res) => {
+          console.log(res.data);
+          window.location.href = res.data.room_url;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   },
 };
 </script>
