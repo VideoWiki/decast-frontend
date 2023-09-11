@@ -109,6 +109,7 @@ export default {
         document.getElementsByTagName('iframe')[0].style.height = '41.6%';
       }
       if (event.data === 'loginSuccess') {
+        console.log(this.$store.state.auth.loggedIn, 'loggedIn');
         this.iframe = false;
         this.url = '';
       }

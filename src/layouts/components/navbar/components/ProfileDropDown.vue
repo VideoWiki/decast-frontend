@@ -8,9 +8,7 @@
             :text="getFirstLetter(activeUserInfo.first_name)"
             color="primary"
             class="m-0 shadow-md"
-            :src="
-              activeUserInfo.profile_image ? activeUserInfo.profile_image : ''
-            "
+            :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''"
             size="40px"
           />
         </div>
