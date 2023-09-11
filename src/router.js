@@ -359,7 +359,7 @@ const router = new Router({
       name: 'FullDashBoard',
       component: () => import('./views/dashboard/FullDashboard.vue'),
       meta: {
-        rule: 'isPublic',
+        rule: 'isLogged',
       },
     },
     {

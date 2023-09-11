@@ -85,7 +85,7 @@ export default {
     logout() {
       this.$cookies.remove('userId');
       this.$cookies.remove('Token');
-
+      this.$router.push('/');
       localStorage.clear();
       return this.$store.dispatch('auth/logOut');
     },

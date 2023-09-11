@@ -45,6 +45,14 @@ export default {
       iframe: false,
     };
   },
+  computed: {
+    accessToken() {
+      return this.$store.state.auth.accessToken;
+    },
+    loggedIn() {
+      return this.$store.state.auth.loggedIn;
+    },
+  },
   components: {
     Loading,
   },
@@ -55,13 +63,13 @@ export default {
         this.iframe = false;
         this.url = '';
         document.getElementsByClassName('close-container')[0].style.height =
-          '66.7%';
+          '66%';
         document.getElementsByClassName('close-container')[0].style.width =
           '32%';
       }
       if (event.data === 'navigateToSignUp') {
         document.getElementsByClassName('close-container')[0].style.height =
-          '79%';
+          '78%';
         document.getElementsByClassName('close-container')[0].style.width =
           '33%';
         document.getElementsByTagName('iframe')[0].style.height = '79%';
@@ -69,7 +77,7 @@ export default {
       }
       if (event.data === 'navigateToLogin') {
         document.getElementsByClassName('close-container')[0].style.height =
-          '66.7%';
+          '66%';
         document.getElementsByClassName('close-container')[0].style.width =
           '32%';
         document.getElementsByTagName('iframe')[0].style.height = '66.7%';
@@ -77,11 +85,14 @@ export default {
       }
       if (event.data === 'navigateToPassword') {
         document.getElementsByClassName('close-container')[0].style.height =
-          '41.6%';
+          '41%';
         document.getElementsByTagName('iframe')[0].style.height = '41.6%';
       }
       if (event.data === 'loginSuccess') {
         console.log(this.$store.state.auth.loggedIn, 'loggedIn');
+        this.$store.dispatch('auth/fetched');
+        this.$acl.change('user');
+        this.$store.commit('auth/SET_LOGGEDIN', true);
         this.iframe = false;
         this.$router.push('/full');
         this.url = '';
@@ -155,7 +166,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 66.5%;
+  height: 66%;
   border-radius: 10px;
   width: 32%;
 }
