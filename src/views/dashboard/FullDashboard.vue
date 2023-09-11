@@ -18,7 +18,7 @@
           <div class="">
             <div v-if="accessToken || loggedIn">
               <div class="con-img ml-3">
-                <vs-avatar
+                <!-- <vs-avatar
                   :text="getFirstLetter(activeUserInfo.first_name)"
                   color="primary"
                   class="m-0 shadow-md"
@@ -26,7 +26,8 @@
                     activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''
                   "
                   size="40px"
-                />
+                /> -->
+                <profile-drop-down-vue />
               </div>
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
@@ -60,6 +61,7 @@ import RightPart from './components/RightPart.vue';
 import Rooms from '../login/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
+import ProfileDropDownVue from '../../layouts/components/navbar/components/ProfileDropDown.vue';
 
 export default {
   mixins: [utils],
@@ -68,6 +70,7 @@ export default {
     LeftPart,
     RightPart,
     Rooms,
+    ProfileDropDownVue,
   },
   data() {
     return {

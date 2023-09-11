@@ -11,9 +11,9 @@
         <div class="heading-part">
           <div class="join-text">You're joining the room</div>
           <div class="class-info">{{ eventName }}</div>
-          <div class="host-info">Hosted by “Jerry D. Carbone”</div>
+          <div class="host-info">Hosted by “{{ creator }}”</div>
         </div>
-        <div class="dynamic-part" v-if="signedIn">
+        <div class="dynamic-part" v-if="loggedOut">
           <div class="inputName">
             <p>Joining name</p>
             <input
@@ -37,9 +37,13 @@
         <div class="dynamic-part" v-else>
           <div class="inputName">
             <p>Joining name</p>
-            <input type="text" />
+            <input
+              type="text"
+              v-model="name"
+              placeholder="e.g John G. Miguel"
+            />
           </div>
-          <button class="button">Join</button>
+          <button class="button" @click="joinRoom">Join</button>
         </div>
       </div>
     </div>
@@ -51,11 +55,12 @@ export default {
   name: 'joiningPage',
   data() {
     return {
-      signedIn: true,
+      loggedOut: !localStorage.getItem('accessToken'),
       name: '',
       roomId: this.$route.params.meeting_id,
       code: '',
       eventName: '',
+      creator: '',
     };
   },
   mounted() {
@@ -92,7 +97,7 @@ export default {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `https://dev.api.room.video.wiki/api/get/room/details/?room_id=${this.roomId}`,
+        url: `https://dev.api.room.video.wiki/api/room/fetch/info/?room_id=${this.roomId}`,
       };
 
       try {
@@ -100,6 +105,7 @@ export default {
         const responseData = response.data;
         console.log('here are we', responseData);
         this.eventName = responseData.details.event_name;
+        this.creator = responseData.details.creator_name;
       } catch (error) {
         console.error(error);
       }

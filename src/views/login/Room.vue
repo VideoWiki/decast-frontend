@@ -32,9 +32,9 @@
         >
           <img src="./Rooms/Plus.svg" alt="" />
         </button>
-        <button class="header-button border-none dot">
+        <!-- <button class="header-button border-none dot">
           <img src="./Rooms/Vector2.svg" class="h-7 p-1" alt="" />
-        </button>
+        </button> -->
       </div>
     </div>
 
@@ -66,9 +66,15 @@
                 </p>
               </div>
               <div class="flex justify-between">
-                <button class="copy-link" @click="copy(room.room_url)">
-                  <img src="./Rooms/copy.svg" alt="" />
-                </button>
+                <div class="tooltip-container">
+                  <button
+                    class="copy-link tooltip-button"
+                    @click="copy(room.room_url)"
+                  >
+                    <img src="./Rooms/copy.svg" alt="" />
+                  </button>
+                  <!-- <span class="tooltip">Tooltip text</span> -->
+                </div>
                 <button
                   class="session-button ml-4"
                   @click="start(room.room_url)"
@@ -187,16 +193,30 @@ export default {
       createPopup: false,
       focusYourRooms: true,
       text: '',
-      // rooms: [],
+      rooms: [],
       showPopup: false,
       sharePopup: false,
       email: '',
       roomUrl: '',
+      mouse: 0,
     };
   },
   computed: {
-    rooms() {
+    roomsList() {
       return this.$store.state.room.rooms;
+    },
+  },
+  watch: {
+    // whenever question changes, this function will run
+    roomsList(newList) {
+      console.log(newList);
+      this.rooms = [...newList];
+      console.log(this.rooms);
+    },
+    showPopup(newQuestion, oldQuestion) {
+      if (newQuestion) {
+        console.log('yes');
+      }
     },
   },
   methods: {
@@ -258,6 +278,15 @@ export default {
     },
     togglePopup(index) {
       this.$set(this.rooms[index], 'showPopup', !this.rooms[index].showPopup);
+      setTimeout(() => {
+        const roomPopups = document.querySelectorAll('.room-popup');
+        if (this.mouse > 222) {
+          console.log('yes', roomPopups);
+          roomPopups.forEach((item) => (item.style.top = '-85%'));
+        } else {
+          roomPopups.forEach((item) => (item.style.top = '85%'));
+        }
+      }, 0);
     },
     deleteRoom(room) {
       const options = {
@@ -272,7 +301,9 @@ export default {
           console.log(response.data);
           const index = this.rooms.indexOf(room);
           if (index !== -1) {
-            this.rooms.splice(index, 1);
+            var newRooms = this.rooms;
+            newRooms.splice(index, 1);
+            this.$store.commit('room/setRooms', newRooms);
           }
         })
         .catch((error) => {
@@ -291,7 +322,7 @@ export default {
         url: 'https://dev.api.room.video.wiki/api/share/room/',
         data: {
           public_id: this.roomUrl.split('/').pop(),
-          user: 'aman@video.wiki',
+          user: this.email,
         },
       };
 
@@ -313,6 +344,26 @@ export default {
     },
   },
   mounted() {
+    console.log(this.room);
+    const container = document.querySelector('.options-container');
+    const tooltip = document.querySelectorAll('.tooltip');
+    container.addEventListener('mousemove', (e) => {
+      // Get the mouse coordinates relative to the div
+      const divRect = container.getBoundingClientRect();
+      const mouseY = e.clientY - divRect.top;
+      this.mouse = mouseY;
+      if (mouseY < 50) {
+        tooltip.forEach((item) => (item.style.top = '110%'));
+      } else {
+        tooltip.forEach((item) => (item.style.top = '-100%'));
+      }
+    });
+
+    // button.addEventListener('mouseleave', () => {
+    //   // Hide the tooltip when the mouse leaves the button
+    //   // tooltip.style.display = 'none';
+    // });
+
     this.getList();
     this.$refs['login-popup'].$el.childNodes[1].childNodes[0].style.display =
       'none';
@@ -511,6 +562,31 @@ export default {
   opacity: 0.9;
   z-index: 100000;
 } */
+.tooltip-container {
+  position: relative;
+}
+
+.tooltip-button {
+  position: relative;
+  z-index: 1; /* Ensure the button is above the tooltip */
+}
+
+.tooltip {
+  position: absolute;
+  top: -10%; /* Position it below the button */
+  left: -20%;
+  background-color: #333;
+  color: #fff;
+  width: 100px;
+  height: 20px;
+  padding: 5px;
+  border-radius: 3px;
+  display: none;
+}
+
+.tooltip-button:hover + .tooltip {
+  display: block; /* Show the tooltip on hover */
+}
 
 .options-container {
   margin-top: 30px;
@@ -645,17 +721,5 @@ input {
 
 body {
   background: none transparent;
-}
-</style>
-<style lang="scss" scoped>
-iframe {
-  overflow: hidden;
-}
-
-.vs-popup--content {
-  margin: 0;
-  padding: 0;
-  border-radius: 10px;
-  background: #1f272f;
 }
 </style>

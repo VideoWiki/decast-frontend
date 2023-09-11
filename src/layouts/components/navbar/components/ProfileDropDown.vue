@@ -30,27 +30,6 @@
                 <span class="ml-2">My Profile</span>
               </li>
             </a>
-            <a
-              :href="url + '/mycasts'"
-              class="text-custom-grey"
-              target="_parent"
-            >
-              <li
-                class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-              >
-                <feather-icon icon="VideoIcon" svgClasses="w-4 h-4" />
-                <span class="ml-2">My Casts</span>
-              </li>
-            </a>
-
-            <a :href="getClassroomLink" class="text-custom-grey">
-              <li
-                class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-              >
-                <feather-icon icon="ClipboardIcon" svgClasses="w-4 h-4" />
-                <span class="ml-2">My rooms</span>
-              </li>
-            </a>
             <li
               class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
               @click="logout"
@@ -62,46 +41,14 @@
         </template>
         <ul style="min-width: 9.3rem" v-else>
           <router-link to="/profile" class="text-custom-grey">
-            <li
-              class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            >
+            <li class="flex px-2 cursor-pointer hover hover:text-white">
               <feather-icon icon="UserIcon" svgClasses="w-4 h-4" />
               <span class="ml-2">{{ $t('ProfileDropDown.profile') }}</span>
             </li>
           </router-link>
           <vs-divider class="m-1" />
-          <router-link to="/mycasts" class="text-custom-grey">
-            <li
-              class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            >
-              <feather-icon icon="VideoIcon" svgClasses="w-4 h-4" />
-              <span class="ml-2">{{ $t('ProfileDropDown.video') }}</span>
-            </li>
-          </router-link>
-          <vs-divider class="m-1" />
-
-          <a :href="getClassroomLink" class="text-custom-grey">
-            <li
-              class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            >
-              <feather-icon icon="ClipboardIcon" svgClasses="w-4 h-4" />
-              <span class="ml-2">{{ $t('ProfileDropDown.class') }}</span>
-            </li>
-          </a>
-          <vs-divider class="m-1" />
-          <a href="https://fider.video.wiki/" class="text-custom-grey">
-            <li
-              class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
-            >
-              <feather-icon icon="SlackIcon" svgClasses="w-4 h-4" />
-              <span class="ml-2">Features</span>
-            </li>
-          </a>
-
-          <vs-divider class="m-1" />
-
           <li
-            class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
+            class="flex px-2 cursor-pointer hover hover:text-white"
             @click="logout"
           >
             <feather-icon icon="LogOutIcon" svgClasses="w-4 h-4" />
@@ -147,8 +94,21 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .user-img-icon {
   background: white;
+}
+.vs-dropdown--menu--after {
+  background: transparent;
+}
+.vs-dropdown--custom,
+.vs-dropdown--menu {
+  background-color: #1f272f;
+  border: 1px solid #31394e;
+  color: #a6a6a8;
+}
+
+.hover:hover {
+  background: #31394e78;
 }
 </style>
