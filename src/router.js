@@ -263,7 +263,7 @@ const router = new Router({
       },
     },
     {
-      path: '/joinRoom/:meeting_id?',
+      path: '/join-room/:meeting_id?',
       name: 'Joining Room',
       component: () => import('./views/joiningPage.vue'),
       meta: {
