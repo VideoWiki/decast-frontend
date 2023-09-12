@@ -239,7 +239,7 @@ export default {
       let id = url.split('/');
       id = id[id.length - 1];
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/joinRoom/' + id
+        'https://dev.stream.video.wiki/join-room/' + id
       );
     },
     createRoom() {
