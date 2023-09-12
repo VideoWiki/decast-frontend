@@ -80,9 +80,16 @@ export default {
             });
             window.location.href = constant.challengeUri;
           });
-        this.$vs.loading.close();
       })
       .catch((e) => {
+        this.$vs.notify({
+          title: 'Error',
+          text: 'Error occurred',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'danger',
+        });
+        window.location.href = constant.challengeUri;
         console.log(JSON.stringify(e));
       });
   },
