@@ -3,47 +3,49 @@
     <div class="logo">
       <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
     </div>
-    <div class="bottom flex">
-      <div class="left">
-        <img src="@/assets/images/dashboard/Onlinemeeting.svg" alt="" />
-      </div>
-      <div class="right">
-        <div class="heading-part">
-          <div class="join-text">You're joining the room</div>
-          <div class="class-info">{{ eventName }}</div>
-          <div class="host-info">Hosted by “{{ creator }}”</div>
+    <div class="h-full w-full flex justify-center items-center">
+      <div class="flex">
+        <div class="left">
+          <img src="@/assets/images/dashboard/Onlinemeeting.svg" alt="" />
         </div>
-        <div class="dynamic-part" v-if="loggedOut">
-          <div class="inputName">
-            <p>Joining name</p>
-            <input
-              v-model="name"
-              type="text"
-              placeholder="e.g John G. Miguel"
-            />
+        <div class="right">
+          <div class="heading-part">
+            <div class="join-text">You're joining the room</div>
+            <div class="class-info">{{ eventName }}</div>
+            <div class="host-info">Hosted by “{{ creator }}”</div>
           </div>
-          <button class="button" @click="joinRoom">Join</button>
-          <div class="separator">
-            <div class="line"></div>
-            <div>or</div>
-            <div class="line"></div>
+          <div class="dynamic-part" v-if="loggedOut">
+            <div class="inputName">
+              <p>Joining name</p>
+              <input
+                v-model="name"
+                type="text"
+                placeholder="e.g John G. Miguel"
+              />
+            </div>
+            <button class="button" @click="joinRoom">Join</button>
+            <div class="separator">
+              <div class="line"></div>
+              <div>or</div>
+              <div class="line"></div>
+            </div>
+            <button class="sing-in">Sign in</button>
+            <div class="text">
+              Do not have an account?
+              <p>Sign up</p>
+            </div>
           </div>
-          <button class="sing-in">Sign in</button>
-          <div class="text">
-            Do not have an account?
-            <p>Sign up</p>
+          <div class="dynamic-part" v-else>
+            <div class="inputName">
+              <p>Joining name</p>
+              <input
+                type="text"
+                v-model="name"
+                placeholder="e.g John G. Miguel"
+              />
+            </div>
+            <button class="button" @click="joinRoom">Join</button>
           </div>
-        </div>
-        <div class="dynamic-part" v-else>
-          <div class="inputName">
-            <p>Joining name</p>
-            <input
-              type="text"
-              v-model="name"
-              placeholder="e.g John G. Miguel"
-            />
-          </div>
-          <button class="button" @click="joinRoom">Join</button>
         </div>
       </div>
     </div>
@@ -55,7 +57,7 @@ export default {
   name: 'joiningPage',
   data() {
     return {
-      loggedOut: !localStorage.getItem('accessToken'),
+      loggedOut: false,
       name: '',
       roomId: this.$route.params.meeting_id,
       code: '',
@@ -106,6 +108,7 @@ export default {
         console.log('here are we', responseData);
         this.eventName = responseData.details.event_name;
         this.creator = responseData.details.creator_name;
+        document.getElementById('loading-bg').style.display = 'none';
       } catch (error) {
         console.error(error);
       }
@@ -119,6 +122,11 @@ export default {
 }
 .full-container {
   background-color: #181a20;
+  background-image: url('../assets/images/joiningPage/left.png'),
+    url('../assets/images/joiningPage/right.png');
+  background-position: left center, right top;
+  background-size: 30% 70%, contain;
+  background-repeat: no-repeat, no-repeat;
   height: 100vh;
   width: 100%;
   padding-left: 67px;
@@ -131,11 +139,7 @@ export default {
   height: 91px;
   padding-top: 20px;
 }
-.bottom {
-  margin-top: 150px;
-  margin-right: 220px;
-  align-self: flex-end;
-}
+
 .left {
   width: 229px;
   height: 194px;
@@ -191,6 +195,7 @@ export default {
   height: 40px;
   background-color: #d7df23;
   border: 1px solid #31394e;
+  cursor: pointer;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;

@@ -109,13 +109,30 @@
             </div>
           </div>
         </div>
-        <div v-else class="flex flex-col items-center justify-items-center">
-          <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
-          <img
-            src="@/assets/images/dashboard/NoRecordingText1.svg"
-            class="mb-3"
-          />
-          <img src="@/assets/images/dashboard/NoRecordingText.svg" />
+        <div v-else>
+          <div v-if="recordingList.length">
+            <div class="recordings flex justify-between items-center mb-4">
+              <div class="w-3/4 flex justify-between items-center">
+                <p>REC 25/08/2023</p>
+                <p>{{ recordingList[0].room_name }}</p>
+                <p>{{ recordingList[0].room_name }}</p>
+              </div>
+              <button class="side-btn border-none">
+                <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+              </button>
+            </div>
+          </div>
+          <div v-else class="flex flex-col items-center justify-items-center">
+            <img
+              src="@/assets/images/dashboard/NoRecording.svg"
+              class="w-1/2"
+            />
+            <img
+              src="@/assets/images/dashboard/NoRecordingText1.svg"
+              class="mb-3"
+            />
+            <img src="@/assets/images/dashboard/NoRecordingText.svg" />
+          </div>
         </div>
       </div>
     </div>
@@ -155,11 +172,7 @@
         </div>
       </template>
     </vs-popup>
-    <vs-popup
-      title="Login/Register"
-      id="login-popup"
-      ref="share-popup"
-      :active.sync="sharePopup"
+    <vs-popup ref="share-popup" :active.sync="sharePopup"
       ><template>
         <div class="centered-container">
           <div class="container">
@@ -171,7 +184,6 @@
             <div class="input">
               <input placeholder="Email" type="text" v-model="email" />
             </div>
-
             <div class="button">
               <button class="button-text cursor-pointer" @click="shareRoom">
                 Share Room
@@ -204,6 +216,9 @@ export default {
   computed: {
     roomsList() {
       return this.$store.state.room.rooms;
+    },
+    recordingList() {
+      return this.$store.state.room.recordings;
     },
   },
   watch: {
@@ -257,6 +272,7 @@ export default {
       this.$store
         .dispatch('room/getList')
         .then((res) => {
+          document.getElementById('loading-bg').style.display = 'none';
           console.log(res);
         })
         .catch((e) => {
@@ -287,6 +303,13 @@ export default {
           roomPopups.forEach((item) => (item.style.top = '85%'));
         }
       }, 0);
+    },
+    async getRecordings() {
+      try {
+        const res = await this.$store.dispatch('room/getRecordings');
+      } catch (e) {
+        console.error('Error getting recordings', e);
+      }
     },
     deleteRoom(room) {
       const options = {
@@ -346,24 +369,13 @@ export default {
   mounted() {
     console.log(this.room);
     const container = document.querySelector('.options-container');
-    const tooltip = document.querySelectorAll('.tooltip');
     container.addEventListener('mousemove', (e) => {
       // Get the mouse coordinates relative to the div
       const divRect = container.getBoundingClientRect();
       const mouseY = e.clientY - divRect.top;
       this.mouse = mouseY;
-      if (mouseY < 50) {
-        tooltip.forEach((item) => (item.style.top = '110%'));
-      } else {
-        tooltip.forEach((item) => (item.style.top = '-100%'));
-      }
     });
-
-    // button.addEventListener('mouseleave', () => {
-    //   // Hide the tooltip when the mouse leaves the button
-    //   // tooltip.style.display = 'none';
-    // });
-
+    this.getRecordings();
     this.getList();
     this.$refs['login-popup'].$el.childNodes[1].childNodes[0].style.display =
       'none';
@@ -504,6 +516,15 @@ export default {
   border: 1px solid #31394e;
   width: 96%;
   border-radius: 6px;
+  height: 62px;
+  font-weight: 600;
+}
+
+.recordings {
+  position: relative;
+  padding: 10px 10px 10px 15px;
+  border-bottom: 1px solid #31394e;
+  width: 96%;
   height: 62px;
   font-weight: 600;
 }

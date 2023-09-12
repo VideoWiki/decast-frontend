@@ -43,4 +43,11 @@ export default {
     commit('ADD_ROOM', room);
     return res;
   },
+  async getRecordings({ commit }) {
+    const res = await axios.get(
+      'https://dev.api.room.video.wiki/api/get/user/recordings/'
+    );
+    commit('SET_RECORDINGS', res.data.recordings);
+    return res.data;
+  },
 };

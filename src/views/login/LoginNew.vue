@@ -346,7 +346,7 @@ export default {
       }
     },
     closeForm() {
-      window.parent.postMessage('closeIframe', 'hello');
+      window.parent.postMessage('closeIframe', '*');
       // this.$refs.form.reset();
     },
     initilizeGAuth() {

@@ -21,10 +21,10 @@ const userDefaults = {
   displayName: 'John Doe', // From Auth
   about:
     'Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.',
-  email:'',
+  email: '',
   profile_image: null, // require('@/assets/images/user-icon-placeholder.png'), // From Auth
   status: 'online',
-  userRole: 'user'
+  userRole: 'user',
 };
 
 // const userInfoLocalStorage = JSON.parse(localStorage.getItem('userInfo')) || {};
@@ -36,7 +36,7 @@ const getUserInfo = () => {
   const userInfoLocalStorage =
     JSON.parse(localStorage.getItem('userInfo')) || {};
   // Update property in user
-  Object.keys(userDefaults).forEach(key => {
+  Object.keys(userDefaults).forEach((key) => {
     // If property is defined in localStorage => Use that
     userInfo[key] = userInfoLocalStorage[key]
       ? userInfoLocalStorage[key]
@@ -44,7 +44,7 @@ const getUserInfo = () => {
   });
 
   // Include properties from localStorage
-  Object.keys(userInfoLocalStorage).forEach(key => {
+  Object.keys(userInfoLocalStorage).forEach((key) => {
     if (userInfo[key] === undefined && userInfoLocalStorage[key] !== null)
       userInfo[key] = userInfoLocalStorage[key];
   });
@@ -57,7 +57,7 @@ const getUserInfo = () => {
 // Using Dynamic components
 const is_touch_device = () => {
   var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
-  var mq = function(query) {
+  var mq = function (query) {
     return window.matchMedia(query).matches;
   };
 
@@ -89,12 +89,12 @@ const state = {
   scrollY: 0,
   insideIframe: false,
   starredPages: navbarSearchAndPinList.pages.data.filter(
-    page => page.is_bookmarked
+    (page) => page.is_bookmarked
   ),
   theme: themeConfig.theme || 'light',
   themePrimaryColor: colors.primary,
   authPopup: false,
-  nftPopup:false,
+  nftPopup: false,
   // Can be used to get current window with
   // Note: Above breakpoint state is for internal use of sidebar & navbar component
   windowWidth: null,
@@ -104,7 +104,7 @@ const state = {
   // wallet
   accountAddress: null,
   isWalletConnected: false,
-  currentTransactionStep: 1
+  currentTransactionStep: 1,
 };
 
 export default state;

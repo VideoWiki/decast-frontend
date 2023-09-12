@@ -45,7 +45,7 @@ const mutations = {
   UPDATE_STARRED_PAGE(state, payload) {
     // find item index in search list state
     const index = state.navbarSearchAndPinList.pages.data.findIndex(
-      (item) => item.url == payload.url
+      (item) => item.url === payload.url
     );
 
     // update the main list
@@ -57,7 +57,7 @@ const mutations = {
     } else {
       // find item index from starred pages
       const index = state.starredPages.findIndex(
-        (item) => item.url == payload.url
+        (item) => item.url === payload.url
       );
 
       // remove item using index
