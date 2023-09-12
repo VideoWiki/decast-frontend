@@ -263,6 +263,14 @@ const router = new Router({
       },
     },
     {
+      path: '/setUpCast',
+      name: 'SetUpCast',
+      component: () => import('../src/SetUpCasts/SetUpCast.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/join-room/:meeting_id?',
       name: 'Joining Room',
       component: () => import('./views/joiningPage.vue'),
