@@ -292,6 +292,7 @@ const router = new Router({
       meta: {
         rule: 'isPublic',
       },
+      
       // children: [
       //   {
       //     path: '/login/',
@@ -304,6 +305,22 @@ const router = new Router({
       //     },
       //   },
       // ],
+    },
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: () => import('./views/login/Calendar.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/color',
+      name: 'ColorPicker',
+      component: () => import('./views/login/ColorPicker.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
     },
     {
       path: '/password/reset/:token',
