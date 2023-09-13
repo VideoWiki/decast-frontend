@@ -3,7 +3,6 @@ import Router from 'vue-router';
 import FullPage from '@/layouts/full-page/FullPage.vue';
 // import Landing from '@/views/Landing.vue';
 import Landing from '@/views/NewLanding.vue';
-import store from './store/store';
 Vue.use(Router);
 
 const router = new Router({
@@ -549,8 +548,6 @@ const router = new Router({
 router.afterEach((to, from) => {
   // Remove initial loading
   document.title = to.name;
-  console.log(store.state.loading);
-  store.commit('SET_LOADING', true);
   const appLoading = document.getElementById('loading-bg');
   appLoading.style.display = 'block';
 });
