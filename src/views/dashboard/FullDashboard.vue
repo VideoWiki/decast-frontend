@@ -17,7 +17,7 @@
         <div class="setting">
           <div class="">
             <div v-if="accessToken || loggedIn">
-              <div class="con-img ml-3">
+              <div class="con-img ml-3" @click="toggleUserMenu">
                 <vs-avatar
                   :text="getFirstLetter(activeUserInfo.first_name)"
                   color="primary"
@@ -28,6 +28,7 @@
                   size="40px"
                 />
               </div>
+              <userMenu :showMenu="userMenuVisible" />
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
               Login
@@ -57,6 +58,7 @@
 <script>
 import LeftPart from './components/LeftPart.vue';
 import RightPart from './components/RightPart.vue';
+import userMenu from './userMenu.vue';
 import Rooms from '../login/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
@@ -68,11 +70,13 @@ export default {
     LeftPart,
     RightPart,
     Rooms,
+    userMenu,
   },
   data() {
     return {
       url: constants.challengeUri,
       iframe: false,
+      userMenuVisible: false,
     };
   },
   computed: {
@@ -125,6 +129,10 @@ export default {
       document.getElementsByTagName('iframe')[0].style.width = '32%';
       console.log(this.iframe);
       // window.location.href = constants.challengeUri;
+    },
+    toggleUserMenu() {
+      console.log("Clicked")
+      this.userMenuVisible = !this.userMenuVisible; 
     },
   },
 };
