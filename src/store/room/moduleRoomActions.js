@@ -38,9 +38,16 @@ export default {
     var room = {
       room_name: payload,
       room_url:
-        'https://dev.stream.video.wiki/joinRoom/' + res.data.public_cast_id,
+        'https://dev.stream.video.wiki/join-room/' + res.data.public_cast_id,
     };
     commit('ADD_ROOM', room);
     return res;
+  },
+  async getRecordings({ commit }) {
+    const res = await axios.get(
+      'https://dev.api.room.video.wiki/api/get/user/recordings/'
+    );
+    commit('SET_RECORDINGS', res.data.recordings);
+    return res.data;
   },
 };

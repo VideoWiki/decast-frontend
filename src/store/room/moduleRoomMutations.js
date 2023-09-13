@@ -13,4 +13,7 @@ export default {
   ADD_ROOM(state, payload) {
     state.rooms.push(payload);
   },
+  SET_RECORDINGS(state, payload) {
+    state.recordings = payload;
+  },
 };

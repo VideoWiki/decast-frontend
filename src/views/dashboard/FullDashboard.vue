@@ -17,8 +17,8 @@
         <div class="setting">
           <div class="">
             <div v-if="accessToken || loggedIn">
-              <div class="con-img ml-3" @click="toggleUserMenu">
-                <vs-avatar
+              <div class="con-img ml-3">
+                <!-- <vs-avatar
                   :text="getFirstLetter(activeUserInfo.first_name)"
                   color="primary"
                   class="m-0 shadow-md"
@@ -26,7 +26,8 @@
                     activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''
                   "
                   size="40px"
-                />
+                /> -->
+                <profile-drop-down-vue />
               </div>
               <userMenu :showMenu="userMenuVisible" />
             </div>
@@ -62,6 +63,7 @@ import userMenu from './userMenu.vue';
 import Rooms from '../login/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
+import ProfileDropDownVue from '../../layouts/components/navbar/components/ProfileDropDown.vue';
 
 export default {
   mixins: [utils],
@@ -110,6 +112,7 @@ export default {
         document.getElementsByTagName('iframe')[0].style.height = '41.6%';
       }
       if (event.data === 'loginSuccess') {
+        console.log(this.$store.state.auth.loggedIn, 'loggedIn');
         this.iframe = false;
         this.url = '';
       }

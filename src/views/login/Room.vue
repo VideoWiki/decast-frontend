@@ -32,9 +32,9 @@
         >
           <img src="./Rooms/Plus.svg" alt="" />
         </button>
-        <button class="header-button border-none dot">
+        <!-- <button class="header-button border-none dot">
           <img src="./Rooms/Vector2.svg" class="h-7 p-1" alt="" />
-        </button>
+        </button> -->
       </div>
     </div>
 
@@ -66,9 +66,15 @@
                 </p>
               </div>
               <div class="flex justify-between">
-                <button class="copy-link" @click="copy(room.room_url)">
-                  <img src="./Rooms/copy.svg" alt="" />
-                </button>
+                <div class="tooltip-container">
+                  <button
+                    class="copy-link tooltip-button"
+                    @click="copy(room.room_url)"
+                  >
+                    <img src="./Rooms/copy.svg" alt="" />
+                  </button>
+                  <!-- <span class="tooltip">Tooltip text</span> -->
+                </div>
                 <button
                   class="session-button ml-4"
                   @click="start(room.room_url)"
@@ -103,13 +109,30 @@
             </div>
           </div>
         </div>
-        <div v-else class="flex flex-col items-center justify-items-center">
-          <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
-          <img
-            src="@/assets/images/dashboard/NoRecordingText1.svg"
-            class="mb-3"
-          />
-          <img src="@/assets/images/dashboard/NoRecordingText.svg" />
+        <div v-else>
+          <div v-if="recordingList.length">
+            <div class="recordings flex justify-between items-center mb-4">
+              <div class="w-3/4 flex justify-between items-center">
+                <p>REC 25/08/2023</p>
+                <p>{{ recordingList[0].room_name }}</p>
+                <p>{{ recordingList[0].room_name }}</p>
+              </div>
+              <button class="side-btn border-none">
+                <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+              </button>
+            </div>
+          </div>
+          <div v-else class="flex flex-col items-center justify-items-center">
+            <img
+              src="@/assets/images/dashboard/NoRecording.svg"
+              class="w-1/2"
+            />
+            <img
+              src="@/assets/images/dashboard/NoRecordingText1.svg"
+              class="mb-3"
+            />
+            <img src="@/assets/images/dashboard/NoRecordingText.svg" />
+          </div>
         </div>
       </div>
     </div>
@@ -149,11 +172,7 @@
         </div>
       </template>
     </vs-popup>
-    <vs-popup
-      title="Login/Register"
-      id="login-popup"
-      ref="share-popup"
-      :active.sync="sharePopup"
+    <vs-popup ref="share-popup" :active.sync="sharePopup"
       ><template>
         <div class="centered-container">
           <div class="container">
@@ -165,7 +184,6 @@
             <div class="input">
               <input placeholder="Email" type="text" v-model="email" />
             </div>
-
             <div class="button">
               <button class="button-text cursor-pointer" @click="shareRoom">
                 Share Room
@@ -187,16 +205,33 @@ export default {
       createPopup: false,
       focusYourRooms: true,
       text: '',
-      // rooms: [],
+      rooms: [],
       showPopup: false,
       sharePopup: false,
       email: '',
       roomUrl: '',
+      mouse: 0,
     };
   },
   computed: {
-    rooms() {
+    roomsList() {
       return this.$store.state.room.rooms;
+    },
+    recordingList() {
+      return this.$store.state.room.recordings;
+    },
+  },
+  watch: {
+    // whenever question changes, this function will run
+    roomsList(newList) {
+      console.log(newList);
+      this.rooms = [...newList];
+      console.log(this.rooms);
+    },
+    showPopup(newQuestion, oldQuestion) {
+      if (newQuestion) {
+        console.log('yes');
+      }
     },
   },
   methods: {
@@ -204,7 +239,7 @@ export default {
       let id = url.split('/');
       id = id[id.length - 1];
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/joinRoom/' + id
+        'https://dev.stream.video.wiki/join-room/' + id
       );
     },
     createRoom() {
@@ -237,6 +272,7 @@ export default {
       this.$store
         .dispatch('room/getList')
         .then((res) => {
+          document.getElementById('loading-bg').style.display = 'none';
           console.log(res);
         })
         .catch((e) => {
@@ -258,6 +294,22 @@ export default {
     },
     togglePopup(index) {
       this.$set(this.rooms[index], 'showPopup', !this.rooms[index].showPopup);
+      setTimeout(() => {
+        const roomPopups = document.querySelectorAll('.room-popup');
+        if (this.mouse > 222) {
+          console.log('yes', roomPopups);
+          roomPopups.forEach((item) => (item.style.top = '-85%'));
+        } else {
+          roomPopups.forEach((item) => (item.style.top = '85%'));
+        }
+      }, 0);
+    },
+    async getRecordings() {
+      try {
+        const res = await this.$store.dispatch('room/getRecordings');
+      } catch (e) {
+        console.error('Error getting recordings', e);
+      }
     },
     deleteRoom(room) {
       const options = {
@@ -272,7 +324,9 @@ export default {
           console.log(response.data);
           const index = this.rooms.indexOf(room);
           if (index !== -1) {
-            this.rooms.splice(index, 1);
+            var newRooms = this.rooms;
+            newRooms.splice(index, 1);
+            this.$store.commit('room/setRooms', newRooms);
           }
         })
         .catch((error) => {
@@ -291,7 +345,7 @@ export default {
         url: 'https://dev.api.room.video.wiki/api/share/room/',
         data: {
           public_id: this.roomUrl.split('/').pop(),
-          user: 'aman@video.wiki',
+          user: this.email,
         },
       };
 
@@ -313,6 +367,15 @@ export default {
     },
   },
   mounted() {
+    console.log(this.room);
+    const container = document.querySelector('.options-container');
+    container.addEventListener('mousemove', (e) => {
+      // Get the mouse coordinates relative to the div
+      const divRect = container.getBoundingClientRect();
+      const mouseY = e.clientY - divRect.top;
+      this.mouse = mouseY;
+    });
+    this.getRecordings();
     this.getList();
     this.$refs['login-popup'].$el.childNodes[1].childNodes[0].style.display =
       'none';
@@ -457,6 +520,15 @@ export default {
   font-weight: 600;
 }
 
+.recordings {
+  position: relative;
+  padding: 10px 10px 10px 15px;
+  border-bottom: 1px solid #31394e;
+  width: 96%;
+  height: 62px;
+  font-weight: 600;
+}
+
 .child-options div p {
   width: 160px;
 }
@@ -511,6 +583,31 @@ export default {
   opacity: 0.9;
   z-index: 100000;
 } */
+.tooltip-container {
+  position: relative;
+}
+
+.tooltip-button {
+  position: relative;
+  z-index: 1; /* Ensure the button is above the tooltip */
+}
+
+.tooltip {
+  position: absolute;
+  top: -10%; /* Position it below the button */
+  left: -20%;
+  background-color: #333;
+  color: #fff;
+  width: 100px;
+  height: 20px;
+  padding: 5px;
+  border-radius: 3px;
+  display: none;
+}
+
+.tooltip-button:hover + .tooltip {
+  display: block; /* Show the tooltip on hover */
+}
 
 .options-container {
   margin-top: 30px;
@@ -645,17 +742,5 @@ input {
 
 body {
   background: none transparent;
-}
-</style>
-<style lang="scss" scoped>
-iframe {
-  overflow: hidden;
-}
-
-.vs-popup--content {
-  margin: 0;
-  padding: 0;
-  border-radius: 10px;
-  background: #1f272f;
 }
 </style>

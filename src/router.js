@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import FullPage from '@/layouts/full-page/FullPage.vue';
 // import Landing from '@/views/Landing.vue';
 import Landing from '@/views/NewLanding.vue';
+import store from './store/store';
 Vue.use(Router);
 
 const router = new Router({
@@ -262,7 +263,15 @@ const router = new Router({
       },
     },
     {
-      path: '/joinRoom/:meeting_id?',
+      path: '/setUpCast',
+      name: 'SetUpCast',
+      component: () => import('../src/SetUpCasts/SetUpCast.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/join-room/:meeting_id?',
       name: 'Joining Room',
       component: () => import('./views/joiningPage.vue'),
       meta: {
@@ -359,7 +368,7 @@ const router = new Router({
       name: 'FullDashBoard',
       component: () => import('./views/dashboard/FullDashboard.vue'),
       meta: {
-        rule: 'isPublic',
+        rule: 'isLogged',
       },
     },
     {
@@ -540,10 +549,10 @@ const router = new Router({
 router.afterEach((to, from) => {
   // Remove initial loading
   document.title = to.name;
+  console.log(store.state.loading);
+  store.commit('SET_LOADING', true);
   const appLoading = document.getElementById('loading-bg');
-  if (appLoading) {
-    appLoading.style.display = 'none';
-  }
+  appLoading.style.display = 'block';
 });
 
 export default router;

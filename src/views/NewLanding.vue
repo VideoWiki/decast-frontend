@@ -27,41 +27,73 @@
       </nav>
     </div>
     <div class=""><img src="@/assets/images/Home.jpg" class="img" /></div>
-    <div class="close-container">
-      <iframe :src="url" :class="{ iframe: iframe, hidden: !iframe }"></iframe>
+    <div :class="{ 'close-container': iframe, hidden: !iframe }">
+      <loading />
       <!-- <button class="close-icon" @click="closeForm">✕</button> -->
     </div>
+    <iframe :src="url" :class="{ iframe: iframe, hidden: !iframe }"></iframe>
   </div>
 </template>
 
 <script>
 import constants from '../../constant';
+import Loading from './Loading.vue';
+
 export default {
   data() {
     return {
       iframe: false,
     };
   },
+  computed: {
+    accessToken() {
+      return this.$store.state.auth.accessToken;
+    },
+    loggedIn() {
+      return this.$store.state.auth.loggedIn;
+    },
+  },
+  components: {
+    Loading,
+  },
   mounted() {
+    document.getElementById('loading-bg').style.display = 'none';
     console.log(this.accessToken || this.loggedIn, 'prof');
     window.addEventListener('message', (event) => {
       if (event.data === 'closeIframe') {
         this.iframe = false;
         this.url = '';
-        console.log(this.iframe);
+        document.getElementsByClassName('close-container')[0].style.height =
+          '66%';
+        document.getElementsByClassName('close-container')[0].style.width =
+          '32%';
       }
       if (event.data === 'navigateToSignUp') {
+        document.getElementsByClassName('close-container')[0].style.height =
+          '78%';
+        document.getElementsByClassName('close-container')[0].style.width =
+          '33%';
         document.getElementsByTagName('iframe')[0].style.height = '79%';
         document.getElementsByTagName('iframe')[0].style.width = '33%';
       }
       if (event.data === 'navigateToLogin') {
+        document.getElementsByClassName('close-container')[0].style.height =
+          '66%';
+        document.getElementsByClassName('close-container')[0].style.width =
+          '32%';
         document.getElementsByTagName('iframe')[0].style.height = '66.7%';
         document.getElementsByTagName('iframe')[0].style.width = '32%';
       }
       if (event.data === 'navigateToPassword') {
+        document.getElementsByClassName('close-container')[0].style.height =
+          '41%';
         document.getElementsByTagName('iframe')[0].style.height = '41.6%';
       }
       if (event.data === 'loginSuccess') {
+        console.log(this.$store.state.auth.loggedIn, 'loggedIn');
+        this.$store.dispatch('auth/fetched');
+        this.$acl.change('user');
+        this.$store.commit('auth/SET_LOGGEDIN', true);
         this.iframe = false;
         this.$router.push('/full');
         this.url = '';
@@ -128,6 +160,16 @@ export default {
   height: 100px;
   padding-top: 30px;
   background-color: #000000;
+}
+
+.close-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 66%;
+  border-radius: 10px;
+  width: 32%;
 }
 
 .nav-cont nav {

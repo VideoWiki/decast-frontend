@@ -1,12 +1,9 @@
 <template>
-  <div id="loading-bg">
-    <div class="loading-logo">
-      <img src="@/../public/logo.svg" alt="Logo" />
-    </div>
-    <div class="loading">
-      <div class="effect-1 effects"></div>
-      <div class="effect-2 effects"></div>
-      <div class="effect-3 effects"></div>
+  <div class="loader-container" id="loading-bg">
+    <div class="svg-container">
+      <object type="image/svg+xml" data="./vw.svg">
+        <img src="@/../public/logo.svg" alt="Logo" />
+      </object>
     </div>
   </div>
 </template>
@@ -83,9 +80,16 @@ export default {
             });
             window.location.href = constant.challengeUri;
           });
-        this.$vs.loading.close();
       })
       .catch((e) => {
+        this.$vs.notify({
+          title: 'Error',
+          text: 'Error occurred',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'danger',
+        });
+        window.location.href = constant.challengeUri;
         console.log(JSON.stringify(e));
       });
   },

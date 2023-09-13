@@ -152,6 +152,21 @@ export default {
       resolve(true);
     });
   },
+  fetched({ commit }) {
+    return new Promise((resolve, reject) => {
+      const user = JSON.parse(localStorage.getItem('userInfo'));
+      const access = localStorage.getItem('accessToken');
+      commit('UPDATE_USER_INFO', user, { root: true });
+      commit('SET_BEARER', access);
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'register',
+        authenticationMethod: 'Email',
+        userId: user.id,
+      });
+      resolve(true);
+    });
+  },
   sendOtp({ commit }, payload) {
     return new Promise((resolve, reject) => {
       jwt
