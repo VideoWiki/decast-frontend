@@ -28,6 +28,7 @@
                 </div>
                 <div class="choose-color">
                     <label>Choose your brand color</label>
+                    <ColorPicker v-model="primary_color"/>
                 </div>
             </div>
             <div class="right">
@@ -53,6 +54,7 @@
 </template>
 <script>
 import buttonToggle from './buttonToggle.vue';
+import ColorPicker from "../../views/login/ColorPicker.vue"
 export default {
     name : 'BrandingTab',
     data() {
@@ -66,6 +68,7 @@ export default {
     },
     components: {
         buttonToggle,
+        ColorPicker,
     },
     methods: {
         changeImage() {

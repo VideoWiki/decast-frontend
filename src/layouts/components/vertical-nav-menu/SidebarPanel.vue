@@ -1,20 +1,9 @@
 <template>
   <vs-row>
-    <vs-col
-      class="p-3"
-      vs-type="flex"
-      vs-justify="center"
-      vs-align="center"
-      vs-w="3"
-      style="display: block"
-    >
+    <vs-col class="p-3" vs-type="flex" vs-justify="center" vs-align="center" vs-w="3" style="display: block">
       <vs-row>
         <vs-col class="mb-2">
-          <div
-            class="vx-card"
-            :class="{ selected: $store.state.studio.panel.text }"
-            @click="toggleText"
-          >
+          <div class="vx-card" :class="{ selected: $store.state.studio.panel.text }" @click="toggleText">
             <div class="vx-card__collapsible-content vs-con-loading__container">
               <div class="vx-card__body items-center">
                 <vs-avatar color="primary" icon="text_fields" /><br />
@@ -26,11 +15,7 @@
           </div>
         </vs-col>
         <vs-col class="mb-2">
-          <div
-            class="vx-card"
-            :class="{ selected: $store.state.studio.panel.library }"
-            @click="toggleLibrary"
-          >
+          <div class="vx-card" :class="{ selected: $store.state.studio.panel.library }" @click="toggleLibrary">
             <div class="vx-card__collapsible-content vs-con-loading__container">
               <div class="vx-card__body items-center">
                 <vs-avatar color="primary" icon="grid_on" /><br />
@@ -42,11 +27,7 @@
           </div>
         </vs-col>
         <vs-col class="mb-2">
-          <div
-            class="vx-card"
-            :class="{ selected: $store.state.studio.panel.scenes }"
-            @click="toggleScenes"
-          >
+          <div class="vx-card" :class="{ selected: $store.state.studio.panel.scenes }" @click="toggleScenes">
             <div class="vx-card__collapsible-content vs-con-loading__container">
               <div class="vx-card__body items-center">
                 <vs-avatar color="primary" icon="menu_book" /><br />
@@ -58,11 +39,7 @@
           </div>
         </vs-col>
         <vs-col class="mb-2">
-          <div
-            class="vx-card"
-            :class="{ selected: $store.state.studio.panel.music }"
-            @click="toggleMusic"
-          >
+          <div class="vx-card" :class="{ selected: $store.state.studio.panel.music }" @click="toggleMusic">
             <div class="vx-card__collapsible-content vs-con-loading__container">
               <div class="vx-card__body items-center">
                 <vs-avatar color="primary" icon="library_music" /><br />
@@ -74,11 +51,19 @@
           </div>
         </vs-col>
         <vs-col class="mb-2">
-          <div
-            class="vx-card"
-            :class="{ selected: $store.state.studio.panel.publish }"
-            @click="togglePublish"
-          >
+          <div class="vx-card" :class="{ selected: $store.state.studio.panel.storage }" @click="toggleStorage">
+            <div class="vx-card__collapsible-content vs-con-loading__container">
+              <div class="vx-card__body items-center">
+                <vs-avatar color="primary" icon="storage" /><br />
+                <span class="font-semibold">{{
+                  $t('studio.sidebarPanel.sp12')
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </vs-col>
+        <vs-col class="mb-2">
+          <div class="vx-card" :class="{ selected: $store.state.studio.panel.publish }" @click="togglePublish">
             <div class="vx-card__collapsible-content vs-con-loading__container">
               <div class="vx-card__body items-center">
                 <vs-avatar color="primary" icon="publish" /><br />
@@ -91,27 +76,15 @@
         </vs-col>
       </vs-row>
     </vs-col>
-    <vs-col
-      class="p-3"
-      vs-type="flex"
-      vs-justify="center"
-      vs-align="center"
-      vs-w="9"
-      style="display: block"
-    >
+    <vs-col class="p-3" vs-type="flex" vs-justify="center" vs-align="center" vs-w="9" style="display: block">
       <TextPanel v-if="$store.state.studio.panel.text" />
       <LibraryPanel v-else-if="$store.state.studio.panel.library" />
       <ScenesPanel v-else-if="$store.state.studio.panel.scenes" />
       <MusicPanel v-else-if="$store.state.studio.panel.music" />
       <StylePanel v-else-if="$store.state.studio.panel.style" />
-      <component
-        :is="scrollbarTag"
-        ref="verticalNavMenuPs"
-        class="scroll-area-v-nav-menu"
-        :settings="settings"
-        :key="$vs.rtl"
-        v-else-if="$store.state.studio.panel.publish"
-      >
+      <StoragePanel v-else-if="$store.state.studio.panel.storage" />
+      <component :is="scrollbarTag" ref="verticalNavMenuPs" class="scroll-area-v-nav-menu" :settings="settings"
+        :key="$vs.rtl" v-else-if="$store.state.studio.panel.publish">
         <PublishPanel />
       </component>
     </vs-col>
@@ -126,6 +99,7 @@ import LibraryPanel from './PanelItems/LibraryPanel';
 import MusicPanel from './PanelItems/MusicPanel';
 import ScenesPanel from './PanelItems/ScenesPanel';
 import PublishPanel from './PanelItems/PublishPanel';
+import StoragePanel from './PanelItems/StoragePanel';
 export default {
   name: 'SidebarPanel',
   components: {
@@ -135,7 +109,8 @@ export default {
     LibraryPanel,
     StylePanel,
     TextPanel,
-    VuePerfectScrollbar
+    StoragePanel,
+    VuePerfectScrollbar,
   },
   data() {
     return {
@@ -215,6 +190,10 @@ export default {
         this.$store.commit('studio/toggleMusic');
       }
     },
+    toggleStorage(){
+      console.log("Hello");
+      this.$store.commit('studio/toggleStorage');
+    },
     togglePublish() {
       if (
         !this.$store.state.studio.video.bg_music.url &&
@@ -240,11 +219,11 @@ export default {
   cursor: pointer;
 }
 
-.vx-card > .vx-card__collapsible-content > .vx-card__body {
+.vx-card>.vx-card__collapsible-content>.vx-card__body {
   padding: 0.8rem !important;
 }
 
-.vx-card > .vx-card__collapsible-content {
+.vx-card>.vx-card__collapsible-content {
   transition: none;
 }
 
@@ -258,6 +237,7 @@ export default {
   text-align: -moz-center;
   text-align: -webkit-center;
 }
+
 .scroll-area-v-nav-menu {
   position: relative;
   margin: auto;

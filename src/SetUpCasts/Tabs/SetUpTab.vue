@@ -5,12 +5,14 @@
             <input
                 id="eventName"
                 type="text" 
+                v-model="event_name"
                 placeholder="e.g my friend hang out"
             />
         </div>
         <div class="cast-desc">
             <vs-textarea 
                 id="description"
+                v-model="description"
                 placeholder="Quick description"
                 class="desc"
             />
@@ -18,13 +20,15 @@
         <div class="cast-time flex">
             <div class="date">
                 <label class="text">Schedule your cast date and time</label>
-                <input class="input-box"/>
+                <div class=" date">
+                  <Calendar  v-model="startD"/>
+                </div>
             </div>
             <div class="input-date">
                 <label for="startTimeSelect" class="text">Start Time</label>
                 <select 
                   id="startTimeSelect" 
-                  v-model="selectedStartTime"
+                  v-model="startH"
                   class="custom-dropdown1 input-box"
                 >
                     <option v-for="time in timeOptions" :key="time">{{ time }}</option>
@@ -36,7 +40,6 @@
                   id="endTimeSelect" 
                   v-model="selectedEndTime"
                   class="custom-dropdown2 input-box"
-
                 >
                     <option v-for="time in timeOptions" :key="time">{{ time }}</option>
                 </select>
@@ -64,7 +67,7 @@
             </div>
         </div>
         <div class="schedule-info">
-            This call will take place on the May 15, 2023 from {{ selectedStartTime }} until {{ selectedEndTime }}
+            This call will take place on the May 15, 2023 from {{ startH }} until {{ selectedEndTime }}
         </div>
         <div class="button">
             <button>Next</button>
@@ -74,14 +77,16 @@
 <script>
 import vSelect from "vue-select";
 import allTimeZone  from "./allTimeZone";
+import Calendar from "../../views/login/Calendar.vue"
 export default {
     name : 'SetUpTab',
     components: {
         "vs-select": vSelect,
+        Calendar,
     },
     data() {
         return {
-            selectedStartTime: null,
+            startH: null,
             selectedEndTime: null,
             timeOptions: this.generateTimeOptions(),
             mostUsedTimezone: [
@@ -222,6 +227,7 @@ export default {
    width: 100px; 
    border-radius: 0px 6px 6px 0px;
    padding-left: 10px;
+  
    
 }
 .input-date{
