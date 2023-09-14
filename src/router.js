@@ -388,6 +388,14 @@ const router = new Router({
       },
     },
     {
+      path: '/streamcard',
+      name: 'StreamCard',
+      component: () => import('./views/dashboard/StreamCard.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/newhome',
       name: 'NewHome',
       component: () => import('./views/dashboard/NewHome.vue'),

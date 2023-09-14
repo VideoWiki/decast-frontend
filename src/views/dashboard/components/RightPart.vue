@@ -338,6 +338,7 @@ export default {
   top: 0%;
   margin-top: 0;
   left: 50%;
+  /* position: absolute; */
 }
 
 .cast-popup {

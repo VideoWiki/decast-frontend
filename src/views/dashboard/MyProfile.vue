@@ -25,25 +25,41 @@
       <div class="form-cont">
         <div class="child-1">
           <label>First name</label>
-          <input v-model="firstName" />
+          <input
+            v-model="firstName"
+            :disabled="!isEditing"
+            :style="{ opacity: isEditing ? 1 : 0.5 }"
+          />
           <span class="error" v-if="errors.firstName">{{
             errors.firstName
           }}</span>
 
           <label>Email address</label>
-          <input v-model="email" />
+          <input
+            v-model="email"
+            :disabled="!isEditing"
+            :style="{ opacity: isEditing ? 1 : 0.5 }"
+          />
           <span class="error" v-if="errors.email">{{ errors.email }}</span>
         </div>
 
         <div class="child-2">
           <label>Last name</label>
-          <input v-model="lastName" />
+          <input
+            v-model="lastName"
+            :disabled="!isEditing"
+            :style="{ opacity: isEditing ? 1 : 0.5 }"
+          />
           <span class="error" v-if="errors.lastName">{{
             errors.lastName
           }}</span>
 
           <label>Add your designation</label>
-          <input v-model="designation" />
+          <input
+            v-model="designation"
+            :disabled="!isEditing"
+            :style="{ opacity: isEditing ? 1 : 0.5 }"
+          />
           <span class="error" v-if="errors.designation">{{
             errors.designation
           }}</span>
@@ -51,8 +67,14 @@
       </div>
 
       <div class="edit-cont">
-        <button @click="editProfile">Edit</button>
-        <button @click="saveProfile">Save</button>
+        <button @click="editProfile" :disabled="isEditing">Edit</button>
+        <button
+          @click="saveProfile"
+          :disabled="!isEditing"
+          :style="{ opacity: isEditing ? 1 : 0.5 }"
+        >
+          Save
+        </button>
       </div>
     </div>
   </div>
@@ -82,6 +104,7 @@ export default {
   methods: {
     closeProfile() {
       this.$emit('closeProfile');
+      this.isEditing = false;
     },
     editProfile() {
       this.isEditing = true;
@@ -198,7 +221,7 @@ export default {
   text-align: left;
   justify-content: space-between;
   color: #647181;
-  margin-top: 10px;
+  /* font-family: Popins,sans-serif; */
   /* border: 1px solid red; */
 }
 
@@ -252,6 +275,7 @@ label {
   color: #a6a6a8;
   font-weight: 600;
   cursor: pointer;
+  font-family: Popins, sans-serif;
 }
 
 .edit-cont button:nth-child(2) {
@@ -262,5 +286,6 @@ label {
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
+  font-family: Popins, sans-serif;
 }
 </style>
