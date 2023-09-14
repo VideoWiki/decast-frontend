@@ -1,14 +1,22 @@
 <template>
   <div>
-    <div class="color-preview flex"  @click="toggleColorPicker">
-      <div class="color" :style="{ backgroundColor: selectedColor }"></div>
-      <div class="name-color">{{ selectedColor }}</div>
+    <div class="color-preview flex" @click="toggleColorPicker">
+      <div
+        class="color"
+        :style="{ backgroundColor: stepTwoProps.primary_color }"
+      ></div>
+      <div class="name-color">{{ stepTwoProps.primary_color }}</div>
       <div class="cross">
-        <img src="@/assets/images/editor/Vector3.svg"/>
+        <img src="@/assets/images/editor/Vector3.svg" />
       </div>
     </div>
-    <color-picker v-if="colorPickerVisible" v-model="selectedColor" :bottomBar="false" :hidePalette="true" @input="updateColor" />
-  
+    <color-picker
+      v-if="colorPickerVisible"
+      v-model="stepTwoProps.primary_color"
+      :bottomBar="false"
+      :hidePalette="true"
+      @input="updateColor"
+    />
   </div>
 </template>
 
@@ -19,6 +27,7 @@ export default {
   components: {
     ColorPicker: Sketch,
   },
+  props: ['stepTwoProps'],
   data() {
     return {
       selectedColor: '#ff0000', // Initial color
@@ -27,7 +36,7 @@ export default {
   },
   methods: {
     updateColor(color) {
-      this.selectedColor = color.hex;
+      this.stepTwoProps.primary_color = color.hex;
     },
     toggleColorPicker() {
       this.colorPickerVisible = !this.colorPickerVisible;
@@ -38,40 +47,39 @@ export default {
 
 <style>
 body {
-  background-color: #1D232B;
+  background-color: #1d232b;
 }
 
 .color-preview {
   width: 137px;
   height: 32px;
-  border: 1px solid #31394E;
+  border: 1px solid #31394e;
   align-items: center;
   justify-content: space-between;
   border-radius: 6px;
 }
-.color{
+.color {
   width: 32px;
   height: 32px;
   border-radius: 6px;
 }
-.name-color{
+.name-color {
   margin-left: 10px;
   font-weight: 500;
   font-size: 12px;
-  color: #A6A6A8;
-
+  color: #a6a6a8;
 }
-.cross{
+.cross {
   width: 33px;
   height: 32px;
-  background-color: #242D36;
+  background-color: #242d36;
   border-radius: 0px 6px 6px 0px;
-  border: 1px solid #31394E;
+  border: 1px solid #31394e;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.cross img{
+.cross img {
   width: 7px;
   height: 7px;
 }
@@ -82,7 +90,7 @@ body {
   max-height: 270px;
   border-radius: 10px;
   border: 1px solid #31394e;
-  background-color: #1F272F;
+  background-color: #1f272f;
   margin: auto;
   padding: 0%;
   margin-top: 2rem;
@@ -99,7 +107,7 @@ body {
   /* border: 1px solid white; */
 }
 
-.vc-saturation-circle{
+.vc-saturation-circle {
   width: 16px !important;
   height: 16px !important;
 }
@@ -126,38 +134,35 @@ body {
   display: none;
 }
 
-.vc-editable-input{
+.vc-editable-input {
   display: flex;
   flex-direction: row-reverse;
-  color:#A6A6A8;
+  color: #a6a6a8;
   gap: 5px;
   padding: 0%;
 }
 
-
-.vc-input__label{
-  color: #A6A6A8 !important;
+.vc-input__label {
+  color: #a6a6a8 !important;
   font-size: 14px !important;
   margin: auto !important;
 }
 
-
-span{
-  color: #A6A6A8;
+span {
+  color: #a6a6a8;
 }
 
 .vc-input__input {
-  background-color: #1D232B;
+  background-color: #1d232b;
   max-width: 221px;
   height: 32px;
   border-radius: 6px;
-  outline-color: #31394E !important;
+  outline-color: #31394e !important;
   padding: 0%;
-  color:#A6A6A8;
+  color: #a6a6a8;
   font-size: 14px !important;
   margin: auto;
 }
-
 
 .vc-sketch-presets {
   display: none;

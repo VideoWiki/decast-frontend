@@ -27,7 +27,7 @@
         </div>
         <div class="choose-color">
           <label>Choose your brand color</label>
-          <ColorPicker v-model="primary_color" />
+          <ColorPicker :stepTwoProps="stepTwoProps" />
         </div>
       </div>
       <div class="right">
@@ -77,6 +77,7 @@ export default {
       imageUrl: '',
     };
   },
+  props: ['stepTwoProps'],
   components: {
     buttonToggle,
     ColorPicker,
