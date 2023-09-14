@@ -307,6 +307,7 @@ export default {
     async getRecordings() {
       try {
         const res = await this.$store.dispatch('room/getRecordings');
+        console.log(res);
       } catch (e) {
         console.error('Error getting recordings', e);
       }

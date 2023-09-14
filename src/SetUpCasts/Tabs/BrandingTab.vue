@@ -5,7 +5,7 @@
       <buttonToggle v-model="toggleValue" class="toggle-button"></buttonToggle>
     </div>
     <div v-if="!toggleValue" class="default-look">
-      <img src="@/assets/images/create-event/image.svg" class="img2" />
+      <img src="@/assets/images/editor/image.svg" class="img2" />
       <div class="logo">
         <img :src="img1Src" @click="changeImage" class="img1" />
       </div>
@@ -27,6 +27,7 @@
         </div>
         <div class="choose-color">
           <label>Choose your brand color</label>
+          <ColorPicker :stepTwoProps="stepTwoProps" />
         </div>
       </div>
       <div class="right">
@@ -64,6 +65,7 @@
 </template>
 <script>
 import buttonToggle from './buttonToggle.vue';
+import ColorPicker from '../../views/login/ColorPicker.vue';
 export default {
   name: 'BrandingTab',
   data() {
@@ -75,8 +77,10 @@ export default {
       imageUrl: '',
     };
   },
+  props: ['stepTwoProps'],
   components: {
     buttonToggle,
+    ColorPicker,
   },
   methods: {
     changeImage() {
