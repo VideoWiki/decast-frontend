@@ -1,119 +1,120 @@
 <template>
     <div class="full-cont" v-if="showProfile">
-        <div class="head-container">
-            <h3>My Profile</h3>
-            <button @click="closeProfile">
-                <img src="@/assets/images/cross.svg" />
-            </button>
-        </div>
-
-        <div class="info-cont">
-            <div class="pri-cont">
-                <div class="img-cont">
-                    <button class="img-up">
-                        <img src="@/assets/images/camera.svg" />
-                    </button>
-                    <img src="@/assets/images/luffy.webp" />
-                </div>
-
-                <div class="name-cont">
-                    <h3>Christopher Holm</h3>
-                    <p>chrishtoperholm@gmail.com</p>
-                </div>
-            </div>
-
-            <div class="form-cont">
-                <div class="child-1">
-                    <label>First name</label>
-                    <input v-model="firstName" />
-                    <span class="error" v-if="errors.firstName">{{ errors.firstName }}</span>
-
-                    <label>Email address</label>
-                    <input v-model="email" />
-                    <span class="error" v-if="errors.email">{{ errors.email }}</span>
-                </div>
-
-                <div class="child-2">
-                    <label>Last name</label>
-                    <input v-model="lastName" />
-                    <span class="error" v-if="errors.lastName">{{ errors.lastName }}</span>
-
-                    <label>Add your designation</label>
-                    <input v-model="designation" />
-                    <span class="error" v-if="errors.designation">{{ errors.designation }}</span>
-                </div>
-            </div>
-
-            <div class="edit-cont">
-                <button @click="editProfile">Edit</button>
-                <button @click="saveProfile">Save</button>
-            </div>
-        </div>
-    </div>
-</template>
+      <div class="head-container">
+        <h3>My Profile</h3>
+        <button @click="closeProfile">
+          <img src="@/assets/images/cross.svg" />
+        </button>
+      </div>
   
-<script>
-export default {
+      <div class="info-cont">
+        <div class="pri-cont">
+          <div class="img-cont">
+            <button class="img-up">
+              <img src="@/assets/images/camera.svg" />
+            </button>
+            <img src="@/assets/images/luffy.webp" />
+          </div>
+  
+          <div class="name-cont">
+            <h3>Christopher Holm</h3>
+            <p>chrishtoperholm@gmail.com</p>
+          </div>
+        </div>
+  
+        <div class="form-cont">
+          <div class="child-1">
+            <label>First name</label>
+            <input v-model="firstName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
+            <span class="error" v-if="errors.firstName">{{ errors.firstName }}</span>
+  
+            <label>Email address</label>
+            <input v-model="email" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
+            <span class="error" v-if="errors.email">{{ errors.email }}</span>
+          </div>
+  
+          <div class="child-2">
+            <label>Last name</label>
+            <input v-model="lastName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
+            <span class="error" v-if="errors.lastName">{{ errors.lastName }}</span>
+  
+            <label>Add your designation</label>
+            <input v-model="designation" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
+            <span class="error" v-if="errors.designation">{{ errors.designation }}</span>
+          </div>
+        </div>
+  
+        <div class="edit-cont">
+          <button @click="editProfile" :disabled="isEditing">Edit</button>
+          <button @click="saveProfile" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }">Save</button>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  export default {
     name: 'MyProfile',
     props: {
-        showProfile: Boolean,
+      showProfile: Boolean,
     },
     data() {
-        return {
-            firstName: '',
-            lastName: '',
-            email: '',
-            designation: '',
-            isEditing: false,
-            errors: {
-                firstName: '',
-                lastName: '',
-                email: '',
-                designation: '',
-            },
-        };
+      return {
+        firstName: '',
+        lastName: '',
+        email: '',
+        designation: '',
+        isEditing: false,
+        errors: {
+          firstName: '',
+          lastName: '',
+          email: '',
+          designation: '',
+        },
+      };
     },
     methods: {
-        closeProfile() {
-            this.$emit('closeProfile');
-        },
-        editProfile() {
-            this.isEditing = true;
-        },
-        saveProfile() {
-            this.errors = {
-                firstName: '',
-                lastName: '',
-                email: '',
-                designation: '',
-            };
-
-            // Performing validation
-            if (!this.firstName) {
-                this.errors.firstName = 'First name is required.';
-            }
-            if (!this.lastName) {
-                this.errors.lastName = 'Last name is required.';
-            }
-            if (!this.email ) {
-                this.errors.email = 'Email address is required.';
-            }
-            if (!this.designation) {
-                this.errors.designation = 'Designation is required.';
-            }
-            if (
-                !this.errors.firstName &&
-                !this.errors.lastName &&
-                !this.errors.email &&
-                !this.errors.designation
-            ) {
-                console.log("Success");
-                this.isEditing = false;
-            }
-        },
+      closeProfile() {
+        this.$emit('closeProfile');
+        this.isEditing = false;
+      },
+      editProfile() {
+        this.isEditing = true;
+      },
+      saveProfile() {
+        this.errors = {
+          firstName: '',
+          lastName: '',
+          email: '',
+          designation: '',
+        };
+  
+        // Performing validation
+        if (!this.firstName) {
+          this.errors.firstName = 'First name is required.';
+        }
+        if (!this.lastName) {
+          this.errors.lastName = 'Last name is required.';
+        }
+        if (!this.email) {
+          this.errors.email = 'Email address is required.';
+        }
+        if (!this.designation) {
+          this.errors.designation = 'Designation is required.';
+        }
+        if (
+          !this.errors.firstName &&
+          !this.errors.lastName &&
+          !this.errors.email &&
+          !this.errors.designation
+        ) {
+          console.log('Success');
+          this.isEditing = false;
+        }
+      },
     },
-};
-</script>
+  };
+  </script>
 <style>
 .full-cont {
     position: absolute;
@@ -192,7 +193,7 @@ export default {
     text-align: left;
     justify-content: space-between;
     color: #647181;
-    margin-top: 10px;
+    /* font-family: Popins,sans-serif; */
     /* border: 1px solid red; */
 }
 
@@ -247,6 +248,7 @@ label {
     color: #A6A6A8;
     font-weight: 600;
     cursor: pointer;
+    font-family: Popins,sans-serif;
 }
 
 .edit-cont button:nth-child(2) {
@@ -257,5 +259,6 @@ label {
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
+    font-family: Popins,sans-serif;
 }
 </style>

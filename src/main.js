@@ -72,6 +72,10 @@ import VueProgressBar from 'vue-progressbar'; // Vuesax
 // vue-gtm
 import VueGtm from 'vue-gtm';
 
+//Toggle button
+import ToggleButton  from 'vue-js-toggle-button';
+Vue.use(ToggleButton );
+
 import VueCountdownTimer from 'vuejs-countdown-timer';
 Vue.use(VueCountdownTimer);
 

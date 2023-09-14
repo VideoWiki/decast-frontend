@@ -57,12 +57,14 @@ export default {
     methods: {
         toggleProfile() {
             this.userProfile = !this.userProfile;
-            this.userPass==this.userPass
+            this.userPass==this.userPass;
+            this.userPass=false;
             console.log("HHHH");
         },
         togglePass() {
             this.userPass = !this.userPass;
             this.userProfile==this.userProfile;
+            this.userProfile = false;
             console.log("PPP");
         },
         closeProfile() {
