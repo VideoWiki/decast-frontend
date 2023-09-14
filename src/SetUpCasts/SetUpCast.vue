@@ -3,7 +3,11 @@
     <div class="center-containr">
       <div class="heading-part flex">
         <div class="heading">Set up your cast</div>
-        <img src="@/assets/images/editor/cross.svg" alt="" />
+        <img
+          @click="closeCreate"
+          src="@/assets/images/editor/cross.svg"
+          alt=""
+        />
       </div>
       <div class="buttons flex">
         <button
@@ -52,7 +56,11 @@
           v-else-if="activeTab === 'Branding'"
           :stepTwoProps="stepTwoProps"
         />
-        <SettingsTab v-else :stepFourProps="stepFourProps" />
+        <SettingsTab
+          v-else
+          :createCast="createCast"
+          :stepFourProps="stepFourProps"
+        />
       </div>
     </div>
   </div>
@@ -61,6 +69,7 @@
 import BrandingTab from './Tabs/BrandingTab.vue';
 import SettingsTab from './Tabs/SettingsTab.vue';
 import SetUpTab from './Tabs/SetUpTab.vue';
+import moment from 'moment';
 export default {
   name: 'SetUpCast',
   components: {
@@ -68,9 +77,11 @@ export default {
     SettingsTab,
     SetUpTab,
   },
+  props: ['closeCreate'],
   data() {
     return {
       activeTab: 'Set up',
+      formData: new FormData(),
       stepOneProps: {
         generated_event_title: '',
         event_name: '',
@@ -152,16 +163,16 @@ export default {
         public_stream: false,
       },
       stepFourProps: {
-        record: '',
+        record: 'True',
         mute_on_start: '',
-        end_when_no_moderator: '',
+        end_when_no_moderator: 'True',
         allow_moderator_to_unmute_user: '',
         webcam_only_for_moderator: '',
         auto_start_recording: '',
         allow_start_stop_recording: '',
         disable_cam: '',
         disable_mic: '',
-        lock_layout: '',
+        lock_layout: 'True',
         lock_on_join: '',
         viewer_mode: '',
         viewer_password: '',
@@ -179,6 +190,138 @@ export default {
   methods: {
     changeActiveTab(tab) {
       this.activeTab = tab;
+    },
+    createCast() {
+      this.formSubmitted();
+    },
+    setCreateEventData() {
+      console.log('12');
+      this.startNow = this.stepOneProps.start_now;
+      for (let [key, value] of Object.entries(this.stepOneProps)) {
+        if (value.length === 0) {
+          value = '';
+        } else {
+          if (value === false) {
+            value = 'False';
+          } else if (value === true) {
+            value = 'True';
+          } else if (value === '') {
+            value = '';
+          }
+        }
+        this.formData.append(key, value);
+      }
+      console.log('123');
+      this.stepTwoProps.imageURL = '';
+      this.stepTwoProps.BackImageURL = '';
+      for (let [key, value] of Object.entries(this.stepTwoProps)) {
+        if (value.length === 0) {
+          value = '';
+        } else {
+          if (value === false) {
+            value = 'False';
+          } else if (value === true) {
+            value = 'True';
+          } else if (value === '') {
+            value = '';
+          }
+        }
+        this.formData.append(key, value);
+      }
+      console.log('1234');
+      for (let [key, value] of Object.entries(this.stepThreeProps)) {
+        if (value.length === 0) {
+          value = '';
+        } else {
+          if (value === false) {
+            value = 'False';
+          } else if (value === true) {
+            value = 'True';
+          } else if (value === '') {
+            value = '';
+          }
+        }
+        this.formData.append(key, value);
+      }
+      for (let [key, value] of Object.entries(this.stepFourProps)) {
+        if (value.length === 0) {
+          value = '';
+        } else {
+          if (value === false) {
+            value = 'False';
+          } else if (value === true) {
+            value = 'True';
+          } else if (value === '') {
+            value = '';
+          }
+        }
+        this.formData.append(key, value);
+      }
+    },
+    formSubmitted() {
+      if (moment().isAfter(this.stepOneProps.schedule_time)) {
+        const fiveMin = moment().add(5, 'minutes');
+        this.stepOneProps.schedule_time =
+          `${fiveMin._d.getFullYear()}-${String(
+            fiveMin._d.getMonth() + 1
+          ).padStart(2, '0')}-${String(fiveMin._d.getDate()).padStart(
+            2,
+            '0'
+          )}` +
+          ' ' +
+          fiveMin._d.getHours() +
+          ':' +
+          fiveMin._d.getMinutes() +
+          ':00';
+      }
+      this.setCreateEventData();
+      this.$vs.loading();
+      this.$store
+        .dispatch('cast/submitForm', this.formData)
+        .then((response) => {
+          setTimeout(() => {
+            this.$vs.loading.close();
+          }, 5000);
+          this.responsedata = response.data.message;
+          this.closeCreate();
+          this.$vs.notify({
+            title: 'Success',
+            text: response.data.message,
+            color: 'success',
+          });
+          // if (
+          //   this.startNow ||
+          //   (this.startNow === 'True' &&
+          //     response.data &&
+          //     response.data.url !== '')
+          // ) {
+          // this.$refs.Event.setAttribute(
+          //   'href',
+          //   `/user_details/${response.data.meeting_id}`
+          // );
+          // this.$refs.Event.click();
+          // window.location.href = response.data.url;
+          // return (this.newWindow.location = `/user_details/${response.data.meeting_id}`);
+          // } else this.$router.push(`/user_details/${response.data.meeting_id}`);
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.formData = new FormData();
+
+          if (error) {
+            this.$vs.notify({
+              title: 'Error!',
+              text: error.response.data.message,
+              color: 'danger',
+            });
+          } else {
+            this.$vs.notify({
+              title: 'Fields Missing!',
+              text: 'Some Fields are Missing',
+              color: 'danger',
+            });
+          }
+        });
     },
   },
 };

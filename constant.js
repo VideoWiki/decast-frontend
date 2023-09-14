@@ -2,7 +2,7 @@ const constants = {
   apiUrl: 'https://api.video.wiki',
   url: 'https://videowiki.pt',
   backImageUrl: 'https://api.cast.video.wiki/api/photos/?category=',
-  apiCastUrl: 'https://api.cast.video.wiki',
+  apiCastUrl: 'https://dev.home.video.wiki',
   streamUrl: 'https://play.stream.video.wiki/live/',
   eventDetailsUrl:
     'https://api.cast.video.wiki/api/event/meeting/info/?public_meeting_id=',

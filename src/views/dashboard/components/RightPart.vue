@@ -2,28 +2,39 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
+        <h2
+          class="custom-heading"
+          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
+        >
           Casts
         </h2>
         <p class="sub-heading pt-2">
           Casts are social spaces for events and wide-range. Ideal for X Y Z.
-          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
-            Casts.</a>
+          <a
+            target="_blank"
+            href="#"
+            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
+            >Learn more about Casts.</a
+          >
         </p>
       </div>
       <div class="flex justify-between">
-        <button class="header-button p-2" style="
+        <button
+          class="header-button p-2"
+          style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          ">
+          "
+          @click="openCreate"
+        >
           <img src="@/assets/images/Plus.svg" alt="" />
         </button>
-        <button class="header-button border-none dot">
+        <!-- <button class="header-button border-none dot">
           <img src="@/assets/images/Vector2.svg" class="h-7 p-1" alt="" />
-        </button>
+        </button> -->
       </div>
     </div>
 
@@ -39,12 +50,18 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button class="options-button border-none" @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }">
+        <button
+          class="options-button border-none"
+          @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }"
+        >
           Scheduled Casts
         </button>
-        <button class="options-button border-none px-5" @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }">
+        <button
+          class="options-button border-none px-5"
+          @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }"
+        >
           Cast Recordings
         </button>
       </div>
@@ -54,8 +71,16 @@
           <div class="child-options">
             <div class="inner-div1">
               <div class="inner-child1">
-                <p>{{ cast.name }}</p>
-                <button>{{ cast.date }}</button>
+                <p>{{ cast.event_name }}</p>
+                <button>
+                  {{
+                    moment(cast.event_date).format('ll').split(',')[0] +
+                    ' ' +
+                    moment(cast.event_time.split('.')[0], 'HH:mm:ss').format(
+                      'h:mm A'
+                    )
+                  }}
+                </button>
               </div>
               <div class="inner-child2">
                 <a href="#">{{ cast.desc }}</a>
@@ -63,7 +88,13 @@
               </div>
               <div class="img-info">
                 <div class="images-container">
-                  <img v-for="(image, imageIndex) in cast.images" :key="imageIndex" :src="image" alt="" />
+                  <span
+                    v-for="(image, imageIndex) in cast.invitee_list"
+                    :key="imageIndex"
+                    alt=""
+                  >
+                    {{ image.email.slice(0, 2) }}
+                  </span>
                 </div>
                 <!-- <p>{{ totalImagesCount[index] }}</p> -->
               </div>
@@ -100,7 +131,7 @@
                 <button>
                   <img src="@/assets/images/prepone.svg" alt="" />Prepone cast
                 </button>
-                <button>
+                <button @click="deleteCast(cast.public_meeting_id, index)">
                   <img src="@/assets/images/delete.svg" />
                   Delete
                 </button>
@@ -111,7 +142,10 @@
                 </button>
                 <div class="inner-child4">
                   <button><img src="@/assets/images/copy.svg" alt="" /></button>
-                  <button v-if="!cast.showCastIsLive" @click="toggleCastIsLive(index)">
+                  <button
+                    v-if="!cast.showCastIsLive"
+                    @click="toggleCastIsLive(index)"
+                  >
                     Go live now
                   </button>
                 </div>
@@ -128,22 +162,30 @@
         more try our premium plan.
       </p>
     </div>
+    <div class="popup" v-if="create">
+      <set-up-cast :closeCreate="closeCreate"></set-up-cast>
+    </div>
   </div>
 </template>
 <script>
+import moment from 'moment';
+import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
 export default {
+  components: { SetUpCast },
   name: 'rightpart',
   data() {
     return {
       focusYourRooms: true,
+      create: false,
       showCastIsLive: false,
       showPopup: false,
+      moment,
       casts: [
         {
           name: 'Friends hangout',
           date: 'May 15-2pm',
           showCastIsLive: false,
-          desc: 'Invite Attendees'
+          desc: 'Invite Attendees',
         },
         {
           name: 'Digital marketing webinar',
@@ -163,10 +205,15 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.$store.dispatch('cast/getUserCasts').then((res) => {
+      this.casts = res.data.my_events;
+    });
+  },
   computed: {
     totalImagesCount() {
-      return this.casts.map(cast => cast.images.length);
-    }
+      return this.casts.map((cast) => cast.images.length);
+    },
   },
   methods: {
     changeFocus(toYourRooms) {
@@ -177,6 +224,18 @@ export default {
     },
     togglePopup(index) {
       this.$set(this.casts[index], 'showPopup', !this.casts[index].showPopup);
+    },
+    async deleteCast(id, index) {
+      console.log(id, index);
+      const res = await this.$store.dispatch('cast/deleteCast', id);
+      console.log(res);
+      this.casts.splice(index, 1);
+    },
+    openCreate() {
+      this.create = true;
+    },
+    closeCreate() {
+      this.create = false;
     },
   },
 };
@@ -191,7 +250,7 @@ export default {
   align-items: center;
   color: #a6a6a8;
   width: 100%;
-  max-width: 500px;
+  /* max-width: 500px; */
   margin: auto;
   margin-left: 37px;
   /* border: 1px solid white; */
@@ -242,7 +301,21 @@ export default {
   text-decoration-thickness: 2px;
 }
 
-.options-container {}
+.options-container {
+  height: 303px;
+  overflow: auto;
+  margin-top: 30px;
+}
+
+.options-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.options-container::-webkit-scrollbar-thumb {
+  background-color: #31394e;
+  border-radius: 4px;
+  height: 10px;
+}
 
 .images-container {
   width: 140px;
@@ -257,13 +330,11 @@ export default {
   top: 70%;
 }
 
-
-
 .images-container img {
   width: 27px;
   height: 27px;
   border-radius: 50%;
-  border: 1px solid #31394E;
+  border: 1px solid #31394e;
   top: 0%;
   margin-top: 0;
   left: 50%;
@@ -279,7 +350,7 @@ export default {
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   top: 30%;
-  left: 55%;
+  left: 60%;
   z-index: 999;
   padding: 10px;
   margin: auto;
@@ -306,7 +377,7 @@ export default {
 
 .child-options {
   max-width: 480px;
-  width: 100%;
+  width: 97%;
   height: 140px;
   display: flex;
   justify-content: space-between;
@@ -411,92 +482,16 @@ export default {
   color: #31394e;
 }
 
-/* .cast-section {
-  height: auto;
-  width: auto;
-  height: 500px;
-  /* border: 1px solid red; */
-/* position: relative; 
+.popup {
+  height: 100vh;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-left: 37px;
-  max-width: 400px;
+  justify-content: center;
+  align-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #0000007e;
+  z-index: 100;
 }
-
-.cast-heading {
-  width: 63px;
-  height: 28px;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 28px;
-  letter-spacing: 0em;
-  margin: 0;
-  color: #a6a6a8;
-}
-
-.cast-content {
-  width: 243px;
-  height: 49px;
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 13px;
-  letter-spacing: 0em;
-  color: #a6a6a8;
-  margin-top: 8px;
-}
-
-.learn-more {
-  font-weight: bold;
-  color: #31a2f4;
-  text-decoration: underline;
-} */
-
-/* .bottom {
-  margin: auto;
-  width: 320px;
-  margin-left: 20px;
-  /* border: 1px solid yellow; 
-}
-
-/* .coming-soon {
-  width: fit-content;
-  height: 23px;
-  margin: auto;
-  /* border: 1px solid green; 
-  font-family: Karla;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 23px;
-  letter-spacing: 0.76em;
-  text-align: center;
-  white-space: nowrap;
-} */
-/* .coming-soon h3 {
-  color: #365e8b;
-  opacity: 28%;
-} */
-
-/* .cast-featurea {
-  width: 285px;
-  font-size: 16px;
-  margin: auto !important;
-  font-weight: 600;
-  line-height: 25px;
-  letter-spacing: 0em;  
-  display: flex;
-  flex-direction: column;
-  white-space: nowrap;
-  padding-top: 10px;
-  /* border: 1px solid red; 
-} */
-
-/* .cast-featurea p {
-  color: #6c6767;
-  margin: auto;
-} */
-
-/* .cast-featurea p:last-child {
-  margin: auto;
-} */
 </style>

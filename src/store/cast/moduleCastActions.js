@@ -67,6 +67,7 @@ export default {
         });
     });
   },
+
   meetingInfo({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios
@@ -317,6 +318,14 @@ export default {
         });
     });
   },
+  getUserCasts({ commit }) {
+    return axios.get(constants.apiCastUrl + '/api/event/user/events/');
+  },
 
+  deleteCast({ commit }, payload) {
+    return axios.post(constants.apiCastUrl + '/api/event/meeting/delete/', {
+      public_meeting_id: payload,
+    });
+  },
   //
 };

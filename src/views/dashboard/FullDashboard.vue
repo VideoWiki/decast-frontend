@@ -27,9 +27,11 @@
                   "
                   size="40px"
                 />
-                <profile-drop-down-vue />
               </div>
-              <userMenu :showMenu="userMenuVisible" />
+              <userMenu
+                :showMenu="userMenuVisible"
+                :closeMenu="toggleUserMenu"
+              />
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
               Login
@@ -63,7 +65,6 @@ import userMenu from './userMenu.vue';
 import Rooms from '../login/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
-import ProfileDropDownVue from '../../layouts/components/navbar/components/ProfileDropDown.vue';
 
 export default {
   mixins: [utils],
@@ -134,8 +135,8 @@ export default {
       // window.location.href = constants.challengeUri;
     },
     toggleUserMenu() {
-      console.log("Clicked")
-      this.userMenuVisible = !this.userMenuVisible; 
+      console.log('Clicked');
+      this.userMenuVisible = !this.userMenuVisible;
     },
   },
 };
@@ -181,7 +182,7 @@ export default {
 }
 
 .sideOne {
-  width: 30%;
+  width: 31%;
   /* border: 1px solid yellow; */
   padding-right: 37px;
 }
