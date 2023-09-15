@@ -75,24 +75,22 @@
       </div>
       <div class="time-zone">
         <label class="text">Time zone</label>
-        <vs-select v-model="timezone" label="Time Zone">
-          <!-- <vs-optgroup label="Most Used Timezone">
-            <vs-select-item
-              :key="index"
-              :value="item.value"
-              :text="item.text"
-              v-for="(item, index) in mostUsedTimezone"
-            ></vs-select-item>
-          </vs-optgroup> -->
-          <vs-optgroup label="All Timezones">
-            <vs-select-item
-              :key="index"
-              :value="item.value"
-              :text="item.text"
+        <div
+          @click="selectTimeZone = !selectTimeZone"
+          class="timezone-dropdown1 input-box"
+        >
+          {{ this.stepOneProps.timezone }}
+          <div v-if="selectTimeZone" class="options-list w-full">
+            <span
+              class="timeOption"
               v-for="(item, index) in allTimeZone"
-            ></vs-select-item>
-          </vs-optgroup>
-        </vs-select>
+              @click="stepOneProps.timezone = item.value"
+              :key="index"
+            >
+              {{ item.label }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="schedule-info">
@@ -107,7 +105,6 @@
   </div>
 </template>
 <script>
-import vSelect from 'vue-select';
 import allTimeZone from './allTimeZone';
 import Calendar from '../../views/login/Calendar.vue';
 import { TimeFrames } from './TimeFrames';
@@ -115,7 +112,6 @@ import moment from 'moment-timezone';
 export default {
   name: 'SetUpTab',
   components: {
-    'vs-select': vSelect,
     Calendar,
   },
   props: ['stepOneProps', 'changeActiveTab'],
@@ -124,6 +120,7 @@ export default {
       startH: null,
       moment,
       selectStart: false,
+      selectTimeZone: false,
       selectEnd: false,
       selectedEndTime: null,
       timeOptions: TimeFrames,
@@ -271,6 +268,7 @@ textarea {
   overflow: auto;
   background: #1d232b;
   width: 100px;
+  overflow: hidden;
 }
 
 .options-list::-webkit-scrollbar {
@@ -327,6 +325,12 @@ textarea {
 .custom-dropdown1 {
   width: 100px;
   border-radius: 6px 0px 0px 6px;
+  padding-left: 10px;
+}
+
+.timezone-dropdown1 {
+  width: 100%;
+  border-radius: 6px;
   padding-left: 10px;
 }
 .custom-dropdown2 {

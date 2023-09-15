@@ -78,8 +78,11 @@ body {
   background-color: #1f272f;
   color: #a6a6a8;
 }
+.vdpFloating.vdpPositionBottom {
+  bottom: 80% !important;
+}
 
-.vdpArrowPrev {
+/* .vdpArrowPrev {
   background-color: #1f272f;
   border: 1px solid #31394e;
   border-radius: 50%;
@@ -95,7 +98,7 @@ body {
   width: 27px;
   height: 27px;
   margin: 10px;
-}
+} */
 
 .vdpHeadCellContent {
   color: #a6a6a8;

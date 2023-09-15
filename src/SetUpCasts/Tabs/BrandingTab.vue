@@ -20,7 +20,7 @@
             <div class="cross">
               <img src="@/assets/images/editor/Vector3.svg" />
             </div>
-            <div class="logo-img">
+            <div class="logo-img cursor-pointer">
               <img :src="logoImg" @click="changeImageLogo" />
             </div>
           </div>
