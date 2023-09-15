@@ -102,7 +102,7 @@ export default {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `https://dev.home.video.wiki/api/event/meeting/info/?public_meeting_id==${this.roomId}`,
+        url: `https://dev.home.video.wiki/api/event/meeting/info/?public_meeting_id=${this.roomId}`,
       };
 
       try {
