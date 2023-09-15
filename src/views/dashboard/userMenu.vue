@@ -1,25 +1,25 @@
 <template>
   <div v-if="showMenu" class="user-menu">
     <!-- Add your menu options here -->
-    <div>
+    <div class="option" @click="toggleProfile">
       <img src="@/assets/images/usermenu.svg" />
       My Profile
     </div>
     <MyProfile :showProfile="userProfile" @closeProfile="closeProfile" />
-    <div>
+    <div class="option" @click="togglePass">
       <img src="@/assets/images/setting.svg" />
       Reset Password
     </div>
     <ResetPass :showPass="userPass" @closeProfile="closeProfile" />
-    <div>
+    <div class="option">
       <img src="@/assets/images/guide.svg" />
       Guide
     </div>
-    <div>
+    <div class="option">
       <img src="@/assets/images/help.svg" />
       Help Center
     </div>
-    <div>
+    <div class="option">
       <img src="@/assets/images/export.svg" />
       Logout
     </div>
@@ -88,7 +88,7 @@ export default {
   right: 5%;
 }
 
-.user-menu div {
+.option {
   background: none;
   cursor: pointer;
   border: none;
@@ -100,16 +100,16 @@ export default {
   padding: 5px 10px;
 }
 
-.user-menu div:hover {
+.option:hover {
   background: #31394e7d;
   color: #fff;
 }
 
-div:active {
+.option:active {
   color: #ffffff;
 }
 
-div img {
+.option img {
   margin-right: 5px;
 }
 </style>

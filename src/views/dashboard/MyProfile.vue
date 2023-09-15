@@ -13,18 +13,24 @@
           <button class="img-up">
             <img src="@/assets/images/camera.svg" />
           </button>
-          <img src="@/assets/images/luffy.webp" />
+          <vs-avatar
+            :text="activeUserInfo.first_name[0]"
+            color="primary"
+            class="m-0 shadow-md"
+            :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''"
+            size="57px"
+          />
         </div>
 
         <div class="name-cont">
-          <h3>Christopher Holm</h3>
-          <p>chrishtoperholm@gmail.com</p>
+          <h3>{{ activeUserInfo.username }}</h3>
+          <p>{{ activeUserInfo.email }}</p>
         </div>
       </div>
 
       <div class="form-cont">
         <div class="child-1">
-          <label>First name</label>
+          <label class="label">First name</label>
           <input
             v-model="firstName"
             :disabled="!isEditing"
@@ -34,7 +40,7 @@
             errors.firstName
           }}</span>
 
-          <label>Email address</label>
+          <label class="label">Email address</label>
           <input
             v-model="email"
             :disabled="!isEditing"
@@ -44,7 +50,7 @@
         </div>
 
         <div class="child-2">
-          <label>Last name</label>
+          <label class="label">Last name</label>
           <input
             v-model="lastName"
             :disabled="!isEditing"
@@ -54,7 +60,7 @@
             errors.lastName
           }}</span>
 
-          <label>Add your designation</label>
+          <label class="label">Add your designation</label>
           <input
             v-model="designation"
             :disabled="!isEditing"
@@ -101,6 +107,16 @@ export default {
       },
     };
   },
+  computed: {
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
+  },
+  mounted() {
+    this.firstName = this.activeUserInfo.first_name;
+    this.lastName = this.activeUserInfo.last_name;
+    this.email = this.activeUserInfo.email;
+  },
   methods: {
     closeProfile() {
       this.$emit('closeProfile');
@@ -143,7 +159,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .full-cont {
   position: absolute;
   width: 541px;
@@ -250,7 +266,7 @@ export default {
   color: #a6a6a8;
 }
 
-label {
+.label {
   display: block;
   font-size: 12px;
   color: #647181;

@@ -82,22 +82,27 @@
                   }}
                 </button>
               </div>
-              <div class="inner-child2">
-                <a href="#">{{ cast.desc }}</a>
+              <div v-if="cast.invitee_list.length === 0" class="inner-child2">
+                <span class="invite-text" href="#">Invite Attendees</span>
                 <img src="@/assets/images/user.svg" />
               </div>
-              <div class="img-info">
-                <div class="images-container">
+              <div v-else class="inner-child2 my-4">
+                <p class="invite-text">
+                  {{ cast.invitee_list.length }} attendees invited
+                </p>
+                <div class="flex my-1">
                   <span
                     v-for="(image, imageIndex) in cast.invitee_list"
                     :key="imageIndex"
                     alt=""
                   >
-                    {{ image.email.slice(0, 2) }}
+                    <span class="attendee">
+                      {{ image.email.slice(0, 2) }}
+                    </span>
                   </span>
                 </div>
-                <!-- <p>{{ totalImagesCount[index] }}</p> -->
               </div>
+              <!-- <p>{{ totalImagesCount[index] }}</p> -->
             </div>
 
             <div class="inner-div2">
@@ -137,14 +142,16 @@
                 </button>
               </div>
               <div class="inner-child3">
-                <button v-if="cast.showCastIsLive" class="live-btn">
+                <button v-if="cast.is_running === 'true'" class="live-btn">
                   Cast is live
                 </button>
                 <div class="inner-child4">
-                  <button><img src="@/assets/images/copy.svg" alt="" /></button>
+                  <button class="active" @click="copy(cast.public_meeting_id)">
+                    <img src="@/assets/images/dashboard/copy.svg" alt="" />
+                  </button>
                   <button
-                    v-if="!cast.showCastIsLive"
-                    @click="toggleCastIsLive(index)"
+                    v-if="cast.is_running === 'false'"
+                    @click="joinNow(cast.public_meeting_id)"
                   >
                     Go live now
                   </button>
@@ -165,44 +172,27 @@
     <div class="popup" v-if="create">
       <set-up-cast :closeCreate="closeCreate"></set-up-cast>
     </div>
+    <div class="popup" v-if="stream">
+      <stream-card :closeCreate="closeCreate"></stream-card>
+    </div>
   </div>
 </template>
 <script>
 import moment from 'moment';
 import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
+import StreamCard from '../StreamCard.vue';
 export default {
-  components: { SetUpCast },
+  components: { SetUpCast, StreamCard },
   name: 'rightpart',
   data() {
     return {
       focusYourRooms: true,
       create: false,
       showCastIsLive: false,
+      stream: false,
       showPopup: false,
       moment,
-      casts: [
-        {
-          name: 'Friends hangout',
-          date: 'May 15-2pm',
-          showCastIsLive: false,
-          desc: 'Invite Attendees',
-        },
-        {
-          name: 'Digital marketing webinar',
-          date: 'May 15-2pm',
-          showCastIsLive: false,
-          desc: '20 attendees invited',
-          images: [
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-          ],
-        },
-      ],
+      casts: [],
     };
   },
   mounted() {
@@ -219,8 +209,30 @@ export default {
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
     },
-    toggleCastIsLive(index) {
-      this.casts[index].showCastIsLive = !this.casts[index].showCastIsLive;
+    copy(id) {
+      navigator.clipboard.writeText(
+        'https://dev.stream.video.wiki/join-cast/' + id
+      );
+    },
+    async joinNow(id) {
+      const data = {
+        email: '',
+        name: '',
+        password: '',
+        public_meeting_id: id,
+        redirect: true,
+        room_type: 'private',
+        avatar_url: '',
+        guest: false,
+        attendee_password: '',
+      };
+      try {
+        const res = await this.$store.dispatch('cast/joinNow', data);
+        window.location.href = res.url;
+      } catch (e) {
+        console.log('error', e);
+      }
+      console.log(id);
     },
     togglePopup(index) {
       this.$set(this.casts[index], 'showPopup', !this.casts[index].showPopup);
@@ -255,6 +267,10 @@ export default {
   margin-left: 37px;
   /* border: 1px solid white; */
   height: 100%;
+}
+
+.active:active {
+  border: 1px solid #d7df23;
 }
 
 .options-button {
@@ -319,7 +335,6 @@ export default {
 
 .images-container {
   width: 140px;
-  margin-top: 10px;
   height: 30px !important;
   padding: 0;
   margin: 0;
@@ -330,14 +345,15 @@ export default {
   top: 70%;
 }
 
-.images-container img {
+.attendee {
   width: 27px;
   height: 27px;
   border-radius: 50%;
   border: 1px solid #31394e;
-  top: 0%;
   margin-top: 0;
-  left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /* position: absolute; */
 }
 
@@ -412,20 +428,14 @@ export default {
 }
 
 .inner-child2 {
-  display: flex;
   gap: 5px;
 }
 
-.inner-child2 a {
+.invite-text {
   text-decoration: underline;
   color: #a6a6a8;
   font-size: 12px;
   cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.inner-child2 img {
-  margin-bottom: 20px;
 }
 
 .inner-div2 {
@@ -488,6 +498,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   align-content: center;
   position: absolute;
   top: 0;

@@ -7,7 +7,7 @@
           <label>Big Meeting</label>
         </button>
       </div>
-      <component :is="activeTabComponent"></component>
+      <big-meeting-popup :stepFourProps="stepFourProps" />
     </div>
     <div v-if="activeTab === ''">
       <div class="heading-text">You can edit these settings at any time</div>

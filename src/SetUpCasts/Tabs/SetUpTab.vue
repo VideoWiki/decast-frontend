@@ -7,7 +7,9 @@
         type="text"
         v-model="stepOneProps.event_name"
         placeholder="e.g my friend hang out"
+        @keyup="nameError = stepOneProps.event_name === ''"
       />
+      <p v-if="nameError" class="text-danger m-0 p-0">Name is required</p>
     </div>
     <div class="cast-desc">
       <vs-textarea
@@ -15,7 +17,12 @@
         v-model="stepOneProps.description"
         placeholder="Quick description"
         class="desc"
+        height="90px"
+        @keyup="descriptionError = stepOneProps.description === ''"
       />
+      <p v-if="descriptionError" class="text-danger m-0 p-0">
+        description is required
+      </p>
     </div>
     <div class="cast-time flex">
       <div class="date">
@@ -26,27 +33,45 @@
       </div>
       <div class="input-date">
         <label for="startTimeSelect" class="text">Start Time</label>
-        <select
+        <div
           id="startTimeSelect"
-          v-model="stepOneProps.startTime"
+          @click="selectStart = !selectStart"
           class="custom-dropdown1 input-box"
         >
-          <option v-for="time in timeOptions" :key="time.label">
-            {{ time.label }}
-          </option>
-        </select>
+          {{ stepOneProps.startTime }}
+          <i class="arrow"></i>
+          <div v-if="selectStart" class="options-list">
+            <span
+              class="timeOption"
+              v-for="time in timeOptions"
+              @click="stepOneProps.startTime = time.value"
+              :key="time.label"
+            >
+              {{ time.label }}
+            </span>
+          </div>
+        </div>
       </div>
       <div>
         <label for="endTimeSelect" class="text">End Time</label>
-        <select
+        <div
           id="endTimeSelect"
-          v-model="selectedEndTime"
-          class="custom-dropdown2 input-box"
+          @click="selectEnd = !selectEnd"
+          class="custom-dropdown1 input-box"
         >
-          <option v-for="time in timeOptions" :key="time.label">
-            {{ time.label }}
-          </option>
-        </select>
+          {{ selectedEndTime }}
+          <i class="arrow"></i>
+          <div v-if="selectEnd" class="options-list">
+            <span
+              class="timeOption"
+              v-for="time in timeOptions"
+              @click="setEndTime(time)"
+              :key="time.label"
+            >
+              {{ time.label }}
+            </span>
+          </div>
+        </div>
       </div>
       <div class="time-zone">
         <label class="text">Time zone</label>
@@ -71,14 +96,13 @@
       </div>
     </div>
     <div class="schedule-info">
-      This call will take place on the May 15, 2023{{
-        stepOneProps.startD
-      }}
-      from {{ stepOneProps.startTime }} until
+      This call will take place on the
+      {{ moment(stepOneProps.startD).format('ll') }} from
+      {{ stepOneProps.startTime }} until
       {{ selectedEndTime }}
     </div>
-    <div class="button">
-      <button>Next</button>
+    <div class="button cursor-pointer">
+      <button class="cursor-pointer" @click="goNext">Next</button>
     </div>
   </div>
 </template>
@@ -87,18 +111,24 @@ import vSelect from 'vue-select';
 import allTimeZone from './allTimeZone';
 import Calendar from '../../views/login/Calendar.vue';
 import { TimeFrames } from './TimeFrames';
+import moment from 'moment-timezone';
 export default {
   name: 'SetUpTab',
   components: {
     'vs-select': vSelect,
     Calendar,
   },
-  props: ['stepOneProps'],
+  props: ['stepOneProps', 'changeActiveTab'],
   data() {
     return {
       startH: null,
+      moment,
+      selectStart: false,
+      selectEnd: false,
       selectedEndTime: null,
       timeOptions: TimeFrames,
+      nameError: false,
+      descriptionError: false,
       mostUsedTimezone: [
         { text: 'Asia/Calcutta', value: 'Asia/Kolkata' },
         { text: 'Europe/Lisbon', value: 'Europe/Lisbon' },
@@ -108,10 +138,47 @@ export default {
       timezone: null,
     };
   },
-  mounted() {},
-  methods: {},
+  mounted() {
+    const currentTime = moment();
+    for (let i = 0; i < this.timeOptions.length; i++) {
+      const time = moment(this.timeOptions[i].value, 'HH:mm:ss');
+      console.log(time.isAfter(currentTime), this.timeOptions[i].value);
+      if (time.isAfter(currentTime)) {
+        this.stepOneProps.startTime = this.timeOptions[i].value;
+        this.selectedEndTime = this.timeOptions[i + 1].value;
+        console.log();
+        break;
+      }
+    }
+  },
+  watch: {
+    selectEnd(newV, oldV) {
+      console.log(newV);
+    },
+  },
+  methods: {
+    setEndTime(time) {
+      console.log(time);
+      this.selectedEndTime = time.value;
+      console.log(this.selectEnd);
+    },
+    goNext() {
+      if (this.stepOneProps.event_name === '') {
+        this.nameError = true;
+      } else if (this.stepOneProps.description === '') {
+        this.descriptionError = true;
+      } else {
+        this.changeActiveTab('Branding');
+      }
+    },
+  },
 };
 </script>
+<style>
+textarea {
+  height: 100% !important;
+}
+</style>
 <style scoped>
 *:not(i) {
   font-family: 'Karla', sans-serif;
@@ -127,6 +194,18 @@ export default {
   color: #637181;
   margin-bottom: 6px;
 }
+
+.timeOption {
+  padding: 10px;
+  display: inline-block;
+  width: 100%;
+}
+
+.timeOption:hover {
+  background-color: #31394e93;
+  color: white;
+}
+
 .cast-name input {
   width: 541px;
   height: 40px;
@@ -141,21 +220,24 @@ export default {
 .cast-desc {
   margin-top: 20px;
 }
+
 .desc {
   background-color: transparent !important;
   border: none !important;
   width: 541px;
-  height: 90px;
+  height: 100px;
   border: 1px solid #31394e !important;
   background-color: #1d232b !important;
   border-radius: 6px !important;
   color: #a6a6a8;
   font-size: 12px;
   font-weight: 500;
+  margin: 0 !important;
 }
 .cast-time {
   margin-top: 12px;
 }
+
 .date {
   width: 196px;
 }
@@ -173,7 +255,43 @@ export default {
   font-size: 12px;
   text-align: justify;
   height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  cursor: pointer;
+  position: relative;
 }
+
+.options-list {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  height: 300px;
+  overflow: auto;
+  background: #1d232b;
+  width: 100px;
+}
+
+.options-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.options-list::-webkit-scrollbar-thumb {
+  background-color: #31394e;
+  border-radius: 4px;
+  height: 10px;
+}
+
+.arrow {
+  border: solid #a6a6a8;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 2px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
 .date input {
   width: 196px;
   border-radius: 6px;

@@ -1,15 +1,22 @@
 <template>
   <div>
-    <div class="color-preview flex" @click="toggleColorPicker">
+    <div class="color-preview flex">
       <div
+        @click="toggleColorPicker"
         class="color"
         :style="{ backgroundColor: stepTwoProps.primary_color }"
       ></div>
-      <div class="name-color">{{ stepTwoProps.primary_color }}</div>
-      <div class="cross">
+      <div class="name-color" @click="toggleColorPicker">
+        {{ stepTwoProps.primary_color }}
+      </div>
+      <div
+        class="cross cursor-pointer"
+        @click="stepTwoProps.primary_color = '#D7DF23'"
+      >
         <img src="@/assets/images/editor/Vector3.svg" />
       </div>
     </div>
+    <div class="picker" @click="picker" v-if="colorPickerVisible"></div>
     <color-picker
       v-if="colorPickerVisible"
       v-model="stepTwoProps.primary_color"
@@ -40,6 +47,9 @@ export default {
     },
     toggleColorPicker() {
       this.colorPickerVisible = !this.colorPickerVisible;
+    },
+    picker(e) {
+      this.toggleColorPicker();
     },
   },
 };
@@ -94,6 +104,9 @@ body {
   margin: auto;
   padding: 0%;
   margin-top: 2rem;
+  position: absolute !important;
+  bottom: 35%;
+  z-index: 9;
 }
 
 .vc-checkerboard {
@@ -146,6 +159,17 @@ body {
   color: #a6a6a8 !important;
   font-size: 14px !important;
   margin: auto !important;
+}
+
+.picker {
+  height: 100vh;
+  width: 100%;
+  background: #1d232b09;
+  border: 10px solid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 8;
 }
 
 span {

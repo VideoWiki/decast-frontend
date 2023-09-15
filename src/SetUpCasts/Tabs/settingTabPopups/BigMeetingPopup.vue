@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue1"></buttonToggle>
+            <buttonToggle v-model="stepFourProps.record"></buttonToggle>
           </div>
         </div>
         <div class="for-auto-record flex same-style">
@@ -42,7 +42,9 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue2"></buttonToggle>
+            <buttonToggle
+              v-model="stepFourProps.auto_start_recording"
+            ></buttonToggle>
           </div>
         </div>
         <div class="for-mute flex same-style">
@@ -54,7 +56,9 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue3"></buttonToggle>
+            <buttonToggle
+              v-model="stepFourProps.allow_moderator_to_unmute_user"
+            ></buttonToggle>
           </div>
         </div>
         <div class="for-end flex same-style">
@@ -66,7 +70,9 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue4"></buttonToggle>
+            <buttonToggle
+              v-model="stepFourProps.end_when_no_moderator"
+            ></buttonToggle>
           </div>
         </div>
         <div class="for-lock flex same-style">
@@ -78,7 +84,7 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue5"></buttonToggle>
+            <buttonToggle v-model="stepFourProps.lock_layout"></buttonToggle>
           </div>
         </div>
       </div>
@@ -110,7 +116,7 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue5"></buttonToggle>
+            <buttonToggle v-model="stepFourProps.mute_on_start"></buttonToggle>
           </div>
         </div>
         <div class="for-lock flex same-style">
@@ -122,7 +128,9 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue5"></buttonToggle>
+            <buttonToggle
+              v-model="stepFourProps.webcam_only_for_moderator"
+            ></buttonToggle>
           </div>
         </div>
         <div class="for-lock flex same-style">
@@ -134,7 +142,7 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue5"></buttonToggle>
+            <buttonToggle v-model="stepFourProps.disable_mic"></buttonToggle>
           </div>
         </div>
         <div class="for-lock flex same-style">
@@ -149,7 +157,7 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="toggleValue5"></buttonToggle>
+            <buttonToggle v-model="stepFourProps.viewer_mode"></buttonToggle>
           </div>
         </div>
       </div>
@@ -167,14 +175,17 @@ export default {
       toggleValue: false,
     };
   },
+  props: ['stepFourProps'],
   components: {
     buttonToggle,
   },
   methods: {
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
+      this.isDropdownOpen2 = false;
     },
     toggleDropdown2() {
+      this.isDropdownOpen = false;
       this.isDropdownOpen2 = !this.isDropdownOpen2;
     },
   },
@@ -202,6 +213,10 @@ export default {
   font-weight: 600;
   font-size: 14px;
   color: #a6a6a8;
+}
+
+label {
+  margin: 0 !important;
 }
 .left-side p {
   font-size: 11px;

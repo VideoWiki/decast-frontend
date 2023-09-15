@@ -278,6 +278,14 @@ const router = new Router({
       },
     },
     {
+      path: '/join-cast/:meeting_id?',
+      name: 'Joining Room',
+      component: () => import('./views/CastjoiningPage.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/consent',
       name: 'Consent',
       component: () => import('./views/login/components/Consent.vue'),
@@ -292,7 +300,7 @@ const router = new Router({
       meta: {
         rule: 'isPublic',
       },
-      
+
       // children: [
       //   {
       //     path: '/login/',
@@ -326,6 +334,14 @@ const router = new Router({
       path: '/password/reset/:token',
       name: 'Reset Password',
       component: () => import('@/views/passwordReset/Reset.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/popup',
+      name: 'Reset Passwo',
+      component: () => import('@/views/dashboard/Popup.vue'),
       meta: {
         rule: 'isPublic',
       },
