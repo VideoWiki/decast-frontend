@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import axios from '../../axios';
 import constants from '../../../constant';
-import constant from '../../../constant';
 export default {
   compressImage({ commit }, { data, maxWidth, maxHeight, quality }) {
     return new Promise((resolve, reject) => {
@@ -68,6 +67,7 @@ export default {
         });
     });
   },
+
   meetingInfo({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios
@@ -259,7 +259,7 @@ export default {
   getImage({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`${constant.apiCastUrl}/api/add/text/image/?user_name=${payload}`)
+        .get(`${constants.apiCastUrl}/api/add/text/image/?user_name=${payload}`)
         .then((res) => {
           resolve(res);
         })
@@ -318,6 +318,14 @@ export default {
         });
     });
   },
+  getUserCasts({ commit }) {
+    return axios.get(constants.apiCastUrl + '/api/event/user/events/');
+  },
 
+  deleteCast({ commit }, payload) {
+    return axios.post(constants.apiCastUrl + '/api/event/meeting/delete/', {
+      public_meeting_id: payload,
+    });
+  },
   //
 };

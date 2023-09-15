@@ -17,8 +17,8 @@
         <div class="setting">
           <div class="">
             <div v-if="accessToken || loggedIn">
-              <div class="con-img ml-3">
-                <!-- <vs-avatar
+              <div class="con-img ml-3" @click="toggleUserMenu">
+                <vs-avatar
                   :text="getFirstLetter(activeUserInfo.first_name)"
                   color="primary"
                   class="m-0 shadow-md"
@@ -26,9 +26,12 @@
                     activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''
                   "
                   size="40px"
-                /> -->
-                <profile-drop-down-vue />
+                />
               </div>
+              <userMenu
+                :showMenu="userMenuVisible"
+                :closeMenu="toggleUserMenu"
+              />
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
               Login
@@ -58,10 +61,10 @@
 <script>
 import LeftPart from './components/LeftPart.vue';
 import RightPart from './components/RightPart.vue';
+import userMenu from './userMenu.vue';
 import Rooms from '../login/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
-import ProfileDropDownVue from '../../layouts/components/navbar/components/ProfileDropDown.vue';
 
 export default {
   mixins: [utils],
@@ -70,12 +73,13 @@ export default {
     LeftPart,
     RightPart,
     Rooms,
-    ProfileDropDownVue,
+    userMenu,
   },
   data() {
     return {
       url: constants.challengeUri,
       iframe: false,
+      userMenuVisible: false,
     };
   },
   computed: {
@@ -130,6 +134,10 @@ export default {
       console.log(this.iframe);
       // window.location.href = constants.challengeUri;
     },
+    toggleUserMenu() {
+      console.log('Clicked');
+      this.userMenuVisible = !this.userMenuVisible;
+    },
   },
 };
 </script>
@@ -174,7 +182,7 @@ export default {
 }
 
 .sideOne {
-  width: 30%;
+  width: 31%;
   /* border: 1px solid yellow; */
   padding-right: 37px;
 }

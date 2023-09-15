@@ -81,6 +81,7 @@ export default {
       sp9: 'Choose a video format',
       sp10: 'Prepare your scenes/course',
       sp11: 'Add voice/narration to your scenes/course',
+      sp12: 'Storage',
       text: {
         t1: 'When you create scenes, they will appear here'
       },

@@ -4,6 +4,7 @@
   background: #000;
   display: block;
   position: absolute;
+  z-index: 999;
 }
 
 .loading-logo {

@@ -5,9 +5,9 @@
       <buttonToggle v-model="toggleValue" class="toggle-button"></buttonToggle>
     </div>
     <div v-if="!toggleValue" class="default-look">
-      <img src="@/assets/images/create-event/image.svg" class="img2" />
+      <img src="@/assets/images/editor/image.svg" class="img2" />
       <div class="logo">
-        <img :src="img1Src" @click="changeImage" class="img1" />
+        <img :src="img1Src" class="img1" />
       </div>
       <div class="some-text">Default Cast Lime Look</div>
       <img src="@/assets/images/editor/Group154.svg" class="img3" />
@@ -21,12 +21,13 @@
               <img src="@/assets/images/editor/Vector3.svg" />
             </div>
             <div class="logo-img">
-              <img :src="logoImg" @click="changeImagelogo" />
+              <img :src="logoImg" @click="changeImageLogo" />
             </div>
           </div>
         </div>
         <div class="choose-color">
           <label>Choose your brand color</label>
+          <ColorPicker :stepTwoProps="stepTwoProps" />
         </div>
       </div>
       <div class="right">
@@ -58,44 +59,46 @@
       </div>
     </div>
     <div class="button">
-      <button>Next</button>
+      <button @click="changeActiveTab('Settings')" class="cursor-pointer">
+        Next
+      </button>
     </div>
   </div>
 </template>
 <script>
 import buttonToggle from './buttonToggle.vue';
+import ColorPicker from '../../views/login/ColorPicker.vue';
 export default {
   name: 'BrandingTab',
   data() {
     return {
-      img1Src: require('@/assets/images/editor/Cast-Draft-Logo-02.svg'),
-      logoImg: require('@/assets/images/editor/Cast-Draft-Logo-02.svg'),
+      img1Src: this.stepTwoProps.logo,
+      logoImg: this.stepTwoProps.logo,
       toggleValue: false,
       imageSelected: false,
       imageUrl: '',
     };
   },
+  props: ['stepTwoProps', 'changeActiveTab'],
   components: {
     buttonToggle,
+    ColorPicker,
+  },
+  mounted() {
+    var img;
+    if (this.stepTwoProps.logo === '') {
+      img = require('@/assets/images/editor/Cast-Draft-Logo-02.svg');
+      this.img1Src = img;
+      this.logoImg = img;
+    } else {
+      img = URL.createObjectURL(this.stepTwoProps.logo);
+      this.img1Src = img;
+      this.logoImg = img;
+    }
+    console.log(this.stepTwoProps.logo);
   },
   methods: {
-    changeImage() {
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.accept = 'image/*';
-      fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            this.img1Src = event.target.result;
-          };
-          reader.readAsDataURL(file);
-        }
-      };
-      fileInput.click();
-    },
-    changeImagelogo() {
+    changeImageLogo() {
       const fileInput = document.createElement('input');
       fileInput.type = 'file';
       fileInput.accept = 'image/*';
@@ -105,6 +108,9 @@ export default {
           const reader = new FileReader();
           reader.onload = (event) => {
             this.logoImg = event.target.result;
+            this.img1Src = event.target.result;
+            console.log(file);
+            this.stepTwoProps.logo = file;
           };
           reader.readAsDataURL(file);
         }
@@ -119,6 +125,7 @@ export default {
         reader.onload = () => {
           this.imageSelected = true;
           this.imageUrl = reader.result;
+          this.stepTwoProps.cover_image = event.target.files[0];
         };
         reader.readAsDataURL(file);
       }
@@ -220,7 +227,7 @@ export default {
   color: #1f272f;
 }
 .custom-look {
-  margin-top: 32px;
+  margin-top: 15px;
 }
 .choose-logo label {
   font-weight: 500;

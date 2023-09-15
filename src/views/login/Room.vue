@@ -2,12 +2,7 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2
-          class="custom-heading"
-          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
-        >
-          Rooms
-        </h2>
+        <h2 style="color: #a6a6a8; font-weight: 500; font-size: 24px">Rooms</h2>
         <p class="sub-heading pt-2">
           Rooms are social spaces for direct communication. Ideal for X Y Z.
           <a
@@ -146,53 +141,45 @@
         >
       </p>
     </div>
-    <vs-popup
-      title="Login/Register"
-      id="login-popup"
-      ref="login-popup"
-      :active.sync="createPopup"
-      ><template>
-        <div class="centered-container">
-          <div class="container">
-            <div class="first-row">
-              <h6 class="custom-heading">Create new room</h6>
-              <button class="close-icon" @click="createPopup = false">✕</button>
-            </div>
-            <div class="text">Room Name</div>
-            <div class="input">
-              <input placeholder="Name" type="text" v-model="text" />
-            </div>
+    <div class="popup" v-if="createPopup" @click="closeAllPopups">
+      <div class="createPopup">
+        <div class="container">
+          <div class="first-row">
+            <h6 class="popup-heading">Create new room</h6>
+            <button class="close-icon" @click="createPopup = false">✕</button>
+          </div>
+          <div class="text">Room Name</div>
+          <div class="input">
+            <input placeholder="Name" type="text" v-model="text" />
+          </div>
 
-            <div class="button">
-              <button class="button-text cursor-pointer" @click="createRoom">
-                Create Room
-              </button>
-            </div>
+          <div class="button">
+            <button class="button-text cursor-pointer" @click="createRoom">
+              Create Room
+            </button>
           </div>
         </div>
-      </template>
-    </vs-popup>
-    <vs-popup ref="share-popup" :active.sync="sharePopup"
-      ><template>
-        <div class="centered-container">
-          <div class="container">
-            <div class="first-row">
-              <h6 class="custom-heading">Share room</h6>
-              <button class="close-icon" @click="sharePopup = false">✕</button>
-            </div>
-            <div class="text">User Email</div>
-            <div class="input">
-              <input placeholder="Email" type="text" v-model="email" />
-            </div>
-            <div class="button">
-              <button class="button-text cursor-pointer" @click="shareRoom">
-                Share Room
-              </button>
-            </div>
+      </div>
+    </div>
+    <div class="popup" v-if="sharePopup" @click="closeAllPopups">
+      <div class="centered-container">
+        <div class="container">
+          <div class="first-row">
+            <h6 class="popup-heading">Share room</h6>
+            <button class="close-icon" @click="sharePopup = false">✕</button>
+          </div>
+          <div class="text">User Email</div>
+          <div class="input">
+            <input placeholder="Email" type="text" v-model="email" />
+          </div>
+          <div class="button">
+            <button class="button-text cursor-pointer" @click="shareRoom">
+              Share Room
+            </button>
           </div>
         </div>
-      </template>
-    </vs-popup>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -235,6 +222,12 @@ export default {
     },
   },
   methods: {
+    closeAllPopups(e) {
+      if (e.currentTarget === e.target) {
+        this.sharePopup = false;
+        this.createPopup = false;
+      }
+    },
     copy(url) {
       let id = url.split('/');
       id = id[id.length - 1];
@@ -307,6 +300,7 @@ export default {
     async getRecordings() {
       try {
         const res = await this.$store.dispatch('room/getRecordings');
+        console.log(res);
       } catch (e) {
         console.error('Error getting recordings', e);
       }
@@ -377,41 +371,6 @@ export default {
     });
     this.getRecordings();
     this.getList();
-    this.$refs['login-popup'].$el.childNodes[1].childNodes[0].style.display =
-      'none';
-    console.log(this.$refs['login-popup'].$el);
-    console.log(document.getElementById('login-popup'));
-    var styles = {
-      padding: 0,
-      margin: 0,
-      width: '500px',
-      overflow: 'hidden',
-    };
-    var obj = document.getElementsByClassName('vs-popup--content')[0];
-    Object.assign(obj.style, styles);
-    styles = {
-      background: 'transparent',
-      boxShadow: 'none',
-      width: '500px',
-      minWidth: '500px !important',
-      overflow: 'hidden',
-    };
-    this.$refs['login-popup'].$el.childNodes[1].style.cssText =
-      'min-width:500px !important';
-    obj = document.getElementsByClassName('vs-popup')[0];
-    Object.assign(obj.style, styles);
-
-    this.$refs['login-popup'].$el.childNodes[1].style.cssText =
-      'background:transparent !important';
-    obj = document.getElementsByClassName('vs-popup')[2];
-    Object.assign(obj.style, styles);
-
-    this.$refs['share-popup'].$el.childNodes[1].childNodes[0].style.display =
-      'none';
-    this.$refs['share-popup'].$el.childNodes[1].style.cssText =
-      'min-width:500px !important';
-    obj = document.getElementsByClassName('vs-popup')[0];
-    Object.assign(obj.style, styles);
   },
 };
 </script>
@@ -568,21 +527,6 @@ export default {
   fill: #d7df23;
 }
 
-/* .copy-link:hover::before {
-  content: 'https://room.video.wiki/b/dhe-ztu-y2w-lsi';
-  position: absolute;
-  top: -45px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #1f272f;
-  border: 1px solid #31394e;
-  color: #a6a6a8;
-  padding: 8px 12px;
-  border-radius: 4px;
-  white-space: nowrap;
-  opacity: 0.9;
-  z-index: 100000;
-} */
 .tooltip-container {
   position: relative;
 }
@@ -609,6 +553,22 @@ export default {
   display: block; /* Show the tooltip on hover */
 }
 
+.popup {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #1f272f67;
+  z-index: 999;
+}
+
+.createPopup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .options-container {
   margin-top: 30px;
   height: 303px;
@@ -650,7 +610,10 @@ export default {
   justify-content: center;
   align-items: center;
   height: fit-content;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .container {
@@ -659,10 +622,9 @@ export default {
   background-color: #1f272f;
   border-radius: 12px;
   padding: 25px;
-  position: relative;
 }
 
-.custom-heading {
+.popup-heading {
   font-size: 18px;
   font-weight: 500;
   color: #a6a6a8;

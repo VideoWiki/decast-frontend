@@ -15,8 +15,7 @@ import Rollbar from 'rollbar';
 import Vuesax from 'vuesax';
 import 'material-icons/iconfont/material-icons.css'; // Material Icons
 import 'vuesax/dist/vuesax.css';
-import './views/Home.vue'
-
+import './views/Home.vue';
 
 // axios
 import axios from './axios.js';
@@ -47,15 +46,15 @@ import store from './store/store';
 
 // Vuejs - Vue wrapper for hammerjs
 import { VueHammer } from 'vue2-hammer';
-import VueCookies from 'vue-cookies'
-Vue.use(VueCookies)
+import VueCookies from 'vue-cookies';
+Vue.use(VueCookies);
 import VueOtp2 from 'vue-otp-2';
 
-Vue.use(VueOtp2)
+Vue.use(VueOtp2);
 
-import OtpInput from "@bachdgvn/vue-otp-input";
+import OtpInput from '@bachdgvn/vue-otp-input';
 
-Vue.component("v-otp-input", OtpInput);
+Vue.component('v-otp-input', OtpInput);
 // VeeValidate
 import VeeValidate from 'vee-validate';
 
@@ -64,7 +63,6 @@ import VueLoaders from 'vue-loaders';
 
 import 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css';
-
 
 // vue progress bar
 import VueProgressBar from 'vue-progressbar'; // Vuesax
@@ -91,7 +89,7 @@ Vue.use(VueGtm, {
   loadScript: constant.url === 'https://videowiki.pt', // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
   // ignoredViews: ["homepage"], // Don't trigger events for specified router names (case insensitive) (optional)
-  trackOnNextTick: false // Whether or not call trackView in Vue.nextTick
+  trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
 });
 
 Vue.use(VueLoaders);
@@ -105,7 +103,7 @@ Vue.use(VueProgressBar, {
   color: '#7367F0',
   failedColor: 'red',
   thickness: '0.5rem',
-  autoFinish: false
+  autoFinish: false,
 });
 
 // Set the Rollbar instance in the Vue prototype
@@ -115,7 +113,7 @@ Vue.use(VueProgressBar, {
 Vue.prototype.$rollbar = new Rollbar({
   accessToken: '3a684ebfdcc34ff69446d583519d2fa9',
   captureUncaught: true,
-  captureUnhandledRejections: true
+  captureUnhandledRejections: true,
 });
 
 // If you have already set up a global error handler,
@@ -141,7 +139,5 @@ new Vue({
   store,
   i18n,
   acl,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount('#app');
-
-
