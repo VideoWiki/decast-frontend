@@ -105,7 +105,7 @@ export default {
     Popup,
     StreamCard,
   },
-  props: ['closeCreate'],
+  props: ['closeCreate', 'getList'],
   data() {
     return {
       activeTab: 'Set up',
@@ -314,6 +314,7 @@ export default {
       this.$store
         .dispatch('cast/submitForm', this.formData)
         .then((response) => {
+          this.getList();
           this.status = 'success';
           this.$vs.loading.close();
           this.responsedata = response.data.message;

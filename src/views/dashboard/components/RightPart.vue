@@ -170,7 +170,10 @@
       </p>
     </div>
     <div class="popup" v-if="create">
-      <set-up-cast :closeCreate="closeCreate"></set-up-cast>
+      <set-up-cast
+        :getList="getCastList"
+        :closeCreate="closeCreate"
+      ></set-up-cast>
     </div>
     <div class="popup" v-if="stream">
       <stream-card :closeCreate="closeCreate"></stream-card>
@@ -196,9 +199,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('cast/getUserCasts').then((res) => {
-      this.casts = res.data.my_events;
-    });
+    this.getCastList();
   },
   computed: {
     totalImagesCount() {
@@ -206,6 +207,11 @@ export default {
     },
   },
   methods: {
+    getCastList() {
+      this.$store.dispatch('cast/getUserCasts').then((res) => {
+        this.casts = res.data.my_events;
+      });
+    },
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
     },

@@ -25,7 +25,6 @@ if (process.env.NODE_ENV === 'production') {
   constants.apiUrl = 'https://api.video.wiki';
   constants.url = 'https://videowiki.pt';
   constants.backImageUrl = 'https://api.cast.video.wiki/api/photos/?category=';
-  constants.apiCastUrl = 'https://api.cast.video.wiki';
   constants.streamUrl = 'https://play.stream.video.wiki/live/';
   constants.eventDetailsUrl =
     'https://api.cast.video.wiki/api/event/meeting/info/?public_meeting_id=';
