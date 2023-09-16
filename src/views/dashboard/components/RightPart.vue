@@ -67,97 +67,148 @@
       </div>
 
       <div class="options-container">
-        <div v-for="(cast, index) in casts" :key="index">
-          <div class="child-options">
-            <div class="inner-div1">
-              <div class="inner-child1">
-                <p>{{ cast.event_name }}</p>
-                <button>
-                  {{
-                    moment(cast.event_date).format('ll').split(',')[0] +
-                    ' ' +
-                    moment(cast.event_time.split('.')[0], 'HH:mm:ss').format(
-                      'h:mm A'
-                    )
-                  }}
-                </button>
-              </div>
-              <div v-if="cast.invitee_list.length === 0" class="inner-child2">
-                <span class="invite-text" href="#">Invite Attendees</span>
-                <img src="@/assets/images/user.svg" />
-              </div>
-              <div v-else class="inner-child2 my-4">
-                <p class="invite-text">
-                  {{ cast.invitee_list.length }} attendees invited
-                </p>
-                <div class="flex my-1">
-                  <span
-                    v-for="(image, imageIndex) in cast.invitee_list"
-                    :key="imageIndex"
-                    alt=""
-                  >
-                    <span class="attendee">
-                      {{ image.email.slice(0, 2) }}
+        <div v-if="focusYourRooms">
+          <div v-for="(cast, index) in casts" :key="index">
+            <div class="child-options">
+              <div class="inner-div1">
+                <div class="inner-child1">
+                  <p>{{ cast.event_name }}</p>
+                  <button>
+                    {{
+                      moment(cast.event_date).format('ll').split(',')[0] +
+                      ' ' +
+                      moment(cast.event_time.split('.')[0], 'HH:mm:ss').format(
+                        'h:mm A'
+                      )
+                    }}
+                  </button>
+                </div>
+                <div v-if="cast.invitee_list.length === 0" class="inner-child2">
+                  <span class="invite-text" href="#">Invite Attendees</span>
+                  <img src="@/assets/images/user.svg" />
+                </div>
+                <div v-else class="inner-child2 my-4">
+                  <p class="invite-text">
+                    {{ cast.invitee_list.length }} attendees invited
+                  </p>
+                  <div class="flex my-1">
+                    <span
+                      v-for="(image, imageIndex) in cast.invitee_list"
+                      :key="imageIndex"
+                      alt=""
+                    >
+                      <span class="attendee">
+                        {{ image.email.slice(0, 2) }}
+                      </span>
                     </span>
-                  </span>
+                  </div>
+                </div>
+                <!-- <p>{{ totalImagesCount[index] }}</p> -->
+              </div>
+
+              <div class="inner-div2">
+                <button @click="togglePopup(index)">
+                  <img
+                    src="@/assets/images/Vector2.svg"
+                    class="h-7 p-2"
+                    alt=""
+                  />
+                </button>
+                <div class="cast-popup" v-if="cast.showPopup">
+                  <button>
+                    <img src="@/assets/images/manage.svg" alt="" />Manage
+                    attendees
+                  </button>
+                  <button>
+                    <img src="@/assets/images/call.svg" alt="" />Call settings
+                  </button>
+                  <button>
+                    <img src="@/assets/images/stream.svg" alt="" />Stream
+                    settings
+                  </button>
+                  <button>
+                    <img src="@/assets/images/drops.svg" alt="" />Drops
+                  </button>
+                  <button>
+                    <img
+                      src="@/assets/images/reschedule.svg"
+                      alt=""
+                    />Reschedule cast
+                  </button>
+                  <button>
+                    <img src="@/assets/images/clock.svg" alt="" />Set reminder
+                  </button>
+                  <button>
+                    <img src="@/assets/images/pen.svg" alt="" />Edit
+                  </button>
+                  <button>
+                    <img src="@/assets/images/prepone.svg" alt="" />Prepone cast
+                  </button>
+                  <button @click="deleteCast(cast.public_meeting_id, index)">
+                    <img src="@/assets/images/delete.svg" />
+                    Delete
+                  </button>
+                </div>
+                <div class="inner-child3">
+                  <button v-if="cast.is_running === 'true'" class="live-btn">
+                    Cast is live
+                  </button>
+                  <div class="inner-child4">
+                    <button
+                      class="active"
+                      @click="copy(cast.public_meeting_id)"
+                    >
+                      <img src="@/assets/images/dashboard/copy.svg" alt="" />
+                    </button>
+                    <button
+                      v-if="cast.is_running === 'false'"
+                      @click="joinNow(cast.public_meeting_id)"
+                    >
+                      Go live now
+                    </button>
+                  </div>
                 </div>
               </div>
-              <!-- <p>{{ totalImagesCount[index] }}</p> -->
             </div>
-
-            <div class="inner-div2">
-              <button @click="togglePopup(index)">
+          </div>
+        </div>
+        <div v-else>
+          <div v-if="recordingList.length">
+            <div
+              class="recordings flex justify-between items-center mb-4"
+              v-for="(recording, index) in recordingList"
+              :key="index"
+            >
+              <div class="w-3/4 flex justify-between items-center">
+                <p>
+                  {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
+                </p>
+                <p>{{ recording.room_name }}</p>
+                <p>
+                  {{
+                    recording.url['Playback Data']['Playback Size'].split('.') +
+                    ' ' +
+                    recording.url['Playback Data']['Playback Size'].split(
+                      ' '
+                    )[1]
+                  }}
+                </p>
+              </div>
+              <button class="side-btn border-none">
                 <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
               </button>
-              <div class="cast-popup" v-if="cast.showPopup">
-                <button>
-                  <img src="@/assets/images/manage.svg" alt="" />Manage
-                  attendees
-                </button>
-                <button>
-                  <img src="@/assets/images/call.svg" alt="" />Call settings
-                </button>
-                <button>
-                  <img src="@/assets/images/stream.svg" alt="" />Stream settings
-                </button>
-                <button>
-                  <img src="@/assets/images/drops.svg" alt="" />Drops
-                </button>
-                <button>
-                  <img src="@/assets/images/reschedule.svg" alt="" />Reschedule
-                  cast
-                </button>
-                <button>
-                  <img src="@/assets/images/clock.svg" alt="" />Set reminder
-                </button>
-                <button>
-                  <img src="@/assets/images/pen.svg" alt="" />Edit
-                </button>
-                <button>
-                  <img src="@/assets/images/prepone.svg" alt="" />Prepone cast
-                </button>
-                <button @click="deleteCast(cast.public_meeting_id, index)">
-                  <img src="@/assets/images/delete.svg" />
-                  Delete
-                </button>
-              </div>
-              <div class="inner-child3">
-                <button v-if="cast.is_running === 'true'" class="live-btn">
-                  Cast is live
-                </button>
-                <div class="inner-child4">
-                  <button class="active" @click="copy(cast.public_meeting_id)">
-                    <img src="@/assets/images/dashboard/copy.svg" alt="" />
-                  </button>
-                  <button
-                    v-if="cast.is_running === 'false'"
-                    @click="joinNow(cast.public_meeting_id)"
-                  >
-                    Go live now
-                  </button>
-                </div>
-              </div>
             </div>
+          </div>
+          <div v-else class="flex flex-col items-center justify-items-center">
+            <img
+              src="@/assets/images/dashboard/NoRecording.svg"
+              class="w-1/2"
+            />
+            <img
+              src="@/assets/images/dashboard/NoRecordingText1.svg"
+              class="mb-3"
+            />
+            <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
       </div>
@@ -196,10 +247,12 @@ export default {
       showPopup: false,
       moment,
       casts: [],
+      recordingList: [],
     };
   },
   mounted() {
     this.getCastList();
+    this.getRecordings();
   },
   computed: {
     totalImagesCount() {
@@ -207,6 +260,11 @@ export default {
     },
   },
   methods: {
+    async getRecordings() {
+      const res = await this.$store.dispatch('cast/recordingList');
+      console.log(res.data);
+      this.recordingList = res.data.recordings || [];
+    },
     getCastList() {
       this.$store.dispatch('cast/getUserCasts').then((res) => {
         this.casts = res.data.my_events;
