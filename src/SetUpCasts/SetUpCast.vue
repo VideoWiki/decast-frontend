@@ -184,7 +184,7 @@ export default {
         welcome_text: '',
         showText: true,
         duration: '60',
-        logout_url: 'https://dev.stream.video.wiki/dashboard',
+        logout_url: 'https://dev.stream.video.wiki/full',
       },
       stepThreeProps: {
         vw_stream: false,

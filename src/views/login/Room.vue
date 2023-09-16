@@ -106,11 +106,25 @@
         </div>
         <div v-else>
           <div v-if="recordingList.length">
-            <div class="recordings flex justify-between items-center mb-4">
+            <div
+              class="recordings flex justify-between items-center mb-4"
+              v-for="(recording, index) in recordingList"
+              :key="index"
+            >
               <div class="w-3/4 flex justify-between items-center">
-                <p>REC 25/08/2023</p>
-                <p>{{ recordingList[0].room_name }}</p>
-                <p>{{ recordingList[0].room_name }}</p>
+                <p>
+                  {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
+                </p>
+                <p>{{ recording.room_name }}</p>
+                <p>
+                  {{
+                    recording.url['Playback Data']['Playback Size'].split('.') +
+                    ' ' +
+                    recording.url['Playback Data']['Playback Size'].split(
+                      ' '
+                    )[1]
+                  }}
+                </p>
               </div>
               <button class="side-btn border-none">
                 <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />

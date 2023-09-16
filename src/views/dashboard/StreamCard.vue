@@ -190,8 +190,7 @@ export default {
       if (this.twitch !== '' && this.twitchSecret !== '') {
         streamUrls[1].urls.push(`${this.twitch}/${this.twitchSecret}`);
       }
-      const isStreaming = this.VWStream || streamUrls[1].urls > 0;
-      console.log(this.castId);
+      const isStreaming = this.VWStream || streamUrls[1].urls.length > 0;
       const data = new FormData();
       data.append('cast_id', this.castId);
       data.append('cast_name', this.stepOneProps.event_name);
