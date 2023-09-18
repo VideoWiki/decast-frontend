@@ -67,6 +67,7 @@ export default {
         });
     });
   },
+
   meetingInfo({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios
@@ -317,6 +318,21 @@ export default {
         });
     });
   },
+  getUserCasts({ commit }) {
+    return axios.get(constants.apiCastUrl + '/api/event/user/events/');
+  },
 
-  //
+  deleteCast({ commit }, payload) {
+    return axios.post(constants.apiCastUrl + '/api/event/meeting/delete/', {
+      public_meeting_id: payload,
+    });
+  },
+  recordingList({ commit }) {
+    const options = {
+      method: 'GET',
+      url: constants.apiCastUrl + '/api/event/user/recordings',
+    };
+
+    return axios.request(options);
+  },
 };

@@ -1,58 +1,90 @@
 <template>
-  <div class="main-containr">
-    <div class="center-containr">
-      <div class="heading-part flex">
-        <div class="heading">Set up your cast</div>
-        <img src="@/assets/images/editor/cross.svg" alt="" />
+  <div>
+    <!-- <div v-if="castCreated"></div> -->
+    <div class="main-containr">
+      <popup
+        v-if="status === 'success'"
+        :changeStatus="changeStatus"
+        :closeCreate="closeCreate"
+      />
+      <div v-else-if="status === 'create'" class="center-containr">
+        <div class="heading-part flex">
+          <div class="heading">Set up your cast</div>
+          <img
+            @click="closeCreate"
+            src="@/assets/images/editor/cross.svg"
+            alt=""
+          />
+        </div>
+        <div class="buttons flex">
+          <button
+            class="button-1"
+            :style="{
+              backgroundColor: activeTab === 'Set up' ? '#464775' : '#1F272F',
+              color:
+                activeTab === 'Set up'
+                  ? 'rgba(255, 255, 255, 0.8) '
+                  : 'rgba(166, 166, 168, 0.8)',
+            }"
+            @click="activeTab = 'Set up'"
+          >
+            Set up
+          </button>
+          <button
+            class="button-2"
+            :style="{
+              backgroundColor: activeTab === 'Branding' ? '#464775' : '#1F272F',
+              color:
+                activeTab === 'Branding'
+                  ? 'rgba(255, 255, 255, 0.8)'
+                  : 'rgba(166, 166, 168, 0.8)',
+            }"
+            @click="activeTab = 'Branding'"
+          >
+            Branding
+          </button>
+          <button
+            class="button-3"
+            :style="{
+              backgroundColor: activeTab === 'Settings' ? '#464775' : '#1F272F',
+              color:
+                activeTab === 'Settings'
+                  ? 'rgba(255, 255, 255, 0.8)'
+                  : 'rgba(166, 166, 168, 0.8)',
+            }"
+            @click="activeTab = 'Settings'"
+          >
+            Settings
+          </button>
+        </div>
+        <div class="tab-content">
+          <SetUpTab
+            v-if="activeTab === 'Set up'"
+            :changeActiveTab="changeActiveTab"
+            :stepOneProps="stepOneProps"
+          />
+          <BrandingTab
+            v-else-if="activeTab === 'Branding'"
+            :stepTwoProps="stepTwoProps"
+            :changeActiveTab="changeActiveTab"
+          />
+          <SettingsTab
+            v-else
+            :createCast="createCast"
+            :stepFourProps="stepFourProps"
+            :changeActiveTab="changeActiveTab"
+          />
+        </div>
       </div>
-      <div class="buttons flex">
-        <button
-          class="button-1"
-          :style="{
-            backgroundColor: activeTab === 'Set up' ? '#464775' : '#1F272F',
-            color:
-              activeTab === 'Set up'
-                ? 'rgba(255, 255, 255, 0.8) '
-                : 'rgba(166, 166, 168, 0.8)',
-          }"
-          @click="activeTab = 'Set up'"
-        >
-          Set up
-        </button>
-        <button
-          class="button-2"
-          :style="{
-            backgroundColor: activeTab === 'Branding' ? '#464775' : '#1F272F',
-            color:
-              activeTab === 'Branding'
-                ? 'rgba(255, 255, 255, 0.8)'
-                : 'rgba(166, 166, 168, 0.8)',
-          }"
-          @click="activeTab = 'Branding'"
-        >
-          Branding
-        </button>
-        <button
-          class="button-3"
-          :style="{
-            backgroundColor: activeTab === 'Settings' ? '#464775' : '#1F272F',
-            color:
-              activeTab === 'Settings'
-                ? 'rgba(255, 255, 255, 0.8)'
-                : 'rgba(166, 166, 168, 0.8)',
-          }"
-          @click="activeTab = 'Settings'"
-        >
-          Settings
-        </button>
-      </div>
-      <div class="tab-content">
-        <SetUpTab v-if="activeTab === 'Set up'" :stepOneProps="stepOneProps" />
-        <BrandingTab
-          v-else-if="activeTab === 'Branding'"
+      <div v-else>
+        <stream-card
+          :stepFourProps="stepFourProps"
+          :stepThreeProps="stepThreeProps"
           :stepTwoProps="stepTwoProps"
+          :stepOneProps="stepOneProps"
+          :closeCreate="closeCreate"
+          :castId="castId"
         />
-        <SettingsTab v-else :stepFourProps="stepFourProps" />
       </div>
     </div>
   </div>
@@ -61,16 +93,25 @@
 import BrandingTab from './Tabs/BrandingTab.vue';
 import SettingsTab from './Tabs/SettingsTab.vue';
 import SetUpTab from './Tabs/SetUpTab.vue';
+import moment from 'moment';
+import Popup from '../views/dashboard/Popup.vue';
+import StreamCard from '../views/dashboard/StreamCard.vue';
 export default {
   name: 'SetUpCast',
   components: {
     BrandingTab,
     SettingsTab,
     SetUpTab,
+    Popup,
+    StreamCard,
   },
+  props: ['closeCreate', 'getList'],
   data() {
     return {
       activeTab: 'Set up',
+      formData: new FormData(),
+      status: 'create',
+      castId: '',
       stepOneProps: {
         generated_event_title: '',
         event_name: '',
@@ -109,7 +150,7 @@ export default {
         audienceAirdrop: false,
         airdropType: 'NFTs',
         price: '',
-        startD: 0,
+        startD: moment().format('YYYY-MM-DD'),
         price_error: false,
         nft_description: '',
         nft_description_error: false,
@@ -143,7 +184,7 @@ export default {
         welcome_text: '',
         showText: true,
         duration: '60',
-        logout_url: 'https://cast.video.wiki/postCast',
+        logout_url: 'https://dev.stream.video.wiki/full',
       },
       stepThreeProps: {
         vw_stream: false,
@@ -152,19 +193,19 @@ export default {
         public_stream: false,
       },
       stepFourProps: {
-        record: '',
-        mute_on_start: '',
-        end_when_no_moderator: '',
-        allow_moderator_to_unmute_user: '',
-        webcam_only_for_moderator: '',
-        auto_start_recording: '',
-        allow_start_stop_recording: '',
-        disable_cam: '',
-        disable_mic: '',
-        lock_layout: '',
-        lock_on_join: '',
-        viewer_mode: '',
-        viewer_password: '',
+        record: true,
+        mute_on_start: true,
+        end_when_no_moderator: true,
+        allow_moderator_to_unmute_user: false,
+        webcam_only_for_moderator: false,
+        auto_start_recording: false,
+        allow_start_stop_recording: false,
+        disable_cam: false,
+        disable_mic: false,
+        lock_layout: true,
+        lock_on_join: false,
+        viewer_mode: false,
+        viewer_password: false,
         listen_only_mode: true,
         webcam_enable: false,
         screen_sharing: true,
@@ -180,6 +221,144 @@ export default {
     changeActiveTab(tab) {
       this.activeTab = tab;
     },
+    changeStatus() {
+      this.status = 'stream';
+    },
+    createCast() {
+      this.formSubmitted();
+    },
+    setCreateEventData() {
+      console.log('12');
+      this.startNow = this.stepOneProps.start_now;
+      for (let [key, value] of Object.entries(this.stepOneProps)) {
+        if (value.length === 0) {
+          value = '';
+        } else {
+          if (value === false) {
+            value = 'False';
+          } else if (value === true) {
+            value = 'True';
+          } else if (value === '') {
+            value = '';
+          }
+        }
+        this.formData.append(key, value);
+      }
+      console.log('123');
+      this.stepTwoProps.imageURL = '';
+      this.stepTwoProps.BackImageURL = '';
+      for (let [key, value] of Object.entries(this.stepTwoProps)) {
+        if (value.length === 0) {
+          value = '';
+        } else {
+          if (value === false) {
+            value = 'False';
+          } else if (value === true) {
+            value = 'True';
+          } else if (value === '') {
+            value = '';
+          }
+        }
+        this.formData.append(key, value);
+      }
+      console.log('1234');
+      for (let [key, value] of Object.entries(this.stepThreeProps)) {
+        if (value.length === 0) {
+          value = '';
+        } else {
+          if (value === false) {
+            value = 'False';
+          } else if (value === true) {
+            value = 'True';
+          } else if (value === '') {
+            value = '';
+          }
+        }
+        this.formData.append(key, value);
+      }
+      for (let [key, value] of Object.entries(this.stepFourProps)) {
+        if (value.length === 0) {
+          value = '';
+        } else {
+          if (value === false) {
+            value = 'False';
+          } else if (value === true) {
+            value = 'True';
+          } else if (value === '') {
+            value = '';
+          }
+        }
+        this.formData.append(key, value);
+      }
+    },
+    formSubmitted() {
+      this.stepOneProps.schedule_time =
+        this.stepOneProps.startD + ' ' + this.stepOneProps.startTime;
+      if (moment().isAfter(this.stepOneProps.schedule_time)) {
+        const fiveMin = moment().add(5, 'minutes');
+        this.stepOneProps.schedule_time =
+          `${fiveMin._d.getFullYear()}-${String(
+            fiveMin._d.getMonth() + 1
+          ).padStart(2, '0')}-${String(fiveMin._d.getDate()).padStart(
+            2,
+            '0'
+          )}` +
+          ' ' +
+          fiveMin._d.getHours() +
+          ':' +
+          fiveMin._d.getMinutes() +
+          ':00';
+      }
+      this.setCreateEventData();
+      this.$vs.loading();
+      this.$store
+        .dispatch('cast/submitForm', this.formData)
+        .then((response) => {
+          this.getList();
+          this.status = 'success';
+          this.$vs.loading.close();
+          this.responsedata = response.data.message;
+          this.$vs.notify({
+            title: 'Success',
+            text: response.data.message,
+            color: 'success',
+          });
+          this.status = 'success';
+          this.castId = response.data.meeting_id;
+          // if (
+          //   this.startNow ||
+          //   (this.startNow === 'True' &&
+          //     response.data &&
+          //     response.data.url !== '')
+          // ) {
+          // this.$refs.Event.setAttribute(
+          //   'href',
+          //   `/user_details/${response.data.meeting_id}`
+          // );
+          // this.$refs.Event.click();
+          // window.location.href = response.data.url;
+          // return (this.newWindow.location = `/user_details/${response.data.meeting_id}`);
+          // } else this.$router.push(`/user_details/${response.data.meeting_id}`);
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.formData = new FormData();
+
+          if (error) {
+            this.$vs.notify({
+              title: 'Error!',
+              text: error.response.data.message,
+              color: 'danger',
+            });
+          } else {
+            this.$vs.notify({
+              title: 'Fields Missing!',
+              text: 'Some Fields are Missing',
+              color: 'danger',
+            });
+          }
+        });
+    },
   },
 };
 </script>
@@ -188,7 +367,7 @@ export default {
   font-family: 'Karla', sans-serif;
 }
 .main-containr {
-  max-height: 600px;
+  max-height: 650px;
   min-width: auto;
   overflow: auto;
   width: 583px;
@@ -199,7 +378,6 @@ export default {
   flex-direction: column;
   margin: auto;
   padding: 18px;
-  margin-top: 100px;
 }
 .heading-part {
   justify-content: space-between;

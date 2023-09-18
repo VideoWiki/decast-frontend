@@ -1,8 +1,8 @@
 <template>
-  <div class="stream-cont">
+  <div>
     <div class="head-container">
       <h3>Share setting</h3>
-      <button>
+      <button @click="closeCreate">
         <img src="@/assets/images/cross.svg" />
       </button>
     </div>
@@ -14,14 +14,15 @@
         </div>
         <div class="inner-div-2">
           <h3>VideoWiki Streaming</h3>
-          <p>For streaming the event on VideoWiki, choose this option, and
-            you will receive the stream page address in your email.
+          <p>
+            For streaming the event on VideoWiki, choose this option, and you
+            will receive the stream page address in your email.
           </p>
         </div>
       </div>
 
       <div class="toggle-switch" @click="toggleSwitch1">
-        <input type="checkbox" v-model="isChecked1" class="checkbox" />
+        <input type="checkbox" v-model="VWStream" class="checkbox" />
         <label class="slider"></label>
       </div>
     </div>
@@ -41,25 +42,27 @@
         </div>
         <div class="inner-div-2">
           <h3>YouTube</h3>
-          <p class="desc">You can stream your event on YouTube. - Server URL address: - Stream name/key:
+          <p class="desc">
+            You can stream your event on YouTube. - Server URL address: - Stream
+            name/key:
           </p>
         </div>
       </div>
 
       <div class="toggle-switch" @click="toggleSwitch2">
-        <input type="checkbox" v-model="isChecked2" class="checkbox" />
+        <input type="checkbox" v-model="showYoutube" class="checkbox" />
         <label class="slider"></label>
       </div>
     </div>
 
-    <div class="isVisible"  v-if="showContent">
+    <div class="isVisible" v-if="showYoutube">
       <div>
         <label>Youtube RTMP Url</label>
-        <input/>
+        <input v-model="youtube" />
       </div>
       <div>
         <label>Youtube Secret Key</label>
-        <input/>
+        <input v-model="youtubeSecret" />
       </div>
     </div>
 
@@ -70,14 +73,26 @@
         </div>
         <div class="inner-div-2">
           <h3>Facebook</h3>
-          <p class="desc">You can stream your event on Facebook. - Server URL address: - Stream name/key:
+          <p class="desc">
+            You can stream your event on Facebook. - Server URL address: -
+            Stream name/key:
           </p>
         </div>
       </div>
 
       <div class="toggle-switch" @click="toggleSwitch3">
-        <input type="checkbox" v-model="isChecked3" class="checkbox" />
+        <input type="checkbox" v-model="showFacebook" class="checkbox" />
         <label class="slider"></label>
+      </div>
+    </div>
+    <div class="isVisible" v-if="showFacebook">
+      <div>
+        <label>Facebook RTMP Url</label>
+        <input v-model="facebook" />
+      </div>
+      <div>
+        <label>Facebook Secret Key</label>
+        <input v-model="facebookSecret" />
       </div>
     </div>
 
@@ -88,15 +103,30 @@
         </div>
         <div class="inner-div-2">
           <h3>Twitch</h3>
-          <p class="desc">You can stream your event on Twitch. - Server URL address: - Stream name/key:
+          <p class="desc">
+            You can stream your event on Twitch. - Server URL address: - Stream
+            name/key:
           </p>
         </div>
       </div>
 
       <div class="toggle-switch" @click="toggleSwitch4">
-        <input type="checkbox" v-model="isChecked4" class="checkbox" />
+        <input type="checkbox" v-model="showTwitch" class="checkbox" />
         <label class="slider"></label>
       </div>
+    </div>
+    <div class="isVisible" v-if="showTwitch">
+      <div>
+        <label>Twitch RTMP Url</label>
+        <input v-model="twitch" />
+      </div>
+      <div>
+        <label>Twitch Secret Key</label>
+        <input v-model="twitchSecret" />
+      </div>
+    </div>
+    <div class="button cursor-pointer">
+      <button @click="AddStream" class="cursor-pointer">Add streaming</button>
     </div>
   </div>
 </template>
@@ -104,39 +134,140 @@
 <script>
 export default {
   name: 'StreamCard',
-  props: {
-    showStream: Boolean,
-  },
+  props: [
+    'closeCreate',
+    'stepOneProps',
+    'stepFourProps',
+    'stepThreeProps',
+    'stepTwoProps',
+    'castId',
+  ],
   data() {
     return {
-      isChecked1: false, 
-      isChecked2: false,
-      isChecked3: false,
-      isChecked4: false,
-      showContent:false,
-    }
+      VWStream: false,
+      showYoutube: false,
+      showFacebook: false,
+      showTwitch: false,
+      youtube: '',
+      youtubeSecret: '',
+      facebook: '',
+      facebookSecret: '',
+      twitch: '',
+      twitchSecret: '',
+    };
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
   },
   methods: {
     toggleSwitch1() {
-      this.isChecked1 = !this.isChecked1;
+      this.VWStream = !this.VWStream;
     },
     toggleSwitch2() {
-      this.isChecked2 = !this.isChecked2;
-      this.showContent = !this.showContent;
+      this.showYoutube = !this.showYoutube;
+      this.showFacebook = false;
+      this.showTwitch = false;
     },
     toggleSwitch3() {
-      this.isChecked3 = !this.isChecked3;
+      this.showYoutube = false;
+      this.showFacebook = !this.showFacebook;
+      this.showTwitch = false;
     },
     toggleSwitch4() {
-      this.isChecked4 = !this.isChecked4;
+      this.showYoutube = false;
+      this.showFacebook = false;
+      this.showTwitch = !this.showTwitch;
     },
-  }
-}
+    AddStream() {
+      const streamUrls = [{ vw_stream: true }, { urls: [] }];
+      streamUrls[0].vw_stream = this.VWStream ? 'True' : 'False';
+      if (this.youtube !== '' && this.youtubeSecret !== '') {
+        streamUrls[1].urls.push(`${this.youtube}/${this.youtubeSecret}`);
+      }
+      if (this.facebook !== '' && this.facebookSecret !== '') {
+        streamUrls[1].urls.push(`${this.facebook}/${this.facebookSecret}`);
+      }
+      if (this.twitch !== '' && this.twitchSecret !== '') {
+        streamUrls[1].urls.push(`${this.twitch}/${this.twitchSecret}`);
+      }
+      const isStreaming = this.VWStream || streamUrls[1].urls.length > 0;
+      const data = new FormData();
+      data.append('cast_id', this.castId);
+      data.append('cast_name', this.stepOneProps.event_name);
+      data.append('logo', this.stepTwoProps.logo);
+      data.append('cover_image', this.stepTwoProps.cover_image);
+      data.append('back_image', this.stepTwoProps.back_image);
+      data.append('description', this.stepOneProps.description);
+      data.append('cast_type', this.stepOneProps.auth_type);
+      data.append(
+        'collect_attendee_email',
+        this.stepOneProps.public_otp ? 'True' : 'False'
+      );
+      data.append('schedule_time', this.stepOneProps.schedule_time);
+      data.append('timezone', this.stepOneProps.timezone);
+      data.append('primary_color', this.stepTwoProps.primary_color);
+      data.append('welcome_text', this.stepTwoProps.welcome_text);
+      data.append('banner_text', this.stepTwoProps.banner_text);
+      data.append('guest_policy', this.stepTwoProps.guest_policy);
+      data.append('moderator_only_text', this.stepTwoProps.moderator_only_text);
+      data.append('duration', this.stepTwoProps.duration);
+      data.append('logout_url', this.stepTwoProps.logout_url);
+      data.append('is_streaming', isStreaming ? 'True' : 'False');
+      data.append(
+        'public_stream',
+        this.stepThreeProps.public_stream ? 'True' : 'False'
+      );
+      data.append('bbb_stream_url', JSON.stringify(streamUrls));
+      data.append('record', this.stepFourProps.record ? 'True' : 'False');
+      data.append(
+        'end_when_no_moderator',
+        this.stepFourProps.end_when_no_moderator ? 'True' : 'False'
+      );
+      data.append(
+        'allow_moderator_to_unmute_user',
+        this.stepFourProps.allow_moderator_to_unmute_user ? 'True' : 'False'
+      );
+      data.append(
+        'auto_start_recording',
+        this.stepFourProps.auto_start_recording ? 'True' : 'False'
+      );
+      data.append(
+        'mute_on_start',
+        this.stepFourProps.mute_on_start ? 'True' : 'False'
+      );
+      data.append(
+        'webcam_only_for_moderator',
+        this.stepFourProps.webcam_only_for_moderator ? 'True' : 'False'
+      );
+      data.append(
+        'disable_cam',
+        this.stepFourProps.disable_cam ? 'True' : 'False'
+      );
+      data.append(
+        'disable_mic',
+        this.stepFourProps.disable_mic ? 'True' : 'False'
+      );
+      data.append(
+        'lock_layout',
+        this.stepFourProps.lock_layout ? 'True' : 'False'
+      );
+      data.append(
+        'viewer_mode',
+        this.stepFourProps.viewer_mode ? 'True' : 'False'
+      );
+      data.append('private_otp', this.stepOneProps.send_otp ? 'True' : 'False');
+      data.append(
+        'password_auth',
+        this.stepOneProps.password_auth ? 'True' : 'False'
+      );
+      this.$store.dispatch('cast/formSubmit', data).then((response) => {
+        console.log(response);
+        this.closeCreate();
+      });
+    },
+  },
+};
 </script>
-
 
 <style scoped>
 .toggle-switch {
@@ -158,14 +289,14 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #353D4E;
+  background-color: #353d4e;
   transition: 0.4s;
   border-radius: 30px;
 }
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 16px;
   width: 16px;
   left: 2px;
@@ -175,33 +306,31 @@ export default {
   border-radius: 50%;
 }
 
-.checkbox:checked+.slider {
+.checkbox:checked + .slider {
   background-color: #2196f3;
 }
 
-.checkbox:checked+.slider:before {
+.checkbox:checked + .slider:before {
   transform: translateX(16px);
+}
+
+.button {
+  align-self: flex-end;
+  margin-top: 35px;
+}
+.button button {
+  width: 141px;
+  height: 40px;
+  border: 1px solid #31394e;
+  background-color: #d7df23;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f272f;
 }
 </style>
 
-<style>
-.stream-cont {
-  /* position: absolute; */
-  width: 590px;
-  height: auto;
-  border-radius: 10px;
-  background-color: #1f272f;
-  border: 1px solid #31394e;
-  padding: 15px;
-  padding-bottom: 25px;
-  margin: auto;
-  margin-top: 20px;
-  /* top: 40vh; */
-  /* right: 75%; */
-  /* transform: translate(-50%, -50%); */
-  /* z-index: 10000; */
-}
-
+<style scoped>
 .head-container {
   width: 100%;
   display: flex;
@@ -252,7 +381,7 @@ export default {
   font-size: 13px;
   font-weight: 600;
   line-height: 15.2px;
-  color: #A6A6A8;
+  color: #a6a6a8;
 }
 
 .inner-div-2 p {
@@ -275,12 +404,12 @@ export default {
   font-size: 13px;
   font-weight: 600;
   line-height: 15.2px;
-  color: #A6A6A8;
+  color: #a6a6a8;
 }
 
 .mid-stroke div:nth-child(2) {
   width: 395px;
-  border: 1px solid #31394E;
+  border: 1px solid #31394e;
   margin: auto;
 }
 
@@ -289,7 +418,7 @@ export default {
   /* border: 1px solid red; */
 }
 
-.isVisible{
+.isVisible {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -297,19 +426,19 @@ export default {
   gap: 15px;
 }
 
-.isVisible label{
+.isVisible label {
   color: #637181;
   font-size: 12px;
   font-weight: 600;
 }
 
-.isVisible input{
-  background-color: #1D232B;
+.isVisible input {
+  background-color: #1d232b;
   width: 271px;
   height: 40px;
-  border: 1px solid #31394E;
+  border: 1px solid #31394e;
   border-radius: 6px;
   padding: 6px;
-  color: #A6A6A8;
+  color: #a6a6a8;
 }
 </style>

@@ -2,28 +2,39 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
+        <h2
+          class="custom-heading"
+          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
+        >
           Casts
         </h2>
         <p class="sub-heading pt-2">
           Casts are social spaces for events and wide-range. Ideal for X Y Z.
-          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
-            Casts.</a>
+          <a
+            target="_blank"
+            href="#"
+            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
+            >Learn more about Casts.</a
+          >
         </p>
       </div>
       <div class="flex justify-between">
-        <button class="header-button p-2" style="
+        <button
+          class="header-button p-2"
+          style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          ">
+          "
+          @click="openCreate"
+        >
           <img src="@/assets/images/Plus.svg" alt="" />
         </button>
-        <button class="header-button border-none dot">
+        <!-- <button class="header-button border-none dot">
           <img src="@/assets/images/Vector2.svg" class="h-7 p-1" alt="" />
-        </button>
+        </button> -->
       </div>
     </div>
 
@@ -39,84 +50,165 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button class="options-button border-none" @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }">
+        <button
+          class="options-button border-none"
+          @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }"
+        >
           Scheduled Casts
         </button>
-        <button class="options-button border-none px-5" @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }">
+        <button
+          class="options-button border-none px-5"
+          @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }"
+        >
           Cast Recordings
         </button>
       </div>
 
       <div class="options-container">
-        <div v-for="(cast, index) in casts" :key="index">
-          <div class="child-options">
-            <div class="inner-div1">
-              <div class="inner-child1">
-                <p>{{ cast.name }}</p>
-                <button>{{ cast.date }}</button>
-              </div>
-              <div class="inner-child2">
-                <a href="#">{{ cast.desc }}</a>
-                <img src="@/assets/images/user.svg" />
-              </div>
-              <div class="img-info">
-                <div class="images-container">
-                  <img v-for="(image, imageIndex) in cast.images" :key="imageIndex" :src="image" alt="" />
+        <div v-if="focusYourRooms">
+          <div v-for="(cast, index) in casts" :key="index">
+            <div class="child-options">
+              <div class="inner-div1">
+                <div class="inner-child1">
+                  <p>{{ cast.event_name }}</p>
+                  <button>
+                    {{
+                      moment(cast.event_date).format('ll').split(',')[0] +
+                      ' ' +
+                      moment(cast.event_time.split('.')[0], 'HH:mm:ss').format(
+                        'h:mm A'
+                      )
+                    }}
+                  </button>
+                </div>
+                <div v-if="cast.invitee_list.length === 0" class="inner-child2">
+                  <span class="invite-text" href="#">Invite Attendees</span>
+                  <img src="@/assets/images/user.svg" />
+                </div>
+                <div v-else class="inner-child2 my-4">
+                  <p class="invite-text">
+                    {{ cast.invitee_list.length }} attendees invited
+                  </p>
+                  <div class="flex my-1">
+                    <span
+                      v-for="(image, imageIndex) in cast.invitee_list"
+                      :key="imageIndex"
+                      alt=""
+                    >
+                      <span class="attendee">
+                        {{ image.email.slice(0, 2) }}
+                      </span>
+                    </span>
+                  </div>
                 </div>
                 <!-- <p>{{ totalImagesCount[index] }}</p> -->
               </div>
-            </div>
 
-            <div class="inner-div2">
-              <button @click="togglePopup(index)">
-                <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
-              </button>
-              <div class="cast-popup" v-if="cast.showPopup">
-                <button>
-                  <img src="@/assets/images/manage.svg" alt="" />Manage
-                  attendees
+              <div class="inner-div2">
+                <button @click="togglePopup(index)">
+                  <img
+                    src="@/assets/images/Vector2.svg"
+                    class="h-7 p-2"
+                    alt=""
+                  />
                 </button>
-                <button>
-                  <img src="@/assets/images/call.svg" alt="" />Call settings
-                </button>
-                <button>
-                  <img src="@/assets/images/stream.svg" alt="" />Stream settings
-                </button>
-                <button>
-                  <img src="@/assets/images/drops.svg" alt="" />Drops
-                </button>
-                <button>
-                  <img src="@/assets/images/reschedule.svg" alt="" />Reschedule
-                  cast
-                </button>
-                <button>
-                  <img src="@/assets/images/clock.svg" alt="" />Set reminder
-                </button>
-                <button>
-                  <img src="@/assets/images/pen.svg" alt="" />Edit
-                </button>
-                <button>
-                  <img src="@/assets/images/prepone.svg" alt="" />Prepone cast
-                </button>
-                <button>
-                  <img src="@/assets/images/delete.svg" />
-                  Delete
-                </button>
-              </div>
-              <div class="inner-child3">
-                <button v-if="cast.showCastIsLive" class="live-btn">
-                  Cast is live
-                </button>
-                <div class="inner-child4">
-                  <button><img src="@/assets/images/copy.svg" alt="" /></button>
-                  <button v-if="!cast.showCastIsLive" @click="toggleCastIsLive(index)">
-                    Go live now
+                <div class="cast-popup" v-if="cast.showPopup">
+                  <button>
+                    <img src="@/assets/images/manage.svg" alt="" />Manage
+                    attendees
                   </button>
+                  <button>
+                    <img src="@/assets/images/call.svg" alt="" />Call settings
+                  </button>
+                  <button>
+                    <img src="@/assets/images/stream.svg" alt="" />Stream
+                    settings
+                  </button>
+                  <button>
+                    <img src="@/assets/images/drops.svg" alt="" />Drops
+                  </button>
+                  <button>
+                    <img
+                      src="@/assets/images/reschedule.svg"
+                      alt=""
+                    />Reschedule cast
+                  </button>
+                  <button>
+                    <img src="@/assets/images/clock.svg" alt="" />Set reminder
+                  </button>
+                  <button>
+                    <img src="@/assets/images/pen.svg" alt="" />Edit
+                  </button>
+                  <button>
+                    <img src="@/assets/images/prepone.svg" alt="" />Prepone cast
+                  </button>
+                  <button @click="deleteCast(cast.public_meeting_id, index)">
+                    <img src="@/assets/images/delete.svg" />
+                    Delete
+                  </button>
+                </div>
+                <div class="inner-child3">
+                  <button v-if="cast.is_running === 'true'" class="live-btn">
+                    Cast is live
+                  </button>
+                  <div class="inner-child4">
+                    <button
+                      class="active"
+                      @click="copy(cast.public_meeting_id, cast.h_ap)"
+                    >
+                      <img src="@/assets/images/dashboard/copy.svg" alt="" />
+                    </button>
+                    <button
+                      v-if="cast.is_running === 'false'"
+                      @click="joinNow(cast.public_meeting_id)"
+                    >
+                      Go live now
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div v-else>
+          <div v-if="recordingList.length">
+            <div
+              class="recordings flex justify-between items-center mb-4"
+              v-for="(recording, index) in recordingList"
+              :key="index"
+            >
+              <div class="w-3/4 flex justify-between items-center">
+                <p>
+                  {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
+                </p>
+                <p>{{ recording.room_name }}</p>
+                <p>
+                  {{
+                    recording.url['Playback Data']['Playback Size'].split('.') +
+                    ' ' +
+                    recording.url['Playback Data']['Playback Size'].split(
+                      ' '
+                    )[1]
+                  }}
+                </p>
+              </div>
+              <button class="side-btn border-none">
+                <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
+              </button>
+            </div>
+          </div>
+          <div v-else class="flex flex-col items-center justify-items-center">
+            <img
+              src="@/assets/images/dashboard/NoRecording.svg"
+              class="w-1/2"
+            />
+            <img
+              src="@/assets/images/dashboard/NoRecordingText1.svg"
+              class="mb-3"
+            />
+            <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
       </div>
@@ -128,55 +220,98 @@
         more try our premium plan.
       </p>
     </div>
+    <div class="popup" v-if="create">
+      <set-up-cast
+        :getList="getCastList"
+        :closeCreate="closeCreate"
+      ></set-up-cast>
+    </div>
+    <div class="popup" v-if="stream">
+      <stream-card :closeCreate="closeCreate"></stream-card>
+    </div>
   </div>
 </template>
 <script>
+import moment from 'moment';
+import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
+import StreamCard from '../StreamCard.vue';
 export default {
+  components: { SetUpCast, StreamCard },
   name: 'rightpart',
   data() {
     return {
       focusYourRooms: true,
+      create: false,
       showCastIsLive: false,
+      stream: false,
       showPopup: false,
-      casts: [
-        {
-          name: 'Friends hangout',
-          date: 'May 15-2pm',
-          showCastIsLive: false,
-          desc: 'Invite Attendees'
-        },
-        {
-          name: 'Digital marketing webinar',
-          date: 'May 15-2pm',
-          showCastIsLive: false,
-          desc: '20 attendees invited',
-          images: [
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-            require('@/assets/images/luffy.webp'),
-          ],
-        },
-      ],
+      moment,
+      casts: [],
+      recordingList: [],
     };
+  },
+  mounted() {
+    this.getCastList();
+    this.getRecordings();
   },
   computed: {
     totalImagesCount() {
-      return this.casts.map(cast => cast.images.length);
-    }
+      return this.casts.map((cast) => cast.images.length);
+    },
   },
   methods: {
+    async getRecordings() {
+      const res = await this.$store.dispatch('cast/recordingList');
+      console.log(res.data);
+      this.recordingList = res.data.recordings || [];
+    },
+    getCastList() {
+      this.$store.dispatch('cast/getUserCasts').then((res) => {
+        this.casts = res.data.my_events;
+      });
+    },
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
     },
-    toggleCastIsLive(index) {
-      this.casts[index].showCastIsLive = !this.casts[index].showCastIsLive;
+    copy(id, pass) {
+      navigator.clipboard.writeText(
+        'https://dev.stream.video.wiki/join-cast/' + id + '/?pass=' + pass
+      );
+    },
+    async joinNow(id) {
+      const data = {
+        email: '',
+        name: '',
+        password: '',
+        public_meeting_id: id,
+        redirect: true,
+        room_type: 'private',
+        avatar_url: '',
+        guest: false,
+        attendee_password: '',
+      };
+      try {
+        const res = await this.$store.dispatch('cast/joinNow', data);
+        window.location.href = res.url;
+      } catch (e) {
+        console.log('error', e);
+      }
+      console.log(id);
     },
     togglePopup(index) {
       this.$set(this.casts[index], 'showPopup', !this.casts[index].showPopup);
+    },
+    async deleteCast(id, index) {
+      console.log(id, index);
+      const res = await this.$store.dispatch('cast/deleteCast', id);
+      console.log(res);
+      this.casts.splice(index, 1);
+    },
+    openCreate() {
+      this.create = true;
+    },
+    closeCreate() {
+      this.create = false;
     },
   },
 };
@@ -191,11 +326,15 @@ export default {
   align-items: center;
   color: #a6a6a8;
   width: 100%;
-  max-width: 500px;
+  /* max-width: 500px; */
   margin: auto;
   margin-left: 37px;
   /* border: 1px solid white; */
   height: 100%;
+}
+
+.active:active {
+  border: 1px solid #d7df23;
 }
 
 .options-button {
@@ -242,11 +381,24 @@ export default {
   text-decoration-thickness: 2px;
 }
 
-.options-container {}
+.options-container {
+  height: 303px;
+  overflow: auto;
+  margin-top: 30px;
+}
+
+.options-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.options-container::-webkit-scrollbar-thumb {
+  background-color: #31394e;
+  border-radius: 4px;
+  height: 10px;
+}
 
 .images-container {
   width: 140px;
-  margin-top: 10px;
   height: 30px !important;
   padding: 0;
   margin: 0;
@@ -257,16 +409,15 @@ export default {
   top: 70%;
 }
 
-
-
-.images-container img {
+.attendee {
   width: 27px;
   height: 27px;
   border-radius: 50%;
-  border: 1px solid #31394E;
-  top: 0%;
+  border: 1px solid #31394e;
   margin-top: 0;
-  left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /* position: absolute; */
 }
 
@@ -280,7 +431,7 @@ export default {
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   top: 30%;
-  left: 55%;
+  left: 60%;
   z-index: 999;
   padding: 10px;
   margin: auto;
@@ -307,7 +458,7 @@ export default {
 
 .child-options {
   max-width: 480px;
-  width: 100%;
+  width: 97%;
   height: 140px;
   display: flex;
   justify-content: space-between;
@@ -341,20 +492,14 @@ export default {
 }
 
 .inner-child2 {
-  display: flex;
   gap: 5px;
 }
 
-.inner-child2 a {
+.invite-text {
   text-decoration: underline;
   color: #a6a6a8;
   font-size: 12px;
   cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.inner-child2 img {
-  margin-bottom: 20px;
 }
 
 .inner-div2 {
@@ -412,92 +557,17 @@ export default {
   color: #31394e;
 }
 
-/* .cast-section {
-  height: auto;
-  width: auto;
-  height: 500px;
-  /* border: 1px solid red; */
-/* position: relative; 
+.popup {
+  height: 100vh;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-left: 37px;
-  max-width: 400px;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #0000007e;
+  z-index: 100;
 }
-
-.cast-heading {
-  width: 63px;
-  height: 28px;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 28px;
-  letter-spacing: 0em;
-  margin: 0;
-  color: #a6a6a8;
-}
-
-.cast-content {
-  width: 243px;
-  height: 49px;
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 13px;
-  letter-spacing: 0em;
-  color: #a6a6a8;
-  margin-top: 8px;
-}
-
-.learn-more {
-  font-weight: bold;
-  color: #31a2f4;
-  text-decoration: underline;
-} */
-
-/* .bottom {
-  margin: auto;
-  width: 320px;
-  margin-left: 20px;
-  /* border: 1px solid yellow; 
-}
-
-/* .coming-soon {
-  width: fit-content;
-  height: 23px;
-  margin: auto;
-  /* border: 1px solid green; 
-  font-family: Karla;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 23px;
-  letter-spacing: 0.76em;
-  text-align: center;
-  white-space: nowrap;
-} */
-/* .coming-soon h3 {
-  color: #365e8b;
-  opacity: 28%;
-} */
-
-/* .cast-featurea {
-  width: 285px;
-  font-size: 16px;
-  margin: auto !important;
-  font-weight: 600;
-  line-height: 25px;
-  letter-spacing: 0em;  
-  display: flex;
-  flex-direction: column;
-  white-space: nowrap;
-  padding-top: 10px;
-  /* border: 1px solid red; 
-} */
-
-/* .cast-featurea p {
-  color: #6c6767;
-  margin: auto;
-} */
-
-/* .cast-featurea p:last-child {
-  margin: auto;
-} */
 </style>
