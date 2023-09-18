@@ -156,7 +156,7 @@
                   <div class="inner-child4">
                     <button
                       class="active"
-                      @click="copy(cast.public_meeting_id)"
+                      @click="copy(cast.public_meeting_id, cast.h_ap)"
                     >
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
@@ -273,9 +273,9 @@ export default {
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
     },
-    copy(id) {
+    copy(id, pass) {
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/join-cast/' + id
+        'https://dev.stream.video.wiki/join-cast/' + id + '/?pass=' + pass
       );
     },
     async joinNow(id) {

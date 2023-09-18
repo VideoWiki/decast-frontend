@@ -278,9 +278,9 @@ const router = new Router({
       },
     },
     {
-      path: '/join-cast/:meeting_id?',
-      name: 'Joining Room',
-      component: () => import('./views/CastjoiningPage.vue'),
+      path: '/join-cast/:meetingID?',
+      name: 'Joining Cast',
+      component: () => import('./views/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
