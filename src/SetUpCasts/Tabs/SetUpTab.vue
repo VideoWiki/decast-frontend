@@ -147,14 +147,15 @@ export default {
         break;
       }
     }
-    window.addEventListener('click', () => {
-      this.closePopups();
-    });
+    window.addEventListener('click', this.closePopups);
   },
   watch: {
     selectEnd(newV, oldV) {
       console.log(newV);
     },
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.closePopups);
   },
   methods: {
     openPopup(popup) {

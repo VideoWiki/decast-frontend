@@ -412,6 +412,14 @@ const router = new Router({
       },
     },
     {
+      path: '/invite',
+      name: 'InviteCard',
+      component: () => import('./views/dashboard/InviteCard.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/newhome',
       name: 'NewHome',
       component: () => import('./views/dashboard/NewHome.vue'),
