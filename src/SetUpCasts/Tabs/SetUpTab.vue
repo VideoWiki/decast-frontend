@@ -35,7 +35,7 @@
         <label for="startTimeSelect" class="text">Start Time</label>
         <div
           id="startTimeSelect"
-          @click="selectStart = !selectStart"
+          @click="openPopup('selectStart')"
           class="custom-dropdown1 input-box"
         >
           {{ stepOneProps.startTime }}
@@ -56,7 +56,7 @@
         <label for="endTimeSelect" class="text">End Time</label>
         <div
           id="endTimeSelect"
-          @click="selectEnd = !selectEnd"
+          @click="openPopup('selectEnd')"
           class="custom-dropdown1 input-box"
         >
           {{ selectedEndTime }}
@@ -76,7 +76,7 @@
       <div class="time-zone">
         <label class="text">Time zone</label>
         <div
-          @click="selectTimeZone = !selectTimeZone"
+          @click="openPopup('selectTimeZone')"
           class="timezone-dropdown1 input-box"
         >
           {{ this.stepOneProps.timezone }}
@@ -147,6 +147,9 @@ export default {
         break;
       }
     }
+    window.addEventListener('click', () => {
+      this.closePopups();
+    });
   },
   watch: {
     selectEnd(newV, oldV) {
@@ -154,6 +157,18 @@ export default {
     },
   },
   methods: {
+    openPopup(popup) {
+      setTimeout(() => {
+        console.log(this[popup]);
+        this[popup] = !this[popup];
+      }, 1);
+    },
+    closePopups() {
+      console.log('click');
+      if (this.selectStart) this.selectStart = false;
+      if (this.selectEnd) this.selectEnd = false;
+      if (this.selectTimeZone) this.selectTimeZone = false;
+    },
     setEndTime(time) {
       console.log(time);
       this.selectedEndTime = time.value;
@@ -210,7 +225,7 @@ textarea {
   background-color: #1d232b;
   border-radius: 6px;
   color: #a6a6a8;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   padding-left: 14px;
 }

@@ -165,7 +165,6 @@ body {
   height: 100vh;
   width: 100%;
   background: #1d232b09;
-  border: 10px solid;
   position: absolute;
   top: 0;
   left: 0;
