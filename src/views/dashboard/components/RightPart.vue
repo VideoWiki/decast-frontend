@@ -83,12 +83,16 @@
                     }}
                   </button>
                 </div>
-                <div v-if="cast.invitee_list.length === 0" class="inner-child2">
+                <div
+                  v-if="cast.invitee_list.length === 0"
+                  @click="invite = true"
+                  class="inner-child2"
+                >
                   <span class="invite-text" href="#">Invite Attendees</span>
                   <img src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
-                  <p class="invite-text">
+                  <p class="invite-text" @click="invite = true">
                     {{ cast.invitee_list.length }} attendees invited
                   </p>
                   <div class="flex my-1">
@@ -107,7 +111,15 @@
               </div>
 
               <div class="inner-div2">
-                <button @click="togglePopup(index)">
+                <button
+                  @click="
+                    togglePopup(
+                      index,
+                      cast.public_meeting_id,
+                      cast.invitee_list
+                    )
+                  "
+                >
                   <img
                     src="@/assets/images/Vector2.svg"
                     class="h-7 p-2"
@@ -220,14 +232,21 @@
         more try our premium plan.
       </p>
     </div>
-    <div class="popup" v-if="create">
+    <div class="popup" @click="closeAllPopups" v-if="create">
       <set-up-cast
         :getList="getCastList"
         :closeCreate="closeCreate"
       ></set-up-cast>
     </div>
-    <div class="popup" v-if="stream">
+    <div class="popup" @click="closeAllPopups" v-if="stream">
       <stream-card :closeCreate="closeCreate"></stream-card>
+    </div>
+    <div class="popup" @click="closeAllPopups" v-if="invite">
+      <invite-card
+        :Id="meetingId"
+        :invites="invites"
+        :closeCreate="closeCreate"
+      ></invite-card>
     </div>
   </div>
 </template>
@@ -235,8 +254,9 @@
 import moment from 'moment';
 import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
 import StreamCard from '../StreamCard.vue';
+import InviteCard from '../InviteCard.vue';
 export default {
-  components: { SetUpCast, StreamCard },
+  components: { SetUpCast, StreamCard, InviteCard },
   name: 'rightpart',
   data() {
     return {
@@ -244,9 +264,11 @@ export default {
       create: false,
       showCastIsLive: false,
       stream: false,
+      invite: false,
       showPopup: false,
       moment,
       casts: [],
+      invites: [],
       recordingList: [],
     };
   },
@@ -260,6 +282,13 @@ export default {
     },
   },
   methods: {
+    closeAllPopups(e) {
+      if (e.currentTarget === e.target) {
+        this.create = false;
+        this.stream = false;
+        this.invite = false;
+      }
+    },
     async getRecordings() {
       const res = await this.$store.dispatch('cast/recordingList');
       console.log(res.data);
@@ -289,6 +318,7 @@ export default {
         avatar_url: '',
         guest: false,
         attendee_password: '',
+        meetingId: '',
       };
       try {
         const res = await this.$store.dispatch('cast/joinNow', data);
@@ -298,7 +328,10 @@ export default {
       }
       console.log(id);
     },
-    togglePopup(index) {
+    togglePopup(index, id, inviteList) {
+      console.log(id);
+      this.meetingId = id;
+      this.invites = inviteList;
       this.$set(this.casts[index], 'showPopup', !this.casts[index].showPopup);
     },
     async deleteCast(id, index) {
