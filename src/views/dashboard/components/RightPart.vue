@@ -239,13 +239,13 @@
       ></set-up-cast>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="stream">
-      <stream-card :closeCreate="closeCreate"></stream-card>
+      <stream-card :closeStream="() => (stream = false)"></stream-card>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="invite">
       <invite-card
         :Id="meetingId"
         :invites="invites"
-        :closeCreate="closeCreate"
+        :closeInvite="() => (invite = false)"
       ></invite-card>
     </div>
   </div>
@@ -451,6 +451,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #31394e;
   /* position: absolute; */
 }
 
@@ -500,7 +501,7 @@ export default {
   color: #a6a6a8;
   border-radius: 6px;
   padding: 10px;
-  margin-top: 30px;
+  margin-bottom: 30px;
   position: relative;
 }
 

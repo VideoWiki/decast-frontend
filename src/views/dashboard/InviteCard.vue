@@ -2,7 +2,7 @@
   <div class="invite-cont">
     <div class="head-container">
       <h3>Invite your attendees</h3>
-      <button>
+      <button @click="closeInvite">
         <img src="@/assets/images/cross.svg" />
       </button>
     </div>
@@ -44,7 +44,7 @@
           <p>
             {{ invite.email.slice(0, 2) }}
           </p>
-          <button class="close-button" @click="removeUser(inviteIndex)">
+          <button class="close-button" @click="removeUser(invite, inviteIndex)">
             X
           </button>
         </div>
@@ -76,7 +76,7 @@
           </div>
         </div>
 
-        <div class="mid-stroke"></div>
+        <div class="midStroke"></div>
 
         <div class="prog-cont">
           <progress
@@ -128,7 +128,7 @@ import constants from '../../../constant';
 import axios from '../../axios';
 export default {
   name: 'InviteCard',
-  props: ['Id', 'invites'],
+  props: ['Id', 'invites', 'closeInvite'],
 
   data() {
     return {
@@ -184,7 +184,6 @@ export default {
     },
 
     async addUser() {
-      alert(this.Id);
       const userEmail = this.userEmail.trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -259,15 +258,15 @@ export default {
     },
 
     removeUser(user, inviteIndex) {
-      this.invites.splice(inviteIndex, 1);
       const payload = {
-        email: this.userEmail,
+        email: [user.email],
         cast_id: this.Id,
       };
 
       this.$store
         .dispatch('studio/deleteInvitee', payload)
         .then((res) => {
+          this.invites.splice(inviteIndex, 1);
           this.$vs.notify({
             title: '',
             text: 'User removed successfully !',
@@ -434,7 +433,6 @@ export default {
   padding: 15px;
   padding-bottom: 25px;
   margin: auto;
-  margin-top: 20px;
 }
 
 button {
@@ -558,11 +556,12 @@ button {
   height: 33px;
   border-radius: 50%;
   position: relative;
-  color: white;
-  border: 1px solid;
+  border: 1px solid #31394e;
+  color: #a6a6a8;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #31394e;
 }
 
 .close-button {
@@ -703,7 +702,7 @@ button {
   height: 16px;
 }
 
-.mid-stroke {
+.midStroke {
   width: 554px;
   margin: auto;
   border: 1px solid #31394e;

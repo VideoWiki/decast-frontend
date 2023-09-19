@@ -5,7 +5,7 @@
       <buttonToggle v-model="toggleValue" class="toggle-button"></buttonToggle>
     </div>
     <div v-if="!toggleValue" class="default-look">
-      <img src="@/assets/images/editor/image.svg" class="img2" />
+      <img src="@/assets/images/editor/image.svg" class="room-image" />
       <div class="logo">
         <img :src="img1Src" class="img1" />
       </div>
@@ -164,7 +164,7 @@ export default {
   margin-top: 36px;
   position: relative;
 }
-.img2 {
+.room-image {
   margin: 0px 60px 0px 60px;
   width: 417px;
   height: 216px;
