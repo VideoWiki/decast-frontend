@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="margin">
     <div class="flex justify-between items-center">
       <div class="popup-text">Set up your cast</div>
       <img
@@ -16,12 +16,15 @@
     <div class="my-5 flex justify-center">
       <button
         class="success-btn stream flex justify-around items-center"
-        @click="changeStatus"
+        @click="changeStatus('stream')"
       >
         <img src="@/assets/images/create-event/Cam.svg" />Stream your cast on
         other apps
       </button>
-      <button class="success-btn invite flex justify-around items-center">
+      <button
+        @click="changeStatus('invite')"
+        class="success-btn invite flex justify-around items-center"
+      >
         <img src="@/assets/images/create-event/users.svg" />Share and Invite
       </button>
     </div>
@@ -49,6 +52,9 @@ export default {
 };
 </script>
 <style scoped>
+.margin {
+  margin: 18px;
+}
 .popup-text {
   font-family: Karla;
   font-size: 14px;

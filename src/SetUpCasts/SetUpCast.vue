@@ -7,7 +7,7 @@
         :changeStatus="changeStatus"
         :closeCreate="closeCreate"
       />
-      <div v-else-if="status === 'create'" class="center-containr">
+      <div v-else-if="status === 'create'" class="center-container">
         <div class="heading-part flex">
           <div class="heading">Set up your cast</div>
           <img
@@ -76,6 +76,9 @@
           />
         </div>
       </div>
+      <div v-else-if="status === 'invite'">
+        <invite-card :closeInvite="closeCreate" :Id="castId" :invites="[]" />
+      </div>
       <div v-else>
         <stream-card
           :stepFourProps="stepFourProps"
@@ -96,6 +99,7 @@ import SetUpTab from './Tabs/SetUpTab.vue';
 import moment from 'moment';
 import Popup from '../views/dashboard/Popup.vue';
 import StreamCard from '../views/dashboard/StreamCard.vue';
+import InviteCard from '../views/dashboard/InviteCard.vue';
 export default {
   name: 'SetUpCast',
   components: {
@@ -104,13 +108,14 @@ export default {
     SetUpTab,
     Popup,
     StreamCard,
+    InviteCard,
   },
   props: ['closeCreate', 'getList'],
   data() {
     return {
       activeTab: 'Set up',
       formData: new FormData(),
-      status: 'create',
+      status: 'stream',
       castId: '',
       stepOneProps: {
         generated_event_title: '',
@@ -221,8 +226,8 @@ export default {
     changeActiveTab(tab) {
       this.activeTab = tab;
     },
-    changeStatus() {
-      this.status = 'stream';
+    changeStatus(newStatus) {
+      this.status = newStatus;
     },
     createCast() {
       this.formSubmitted();
@@ -366,9 +371,14 @@ export default {
 *:not(i) {
   font-family: 'Karla', sans-serif;
 }
+
+.center-container {
+  margin: 18px;
+}
+
 .main-containr {
   max-height: 650px;
-  min-width: auto;
+  min-width: fit-content;
   overflow: auto;
   width: 583px;
   border: 1px solid #31394e;
@@ -377,7 +387,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding: 18px;
+  /* padding: 18px; */
 }
 .heading-part {
   justify-content: space-between;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="margin">
     <div class="head-container">
       <h3>Share setting</h3>
       <button @click="closeCreate">
@@ -270,6 +270,9 @@ export default {
 </script>
 
 <style scoped>
+.margin {
+  margin: 18px;
+}
 .toggle-switch {
   display: inline-block;
   position: relative;
@@ -315,7 +318,8 @@ export default {
 }
 
 .button {
-  align-self: flex-end;
+  display: flex;
+  justify-content: end;
   margin-top: 35px;
 }
 .button button {
