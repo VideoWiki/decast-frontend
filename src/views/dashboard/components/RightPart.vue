@@ -2,34 +2,23 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2
-          class="custom-heading"
-          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
-        >
+        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
           Casts
         </h2>
         <p class="sub-heading pt-2">
           Casts are social spaces for events and wide-range. Ideal for X Y Z.
-          <a
-            target="_blank"
-            href="#"
-            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
-            >Learn more about Casts.</a
-          >
+          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
+            Casts.</a>
         </p>
       </div>
       <div class="flex justify-between">
-        <button
-          class="header-button p-2"
-          style="
+        <button class="header-button p-2" style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          "
-          @click="openCreate"
-        >
+          " @click="openCreate">
           <img src="@/assets/images/Plus.svg" alt="" />
         </button>
         <!-- <button class="header-button border-none dot">
@@ -50,18 +39,12 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button
-          class="options-button border-none"
-          @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }"
-        >
+        <button class="options-button border-none" @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }">
           Scheduled Casts
         </button>
-        <button
-          class="options-button border-none px-5"
-          @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }"
-        >
+        <button class="options-button border-none px-5" @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }">
           Cast Recordings
         </button>
       </div>
@@ -92,11 +75,7 @@
                     {{ cast.invitee_list.length }} attendees invited
                   </p>
                   <div class="flex my-1">
-                    <span
-                      v-for="(image, imageIndex) in cast.invitee_list"
-                      :key="imageIndex"
-                      alt=""
-                    >
+                    <span v-for="(image, imageIndex) in cast.invitee_list" :key="imageIndex" alt="">
                       <span class="attendee">
                         {{ image.email.slice(0, 2) }}
                       </span>
@@ -108,11 +87,7 @@
 
               <div class="inner-div2">
                 <button @click="togglePopup(index)">
-                  <img
-                    src="@/assets/images/Vector2.svg"
-                    class="h-7 p-2"
-                    alt=""
-                  />
+                  <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
                 </button>
                 <div class="cast-popup" v-if="cast.showPopup">
                   <button>
@@ -130,10 +105,7 @@
                     <img src="@/assets/images/drops.svg" alt="" />Drops
                   </button>
                   <button>
-                    <img
-                      src="@/assets/images/reschedule.svg"
-                      alt=""
-                    />Reschedule cast
+                    <img src="@/assets/images/reschedule.svg" alt="" />Reschedule cast
                   </button>
                   <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
@@ -154,16 +126,21 @@
                     Cast is live
                   </button>
                   <div class="inner-child4">
-                    <button
-                      class="active"
-                      @click="copy(cast.public_meeting_id, cast.h_ap)"
-                    >
+                    <button class="active" @click="toggleCopy(index)">
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
-                    <button
-                      v-if="cast.is_running === 'false'"
-                      @click="joinNow(cast.public_meeting_id)"
-                    >
+                    <div id="copy-pop" v-if="cast.showCopy">
+                      <button id="copy-btn-1" @click="copy(cast.public_meeting_id, cast.h_ap)">
+                        <img src="@/assets/images/co-host.svg" />
+                        Copy Participant url
+                      </button>
+                      <br>
+                      <button id="copy-btn-2">
+                        <img src="@/assets/images/Participant.svg" />
+                        Copy Co-host url
+                      </button>
+                    </div>
+                    <button v-if="cast.is_running === 'false'" @click="joinNow(cast.public_meeting_id)" id="go-btn">
                       Go live now
                     </button>
                   </div>
@@ -174,11 +151,8 @@
         </div>
         <div v-else>
           <div v-if="recordingList.length">
-            <div
-              class="recordings flex justify-between items-center mb-4"
-              v-for="(recording, index) in recordingList"
-              :key="index"
-            >
+            <div class="recordings flex justify-between items-center mb-4" v-for="(recording, index) in recordingList"
+              :key="index">
               <div class="w-3/4 flex justify-between items-center">
                 <p>
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
@@ -200,14 +174,8 @@
             </div>
           </div>
           <div v-else class="flex flex-col items-center justify-items-center">
-            <img
-              src="@/assets/images/dashboard/NoRecording.svg"
-              class="w-1/2"
-            />
-            <img
-              src="@/assets/images/dashboard/NoRecordingText1.svg"
-              class="mb-3"
-            />
+            <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
+            <img src="@/assets/images/dashboard/NoRecordingText1.svg" class="mb-3" />
             <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
@@ -221,10 +189,7 @@
       </p>
     </div>
     <div class="popup" v-if="create">
-      <set-up-cast
-        :getList="getCastList"
-        :closeCreate="closeCreate"
-      ></set-up-cast>
+      <set-up-cast :getList="getCastList" :closeCreate="closeCreate"></set-up-cast>
     </div>
     <div class="popup" v-if="stream">
       <stream-card :closeCreate="closeCreate"></stream-card>
@@ -245,6 +210,7 @@ export default {
       showCastIsLive: false,
       stream: false,
       showPopup: false,
+      showCopy: false,
       moment,
       casts: [],
       recordingList: [],
@@ -300,6 +266,9 @@ export default {
     },
     togglePopup(index) {
       this.$set(this.casts[index], 'showPopup', !this.casts[index].showPopup);
+    },
+    toggleCopy(index) {
+      this.$set(this.casts[index], 'showCopy', !this.casts[index].showCopy);
     },
     async deleteCast(id, index) {
       console.log(id, index);
@@ -409,6 +378,7 @@ export default {
   top: 70%;
 }
 
+
 .attendee {
   width: 27px;
   height: 27px;
@@ -456,6 +426,43 @@ export default {
   margin: auto;
 }
 
+#copy-pop {
+  position: absolute;
+  z-index: 999;
+  background-color: #1f272f;
+  width: 140px;
+  border: 1px solid #31394e;
+  border-radius: 6px;
+  top: 35px;
+  height: 60px;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#copy-btn-2 {
+  margin-top: -21px;
+}
+
+#copy-pop button{
+  background: transparent !important;
+  font-size: 11px !important;
+  display: flex;
+  text-align: left;
+  gap: 8px;
+  border: none;
+  outline: none;
+  width: 140px !important;
+  height: 30px;
+  padding: 6px !important;
+  font-family: 'Karla', sans-serif;
+  color: #a6a6a8;
+}
+
+#copy-pop button img{
+  width: 15px;
+  height: 15px;
+}
+
 .child-options {
   max-width: 480px;
   width: 97%;
@@ -492,6 +499,13 @@ export default {
 }
 
 .inner-child2 {
+  gap: 5px;
+}
+
+.inner-child2 div {
+  max-width: 180px;
+  overflow: hidden;
+  height: 50px;
   gap: 5px;
 }
 
@@ -552,8 +566,8 @@ export default {
   height: 33px;
 }
 
-.inner-child4 button:nth-child(2) {
-  background-color: #d7df23;
+#go-btn{
+  background-color: #d7df23 !important;
   color: #31394e;
 }
 

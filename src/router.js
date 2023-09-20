@@ -420,6 +420,14 @@ const router = new Router({
       },
     },
     {
+      path: '/postpone',
+      name: 'postPoneCast',
+      component: () => import('./views/dashboard/postPoneCast.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/newhome',
       name: 'NewHome',
       component: () => import('./views/dashboard/NewHome.vue'),
