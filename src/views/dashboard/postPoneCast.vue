@@ -1,9 +1,111 @@
 <template>
-  <div class="main-container">
-    <div class="close-btn-cont">
-      <button>
-        <img src="@/assets/images/cross.svg" />
-      </button>
+  <div>
+    <div class="main-container">
+      <div class="close-btn-cont">
+        <button>
+          <img src="@/assets/images/cross.svg" />
+        </button>
+      </div>
+      <div class="choice-container">
+        <div class="choose-opt">
+          <button
+            class="options-button border-none"
+            @click="changeFocus(true)"
+            :class="{ 'focused-button': focusReschedule }"
+          >
+            Reschedule
+          </button>
+          <button
+            class="options-button border-none px-5"
+            @click="changeFocus(false)"
+            :class="{ 'focused-button': !focusReschedule }"
+          >
+            Postpone
+          </button>
+        </div>
+
+        <div v-if="focusReschedule" class="reschedule">
+          <div class="fisrt-desc">
+            <p>
+              Choose a day and time in the future you want your cast to be live.
+            </p>
+          </div>
+
+          <div class="cal-cont">
+            <div>
+              <img src="@/assets/images/date.svg" />
+            </div>
+
+            <div>
+              <p>Date</p>
+              <div class="date">
+                <Calendar :stepOneProps="stepOneProps" class="calendar" />
+              </div>
+            </div>
+          </div>
+
+          <div class="time-cont">
+            <div class="child1">
+              <div>
+                <img src="@/assets/images/timer.svg" />
+              </div>
+
+              <div id="startTimeSelect" @click="openPopup('selectStart')">
+                <p>Start time</p>
+                <p>{{ startTime }}</p>
+              </div>
+
+              <div v-if="selectStart" class="options-list1">
+                <span
+                  class="timeOption"
+                  v-for="time in timeOptions"
+                  @click="setStartTime(time)"
+                  :key="time.label"
+                >
+                  {{ time.label }}
+                </span>
+              </div>
+            </div>
+            <div
+              class="child2"
+              id="endTimeSelect"
+              @click="openPopup('selectEnd')"
+            >
+              <p>End time</p>
+              <p>{{ endTime }}</p>
+            </div>
+            <div v-if="selectEnd" class="options-list2">
+              <span
+                class="timeOption"
+                v-for="time in timeOptions"
+                @click="setEndTime(time)"
+                :key="time.label"
+              >
+                {{ time.label }}
+              </span>
+            </div>
+          </div>
+
+          <div class="resc-btn">
+            <button>Reschedule</button>
+          </div>
+        </div>
+
+        <div v-else class="postpone">
+          <div class="sec-desc">
+            <p>This cast has been postponed.</p>
+          </div>
+
+          <div class="text-ar">
+            <textarea placeholder="Send message to all participants">
+            </textarea>
+          </div>
+
+          <div class="send-btn">
+            <button>Send</button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="choice-container">
       <div class="choose-opt">
@@ -81,23 +183,61 @@
 </template>
 
 <script>
+import { TimeFrames } from '../../SetUpCasts/Tabs/TimeFrames';
+import Calendar from '../login/Calendar.vue';
+import moment from 'moment-timezone';
 export default {
   name: 'postPoneCast',
+  components: {
+    Calendar,
+  },
   props: {
     showPostpone: Boolean,
   },
   data() {
     return {
       focusReschedule: true,
+      stepOneProps: {},
+      moment,
+      startTime: null,
+      endTime: null,
+      selectStart: false,
+      selectEnd: false,
+      timeOptions: TimeFrames,
     };
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
+    window.addEventListener('click', this.closePopups);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.closePopups);
   },
   methods: {
     changeFocus(toPostpone) {
       this.focusReschedule = toPostpone;
       console.log('EEEE');
+    },
+    openPopup(popup) {
+      setTimeout(() => {
+        console.log(this[popup]);
+        this[popup] = !this[popup];
+      }, 1);
+    },
+    setStartTime(time) {
+      this.startTime = time.label;
+      this.selectStart = false;
+      console.log('Start');
+    },
+    setEndTime(time) {
+      this.endTime = time.label;
+      this.selectEnd = false;
+      console.log('End');
+    },
+    closePopups() {
+      console.log('click');
+      if (this.selectStart) this.selectStart = false;
+      if (this.selectEnd) this.selectEnd = false;
     },
   },
 };
@@ -288,5 +428,75 @@ export default {
 
 .child2 p {
   font-size: 12px;
+}
+
+.custom-date-pick input {
+  height: 30px !important;
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 120px;
+  font-size: 14px;
+}
+
+.vdpClearInput {
+  outline: none;
+}
+
+.vdpInnerWrap {
+  margin-top: 0;
+  margin-left: -42.5px;
+}
+
+.options-list1 {
+  background-color: #31394e;
+  border-radius: 6px;
+  color: #a6a6a6;
+  font-size: 12px;
+  position: absolute;
+  z-index: 999;
+  height: 200px;
+  width: 80px;
+  padding: 6px;
+  overflow-y: scroll;
+  cursor: pointer;
+  margin-top: 40px;
+  margin-left: 15px;
+}
+
+.options-list1::-webkit-scrollbar {
+  width: 5px;
+}
+
+.options-list1::-webkit-scrollbar-thumb {
+  background-color: #1d232b;
+  border-radius: 4px;
+  height: 8px;
+}
+
+.options-list2 {
+  background-color: #31394e;
+  border-radius: 6px;
+  color: #a6a6a6;
+  font-size: 12px;
+  position: absolute;
+  z-index: 999;
+  height: 200px;
+  width: 80px;
+  padding: 6px;
+  overflow-y: scroll;
+  cursor: pointer;
+  margin-top: 40px;
+  margin-left: 130px;
+}
+
+.options-list2::-webkit-scrollbar {
+  width: 5px;
+}
+
+.options-list2::-webkit-scrollbar-thumb {
+  background-color: #1d232b;
+  border-radius: 4px;
+  height: 8px;
 }
 </style>
