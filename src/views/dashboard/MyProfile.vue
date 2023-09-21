@@ -72,7 +72,7 @@
         </div>
       </div>
 
-      <div class="edit-cont">
+      <!-- <div class="edit-cont">
         <button @click="editProfile" :disabled="isEditing">Edit</button>
         <button
           @click="saveProfile"
@@ -81,7 +81,7 @@
         >
           Save
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

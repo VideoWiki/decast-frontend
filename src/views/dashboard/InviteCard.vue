@@ -422,7 +422,7 @@ export default {
 }
 </style>
 
-<style>
+<style scoped>
 .invite-cont {
   width: 590px;
   min-height: 475px;

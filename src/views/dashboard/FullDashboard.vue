@@ -62,7 +62,7 @@
 import LeftPart from './components/LeftPart.vue';
 import RightPart from './components/RightPart.vue';
 import userMenu from './userMenu.vue';
-import Rooms from '../login/Room.vue';
+import Rooms from './components/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 

@@ -270,6 +270,15 @@ const router = new Router({
       },
     },
     {
+      path: '/recording/:id',
+      name: 'recording',
+      component: () =>
+        import('../src/views/dashboard/components/RecordingPlayer'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/join-room/:meeting_id?',
       name: 'Joining Room',
       component: () => import('./views/joiningPage.vue'),
@@ -318,6 +327,14 @@ const router = new Router({
       path: '/calendar',
       name: 'Calendar',
       component: () => import('./views/login/Calendar.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/color',
+      name: 'ColorPicker',
+      component: () => import('./views/login/ColorPicker.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -382,7 +399,7 @@ const router = new Router({
     {
       path: '/middlePart',
       name: 'DashBoardMiddlePart',
-      component: () => import('./views/login/Room.vue'),
+      component: () => import('./views/dashboard/components/Room.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -415,6 +432,14 @@ const router = new Router({
       path: '/invite',
       name: 'InviteCard',
       component: () => import('./views/dashboard/InviteCard.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/postpone',
+      name: 'postPoneCast',
+      component: () => import('./views/dashboard/postPoneCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -597,8 +622,6 @@ const router = new Router({
 router.afterEach((to, from) => {
   // Remove initial loading
   document.title = to.name;
-  const appLoading = document.getElementById('loading-bg');
-  appLoading.style.display = 'block';
 });
 
 export default router;
