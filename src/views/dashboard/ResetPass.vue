@@ -83,7 +83,34 @@ export default {
         !this.errors.newPassword &&
         !this.errors.confirmPassword
       ) {
-        console.log('Success');
+        const data = {};
+        data.current_password = this.oldPassword;
+        data.new_password = this.newPassword;
+        data.confirm_password = this.confirmPassword;
+        this.$vs.loading();
+        this.$store
+          .dispatch('auth/changePassword', data)
+          .then(() => {
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Password updated successfully',
+              color: 'success',
+            });
+            this.oldPassword = '';
+            this.newPassword = '';
+            this.confirmPassword = '';
+            this.$validator.reset();
+          })
+          .catch((error) => {
+            this.$vs.notify({
+              title: 'Error',
+              text: error.response.data.message,
+              color: 'danger',
+            });
+          })
+          .finally(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

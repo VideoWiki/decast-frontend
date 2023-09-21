@@ -1,5 +1,5 @@
 const constants = {
-  apiUrl: 'https://api.video.wiki',
+  apiUrl: 'https://dev.editor.video.wiki',
   url: 'https://videowiki.pt',
   backImageUrl: 'https://api.cast.video.wiki/api/photos/?category=',
   apiCastUrl: 'https://dev.home.video.wiki',
@@ -22,7 +22,7 @@ const constants = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-  constants.apiUrl = 'https://api.video.wiki';
+  constants.apiUrl = 'https://dev.editor.video.wiki';
   constants.url = 'https://videowiki.pt';
   constants.backImageUrl = 'https://api.cast.video.wiki/api/photos/?category=';
   constants.streamUrl = 'https://play.stream.video.wiki/live/';
