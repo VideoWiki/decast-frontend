@@ -15,6 +15,6 @@ module.exports = {
   },
   plugins: ['vue'],
   rules: {
-    'linebreak-style': ['error', 'auto'],
+    'linebreak-style': ['error', 'unix'],
   },
 };
