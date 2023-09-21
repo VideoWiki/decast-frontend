@@ -32,7 +32,9 @@
 
                     <div>
                         <p>Date</p>
-                        <p>November 7,2023</p>
+                        <div class="date">
+                            <Calendar :stepOneProps="stepOneProps" class="calendar" />
+                        </div>
                     </div>
                 </div>
 
@@ -42,14 +44,28 @@
                             <img src="@/assets/images/timer.svg" />
                         </div>
 
-                        <div>
+                        <div id="startTimeSelect" @click="openPopup('selectStart')">
                             <p>Start time</p>
-                            <p>12:30 pm</p>
+                            <p>{{ startTime }}
+                            </p>
+                        </div>
+
+                        <div v-if="selectStart" class="options-list1">
+                            <span class="timeOption" v-for="time in timeOptions" @click="setStartTime(time)"
+                                :key="time.label">
+                                {{ time.label }}
+                            </span>
                         </div>
                     </div>
-                    <div class="child2">
+                    <div class="child2" id="endTimeSelect" @click="openPopup('selectEnd')">
                         <p>End time</p>
-                        <p>02:30 pm</p>
+                        <p> {{ endTime }}
+                        </p>
+                    </div>
+                    <div v-if="selectEnd" class="options-list2">
+                        <span class="timeOption" v-for="time in timeOptions" @click="setEndTime(time)" :key="time.label">
+                            {{ time.label }}
+                        </span>
                     </div>
                 </div>
 
@@ -86,23 +102,62 @@
 </template>
 
 <script>
+import { TimeFrames } from '../../SetUpCasts/Tabs/TimeFrames';
+import Calendar from '../login/Calendar.vue';
+import moment from 'moment-timezone';
 export default {
     name: 'postPoneCast',
+    components: {
+        Calendar,
+    },
+    props: ['stepOneProps'],
     props: {
         showPostpone: Boolean,
     },
     data() {
         return {
             focusReschedule: true,
+            stepOneProps: {},
+            moment,
+            startTime: null,
+            endTime: null,
+            selectStart: false,
+            selectEnd: false,
+            timeOptions: TimeFrames,
         }
     },
     mounted() {
         document.getElementById('loading-bg').style.display = 'none';
+        window.addEventListener('click', this.closePopups);
+    },
+    beforeDestroy() {
+        window.removeEventListener('click', this.closePopups);
     },
     methods: {
         changeFocus(toPostpone) {
             this.focusReschedule = toPostpone;
             console.log("EEEE")
+        },
+        openPopup(popup) {
+            setTimeout(() => {
+                console.log(this[popup]);
+                this[popup] = !this[popup];
+            }, 1);
+        },
+        setStartTime(time) {
+            this.startTime = time.label;
+            this.selectStart = false;
+            console.log("Start")
+        },
+        setEndTime(time) {
+            this.endTime = time.label;
+            this.selectEnd = false;
+            console.log("End")
+        },
+        closePopups() {
+            console.log('click');
+            if (this.selectStart) this.selectStart = false;
+            if (this.selectEnd) this.selectEnd = false;
         },
     },
 }
@@ -293,5 +348,75 @@ export default {
 
 .child2 p {
     font-size: 12px;
+}
+
+.custom-date-pick input {
+    height: 30px !important;
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 120px;
+    font-size: 14px;
+}
+
+.vdpClearInput {
+    outline: none;
+}
+
+.vdpInnerWrap {
+    margin-top: 0;
+    margin-left: -42.5px;
+}
+
+.options-list1 {
+    background-color: #31394E;
+    border-radius: 6px;
+    color: #a6a6a6;
+    font-size: 12px;
+    position: absolute;
+    z-index: 999;
+    height: 200px;
+    width: 80px;
+    padding: 6px;
+    overflow-y: scroll;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-left: 15px;
+}
+
+.options-list1::-webkit-scrollbar {
+    width: 5px;
+}
+
+.options-list1::-webkit-scrollbar-thumb {
+    background-color: #1D232B;
+    border-radius: 4px;
+    height: 8px;
+}
+
+.options-list2 {
+    background-color: #31394E;
+    border-radius: 6px;
+    color: #a6a6a6;
+    font-size: 12px;
+    position: absolute;
+    z-index: 999;
+    height: 200px;
+    width: 80px;
+    padding: 6px;
+    overflow-y: scroll;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-left: 130px;
+}
+
+.options-list2::-webkit-scrollbar {
+    width: 5px;
+}
+
+.options-list2::-webkit-scrollbar-thumb {
+    background-color: #1D232B;
+    border-radius: 4px;
+    height: 8px;
 }
 </style>

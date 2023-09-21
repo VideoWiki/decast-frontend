@@ -116,7 +116,7 @@ export default {
   },
   props: ['stepOneProps', 'changeActiveTab'],
   data() {
-    return {
+    return {    
       startH: null,
       moment,
       selectStart: false,
