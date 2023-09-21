@@ -88,7 +88,7 @@ export default {
     return axios.post(Constant.apiUrl + `/api/user/update/`, form);
   },
   changePassword(payload) {
-    return axios.post(Constant.apiUrl + `/api/change_password/`, payload);
+    return axios.post(`${Constant.hydra_ep}/api/change_password/`, payload);
   },
   refreshToken() {
     return axios.post(Constant.apiUrl + '/api/auth/refresh-token/', {

@@ -53,17 +53,16 @@
               <div id="startTimeSelect" @click="openPopup('selectStart')">
                 <p>Start time</p>
                 <p>{{ startTime }}</p>
-              </div>
-
-              <div v-if="selectStart" class="options-list1">
-                <span
-                  class="timeOption"
-                  v-for="time in timeOptions"
-                  @click="setStartTime(time)"
-                  :key="time.label"
-                >
-                  {{ time.label }}
-                </span>
+                <div v-if="selectStart" class="options-list1">
+                  <span
+                    class="timeOption"
+                    v-for="time in timeOptions"
+                    @click="setStartTime(time)"
+                    :key="time.label"
+                  >
+                    {{ time.label }}
+                  </span>
+                </div>
               </div>
             </div>
             <div
@@ -292,6 +291,11 @@ export default {
   border-radius: 6px;
 }
 
+#startTimeSelect {
+  width: 100%;
+  position: relative;
+}
+
 .focused-button {
   background-color: #31a2f4;
   color: #fff;
@@ -453,15 +457,25 @@ export default {
   border-radius: 6px;
   color: #a6a6a6;
   font-size: 12px;
+  text-align: justify;
   position: absolute;
   z-index: 999;
-  height: 200px;
-  width: 80px;
+  bottom: 100%;
+  height: 150px;
+  width: 100%;
   padding: 6px;
   overflow-y: scroll;
   cursor: pointer;
-  margin-top: 40px;
-  margin-left: 15px;
+}
+
+.timeOption {
+  display: inline-block;
+  width: 100%;
+}
+
+.timeOption:hover {
+  background-color: #31394e93;
+  color: white;
 }
 
 .options-list1::-webkit-scrollbar {
