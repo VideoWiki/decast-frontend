@@ -25,7 +25,7 @@
             height: 28px;
           "
         >
-          <img src="./Rooms/Plus.svg" alt="" />
+          <img src="@/assets/images/Rooms/Plus.svg" alt="" />
         </button>
         <!-- <button class="header-button border-none dot">
           <img src="./Rooms/Vector2.svg" class="h-7 p-1" alt="" />
@@ -66,7 +66,7 @@
                     class="copy-link tooltip-button"
                     @click="copy(room.room_url)"
                   >
-                    <img src="./Rooms/copy.svg" alt="" />
+                    <img src="@/assets/images/Rooms/copy.svg" alt="" />
                   </button>
                   <!-- <span class="tooltip">Tooltip text</span> -->
                 </div>
@@ -80,7 +80,11 @@
                   class="side-btn border-none"
                   @click="togglePopup(index)"
                 >
-                  <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+                  <img
+                    src="@/assets/images/Rooms/Vector2.svg"
+                    class="h-7 p-2"
+                    alt=""
+                  />
                 </button>
               </div>
               <div class="room-popup" v-if="room.showPopup">
@@ -108,7 +112,7 @@
           <div v-if="recordingList.length">
             <div
               class="recordings flex justify-between items-center mb-4"
-              v-for="(recording, index) in recordingList"
+              v-for="(recording, index) in recordings"
               :key="index"
             >
               <div class="w-3/4 flex justify-between items-center">
@@ -118,7 +122,9 @@
                 <p>{{ recording.room_name }}</p>
                 <p>
                   {{
-                    recording.url['Playback Data']['Playback Size'].split('.') +
+                    recording.url['Playback Data']['Playback Size'].split(
+                      '.'
+                    )[0] +
                     ' ' +
                     recording.url['Playback Data']['Playback Size'].split(
                       ' '
@@ -126,9 +132,42 @@
                   }}
                 </p>
               </div>
-              <button class="side-btn border-none">
-                <img src="./Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+
+              <button
+                class="side-btn border-none"
+                @click="toggleRecordingPopup(index)"
+              >
+                <img
+                  src="@/assets/images/Rooms/Vector2.svg"
+                  class="h-7 p-2"
+                  alt=""
+                />
               </button>
+              <div class="room-popup" v-if="recording.showPopup">
+                <button @click="openRecording(recording)">
+                  <vs-icon
+                    icon-pack="feather"
+                    icon="icon-play"
+                    size="12px"
+                    rounded="true"
+                    style="align-self: center"
+                  >
+                  </vs-icon>
+                  Play
+                </button>
+                <!-- <button @click="downloadRoom(room)">
+                  <img src="@/assets/images/download.svg" />
+                  Download
+                </button> -->
+                <!-- <button @click="copyLink(room)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy Link
+                </button> -->
+                <button @click="copyRecording(recording, index)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy Link
+                </button>
+              </div>
             </div>
           </div>
           <div v-else class="flex flex-col items-center justify-items-center">
@@ -197,7 +236,7 @@
   </div>
 </template>
 <script>
-import axios from '../../axios';
+import axios from '../../../axios';
 
 export default {
   name: 'DashBoardMiddlePart',
@@ -205,10 +244,17 @@ export default {
     return {
       createPopup: false,
       focusYourRooms: true,
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
       text: '',
       rooms: [],
       showPopup: false,
       sharePopup: false,
+      recordings: [],
       email: '',
       roomUrl: '',
       mouse: 0,
@@ -229,6 +275,11 @@ export default {
       this.rooms = [...newList];
       console.log(this.rooms);
     },
+    recordingList(newList) {
+      console.log(newList);
+      this.recordings = [...newList];
+      console.log(this.recordings);
+    },
     showPopup(newQuestion, oldQuestion) {
       if (newQuestion) {
         console.log('yes');
@@ -241,6 +292,20 @@ export default {
         this.sharePopup = false;
         this.createPopup = false;
       }
+    },
+    openRecording(room) {
+      this.$router.push(`/recording/${room.url['Record ID']}`);
+      // window.location.href = '/recording/' + room.url['Record ID'];
+    },
+    copyRecording(room, index) {
+      navigator.clipboard.writeText(
+        'https://dev.stream.video.wiki/recording/' + room.url['Record ID']
+      );
+      this.$set(
+        this.recordings[index],
+        'showPopup',
+        !this.recordings[index].showPopup
+      );
     },
     copy(url) {
       let id = url.split('/');
@@ -301,6 +366,22 @@ export default {
     },
     togglePopup(index) {
       this.$set(this.rooms[index], 'showPopup', !this.rooms[index].showPopup);
+      setTimeout(() => {
+        const roomPopups = document.querySelectorAll('.room-popup');
+        if (this.mouse > 222) {
+          console.log('yes', roomPopups);
+          roomPopups.forEach((item) => (item.style.top = '-85%'));
+        } else {
+          roomPopups.forEach((item) => (item.style.top = '85%'));
+        }
+      }, 0);
+    },
+    toggleRecordingPopup(index) {
+      this.$set(
+        this.recordings[index],
+        'showPopup',
+        !this.recordings[index].showPopup
+      );
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.room-popup');
         if (this.mouse > 222) {

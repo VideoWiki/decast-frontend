@@ -19,7 +19,7 @@
       <img src="@/assets/images/help.svg" />
       Help Center
     </div>
-    <div class="option">
+    <div class="option" @click="logout">
       <img src="@/assets/images/export.svg" />
       Logout
     </div>
@@ -46,6 +46,12 @@ export default {
     };
   },
   methods: {
+    logout() {
+      this.$cookies.remove('userId');
+      this.$cookies.remove('Token');
+      this.$router.push('/');
+      return this.$store.dispatch('auth/logOut');
+    },
     toggleProfile() {
       //   this.closeMenu();
       this.userProfile = !this.userProfile;

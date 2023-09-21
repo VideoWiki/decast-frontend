@@ -5,7 +5,10 @@
       <buttonToggle v-model="toggleValue" class="toggle-button"></buttonToggle>
     </div>
     <div v-if="!toggleValue" class="default-look">
-      <img src="@/assets/images/editor/image.svg" class="room-image" />
+      <img
+        src="@/assets/images/editor/image.svg"
+        class="room-image opacity-50"
+      />
       <div class="logo">
         <img :src="img1Src" class="img1" />
       </div>
@@ -168,7 +171,6 @@ export default {
   margin: 0px 60px 0px 60px;
   width: 417px;
   height: 216px;
-  opacity: 70%;
 }
 .logo {
   position: absolute;
