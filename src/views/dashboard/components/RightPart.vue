@@ -2,23 +2,34 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
+        <h2
+          class="custom-heading"
+          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
+        >
           Casts
         </h2>
         <p class="sub-heading pt-2">
           Casts are social spaces for events and wide-range. Ideal for X Y Z.
-          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
-            Casts.</a>
+          <a
+            target="_blank"
+            href="#"
+            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
+            >Learn more about Casts.</a
+          >
         </p>
       </div>
       <div class="flex justify-between">
-        <button class="header-button p-2" style="
+        <button
+          class="header-button p-2"
+          style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          " @click="openCreate">
+          "
+          @click="openCreate"
+        >
           <img src="@/assets/images/Plus.svg" alt="" />
         </button>
         <!-- <button class="header-button border-none dot">
@@ -39,12 +50,18 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button class="options-button border-none" @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }">
+        <button
+          class="options-button border-none"
+          @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }"
+        >
           Scheduled Casts
         </button>
-        <button class="options-button border-none px-5" @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }">
+        <button
+          class="options-button border-none px-5"
+          @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }"
+        >
           Cast Recordings
         </button>
       </div>
@@ -79,7 +96,11 @@
                     {{ cast.invitee_list.length }} attendees invited
                   </p>
                   <div class="flex my-1">
-                    <span v-for="(image, imageIndex) in cast.invitee_list" :key="imageIndex" alt="">
+                    <span
+                      v-for="(image, imageIndex) in cast.invitee_list"
+                      :key="imageIndex"
+                      alt=""
+                    >
                       <span class="attendee">
                         {{ image.email.slice(0, 2) }}
                       </span>
@@ -121,7 +142,10 @@
                     <img src="@/assets/images/drops.svg" alt="" />Drops
                   </button>
                   <button>
-                    <img src="@/assets/images/reschedule.svg" alt="" />Reschedule cast
+                    <img
+                      src="@/assets/images/reschedule.svg"
+                      alt=""
+                    />Reschedule cast
                   </button>
                   <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
@@ -146,17 +170,24 @@
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
                     <div id="copy-pop" v-if="cast.showCopy">
-                      <button id="copy-btn-1" @click="copy(cast.public_meeting_id, cast.h_ap)">
+                      <button
+                        id="copy-btn-1"
+                        @click="copy(cast.public_meeting_id, cast.h_ap)"
+                      >
                         <img src="@/assets/images/co-host.svg" />
                         Copy Participant url
                       </button>
-                      <br>
+                      <br />
                       <button id="copy-btn-2">
                         <img src="@/assets/images/Participant.svg" />
                         Copy Co-host url
                       </button>
                     </div>
-                    <button v-if="cast.is_running === 'false'" @click="joinNow(cast.public_meeting_id)" id="go-btn">
+                    <button
+                      v-if="cast.is_running === 'false'"
+                      @click="joinNow(cast.public_meeting_id)"
+                      id="go-btn"
+                    >
                       Go live now
                     </button>
                   </div>
@@ -167,8 +198,11 @@
         </div>
         <div v-else>
           <div v-if="recordingList.length">
-            <div class="recordings flex justify-between items-center mb-4" v-for="(recording, index) in recordingList"
-              :key="index">
+            <div
+              class="recordings flex justify-between items-center mb-4"
+              v-for="(recording, index) in recordingList"
+              :key="index"
+            >
               <div class="w-3/4 flex justify-between items-center">
                 <p>
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
@@ -190,8 +224,14 @@
             </div>
           </div>
           <div v-else class="flex flex-col items-center justify-items-center">
-            <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
-            <img src="@/assets/images/dashboard/NoRecordingText1.svg" class="mb-3" />
+            <img
+              src="@/assets/images/dashboard/NoRecording.svg"
+              class="w-1/2"
+            />
+            <img
+              src="@/assets/images/dashboard/NoRecordingText1.svg"
+              class="mb-3"
+            />
             <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
@@ -418,7 +458,6 @@ export default {
   top: 70%;
 }
 
-
 .attendee {
   width: 27px;
   height: 27px;
@@ -484,7 +523,7 @@ export default {
   margin-top: -21px;
 }
 
-#copy-pop button{
+#copy-pop button {
   background: transparent !important;
   font-size: 11px !important;
   display: flex;
@@ -499,7 +538,7 @@ export default {
   color: #a6a6a8;
 }
 
-#copy-pop button img{
+#copy-pop button img {
   width: 15px;
   height: 15px;
 }
@@ -607,7 +646,7 @@ export default {
   height: 33px;
 }
 
-#go-btn{
+#go-btn {
   background-color: #d7df23 !important;
   color: #31394e;
 }
