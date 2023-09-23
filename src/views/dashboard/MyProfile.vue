@@ -10,16 +10,13 @@
     <div class="info-cont">
       <div class="pri-cont">
         <div class="img-cont">
-          <button class="img-up">
+          <input type="file" id="display-profile-input" @change="uploadFile" class="hidden" accept="image/*" />
+          <button class="img-up" :disabled="!isEditing || uploadInProgress" @click="openUpload"
+          :style="{ display : !isEditing ? 'none' : 'block'}">
             <img src="@/assets/images/camera.svg" />
           </button>
-          <vs-avatar
-            :text="activeUserInfo.first_name[0]"
-            color="primary"
-            class="m-0 shadow-md"
-            :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''"
-            size="57px"
-          />
+          <vs-avatar :text="activeUserInfo.first_name[0]" color="primary" class="m-0 shadow-md"
+            :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''" size="57px" />
         </div>
 
         <div class="name-cont">
@@ -31,62 +28,44 @@
       <div class="form-cont">
         <div class="child-1">
           <label class="label">First name</label>
-          <input
-            v-model="firstName"
-            :disabled="!isEditing"
-            :style="{ opacity: isEditing ? 1 : 0.5 }"
-          />
+          <input v-model="firstName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
           <span class="error" v-if="errors.firstName">{{
             errors.firstName
           }}</span>
 
           <label class="label">Email address</label>
-          <input
-            v-model="email"
-            :disabled="!isEditing"
-            :style="{ opacity: isEditing ? 1 : 0.5 }"
-          />
+          <input v-model="email" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
           <span class="error" v-if="errors.email">{{ errors.email }}</span>
         </div>
 
         <div class="child-2">
           <label class="label">Last name</label>
-          <input
-            v-model="lastName"
-            :disabled="!isEditing"
-            :style="{ opacity: isEditing ? 1 : 0.5 }"
-          />
+          <input v-model="lastName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
           <span class="error" v-if="errors.lastName">{{
             errors.lastName
           }}</span>
 
           <label class="label">Add your designation</label>
-          <input
-            v-model="designation"
-            :disabled="!isEditing"
-            :style="{ opacity: isEditing ? 1 : 0.5 }"
-          />
+          <input v-model="designation" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
           <span class="error" v-if="errors.designation">{{
             errors.designation
           }}</span>
         </div>
       </div>
 
-      <!-- <div class="edit-cont">
+      <div class="edit-cont">
         <button @click="editProfile" :disabled="isEditing">Edit</button>
-        <button
-          @click="saveProfile"
-          :disabled="!isEditing"
-          :style="{ opacity: isEditing ? 1 : 0.5 }"
-        >
+        <button @click="saveProfile" :disabled="!isEditing" :style="{ display : !isEditing ? 'none' : 'block'}">
           Save
         </button>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import constants from '../../../constant';
+import axios from '../../axios';
 export default {
   name: 'MyProfile',
   props: {
@@ -97,8 +76,10 @@ export default {
       firstName: '',
       lastName: '',
       email: '',
-      designation: '',
+      designation: localStorage.getItem('designation') || '',
       isEditing: false,
+      uploadInProgress: false,
+      uploadedImageBlob: null,
       errors: {
         firstName: '',
         lastName: '',
@@ -118,6 +99,15 @@ export default {
     this.email = this.activeUserInfo.email;
   },
   methods: {
+    openUpload() {
+      document.getElementById('display-profile-input').click();
+    },
+    uploadFile(event) {
+      const selectedFile = event.target.files[0];
+      this.uploadedImageBlob = selectedFile;
+      this.activeUserInfo.profile_pic = URL.createObjectURL(selectedFile);
+      event.target.value = '';
+    },
     closeProfile() {
       this.$emit('closeProfile');
       this.isEditing = false;
@@ -152,12 +142,44 @@ export default {
         !this.errors.email &&
         !this.errors.designation
       ) {
-        console.log('Success');
-        this.isEditing = false;
+        this.$vs.loading();
+        const payload = {
+          user_name: this.activeUserInfo.username,
+          fname: this.firstName,
+          lname: this.lastName,
+          email: this.email,
+          p_image: this.uploadedImageBlob ? this.uploadedImageBlob : '',
+        };
+        axios
+          .patch(constants.profilingUrl + '/api/profile/update/', payload)
+          .then((res) => {
+            localStorage.setItem('designation', this.designation);
+            this.isEditing = false;
+            console.log(res.data);
+            this.uploadedImageBlob = res.data.profile_image;
+            this.$store.commit('UPDATE_USER_INFO', this.activeUserInfo);
+            this.$vs.notify({
+              title: 'Success',
+              text: 'Changes Saved',
+              color: 'success',
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$vs.notify({
+              title: 'Error',
+              text: 'Error Saving Details',
+              color: 'danger',
+            });
+          })
+          .finally(() => {
+            this.$vs.loading.close();
+          });
       }
-    },
+      this.isEditing = false;
+    }
   },
-};
+}
 </script>
 <style scoped>
 .full-cont {
