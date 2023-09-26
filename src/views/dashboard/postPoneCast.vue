@@ -275,9 +275,19 @@ export default {
         collect_attendee_email: this.collect_attendee_email,
       };
       try {
-        const res = await this.$store.dispatch('cast/formSubmit', payload);
+        const res = await this.$store.dispatch('cast/formSubmit', payload)
+          this.$vs.notify({
+            title: 'Success',
+            text: 'Changes Saved',
+            color: 'success',
+          });
       } catch (e) {
         console.log(e);
+        this.$vs.notify({
+            title: 'Error',
+            text: 'Changes Not Saved',
+            color: 'danger',
+          });
       }
     },
   }
