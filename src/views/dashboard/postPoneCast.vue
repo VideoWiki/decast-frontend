@@ -276,6 +276,7 @@ export default {
       };
       try {
         const res = await this.$store.dispatch('cast/formSubmit', payload)
+        this.showPostpone = false;
           this.$vs.notify({
             title: 'Success',
             text: 'Changes Saved',
