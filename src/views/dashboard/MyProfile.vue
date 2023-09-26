@@ -3,20 +3,36 @@
     <div class="head-container">
       <h3>My Profile</h3>
       <button @click="closeProfile">
-        <img src="@/assets/images/cross.svg" />
+        <img src="@/assets/images/cross.svg" alt="Close Profile" />
       </button>
     </div>
 
     <div class="info-cont">
+      <!-- Profile Image -->
       <div class="pri-cont">
         <div class="img-cont">
-          <input type="file" id="display-profile-input" @change="uploadFile" class="hidden" accept="image/*" />
-          <button class="img-up" :disabled="!isEditing || uploadInProgress" @click="openUpload"
-          :style="{ display : !isEditing ? 'none' : 'block'}">
-            <img src="@/assets/images/camera.svg" />
+          <input
+            type="file"
+            id="display-profile-input"
+            @change="uploadFile"
+            class="hidden"
+            accept="image/*"
+          />
+          <button
+            class="img-up"
+            :disabled="!isEditing || uploadInProgress"
+            @click="openUpload"
+            :style="{ display: !isEditing ? 'none' : 'block' }"
+          >
+            <img src="@/assets/images/camera.svg" alt="Upload Image" />
           </button>
-          <vs-avatar :text="activeUserInfo.first_name[0]" color="primary" class="m-0 shadow-md"
-            :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''" size="57px" />
+          <vs-avatar
+            :text="activeUserInfo.first_name[0]"
+            color="primary"
+            class="m-0 shadow-md"
+            :src="activeUserInfo.profile_pic || null"
+            size="57px"
+          />
         </div>
 
         <div class="name-cont">
@@ -25,37 +41,64 @@
         </div>
       </div>
 
+      <!-- Form Fields -->
       <div class="form-cont">
         <div class="child-1">
           <label class="label">First name</label>
-          <input v-model="firstName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
+          <input
+            v-model="firstName"
+            :disabled="!isEditing"
+            :style="{ opacity: isEditing ? 1 : 0.5 }"
+            required
+          />
           <span class="error" v-if="errors.firstName">{{
             errors.firstName
           }}</span>
 
           <label class="label">Email address</label>
-          <input v-model="email" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
+          <input
+            v-model="email"
+            :disabled="!isEditing"
+            :style="{ opacity: isEditing ? 1 : 0.5 }"
+            type="email"
+            required
+          />
           <span class="error" v-if="errors.email">{{ errors.email }}</span>
         </div>
 
         <div class="child-2">
           <label class="label">Last name</label>
-          <input v-model="lastName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
+          <input
+            v-model="lastName"
+            :disabled="!isEditing"
+            :style="{ opacity: isEditing ? 1 : 0.5 }"
+            required
+          />
           <span class="error" v-if="errors.lastName">{{
             errors.lastName
           }}</span>
 
           <label class="label">Add your designation</label>
-          <input v-model="designation" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" />
+          <input
+            v-model="designation"
+            :disabled="!isEditing"
+            :style="{ opacity: isEditing ? 1 : 0.5 }"
+            required
+          />
           <span class="error" v-if="errors.designation">{{
             errors.designation
           }}</span>
         </div>
       </div>
 
+      <!-- Edit and Save Buttons -->
       <div class="edit-cont">
         <button @click="editProfile" :disabled="isEditing">Edit</button>
-        <button @click="saveProfile" :disabled="!isEditing" :style="{ display : !isEditing ? 'none' : 'block'}">
+        <button
+          @click="saveProfile"
+          :disabled="!isEditing"
+          :style="{ display: isEditing ? 'block' : 'none' }"
+        >
           Save
         </button>
       </div>
@@ -66,6 +109,7 @@
 <script>
 import constants from '../../../constant';
 import axios from '../../axios';
+
 export default {
   name: 'MyProfile',
   props: {
@@ -136,6 +180,7 @@ export default {
       if (!this.designation) {
         this.errors.designation = 'Designation is required.';
       }
+
       if (
         !this.errors.firstName &&
         !this.errors.lastName &&
@@ -148,15 +193,14 @@ export default {
           fname: this.firstName,
           lname: this.lastName,
           email: this.email,
-          p_image: this.uploadedImageBlob ? this.uploadedImageBlob : '',
+          p_image: this.uploadedImageBlob || '',
         };
         axios
           .patch(constants.profilingUrl + '/api/profile/update/', payload)
           .then((res) => {
             localStorage.setItem('designation', this.designation);
             this.isEditing = false;
-            console.log(res.data);
-            this.uploadedImageBlob = res.data.profile_image;
+            res.data.profile_image=this.uploadedImageBlob;
             this.$store.commit('UPDATE_USER_INFO', this.activeUserInfo);
             this.$vs.notify({
               title: 'Success',
@@ -165,7 +209,7 @@ export default {
             });
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
             this.$vs.notify({
               title: 'Error',
               text: 'Error Saving Details',
@@ -176,11 +220,11 @@ export default {
             this.$vs.loading.close();
           });
       }
-      this.isEditing = false;
-    }
+    },
   },
-}
+};
 </script>
+
 <style scoped>
 .full-cont {
   position: absolute;
