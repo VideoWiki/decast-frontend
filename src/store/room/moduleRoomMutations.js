@@ -16,4 +16,7 @@ export default {
   SET_RECORDINGS(state, payload) {
     state.recordings = payload;
   },
+  SET_POPUP(state, payload) {
+    state.activePopup = payload;
+  },
 };

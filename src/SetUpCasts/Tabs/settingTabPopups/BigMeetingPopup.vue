@@ -1,21 +1,13 @@
 <template>
   <div class="tab-container">
     <div class="general">
-      <div class="setting flex">
+      <div class="setting flex cursor-pointer" @click="toggleDropdown">
         <div class="left-side flex">
           <label>General settings</label>
           <p>Set custom settings for your meeting.</p>
         </div>
-        <img
-          v-if="!isDropdownOpen"
-          src="@/assets/images/editor/Group.svg"
-          @click="toggleDropdown"
-        />
-        <img
-          v-else
-          src="@/assets/images/editor/Group1.svg"
-          @click="toggleDropdown"
-        />
+        <img v-if="!isDropdownOpen" src="@/assets/images/editor/Group.svg" />
+        <img v-else src="@/assets/images/editor/Group1.svg" />
       </div>
       <div class="dropdown first-drop" v-if="isDropdownOpen">
         <div class="for-recording flex same-style">
@@ -90,21 +82,13 @@
       </div>
     </div>
     <div class="participant">
-      <div class="setting flex">
+      <div class="setting flex cursor-pointer" @click="toggleDropdown2">
         <div class="left-side flex">
           <label>Participant settings</label>
           <p>Configure these settings to restrict participant actions.</p>
         </div>
-        <img
-          v-if="!isDropdownOpen2"
-          src="@/assets/images/editor/Group.svg"
-          @click="toggleDropdown2"
-        />
-        <img
-          v-else
-          src="@/assets/images/editor/Group1.svg"
-          @click="toggleDropdown2"
-        />
+        <img v-if="!isDropdownOpen2" src="@/assets/images/editor/Group.svg" />
+        <img v-else src="@/assets/images/editor/Group1.svg" />
       </div>
       <div class="dropdown second-drop" v-if="isDropdownOpen2">
         <div class="for-lock flex same-style">
@@ -181,12 +165,12 @@ export default {
   },
   methods: {
     toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
+      this.isDropdownOpen = true;
       this.isDropdownOpen2 = false;
     },
     toggleDropdown2() {
       this.isDropdownOpen = false;
-      this.isDropdownOpen2 = !this.isDropdownOpen2;
+      this.isDropdownOpen2 = true;
     },
   },
 };

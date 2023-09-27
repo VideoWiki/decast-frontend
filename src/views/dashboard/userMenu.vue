@@ -5,12 +5,10 @@
       <img src="@/assets/images/usermenu.svg" />
       My Profile
     </div>
-    <MyProfile :showProfile="userProfile" @closeProfile="closeProfile" />
     <div class="option" @click="togglePass">
       <img src="@/assets/images/setting.svg" />
       Reset Password
     </div>
-    <ResetPass :showPass="userPass" @closeProfile="closeProfile" />
     <div class="option">
       <img src="@/assets/images/guide.svg" />
       Guide
@@ -27,23 +25,11 @@
 </template>
 
 <script>
-import MyProfile from './MyProfile.vue';
-import ResetPass from './ResetPass.vue';
 export default {
   name: 'userMenu',
   props: {
     showMenu: Boolean,
     closeMenu: Function,
-  },
-  components: {
-    MyProfile,
-    ResetPass,
-  },
-  data() {
-    return {
-      userProfile: false,
-      userPass: false,
-    };
   },
   methods: {
     logout() {
@@ -53,21 +39,12 @@ export default {
       return this.$store.dispatch('auth/logOut');
     },
     toggleProfile() {
-      //   this.closeMenu();
-      this.userProfile = !this.userProfile;
-      this.userPass = false;
-      console.log('HHHH');
+      this.closeMenu();
+      this.$store.commit('room/SET_POPUP', 'profile');
     },
     togglePass() {
-      //   this.closeMenu();
-      this.userPass = !this.userPass;
-      this.userProfile = false;
-      console.log('PPP');
-    },
-    closeProfile() {
-      console.log('close');
-      this.userProfile = false;
-      this.userPass = false;
+      this.closeMenu();
+      this.$store.commit('room/SET_POPUP', 'resetPassword');
     },
   },
 };

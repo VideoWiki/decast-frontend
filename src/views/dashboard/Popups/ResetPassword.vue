@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="showPass">
+  <div class="container">
     <div class="head-cont">
       <h3>Reset Password</h3>
       <button @click="closeProfile">
@@ -14,20 +14,20 @@
     <div class="form">
       <label for="oldPassword">Old password</label>
       <input type="password" id="oldPassword" v-model="oldPassword" />
-      <span class="error" v-if="errors.oldPassword">{{
-        errors.oldPassword
+      <span class="error" v-if="error.oldPassword">{{
+        error.oldPassword
       }}</span>
 
       <label for="newPassword">Create new password</label>
       <input type="password" id="newPassword" v-model="newPassword" />
-      <span class="error" v-if="errors.newPassword">{{
-        errors.newPassword
+      <span class="error" v-if="error.newPassword">{{
+        error.newPassword
       }}</span>
 
       <label for="confirmPassword">Confirm new password</label>
       <input type="password" id="confirmPassword" v-model="confirmPassword" />
-      <span class="error" v-if="errors.confirmPassword">{{
-        errors.confirmPassword
+      <span class="error" v-if="error.confirmPassword">{{
+        error.confirmPassword
       }}</span>
 
       <button class="save-btn" @click="savePassword">Save</button>
@@ -37,16 +37,13 @@
 
 <script>
 export default {
-  name: 'ResetPass',
-  props: {
-    showPass: Boolean,
-  },
+  name: 'ResetPassword',
   data() {
     return {
       oldPassword: '',
       newPassword: '',
       confirmPassword: '',
-      errors: {
+      error: {
         oldPassword: '',
         newPassword: '',
         confirmPassword: '',
@@ -55,11 +52,11 @@ export default {
   },
   methods: {
     closeProfile() {
-      this.$emit('closeProfile');
+      this.$store.commit('room/SET_POPUP', '');
     },
     savePassword() {
       // Reset previous error messages
-      this.errors = {
+      this.error = {
         oldPassword: '',
         newPassword: '',
         confirmPassword: '',
@@ -67,21 +64,21 @@ export default {
 
       // Performing validation
       if (!this.oldPassword) {
-        this.errors.oldPassword = 'Old password is required.';
+        this.error.oldPassword = 'Old password is required.';
       }
       if (this.newPassword.length < 8 || this.newPassword.length > 14) {
-        this.errors.newPassword =
+        this.error.newPassword =
           'Password must be between 8 and 14 characters.';
       }
       if (this.newPassword !== this.confirmPassword) {
-        this.errors.confirmPassword = 'Passwords do not match.';
+        this.error.confirmPassword = 'Passwords do not match.';
       }
 
       // reset paasword
       if (
-        !this.errors.oldPassword &&
-        !this.errors.newPassword &&
-        !this.errors.confirmPassword
+        !this.error.oldPassword &&
+        !this.error.newPassword &&
+        !this.error.confirmPassword
       ) {
         const data = {};
         data.current_password = this.oldPassword;
@@ -119,16 +116,12 @@ export default {
 
 <style scoped>
 .container {
-  position: absolute;
   width: 367px;
   height: auto;
   border-radius: 10px;
   background-color: #1f272f;
   border: 1px solid #31394e;
   padding: 15px;
-  top: 40vh;
-  right: 205%;
-  transform: translate(-50%, -50%);
   z-index: 10000;
 }
 

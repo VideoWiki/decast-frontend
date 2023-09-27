@@ -9,6 +9,7 @@
         :inputAttributes="{ readonly: true }"
         :selectableYearRange="{ from: new Date().getFullYear(), to: 2099 }"
         class="custom-date-pick"
+        @input="emitSelectedDate"
       ></date-pick>
     </div>
   </div>
@@ -32,14 +33,15 @@ export default {
     clearDate() {
       this.date = ''; // Clear the selected date
     },
+    emitSelectedDate(selectedDate) {
+      this.$emit('date-selected', selectedDate);
+    },
   },
 };
 </script>
 
 <style>
-body {
-  background-color: #181a20;
-}
+
 .custom-date-pick input {
   border: 1px solid #31394e;
   background-color: #1f272f;

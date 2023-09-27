@@ -358,7 +358,7 @@ const router = new Router({
     {
       path: '/popup',
       name: 'Reset Passwo',
-      component: () => import('@/views/dashboard/Popup.vue'),
+      component: () => import('@/views/dashboard/Popups.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -444,14 +444,6 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/newhome',
-      name: 'NewHome',
-      component: () => import('./views/dashboard/NewHome.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
     // -->>>>>>>>>
     {
       path: '/eventdetails/:eventId',
@@ -478,22 +470,6 @@ const router = new Router({
       },
     },
     {
-      path: '/createEvent',
-      name: 'Create Event',
-      component: () => import('./views/create-event/CreateEvent.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/editEvent/:cast_Id?',
-      name: 'Edit Event',
-      component: () => import('./views/edit-event/EditEvent.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
       path: '/public/nftdrop',
       name: 'Public NFT Drop',
       component: () => import('./views/create-event/publicDropNfts.vue'),
@@ -515,14 +491,6 @@ const router = new Router({
       component: () => import('./views/create-event/GalaCertificate.vue'),
       meta: {
         rule: 'isPublic',
-      },
-    },
-    {
-      path: '/mycasts',
-      name: 'My Casts',
-      component: () => import('./views/MyCasts'),
-      meta: {
-        rule: 'isLogged',
       },
     },
     {
