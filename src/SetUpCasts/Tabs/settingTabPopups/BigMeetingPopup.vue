@@ -1,7 +1,7 @@
 <template>
   <div class="tab-container">
     <div class="general">
-      <div class="setting flex">
+      <div class="setting flex" :class="{ 'open-dropdown': isDropdownOpen }">
         <div class="left-side flex">
           <label>General settings</label>
           <p>Set custom settings for your meeting.</p>
@@ -90,7 +90,7 @@
       </div>
     </div>
     <div class="participant">
-      <div class="setting flex">
+      <div class="setting flex" :class="{ 'open-dropdown': isDropdownOpen2 }">
         <div class="left-side flex">
           <label>Participant settings</label>
           <p>Configure these settings to restrict participant actions.</p>
@@ -175,9 +175,12 @@ export default {
       toggleValue: false,
     };
   },
-  props: ['stepFourProps'],
+  props: ['stepFourProps','activeTab'],
   components: {
     buttonToggle,
+  },
+  mounted(){
+    this.stepFourPropsBound();
   },
   methods: {
     toggleDropdown() {
@@ -188,6 +191,48 @@ export default {
       this.isDropdownOpen = false;
       this.isDropdownOpen2 = !this.isDropdownOpen2;
     },
+    stepFourPropsBound() {
+      if(this.activeTab === 'BigMeetingPopup'){
+       this.stepFourProps.allow_moderator_to_unmute_user = true;
+       this.stepFourProps.end_when_no_moderator = false;
+       this.stepFourProps.lock_layout = false;
+       this.stepFourProps.end_when_no_moderator = false;
+       this.stepFourProps.lock_layout = false;
+       this.stepFourProps.webcam_only_for_moderator = false;
+       this.stepFourProps.viewer_mode =false;
+       this.stepFourProps.auto_start_recording = false;
+       this.stepFourProps.disable_mic = false;
+       this.stepFourProps.mute_on_start = true;
+      }else if(this.activeTab === 'WebinarPopup'){
+        this.stepFourProps.allow_moderator_to_unmute_user = true;
+        this.stepFourProps.webcam_only_for_moderator = true;
+        this.stepFourProps.viewer_mode =true;
+        this.stepFourProps.auto_start_recording = false;
+        this.stepFourProps.allow_moderator_to_unmute_user = true;
+        this.stepFourProps.disable_mic = false;
+        this.stepFourProps.end_when_no_moderator = true;
+        this.stepFourProps.lock_layout = true;
+      }else if(this.activeTab === 'BroadcastPopup'){
+        this.stepFourProps.auto_start_recording =true;
+        this.stepFourProps.disable_mic =true;
+        this.stepFourProps.webcam_only_for_moderator = true;
+        this.stepFourProps.viewer_mode =true;
+        this.stepFourProps.auto_start_recording = true;
+        this.stepFourProps.mute_on_start = true;
+        this.stepFourProps.allow_moderator_to_unmute_user = false;
+        this.stepFourProps.end_when_no_moderator = true;
+        this.stepFourProps.lock_layout = true;
+      }else if(this.activeTab === 'CustomPopup'){
+        this.stepFourProps.auto_start_recording =false;
+        this.stepFourProps.mute_on_start = false;
+        this.stepFourProps.webcam_only_for_moderator = true;
+        this.stepFourProps.allow_moderator_to_unmute_user = false;
+        this.stepFourProps.end_when_no_moderator = true;
+        this.stepFourProps.lock_layout = true;
+        this.stepFourProps.viewer_mode =false;
+        this.stepFourProps.disable_mic =false;
+      }
+    }, 
   },
 };
 </script>
@@ -207,6 +252,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 14px;
+  background-color: RGBA(49, 57, 78, 0.7);
 }
 
 .left-side label {
@@ -275,4 +321,7 @@ label {
 .participant {
   margin-top: 10px;
 }
+.open-dropdown {
+  border-radius: 6px 6px 0px 0px; 
+}  
 </style>

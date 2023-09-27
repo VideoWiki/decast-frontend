@@ -56,6 +56,19 @@
           >
             Settings
           </button>
+          <button
+            class="button-4"
+            :style="{
+              backgroundColor: activeTab === 'Streaming' ? '#464775' : '#1F272F',
+              color:
+                activeTab === 'Streaming'
+                  ? 'rgba(255, 255, 255, 0.8)'
+                  : 'rgba(166, 166, 168, 0.8)',
+            }"
+            @click="activeTab = 'Streaming'"
+          >
+          Streaming
+          </button>
         </div>
         <div class="tab-content">
           <SetUpTab
@@ -69,9 +82,14 @@
             :changeActiveTab="changeActiveTab"
           />
           <SettingsTab
-            v-else
+            v-else-if="activeTab === 'Settings'"
             :createCast="createCast"
             :stepFourProps="stepFourProps"
+            :changeActiveTab="changeActiveTab"
+          />
+          <StreamingTab
+            v-else
+            :createCast="createCast"
             :changeActiveTab="changeActiveTab"
           />
         </div>
@@ -96,6 +114,7 @@
 import BrandingTab from './Tabs/BrandingTab.vue';
 import SettingsTab from './Tabs/SettingsTab.vue';
 import SetUpTab from './Tabs/SetUpTab.vue';
+import StreamingTab from './Tabs/StreamingTab.vue';
 import moment from 'moment';
 import Popup from '../views/dashboard/Popup.vue';
 import StreamCard from '../views/dashboard/StreamCard.vue';
@@ -106,11 +125,12 @@ export default {
     BrandingTab,
     SettingsTab,
     SetUpTab,
+    StreamingTab,
     Popup,
     StreamCard,
     InviteCard,
   },
-  props: ['closeCreate', 'getList'],
+  props: [ 'getList'],
   data() {
     return {
       activeTab: 'Set up',
@@ -387,6 +407,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin: auto;
+  transition: max-height 0.5s ease-in-out;
   /* padding: 18px; */
 }
 .heading-part {
@@ -407,7 +428,7 @@ export default {
   margin-top: 23px;
 }
 .buttons button {
-  width: 180px;
+  width: 135px;
   height: 40px;
   border: 1px solid #31394e;
   font-size: 12px;
@@ -422,7 +443,7 @@ export default {
 .button-1 {
   border-radius: 6px 0px 0px 6px;
 }
-.button-3 {
+.button-4 {
   border-radius: 0px 6px 6px 0px;
 }
 </style>
