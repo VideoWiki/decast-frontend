@@ -1,125 +1,18 @@
 <template>
-  <div>
-    <div class="main-container">
-      <div class="close-btn-cont">
-        <button>
-          <img src="@/assets/images/cross.svg" />
-        </button>
-      </div>
-      <div class="choice-container">
-        <div class="choose-opt">
-          <button
-            class="options-button border-none"
-            @click="changeFocus(true)"
-            :class="{ 'focused-button': focusReschedule }"
-          >
-            Reschedule
-          </button>
-          <button
-            class="options-button border-none px-5"
-            @click="changeFocus(false)"
-            :class="{ 'focused-button': !focusReschedule }"
-          >
-            Postpone
-          </button>
-        </div>
-
-        <div v-if="focusReschedule" class="reschedule">
-          <div class="fisrt-desc">
-            <p>
-              Choose a day and time in the future you want your cast to be live.
-            </p>
-          </div>
-
-          <div class="cal-cont">
-            <div>
-              <img src="@/assets/images/date.svg" />
-            </div>
-
-            <div>
-              <p>Date</p>
-              <div class="date">
-                <Calendar :stepOneProps="stepOneProps" class="calendar" />
-              </div>
-            </div>
-          </div>
-
-          <div class="time-cont">
-            <div class="child1">
-              <div>
-                <img src="@/assets/images/timer.svg" />
-              </div>
-
-              <div id="startTimeSelect" @click="openPopup('selectStart')">
-                <p>Start time</p>
-                <p>{{ startTime }}</p>
-                <div v-if="selectStart" class="options-list1">
-                  <span
-                    class="timeOption"
-                    v-for="time in timeOptions"
-                    @click="setStartTime(time)"
-                    :key="time.label"
-                  >
-                    {{ time.label }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div
-              class="child2"
-              id="endTimeSelect"
-              @click="openPopup('selectEnd')"
-            >
-              <p>End time</p>
-              <p>{{ endTime }}</p>
-            </div>
-            <div v-if="selectEnd" class="options-list2">
-              <span
-                class="timeOption"
-                v-for="time in timeOptions"
-                @click="setEndTime(time)"
-                :key="time.label"
-              >
-                {{ time.label }}
-              </span>
-            </div>
-          </div>
-
-          <div class="resc-btn">
-            <button>Reschedule</button>
-          </div>
-        </div>
-
-        <div v-else class="postpone">
-          <div class="sec-desc">
-            <p>This cast has been postponed.</p>
-          </div>
-
-          <div class="text-ar">
-            <textarea placeholder="Send message to all participants">
-            </textarea>
-          </div>
-
-          <div class="send-btn">
-            <button>Send</button>
-          </div>
-        </div>
-      </div>
+  <div class="main-container" v-if="showPostpone">
+    <div class="close-btn-cont">
+      <button @click="closePostpone">
+        <img src="@/assets/images/cross.svg" />
+      </button>
     </div>
     <div class="choice-container">
       <div class="choose-opt">
-        <button
-          class="options-button border-none"
-          @click="changeFocus(true)"
-          :class="{ 'focused-button': focusReschedule }"
-        >
+        <button class="options-button-cont border-none" @click="changeFocus(true)"
+          :class="{ 'focused-btn': focusReschedule }">
           Reschedule
         </button>
-        <button
-          class="options-button border-none px-5"
-          @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusReschedule }"
-        >
+        <button class="options-button-cont border-none px-5" @click="changeFocus(false)"
+          :class="{ 'focused-btn': !focusReschedule }">
           Postpone
         </button>
       </div>
@@ -138,7 +31,9 @@
 
           <div>
             <p>Date</p>
-            <p>November 7,2023</p>
+            <div id="date">
+              <Calendar :stepOneProps="stepOneProps" class="calendar" @date-selected="handleDateChange" />
+            </div>
           </div>
         </div>
 
@@ -148,18 +43,28 @@
               <img src="@/assets/images/timer.svg" />
             </div>
 
-            <div>
+            <div id="startTimeSelect" @click="openPopup('selectStart')">
               <p>Start time</p>
-              <p>12:30 pm</p>
+              <p>{{ startTime }}</p>
+              <div v-if="selectStart" class="options-list1">
+                <span class="timeOption" v-for="time in timeOptions" @click="setStartTime(time)" :key="time.label">
+                  {{ time.label }}
+                </span>
+              </div>
             </div>
           </div>
-          <div class="child2">
+          <div class="child2" id="endTimeSelect" @click="openPopup('selectEnd')">
             <p>End time</p>
-            <p>02:30 pm</p>
+            <p>{{ endTime }}</p>
+          </div>
+          <div v-if="selectEnd" class="options-list2">
+            <span class="timeOption" v-for="time in timeOptions" @click="setEndTime(time)" :key="time.label">
+              {{ time.label }}
+            </span>
           </div>
         </div>
 
-        <div class="resc-btn">
+        <div class="resc-btn" @click="formSubmit">
           <button>Reschedule</button>
         </div>
       </div>
@@ -170,7 +75,8 @@
         </div>
 
         <div class="text-ar">
-          <textarea placeholder="Send message to all participants"> </textarea>
+          <textarea placeholder="Send message to all participants">
+            </textarea>
         </div>
 
         <div class="send-btn">
@@ -182,6 +88,7 @@
 </template>
 
 <script>
+import axios from '../../axios';
 import { TimeFrames } from '../../SetUpCasts/Tabs/TimeFrames';
 import Calendar from '../login/Calendar.vue';
 import moment from 'moment-timezone';
@@ -190,33 +97,107 @@ export default {
   components: {
     Calendar,
   },
+  props: ['stepOneProps'],
   props: {
-    showPostpone: Boolean,
+    cast_id: null,
+    cast_name: null,
+    description: null,
+    timezone: null,
+    cast_type: null,
+    logo: null,
+    cover_image: null,
+    primary_color: null,
+    banner_text: null,
+    private_otp: null,
+    welcome_text: null,
+    guest_policy: null,
+    logout_url: null,
+    is_streaming: Boolean,
+    allow_moderator_to_unmute_user: Boolean,
+    auto_start_recording: Boolean,
+    moderator_only_text: null,
+    public_stream: null,
+    bbb_stream_url: null,
+    disable_cam: Boolean,
+    disable_mic: Boolean,
+    password_auth: Boolean,
+    schedule: null,
+    timeLeft: null,
+    lock_layout: Boolean,
+    mute_on_start: Boolean,
+    end_when_no_moderator: Boolean,
+    webcam_only_for_moderator: Boolean,
+    viewer_mode: Boolean,
+    record: null,
+    collect_attendee_email: Boolean,
+    closeOnOutsideClick: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       focusReschedule: true,
       stepOneProps: {},
       moment,
+      selectedDate: null,
       startTime: null,
       endTime: null,
       selectStart: false,
       selectEnd: false,
       timeOptions: TimeFrames,
+      showPostpone: true,
     };
+  },
+  watch: {
+    schedule: {
+      immediate: true,
+      handler(newSchedule) {
+        if (newSchedule) {
+          const scheduleMoment = moment(newSchedule, 'YYYY-MM-DD HH:mm:ss');
+          this.selectedDate = scheduleMoment.format('YYYY-MM-DD');
+          this.stepOneProps = { startD: this.selectedDate };
+          this.startTime = scheduleMoment.format('HH:mm:ss');
+          if (this.timeLeft !== null && this.startTime !== null) {
+            const startTimeMoment = moment(this.selectedDate + ' ' + this.startTime, 'YYYY-MM-DD HH:mm:ss');
+            const endTimeMoment = startTimeMoment.clone().add(this.timeLeft, 'minutes');
+            this.endTime = endTimeMoment.format('HH:mm:ss');
+            console.log(this.endTime)
+            console.log(this.timeLeft)
+          }
+        }
+      },
+    },
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
     window.addEventListener('click', this.closePopups);
+    // document.addEventListener('click', this.closeOnOutsideClick);
   },
   beforeDestroy() {
     window.removeEventListener('click', this.closePopups);
+    // document.removeEventListener('click', this.closeOnOutsideClick);
   },
   methods: {
+
+    handleDateChange(selectedDate) {
+      this.selectedDate = selectedDate;
+      console.log(selectedDate, 'date');
+    },
     changeFocus(toPostpone) {
       this.focusReschedule = toPostpone;
       console.log('EEEE');
     },
+    // closeOnOutsideClick(event) {
+    //   if (!this.closeOnOutsideClick) {
+    //     return;
+    //   }
+    //   const container = this.$el;
+    //   if (container && !container.contains(event.target)) {
+    //     this.showPostpone = false;
+    //     this.$emit('closePostpone');
+    //   }
+    // },
     openPopup(popup) {
       setTimeout(() => {
         console.log(this[popup]);
@@ -238,8 +219,81 @@ export default {
       if (this.selectStart) this.selectStart = false;
       if (this.selectEnd) this.selectEnd = false;
     },
-  },
-};
+    closePostpone() {
+      this.showPostpone = false;
+      this.$emit('closePostpone');
+    },
+    handleDateChange(selectedDate) {
+      this.selectedDate = selectedDate;
+      console.log(selectedDate, 'date');
+    },
+    async formSubmit(id) {
+      const startTimeMoment = moment(this.selectedDate + ' ' + this.startTime, 'YYYY-MM-DD HH:mm');
+      const endTimeMoment = moment(this.selectedDate + ' ' + this.endTime, 'YYYY-MM-DD HH:mm');
+      const durationMinutes = endTimeMoment.diff(startTimeMoment, 'minutes');
+
+      const formattedDate = moment(this.selectedDate).format('YYYY-MM-DD');
+      const formattedStartTime = moment(this.startTime, 'hh:mm A').format('HH:mm:ss');
+      const formattedEndTime = moment(this.endTime, 'hh:mm A').format('HH:mm:ss');
+
+      // Combine the date and time in the correct format
+      const schedule_time = `${formattedDate} ${formattedStartTime}`;
+      const payload = {
+        allow_moderator_to_unmute_user: this.allow_moderator_to_unmute_user,
+        auto_start_recording: this.auto_start_recording,
+        bbb_stream_url: this.bbb_stream_url,
+        cast_id: this.cast_id,
+        cast_name: this.cast_name,
+        cast_type: this.cast_type,
+        description: this.description,
+        duration: durationMinutes,
+        disable_cam: this.disable_cam,
+        disable_mic: this.disable_mic,
+        date: this.selectedDate,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        end_when_no_moderator: this.end_when_no_moderator,
+        mute_on_start: this.mute_on_start,
+        lock_layout: this.lock_layout,
+        is_streaming: this.is_streaming,
+        public_stream: this.public_stream,
+        private_otp: this.private_otp,
+        password_auth: this.password_auth,
+        schedule_time: schedule_time,
+        cover_image: this.cover_image,
+        guest_policy: this.guest_policy,
+        welcome_text: this.welcome_text,
+        webcam_only_for_moderator: this.webcam_only_for_moderator,
+        logo: this.logo,
+        record: this.record,
+        logout_url: this.logout_url,
+        primary_color: this.primary_color,
+        timezone: this.timezone,
+        viewer_mode: this.viewer_mode,
+        moderator_only_text: this.moderator_only_text,
+        banner_text: this.banner_text,
+        collect_attendee_email: this.collect_attendee_email,
+      };
+      try {
+        const res = await this.$store.dispatch('cast/formSubmit', payload)
+        this.showPostpone = false;
+          this.$vs.notify({
+            title: 'Success',
+            text: 'Changes Saved',
+            color: 'success',
+          });
+      } catch (e) {
+        console.log(e);
+        this.$vs.notify({
+            title: 'Error',
+            text: 'Changes Not Saved',
+            color: 'danger',
+          });
+      }
+    },
+  }
+}
+
 </script>
 
 <style>
@@ -252,6 +306,8 @@ export default {
   border-radius: 10px;
   padding: 10px;
   margin-top: 2rem;
+  position: absolute !important;
+  z-index: 999;
 }
 
 .close-btn-cont {
@@ -280,7 +336,7 @@ export default {
   height: 27px;
 }
 
-.options-button {
+.options-button-cont {
   background: transparent;
   font-size: 12px;
   color: #a6a6a8;
@@ -296,7 +352,7 @@ export default {
   position: relative;
 }
 
-.focused-button {
+.focused-btn {
   background-color: #31a2f4;
   color: #fff;
 }
@@ -308,6 +364,7 @@ export default {
 
 .fisrt-desc p {
   font-size: 12px;
+  text-align: left;
   color: #637181;
 }
 
@@ -318,6 +375,7 @@ export default {
 
 .sec-desc p {
   font-size: 12px;
+  text-align: left;
   color: #637181;
 }
 
@@ -392,6 +450,7 @@ export default {
 
 .cal-cont div p {
   font-size: 12px;
+  text-align: left !important;
 }
 
 .cal-cont div p:nth-child(2) {
@@ -401,9 +460,11 @@ export default {
 
 .child1 {
   width: 50%;
+  justify-content: left;
   display: flex;
   gap: 10px;
   border-right: 1px solid #31394e;
+  text-align: left !important;
 }
 
 .child1 div img {
@@ -413,16 +474,19 @@ export default {
 
 .child1 div p {
   font-size: 12px;
+  text-align: left !important;
 }
 
 .child1 div p:nth-child(2) {
   font-size: 14px;
+  text-align: left !important;
   color: #a6a6a6;
 }
 
 .child2 p:nth-child(2) {
   font-size: 14px;
   color: #a6a6a6;
+  text-align: left !important;
 }
 
 .child2 {
@@ -432,25 +496,10 @@ export default {
 
 .child2 p {
   font-size: 12px;
+  text-align: left !important;
 }
 
-.custom-date-pick input {
-  height: 30px !important;
-  background: transparent;
-  border: none;
-  padding: 0;
-  width: 120px;
-  font-size: 14px;
-}
 
-.vdpClearInput {
-  outline: none;
-}
-
-.vdpInnerWrap {
-  margin-top: 0;
-  margin-left: -42.5px;
-}
 
 .options-list1 {
   background-color: #31394e;
@@ -466,6 +515,7 @@ export default {
   padding: 6px;
   overflow-y: scroll;
   cursor: pointer;
+  text-align: left !important;
 }
 
 .timeOption {
@@ -495,12 +545,13 @@ export default {
   font-size: 12px;
   position: absolute;
   z-index: 999;
-  height: 200px;
-  width: 80px;
+  height: 150px;
+  width: 95px;
   padding: 6px;
+  text-align: left !important;
   overflow-y: scroll;
   cursor: pointer;
-  margin-top: 40px;
+  top: 10%;
   margin-left: 130px;
 }
 
@@ -512,5 +563,25 @@ export default {
   background-color: #1d232b;
   border-radius: 4px;
   height: 8px;
+}
+
+#date .calendar .calendar-container .custom-date-pick input {
+  height: 30px !important;
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 120px;
+  font-size: 14px;
+}
+
+.vdpClearInput {
+  outline: none;
+}
+
+#date .vdpInnerWrap {
+  margin-top: -12.3rem;
+  margin-left: -45px;
+  width: 285px;
+  height: 310px;
 }
 </style>
