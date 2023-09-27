@@ -10,7 +10,6 @@
 import store from '../store';
 import axios from '../../axios';
 import constants from '../../../constant';
-import { reject } from 'core-js/fn/promise';
 
 export default {
   // /////////////////////////////////////////////
@@ -832,11 +831,11 @@ export default {
         });
     });
   },
-  sendTestEmail({ commit }, { cast_id, role }) {
+  sendTestEmail({ commit }, payload) {
     console.log('send test email');
     var data = new FormData();
-    data.append('cast_id', cast_id);
-    data.append('role', role);
+    data.append('cast_id', payload.cast_id);
+    data.append('role', payload.role);
     return new Promise((resolve, reject) => {
       axios
         .post(constants.apiCastUrl + '/api/event/send/test/mail/', data)
@@ -919,7 +918,4 @@ export default {
         });
     });
   },
-  
-
 };
-

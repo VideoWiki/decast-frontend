@@ -387,6 +387,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin: auto;
+  transition: max-height 0.5s ease-in-out;
   /* padding: 18px; */
 }
 .heading-part {

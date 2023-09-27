@@ -20,6 +20,7 @@
               <input
                 v-model="name"
                 type="text"
+                @keydown.enter="joinRoom"
                 placeholder="e.g John G. Miguel"
               />
             </div>
@@ -41,6 +42,7 @@
               <input
                 type="text"
                 v-model="name"
+                @keydown.enter="joinRoom"
                 placeholder="e.g John G. Miguel"
               />
             </div>
@@ -63,6 +65,7 @@ export default {
       code: '',
       eventName: '',
       creator: '',
+      disabled: false,
     };
   },
   mounted() {
@@ -70,6 +73,20 @@ export default {
   },
   methods: {
     joinRoom() {
+      if (this.disabled) {
+        return;
+      }
+      this.disabled = true;
+      setTimeout(() => {
+        this.disabled = false;
+      }, 1000);
+      if (this.name === '') {
+        this.$vs.notify({
+          title: 'Name is required',
+          color: 'danger',
+        });
+        return;
+      }
       axios
         .post('https://dev.api.room.video.wiki/api/join/', {
           name: this.name,
