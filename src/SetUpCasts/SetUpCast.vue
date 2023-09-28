@@ -198,7 +198,8 @@ export default {
         public_stream: false,
       },
       stepFourProps: {
-        record: true,
+        start_stop_recording: true,
+        record: false,
         mute_on_start: true,
         end_when_no_moderator: true,
         allow_moderator_to_unmute_user: false,

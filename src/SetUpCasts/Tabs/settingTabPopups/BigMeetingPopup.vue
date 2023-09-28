@@ -22,7 +22,9 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="stepFourProps.record"></buttonToggle>
+            <buttonToggle
+              v-model="stepFourProps.start_stop_recording"
+            ></buttonToggle>
           </div>
         </div>
         <div class="for-auto-record flex same-style">
