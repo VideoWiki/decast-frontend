@@ -12,7 +12,7 @@
           <div class="heading">Set up your cast</div>
           <img
             @click="closeCreate"
-            src="@/assets/images/editor/cross.svg"
+            src="@/assets/images/create-event/Vector30.svg"
             alt=""
           />
         </div>
@@ -130,7 +130,7 @@ export default {
     StreamCard,
     InviteCard,
   },
-  props: [ 'getList'],
+  props: ['closeCreate', 'getList'],
   data() {
     return {
       activeTab: 'Set up',

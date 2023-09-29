@@ -1,32 +1,41 @@
 <template>
   <div class="margin">
-    <div class="flex justify-between items-center">
-      <div class="popup-text">Set up your cast</div>
+    <div class="cross-img">
       <img
         @click="closeCreate"
         class="cursor-pointer"
-        src="@/assets/images/editor/cross.svg"
+        src="@/assets/images/create-event/Vector30.svg"
         alt=""
       />
     </div>
+    
     <div class="popup-svg">
       <img src="@/assets/images/create-event/trophy.svg" />
     </div>
-    <div class="popup-text2">Your Cast was created successfully!</div>
-    <div class="my-5 flex justify-center">
+    <div class="popup-text2">Great your cast was created</div>
+    <div class="extra-text">Next steps: </div>
+    <div class="extra-text2">Add attendees, Add drops, Share ...etc</div>
+    <div class="my-5 flex justify-center bottom">
       <button
-        class="success-btn stream flex justify-around items-center"
-        @click="changeStatus('stream')"
+        class="success-btn button flex  items-center"
       >
-        <img src="@/assets/images/create-event/Cam.svg" />Stream your cast on
-        other apps
+        <img src="@/assets/images/create-event/tabler.svg" /> Add drops
       </button>
       <button
         @click="changeStatus('invite')"
-        class="success-btn invite flex justify-around items-center"
+        class="success-btn button flex  items-center"
       >
-        <img src="@/assets/images/create-event/users.svg" />Share and Invite
+        <img src="@/assets/images/create-event/tabler-icon.svg" />Invite your audience
       </button>
+      <button
+        class="success-btn button flex  items-center "
+      >
+        <img src="@/assets/images/create-event/Vector29.svg" />Share your cast
+      </button>
+    </div>
+    <div class="skip">
+      Skip for now
+      <div class="underline"></div>
     </div>
   </div>
 </template>
@@ -52,8 +61,14 @@ export default {
 };
 </script>
 <style scoped>
+*:not(i) {
+  font-family: 'Karla', sans-serif;
+}
 .margin {
   margin: 18px;
+  display: flex;
+  flex-direction: column;
+
 }
 .popup-text {
   font-family: Karla;
@@ -93,17 +108,45 @@ export default {
   border-radius: 6px;
   height: 40px;
   border: 1px;
-  margin: 0 10px;
   cursor: pointer;
+ 
 }
-.stream {
-  width: 242px;
-  background: #31394e;
-  color: #a6a6a8;
+.success-btn img{
+  margin-right: 10px;
+  margin-left: 80px;
 }
-.invite {
-  width: 168px;
-  color: #31394e;
-  background: #d7df23;
+.button{
+  width: 297px;
+  background-color: #31394E;
+  color: #A6A6A8;
+  margin-top: 15px;
+}
+.bottom{
+  flex-direction: column;
+  align-items: center;
+}
+.extra-text ,.extra-text2 {
+  text-align: center;
+  font-size: 500;
+  font-weight: 16px;
+  color: #647181;
+}
+.skip{
+  margin-top: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #647181;
+  align-self: flex-end;
+}
+.underline{
+  width: 93px;
+  height: 2px;
+  background-color: #31394E;
+  margin-top: 3px;
+}
+.cross-img{
+  align-self: flex-end;
+  width: 12px;
+  height: 12px;
 }
 </style>
