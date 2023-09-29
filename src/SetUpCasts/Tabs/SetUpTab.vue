@@ -57,7 +57,7 @@
         <div
           id="endTimeSelect"
           @click="openPopup('selectEnd')"
-          class="custom-dropdown1 input-box"
+          class="custom-dropdown2 input-box"
         >
           {{ selectedEndTime }}
           <i class="arrow"></i>
