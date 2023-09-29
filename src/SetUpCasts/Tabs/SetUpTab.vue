@@ -357,6 +357,4 @@ textarea {
 .input-date {
   margin-left: 10px;
 }
-
-
 </style>
