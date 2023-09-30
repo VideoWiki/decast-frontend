@@ -1,21 +1,13 @@
 <template>
-  <div class="tab-container">
+  <div class="tab-container" v-if="show">
     <div class="general">
-      <div class="setting flex">
+      <div class="setting flex cursor-pointer" @click="toggleDropdown">
         <div class="left-side flex">
           <label>General settings</label>
           <p>Set custom settings for your meeting.</p>
         </div>
-        <img
-          v-if="!isDropdownOpen"
-          src="@/assets/images/editor/Group.svg"
-          @click="toggleDropdown"
-        />
-        <img
-          v-else
-          src="@/assets/images/editor/Group1.svg"
-          @click="toggleDropdown"
-        />
+        <img v-if="!isDropdownOpen" src="@/assets/images/editor/Group.svg" />
+        <img v-else src="@/assets/images/editor/Group1.svg" />
       </div>
       <div class="dropdown first-drop" v-if="isDropdownOpen">
         <div class="for-recording flex same-style">
@@ -30,7 +22,9 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle v-model="stepFourProps.record"></buttonToggle>
+            <buttonToggle
+              v-model="stepFourProps.start_stop_recording"
+            ></buttonToggle>
           </div>
         </div>
         <div class="for-auto-record flex same-style">
@@ -42,9 +36,7 @@
             </div>
           </div>
           <div class="right-one">
-            <buttonToggle
-              v-model="stepFourProps.auto_start_recording"
-            ></buttonToggle>
+            <buttonToggle v-model="stepFourProps.record"></buttonToggle>
           </div>
         </div>
         <div class="for-mute flex same-style">
@@ -90,21 +82,13 @@
       </div>
     </div>
     <div class="participant">
-      <div class="setting flex">
+      <div class="setting flex cursor-pointer" @click="toggleDropdown2">
         <div class="left-side flex">
           <label>Participant settings</label>
           <p>Configure these settings to restrict participant actions.</p>
         </div>
-        <img
-          v-if="!isDropdownOpen2"
-          src="@/assets/images/editor/Group.svg"
-          @click="toggleDropdown2"
-        />
-        <img
-          v-else
-          src="@/assets/images/editor/Group1.svg"
-          @click="toggleDropdown2"
-        />
+        <img v-if="!isDropdownOpen2" src="@/assets/images/editor/Group.svg" />
+        <img v-else src="@/assets/images/editor/Group1.svg" />
       </div>
       <div class="dropdown second-drop" v-if="isDropdownOpen2">
         <div class="for-lock flex same-style">
@@ -173,20 +157,69 @@ export default {
       isDropdownOpen: true,
       isDropdownOpen2: false,
       toggleValue: false,
+      show: false,
     };
   },
-  props: ['stepFourProps'],
+  props: ['stepFourProps', 'activeTab'],
   components: {
     buttonToggle,
   },
+  mounted() {
+    this.stepFourPropsBound();
+  },
   methods: {
     toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
+      this.isDropdownOpen = true;
       this.isDropdownOpen2 = false;
     },
     toggleDropdown2() {
       this.isDropdownOpen = false;
-      this.isDropdownOpen2 = !this.isDropdownOpen2;
+      this.isDropdownOpen2 = true;
+    },
+    stepFourPropsBound() {
+      console.log(this.activeTab);
+      if (this.activeTab === 'BigMeetingPopup') {
+        this.stepFourProps.record = true;
+        this.stepFourProps.auto_start_recording = false;
+        this.stepFourProps.allow_moderator_to_unmute_user = true;
+        this.stepFourProps.end_when_no_moderator = false;
+        this.stepFourProps.lock_layout = false;
+        this.stepFourProps.mute_on_start = true;
+        this.stepFourProps.webcam_only_for_moderator = false;
+        this.stepFourProps.disable_mic = false;
+        this.stepFourProps.viewer_mode = false;
+      } else if (this.activeTab === 'WebinarPopup') {
+        this.stepFourProps.record = true;
+        this.stepFourProps.auto_start_recording = false;
+        this.stepFourProps.allow_moderator_to_unmute_user = true;
+        this.stepFourProps.end_when_no_moderator = true;
+        this.stepFourProps.mute_on_start = true;
+        this.stepFourProps.lock_layout = true;
+        this.stepFourProps.webcam_only_for_moderator = true;
+        this.stepFourProps.disable_mic = false;
+        this.stepFourProps.viewer_mode = true;
+      } else if (this.activeTab === 'BroadcastPopup') {
+        this.stepFourProps.record = true;
+        this.stepFourProps.auto_start_recording = true;
+        this.stepFourProps.allow_moderator_to_unmute_user = false;
+        this.stepFourProps.end_when_no_moderator = true;
+        this.stepFourProps.mute_on_start = true;
+        this.stepFourProps.lock_layout = true;
+        this.stepFourProps.webcam_only_for_moderator = true;
+        this.stepFourProps.disable_mic = true;
+        this.stepFourProps.viewer_mode = true;
+      } else if (this.activeTab === 'CustomPopup') {
+        this.stepFourProps.record = false;
+        this.stepFourProps.auto_start_recording = false;
+        this.stepFourProps.allow_moderator_to_unmute_user = false;
+        this.stepFourProps.end_when_no_moderator = false;
+        this.stepFourProps.mute_on_start = false;
+        this.stepFourProps.lock_layout = false;
+        this.stepFourProps.webcam_only_for_moderator = false;
+        this.stepFourProps.disable_mic = false;
+        this.stepFourProps.viewer_mode = false;
+      }
+      this.show = true;
     },
   },
 };
@@ -207,6 +240,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 14px;
+  background-color: RGBA(49, 57, 78, 0.7);
 }
 
 .left-side label {
@@ -274,5 +308,8 @@ label {
 }
 .participant {
   margin-top: 10px;
+}
+.open-dropdown {
+  border-radius: 6px 6px 0px 0px;
 }
 </style>

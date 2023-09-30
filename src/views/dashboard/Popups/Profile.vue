@@ -1,7 +1,7 @@
 <template>
-  <div class="full-cont" v-if="showProfile">
+  <div class="full-cont">
     <div class="head-container">
-      <h3>My Profile</h3>
+      <h3>My Profiles</h3>
       <button @click="closeProfile">
         <img src="@/assets/images/cross.svg" alt="Close Profile" />
       </button>
@@ -51,8 +51,8 @@
             :style="{ opacity: isEditing ? 1 : 0.5 }"
             required
           />
-          <span class="error" v-if="errors.firstName">{{
-            errors.firstName
+          <span class="error" v-if="error.firstName">{{
+            error.firstName
           }}</span>
 
           <label class="label">Email address</label>
@@ -63,7 +63,7 @@
             type="email"
             required
           />
-          <span class="error" v-if="errors.email">{{ errors.email }}</span>
+          <span class="error" v-if="error.email">{{ error.email }}</span>
         </div>
 
         <div class="child-2">
@@ -74,9 +74,7 @@
             :style="{ opacity: isEditing ? 1 : 0.5 }"
             required
           />
-          <span class="error" v-if="errors.lastName">{{
-            errors.lastName
-          }}</span>
+          <span class="error" v-if="error.lastName">{{ error.lastName }}</span>
 
           <label class="label">Add your designation</label>
           <input
@@ -85,8 +83,8 @@
             :style="{ opacity: isEditing ? 1 : 0.5 }"
             required
           />
-          <span class="error" v-if="errors.designation">{{
-            errors.designation
+          <span class="error" v-if="error.designation">{{
+            error.designation
           }}</span>
         </div>
       </div>
@@ -107,14 +105,11 @@
 </template>
 
 <script>
-import constants from '../../../constant';
-import axios from '../../axios';
+import constants from '../../../../constant';
+import axios from '../../../axios';
 
 export default {
   name: 'MyProfile',
-  props: {
-    showProfile: Boolean,
-  },
   data() {
     return {
       firstName: '',
@@ -124,7 +119,7 @@ export default {
       isEditing: false,
       uploadInProgress: false,
       uploadedImageBlob: null,
-      errors: {
+      error: {
         firstName: '',
         lastName: '',
         email: '',
@@ -165,14 +160,14 @@ export default {
       }
     },
     closeProfile() {
-      this.$emit('closeProfile');
+      this.$store.commit('room/SET_POPUP', '');
       this.isEditing = false;
     },
     editProfile() {
       this.isEditing = true;
     },
     saveProfile() {
-      this.errors = {
+      this.error = {
         firstName: '',
         lastName: '',
         email: '',
@@ -181,23 +176,23 @@ export default {
 
       // Performing validation
       if (!this.firstName) {
-        this.errors.firstName = 'First name is required.';
+        this.error.firstName = 'First name is required.';
       }
       if (!this.lastName) {
-        this.errors.lastName = 'Last name is required.';
+        this.error.lastName = 'Last name is required.';
       }
       if (!this.email) {
-        this.errors.email = 'Email address is required.';
+        this.error.email = 'Email address is required.';
       }
-      if (!this.designation) {
-        this.errors.designation = 'Designation is required.';
-      }
+      //   if (!this.designation) {
+      //     this.error.designation = 'Designation is required.';
+      //   }
 
       if (
-        !this.errors.firstName &&
-        !this.errors.lastName &&
-        !this.errors.email &&
-        !this.errors.designation
+        !this.error.firstName &&
+        !this.error.lastName &&
+        !this.error.email &&
+        !this.error.designation
       ) {
         this.$vs.loading();
         const payload = {
@@ -212,7 +207,7 @@ export default {
           .then((res) => {
             localStorage.setItem('designation', this.designation);
             this.isEditing = false;
-            res.data.profile_image=this.uploadedImageBlob;
+            res.data.profile_image = this.uploadedImageBlob;
             this.$store.commit('UPDATE_USER_INFO', this.activeUserInfo);
             this.$vs.notify({
               title: 'Success',
@@ -239,16 +234,12 @@ export default {
 
 <style scoped>
 .full-cont {
-  position: absolute;
   width: 541px;
   height: auto;
   border-radius: 10px;
   background-color: #1f272f;
   border: 1px solid #31394e;
   padding: 15px;
-  top: 40vh;
-  right: 75%;
-  transform: translate(-50%, -50%);
   z-index: 10000;
 }
 

@@ -57,6 +57,7 @@
       <iframe :src="url" :class="{ iframe: iframe, hidden: !iframe }"></iframe>
       <!-- <button class="close-icon" @click="closeForm">✕</button> -->
     </div>
+    <popups />
   </div>
 </template>
 <script>
@@ -66,6 +67,7 @@ import userMenu from './userMenu.vue';
 import Rooms from './components/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
+import Popups from './Popups.vue';
 
 export default {
   mixins: [utils],
@@ -75,6 +77,7 @@ export default {
     RightPart,
     Rooms,
     userMenu,
+    Popups,
   },
   data() {
     return {

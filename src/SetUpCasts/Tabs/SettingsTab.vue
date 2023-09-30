@@ -2,12 +2,27 @@
   <div class="wrapper">
     <div class="tab-content" v-if="activeTab !== ''">
       <div class="button-first">
-        <button>
+        <button v-if="activeTab === 'BigMeetingPopup'" class="bigMeeting">
           <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
           <label>Big Meeting</label>
         </button>
+        <button v-if="activeTab === 'WebinarPopup'" class="webinar">
+          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
+          <label>Webinar</label>
+        </button>
+        <button v-if="activeTab === 'BroadcastPopup'" class="broadcast">
+          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
+          <label>Broadcast</label>
+        </button>
+        <button v-if="activeTab === 'CustomPopup'" class="custom">
+          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
+          <label>Custom</label>
+        </button>
       </div>
-      <big-meeting-popup :stepFourProps="stepFourProps" />
+      <big-meeting-popup
+        :stepFourProps="stepFourProps"
+        :activeTab="activeTab"
+      />
     </div>
     <div v-if="activeTab === ''">
       <div class="heading-text">You can edit these settings at any time</div>
@@ -18,56 +33,40 @@
               src="@/assets/images/editor/Vector4.svg"
               class="left-img box1-left"
             />
-            <img
-              src="@/assets/images/editor/Vector5.svg"
-              class="right-img box1-right"
-            />
           </div>
           <div class="define-text">Big Meeting</div>
           <div class="info-text">Collaborate with others and work together</div>
         </button>
-        <button @click="activeTab = 'BigMeetingPopup'" class="box box2">
+        <button @click="activeTab = 'WebinarPopup'" class="box box2">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector6.svg"
               class="left-img box2-left"
             />
-            <img
-              src="@/assets/images/editor/Vector5.svg"
-              class="right-img box1-right"
-            />
           </div>
-          <div class="define-text">Public Event</div>
+          <div class="define-text">Webinar</div>
           <div class="info-text">Create an engaging experience</div>
         </button>
       </div>
       <div class="second-row flex">
-        <button @click="activeTab = 'BigMeetingPopup'" class="box box3">
+        <button @click="activeTab = 'BroadcastPopup'" class="box box3">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector7.svg"
               class="left-img box3-left"
             />
-            <img
-              src="@/assets/images/editor/Vector9.svg"
-              class="right-img box3-right"
-            />
           </div>
-          <div class="define-text">Stream</div>
+          <div class="define-text">Broadcast</div>
           <div class="info-text">Broadcast your screen to others all over</div>
         </button>
-        <button @click="activeTab = 'BigMeetingPopup'" class="box box4">
+        <button @click="activeTab = 'CustomPopup'" class="box box4">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector8.svg"
               class="left-img box4-left"
             />
-            <img
-              src="@/assets/images/editor/Group174.svg"
-              class="right-img box4-right"
-            />
           </div>
-          <div class="define-text">Webinar</div>
+          <div class="define-text">Custom</div>
           <div class="info-text">Share knowledge with others and engage</div>
         </button>
       </div>
@@ -96,10 +95,19 @@ export default {
       this.activeTab = '';
     },
   },
+  mounted() {
+    console.log(this.activeTab, 'sTab');
+  },
   computed: {
     activeTabComponent() {
       switch (this.activeTab) {
         case 'BigMeetingPopup':
+          return BigMeetingPopup;
+        case 'WebinarPopup':
+          return BigMeetingPopup;
+        case 'BroadcastPopup':
+          return BigMeetingPopup;
+        case 'CustomPopup':
           return BigMeetingPopup;
         default:
           return null;
@@ -122,12 +130,26 @@ export default {
 .button-first button {
   width: 541px;
   height: 42px;
-  background-color: #1dd3c8;
-  border: 1px solid #1dd3c8;
   border-radius: 6px;
   display: flex;
   align-self: flex-start;
   align-items: center;
+}
+.bigMeeting {
+  background-color: #1dd3c8;
+  border: 1px solid #1dd3c8;
+}
+.custom {
+  background-color: #33db79;
+  border: 1px solid #33db79;
+}
+.broadcast {
+  background-color: #adeb5a;
+  border: 1px solid #adeb5a;
+}
+.webinar {
+  background-color: #8cd0ff;
+  border: 1px solid #8cd0ff;
 }
 .button-first button img {
   width: 12px;

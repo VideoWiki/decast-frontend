@@ -5,12 +5,10 @@
       <img src="@/assets/images/usermenu.svg" />
       My Profile
     </div>
-    <MyProfile :showProfile="userProfile" @closeProfile="closeProfile" @profile-closed="toggleProfile"/>
-    <div class="option toggle-pass" @click="togglePass">
+    <div class="option" @click="togglePass">
       <img src="@/assets/images/setting.svg" />
       Reset Password
     </div>
-    <ResetPass :showPass="userPass" @closeProfile="closeProfile" @pass-closed="togglePass"/>
     <div class="option">
       <img src="@/assets/images/guide.svg" />
       Guide
@@ -27,29 +25,11 @@
 </template>
 
 <script>
-import MyProfile from './MyProfile.vue';
-import ResetPass from './ResetPass.vue';
 export default {
   name: 'userMenu',
   props: {
     showMenu: Boolean,
     closeMenu: Function,
-  },
-  components: {
-    MyProfile,
-    ResetPass,
-  },
-  data() {
-    return {
-      userProfile: false,
-      userPass: false,
-    };
-  },
-  mounted() {
-    window.addEventListener('click', this.handleGlobalClick);
-  },
-  beforeDestroy() {
-    window.removeEventListener('click', this.handleGlobalClick);
   },
   methods: {
     logout() {
@@ -63,25 +43,16 @@ export default {
       const isNotMenu = !event.target.closest('.con-img');
       if (isOutsideRoomPopup && isNotMenu && this.showMenu !== false) {
         this.showMenu = false;
-        this.$emit('menu-closed')
-
+        this.$emit('menu-closed');
       }
     },
     toggleProfile() {
-      this.userProfile = !this.userProfile;
-      this.userPass = false;
-      console.log('HHHH');
+      this.closeMenu();
+      this.$store.commit('room/SET_POPUP', 'profile');
     },
     togglePass() {
-      //   this.closeMenu();
-      this.userPass = !this.userPass;
-      this.userProfile = false;
-      console.log('PPP');
-    },
-    closeProfile() {
-      console.log('close');
-      this.userProfile = false;
-      this.userPass = false;
+      this.closeMenu();
+      this.$store.commit('room/SET_POPUP', 'resetPassword');
     },
   },
 };
