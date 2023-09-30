@@ -31,6 +31,12 @@ export default {
     showMenu: Boolean,
     closeMenu: Function,
   },
+  mounted() {
+    window.addEventListener('click', this.handleGlobalClick);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleGlobalClick);
+  },
   methods: {
     logout() {
       this.$cookies.remove('userId');
@@ -43,7 +49,7 @@ export default {
       const isNotMenu = !event.target.closest('.con-img');
       if (isOutsideRoomPopup && isNotMenu && this.showMenu !== false) {
         this.showMenu = false;
-        this.$emit('menu-closed');
+        this.$emit('menu-closed')
       }
     },
     toggleProfile() {
