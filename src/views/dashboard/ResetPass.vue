@@ -53,9 +53,23 @@ export default {
       },
     };
   },
+  mounted() {
+    window.addEventListener('click', this.handleGlobalClick);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleGlobalClick);
+  },
   methods: {
     closeProfile() {
       this.$emit('closeProfile');
+    },
+    handleGlobalClick(event) {
+      const isOutsideRoomPopup = !event.target.closest('.container');
+      const isNotTogglePass = !event.target.closest('.toggle-pass');
+      if (isOutsideRoomPopup && isNotTogglePass && this.showPass !== false) {
+        this.showPass = false;
+        this.$emit('p-closed');
+      }
     },
     savePassword() {
       // Reset previous error messages

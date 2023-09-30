@@ -141,6 +141,10 @@ export default {
     this.firstName = this.activeUserInfo.first_name;
     this.lastName = this.activeUserInfo.last_name;
     this.email = this.activeUserInfo.email;
+    window.addEventListener('click', this.handleGlobalClick);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleGlobalClick);
   },
   methods: {
     openUpload() {
@@ -151,6 +155,14 @@ export default {
       this.uploadedImageBlob = selectedFile;
       this.activeUserInfo.profile_pic = URL.createObjectURL(selectedFile);
       event.target.value = '';
+    },
+    handleGlobalClick(event) {
+      const isOutsideRoomPopup = !event.target.closest('.full-cont');
+      const isNotToggleProfile = !event.target.closest('.toggle-profile');
+      if (isOutsideRoomPopup && isNotToggleProfile && this.showProfile !== false) {
+        this.showProfile = false;
+        this.$emit('profile-closed');
+      }
     },
     closeProfile() {
       this.$emit('closeProfile');

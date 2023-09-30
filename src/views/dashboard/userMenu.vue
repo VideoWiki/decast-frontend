@@ -1,16 +1,16 @@
 <template>
   <div v-if="showMenu" class="user-menu">
     <!-- Add your menu options here -->
-    <div class="option" @click="toggleProfile">
+    <div class="option toggle-profile" @click="toggleProfile">
       <img src="@/assets/images/usermenu.svg" />
       My Profile
     </div>
-    <MyProfile :showProfile="userProfile" @closeProfile="closeProfile" />
-    <div class="option" @click="togglePass">
+    <MyProfile :showProfile="userProfile" @closeProfile="closeProfile" @profile-closed="toggleProfile"/>
+    <div class="option toggle-pass" @click="togglePass">
       <img src="@/assets/images/setting.svg" />
       Reset Password
     </div>
-    <ResetPass :showPass="userPass" @closeProfile="closeProfile" />
+    <ResetPass :showPass="userPass" @closeProfile="closeProfile" @pass-closed="togglePass"/>
     <div class="option">
       <img src="@/assets/images/guide.svg" />
       Guide
@@ -45,6 +45,12 @@ export default {
       userPass: false,
     };
   },
+  mounted() {
+    window.addEventListener('click', this.handleGlobalClick);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleGlobalClick);
+  },
   methods: {
     logout() {
       this.$cookies.remove('userId');
@@ -52,8 +58,16 @@ export default {
       this.$router.push('/');
       return this.$store.dispatch('auth/logOut');
     },
+    handleGlobalClick(event) {
+      const isOutsideRoomPopup = !event.target.closest('.user-menu');
+      const isNotMenu = !event.target.closest('.con-img');
+      if (isOutsideRoomPopup && isNotMenu && this.showMenu !== false) {
+        this.showMenu = false;
+        this.$emit('menu-closed')
+
+      }
+    },
     toggleProfile() {
-      //   this.closeMenu();
       this.userProfile = !this.userProfile;
       this.userPass = false;
       console.log('HHHH');

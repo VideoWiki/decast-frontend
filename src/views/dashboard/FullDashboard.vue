@@ -31,6 +31,7 @@
               <userMenu
                 :showMenu="userMenuVisible"
                 :closeMenu="toggleUserMenu"
+                @menu-closed="toggleUserMenu"
               />
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
