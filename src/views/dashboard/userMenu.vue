@@ -1,7 +1,7 @@
 <template>
   <div v-if="showMenu" class="user-menu">
     <!-- Add your menu options here -->
-    <div class="option" @click="toggleProfile">
+    <div class="option toggle-profile" @click="toggleProfile">
       <img src="@/assets/images/usermenu.svg" />
       My Profile
     </div>
@@ -31,12 +31,26 @@ export default {
     showMenu: Boolean,
     closeMenu: Function,
   },
+  mounted() {
+    window.addEventListener('click', this.handleGlobalClick);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleGlobalClick);
+  },
   methods: {
     logout() {
       this.$cookies.remove('userId');
       this.$cookies.remove('Token');
       this.$router.push('/');
       return this.$store.dispatch('auth/logOut');
+    },
+    handleGlobalClick(event) {
+      const isOutsideRoomPopup = !event.target.closest('.user-menu');
+      const isNotMenu = !event.target.closest('.con-img');
+      if (isOutsideRoomPopup && isNotMenu && this.showMenu !== false) {
+        this.showMenu = false;
+        this.$emit('menu-closed');
+      }
     },
     toggleProfile() {
       this.closeMenu();

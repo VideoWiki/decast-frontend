@@ -70,7 +70,7 @@ export default {
     return axios.post(url, {
       first_name: firstName,
       last_name: lastName,
-      username: email,
+      username: firstName + lastName,
       email,
       password: pwd,
       profile: {

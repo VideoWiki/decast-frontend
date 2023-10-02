@@ -69,6 +69,7 @@ export default {
           '32%';
       }
       if (event.data === 'navigateToSignUp') {
+        alert();
         document.getElementsByClassName('close-container')[0].style.height =
           '78%';
         document.getElementsByClassName('close-container')[0].style.width =
@@ -85,6 +86,7 @@ export default {
         document.getElementsByTagName('iframe')[0].style.width = '32%';
       }
       if (event.data === 'navigateToPassword') {
+        alert();
         document.getElementsByClassName('close-container')[0].style.height =
           '41%';
         document.getElementsByTagName('iframe')[0].style.height = '41.6%';
@@ -102,13 +104,14 @@ export default {
   },
   methods: {
     open() {
-      console.log('open');
-      this.iframe = !this.iframe;
-      this.url = constants.challengeUri;
-      // this.url = 'http://localhost:8080/login';
-      document.getElementsByTagName('iframe')[0].style.height = '66.7%';
-      document.getElementsByTagName('iframe')[0].style.width = '32%';
-      console.log(this.iframe);
+      window.open(constants.challengeUri, '_blank', 'width=600,height=600');
+      // console.log('open');
+      // this.iframe = !this.iframe;
+      // this.url = constants.challengeUri;
+      // // this.url = 'http://localhost:8080/login';
+      // document.getElementsByTagName('iframe')[0].style.height = '66.7%';
+      // document.getElementsByTagName('iframe')[0].style.width = '32%';
+      // console.log(this.iframe);
       // window.location.href = constants.challengeUri;
     },
   },

@@ -87,7 +87,11 @@
                   />
                 </button>
               </div>
-              <div class="room-popup" v-if="room.showPopup">
+              <div
+                class="room-popup"
+                v-if="showPopup === index"
+                @click="closePopup(index)"
+              >
                 <button @click="openShare(room)">
                   <img src="@/assets/images/share.svg" />
                   Share
@@ -143,7 +147,11 @@
                   alt=""
                 />
               </button>
-              <div class="room-popup" v-if="recording.showPopup">
+              <div
+                class="room-popup"
+                v-if="showPopup === index"
+                @click="closePopup(index)"
+              >
                 <button @click="openRecording(recording)">
                   <vs-icon
                     icon-pack="feather"
@@ -252,7 +260,7 @@ export default {
       ],
       text: '',
       rooms: [],
-      showPopup: false,
+      showPopup: null,
       sharePopup: false,
       recordings: [],
       email: '',
@@ -365,7 +373,8 @@ export default {
         });
     },
     togglePopup(index) {
-      this.$set(this.rooms[index], 'showPopup', !this.rooms[index].showPopup);
+      // this.$set(this.rooms[index], 'showPopup', !this.rooms[index].showPopup);
+      this.showPopup = this.showPopup === index ? null : index;
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.room-popup');
         if (this.mouse > 222) {
@@ -376,12 +385,11 @@ export default {
         }
       }, 0);
     },
+    closePopup(index) {
+      this.showPopup = null;
+    },
     toggleRecordingPopup(index) {
-      this.$set(
-        this.recordings[index],
-        'showPopup',
-        !this.recordings[index].showPopup
-      );
+      this.showPopup = this.showPopup === index ? null : index;
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.room-popup');
         if (this.mouse > 222) {
@@ -454,9 +462,21 @@ export default {
           console.error(error);
         });
     },
+    handleGlobalClick(event) {
+      const isOutsideRoomPopup = !event.target.closest('.room-popup');
+      const isNotTogglePopupButton = !event.target.closest('.side-btn');
+      if (
+        isOutsideRoomPopup &&
+        isNotTogglePopupButton &&
+        this.showPopup !== null
+      ) {
+        this.showPopup = null;
+      }
+    },
   },
   mounted() {
     console.log(this.room);
+    window.addEventListener('click', this.handleGlobalClick);
     const container = document.querySelector('.options-container');
     container.addEventListener('mousemove', (e) => {
       // Get the mouse coordinates relative to the div
@@ -466,6 +486,10 @@ export default {
     });
     this.getRecordings();
     this.getList();
+  },
+  beforeDestroy() {
+    // Remove the global click event listener when the component is destroyed
+    window.removeEventListener('click', this.handleGlobalClick);
   },
 };
 </script>
@@ -628,12 +652,14 @@ export default {
 
 .tooltip-button {
   position: relative;
-  z-index: 1; /* Ensure the button is above the tooltip */
+  z-index: 1;
+  /* Ensure the button is above the tooltip */
 }
 
 .tooltip {
   position: absolute;
-  top: -10%; /* Position it below the button */
+  top: -10%;
+  /* Position it below the button */
   left: -20%;
   background-color: #333;
   color: #fff;
@@ -645,7 +671,8 @@ export default {
 }
 
 .tooltip-button:hover + .tooltip {
-  display: block; /* Show the tooltip on hover */
+  display: block;
+  /* Show the tooltip on hover */
 }
 
 .popup {
@@ -664,6 +691,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .options-container {
   margin-top: 30px;
   height: 303px;

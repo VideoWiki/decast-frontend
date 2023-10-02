@@ -12,7 +12,7 @@
           <div class="heading">Set up your cast</div>
           <img
             @click="closeCreate"
-            src="@/assets/images/editor/cross.svg"
+            src="@/assets/images/create-event/Vector30.svg"
             alt=""
           />
         </div>
@@ -56,6 +56,20 @@
           >
             Settings
           </button>
+          <button
+            class="button-4"
+            :style="{
+              backgroundColor:
+                activeTab === 'Streaming' ? '#464775' : '#1F272F',
+              color:
+                activeTab === 'Streaming'
+                  ? 'rgba(255, 255, 255, 0.8)'
+                  : 'rgba(166, 166, 168, 0.8)',
+            }"
+            @click="activeTab = 'Streaming'"
+          >
+            Streaming
+          </button>
         </div>
         <div class="tab-content">
           <SetUpTab
@@ -69,11 +83,16 @@
             :changeActiveTab="changeActiveTab"
           />
           <SettingsTab
-            v-else
+            v-else-if="activeTab === 'Settings'"
             :createCast="createCast"
             :stepFourProps="stepFourProps"
             :changeActiveTab="changeActiveTab"
           />
+          <!-- <StreamingTab
+            v-else
+            :createCast="createCast"
+            :changeActiveTab="changeActiveTab"
+          /> -->
         </div>
       </div>
       <div v-else-if="status === 'invite'">
@@ -96,6 +115,7 @@
 import BrandingTab from './Tabs/BrandingTab.vue';
 import SettingsTab from './Tabs/SettingsTab.vue';
 import SetUpTab from './Tabs/SetUpTab.vue';
+import StreamingTab from './Tabs/StreamingTab.vue';
 import moment from 'moment';
 import Popup from '../views/dashboard/Popup.vue';
 import StreamCard from '../views/dashboard/StreamCard.vue';
@@ -106,6 +126,7 @@ export default {
     BrandingTab,
     SettingsTab,
     SetUpTab,
+    StreamingTab,
     Popup,
     StreamCard,
     InviteCard,
@@ -115,7 +136,7 @@ export default {
     return {
       activeTab: 'Set up',
       formData: new FormData(),
-      status: 'create',
+      status: 'success',
       castId: '',
       stepOneProps: {
         generated_event_title: '',
@@ -198,7 +219,8 @@ export default {
         public_stream: false,
       },
       stepFourProps: {
-        record: true,
+        start_stop_recording: true,
+        record: false,
         mute_on_start: true,
         end_when_no_moderator: true,
         allow_moderator_to_unmute_user: false,
@@ -282,6 +304,8 @@ export default {
         this.formData.append(key, value);
       }
       for (let [key, value] of Object.entries(this.stepFourProps)) {
+        console.log(value);
+
         if (value.length === 0) {
           value = '';
         } else {
@@ -297,6 +321,12 @@ export default {
       }
     },
     formSubmitted() {
+      console.log(
+        this.stepFourProps.record,
+        this.stepFourProps.start_stop_recording
+      );
+      this.stepFourProps.start_stop_recording = this.stepFourProps.record;
+      this.stepFourProps.allow_start_stop_recording = this.stepFourProps.record;
       this.stepOneProps.schedule_time =
         this.stepOneProps.startD + ' ' + this.stepOneProps.startTime;
       if (moment().isAfter(this.stepOneProps.schedule_time)) {
@@ -330,20 +360,6 @@ export default {
           });
           this.status = 'success';
           this.castId = response.data.meeting_id;
-          // if (
-          //   this.startNow ||
-          //   (this.startNow === 'True' &&
-          //     response.data &&
-          //     response.data.url !== '')
-          // ) {
-          // this.$refs.Event.setAttribute(
-          //   'href',
-          //   `/user_details/${response.data.meeting_id}`
-          // );
-          // this.$refs.Event.click();
-          // window.location.href = response.data.url;
-          // return (this.newWindow.location = `/user_details/${response.data.meeting_id}`);
-          // } else this.$router.push(`/user_details/${response.data.meeting_id}`);
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -408,7 +424,7 @@ export default {
   margin-top: 23px;
 }
 .buttons button {
-  width: 180px;
+  width: 135px;
   height: 40px;
   border: 1px solid #31394e;
   font-size: 12px;
@@ -423,7 +439,7 @@ export default {
 .button-1 {
   border-radius: 6px 0px 0px 6px;
 }
-.button-3 {
+.button-4 {
   border-radius: 0px 6px 6px 0px;
 }
 </style>
