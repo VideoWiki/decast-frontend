@@ -57,7 +57,8 @@ export default {
               response.data.data.token_data.access_token
             );
             this.$store.commit('auth/SET_LOGGEDIN', true);
-            window.parent.postMessage('loginSuccess', '*');
+            window.opener.postMessage('loginSuccess', '*');
+            window.close();
             location.href = '/full';
             // location.href =
             //   'https://dev.stream.video.wiki/saveInfo/?name=' +

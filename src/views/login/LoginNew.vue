@@ -4,7 +4,7 @@
       <div class="flex justify-between items-center">
         <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
         <h6 class="custom-heading" style="color: #a6a6a8">Sign Up</h6>
-        <button class="close-icon" @click="closeForm">✕</button>
+        <!-- <button class="close-icon" @click="closeForm">✕</button> -->
       </div>
 
       <div class="flex justify-between items-center mt-8 mb-4">
@@ -181,11 +181,9 @@ export default {
   methods: {
     navigateToPassword() {
       this.$router.push('/resetPassword');
-      window.opener.postMessage('navigateToPassword', '*');
     },
     navigateToSignUp() {
       this.$router.push('/signup');
-      window.opener.postMessage('navigateToSignUp', '*');
     },
     loginJWT() {
       // Loading

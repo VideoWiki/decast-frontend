@@ -60,43 +60,42 @@ export default {
     document.getElementById('loading-bg').style.display = 'none';
     console.log(this.accessToken || this.loggedIn, 'prof');
     window.addEventListener('message', (event) => {
-      if (event.data === 'closeIframe') {
-        this.iframe = false;
-        this.url = '';
-        document.getElementsByClassName('close-container')[0].style.height =
-          '66%';
-        document.getElementsByClassName('close-container')[0].style.width =
-          '32%';
-      }
-      if (event.data === 'navigateToSignUp') {
-        alert();
-        document.getElementsByClassName('close-container')[0].style.height =
-          '78%';
-        document.getElementsByClassName('close-container')[0].style.width =
-          '33%';
-        document.getElementsByTagName('iframe')[0].style.height = '79%';
-        document.getElementsByTagName('iframe')[0].style.width = '33%';
-      }
-      if (event.data === 'navigateToLogin') {
-        document.getElementsByClassName('close-container')[0].style.height =
-          '66%';
-        document.getElementsByClassName('close-container')[0].style.width =
-          '32%';
-        document.getElementsByTagName('iframe')[0].style.height = '66.7%';
-        document.getElementsByTagName('iframe')[0].style.width = '32%';
-      }
-      if (event.data === 'navigateToPassword') {
-        alert();
-        document.getElementsByClassName('close-container')[0].style.height =
-          '41%';
-        document.getElementsByTagName('iframe')[0].style.height = '41.6%';
-      }
+      // if (event.data === 'closeIframe') {
+      //   this.iframe = false;
+      //   this.url = '';
+      //   document.getElementsByClassName('close-container')[0].style.height =
+      //     '66%';
+      //   document.getElementsByClassName('close-container')[0].style.width =
+      //     '32%';
+      // }
+      // if (event.data === 'navigateToSignUp') {
+      //   alert();
+      //   document.getElementsByClassName('close-container')[0].style.height =
+      //     '78%';
+      //   document.getElementsByClassName('close-container')[0].style.width =
+      //     '33%';
+      //   document.getElementsByTagName('iframe')[0].style.height = '79%';
+      //   document.getElementsByTagName('iframe')[0].style.width = '33%';
+      // }
+      // if (event.data === 'navigateToLogin') {
+      //   document.getElementsByClassName('close-container')[0].style.height =
+      //     '66%';
+      //   document.getElementsByClassName('close-container')[0].style.width =
+      //     '32%';
+      //   document.getElementsByTagName('iframe')[0].style.height = '66.7%';
+      //   document.getElementsByTagName('iframe')[0].style.width = '32%';
+      // }
+      // if (event.data === 'navigateToPassword') {
+      //   alert();
+      //   document.getElementsByClassName('close-container')[0].style.height =
+      //     '41%';
+      //   document.getElementsByTagName('iframe')[0].style.height = '41.6%';
+      // }
       if (event.data === 'loginSuccess') {
         console.log(this.$store.state.auth.loggedIn, 'loggedIn');
         this.$store.dispatch('auth/fetched');
         this.$acl.change('user');
         this.$store.commit('auth/SET_LOGGEDIN', true);
-        this.iframe = false;
         this.$router.push('/full');
         this.url = '';
       }
