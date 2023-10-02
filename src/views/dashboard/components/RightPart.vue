@@ -86,7 +86,7 @@
               </div>
 
               <div class="inner-div2">
-                <button @click="
+                <button class="k-btn" @click="
                   togglePopup(
                     index,
                     cast.public_meeting_id,
@@ -95,7 +95,7 @@
                   ">
                   <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
                 </button>
-                <div class="cast-popup" v-if="cast.showPopup">
+                <div class="cast-popup" v-if="showPopup === index" @click="closePopup(index)">
                   <button>
                     <img src="@/assets/images/manage.svg" alt="" />Manage
                     attendees
@@ -289,6 +289,10 @@ export default {
   mounted() {
     this.getCastList();
     this.getRecordings();
+    window.addEventListener('click', this.handleGlobalClick);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleGlobalClick);
   },
   computed: {
     totalImagesCount() {
@@ -307,6 +311,13 @@ export default {
         this.create = false;
         this.stream = false;
         this.invite = false;
+      }
+    },
+    handleGlobalClick(event) {
+      const isOutsideRoomPopup = !event.target.closest('.cast-popup');
+      const isNotTogglePopupButton = !event.target.closest('.k-btn');
+      if (isOutsideRoomPopup && isNotTogglePopupButton && this.showPopup !== null) {
+        this.showPopup = null;
       }
     },
     async getRecordings() {
@@ -387,7 +398,10 @@ export default {
       this.meetingId = id;
       this.invites = inviteList;
       this.postPoneVisible = false;
-      this.$set(this.casts[index], 'showPopup', !this.casts[index].showPopup);
+      this.showPopup = this.showPopup === index ? null : index;
+    },
+    closePopup(index) {
+      this.showPopup = null;
     },
     toggleCopy(index) {
       this.postPoneVisible = false;
