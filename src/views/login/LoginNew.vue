@@ -181,11 +181,11 @@ export default {
   methods: {
     navigateToPassword() {
       this.$router.push('/resetPassword');
-      window.parent.postMessage('navigateToPassword', '*');
+      window.opener.postMessage('navigateToPassword', '*');
     },
     navigateToSignUp() {
       this.$router.push('/signup');
-      window.parent.postMessage('navigateToSignUp', '*');
+      window.opener.postMessage('navigateToSignUp', '*');
     },
     loginJWT() {
       // Loading
