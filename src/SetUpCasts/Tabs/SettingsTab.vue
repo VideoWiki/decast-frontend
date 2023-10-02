@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class="button cursor-pointer">
-      <button class="cursor-pointer" @click="createCast">Create Cast</button>
+      <button class="cursor-pointer" @click="handleSubmit">Create Cast</button>
     </div>
   </div>
 </template>
@@ -93,6 +93,13 @@ export default {
   methods: {
     tabChange() {
       this.activeTab = '';
+    },
+    handleSubmit() {
+      if (this.createCast) {
+        this.createCast();
+      } else {
+        alert();
+      }
     },
   },
   mounted() {

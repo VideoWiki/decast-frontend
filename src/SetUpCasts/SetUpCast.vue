@@ -88,11 +88,11 @@
             :stepFourProps="stepFourProps"
             :changeActiveTab="changeActiveTab"
           />
-          <StreamingTab
+          <!-- <StreamingTab
             v-else
             :createCast="createCast"
             :changeActiveTab="changeActiveTab"
-          />
+          /> -->
         </div>
       </div>
       <div v-else-if="status === 'invite'">
@@ -136,7 +136,7 @@ export default {
     return {
       activeTab: 'Set up',
       formData: new FormData(),
-      status: 'create',
+      status: 'success',
       castId: '',
       stepOneProps: {
         generated_event_title: '',
@@ -360,20 +360,6 @@ export default {
           });
           this.status = 'success';
           this.castId = response.data.meeting_id;
-          // if (
-          //   this.startNow ||
-          //   (this.startNow === 'True' &&
-          //     response.data &&
-          //     response.data.url !== '')
-          // ) {
-          // this.$refs.Event.setAttribute(
-          //   'href',
-          //   `/user_details/${response.data.meeting_id}`
-          // );
-          // this.$refs.Event.click();
-          // window.location.href = response.data.url;
-          // return (this.newWindow.location = `/user_details/${response.data.meeting_id}`);
-          // } else this.$router.push(`/user_details/${response.data.meeting_id}`);
         })
         .catch((error) => {
           this.$vs.loading.close();

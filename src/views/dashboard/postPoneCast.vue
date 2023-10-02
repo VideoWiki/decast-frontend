@@ -111,7 +111,6 @@
 </template>
 
 <script>
-import axios from '../../axios';
 import { TimeFrames } from '../../SetUpCasts/Tabs/TimeFrames';
 import Calendar from '../login/Calendar.vue';
 import moment from 'moment-timezone';
@@ -120,7 +119,6 @@ export default {
   components: {
     Calendar,
   },
-  props: ['stepOneProps'],
   props: {
     cast_id: null,
     cast_name: null,
@@ -153,14 +151,12 @@ export default {
     viewer_mode: Boolean,
     record: null,
     collect_attendee_email: Boolean,
-    closeOnOutsideClick: {
-      type: Boolean,
-      default: true,
-    },
+    closePostpone: null,
+    toPostpone: Boolean,
   },
   data() {
     return {
-      focusReschedule: true,
+      focusReschedule: this.toPostpone,
       stepOneProps: {},
       moment,
       selectedDate: null,
@@ -200,11 +196,9 @@ export default {
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
     window.addEventListener('click', this.closePopups);
-    // document.addEventListener('click', this.closeOnOutsideClick);
   },
   beforeDestroy() {
     window.removeEventListener('click', this.closePopups);
-    // document.removeEventListener('click', this.closeOnOutsideClick);
   },
   methods: {
     handleDateChange(selectedDate) {
@@ -215,16 +209,6 @@ export default {
       this.focusReschedule = toPostpone;
       console.log('EEEE');
     },
-    // closeOnOutsideClick(event) {
-    //   if (!this.closeOnOutsideClick) {
-    //     return;
-    //   }
-    //   const container = this.$el;
-    //   if (container && !container.contains(event.target)) {
-    //     this.showPostpone = false;
-    //     this.$emit('closePostpone');
-    //   }
-    // },
     openPopup(popup) {
       setTimeout(() => {
         console.log(this[popup]);
@@ -242,17 +226,8 @@ export default {
       console.log('End');
     },
     closePopups() {
-      console.log('click');
       if (this.selectStart) this.selectStart = false;
       if (this.selectEnd) this.selectEnd = false;
-    },
-    closePostpone() {
-      this.showPostpone = false;
-      this.$emit('closePostpone');
-    },
-    handleDateChange(selectedDate) {
-      this.selectedDate = selectedDate;
-      console.log(selectedDate, 'date');
     },
     async formSubmit(id) {
       const startTimeMoment = moment(
@@ -269,12 +244,9 @@ export default {
       const formattedStartTime = moment(this.startTime, 'hh:mm A').format(
         'HH:mm:ss'
       );
-      const formattedEndTime = moment(this.endTime, 'hh:mm A').format(
-        'HH:mm:ss'
-      );
 
       // Combine the date and time in the correct format
-      const schedule_time = `${formattedDate} ${formattedStartTime}`;
+      const scheduleTime = `${formattedDate} ${formattedStartTime}`;
       const payload = {
         allow_moderator_to_unmute_user: this.allow_moderator_to_unmute_user,
         auto_start_recording: this.auto_start_recording,
@@ -296,7 +268,7 @@ export default {
         public_stream: this.public_stream,
         private_otp: this.private_otp,
         password_auth: this.password_auth,
-        schedule_time: schedule_time,
+        schedule_time: scheduleTime,
         cover_image: this.cover_image,
         guest_policy: this.guest_policy,
         welcome_text: this.welcome_text,
@@ -312,13 +284,13 @@ export default {
         collect_attendee_email: this.collect_attendee_email,
       };
       try {
-        const res = await this.$store.dispatch('cast/formSubmit', payload);
-        this.showPostpone = false;
+        await this.$store.dispatch('cast/formSubmit', payload);
         this.$vs.notify({
           title: 'Success',
           text: 'Changes Saved',
           color: 'success',
         });
+        this.closePostpone();
       } catch (e) {
         console.log(e);
         this.$vs.notify({
@@ -342,7 +314,6 @@ export default {
   border-radius: 10px;
   padding: 10px;
   margin-top: 2rem;
-  position: absolute !important;
   z-index: 999;
 }
 
