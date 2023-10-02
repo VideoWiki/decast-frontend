@@ -3,7 +3,7 @@
     <div class="container">
       <div class="signUp">
         <div class="signUp-text">Sign Up</div>
-        <button class="close-icon" @click="close">✕</button>
+        <!-- <button class="close-icon" @click="close">✕</button> -->
       </div>
       <div class="singUp-box">
         <div
@@ -243,7 +243,7 @@ export default {
       window.parent.postMessage('closeIframe', '*');
     },
     navigateToLogin() {
-      window.parent.postMessage('navigateToLogin', '*');
+      // window.parent.postMessage('navigateToLogin', '*');
       this.$router.push('/login');
     },
     // Metamsask Connection
