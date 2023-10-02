@@ -86,6 +86,7 @@ export default {
         document.getElementsByTagName('iframe')[0].style.width = '32%';
       }
       if (event.data === 'navigateToPassword') {
+        alert();
         document.getElementsByClassName('close-container')[0].style.height =
           '41%';
         document.getElementsByTagName('iframe')[0].style.height = '41.6%';
