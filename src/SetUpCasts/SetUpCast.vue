@@ -56,7 +56,7 @@
           >
             Settings
           </button>
-          <button
+          <!-- <button
             class="button-4"
             :style="{
               backgroundColor:
@@ -69,7 +69,7 @@
             @click="activeTab = 'Streaming'"
           >
             Streaming
-          </button>
+          </button> -->
         </div>
         <div class="tab-content">
           <SetUpTab
