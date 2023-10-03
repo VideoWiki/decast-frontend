@@ -136,7 +136,7 @@ export default {
     return {
       activeTab: 'Set up',
       formData: new FormData(),
-      status: 'success',
+      status: 'create',
       castId: '',
       stepOneProps: {
         generated_event_title: '',

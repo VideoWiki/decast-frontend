@@ -132,7 +132,7 @@
                     <img src="@/assets/images/manage.svg" alt="" />Manage
                     attendees
                   </button>
-                  <button @click="showSettings = true">
+                  <button @click="showSettingsPopup(cast.public_meeting_id)">
                     <img src="@/assets/images/call.svg" alt="" />Call settings
                   </button>
                   <button @click="stream = true">
@@ -264,14 +264,21 @@
     <div class="popup" v-if="showSettings" @click="closeAllPopups">
       <div class="edit-settings p-5">
         <div class="flex justify-between">
-          <div class="heading">Delete cast</div>
+          <div class="heading">Change Settings</div>
           <img
             class="cursor-pointer"
             src="@/assets/images/create-event/Vector30.svg"
-            @click="closeDeletePopup"
+            @click="closeAllPopups"
           />
         </div>
-        <settings-tab :stepFourProps="{}" />
+        <settings-tab
+          :stepFourProps="stepFourProps"
+          :stepThreeProps="stepThreeProps"
+          :stepTwoProps="stepTwoProps"
+          :stepOneProps="stepOneProps"
+          :castId="index"
+          :closeCreate="closeAllPopups"
+        />
       </div>
     </div>
     <div class="popup" v-if="showPostpone" @click="closeRes">
@@ -386,6 +393,12 @@ export default {
       toPostpone: false,
       showPostpone: false,
       mouse: 0,
+      index: '',
+      stepFourProps: {},
+      stepOneProps: {},
+      stepTwoProps: {},
+      stepThreeProps: {},
+      castsInfo: [],
     };
   },
   mounted() {
@@ -415,6 +428,78 @@ export default {
       if (e.currentTarget === e.target) {
         this.showPostpone = false;
       }
+    },
+    setProps(id) {
+      const details = this.castsInfo[id].details;
+      this.stepOneProps = {
+        event_name: details.event_name,
+        moderator_password: '',
+        attendee_password: '',
+        meeting_type: '',
+        schedule_time: details.schedule_time,
+        description: details.description,
+        startTime: '0:00:00',
+        timezone: details.timezone,
+        startD: moment().format('YYYY-MM-DD'),
+        password_auth: details.password_auth,
+        auth_type: details.cast_type,
+        send_otp: details.otp_private,
+        public_auth: false,
+        public_otp: details.collect_attendee_email,
+      };
+      this.stepTwoProps = {
+        BackImageURL: '',
+        imageURL: '',
+        primary_color: details.primary_color,
+        secondary_color: '',
+        logo: details.logo,
+        back_image: '',
+        cover_image: details.cover_image,
+        cover_image_error: false,
+        back_image_error: false,
+        banner_text: details.banner_text,
+        moderator_only_text:
+          'You are a Moderator, you can control who presents and participates in the live cast',
+        guest_policy: details.guest_policy,
+        welcome_text: details.welcome_text,
+        showText: true,
+        duration: details.duration,
+        logout_url: details.logout_url,
+      };
+      console.log(details);
+      this.stepThreeProps = {
+        vw_stream: false,
+        vw_stream_url: details.bbb_stream_url,
+        is_streaming: details.is_streaming,
+        public_stream: details.public_stream,
+      };
+      this.stepFourProps = {
+        start_stop_recording: details.record,
+        record: details.record,
+        mute_on_start: details.mute_on_start,
+        end_when_no_moderator: details.end_when_no_moderator,
+        allow_moderator_to_unmute_user: details.allow_moderator_to_unmute_user,
+        webcam_only_for_moderator: details.webcam_only_for_moderator,
+        auto_start_recording: details.auto_start_recording,
+        allow_start_stop_recording: details.record,
+        disable_cam: details.disable_cam,
+        disable_mic: details.disable_mic,
+        lock_layout: details.lock_layout,
+        lock_on_join: false,
+        viewer_mode: details.viewer_mode,
+        viewer_password: false,
+        listen_only_mode: true,
+        webcam_enable: false,
+        screen_sharing: true,
+        restrict_participants: false,
+        meeting_settings: false,
+      };
+    },
+    showSettingsPopup(id) {
+      this.setProps(id);
+      this.index = id;
+
+      this.showSettings = true;
     },
     openDeletePopup(id) {
       this.showDeletePopup = true;
@@ -478,7 +563,6 @@ export default {
         guest: false,
         attendee_password: '',
         meetingId: '',
-        index: 0,
       };
       try {
         const res = await this.$store.dispatch('cast/joinNow', data);
