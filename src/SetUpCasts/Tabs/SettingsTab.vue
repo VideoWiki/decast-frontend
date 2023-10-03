@@ -91,6 +91,7 @@ export default {
     'stepThreeProps',
     'stepTwoProps',
     'castId',
+    'closeCreate',
   ],
   data() {
     return {

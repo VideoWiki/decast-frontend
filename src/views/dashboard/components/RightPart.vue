@@ -135,7 +135,7 @@
                   <button @click="showSettingsPopup(cast.public_meeting_id)">
                     <img src="@/assets/images/call.svg" alt="" />Call settings
                   </button>
-                  <button @click="stream = true">
+                  <button @click="showStream(cast.public_meeting_id)">
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
@@ -259,7 +259,14 @@
       ></set-up-cast>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="stream">
-      <stream-card :closeCreate="() => (stream = false)"></stream-card>
+      <stream-card
+        :closeCreate="() => (stream = false)"
+        :stepFourProps="stepFourProps"
+        :stepThreeProps="stepThreeProps"
+        :stepTwoProps="stepTwoProps"
+        :stepOneProps="stepOneProps"
+        :castId="index"
+      ></stream-card>
     </div>
     <div class="popup" v-if="showSettings" @click="closeAllPopups">
       <div class="edit-settings p-5">
@@ -277,7 +284,7 @@
           :stepTwoProps="stepTwoProps"
           :stepOneProps="stepOneProps"
           :castId="index"
-          :closeCreate="closeAllPopups"
+          :closeCreate="() => (showSettings = false)"
         />
       </div>
     </div>
@@ -494,6 +501,11 @@ export default {
         restrict_participants: false,
         meeting_settings: false,
       };
+    },
+    showStream(id) {
+      this.index = id;
+      this.setProps(id);
+      this.stream = true;
     },
     showSettingsPopup(id) {
       this.setProps(id);
