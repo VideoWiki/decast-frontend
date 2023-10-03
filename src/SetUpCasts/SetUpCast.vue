@@ -424,7 +424,7 @@ export default {
   margin-top: 23px;
 }
 .buttons button {
-  width: 135px;
+  width: 33%;
   height: 40px;
   border: 1px solid #31394e;
   font-size: 12px;
