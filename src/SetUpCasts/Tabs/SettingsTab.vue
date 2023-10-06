@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="tab-content" v-if="activeTab !== ''">
       <div class="button-first">
-        <button  v-if="activeTab === 'BigMeetingPopup'" class="bigMeeting">
+        <button v-if="activeTab === 'BigMeetingPopup'" class="bigMeeting">
           <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
           <label>Big Meeting</label>
         </button>
@@ -19,7 +19,10 @@
           <label>Custom</label>
         </button>
       </div>
-      <big-meeting-popup :stepFourProps="stepFourProps" :activeTab="activeTab" />
+      <big-meeting-popup
+        :stepFourProps="stepFourProps"
+        :activeTab="activeTab"
+      />
     </div>
     <div v-if="activeTab === ''">
       <div class="heading-text">You can edit these settings at any time</div>
@@ -69,7 +72,10 @@
       </div>
     </div>
     <div class="button cursor-pointer">
-      <button class="cursor-pointer" @click="createCast">Create Cast</button>
+      <button @click="changeActiveTab('Streaming')" class="cursor-pointer">
+        Next
+      </button>
+      <!---<button class="cursor-pointer" @click="createCast">Create Cast</button>-->
     </div>
   </div>
 </template>
@@ -81,7 +87,7 @@ export default {
   components: {
     BigMeetingPopup,
   },
-  props: ['createCast', 'stepFourProps'],
+  props: ['changeActiveTab', 'stepFourProps'],
   data() {
     return {
       activeTab: '',
@@ -92,8 +98,8 @@ export default {
       this.activeTab = '';
     },
   },
-  mounted(){
-    console.log(this.activeTab , "sTab")
+  mounted() {
+    console.log(this.activeTab, 'sTab');
   },
   computed: {
     activeTabComponent() {
@@ -103,9 +109,9 @@ export default {
         case 'WebinarPopup':
           return BigMeetingPopup;
         case 'BroadcastPopup':
-          return BigMeetingPopup; 
+          return BigMeetingPopup;
         case 'CustomPopup':
-          return BigMeetingPopup;   
+          return BigMeetingPopup;
         default:
           return null;
       }
@@ -132,21 +138,21 @@ export default {
   align-self: flex-start;
   align-items: center;
 }
-.bigMeeting{
+.bigMeeting {
   background-color: #1dd3c8;
   border: 1px solid #1dd3c8;
 }
-.custom{
-  background-color: #33DB79;
-  border: 1px solid #33DB79;
+.custom {
+  background-color: #33db79;
+  border: 1px solid #33db79;
 }
-.broadcast{
-  background-color: #ADEB5A;
-  border: 1px solid #ADEB5A;
+.broadcast {
+  background-color: #adeb5a;
+  border: 1px solid #adeb5a;
 }
-.webinar{
-  background-color: #8CD0FF;
-  border: 1px solid #8CD0FF;
+.webinar {
+  background-color: #8cd0ff;
+  border: 1px solid #8cd0ff;
 }
 .button-first button img {
   width: 12px;

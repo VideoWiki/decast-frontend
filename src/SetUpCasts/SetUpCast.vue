@@ -59,7 +59,8 @@
           <button
             class="button-4"
             :style="{
-              backgroundColor: activeTab === 'Streaming' ? '#464775' : '#1F272F',
+              backgroundColor:
+                activeTab === 'Streaming' ? '#464775' : '#1F272F',
               color:
                 activeTab === 'Streaming'
                   ? 'rgba(255, 255, 255, 0.8)'
@@ -67,7 +68,7 @@
             }"
             @click="activeTab = 'Streaming'"
           >
-          Streaming
+            Streaming
           </button>
         </div>
         <div class="tab-content">
@@ -218,7 +219,8 @@ export default {
         public_stream: false,
       },
       stepFourProps: {
-        record: true,
+        start_stop_recording: true,
+        record: false,
         mute_on_start: true,
         end_when_no_moderator: true,
         allow_moderator_to_unmute_user: false,
@@ -302,6 +304,8 @@ export default {
         this.formData.append(key, value);
       }
       for (let [key, value] of Object.entries(this.stepFourProps)) {
+        console.log(value);
+
         if (value.length === 0) {
           value = '';
         } else {
@@ -317,6 +321,12 @@ export default {
       }
     },
     formSubmitted() {
+      console.log(
+        this.stepFourProps.record,
+        this.stepFourProps.start_stop_recording
+      );
+      this.stepFourProps.start_stop_recording = this.stepFourProps.record;
+      this.stepFourProps.allow_start_stop_recording = this.stepFourProps.record;
       this.stepOneProps.schedule_time =
         this.stepOneProps.startD + ' ' + this.stepOneProps.startTime;
       if (moment().isAfter(this.stepOneProps.schedule_time)) {

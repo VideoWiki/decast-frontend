@@ -35,7 +35,11 @@
     <div class="right-side">
       <div class="heading">You're joining the cast</div>
       <div class="name">Joining name</div>
-      <input placeholder="e.g John G. Miguel" v-model="joiningName" />
+      <input
+        placeholder="e.g John G. Miguel"
+        @keydown.enter="accessCast"
+        v-model="joiningName"
+      />
       <div class="button">
         <button class="cursor-pointer" @click="accessCast">Access cast</button>
       </div>
@@ -52,6 +56,7 @@ export default {
       eventName: '',
       eventDescription: '',
       creator: '',
+      disabled: false,
     };
   },
   mounted() {
@@ -71,6 +76,13 @@ export default {
       document.getElementById('loading-bg').style.display = 'none';
     },
     accessCast() {
+      if (this.disabled) {
+        return;
+      }
+      this.disabled = true;
+      setTimeout(() => {
+        this.disabled = false;
+      }, 1000);
       if (this.joiningName.length === 0) {
         this.$vs.notify({
           title: 'Name require',
