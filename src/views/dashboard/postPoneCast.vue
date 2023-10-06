@@ -172,10 +172,12 @@ export default {
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
     window.addEventListener('click', this.closePopups);
+    window.addEventListener('click', this.handleGlobalClick);
     // document.addEventListener('click', this.closeOnOutsideClick);
   },
   beforeDestroy() {
     window.removeEventListener('click', this.closePopups);
+    window.removeEventListener('click', this.handleGlobalClick);
     // document.removeEventListener('click', this.closeOnOutsideClick);
   },
   methods: {
@@ -188,16 +190,14 @@ export default {
       this.focusReschedule = toPostpone;
       console.log('EEEE');
     },
-    // closeOnOutsideClick(event) {
-    //   if (!this.closeOnOutsideClick) {
-    //     return;
-    //   }
-    //   const container = this.$el;
-    //   if (container && !container.contains(event.target)) {
-    //     this.showPostpone = false;
-    //     this.$emit('closePostpone');
-    //   }
-    // },
+    handleGlobalClick(event) {
+      const isOutsideRoomPopup = !event.target.closest('.main-container');
+      const isNotMenu = !event.target.closest('.zt-btn');
+      if (isOutsideRoomPopup && isNotMenu && this.showPostpone !== false) {
+        this.showPostpone = false;
+        this.$emit('post-closed')
+      }
+    },
     openPopup(popup) {
       setTimeout(() => {
         console.log(this[popup]);

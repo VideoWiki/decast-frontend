@@ -357,4 +357,8 @@ textarea {
 .input-date {
   margin-left: 10px;
 }
+
+#startTimeSelect{
+  width: 100px;
+}
 </style>

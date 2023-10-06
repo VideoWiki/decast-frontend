@@ -23,8 +23,8 @@
     </div>
   </div>
 </template>
-
 <script>
+
 export default {
   name: 'userMenu',
   props: {

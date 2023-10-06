@@ -110,7 +110,7 @@
                   <button>
                     <img src="@/assets/images/drops.svg" alt="" />Drops
                   </button>
-                  <button @click="togglePostpone(cast.public_meeting_id, index)">
+                  <button class="zt-btn" @click="togglePostpone(cast.public_meeting_id, index)" >
                     <img src="@/assets/images/reschedule.svg" alt="" />Reschedule cast
                   </button>
                   <button>
@@ -159,7 +159,8 @@
                     :viewer_mode="castsInfo[cast.public_meeting_id].details.viewer_mode"
                     :schedule="castsInfo[cast.public_meeting_id].details.schedule_time"
                     :timeLeft="castsInfo[cast.public_meeting_id].details.duration"
-                    @closePostpone="closePostpone"/>
+                    @closePostpone="closePostpone"
+                    @post-closed="togglePostpone(cast.public_meeting_id, index)"/>
                 </div>
 
                 <div class="inner-child3">
