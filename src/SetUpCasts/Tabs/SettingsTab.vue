@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class="button cursor-pointer">
-      <button class="cursor-pointer" @click="createCast">Create Cast</button>
+      <button class="cursor-pointer" @click="handleSubmit">Create Cast</button>
     </div>
   </div>
 </template>
@@ -84,7 +84,15 @@ export default {
   components: {
     BigMeetingPopup,
   },
-  props: ['createCast', 'stepFourProps'],
+  props: [
+    'createCast',
+    'stepFourProps',
+    'stepOneProps',
+    'stepThreeProps',
+    'stepTwoProps',
+    'castId',
+    'closeCreate',
+  ],
   data() {
     return {
       activeTab: '',
@@ -93,6 +101,95 @@ export default {
   methods: {
     tabChange() {
       this.activeTab = '';
+    },
+    handleSubmit() {
+      if (this.createCast) {
+        this.createCast();
+      } else {
+        console.log(this.castId);
+        this.changeSettings();
+      }
+    },
+    changeSettings() {
+      const data = new FormData();
+      data.append('cast_id', this.castId);
+      data.append('cast_name', this.stepOneProps.event_name);
+      data.append('logo', this.stepTwoProps.logo);
+      data.append('cover_image', this.stepTwoProps.cover_image);
+      data.append('back_image', this.stepTwoProps.back_image);
+      data.append('description', this.stepOneProps.description);
+      data.append('cast_type', this.stepOneProps.auth_type);
+      data.append(
+        'collect_attendee_email',
+        this.stepOneProps.public_otp ? 'True' : 'False'
+      );
+      data.append('schedule_time', this.stepOneProps.schedule_time);
+      data.append('timezone', this.stepOneProps.timezone);
+      data.append('primary_color', this.stepTwoProps.primary_color);
+      data.append('welcome_text', this.stepTwoProps.welcome_text);
+      data.append('banner_text', this.stepTwoProps.banner_text);
+      data.append('guest_policy', this.stepTwoProps.guest_policy);
+      data.append('moderator_only_text', this.stepTwoProps.moderator_only_text);
+      data.append('duration', this.stepTwoProps.duration);
+      data.append('logout_url', this.stepTwoProps.logout_url);
+      data.append(
+        'is_streaming',
+        this.stepThreeProps.is_streaming ? 'True' : 'False'
+      );
+      data.append(
+        'public_stream',
+        this.stepThreeProps.public_stream ? 'True' : 'False'
+      );
+      data.append(
+        'bbb_stream_url',
+        JSON.stringify(this.stepThreeProps.vw_stream_url)
+      );
+      data.append('record', this.stepFourProps.record ? 'True' : 'False');
+      data.append(
+        'end_when_no_moderator',
+        this.stepFourProps.end_when_no_moderator ? 'True' : 'False'
+      );
+      data.append(
+        'allow_moderator_to_unmute_user',
+        this.stepFourProps.allow_moderator_to_unmute_user ? 'True' : 'False'
+      );
+      data.append(
+        'auto_start_recording',
+        this.stepFourProps.auto_start_recording ? 'True' : 'False'
+      );
+      data.append(
+        'mute_on_start',
+        this.stepFourProps.mute_on_start ? 'True' : 'False'
+      );
+      data.append(
+        'webcam_only_for_moderator',
+        this.stepFourProps.webcam_only_for_moderator ? 'True' : 'False'
+      );
+      data.append(
+        'disable_cam',
+        this.stepFourProps.disable_cam ? 'True' : 'False'
+      );
+      data.append(
+        'disable_mic',
+        this.stepFourProps.disable_mic ? 'True' : 'False'
+      );
+      data.append(
+        'lock_layout',
+        this.stepFourProps.lock_layout ? 'True' : 'False'
+      );
+      data.append(
+        'viewer_mode',
+        this.stepFourProps.viewer_mode ? 'True' : 'False'
+      );
+      data.append('private_otp', this.stepOneProps.send_otp ? 'True' : 'False');
+      data.append(
+        'password_auth',
+        this.stepOneProps.password_auth ? 'True' : 'False'
+      );
+      this.$store.dispatch('cast/formSubmit', data).then((response) => {
+        console.log(response);
+        this.closeCreate();
+      });
     },
   },
   mounted() {

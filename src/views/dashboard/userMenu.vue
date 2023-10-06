@@ -49,7 +49,7 @@ export default {
       const isNotMenu = !event.target.closest('.con-img');
       if (isOutsideRoomPopup && isNotMenu && this.showMenu !== false) {
         this.showMenu = false;
-        this.$emit('menu-closed')
+        this.$emit('menu-closed');
       }
     },
     toggleProfile() {

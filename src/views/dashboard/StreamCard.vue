@@ -1,132 +1,134 @@
 <template>
-  <div class="margin">
-    <div class="head-container">
-      <h3>Share setting</h3>
-      <button @click="closeCreate">
-        <img src="@/assets/images/cross.svg" />
-      </button>
-    </div>
-
-    <div class="main-cont">
-      <div class="child-div-1">
-        <div class="inner-div-1">
-          <img src="@/assets/images/meeting.svg" />
-        </div>
-        <div class="inner-div-2">
-          <h3>VideoWiki Streaming</h3>
-          <p>
-            For streaming the event on VideoWiki, choose this option, and you
-            will receive the stream page address in your email.
-          </p>
-        </div>
+  <div class="stream-container">
+    <div class="margin">
+      <div class="head-container">
+        <h3>Share setting</h3>
+        <button @click="closeCreate">
+          <img src="@/assets/images/cross.svg" />
+        </button>
       </div>
 
-      <div class="toggle-switch" @click="toggleSwitch1">
-        <input type="checkbox" v-model="VWStream" class="checkbox" />
-        <label class="slider"></label>
-      </div>
-    </div>
-
-    <div class="mid-stroke">
-      <div>
-        <h3>Third Party Streaming</h3>
-      </div>
-
-      <div></div>
-    </div>
-
-    <div class="main-cont">
-      <div class="child-div-1">
-        <div class="inner-div-1">
-          <img src="@/assets/images/youtube.svg" />
+      <div class="main-cont">
+        <div class="child-div-1">
+          <div class="inner-div-1">
+            <img src="@/assets/images/meeting.svg" />
+          </div>
+          <div class="inner-div-2">
+            <h3>VideoWiki Streaming</h3>
+            <p>
+              For streaming the event on VideoWiki, choose this option, and you
+              will receive the stream page address in your email.
+            </p>
+          </div>
         </div>
-        <div class="inner-div-2">
-          <h3>YouTube</h3>
-          <p class="desc">
-            You can stream your event on YouTube. - Server URL address: - Stream
-            name/key:
-          </p>
+
+        <div class="toggle-switch" @click="toggleSwitch1">
+          <input type="checkbox" v-model="VWStream" class="checkbox" />
+          <label class="slider"></label>
         </div>
       </div>
 
-      <div class="toggle-switch" @click="toggleSwitch2">
-        <input type="checkbox" v-model="showYoutube" class="checkbox" />
-        <label class="slider"></label>
-      </div>
-    </div>
-
-    <div class="isVisible" v-if="showYoutube">
-      <div>
-        <label>Youtube RTMP Url</label>
-        <input v-model="youtube" />
-      </div>
-      <div>
-        <label>Youtube Secret Key</label>
-        <input v-model="youtubeSecret" />
-      </div>
-    </div>
-
-    <div class="main-cont">
-      <div class="child-div-1">
-        <div class="inner-div-1">
-          <img src="@/assets/images/facebook.svg" />
+      <div class="mid-stroke">
+        <div>
+          <h3>Third Party Streaming</h3>
         </div>
-        <div class="inner-div-2">
-          <h3>Facebook</h3>
-          <p class="desc">
-            You can stream your event on Facebook. - Server URL address: -
-            Stream name/key:
-          </p>
+
+        <div></div>
+      </div>
+
+      <div class="main-cont">
+        <div class="child-div-1">
+          <div class="inner-div-1">
+            <img src="@/assets/images/youtube.svg" />
+          </div>
+          <div class="inner-div-2">
+            <h3>YouTube</h3>
+            <p class="desc">
+              You can stream your event on YouTube. - Server URL address: -
+              Stream name/key:
+            </p>
+          </div>
+        </div>
+
+        <div class="toggle-switch" @click="toggleSwitch2">
+          <input type="checkbox" v-model="showYoutube" class="checkbox" />
+          <label class="slider"></label>
         </div>
       </div>
 
-      <div class="toggle-switch" @click="toggleSwitch3">
-        <input type="checkbox" v-model="showFacebook" class="checkbox" />
-        <label class="slider"></label>
-      </div>
-    </div>
-    <div class="isVisible" v-if="showFacebook">
-      <div>
-        <label>Facebook RTMP Url</label>
-        <input v-model="facebook" />
-      </div>
-      <div>
-        <label>Facebook Secret Key</label>
-        <input v-model="facebookSecret" />
-      </div>
-    </div>
-
-    <div class="main-cont">
-      <div class="child-div-1">
-        <div class="inner-div-1">
-          <img src="@/assets/images/twitch.svg" />
+      <div class="isVisible" v-if="showYoutube">
+        <div>
+          <label>Youtube RTMP Url</label>
+          <input v-model="youtube" />
         </div>
-        <div class="inner-div-2">
-          <h3>Twitch</h3>
-          <p class="desc">
-            You can stream your event on Twitch. - Server URL address: - Stream
-            name/key:
-          </p>
+        <div>
+          <label>Youtube Secret Key</label>
+          <input v-model="youtubeSecret" />
         </div>
       </div>
 
-      <div class="toggle-switch" @click="toggleSwitch4">
-        <input type="checkbox" v-model="showTwitch" class="checkbox" />
-        <label class="slider"></label>
+      <div class="main-cont">
+        <div class="child-div-1">
+          <div class="inner-div-1">
+            <img src="@/assets/images/facebook.svg" />
+          </div>
+          <div class="inner-div-2">
+            <h3>Facebook</h3>
+            <p class="desc">
+              You can stream your event on Facebook. - Server URL address: -
+              Stream name/key:
+            </p>
+          </div>
+        </div>
+
+        <div class="toggle-switch" @click="toggleSwitch3">
+          <input type="checkbox" v-model="showFacebook" class="checkbox" />
+          <label class="slider"></label>
+        </div>
       </div>
-    </div>
-    <div class="isVisible" v-if="showTwitch">
-      <div>
-        <label>Twitch RTMP Url</label>
-        <input v-model="twitch" />
+      <div class="isVisible" v-if="showFacebook">
+        <div>
+          <label>Facebook RTMP Url</label>
+          <input v-model="facebook" />
+        </div>
+        <div>
+          <label>Facebook Secret Key</label>
+          <input v-model="facebookSecret" />
+        </div>
       </div>
-      <div>
-        <label>Twitch Secret Key</label>
-        <input v-model="twitchSecret" />
+
+      <div class="main-cont">
+        <div class="child-div-1">
+          <div class="inner-div-1">
+            <img src="@/assets/images/twitch.svg" />
+          </div>
+          <div class="inner-div-2">
+            <h3>Twitch</h3>
+            <p class="desc">
+              You can stream your event on Twitch. - Server URL address: -
+              Stream name/key:
+            </p>
+          </div>
+        </div>
+
+        <div class="toggle-switch" @click="toggleSwitch4">
+          <input type="checkbox" v-model="showTwitch" class="checkbox" />
+          <label class="slider"></label>
+        </div>
       </div>
-    </div>
-    <div class="button cursor-pointer">
-      <button @click="AddStream" class="cursor-pointer">Add streaming</button>
+      <div class="isVisible" v-if="showTwitch">
+        <div>
+          <label>Twitch RTMP Url</label>
+          <input v-model="twitch" />
+        </div>
+        <div>
+          <label>Twitch Secret Key</label>
+          <input v-model="twitchSecret" />
+        </div>
+      </div>
+      <div class="button cursor-pointer">
+        <button @click="AddStream" class="cursor-pointer">Add streaming</button>
+      </div>
     </div>
   </div>
 </template>
@@ -271,8 +273,14 @@ export default {
 
 <style scoped>
 .margin {
-  margin: 18px;
+  padding: 18px;
 }
+
+.stream-container {
+  background: #1f272f;
+  border-radius: 10px;
+}
+
 .toggle-switch {
   display: inline-block;
   position: relative;

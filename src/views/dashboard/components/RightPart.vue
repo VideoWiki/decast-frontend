@@ -2,23 +2,34 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
+        <h2
+          class="custom-heading"
+          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
+        >
           Casts
         </h2>
         <p class="sub-heading pt-2">
           Casts are social spaces for events and wide-range. Ideal for X Y Z.
-          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
-            Casts.</a>
+          <a
+            target="_blank"
+            href="#"
+            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
+            >Learn more about Casts.</a
+          >
         </p>
       </div>
       <div class="flex justify-between">
-        <button class="header-button p-2" style="
+        <button
+          class="header-button p-2"
+          style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          " @click="openCreate">
+          "
+          @click="openCreate"
+        >
           <img src="@/assets/images/Plus.svg" alt="" />
         </button>
         <!-- <button class="header-button border-none dot">
@@ -39,12 +50,18 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button class="options-button border-none" @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }">
+        <button
+          class="options-button border-none"
+          @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }"
+        >
           Scheduled Casts
         </button>
-        <button class="options-button border-none px-5" @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }">
+        <button
+          class="options-button border-none px-5"
+          @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }"
+        >
           Cast Recordings
         </button>
       </div>
@@ -66,16 +83,20 @@
                     }}
                   </button>
                 </div>
-                <div v-if="cast.invitee_list.length === 0" @click="invite = true" class="inner-child2">
+                <div v-if="cast.invitee_list.length === 0" class="inner-child2">
                   <span class="invite-text" href="#">Invite Attendees</span>
                   <img src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
-                  <p class="invite-text" @click="invite = true">
+                  <p class="invite-text">
                     {{ cast.invitee_list.length }} attendees invited
                   </p>
                   <div class="flex my-1">
-                    <span v-for="(image, imageIndex) in cast.invitee_list" :key="imageIndex" alt="">
+                    <span
+                      v-for="(image, imageIndex) in cast.invitee_list"
+                      :key="imageIndex"
+                      alt=""
+                    >
                       <span class="attendee">
                         {{ image.email.slice(0, 2) }}
                       </span>
@@ -86,32 +107,48 @@
               </div>
 
               <div class="inner-div2">
-                <button class="k-btn" @click="
-                  togglePopup(
-                    index,
-                    cast.public_meeting_id,
-                    cast.invitee_list
-                  )
-                  ">
-                  <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
+                <button
+                  class="k-btn"
+                  @click="
+                    togglePopup(
+                      index,
+                      cast.public_meeting_id,
+                      cast.invitee_list
+                    )
+                  "
+                >
+                  <img
+                    src="@/assets/images/Vector2.svg"
+                    class="h-7 p-2"
+                    alt=""
+                  />
                 </button>
-                <div class="cast-popup" v-if="showPopup === index" @click="closePopup(index)">
-                  <button>
+                <div
+                  class="cast-popup"
+                  v-if="showPopup === index"
+                  @click="closePopup(index)"
+                >
+                  <button @click="invite = true">
                     <img src="@/assets/images/manage.svg" alt="" />Manage
                     attendees
                   </button>
-                  <button>
+                  <button @click="showSettingsPopup(cast.public_meeting_id)">
                     <img src="@/assets/images/call.svg" alt="" />Call settings
                   </button>
-                  <button>
+                  <button @click="showStream(cast.public_meeting_id)">
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
                   <button>
                     <img src="@/assets/images/drops.svg" alt="" />Drops
                   </button>
-                  <button class="zt-btn" @click="togglePostpone(cast.public_meeting_id, index)" >
-                    <img src="@/assets/images/reschedule.svg" alt="" />Reschedule cast
+                  <button
+                    @click="togglePostpone(cast.public_meeting_id, index, true)"
+                  >
+                    <img
+                      src="@/assets/images/reschedule.svg"
+                      alt=""
+                    />Reschedule cast
                   </button>
                   <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
@@ -119,50 +156,19 @@
                   <button>
                     <img src="@/assets/images/pen.svg" alt="" />Edit
                   </button>
-                  <button>
-                    <img src="@/assets/images/prepone.svg" alt="" />Prepone cast
+                  <button
+                    @click="
+                      togglePostpone(cast.public_meeting_id, index, false)
+                    "
+                  >
+                    <img src="@/assets/images/prepone.svg" alt="" />Postpone
+                    cast
                   </button>
-                  <button @click="deleteCast(cast.public_meeting_id, index)">
+                  <button @click="openDeletePopup(cast.public_meeting_id)">
                     <img src="@/assets/images/delete.svg" />
                     Delete
                   </button>
                 </div>
-
-                <div class="post-time" v-if="cast.postPoneVisible">
-                  <postPoneCast :cast_id="cast.public_meeting_id" :cast_name="cast.event_name"
-                    :allow_moderator_to_unmute_user="castsInfo[cast.public_meeting_id].details.allow_moderator_to_unmute_user"
-                    :auto_start_recording="castsInfo[cast.public_meeting_id].details.auto_start_recording"
-                    :description="castsInfo[cast.public_meeting_id].details.description"
-                    :cast_type="castsInfo[cast.public_meeting_id].details.cast_type"
-                    :collect_attendee_email="castsInfo[cast.public_meeting_id].details.collect_attendee_email"
-                    :private_otp="castsInfo[cast.public_meeting_id].details.otp_private"
-                    :timezone="castsInfo[cast.public_meeting_id].details.timezone"
-                    :logo="castsInfo[cast.public_meeting_id].details.logo"
-                    :cover_image="castsInfo[cast.public_meeting_id].details.cover_image" 
-                    :primary_color="castsInfo[cast.public_meeting_id].details.primary_color"
-                    :welcome_text="castsInfo[cast.public_meeting_id].details.welcome_text"
-                    :banner_text="castsInfo[cast.public_meeting_id].details.banner_text"
-                    :guest_policy="castsInfo[cast.public_meeting_id].details.guest_policy"
-                    :moderator_only_text="castsInfo[cast.public_meeting_id].details.moderator_only_text"
-                    :logout_url="castsInfo[cast.public_meeting_id].details.logout_url"
-                    :is_streaming="castsInfo[cast.public_meeting_id].details.is_streaming"
-                    :public_stream="castsInfo[cast.public_meeting_id].details.public_stream"
-                    :bbb_stream_url="castsInfo[cast.public_meeting_id].details.bbb_stream_url"
-                    :record="castsInfo[cast.public_meeting_id].details.record"
-                    :password_auth="castsInfo[cast.public_meeting_id].details.password_auth"
-                    :end_when_no_moderator="castsInfo[cast.public_meeting_id].details.end_when_no_moderator"
-                    :mute_on_start="castsInfo[cast.public_meeting_id].details.mute_on_start"
-                    :webcam_only_for_moderator="castsInfo[cast.public_meeting_id].details.webcam_only_for_moderator"
-                    :disable_cam="castsInfo[cast.public_meeting_id].details.disable_cam"
-                    :disable_mic="castsInfo[cast.public_meeting_id].details.disable_mic"
-                    :lock_layout="castsInfo[cast.public_meeting_id].details.lock_layout"
-                    :viewer_mode="castsInfo[cast.public_meeting_id].details.viewer_mode"
-                    :schedule="castsInfo[cast.public_meeting_id].details.schedule_time"
-                    :timeLeft="castsInfo[cast.public_meeting_id].details.duration"
-                    @closePostpone="closePostpone"
-                    @post-closed="togglePostpone(cast.public_meeting_id, index)"/>
-                </div>
-
                 <div class="inner-child3">
                   <button v-if="cast.is_running === 'true'" class="live-btn">
                     Cast is live
@@ -172,7 +178,10 @@
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
                     <div id="copy-pop" v-if="cast.showCopy">
-                      <button id="copy-btn-1" @click="copy(cast.public_meeting_id, cast.h_ap)">
+                      <button
+                        id="copy-btn-1"
+                        @click="copy(cast.public_meeting_id, cast.h_ap)"
+                      >
                         <img src="@/assets/images/co-host.svg" />
                         Copy Participant url
                       </button>
@@ -182,7 +191,11 @@
                         Copy Co-host url
                       </button>
                     </div>
-                    <button v-if="cast.is_running === 'false'" @click="joinNow(cast.public_meeting_id)" id="go-btn">
+                    <button
+                      v-if="cast.is_running === 'false'"
+                      @click="joinNow(cast.public_meeting_id)"
+                      id="go-btn"
+                    >
                       Go live now
                     </button>
                   </div>
@@ -193,8 +206,11 @@
         </div>
         <div v-else>
           <div v-if="recordingList.length">
-            <div class="recordings flex justify-between items-center mb-4" v-for="(recording, index) in recordingList"
-              :key="index">
+            <div
+              class="recordings flex justify-between items-center mb-4"
+              v-for="(recording, index) in recordingList"
+              :key="index"
+            >
               <div class="w-3/4 flex justify-between items-center">
                 <p>
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
@@ -216,8 +232,14 @@
             </div>
           </div>
           <div v-else class="flex flex-col items-center justify-items-center">
-            <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
-            <img src="@/assets/images/dashboard/NoRecordingText1.svg" class="mb-3" />
+            <img
+              src="@/assets/images/dashboard/NoRecording.svg"
+              class="w-1/2"
+            />
+            <img
+              src="@/assets/images/dashboard/NoRecordingText1.svg"
+              class="mb-3"
+            />
             <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
@@ -231,13 +253,120 @@
       </p>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="create">
-      <set-up-cast :getList="getCastList" :closeCreate="closeCreate"></set-up-cast>
+      <set-up-cast
+        :getList="getCastList"
+        :closeCreate="closeCreate"
+      ></set-up-cast>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="stream">
-      <stream-card :closeStream="() => (stream = false)"></stream-card>
+      <stream-card
+        :closeCreate="() => (stream = false)"
+        :stepFourProps="stepFourProps"
+        :stepThreeProps="stepThreeProps"
+        :stepTwoProps="stepTwoProps"
+        :stepOneProps="stepOneProps"
+        :castId="index"
+      ></stream-card>
+    </div>
+    <div class="popup" v-if="showSettings" @click="closeAllPopups">
+      <div class="edit-settings p-5">
+        <div class="flex justify-between">
+          <div class="heading">Change Settings</div>
+          <img
+            class="cursor-pointer"
+            src="@/assets/images/create-event/Vector30.svg"
+            @click="closeAllPopups"
+          />
+        </div>
+        <settings-tab
+          :stepFourProps="stepFourProps"
+          :stepThreeProps="stepThreeProps"
+          :stepTwoProps="stepTwoProps"
+          :stepOneProps="stepOneProps"
+          :castId="index"
+          :closeCreate="() => (showSettings = false)"
+        />
+      </div>
+    </div>
+    <div class="popup" v-if="showPostpone" @click="closeRes">
+      <div class="post-time">
+        <postPoneCast
+          :cast_id="index"
+          :cast_name="castsInfo[index].details.event_name"
+          :allow_moderator_to_unmute_user="
+            castsInfo[index].details.allow_moderator_to_unmute_user
+          "
+          :auto_start_recording="castsInfo[index].details.auto_start_recording"
+          :description="castsInfo[index].details.description"
+          :cast_type="castsInfo[index].details.cast_type"
+          :collect_attendee_email="
+            castsInfo[index].details.collect_attendee_email
+          "
+          :private_otp="castsInfo[index].details.otp_private"
+          :timezone="castsInfo[index].details.timezone"
+          :logo="castsInfo[index].details.logo"
+          :cover_image="castsInfo[index].details.cover_image"
+          :primary_color="castsInfo[index].details.primary_color"
+          :welcome_text="castsInfo[index].details.welcome_text"
+          :banner_text="castsInfo[index].details.banner_text"
+          :guest_policy="castsInfo[index].details.guest_policy"
+          :moderator_only_text="castsInfo[index].details.moderator_only_text"
+          :logout_url="castsInfo[index].details.logout_url"
+          :is_streaming="castsInfo[index].details.is_streaming"
+          :public_stream="castsInfo[index].details.public_stream"
+          :bbb_stream_url="castsInfo[index].details.bbb_stream_url"
+          :record="castsInfo[index].details.record"
+          :password_auth="castsInfo[index].details.password_auth"
+          :end_when_no_moderator="
+            castsInfo[index].details.end_when_no_moderator
+          "
+          :mute_on_start="castsInfo[index].details.mute_on_start"
+          :webcam_only_for_moderator="
+            castsInfo[index].details.webcam_only_for_moderator
+          "
+          :disable_cam="castsInfo[index].details.disable_cam"
+          :disable_mic="castsInfo[index].details.disable_mic"
+          :lock_layout="castsInfo[index].details.lock_layout"
+          :viewer_mode="castsInfo[index].details.viewer_mode"
+          :schedule="castsInfo[index].details.schedule_time"
+          :timeLeft="castsInfo[index].details.duration"
+          :closePostpone="closePostpone"
+          :toPostpone="toPostpone"
+        />
+      </div>
+    </div>
+    <div class="popup" v-if="showDeletePopup" @click="closeAllPopups">
+      <div class="delete-popup">
+        <div class="full-wrapper">
+          <div class="uppar-part flex justify-between">
+            <div class="heading">Delete cast</div>
+            <img
+              class="cursor-pointer"
+              src="@/assets/images/create-event/Vector30.svg"
+              @click="closeDeletePopup"
+            />
+          </div>
+          <div class="middle-part">
+            <div class="img">
+              <img src="@/assets/images/create-event/crossIcon.svg" />
+            </div>
+            <p>Do you really want to delete</p>
+            <p>this cast?</p>
+          </div>
+          <div class="lower-part">
+            <button @click="deleteCast(index)" class="cursor-pointer">
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="invite">
-      <invite-card :Id="meetingId" :invites="invites" :closeInvite="() => (invite = false)"></invite-card>
+      <invite-card
+        :Id="meetingId"
+        :invites="invites"
+        :closeInvite="() => (invite = false)"
+      ></invite-card>
     </div>
   </div>
 </template>
@@ -247,11 +376,13 @@ import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
 import StreamCard from '../StreamCard.vue';
 import InviteCard from '../InviteCard.vue';
 import postPoneCast from '../postPoneCast.vue';
+import SettingsTab from '../../../SetUpCasts/Tabs/SettingsTab.vue';
 export default {
-  components: { SetUpCast, StreamCard, InviteCard, postPoneCast },
+  components: { SetUpCast, StreamCard, InviteCard, postPoneCast, SettingsTab },
   name: 'rightpart',
   data() {
     return {
+      showDeletePopup: false,
       focusYourRooms: true,
       create: false,
       showCastIsLive: false,
@@ -259,15 +390,34 @@ export default {
       invite: false,
       showPopup: false,
       showCopy: false,
+      showSettings: false,
       moment,
       casts: [],
       invites: [],
       recordingList: [],
       postPoneVisible: false,
       castInfo: {},
+      toPostpone: false,
+      showPostpone: false,
+      mouse: 0,
+      index: '',
+      stepFourProps: {},
+      stepOneProps: {},
+      stepTwoProps: {},
+      stepThreeProps: {},
+      castsInfo: [],
     };
   },
   mounted() {
+    const container = document.querySelectorAll('.options-container')[1];
+    console.log(container);
+    container.addEventListener('mousemove', (e) => {
+      // Get the mouse coordinates relative to the div
+      const divRect = container.getBoundingClientRect();
+      const mouseY = e.clientY - divRect.top;
+      console.log(mouseY);
+      this.mouse = mouseY;
+    });
     this.getCastList();
     this.getRecordings();
     window.addEventListener('click', this.handleGlobalClick);
@@ -281,17 +431,112 @@ export default {
     },
   },
   methods: {
+    closeRes(e) {
+      if (e.currentTarget === e.target) {
+        this.showPostpone = false;
+      }
+    },
+    setProps(id) {
+      const details = this.castsInfo[id].details;
+      this.stepOneProps = {
+        event_name: details.event_name,
+        moderator_password: '',
+        attendee_password: '',
+        meeting_type: '',
+        schedule_time: details.schedule_time,
+        description: details.description,
+        startTime: '0:00:00',
+        timezone: details.timezone,
+        startD: moment().format('YYYY-MM-DD'),
+        password_auth: details.password_auth,
+        auth_type: details.cast_type,
+        send_otp: details.otp_private,
+        public_auth: false,
+        public_otp: details.collect_attendee_email,
+      };
+      this.stepTwoProps = {
+        BackImageURL: '',
+        imageURL: '',
+        primary_color: details.primary_color,
+        secondary_color: '',
+        logo: details.logo,
+        back_image: '',
+        cover_image: details.cover_image,
+        cover_image_error: false,
+        back_image_error: false,
+        banner_text: details.banner_text,
+        moderator_only_text:
+          'You are a Moderator, you can control who presents and participates in the live cast',
+        guest_policy: details.guest_policy,
+        welcome_text: details.welcome_text,
+        showText: true,
+        duration: details.duration,
+        logout_url: details.logout_url,
+      };
+      console.log(details);
+      this.stepThreeProps = {
+        vw_stream: false,
+        vw_stream_url: details.bbb_stream_url,
+        is_streaming: details.is_streaming,
+        public_stream: details.public_stream,
+      };
+      this.stepFourProps = {
+        start_stop_recording: details.record,
+        record: details.record,
+        mute_on_start: details.mute_on_start,
+        end_when_no_moderator: details.end_when_no_moderator,
+        allow_moderator_to_unmute_user: details.allow_moderator_to_unmute_user,
+        webcam_only_for_moderator: details.webcam_only_for_moderator,
+        auto_start_recording: details.auto_start_recording,
+        allow_start_stop_recording: details.record,
+        disable_cam: details.disable_cam,
+        disable_mic: details.disable_mic,
+        lock_layout: details.lock_layout,
+        lock_on_join: false,
+        viewer_mode: details.viewer_mode,
+        viewer_password: false,
+        listen_only_mode: true,
+        webcam_enable: false,
+        screen_sharing: true,
+        restrict_participants: false,
+        meeting_settings: false,
+      };
+    },
+    showStream(id) {
+      this.index = id;
+      this.setProps(id);
+      this.stream = true;
+    },
+    showSettingsPopup(id) {
+      this.setProps(id);
+      this.index = id;
+
+      this.showSettings = true;
+    },
+    openDeletePopup(id) {
+      this.showDeletePopup = true;
+      this.index = id;
+    },
+    closeDeletePopup() {
+      this.showDeletePopup = false;
+    },
     closeAllPopups(e) {
       if (e.currentTarget === e.target) {
         this.create = false;
         this.stream = false;
         this.invite = false;
+        this.showDeletePopup = false;
+        this.showSettings = false;
       }
     },
     handleGlobalClick(event) {
       const isOutsideRoomPopup = !event.target.closest('.cast-popup');
       const isNotTogglePopupButton = !event.target.closest('.k-btn');
-      if (isOutsideRoomPopup && isNotTogglePopupButton && this.showPopup !== null) {
+      if (
+        isOutsideRoomPopup &&
+        isNotTogglePopupButton &&
+        this.showPopup !== null
+      ) {
         this.showPopup = null;
       }
     },
@@ -308,8 +553,7 @@ export default {
 
     closePostpone() {
       console.log('close');
-      this.postPoneVisible = false;
-      this.$emit('closePostpone');
+      this.showPostpone = false;
     },
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
@@ -346,7 +590,10 @@ export default {
 
       const castInfoPromises = casts.map(async (cast) => {
         try {
-          const castDetails = await this.$store.dispatch('cast/editEvent', cast.public_meeting_id);
+          const castDetails = await this.$store.dispatch(
+            'cast/editEvent',
+            cast.public_meeting_id
+          );
           return { castId: cast.public_meeting_id, details: castDetails.data };
         } catch (error) {
           console.error(error);
@@ -361,12 +608,14 @@ export default {
       });
       this.castsInfo = castsInfo;
       this.casts = casts;
-      console.log(castsInfo, "TTTT");
-      console.log(casts, "pppp");
+      console.log(castsInfo, 'TTTT');
+      console.log(casts, 'pppp');
     },
-    togglePostpone(id, index) {
-      console.log(index)
-      this.$set(this.casts[index], 'postPoneVisible', !this.casts[index].postPoneVisible);
+    togglePostpone(id, index, toPostpone) {
+      console.log(index);
+      this.showPostpone = true;
+      this.index = id;
+      this.toPostpone = toPostpone;
     },
     togglePopup(index, id, inviteList) {
       console.log(id);
@@ -374,6 +623,19 @@ export default {
       this.invites = inviteList;
       this.postPoneVisible = false;
       this.showPopup = this.showPopup === index ? null : index;
+      setTimeout(() => {
+        const roomPopups = document.querySelectorAll('.cast-popup');
+        if (this.mouse < 80) {
+          console.log('yes', roomPopups);
+          roomPopups.forEach((item) => (item.style.top = '30%'));
+        } else {
+          console.log('hello');
+          roomPopups.forEach((item) => {
+            item.style.top = '-100%';
+            item.style.left = '59%';
+          });
+        }
+      }, 0);
     },
     closePopup(index) {
       this.showPopup = null;
@@ -382,11 +644,14 @@ export default {
       this.postPoneVisible = false;
       this.$set(this.casts[index], 'showCopy', !this.casts[index].showCopy);
     },
-    async deleteCast(id, index) {
-      console.log(id, index);
-      const res = await this.$store.dispatch('cast/deleteCast', id);
+    async deleteCast(index) {
+      const res = await this.$store.dispatch('cast/deleteCast', this.index);
       console.log(res);
-      this.casts.splice(index, 1);
+      const newCasts = this.casts.filter((item) => {
+        return item.public_meeting_id !== index;
+      });
+      this.casts = newCasts;
+      this.closeDeletePopup();
     },
     openCreate() {
       this.create = true;
@@ -436,6 +701,21 @@ export default {
   color: #d7df23;
   width: 350px;
   margin: auto;
+}
+
+.edit-settings {
+  max-height: 650px;
+  min-width: fit-content;
+  overflow: auto;
+  width: 583px;
+  border: 1px solid #31394e;
+  background-color: #1f272f;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  transition: max-height 0.5s ease-in-out;
+  /* padding: 18px; */
 }
 
 .choose-room {
@@ -524,18 +804,23 @@ export default {
   display: flex;
   cursor: pointer;
   font-size: 12px;
+  width: 100%;
   gap: 7px;
   background-color: #1f272f;
   border: none;
   color: #647181;
   text-align: left;
-  margin-top: 5px;
+  padding-top: 5px;
+}
+
+.cast-popup button:hover {
+  color: white;
+  background-color: #1f272f91;
 }
 
 .cast-popup button img {
   width: 10px;
   height: 10px;
-  margin: auto;
 }
 
 #copy-pop {
@@ -696,13 +981,62 @@ export default {
   background: #0000007e;
   z-index: 100;
 }
-
-.post-time {
-  position: fixed !important;
-  z-index: 1000 !important;
-  margin: auto !important;
-  left: 40%;
-  top: 10%;
-  overflow: visible;
+</style>
+<style scoped>
+*:not(i) {
+  font-family: 'Karla', sans-serif;
+}
+.full-wrapper {
+  width: 278px;
+  height: 212px;
+  background-color: #1f272f;
+  border-radius: 10px;
+  border: 1px solid #31394e;
+  padding: 14px 26px;
+  display: flex;
+  flex-direction: column;
+}
+.heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: #a6a6a8;
+}
+.uppar-part img {
+  height: 12px;
+  width: 12px;
+  margin-right: -18px;
+  margin-top: -6px;
+}
+.middle-part {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 25px;
+}
+.img {
+  margin: auto;
+}
+.middle-part p {
+  margin: auto;
+  font-size: 13px;
+  font-weight: 500;
+  color: #a6a6a8;
+}
+.lower-part {
+  align-self: flex-end;
+  margin-top: 33px;
+}
+.lower-part button {
+  width: 86px;
+  height: 26px;
+  border: 1px solid rgba(49, 57, 78, 0.6);
+  background-color: rgba(49, 57, 78, 0.6);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #a6a6a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

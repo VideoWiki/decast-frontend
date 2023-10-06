@@ -7,12 +7,18 @@
     </div>
     <div class="choice-container">
       <div class="choose-opt">
-        <button class="options-button-cont border-none" @click="changeFocus(true)"
-          :class="{ 'focused-btn': focusReschedule }">
+        <button
+          class="options-button-cont border-none"
+          @click="changeFocus(true)"
+          :class="{ 'focused-btn': focusReschedule }"
+        >
           Reschedule
         </button>
-        <button class="options-button-cont border-none px-5" @click="changeFocus(false)"
-          :class="{ 'focused-btn': !focusReschedule }">
+        <button
+          class="options-button-cont border-none px-5"
+          @click="changeFocus(false)"
+          :class="{ 'focused-btn': !focusReschedule }"
+        >
           Postpone
         </button>
       </div>
@@ -32,7 +38,11 @@
           <div>
             <p>Date</p>
             <div id="date">
-              <Calendar :stepOneProps="stepOneProps" class="calendar" @date-selected="handleDateChange" />
+              <Calendar
+                :stepOneProps="stepOneProps"
+                class="calendar"
+                @date-selected="handleDateChange"
+              />
             </div>
           </div>
         </div>
@@ -47,18 +57,32 @@
               <p>Start time</p>
               <p>{{ startTime }}</p>
               <div v-if="selectStart" class="options-list1">
-                <span class="timeOption" v-for="time in timeOptions" @click="setStartTime(time)" :key="time.label">
+                <span
+                  class="timeOption"
+                  v-for="time in timeOptions"
+                  @click="setStartTime(time)"
+                  :key="time.label"
+                >
                   {{ time.label }}
                 </span>
               </div>
             </div>
           </div>
-          <div class="child2" id="endTimeSelect" @click="openPopup('selectEnd')">
+          <div
+            class="child2"
+            id="endTimeSelect"
+            @click="openPopup('selectEnd')"
+          >
             <p>End time</p>
             <p>{{ endTime }}</p>
           </div>
           <div v-if="selectEnd" class="options-list2">
-            <span class="timeOption" v-for="time in timeOptions" @click="setEndTime(time)" :key="time.label">
+            <span
+              class="timeOption"
+              v-for="time in timeOptions"
+              @click="setEndTime(time)"
+              :key="time.label"
+            >
               {{ time.label }}
             </span>
           </div>
@@ -75,8 +99,7 @@
         </div>
 
         <div class="text-ar">
-          <textarea placeholder="Send message to all participants">
-            </textarea>
+          <textarea placeholder="Send message to all participants"> </textarea>
         </div>
 
         <div class="send-btn">
@@ -88,7 +111,6 @@
 </template>
 
 <script>
-import axios from '../../axios';
 import { TimeFrames } from '../../SetUpCasts/Tabs/TimeFrames';
 import Calendar from '../login/Calendar.vue';
 import moment from 'moment-timezone';
@@ -97,7 +119,6 @@ export default {
   components: {
     Calendar,
   },
-  props: ['stepOneProps'],
   props: {
     cast_id: null,
     cast_name: null,
@@ -130,14 +151,12 @@ export default {
     viewer_mode: Boolean,
     record: null,
     collect_attendee_email: Boolean,
-    closeOnOutsideClick: {
-      type: Boolean,
-      default: true,
-    },
+    closePostpone: null,
+    toPostpone: Boolean,
   },
   data() {
     return {
-      focusReschedule: true,
+      focusReschedule: this.toPostpone,
       stepOneProps: {},
       moment,
       selectedDate: null,
@@ -159,11 +178,16 @@ export default {
           this.stepOneProps = { startD: this.selectedDate };
           this.startTime = scheduleMoment.format('HH:mm:ss');
           if (this.timeLeft !== null && this.startTime !== null) {
-            const startTimeMoment = moment(this.selectedDate + ' ' + this.startTime, 'YYYY-MM-DD HH:mm:ss');
-            const endTimeMoment = startTimeMoment.clone().add(this.timeLeft, 'minutes');
+            const startTimeMoment = moment(
+              this.selectedDate + ' ' + this.startTime,
+              'YYYY-MM-DD HH:mm:ss'
+            );
+            const endTimeMoment = startTimeMoment
+              .clone()
+              .add(this.timeLeft, 'minutes');
             this.endTime = endTimeMoment.format('HH:mm:ss');
-            console.log(this.endTime)
-            console.log(this.timeLeft)
+            console.log(this.endTime);
+            console.log(this.timeLeft);
           }
         }
       },
@@ -172,16 +196,11 @@ export default {
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
     window.addEventListener('click', this.closePopups);
-    window.addEventListener('click', this.handleGlobalClick);
-    // document.addEventListener('click', this.closeOnOutsideClick);
   },
   beforeDestroy() {
     window.removeEventListener('click', this.closePopups);
-    window.removeEventListener('click', this.handleGlobalClick);
-    // document.removeEventListener('click', this.closeOnOutsideClick);
   },
   methods: {
-
     handleDateChange(selectedDate) {
       this.selectedDate = selectedDate;
       console.log(selectedDate, 'date');
@@ -189,14 +208,6 @@ export default {
     changeFocus(toPostpone) {
       this.focusReschedule = toPostpone;
       console.log('EEEE');
-    },
-    handleGlobalClick(event) {
-      const isOutsideRoomPopup = !event.target.closest('.main-container');
-      const isNotMenu = !event.target.closest('.zt-btn');
-      if (isOutsideRoomPopup && isNotMenu && this.showPostpone !== false) {
-        this.showPostpone = false;
-        this.$emit('post-closed')
-      }
     },
     openPopup(popup) {
       setTimeout(() => {
@@ -215,29 +226,27 @@ export default {
       console.log('End');
     },
     closePopups() {
-      console.log('click');
       if (this.selectStart) this.selectStart = false;
       if (this.selectEnd) this.selectEnd = false;
     },
-    closePostpone() {
-      this.showPostpone = false;
-      this.$emit('closePostpone');
-    },
-    handleDateChange(selectedDate) {
-      this.selectedDate = selectedDate;
-      console.log(selectedDate, 'date');
-    },
     async formSubmit(id) {
-      const startTimeMoment = moment(this.selectedDate + ' ' + this.startTime, 'YYYY-MM-DD HH:mm');
-      const endTimeMoment = moment(this.selectedDate + ' ' + this.endTime, 'YYYY-MM-DD HH:mm');
+      const startTimeMoment = moment(
+        this.selectedDate + ' ' + this.startTime,
+        'YYYY-MM-DD HH:mm'
+      );
+      const endTimeMoment = moment(
+        this.selectedDate + ' ' + this.endTime,
+        'YYYY-MM-DD HH:mm'
+      );
       const durationMinutes = endTimeMoment.diff(startTimeMoment, 'minutes');
 
       const formattedDate = moment(this.selectedDate).format('YYYY-MM-DD');
-      const formattedStartTime = moment(this.startTime, 'hh:mm A').format('HH:mm:ss');
-      const formattedEndTime = moment(this.endTime, 'hh:mm A').format('HH:mm:ss');
+      const formattedStartTime = moment(this.startTime, 'hh:mm A').format(
+        'HH:mm:ss'
+      );
 
       // Combine the date and time in the correct format
-      const schedule_time = `${formattedDate} ${formattedStartTime}`;
+      const scheduleTime = `${formattedDate} ${formattedStartTime}`;
       const payload = {
         allow_moderator_to_unmute_user: this.allow_moderator_to_unmute_user,
         auto_start_recording: this.auto_start_recording,
@@ -259,7 +268,7 @@ export default {
         public_stream: this.public_stream,
         private_otp: this.private_otp,
         password_auth: this.password_auth,
-        schedule_time: schedule_time,
+        schedule_time: scheduleTime,
         cover_image: this.cover_image,
         guest_policy: this.guest_policy,
         welcome_text: this.welcome_text,
@@ -275,25 +284,24 @@ export default {
         collect_attendee_email: this.collect_attendee_email,
       };
       try {
-        const res = await this.$store.dispatch('cast/formSubmit', payload)
-        this.showPostpone = false;
-          this.$vs.notify({
-            title: 'Success',
-            text: 'Changes Saved',
-            color: 'success',
-          });
+        await this.$store.dispatch('cast/formSubmit', payload);
+        this.$vs.notify({
+          title: 'Success',
+          text: 'Changes Saved',
+          color: 'success',
+        });
+        this.closePostpone();
       } catch (e) {
         console.log(e);
         this.$vs.notify({
-            title: 'Error',
-            text: 'Changes Not Saved',
-            color: 'danger',
-          });
+          title: 'Error',
+          text: 'Changes Not Saved',
+          color: 'danger',
+        });
       }
     },
-  }
-}
-
+  },
+};
 </script>
 
 <style>
@@ -306,7 +314,6 @@ export default {
   border-radius: 10px;
   padding: 10px;
   margin-top: 2rem;
-  position: absolute !important;
   z-index: 999;
 }
 
@@ -348,7 +355,6 @@ export default {
 }
 
 #startTimeSelect {
-  width: 100%;
   position: relative;
 }
 
@@ -498,8 +504,6 @@ export default {
   font-size: 12px;
   text-align: left !important;
 }
-
-
 
 .options-list1 {
   background-color: #31394e;
