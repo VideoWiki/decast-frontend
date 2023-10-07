@@ -15,18 +15,25 @@
           <img src="@/assets/images/dashboard/Wallet.svg" />
         </div>
         <div class="setting">
+          <div class="ppp">
+            <img src="@/assets/images/dashboard/settings.svg" alt="settings" />
+          </div>
           <div class="">
             <div v-if="accessToken || loggedIn">
               <div class="con-img ml-3" @click="toggleUserMenu">
-                <vs-avatar
-                  :text="getFirstLetter(activeUserInfo.first_name)"
-                  color="primary"
-                  class="m-0 shadow-md"
-                  :src="
-                    activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''
-                  "
-                  size="40px"
-                />
+                <div class="pfp">
+                  <vs-avatar
+                    :text="getFirstLetter(activeUserInfo.first_name)"
+                    color="primary"
+                    class="m-0 shadow-md"
+                    :src="
+                      activeUserInfo.profile_pic
+                        ? activeUserInfo.profile_pic
+                        : ''
+                    "
+                    size="40px"
+                  />
+                </div>
               </div>
               <userMenu
                 :showMenu="userMenuVisible"
@@ -43,13 +50,25 @@
       </div>
     </div>
     <div class="buttomPart">
-      <div class="vertical-line sideOne flex justify-items-center">
+      <div class="vertical-line sideOne one flex justify-items-start">
         <LeftPart />
       </div>
-      <div class="middleOne vertical-line">
+
+      <div
+        class="scroll-container"
+        :style="{ transform: `translateX(${offset}vw)` }"
+      >
+        <div class="middleOne vertical-line scroll" @click="scroll(0)">
+          <Rooms />
+        </div>
+        <div class="sideOne last scroll" @click="scroll(-70)">
+          <RightPart />
+        </div>
+      </div>
+      <div class="middleOne vertical-line no-scroll">
         <Rooms />
       </div>
-      <div class="sideOne last">
+      <div class="sideOne last no-scroll">
         <RightPart />
       </div>
     </div>
@@ -81,6 +100,7 @@ export default {
   },
   data() {
     return {
+      offset: 0,
       url: constants.challengeUri,
       iframe: false,
       userMenuVisible: false,
@@ -124,6 +144,9 @@ export default {
     });
   },
   methods: {
+    scroll(offset) {
+      this.offset = offset;
+    },
     closeIframe() {
       var iframe = document.getElementById('myIframe');
       iframe.style.display = 'none';
@@ -262,26 +285,107 @@ export default {
 .vertical-line {
   border-right: 1px solid #31394e;
 }
-@media (max-width: 900px) {
-  .buttomPart {
-    margin: 60px auto;
-    flex-direction: column;
-    height: 1700px;
-    width: 100%;
-  }
-  .sideOne {
-    width: 100%;
-    justify-content: center;
+@media (max-width: 400px) {
+  .container-full {
+    padding: 0;
+    margin: 0;
   }
   .middleOne {
-    width: 100%;
-    padding: 60px 0px;
-    justify-content: center;
+    width: 35%;
+    padding: 0px 10px 0px 20px;
+    /* border: 1px solid red; */
   }
-  .last {
+  .rightPart {
+    display: flex;
+  }
+  .wiki-logo img {
+    height: 68px;
+    width: 68px;
+  }
+  .buttomPart {
+    display: flex;
+    flex-direction: column; /* Change to column layout */
+    align-items: flex-start; /* Center items horizontally */
+    justify-content: flex-start; /* Align items to the top */
+    padding: 0; /* Remove padding for mobile view */
+    margin: 0; /* Remove margin for mobile view */
+    width: 100%;
+  }
+
+  .one {
+    margin-top: 40px;
+    padding-left: 37px;
+    padding-right: 40%;
+    width: min-content;
+  }
+
+  .sideOne,
+  .middleOne {
+    width: 100%; /* Make sure components take full width */
+    flex-shrink: 1; /* Distribute available space equally among them */
+    justify-content: flex-start;
+  }
+  .nav-bar {
+    padding: 0;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .search-bar {
+    height: 16px;
+    width: 16px;
+    border: 0;
+  }
+  .search-bar input {
+    display: none; /* Hide the input element */
+  }
+  .search-bar,
+  .wallet,
+  .ppp {
+    flex: 1;
     display: flex;
     justify-content: center;
-    width: 35% !important;
+    align-items: center;
+    text-align: center;
+    margin: 10px;
+  }
+
+  .pfp {
+    display: none;
+    width: 0;
+  }
+
+  .ppp {
+    margin-left: 0px;
+    margin-right: 20px;
+  }
+  .wallet {
+    margin-right: 0px;
+  }
+  .vertical-line {
+    border-right: none;
+  }
+  .no-scroll {
+    display: none;
+  }
+  .scroll-container {
+    width: 200%; /* Twice the width of the viewport */
+    display: flex;
+    transition: transform 0.3s ease-in-out; /* Smooth transition */
+  }
+  .scroll {
+    width: 80vw; /* Half the width of the viewport */
+    height: 100vh;
+  }
+}
+
+@media (min-width: 399px) {
+  .ppp {
+    display: none;
+    width: 0;
+  }
+  .scroll-container {
+    display: none;
   }
 }
 </style>

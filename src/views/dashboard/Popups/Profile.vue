@@ -154,7 +154,11 @@ export default {
     handleGlobalClick(event) {
       const isOutsideRoomPopup = !event.target.closest('.full-cont');
       const isNotToggleProfile = !event.target.closest('.toggle-profile');
-      if (isOutsideRoomPopup && isNotToggleProfile && this.showProfile !== false) {
+      if (
+        isOutsideRoomPopup &&
+        isNotToggleProfile &&
+        this.showProfile !== false
+      ) {
         this.showProfile = false;
         this.$emit('profile-closed');
       }
