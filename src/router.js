@@ -437,6 +437,14 @@ const router = new Router({
       },
     },
     {
+      path: '/nftw',
+      name: 'NftWallet',
+      component: () => import('./views/dashboard/NftWallet.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/postpone',
       name: 'postPoneCast',
       component: () => import('./views/dashboard/postPoneCast.vue'),

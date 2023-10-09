@@ -83,9 +83,9 @@
                     }}
                   </button>
                 </div>
-                <div v-if="cast.invitee_list.length === 0" class="inner-child2">
-                  <span class="invite-text" href="#">Invite Attendees</span>
-                  <img src="@/assets/images/user.svg" />
+                <div v-if="cast.invitee_list.length === 0" class="inner-child2" @click="invite = true">
+                  <span class="invite-text" href="#" >Invite Attendees</span>
+                  <img id="user-img" src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
                   <p class="invite-text">
@@ -139,9 +139,9 @@
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/drops.svg" alt="" />Drops
-                  </button>
+                  </button> -->
                   <button
                     @click="togglePostpone(cast.public_meeting_id, index, true)"
                   >
@@ -150,9 +150,9 @@
                       alt=""
                     />Reschedule cast
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
-                  </button>
+                  </button> -->
                   <button>
                     <img src="@/assets/images/pen.svg" alt="" />Edit
                   </button>
@@ -183,13 +183,13 @@
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
                       >
                         <img src="@/assets/images/co-host.svg" />
-                        Copy Participant url
+                        Copy Cast url
                       </button>
                       <br />
-                      <button id="copy-btn-2">
+                      <!-- <button id="copy-btn-2">
                         <img src="@/assets/images/Participant.svg" />
                         Copy Co-host url
-                      </button>
+                      </button> -->
                     </div>
                     <button
                       v-if="cast.is_running === 'false'"
@@ -246,12 +246,12 @@
       </div>
     </div>
 
-    <div class="footer-content m-auto">
+    <!-- <div class="footer-content m-auto">
       <p>
         You can only create one cast per week in our free plan want to create
         more try our premium plan.
       </p>
-    </div>
+    </div> -->
     <div class="popup" @click="closeAllPopups" v-if="create">
       <set-up-cast
         :getList="getCastList"
@@ -585,6 +585,7 @@ export default {
       console.log(id);
     },
     async getCastList() {
+      console.log("CAsr called");
       const response = await this.$store.dispatch('cast/getUserCasts');
       const casts = response.data.my_events;
 
@@ -608,8 +609,8 @@ export default {
       });
       this.castsInfo = castsInfo;
       this.casts = casts;
-      console.log(castsInfo, 'TTTT');
-      console.log(casts, 'pppp');
+      // console.log(castsInfo, 'TTTT');
+      // console.log(casts, 'pppp');
     },
     togglePostpone(id, index, toPostpone) {
       console.log(index);
@@ -651,6 +652,7 @@ export default {
         return item.public_meeting_id !== index;
       });
       this.casts = newCasts;
+      this.getCastList();
       this.closeDeletePopup();
     },
     openCreate() {
@@ -758,6 +760,9 @@ export default {
   height: 10px;
 }
 
+#user-img{
+  margin-bottom: -4px;
+}
 .images-container {
   width: 140px;
   height: 30px !important;
@@ -827,11 +832,11 @@ export default {
   position: absolute;
   z-index: 999;
   background-color: #1f272f;
-  width: 140px;
+  width: 120px;  /*changed*/;
   border: 1px solid #31394e;
   border-radius: 6px;
   top: 35px;
-  height: 60px;
+  height: 30px;/*changed*/;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -871,7 +876,7 @@ export default {
   color: #a6a6a8;
   border-radius: 6px;
   padding: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   position: relative;
 }
 

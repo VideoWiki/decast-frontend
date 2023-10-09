@@ -103,7 +103,7 @@
       </div>
     </div>
 
-    <div class="nots-cont">
+    <!-- <div class="nots-cont">
       <div>
         <span>Notifications</span>
         <br />
@@ -114,10 +114,10 @@
         <br />
         <button>1 hour before call</button>
       </div>
-    </div>
+    </div> -->
 
     <div class="done-btn">
-      <button>Done</button>
+      <button @click="closeInvite">Done</button>
     </div>
   </div>
 </template>
@@ -425,7 +425,7 @@ export default {
 <style scoped>
 .invite-cont {
   width: 590px;
-  min-height: 475px;
+  /* min-height: 475px; */
   height: auto;
   border-radius: 10px;
   background-color: #1f272f;

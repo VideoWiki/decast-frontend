@@ -193,7 +193,7 @@
       </div>
     </div>
 
-    <div class="footer-content m-auto">
+    <!-- <div class="footer-content m-auto">
       <p class="m-auto">3/3</p>
       <p>
         Need more dedicated room?
@@ -201,7 +201,7 @@
           >Contact us for a tailored plan</a
         >
       </p>
-    </div>
+    </div> -->
     <div class="popup" v-if="createPopup" @click="closeAllPopups">
       <div class="createPopup">
         <div class="container">
@@ -252,12 +252,6 @@ export default {
     return {
       createPopup: false,
       focusYourRooms: true,
-      items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
-      ],
       text: '',
       rooms: [],
       showPopup: null,
