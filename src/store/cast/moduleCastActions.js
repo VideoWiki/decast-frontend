@@ -2,6 +2,45 @@
 import axios from '../../axios';
 import constants from '../../../constant';
 export default {
+  async getCastList({ commit }) {
+    try {
+      const response = await axios.get(
+        constants.apiCastUrl + '/api/event/user/events/'
+      );
+      console.log(response, 'castlis');
+      const casts = response.data.my_events;
+      const castInfoPromises = casts.map(async (cast) => {
+        try {
+          const castDetailsResponse = await axios.get(
+            `${constants.apiCastUrl}/api/event/meeting/get/details/?cast_id=${cast.public_meeting_id}`
+          );
+          return {
+            castId: cast.public_meeting_id,
+            details: castDetailsResponse.data,
+          };
+        } catch (error) {
+          console.error(error);
+          return null;
+        }
+      });
+      const castInfoList = await Promise.all(castInfoPromises);
+      const validCastInfoList = castInfoList.filter((info) => info !== null);
+      const castsInfo = {};
+      validCastInfoList.forEach((info) => {
+        castsInfo[info.castId] = info.details;
+      });
+      commit('SET_CASTS_INFO', castsInfo);
+      commit('SET_ALLCASTS', casts);
+      // console.log(castsInfo, 'TTTT');
+      // console.log(casts, 'pppp');
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  getUserCasts({ commit }) {
+    return axios.get(constants.apiCastUrl + '/api/event/user/events/');
+  },
+
   compressImage({ commit }, { data, maxWidth, maxHeight, quality }) {
     return new Promise((resolve, reject) => {
       const image = new Image();
@@ -158,7 +197,6 @@ export default {
         url: `${constants.apiCastUrl}/api/event/meeting/get/details/?cast_id=${payload}`,
       })
         .then((res) => {
-          console.log('Editing');
           resolve(res);
         })
         .catch((error) => {
@@ -318,10 +356,6 @@ export default {
         });
     });
   },
-  getUserCasts({ commit }) {
-    return axios.get(constants.apiCastUrl + '/api/event/user/events/');
-  },
-
   deleteCast({ commit }, payload) {
     return axios.post(constants.apiCastUrl + '/api/event/meeting/delete/', {
       public_meeting_id: payload,

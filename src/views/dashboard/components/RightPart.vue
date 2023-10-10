@@ -77,15 +77,17 @@
                     {{
                       moment(cast.event_date).format('ll').split(',')[0] +
                       ' ' +
-                      moment(cast.event_time.split('.')[0], 'HH:mm:ss').format(
-                        'h:mm A'
-                      )
+                      NewTime(cast.event_date, cast.event_time)
                     }}
                   </button>
                 </div>
-                <div v-if="cast.invitee_list.length === 0" class="inner-child2">
+                <div
+                  v-if="cast.invitee_list.length === 0"
+                  class="inner-child2"
+                  @click="invite = true"
+                >
                   <span class="invite-text" href="#">Invite Attendees</span>
-                  <img src="@/assets/images/user.svg" />
+                  <img id="user-img" src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
                   <p class="invite-text">
@@ -139,9 +141,9 @@
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/drops.svg" alt="" />Drops
-                  </button>
+                  </button> -->
                   <button
                     @click="togglePostpone(cast.public_meeting_id, index, true)"
                   >
@@ -150,9 +152,9 @@
                       alt=""
                     />Reschedule cast
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
-                  </button>
+                  </button> -->
                   <button>
                     <img src="@/assets/images/pen.svg" alt="" />Edit
                   </button>
@@ -169,6 +171,7 @@
                     Delete
                   </button>
                 </div>
+
                 <div class="inner-child3">
                   <button v-if="cast.is_running === 'true'" class="live-btn">
                     Cast is live
@@ -177,6 +180,25 @@
                     <button class="active" @click="toggleCopy(index)">
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
+                    <div v-if="streamInfo[cast.public_meeting_id]">
+                      <button
+                        v-if="streamInfo[cast.public_meeting_id].stream_status"
+                        class="stream-btn"
+                        @click="toggleStream(cast.public_meeting_id, 'pause')"
+                      >
+                        <feather-icon
+                          icon="PauseIcon"
+                          svgClasses="stroke-current"
+                          class="block icon"
+                        />
+                      </button>
+                      <button
+                        v-else
+                        @click="toggleStream(cast.public_meeting_id, 'start')"
+                      >
+                        <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                      </button>
+                    </div>
                     <div id="copy-pop" v-if="cast.showCopy">
                       <button
                         id="copy-btn-1"
@@ -186,7 +208,10 @@
                         Copy Participant url
                       </button>
                       <br />
-                      <button id="copy-btn-2">
+                      <button
+                        @click="copy(cast.public_meeting_id, cast.h_mp)"
+                        id="copy-btn-2"
+                      >
                         <img src="@/assets/images/Participant.svg" />
                         Copy Co-host url
                       </button>
@@ -195,6 +220,7 @@
                       v-if="cast.is_running === 'false'"
                       @click="joinNow(cast.public_meeting_id)"
                       id="go-btn"
+                      class="live-btn"
                     >
                       Go live now
                     </button>
@@ -246,12 +272,12 @@
       </div>
     </div>
 
-    <div class="footer-content m-auto">
+    <!-- <div class="footer-content m-auto">
       <p>
         You can only create one cast per week in our free plan want to create
         more try our premium plan.
       </p>
-    </div>
+    </div> -->
     <div class="popup" @click="closeAllPopups" v-if="create">
       <set-up-cast
         :getList="getCastList"
@@ -371,7 +397,7 @@
   </div>
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment-timezone';
 import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
 import StreamCard from '../StreamCard.vue';
 import InviteCard from '../InviteCard.vue';
@@ -406,16 +432,16 @@ export default {
       stepTwoProps: {},
       stepThreeProps: {},
       castsInfo: [],
+      streamInfo: {},
     };
   },
   mounted() {
+    document.getElementById('loading-bg').style.display = 'block';
     const container = document.querySelectorAll('.options-container')[1];
-    console.log(container);
     container.addEventListener('mousemove', (e) => {
       // Get the mouse coordinates relative to the div
       const divRect = container.getBoundingClientRect();
       const mouseY = e.clientY - divRect.top;
-      console.log(mouseY);
       this.mouse = mouseY;
     });
     this.getCastList();
@@ -431,6 +457,53 @@ export default {
     },
   },
   methods: {
+    async toggleStream(id, action) {
+      console.log(action);
+      try {
+        this.$vs.loading();
+        if (action === 'start') {
+          await this.$store.dispatch('studio/startStream', {
+            cast_id: id,
+          });
+          this.$vs.notify({
+            title: 'Successful',
+            text: 'Stream Started',
+            color: 'success',
+          });
+          this.streamInfo[id].stream_status =
+            !this.streamInfo[id].stream_status;
+        } else {
+          await this.$store.dispatch('studio/endStream', {
+            cast_id: id,
+          });
+          this.$vs.notify({
+            title: 'Successful',
+            text: 'Stream Ended',
+            color: 'success',
+          });
+          this.streamInfo[id].stream_status =
+            !this.streamInfo[id].stream_status;
+        }
+      } catch (err) {
+        this.$vs.notify({
+          title: 'An Error occurred',
+          text:
+            err.response != null ? err.response.data.message : 'Try again !',
+          color: 'danger',
+        });
+      } finally {
+        this.$vs.loading.close();
+      }
+    },
+    NewTime(date, time) {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const a = moment(date + ' ' + time)
+        .clone()
+        .tz(timezone);
+      // var timeAbbr = moment().tz(timezone).zoneAbbr();
+      var newTime = moment(a._d).tz(timezone).format('h:mm A');
+      return newTime;
+    },
     closeRes(e) {
       if (e.currentTarget === e.target) {
         this.showPostpone = false;
@@ -473,7 +546,6 @@ export default {
         duration: details.duration,
         logout_url: details.logout_url,
       };
-      console.log(details);
       this.stepThreeProps = {
         vw_stream: false,
         vw_stream_url: details.bbb_stream_url,
@@ -542,8 +614,7 @@ export default {
     },
     async getRecordings() {
       const res = await this.$store.dispatch('cast/recordingList');
-      console.log(res.data);
-      this.recordingList = res.data.recordings || [];
+      this.recordingList = res.data.status || [];
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
@@ -552,7 +623,6 @@ export default {
     // },
 
     closePostpone() {
-      console.log('close');
       this.showPostpone = false;
     },
     changeFocus(toYourRooms) {
@@ -582,7 +652,6 @@ export default {
       } catch (e) {
         console.log('error', e);
       }
-      console.log(id);
     },
     async getCastList() {
       const response = await this.$store.dispatch('cast/getUserCasts');
@@ -600,25 +669,48 @@ export default {
           return null;
         }
       });
+
+      const streamInfoPromise = casts.map(async (cast) => {
+        try {
+          const castDetails = await this.$store.dispatch(
+            'auth/eventDetail',
+            cast.public_meeting_id
+          );
+          return {
+            castId: cast.public_meeting_id,
+            details: castDetails.data.meeting_info,
+          };
+        } catch (error) {
+          console.log(error);
+        }
+      });
+      const streamInfoList = await Promise.all(streamInfoPromise);
       const castInfoList = await Promise.all(castInfoPromises);
       const validCastInfoList = castInfoList.filter((info) => info !== null);
+      const validStreamInfo = streamInfoList.filter((info) => info !== null);
       const castsInfo = {};
+      const streamInfo = {};
       validCastInfoList.forEach((info) => {
         castsInfo[info.castId] = info.details;
       });
+      validStreamInfo.forEach((info) => {
+        if (info.details.stream_urls !== null)
+          streamInfo[info.castId] = info.details;
+      });
+      this.streamInfo = streamInfo;
       this.castsInfo = castsInfo;
       this.casts = casts;
-      console.log(castsInfo, 'TTTT');
-      console.log(casts, 'pppp');
+      console.log(streamInfo, 'streamInfo');
+      document.getElementById('loading-bg').style.display = 'none';
+      // console.log(castsInfo, 'TTTT');
+      // console.log(casts, 'pppp');
     },
     togglePostpone(id, index, toPostpone) {
-      console.log(index);
       this.showPostpone = true;
       this.index = id;
       this.toPostpone = toPostpone;
     },
     togglePopup(index, id, inviteList) {
-      console.log(id);
       this.meetingId = id;
       this.invites = inviteList;
       this.postPoneVisible = false;
@@ -626,10 +718,8 @@ export default {
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.cast-popup');
         if (this.mouse < 80) {
-          console.log('yes', roomPopups);
           roomPopups.forEach((item) => (item.style.top = '30%'));
         } else {
-          console.log('hello');
           roomPopups.forEach((item) => {
             item.style.top = '-100%';
             item.style.left = '59%';
@@ -651,6 +741,7 @@ export default {
         return item.public_meeting_id !== index;
       });
       this.casts = newCasts;
+      this.getCastList();
       this.closeDeletePopup();
     },
     openCreate() {
@@ -689,6 +780,13 @@ export default {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+}
+
+.stream-btn {
+  border: 1px solid #31394e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .heading-container {
@@ -758,6 +856,9 @@ export default {
   height: 10px;
 }
 
+#user-img {
+  margin-bottom: -4px;
+}
 .images-container {
   width: 140px;
   height: 30px !important;
@@ -827,11 +928,9 @@ export default {
   position: absolute;
   z-index: 999;
   background-color: #1f272f;
-  width: 140px;
   border: 1px solid #31394e;
   border-radius: 6px;
   top: 35px;
-  height: 60px;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -855,6 +954,10 @@ export default {
   color: #a6a6a8;
 }
 
+#copy-pop button:hover {
+  color: white;
+}
+
 #copy-pop button img {
   width: 15px;
   height: 15px;
@@ -871,7 +974,7 @@ export default {
   color: #a6a6a8;
   border-radius: 6px;
   padding: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   position: relative;
 }
 
@@ -914,9 +1017,10 @@ export default {
 }
 
 .inner-div2 {
-  width: max-content;
+  width: 48%;
   justify-content: right;
   text-align: right;
+  /* transform: translate(-20px, 0px); */
   /* border: 1px solid yellow; */
 }
 
@@ -929,21 +1033,17 @@ export default {
 
 .inner-child3 {
   position: relative;
-  width: 156px;
+  /* width: 156px; */
 }
 
-.inner-child3 button {
+.live-btn {
   background-color: #f84330;
   border-radius: 6px;
   color: #ffffff;
   padding: 5px;
   height: 33px;
   width: 115px;
-}
-
-.live-btn {
   z-index: 999;
-  margin-top: 40px;
 }
 
 .inner-child4 {
@@ -952,6 +1052,8 @@ export default {
   margin-top: 5px;
   z-index: 5;
   position: absolute;
+  width: 100%;
+  justify-content: flex-end;
   top: 35px !important;
   /* left: 20px; */
 }

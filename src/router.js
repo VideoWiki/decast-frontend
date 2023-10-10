@@ -295,6 +295,14 @@ const router = new Router({
       },
     },
     {
+      path: '/stream-join/:eventId?',
+      name: 'Stream View',
+      component: () => import('./views/dashboard/StreamView.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/consent',
       name: 'Consent',
       component: () => import('./views/login/components/Consent.vue'),
@@ -432,6 +440,14 @@ const router = new Router({
       path: '/invite',
       name: 'InviteCard',
       component: () => import('./views/dashboard/InviteCard.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/nftw',
+      name: 'NftWallet',
+      component: () => import('./views/dashboard/NftWallet.vue'),
       meta: {
         rule: 'isPublic',
       },

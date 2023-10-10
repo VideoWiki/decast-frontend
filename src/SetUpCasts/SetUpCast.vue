@@ -56,7 +56,7 @@
           >
             Settings
           </button>
-          <!-- <button
+          <button
             class="button-4"
             :style="{
               backgroundColor:
@@ -69,7 +69,7 @@
             @click="activeTab = 'Streaming'"
           >
             Streaming
-          </button> -->
+          </button>
         </div>
         <div class="tab-content">
           <SetUpTab
@@ -88,11 +88,11 @@
             :stepFourProps="stepFourProps"
             :changeActiveTab="changeActiveTab"
           />
-          <!-- <StreamingTab
+          <StreamingTab
             v-else
             :createCast="createCast"
             :changeActiveTab="changeActiveTab"
-          /> -->
+          />
         </div>
       </div>
       <div v-else-if="status === 'invite'">
@@ -216,7 +216,7 @@ export default {
         vw_stream: false,
         vw_stream_url: [{ vw_stream: '' }, { urls: [] }],
         is_streaming: false,
-        public_stream: false,
+        public_stream: true,
       },
       stepFourProps: {
         start_stop_recording: true,

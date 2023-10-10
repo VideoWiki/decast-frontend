@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="par-cont">
     <section class="flex" v-if="public_stream == false">
       <div class="line"></div>
       <div class="step first">
@@ -127,15 +127,8 @@
             </div>
           </span>
         </div>
-        <StreamingThirdstep
+        <StreamJoin
           v-if="this.skippedStep || this.walletAddress || public_stream"
-        />
-      </div>
-
-      <div>
-        <img
-          class="verification-img"
-          src="@/assets/images/verification/display.png"
         />
       </div>
     </div>
@@ -144,9 +137,9 @@
 
 <script>
 import Private from '../../layouts/components/navbar/components/Connect_Wallet.vue';
-import StreamingThirdstep from './StreamingThirdstep.vue';
+import StreamJoin from '../dashboard/StreamJoin.vue'
 export default {
-  components: { Private, StreamingThirdstep },
+  components: { Private, StreamJoin },
   data() {
     return {
       email: '',
@@ -245,6 +238,17 @@ export default {
 </script>
 
 <style scoped>
+
+.par-cont{
+    background: #000000;
+    background-image: url('../../assets/images/back.jpeg');
+    /* background-size: cover; */
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: contain;
+    height: 100vh;
+    width: 100%;
+  }
 .line {
   position: absolute;
   width: 40rem;

@@ -262,10 +262,24 @@ export default {
         'password_auth',
         this.stepOneProps.password_auth ? 'True' : 'False'
       );
-      this.$store.dispatch('cast/formSubmit', data).then((response) => {
+      try{
+        this.$store.dispatch('cast/formSubmit', data).then((response) => {
         console.log(response);
+        this.$vs.notify({
+          title: 'Success',
+          text: 'Changes Saved',
+          color: 'success',
+        });
         this.closeCreate();
-      });
+      })
+      }catch(e){
+        console.log(e);
+        this.$vs.notify({
+          title: 'Error',
+          text: 'Changes Not Saved',
+          color: 'danger',
+        });
+      };
     },
   },
 };

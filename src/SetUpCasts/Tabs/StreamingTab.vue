@@ -30,17 +30,17 @@
     </div>
     <div class="lower-wrap">
       <div class="horizontal-line"></div>
-      <div class="third-party flex">
+      <div class="third-party flex" @click="ChangeStream">
         <p class="main-info">Third Party Streaming</p>
         <img
           v-if="this.ThirdPartyStreaming"
           src="@/assets/images/editor/Vector24.svg"
-          @click="ChangeStream"
+         
         />
         <img
           v-else="!this.ThirdPartyStreaming"
           src="@/assets/images/editor/Vector25.svg"
-          @click="ChangeStream"
+         
         />
       </div>
       <div class="horizontal-line"></div>
@@ -123,12 +123,24 @@
         />
       </div>
     </div>
+    <div class="button cursor-pointer">
+      <button class="cursor-pointer" @click="handleSubmit">Create Cast</button>
+    </div>
   </div>
 </template>
 <script>
 import buttonToggle from './buttonToggle.vue';
 export default {
   name: 'Streaming',
+  props: [
+    'createCast',
+    'stepFourProps',
+    'stepOneProps',
+    'stepThreeProps',
+    'stepTwoProps',
+    'castId',
+    'closeCreate',
+  ],
   data() {
     return {
       toggleValueStream: false,
@@ -154,6 +166,13 @@ export default {
     },
     toggleDropdownTwich() {
       this.DropdownforTwich = !this.DropdownforTwich;
+    },
+    handleSubmit() {
+      if (this.createCast) {
+        this.createCast();
+      } else {
+        console.log(this.castId);
+      }
     },
   },
 };
@@ -225,6 +244,7 @@ export default {
   background-color: #31394e;
   align-items: center;
   padding: 0px 16px;
+  cursor: pointer;
 }
 .third-party img {
   width: 12px;
@@ -268,5 +288,22 @@ export default {
   color: #a6a6a8;
   font-size: 12px;
   font-weight: 500;
+}
+
+.button{
+  display: flex;
+  justify-content: flex-end;
+}
+.button button {
+  width: 141px;
+  height: 40px;
+  border: 1px solid #31394e;
+  background-color: #d7df23;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1f272f;
+  margin-top: 20px;
+  /* align-items: end; */
 }
 </style>
