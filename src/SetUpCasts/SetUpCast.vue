@@ -216,7 +216,7 @@ export default {
         vw_stream: false,
         vw_stream_url: [{ vw_stream: '' }, { urls: [] }],
         is_streaming: false,
-        public_stream: false,
+        public_stream: true,
       },
       stepFourProps: {
         start_stop_recording: true,
