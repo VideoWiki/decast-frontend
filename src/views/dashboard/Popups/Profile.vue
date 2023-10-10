@@ -154,7 +154,11 @@ export default {
     handleGlobalClick(event) {
       const isOutsideRoomPopup = !event.target.closest('.full-cont');
       const isNotToggleProfile = !event.target.closest('.toggle-profile');
-      if (isOutsideRoomPopup && isNotToggleProfile && this.showProfile !== false) {
+      if (
+        isOutsideRoomPopup &&
+        isNotToggleProfile &&
+        this.showProfile !== false
+      ) {
         this.showProfile = false;
         this.$emit('profile-closed');
       }
@@ -202,16 +206,16 @@ export default {
           email: this.email,
           p_image: this.uploadedImageBlob ? this.uploadedImageBlob : '',
         };
-
+        console.log(payload);
         this.$store
           .dispatch('auth/updateUserDetails', payload)
           .then((res) => {
-            console.log(res,'res')
+            console.log(res, 'res');
             localStorage.setItem('designation', this.designation);
             this.isEditing = false;
-            this.activeUserInfo.profile_pic= res.data.profile_image;
-            console.log(res.data.profile_image,'img');
-            console.log(payload,'pay');
+            this.activeUserInfo.profile_pic = res.data.profile_image;
+            console.log(res.data.profile_image, 'img');
+            console.log(payload, 'pay');
             this.$store.commit('UPDATE_USER_INFO', this.activeUserInfo);
             this.$vs.notify({
               title: 'Success',
