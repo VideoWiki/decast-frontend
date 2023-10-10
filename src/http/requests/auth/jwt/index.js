@@ -81,7 +81,6 @@ export default {
     });
   },
   updateUser(payload) {
-    alert('update');
     var form = new FormData();
     for (const [key, value] of Object.entries(payload)) {
       form.append(key, value);

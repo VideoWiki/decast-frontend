@@ -20,9 +20,12 @@
           <p>sec</p>
         </div>
       </div> -->
-      <div class="info-part flex">
+      <div v-if="running" class="info-part flex">
         <div>Cast is live</div>
         <img src="@/assets/images/dashboard/Live.svg" alt="" />
+      </div>
+      <div v-else class="info-part flex text-danger">
+        <div>Cast is not live</div>
       </div>
       <div class="class-name">
         <p>{{ eventName }}</p>
@@ -57,9 +60,11 @@ export default {
       eventDescription: '',
       creator: '',
       disabled: false,
+      running: false,
     };
   },
   mounted() {
+    document.getElementById('loading-bg').style.display = 'block';
     this.getMeetingDetails();
   },
   methods: {
@@ -73,6 +78,7 @@ export default {
       this.eventName = details.event_name;
       this.eventDescription = details.description;
       this.creator = details.event_creator_name;
+      this.running = details.running;
       document.getElementById('loading-bg').style.display = 'none';
     },
     accessCast() {

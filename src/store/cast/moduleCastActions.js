@@ -197,7 +197,6 @@ export default {
         url: `${constants.apiCastUrl}/api/event/meeting/get/details/?cast_id=${payload}`,
       })
         .then((res) => {
-          console.log('Editing');
           resolve(res);
         })
         .catch((error) => {

@@ -38,7 +38,7 @@
           @click="openPopup('selectStart')"
           class="custom-dropdown1 input-box"
         >
-          {{ stepOneProps.startTime }}
+          {{ convertTo12(stepOneProps.startTime) }}
           <i class="arrow"></i>
           <div v-if="selectStart" class="options-list">
             <span
@@ -59,7 +59,7 @@
           @click="openPopup('selectEnd')"
           class="custom-dropdown2 input-box"
         >
-          {{ selectedEndTime }}
+          {{ convertTo12(selectedEndTime) }}
           <i class="arrow"></i>
           <div v-if="selectEnd" class="options-list">
             <span
@@ -96,8 +96,8 @@
     <div class="schedule-info">
       This call will take place on the
       {{ moment(stepOneProps.startD).format('ll') }} from
-      {{ stepOneProps.startTime }} until
-      {{ selectedEndTime }}
+      {{ convertTo12(stepOneProps.startTime) }} until
+      {{ convertTo12(selectedEndTime) }}
     </div>
     <div class="button cursor-pointer">
       <button class="cursor-pointer" @click="goNext">Next</button>
@@ -137,10 +137,12 @@ export default {
   },
   mounted() {
     const currentTime = moment();
+    console.log(currentTime);
     for (let i = 0; i < this.timeOptions.length; i++) {
       const time = moment(this.timeOptions[i].value, 'HH:mm:ss');
-      console.log(time.isAfter(currentTime), this.timeOptions[i].value);
+      console.log(time.isAfter(currentTime), time);
       if (time.isAfter(currentTime)) {
+        console.log('yes');
         this.stepOneProps.startTime = this.timeOptions[i].value;
         this.selectedEndTime = this.timeOptions[i + 1].value;
         console.log();
@@ -158,22 +160,22 @@ export default {
     window.removeEventListener('click', this.closePopups);
   },
   methods: {
+    convertTo12(time) {
+      console.log(moment(time, 'HH:mm:ss').format('h:mm A'));
+      return moment(time, 'HH:mm:ss').format('h:mm A');
+    },
     openPopup(popup) {
       setTimeout(() => {
-        console.log(this[popup]);
         this[popup] = !this[popup];
       }, 1);
     },
     closePopups() {
-      console.log('click');
       if (this.selectStart) this.selectStart = false;
       if (this.selectEnd) this.selectEnd = false;
       if (this.selectTimeZone) this.selectTimeZone = false;
     },
     setEndTime(time) {
-      console.log(time);
       this.selectedEndTime = time.value;
-      console.log(this.selectEnd);
     },
     goNext() {
       if (this.stepOneProps.event_name === '') {
@@ -284,7 +286,6 @@ textarea {
   overflow: auto;
   background: #1d232b;
   width: 100px;
-  overflow: hidden;
 }
 
 .options-list::-webkit-scrollbar {
@@ -358,7 +359,7 @@ textarea {
   margin-left: 10px;
 }
 
-#startTimeSelect{
+#startTimeSelect {
   width: 100px;
 }
 </style>
