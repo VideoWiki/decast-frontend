@@ -609,8 +609,8 @@ export default {
       });
       this.castsInfo = castsInfo;
       this.casts = casts;
-      // console.log(castsInfo, 'TTTT');
-      // console.log(casts, 'pppp');
+      console.log(castsInfo, 'TTTT');
+      console.log(casts, 'pppp');
     },
     togglePostpone(id, index, toPostpone) {
       console.log(index);

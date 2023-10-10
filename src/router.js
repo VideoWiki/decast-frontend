@@ -295,6 +295,14 @@ const router = new Router({
       },
     },
     {
+      path: '/stream-join/:eventId?',
+      name: 'Stream View',
+      component: () => import('./views/dashboard/StreamView.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/consent',
       name: 'Consent',
       component: () => import('./views/login/components/Consent.vue'),
