@@ -13,7 +13,8 @@
           <select v-model="selectedOption">
             <option value="participant">Participants</option>
             <option value="co-host">Co-host</option>
-            <option value="viewer">Viewer</option>
+            <option v-if="isStream" value="spectator">Spectator</option>
+            <option v-if="viewer" value="viewer">Viewer</option>
           </select>
         </label>
         <ul v-if="isDropdownOpen" class="custom-options">
@@ -128,7 +129,7 @@ import constants from '../../../constant';
 import axios from '../../axios';
 export default {
   name: 'InviteCard',
-  props: ['Id', 'invites', 'closeInvite'],
+  props: ['Id', 'invites', 'closeInvite', 'isStream', 'viewer'],
 
   data() {
     return {
@@ -141,7 +142,6 @@ export default {
       options: [
         { value: 'participant', label: 'Participants' },
         { value: 'co-host', label: 'Co-host' },
-        { value: 'viewer', label: 'Viewer' },
       ],
       sheetFileName: 'No File Selected',
       sheetFileSize: 0,
@@ -149,20 +149,34 @@ export default {
     };
   },
   mounted() {
+    window.addEventListener('click', this.closeDropDown);
     document.getElementById('loading-bg').style.display = 'none';
-    console.log('dsaff', this.Id);
-    console.log('dsagg', this.invites);
+    console.log(this.isStream);
+    console.log(this.viewer);
+    if (this.isStream)
+      this.options.push({ value: 'spectator', label: 'Spectator' });
+    if (this.viewer) this.options.push({ value: 'viewer', label: 'Viewer' });
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.closeDropDown);
   },
   methods: {
+    closeDropDown(e) {
+      console.log(e.target.tagName);
+      if (e.target.tagName !== 'LI') {
+        console.log(2);
+        this.isDropdownOpen = false;
+      }
+    },
     toggleDropdown(event) {
       if (window.innerWidth >= 420) {
         event.preventDefault();
-        this.isDropdownOpen = !this.isDropdownOpen;
+        console.log(1);
+        setTimeout(() => (this.isDropdownOpen = !this.isDropdownOpen), 500);
       }
     },
     selectOption(option) {
       this.selectedOption = option.value;
-      this.isDropdownOpen = false;
     },
 
     async checkInvitee(email) {

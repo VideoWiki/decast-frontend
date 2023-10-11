@@ -1,20 +1,8 @@
 <template>
   <div class="wrapper">
-    <div class="tab-content" v-if="activeTab !== ''">
+    <div class="tab-content" v-if="activeTab === 'CustomPopup'">
       <div class="button-first">
-        <button v-if="activeTab === 'BigMeetingPopup'" class="bigMeeting">
-          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
-          <label>Big Meeting</label>
-        </button>
-        <button v-if="activeTab === 'WebinarPopup'" class="webinar">
-          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
-          <label>Webinar</label>
-        </button>
-        <button v-if="activeTab === 'BroadcastPopup'" class="broadcast">
-          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
-          <label>Broadcast</label>
-        </button>
-        <button v-if="activeTab === 'CustomPopup'" class="custom">
+        <button class="custom">
           <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
           <label>Custom</label>
         </button>
@@ -27,21 +15,31 @@
     <div v-if="activeTab === ''">
       <div class="heading-text">You can edit these settings at any time</div>
       <div class="first-row flex">
-        <button @click="activeTab = 'BigMeetingPopup'" class="box box1">
+        <button @click="change('BigMeetingPopup')" class="box box1">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector4.svg"
               class="left-img box1-left"
             />
+            <img
+              class="rightImg"
+              v-if="stepFourProps.checkBox === 'BigMeetingPopup'"
+              src="@/assets/images/dashboard/Vector32.svg"
+            />
           </div>
           <div class="define-text">Big Meeting</div>
           <div class="info-text">Collaborate with others and work together</div>
         </button>
-        <button @click="activeTab = 'WebinarPopup'" class="box box2">
+        <button @click="change('WebinarPopup')" class="box box2">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector6.svg"
               class="left-img box2-left"
+            />
+            <img
+              class="rightImg"
+              v-if="stepFourProps.checkBox === 'WebinarPopup'"
+              src="@/assets/images/dashboard/Vector32.svg"
             />
           </div>
           <div class="define-text">Webinar</div>
@@ -49,21 +47,31 @@
         </button>
       </div>
       <div class="second-row flex">
-        <button @click="activeTab = 'BroadcastPopup'" class="box box3">
+        <button @click="change('BroadcastPopup')" class="box box3">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector7.svg"
               class="left-img box3-left"
             />
+            <img
+              class="rightImg"
+              v-if="stepFourProps.checkBox === 'BroadcastPopup'"
+              src="@/assets/images/dashboard/Vector32.svg"
+            />
           </div>
           <div class="define-text">Broadcast</div>
           <div class="info-text">Broadcast your screen to others all over</div>
         </button>
-        <button @click="activeTab = 'CustomPopup'" class="box box4">
+        <button @click="change('CustomPopup')" class="box box4">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector8.svg"
               class="left-img box4-left"
+            />
+            <img
+              class="rightImg"
+              v-if="stepFourProps.checkBox === 'CustomPopup'"
+              src="@/assets/images/dashboard/Vector32.svg"
             />
           </div>
           <div class="define-text">Custom</div>
@@ -72,7 +80,10 @@
       </div>
     </div>
     <div class="button cursor-pointer">
-      <button class="cursor-pointer" @click="handleSubmit">Create Cast</button>
+      <button @click="changeActiveTab('Streaming')" class="cursor-pointer">
+        Next
+      </button>
+      <!---<button class="cursor-pointer" @click="createCast">Create Cast</button>-->
     </div>
   </div>
 </template>
@@ -85,7 +96,7 @@ export default {
     BigMeetingPopup,
   },
   props: [
-    'createCast',
+    'changeActiveTab',
     'stepFourProps',
     'stepOneProps',
     'stepThreeProps',
@@ -191,24 +202,32 @@ export default {
         this.closeCreate();
       });
     },
-  },
-  mounted() {
-    console.log(this.activeTab, 'sTab');
-  },
-  computed: {
-    activeTabComponent() {
-      switch (this.activeTab) {
-        case 'BigMeetingPopup':
-          return BigMeetingPopup;
-        case 'WebinarPopup':
-          return BigMeetingPopup;
-        case 'BroadcastPopup':
-          return BigMeetingPopup;
-        case 'CustomPopup':
-          return BigMeetingPopup;
-        default:
-          return null;
+    change(tab) {
+      console.log(this.tab, 'tab');
+
+      if (tab === 'BigMeetingPopup') {
+        this.stepFourProps.checkBox = 'BigMeetingPopup';
+        setTimeout(() => {
+          this.changeActiveTab('Streaming');
+          this.activeTab = 'BigMeetingPopup';
+        }, 500);
+      } else if (tab === 'WebinarPopup') {
+        this.stepFourProps.checkBox = 'WebinarPopup';
+        setTimeout(() => {
+          this.changeActiveTab('Streaming');
+          this.activeTab = 'WebinarPopup';
+        }, 500);
+      } else if (tab === 'BroadcastPopup') {
+        this.stepFourProps.checkBox = 'BroadcastPopup';
+        setTimeout(() => {
+          this.activeTab = 'BroadcastPopup';
+          this.changeActiveTab('Streaming');
+        }, 500);
+      } else {
+        this.activeTab = 'CustomPopup';
+        this.stepFourProps.checkBox = 'CustomPopup';
       }
+      console.log(this.activeTab, 'activeTab');
     },
   },
 };
@@ -362,5 +381,8 @@ export default {
   font-size: 12px;
   font-weight: 700;
   color: #1f272f;
+}
+.rightImg {
+  margin-top: -15px;
 }
 </style>

@@ -92,6 +92,12 @@
             v-else
             :createCast="createCast"
             :changeActiveTab="changeActiveTab"
+            :stepFourProps="stepFourProps"
+            :stepThreeProps="stepThreeProps"
+            :stepTwoProps="stepTwoProps"
+            :stepOneProps="stepOneProps"
+            :closeCreate="closeCreate"
+            :castId="castId"
           />
         </div>
       </div>
@@ -144,7 +150,7 @@ export default {
         invalidTimeError: false,
         moderator_password: '',
         attendee_password: '',
-        meeting_type: '',
+        meeting_type: 'public',
         schedule_time: '',
         description: '',
         max_participant: 100,
@@ -186,7 +192,7 @@ export default {
         auth_type: 'public',
         meeting_auth_error: false,
         send_otp: false,
-        public_auth: true,
+        public_auth: false,
         public_otp: false,
         give_nft: false,
         public_stream_nfts: 'true',
@@ -209,7 +215,7 @@ export default {
         guest_policy: '',
         welcome_text: '',
         showText: true,
-        duration: '60',
+        duration: '480',
         logout_url: 'https://dev.stream.video.wiki/full',
       },
       stepThreeProps: {
@@ -238,6 +244,7 @@ export default {
         screen_sharing: true,
         restrict_participants: false,
         meeting_settings: false,
+        checkBox: '',
       },
     };
   },

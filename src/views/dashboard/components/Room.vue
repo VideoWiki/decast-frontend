@@ -65,9 +65,18 @@
                   <button
                     class="copy-link tooltip-button"
                     @click="copy(room.room_url)"
+                    @mouseover="showTooltip[index] = true"
+                    @mouseout="showTooltip[index] = false"
                   >
                     <img src="@/assets/images/Rooms/copy.svg" alt="" />
                   </button>
+                  <div
+                    class="tooltip"
+                    :class="{ 'show-tooltip': showTooltip[index] }"
+                  >
+                    Copy Link
+                  </div>
+
                   <!-- <span class="tooltip">Tooltip text</span> -->
                 </div>
                 <button
@@ -252,6 +261,13 @@ export default {
     return {
       createPopup: false,
       focusYourRooms: true,
+      showTooltip: [],
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
       text: '',
       rooms: [],
       showPopup: null,
@@ -647,26 +663,25 @@ export default {
 .tooltip-button {
   position: relative;
   z-index: 1;
-  /* Ensure the button is above the tooltip */
 }
 
 .tooltip {
   position: absolute;
   top: -10%;
-  /* Position it below the button */
   left: -20%;
-  background-color: #333;
-  color: #fff;
+  background-color: #31394e;
+  color: #a6a6a8;
+  font-size: 12px;
+  font-weight: 500;
   width: 100px;
   height: 20px;
   padding: 5px;
-  border-radius: 3px;
+  border-radius: 6px;
   display: none;
 }
 
 .tooltip-button:hover + .tooltip {
   display: block;
-  /* Show the tooltip on hover */
 }
 
 .popup {
@@ -811,6 +826,34 @@ export default {
 .icon i {
   font-size: 2em;
   color: #647181;
+}
+.tooltip-container {
+  position: relative;
+}
+
+.tooltip-button {
+  position: relative;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  background-color: #31394e85;
+  color: #a6a6a8;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 5px;
+  border-radius: 6px;
+  top: calc(100%);
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  width: 65px;
+  height: 30px;
+}
+
+.show-tooltip {
+  display: block;
 }
 </style>
 
