@@ -362,7 +362,6 @@ export default {
       this.$store
         .dispatch('room/getList')
         .then((res) => {
-          document.getElementById('loading-bg').style.display = 'none';
           console.log(res);
         })
         .catch((e) => {

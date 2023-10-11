@@ -183,7 +183,7 @@
 
                 <div class="inner-child3">
                   <div class="inner-child4">
-                    <button class="active" @click="toggleCopy(index)">
+                    <button class="cop-btn" @click="toggleCopy(index)">
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
                     <div v-if="streamInfo[cast.public_meeting_id]">
@@ -201,6 +201,8 @@
                       </button>
                       <!-- <div class="tooltip" v-if="showTooltip===index">Pause Stream</div> -->
                       <button
+                        class="action-btn"
+                        id="stream-btn"
                         v-else
                         @mouseover="toggleTool2(index)"
                         @click="toggleStream(cast.public_meeting_id, 'start')"
@@ -700,7 +702,7 @@ export default {
     },
     handleClick2(event) {
       const isOutsideCopyPopup = !event.target.closest('.cop-cont');
-      const isNotToggleCopyButton = !event.target.closest('.active');
+      const isNotToggleCopyButton = !event.target.closest('.cop-btn');
       if (
         isOutsideCopyPopup &&
         isNotToggleCopyButton &&
@@ -879,8 +881,17 @@ export default {
   height: 100%;
 }
 
-.active:active {
-  border: 1px solid #d7df23;
+.cop-btn{
+  border: 1px solid #31394e !important;
+  width: 33px !important;
+  height: 33px;
+}
+
+.cop-btn img{
+  margin: auto !important;
+}
+.cop-btn:active {
+  border: 1px solid #d7df23 !important;
 }
 
 .options-button {
@@ -891,8 +902,8 @@ export default {
   cursor: pointer;
 }
 
-.stream-btn {
-  border: 1px solid #31394e;
+#stream-btn {
+  border: 1px solid #31394e !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1179,7 +1190,7 @@ export default {
   /* left: 20px; */
 }
 
-.inner-child4 button:nth-child(1) {
+.inner-child4 .action-btn {
   background: none;
   border: 1px solid #31394e;
   width: 33px;

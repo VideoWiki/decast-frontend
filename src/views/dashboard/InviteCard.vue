@@ -150,7 +150,6 @@ export default {
   },
   mounted() {
     window.addEventListener('click', this.closeDropDown);
-    document.getElementById('loading-bg').style.display = 'none';
     console.log(this.isStream);
     console.log(this.viewer);
     if (this.isStream)

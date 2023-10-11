@@ -85,7 +85,6 @@ export default {
   },
   props: ['closeCreate', 'changeStatus'],
   mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
     this.getCastList();
     window.addEventListener('click', this.handleGlobalClick);
   },

@@ -102,7 +102,13 @@
         </div>
       </div>
       <div v-else-if="status === 'invite'">
-        <invite-card :closeInvite="closeCreate" :Id="castId" :invites="[]" />
+        <invite-card
+          :isStream="stepThreeProps.is_streaming"
+          :viewer="stepFourProps.viewer_mode"
+          :closeInvite="closeCreate"
+          :Id="castId"
+          :invites="[]"
+        />
       </div>
       <div v-else>
         <stream-card
@@ -248,9 +254,7 @@ export default {
       },
     };
   },
-  mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
-  },
+  mounted() {},
   methods: {
     changeActiveTab(tab) {
       this.activeTab = tab;

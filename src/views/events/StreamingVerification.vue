@@ -13,7 +13,9 @@
             </div>
             <div class="mx-3">
               <h2 class="mb-2">Verification</h2>
-              <h4 class="step-text">Enter your Email id for otp verification</h4>
+              <h4 class="step-text">
+                Enter your Email id for otp verification
+              </h4>
             </div>
           </span>
           <span class="flex" v-else>
@@ -55,11 +57,14 @@
         </div>
       </section>
 
-      <div class="flex flex-col md:flex-row">
+      <div class="flex flex-col height md:flex-row">
         <div class="verification-box">
-          <div v-if="((!this.skippedStep && !this.walletAddress) || !this.verified) &&
-            public_stream == false
-            ">
+          <div
+            v-if="
+              ((!this.skippedStep && !this.walletAddress) || !this.verified) &&
+              public_stream == false
+            "
+          >
             <form v-if="!this.verified">
               <div class="flex mt-16">
                 <h6 class="text-xl my-4">
@@ -68,15 +73,27 @@
                 </h6>
               </div>
 
-              <input class="verification-input text-xl" v-validate="'required'" type="email" name="email"
-                placeholder="Enter Email" autocomplete="off" v-model="email" />
+              <input
+                class="verification-input text-xl"
+                v-validate="'required'"
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+                autocomplete="off"
+                v-model="email"
+              />
               <p>
-                We will send an OTP to your email to verify your invite. This does
-                not create your VideoWiki account.
+                We will send an OTP to your email to verify your invite. This
+                does not create your VideoWiki account.
               </p>
               <div class="flex flex-wrap my-3">
-                <vs-button v-if="!this.otpField" class="flex-1 font-bold h-16" :disabled="!validateEmail"
-                  @click.prevent="requestOtp">Request OTP</vs-button>
+                <vs-button
+                  v-if="!this.otpField"
+                  class="flex-1 font-bold h-16"
+                  :disabled="!validateEmail"
+                  @click.prevent="requestOtp"
+                  >Request OTP</vs-button
+                >
               </div>
               <span v-if="this.otpField">
                 <div class="flex">
@@ -85,11 +102,21 @@
                     <span class="text-danger">*</span>
                   </h6>
                 </div>
-                <input class="verification-input text-xl" v-validate="'required'" name="Name" placeholder="Enter Otp"
-                  autocomplete="off" v-model="otp" />
+                <input
+                  class="verification-input text-xl"
+                  v-validate="'required'"
+                  name="Name"
+                  placeholder="Enter Otp"
+                  autocomplete="off"
+                  v-model="otp"
+                />
                 <div class="flex flex-wrap my-3">
-                  <vs-button class="flex-1 font-bold h-16" :disabled="!validateOtp"
-                    @click.prevent="userVerification">Verify</vs-button>
+                  <vs-button
+                    class="flex-1 font-bold h-16"
+                    :disabled="!validateOtp"
+                    @click.prevent="userVerification"
+                    >Verify</vs-button
+                  >
                 </div>
               </span>
             </form>
@@ -97,11 +124,18 @@
             <span v-if="give_nft && this.otpField && this.verified">
               <Private :payload="this.payload" />
               <div class="flex flex-wrap my-5">
-                <vs-button type="border" class="flex-1 font-bold h-16" @click.prevent="skipStep">Skip Step</vs-button>
+                <vs-button
+                  type="border"
+                  class="flex-1 font-bold h-16"
+                  @click.prevent="skipStep"
+                  >Skip Step</vs-button
+                >
               </div>
             </span>
           </div>
-          <StreamJoin v-if="this.skippedStep || this.walletAddress || public_stream" />
+          <StreamJoin
+            v-if="this.skippedStep || this.walletAddress || public_stream"
+          />
         </div>
       </div>
     </div>
@@ -110,7 +144,7 @@
 
 <script>
 import Private from '../../layouts/components/navbar/components/Connect_Wallet.vue';
-import StreamJoin from '../dashboard/StreamJoin.vue'
+import StreamJoin from '../dashboard/StreamJoin.vue';
 export default {
   components: { Private, StreamJoin },
   data() {
@@ -214,7 +248,7 @@ export default {
 .background-container {
   background: #000000;
   background-image: url('../../assets/images/back.jpeg');
-  background-size: contain; 
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom;
   height: 100vh;
@@ -239,6 +273,10 @@ export default {
   left: -15rem;
   border: 1px solid rgba(175, 165, 165, 0.527);
   transform: rotate(90.23deg);
+}
+
+.height {
+  height: 80vh;
 }
 
 .step {
@@ -283,7 +321,7 @@ export default {
   max-width: auto;
 }
 
-.verification-box>h2 {
+.verification-box > h2 {
   align-items: center;
   justify-content: center;
   display: flex;

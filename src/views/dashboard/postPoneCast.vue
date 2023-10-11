@@ -194,7 +194,6 @@ export default {
     },
   },
   mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
     window.addEventListener('click', this.closePopups);
   },
   beforeDestroy() {
@@ -550,13 +549,13 @@ export default {
   position: absolute;
   z-index: 999;
   height: 150px;
-  width:85px;
+  width: 85px;
   padding: 6px;
   text-align: left !important;
   overflow-y: scroll;
   cursor: pointer;
   /* top: 10%; */
-  bottom:20.5rem !important;
+  bottom: 20.5rem !important;
   margin-left: 130px;
 }
 
