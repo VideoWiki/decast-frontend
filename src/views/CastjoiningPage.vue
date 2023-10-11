@@ -66,6 +66,7 @@ export default {
     };
   },
   mounted() {
+    document.getElementById('loading-bg').style.display = 'block';
     this.getUserDetails();
   },
   methods: {

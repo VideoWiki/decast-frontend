@@ -1,135 +1,142 @@
 <template>
-  <div class="par-cont">
-    <section class="flex" v-if="public_stream == false">
-      <div class="line"></div>
-      <div class="step first">
-        <span class="flex" v-if="!this.verified">
-          <div class="circle">
-            <span class="text-2xl font-semibold">1</span>
-          </div>
-          <div class="mx-3">
-            <h2 class="mb-2">Verification</h2>
-            <h4 class="step-text">Enter your Email id for otp verification</h4>
-          </div></span
-        >
-        <span class="flex" v-else>
-          <img src="../../assets/images/verification/green-tick.png" />
-          <h2 class="mb-2">Verified</h2>
-        </span>
+  <div class="background-container">
+    <div class="par-cont">
+      <div class="log-cont">
+        <img src="@/assets/images/vid.svg" />
       </div>
-      <div class="step second" v-if="give_nft">
-        <span class="flex" v-if="!this.skippedStep && !this.walletAddress">
-          <div class="circle">
-            <span class="text-2xl font-semibold">2</span>
-          </div>
-          <div class="mx-3">
-            <h2 class="mb-2">Connect Wallet</h2>
-            <h4 class="step-text">Connect your wallet or skip this step.</h4>
-          </div></span
-        >
-        <span class="flex" v-if="this.walletAddress">
-          <img src="../../assets/images/verification/green-tick.png" />
-          <h2 class="mb-2">Wallet Connected</h2>
-        </span>
-        <span class="flex" v-if="this.skippedStep">
-          <img src="../../assets/images/verification/green-tick.png" />
-          <h2 class="mb-2">Step Skipped</h2>
-        </span>
-      </div>
-      <div class="step third">
-        <span class="flex">
-          <div class="circle">
-            <span class="text-2xl font-semibold">{{
-              !this.give_nft ? 2 : 3
-            }}</span>
-          </div>
-          <div class="mx-3">
-            <h2 class="mb-2">Join the event</h2>
-            <h4 class="step-text">Click on the button to join the meeting</h4>
-          </div></span
-        >
-      </div>
-    </section>
-
-    <div class="flex flex-col md:flex-row">
-      <div class="verification-box">
-        <div
-          v-if="
-            ((!this.skippedStep && !this.walletAddress) || !this.verified) &&
-            public_stream == false
-          "
-        >
-          <form v-if="!this.verified">
-            <div class="flex mt-16">
-              <h6 class="text-xl my-4">
-                Email
-                <span class="text-danger">*</span>
-              </h6>
+      <section class="flex" v-if="public_stream == false">
+        <div class="line"></div>
+        <div class="step first">
+          <span class="flex" v-if="!this.verified">
+            <div class="circle">
+              <span class="text-2xl font-semibold">1</span>
             </div>
-
-            <input
-              class="verification-input text-xl"
-              v-validate="'required'"
-              type="email"
-              name="email"
-              placeholder="Enter Email"
-              autocomplete="off"
-              v-model="email"
-            />
-            <p>
-              We will send an OTP to your email to verify your invite. This does
-              not create your VideoWiki account.
-            </p>
-            <div class="flex flex-wrap my-3">
-              <vs-button
-                v-if="!this.otpField"
-                class="flex-1 font-bold h-16"
-                :disabled="!validateEmail"
-                @click.prevent="requestOtp"
-                >Request OTP</vs-button
-              >
+            <div class="mx-3">
+              <h2 class="mb-2">Verification</h2>
+              <h4 class="step-text">
+                Enter your Email id for otp verification
+              </h4>
             </div>
-            <span v-if="this.otpField">
-              <div class="flex">
-                <h6 class="text-xl my-4">
-                  OTP
-                  <span class="text-danger">*</span>
-                </h6>
-              </div>
-              <input
-                class="verification-input text-xl"
-                v-validate="'required'"
-                name="Name"
-                placeholder="Enter Otp"
-                autocomplete="off"
-                v-model="otp"
-              />
-              <div class="flex flex-wrap my-3">
-                <vs-button
-                  class="flex-1 font-bold h-16"
-                  :disabled="!validateOtp"
-                  @click.prevent="userVerification"
-                  >Verify</vs-button
-                >
-              </div>
-            </span>
-          </form>
-
-          <span v-if="give_nft && this.otpField && this.verified">
-            <Private :payload="this.payload" />
-            <div class="flex flex-wrap my-5">
-              <vs-button
-                type="border"
-                class="flex-1 font-bold h-16"
-                @click.prevent="skipStep"
-                >Skip Step</vs-button
-              >
+          </span>
+          <span class="flex" v-else>
+            <img src="../../assets/images/verification/green-tick.png" />
+            <h2 class="mb-2">Verified</h2>
+          </span>
+        </div>
+        <div class="step second" v-if="give_nft">
+          <span class="flex" v-if="!this.skippedStep && !this.walletAddress">
+            <div class="circle">
+              <span class="text-2xl font-semibold">2</span>
+            </div>
+            <div class="mx-3">
+              <h2 class="mb-2">Connect Wallet</h2>
+              <h4 class="step-text">Connect your wallet or skip this step.</h4>
+            </div>
+          </span>
+          <span class="flex" v-if="this.walletAddress">
+            <img src="../../assets/images/verification/green-tick.png" />
+            <h2 class="mb-2">Wallet Connected</h2>
+          </span>
+          <span class="flex" v-if="this.skippedStep">
+            <img src="../../assets/images/verification/green-tick.png" />
+            <h2 class="mb-2">Step Skipped</h2>
+          </span>
+        </div>
+        <div class="step third">
+          <span class="flex">
+            <div class="circle">
+              <span class="text-2xl font-semibold">{{
+                !this.give_nft ? 2 : 3
+              }}</span>
+            </div>
+            <div class="mx-3">
+              <h2 class="mb-2">Join the event</h2>
+              <h4 class="step-text">Click on the button to join the meeting</h4>
             </div>
           </span>
         </div>
-        <StreamJoin
-          v-if="this.skippedStep || this.walletAddress || public_stream"
-        />
+      </section>
+
+      <div class="flex flex-col md:flex-row">
+        <div class="verification-box">
+          <div
+            v-if="
+              ((!this.skippedStep && !this.walletAddress) || !this.verified) &&
+              public_stream == false
+            "
+          >
+            <form v-if="!this.verified">
+              <div class="flex mt-16">
+                <h6 class="text-xl my-4">
+                  Email
+                  <span class="text-danger">*</span>
+                </h6>
+              </div>
+
+              <input
+                class="verification-input text-xl"
+                v-validate="'required'"
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+                autocomplete="off"
+                v-model="email"
+              />
+              <p>
+                We will send an OTP to your email to verify your invite. This
+                does not create your VideoWiki account.
+              </p>
+              <div class="flex flex-wrap my-3">
+                <vs-button
+                  v-if="!this.otpField"
+                  class="flex-1 font-bold h-16"
+                  :disabled="!validateEmail"
+                  @click.prevent="requestOtp"
+                  >Request OTP</vs-button
+                >
+              </div>
+              <span v-if="this.otpField">
+                <div class="flex">
+                  <h6 class="text-xl my-4">
+                    OTP
+                    <span class="text-danger">*</span>
+                  </h6>
+                </div>
+                <input
+                  class="verification-input text-xl"
+                  v-validate="'required'"
+                  name="Name"
+                  placeholder="Enter Otp"
+                  autocomplete="off"
+                  v-model="otp"
+                />
+                <div class="flex flex-wrap my-3">
+                  <vs-button
+                    class="flex-1 font-bold h-16"
+                    :disabled="!validateOtp"
+                    @click.prevent="userVerification"
+                    >Verify</vs-button
+                  >
+                </div>
+              </span>
+            </form>
+
+            <span v-if="give_nft && this.otpField && this.verified">
+              <Private :payload="this.payload" />
+              <div class="flex flex-wrap my-5">
+                <vs-button
+                  type="border"
+                  class="flex-1 font-bold h-16"
+                  @click.prevent="skipStep"
+                  >Skip Step</vs-button
+                >
+              </div>
+            </span>
+          </div>
+          <StreamJoin
+            v-if="this.skippedStep || this.walletAddress || public_stream"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -137,7 +144,7 @@
 
 <script>
 import Private from '../../layouts/components/navbar/components/Connect_Wallet.vue';
-import StreamJoin from '../dashboard/StreamJoin.vue'
+import StreamJoin from '../dashboard/StreamJoin.vue';
 export default {
   components: { Private, StreamJoin },
   data() {
@@ -238,17 +245,26 @@ export default {
 </script>
 
 <style scoped>
+.background-container {
+  background: #000000;
+  background-image: url('../../assets/images/back.jpeg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  height: 100vh;
+  width: 100%;
+}
 
-.par-cont{
-    background: #000000;
-    background-image: url('../../assets/images/back.jpeg');
-    /* background-size: cover; */
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-size: contain;
-    height: 100vh;
-    width: 100%;
-  }
+.par-cont {
+  backdrop-filter: brightness(0.2);
+  height: 100vh;
+  width: 100%;
+}
+
+.log-cont img {
+  margin: 20px;
+}
+
 .line {
   position: absolute;
   width: 40rem;
@@ -295,9 +311,10 @@ export default {
 
 .verification-box {
   margin-top: 5em;
-  margin-left: 32em;
+  margin: auto;
   padding: 5em;
-  width: 40% !important;
+  min-width: fit-content;
+  max-width: auto;
 }
 
 .verification-box > h2 {
@@ -325,11 +342,13 @@ export default {
   margin: 0px;
   width: 35%;
 }
+
 .step-text {
   margin-top: 0.2rem;
   width: 25rem;
   text-align: justify;
 }
+
 @media screen and (max-device-width: 480px) {
   .first {
     top: 6rem;
@@ -348,9 +367,11 @@ export default {
     width: 30rem;
     left: -13rem;
   }
+
   .step {
     left: 1em;
   }
+
   .verification-box {
     padding: 1.6em;
     margin: 0;

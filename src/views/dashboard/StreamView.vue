@@ -6,33 +6,38 @@
       :give_nft="give_nft"
     />
     <div class="stream-view" v-else>
-      <div class="log-cont">
-        <img src="@/assets/images/vid.svg" />
-      </div>
-      <div class="flex video-container">
-        <div v-if="running" class="container md:py-10 py-2">
-          <HlsPlayer :videoSrc="stream_url" :poster="e_cover_image" />
+      <div class="par-cont">
+        <div class="log-cont">
+          <img src="@/assets/images/vid.svg" />
         </div>
-        <div v-else class="container md:py-8 py-2">
-          <img
-            src="@/assets/images/not-start.svg"
-            alt="Event will start soon"
-            class="w-full"
-          />
-        </div>
-        <div class="md:py-10 pb-0 stream_detail">
-          <h4 class="live">Live Streaming at {{ start_time_new }}</h4>
-          <h3 class="my-3 text-3xl font-semibold">
-            {{ e_title }}
-          </h3>
-          <h4 class="host text-slate-500 text-xl font-medium">
-            Hosted by "{{ e_creator_name }}"
-          </h4>
-          <p class="my-2">
-            {{ e_description }}
-          </p>
-          <div class="mb-2" v-if="airdrop && pub_nft_flow && public_nft_status">
-            <vs-button @click="claimNFT()">Claim NFT</vs-button>
+        <div class="flex video-container">
+          <div v-if="running" class="container md:py-10 py-2">
+            <HlsPlayer :videoSrc="stream_url" :poster="e_cover_image" />
+          </div>
+          <div v-else class="container md:py-8 py-2">
+            <img
+              src="@/assets/images/not-start.svg"
+              alt="Event will start soon"
+              class="w-full"
+            />
+          </div>
+          <div class="md:py-10 pb-0 stream_detail">
+            <h4 class="live">Live Streaming at {{ start_time_new }}</h4>
+            <h3 class="my-3 text-3xl font-semibold">
+              {{ e_title }}
+            </h3>
+            <h4 class="host text-slate-500 text-xl font-medium">
+              Hosted by "{{ e_creator_name }}"
+            </h4>
+            <p class="my-2">
+              {{ e_description }}
+            </p>
+            <div
+              class="mb-2"
+              v-if="airdrop && pub_nft_flow && public_nft_status"
+            >
+              <vs-button @click="claimNFT()">Claim NFT</vs-button>
+            </div>
           </div>
         </div>
       </div>
@@ -118,7 +123,6 @@ export default {
       );
     },
     fetchEventDetails(eventId) {
-      this.$vs.loading();
       fetch(
         Constants.apiCastUrl +
           '/api/event/meeting/info/?public_meeting_id=' +
@@ -179,24 +183,28 @@ export default {
 
 <style scoped>
 .stream-view {
-  /* border: 1px solid red; */
-  height: 100vh;
-  width: 100%;
   background: #000000;
   background-image: url('../../assets/images/back.jpeg');
-  /* background-size: cover; */
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom;
-  background-size: contain;
-  padding: 20px;
-  overflow: hidden;
+  height: 100vh;
+  width: 100%;
 }
+
+.par-cont {
+  backdrop-filter: brightness(0.2);
+  height: 100vh;
+  width: 100%;
+  padding: 20px;
+}
+
 .join-box {
   margin-top: 5em;
   margin-left: 32em;
   padding: 5em;
-  width: 40% !important;
 }
+
 .verification-input {
   height: 60px;
   border: none;
@@ -206,6 +214,7 @@ export default {
   padding: 10px;
   width: 100%;
 }
+
 .verification-img {
   position: absolute;
   bottom: 0px;
@@ -219,6 +228,7 @@ export default {
 .container {
   border-radius: 6px;
 }
+
 .container img {
   margin-left: 2rem;
   margin-right: 2rem;
@@ -246,6 +256,11 @@ export default {
   font-weight: 500;
   color: #647181;
 }
+.host {
+  font-size: 16px;
+  font-weight: 500;
+  color: #647181;
+}
 
 .my-2 {
   font-size: 12px;
@@ -260,6 +275,9 @@ export default {
 .stream_detail {
   max-width: 400px;
 }
+.stream_detail {
+  max-width: 400px;
+}
 
 @media screen and (max-device-width: 480px) {
   .join-box {
@@ -268,6 +286,7 @@ export default {
     margin-top: 20rem;
     width: 100% !important;
   }
+
   .verification-img {
     display: none !important;
   }
@@ -279,18 +298,22 @@ export default {
   width: 75%;
   max-width: 100%;
 }
+
 .stream_detail {
   width: 40%;
 }
+
 @media only screen and (max-width: 700px) {
   .video-container {
     flex-direction: column;
   }
+
   .container {
     padding: 0;
     width: 97%;
     margin: 0 0.5rem;
   }
+
   .stream_detail {
     padding: 1rem;
     width: 100%;
