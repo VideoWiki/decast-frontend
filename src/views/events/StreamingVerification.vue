@@ -253,12 +253,14 @@ export default {
   background-position: bottom;
   height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .par-cont {
   backdrop-filter: brightness(0.2);
   height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .log-cont img {
@@ -379,7 +381,7 @@ export default {
   .verification-box {
     padding: 1.6em;
     margin: 0;
-    margin-top: 20rem;
+    margin-top: 2rem;
     width: 100% !important;
   }
 

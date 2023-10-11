@@ -24,18 +24,27 @@
         :seconds-txt="'seconds'"
       >
         <template slot="countdown" slot-scope="scope">
-          <span class="dtm">
-            <p class="p">{{ scope.props.hours }}</p>
-            <div class="cnt">hrs</div>
-          </span>
-          <span class="dtm">
-            <p class="p">{{ scope.props.minutes }}</p>
-            <div class="cnt">min</div>
-          </span>
-          <span class="dtm">
-            <p class="p">{{ scope.props.seconds }}</p>
-            <div class="cnt">sec</div>
-          </span>
+          <div class="mm-cont">
+            <h2>
+              <!-- <span>{{ start_time }}</span> -->
+              <span class="number">{{ scope.props.days }}</span>
+              <span class="text">days</span>
+
+              <span class="dots ml-5">{{ dot2 }}</span>
+              <span class="number ml-5">{{ scope.props.hours }}</span>
+              <span class="text">hrs</span>
+
+              <span class="dots ml-5">{{ dot2 }}</span>
+
+              <span class="number ml-5">{{ scope.props.minutes }}</span>
+              <span class="text">min</span>
+
+              <span class="dots ml-5">{{ dot2 }}</span>
+
+              <span class="number ml-5">{{ scope.props.seconds }}</span>
+              <span class="text">sec</span>
+            </h2>
+          </div>
         </template>
       </vue-countdown-timer>
 
@@ -90,7 +99,7 @@
 
 <script>
 import Constants from '../../../constant';
-var moment = require('moment');
+var moment = require('moment-timezone');
 export default {
   data() {
     return {
@@ -156,7 +165,7 @@ export default {
       return this.start_time.slice(3, 5);
     },
     dot2() {
-      return this.start_time.slice(5, 6);
+      return this.start_time.slice(13, 14);
     },
     seconds() {
       return this.start_time.slice(6, 8);
@@ -207,14 +216,18 @@ export default {
 
           this.stream_url =
             Constants.streamUrl + this.$route.params.eventId + '.m3u8';
-          const now = moment.utc().format('yyyy-MM-DD HH:mm:ss');
-          // const event_dtae ='2021-09-13'+' '+ '10:32:59';
           const eventDate = this.e_date + ', ' + this.e_time;
+          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          const a = moment(this.e_date + ' ' + this.e_time)
+            .clone()
+            .tz(timezone);
+          // var timeAbbr = moment().tz(timezone).zoneAbbr();
+          var newTime = moment(a._d).tz(timezone).format('h:mm A');
           const localTime = moment.utc(eventDate).toDate();
-          this.start_time = moment
-            .utc(eventDate, 'YYYY-MM-DD, HH:mm:ss')
-            .local()
+          this.start_time = moment(a._d)
+            .tz(timezone)
             .format('YYYY-MM-DD HH:mm:ss');
+          console.log(this.start_time);
           this.start_time_new = moment(localTime).format('HH: mm: ss');
 
           this.end_time = localTime;
@@ -240,31 +253,27 @@ export default {
 </script>
 
 <style scoped>
-.dtm {
-  width: 80px;
-  padding: 10px;
-  display: inline-block;
-  text-align: center;
-  margin-right: 10px;
+/* .tim-cont{
+  display: flex;
 }
-.p {
+.dtm {
+  display: flex !important;
+}
+.p{
   text-align: center !important;
   color: #d7df23 !important;
-  font-size: xx-large;
-  width: 25px;
-  height: 25px;
+  font-size: 20px !important;
 }
 .cnt {
-  width: 15px;
-  height: 15px;
   color: #647181;
   font-size: 13px;
   font-weight: 500;
-}
+} */
 .ll-cont {
   border: 1px solid #31394e;
   background-color: #1f272f;
   border-radius: 6px;
+  max-height: 215px !important;
   padding: 18px;
   margin-bottom: 5px;
   width: 380px !important;
@@ -279,6 +288,11 @@ export default {
   word-spacing: 5px;
   /* letter-spacing: 5px; */
   /* 00:00:00 */
+}
+
+.p {
+  font-size: 16px !important;
+  margin: 5px;
 }
 
 .number {
@@ -384,6 +398,10 @@ export default {
     width: 100% !important;
   }
 
+  #kk-cont {
+    flex-direction: column-reverse;
+  }
+
   .verification-img {
     display: none !important;
   }
@@ -400,6 +418,34 @@ export default {
   width: auto;
   margin: auto !important;
   /* margin-left: -40% !important; */
-  margin-top: -5rem !important;
+  margin-top: -10rem !important;
+}
+
+@media screen and (max-device-width: 700px) {
+  #kk-cont {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
+    max-width: 400px !important;
+    min-width: 300px !important;
+    width: auto;
+    margin: auto !important;
+    /* margin-left: -40% !important; */
+    margin-top: -20rem !important;
+  }
+
+  .ll-cont {
+    border: 1px solid #31394e;
+    background-color: #1f272f;
+    border-radius: 6px;
+    max-height: 215px !important;
+    padding: 18px;
+    margin: auto !important;
+    margin-bottom: 5px;
+    max-width: 320px;
+    width: auto;
+    min-width: 200px;
+  }
 }
 </style>
