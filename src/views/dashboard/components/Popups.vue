@@ -40,9 +40,7 @@ export default {
     };
   },
   props: ['closeCreate', 'changeStatus'],
-  mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
-  },
+  mounted() {},
   methods: {
     closePopup() {
       this.showPopup = false; // Close the popup when the SVG is clicked

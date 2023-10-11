@@ -1,6 +1,10 @@
 <template>
   <div v-if="dataLoaded">
-    <StreamingVerification v-if="!verified" :public_stream="publicStream" :give_nft="give_nft" />
+    <StreamingVerification
+      v-if="!verified"
+      :public_stream="publicStream"
+      :give_nft="give_nft"
+    />
     <div class="stream-view" v-else>
       <div class="par-cont">
         <div class="log-cont">
@@ -11,12 +15,14 @@
             <HlsPlayer :videoSrc="stream_url" :poster="e_cover_image" />
           </div>
           <div v-else class="container md:py-8 py-2">
-            <img src="@/assets/images/not-start.svg" alt="Event will start soon" class="w-full" />
+            <img
+              src="@/assets/images/not-start.svg"
+              alt="Event will start soon"
+              class="w-full"
+            />
           </div>
           <div class="md:py-10 pb-0 stream_detail">
-            <h4 class="live">
-              Live Streaming at {{ start_time_new }}
-            </h4>
+            <h4 class="live">Live Streaming at {{ start_time_new }}</h4>
             <h3 class="my-3 text-3xl font-semibold">
               {{ e_title }}
             </h3>
@@ -26,7 +32,10 @@
             <p class="my-2">
               {{ e_description }}
             </p>
-            <div class="mb-2" v-if="airdrop && pub_nft_flow && public_nft_status">
+            <div
+              class="mb-2"
+              v-if="airdrop && pub_nft_flow && public_nft_status"
+            >
               <vs-button @click="claimNFT()">Claim NFT</vs-button>
             </div>
           </div>
@@ -36,8 +45,6 @@
   </div>
 </template>
 <script>
-import TheHeader from '@/layouts/components/navbar/NavbarHorizontal2.vue';
-import TheFooter from '@/layouts/components/footer/TheFooter.vue';
 import StreamingVerification from '../events/StreamingVerification';
 import HlsPlayer from '@/components/Hls-Player/HlsPlayer';
 
@@ -47,8 +54,6 @@ var moment = require('moment');
 export default {
   name: 'StreamingPage',
   components: {
-    TheHeader,
-    TheFooter,
     HlsPlayer,
     StreamingVerification,
   },
@@ -118,8 +123,11 @@ export default {
       );
     },
     fetchEventDetails(eventId) {
-      this.$vs.loading();
-      fetch(Constants.apiCastUrl + '/api/event/meeting/info/?public_meeting_id=' + eventId)
+      fetch(
+        Constants.apiCastUrl +
+          '/api/event/meeting/info/?public_meeting_id=' +
+          eventId
+      )
         .then((res) => res.json())
         .then((res) => {
           const details = res.meeting_info;
@@ -172,7 +180,7 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped>
 .stream-view {
   background: #000000;
@@ -231,14 +239,14 @@ export default {
 }
 
 .live {
-  color: #D7DF23;
+  color: #d7df23;
   font-size: 14px;
   font-weight: 600;
 }
 
 .my-3 {
   font-size: 24px;
-  color: #A6A6A8;
+  color: #a6a6a8;
   font-style: italic;
   font-weight: 500;
 }
@@ -256,7 +264,7 @@ export default {
 
 .my-2 {
   font-size: 12px;
-  color: #A6A6A8;
+  color: #a6a6a8;
   margin-top: 30px;
   max-width: 380px;
   padding-top: 10px;
@@ -312,4 +320,3 @@ export default {
   }
 }
 </style>
-  

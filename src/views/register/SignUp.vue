@@ -124,7 +124,6 @@ export default {
     },
   },
   created() {
-    document.getElementById('loading-bg').style.display = 'none';
     detectIncognito().then((result) => {
       console.log('this is working ', result.browserName, result.isPrivate);
       if (result.isPrivate && result.browserName.toLowerCase() === 'chrome') {

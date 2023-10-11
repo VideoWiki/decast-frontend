@@ -36,9 +36,7 @@ export default {
       errors: {},
     };
   },
-  mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
-  },
+  mounted() {},
   methods: {
     close() {
       window.parent.postMessage('closeIframe', '*');

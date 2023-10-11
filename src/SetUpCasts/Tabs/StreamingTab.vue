@@ -24,7 +24,7 @@
           <label class="slider"></label>
         </div>
       </div>
-      <div class="private-stream flex">
+      <!-- <div class="private-stream flex">
         <div class="side-left flex">
           <img src="@/assets/images/editor/Vector23.svg" />
           <p class="main-info">Stream privately</p>
@@ -37,7 +37,7 @@
           />
           <label class="slider"></label>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="lower-wrap">
       <div class="horizontal-line"></div>
@@ -183,9 +183,7 @@ export default {
     };
   },
   components: {},
-  mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
-  },
+  mounted() {},
   methods: {
     ChangeStream() {
       this.ThirdPartyStreaming = !this.ThirdPartyStreaming;
@@ -341,10 +339,23 @@ export default {
         'password_auth',
         this.stepOneProps.password_auth ? 'True' : 'False'
       );
-      this.$store.dispatch('cast/formSubmit', data).then((response) => {
-        console.log(response);
-        this.closeCreate();
-      });
+      this.$store
+        .dispatch('cast/formSubmit', data)
+        .then((response) => {
+          console.log(response);
+          this.closeCreate();
+        })
+        .catch((e) => {
+          if (e.response.status == 400) {
+            if (e.response.data.message === 'invalid schedule time') {
+              this.$vs.notify({
+                color: 'danger',
+                title: 'Error',
+                text: 'cannot update a cast of past',
+              });
+            }
+          }
+        });
     },
     handleSubmit() {
       if (this.createCast) {

@@ -26,7 +26,6 @@ export default {
   },
   mounted() {
     console.log(this.activePopup);
-    document.getElementById('loading-bg').style.display = 'none';
   },
   methods: {
     click(e) {

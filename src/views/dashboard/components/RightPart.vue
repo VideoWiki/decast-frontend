@@ -183,18 +183,11 @@
 
                 <div class="inner-child3">
                   <div class="inner-child4">
-                    <button
-                      class="active"
-                      @click="toggleCopy(index)"
-                      @mouseover="showTooltip = true"
-                      @mouseout="showTooltip = false"
-                    >
-                      <img src="@/assets/images/dashboard/copy.svg" alt="" />
-                    </button>
                     <div v-if="streamInfo[cast.public_meeting_id]">
                       <button
                         v-if="streamInfo[cast.public_meeting_id].stream_status"
-                        class="stream-btn"
+                        id="stream-btn"
+                        class="action-btn"
                         @click="toggleStream(cast.public_meeting_id, 'pause')"
                       >
                         <feather-icon
@@ -204,14 +197,28 @@
                         />
                       </button>
                       <button
+                        class="action-btn"
+                        id="stream-btn"
                         v-else
                         @click="toggleStream(cast.public_meeting_id, 'start')"
                       >
                         <img src="@/assets/images/dashboard/Live.svg" alt="" />
                       </button>
                     </div>
-                    <div class="tooltip" v-if="showTooltip">Copy Link</div>
-                    <div id="copy-pop" class="cop-cont" v-if="showCopy===index">
+                    <button
+                      class="active action-btn"
+                      @click="toggleCopy(index)"
+                      @mouseover="showTooltip = true"
+                      @mouseout="showTooltip = false"
+                    >
+                      <img src="@/assets/images/dashboard/copy.svg" alt="" />
+                    </button>
+                    <!-- <div class="tooltip" v-if="showTooltip">Copy Link</div> -->
+                    <div
+                      id="copy-pop"
+                      class="cop-cont"
+                      v-if="showCopy === index"
+                    >
                       <button
                         id="copy-btn-1"
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
@@ -878,8 +885,8 @@ export default {
   cursor: pointer;
 }
 
-.stream-btn {
-  border: 1px solid #31394e;
+#stream-btn {
+  border: 1px solid #31394e !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1154,7 +1161,7 @@ export default {
   /* left: 20px; */
 }
 
-.inner-child4 button:nth-child(1) {
+.inner-child4 .action-btn {
   background: none;
   border: 1px solid #31394e;
   width: 33px;

@@ -57,7 +57,6 @@ export default {
     Loading,
   },
   mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
     console.log(this.accessToken || this.loggedIn, 'prof');
     window.addEventListener('message', (event) => {
       // if (event.data === 'closeIframe') {
