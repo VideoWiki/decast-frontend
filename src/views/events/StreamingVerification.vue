@@ -57,7 +57,7 @@
         </div>
       </section>
 
-      <div class="flex flex-col md:flex-row">
+      <div class="flex flex-col height md:flex-row">
         <div class="verification-box">
           <div
             v-if="
@@ -273,6 +273,10 @@ export default {
   left: -15rem;
   border: 1px solid rgba(175, 165, 165, 0.527);
   transform: rotate(90.23deg);
+}
+
+.height {
+  height: 80vh;
 }
 
 .step {
