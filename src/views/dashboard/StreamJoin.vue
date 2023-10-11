@@ -182,7 +182,7 @@ export default {
     border: 1px solid #31394E;
     background-color: #1F272F;
     border-radius: 6px;
-    padding: 25px;
+    padding: 18px;
     margin-bottom: 5px;
     width: 380px !important;
 
@@ -314,7 +314,7 @@ export default {
 #kk-cont {
     display: flex !important;
     justify-content: space-between !important;
-    gap: 20px !important;
+    gap: 25px !important;
     max-width: 800px !important;
     min-width: 600px !important;
     width: auto;
