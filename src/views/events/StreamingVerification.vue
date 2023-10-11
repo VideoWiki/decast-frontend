@@ -379,7 +379,7 @@ export default {
   .verification-box {
     padding: 1.6em;
     margin: 0;
-    margin-top: 20rem;
+    margin-top: 2rem;
     width: 100% !important;
   }
 

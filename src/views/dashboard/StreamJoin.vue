@@ -384,6 +384,10 @@ export default {
     width: 100% !important;
   }
 
+  #kk-cont {
+    flex-direction: column-reverse;
+  }
+
   .verification-img {
     display: none !important;
   }
