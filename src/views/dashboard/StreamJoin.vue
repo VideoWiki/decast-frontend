@@ -12,7 +12,7 @@
         <span class="text">sec</span>
       </h2> -->
       <!-- <h2>{{start_time }}</h2> -->
-      <h3 v-if="running === 'false'">
+      <h3 v-if="running">
         Cast is live <img src="@/assets/images/dashboard/Live.svg" alt="" />
       </h3>
       <h3 v-else>Cast is not live</h3>
@@ -162,6 +162,8 @@ export default {
           this.public_nft_status = details.public_nft_status;
           this.airdrop = details.airdrop;
           this.give_nft = details.give_nft || details.vc_details_submitted;
+          this.running = details.running;
+          console.log(this.running);
           document.getElementById('loading-bg').style.display = 'none';
 
           if (!details.running) {
@@ -169,9 +171,7 @@ export default {
               this.fetchEventDetails(eventId);
             }, 5000);
           } else {
-            setTimeout(() => {
-              this.running = details.running;
-            }, 5000);
+            setTimeout(() => {}, 5000);
           }
 
           this.stream_url =
