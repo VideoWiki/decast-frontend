@@ -84,7 +84,14 @@
                 <div
                   v-if="cast.invitee_list.length === 0"
                   class="inner-child2"
-                  @click="invite = true"
+                  @click="
+                    ShowInvite(
+                      cast.public_meeting_id,
+                      cast.invitee_list,
+                      streamInfo[cast.public_meeting_id],
+                      cast.viewer_mode
+                    )
+                  "
                 >
                   <span class="invite-text" href="#">Invite Attendees</span>
                   <img id="user-img" src="@/assets/images/user.svg" />
@@ -115,7 +122,9 @@
                     togglePopup(
                       index,
                       cast.public_meeting_id,
-                      cast.invitee_list
+                      cast.invitee_list,
+                      streamInfo[cast.public_meeting_id],
+                      cast.viewer_mode
                     )
                   "
                 >
@@ -173,9 +182,6 @@
                 </div>
 
                 <div class="inner-child3">
-                  <button v-if="cast.is_running === 'true'" class="live-btn">
-                    Cast is live
-                  </button>
                   <div class="inner-child4">
                     <button
                       class="active"
@@ -232,6 +238,12 @@
                       <p v-if="castInProgress(cast)">
                         {{ calculateRemainingTime(cast) }}
                       </p>
+                    </button>
+                    <button
+                      v-if="cast.is_running === 'true'"
+                      class="live-btn red-btn"
+                    >
+                      Cast is live
                     </button>
                   </div>
                 </div>
@@ -408,6 +420,8 @@
       <invite-card
         :Id="meetingId"
         :invites="invites"
+        :isStream="isStream"
+        :viewer="viewer"
         :closeInvite="() => (invite = false)"
       ></invite-card>
     </div>
@@ -458,6 +472,8 @@ export default {
       stepThreeProps: {},
       castsInfo: [],
       streamInfo: {},
+      isStream: false,
+      viewer: false,
     };
   },
   mounted() {
@@ -487,6 +503,15 @@ export default {
     this.updateRemainingTime();
   },
   methods: {
+    ShowInvite(id, inviteList, stream, viewer) {
+      this.meetingId = id;
+      this.invites = inviteList;
+      this.isStream = typeof stream !== 'undefined';
+      console.log(typeof stream !== 'undefined');
+      this.viewer = viewer;
+      console.log(viewer);
+      this.invite = true;
+    },
     async toggleStream(id, action) {
       console.log(action);
       try {
@@ -779,10 +804,12 @@ export default {
       this.index = id;
       this.toPostpone = toPostpone;
     },
-    togglePopup(index, id, inviteList) {
+    togglePopup(index, id, inviteList, stream, viewer) {
       this.meetingId = id;
       this.invites = inviteList;
       this.postPoneVisible = false;
+      this.isStream = typeof stream !== 'undefined';
+      this.viewer = viewer;
       this.showPopup = this.showPopup === index ? null : index;
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.cast-popup');
@@ -1106,7 +1133,7 @@ export default {
 }
 
 .live-btn {
-  background-color: #f84330;
+  background-color: #f84330 !important;
   border-radius: 6px;
   color: #ffffff;
   padding: 5px;

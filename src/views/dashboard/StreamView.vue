@@ -248,6 +248,11 @@ export default {
   font-weight: 500;
   color: #647181;
 }
+.host {
+  font-size: 16px;
+  font-weight: 500;
+  color: #647181;
+}
 
 .my-2 {
   font-size: 12px;
@@ -259,6 +264,9 @@ export default {
   word-wrap: normal;
 }
 
+.stream_detail {
+  max-width: 400px;
+}
 .stream_detail {
   max-width: 400px;
 }
