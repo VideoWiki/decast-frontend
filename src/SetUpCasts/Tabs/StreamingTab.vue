@@ -148,9 +148,6 @@
         Create Cast
       </button>
     </div>
-    <div class="button cursor-pointer">
-      <button class="cursor-pointer" @click="handleSubmit">Create Cast</button>
-    </div>
   </div>
 </template>
 <script>
@@ -185,7 +182,6 @@ export default {
   components: {},
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
-    console.log(this.castId, 'cast.....');
   },
   methods: {
     ChangeStream() {
@@ -247,7 +243,7 @@ export default {
 
       this.stepThreeProps.is_streaming = isStreaming;
       this.stepThreeProps.vw_stream = streamUrls[0].vw_stream;
-      this.stepThreeProps.vw_stream_url = streamUrls[1].urls;
+      this.stepThreeProps.vw_stream_url = JSON.stringify(streamUrls);
 
       console.log(this.stepThreeProps.vw_stream, 'stream...');
       console.log(this.stepThreeProps.vw_stream_url, 'urls....');
