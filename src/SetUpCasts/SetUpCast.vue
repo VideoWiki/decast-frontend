@@ -209,7 +209,7 @@ export default {
         guest_policy: '',
         welcome_text: '',
         showText: true,
-        duration: '60',
+        duration: '480',
         logout_url: 'https://dev.stream.video.wiki/full',
       },
       stepThreeProps: {

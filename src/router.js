@@ -295,7 +295,7 @@ const router = new Router({
       },
     },
     {
-      path: '/stream-join/:eventId?',
+      path: '/live/:eventId?',
       name: 'Stream View',
       component: () => import('./views/dashboard/StreamView.vue'),
       meta: {
@@ -477,14 +477,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/live/:eventId',
-      name: 'Stream Page',
-      component: () => import('./views/events/StreamPage.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/live/:eventId',
+    //   name: 'Stream Page',
+    //   component: () => import('./views/events/StreamPage.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/public/nftdrop',
       name: 'Public NFT Drop',
