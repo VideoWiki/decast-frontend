@@ -186,8 +186,7 @@
                     <div v-if="streamInfo[cast.public_meeting_id]">
                       <button
                         v-if="streamInfo[cast.public_meeting_id].stream_status"
-                        id="stream-btn"
-                        class="action-btn"
+                        class="stream-btn"
                         @click="toggleStream(cast.public_meeting_id, 'pause')"
                       >
                         <feather-icon
@@ -196,24 +195,24 @@
                           class="block icon"
                         />
                       </button>
+                      <!-- <div class="tooltip" v-if="showTooltip===index">Pause Stream</div> -->
                       <button
                         class="action-btn"
                         id="stream-btn"
                         v-else
+                        @mouseover="toggleTool2(index)"
+                        @mouseleave="toggleTool2(index)"
                         @click="toggleStream(cast.public_meeting_id, 'start')"
                       >
                         <img src="@/assets/images/dashboard/Live.svg" alt="" />
                       </button>
+                      <div class="tooltip" v-if="showTooltip2 === index">
+                        Start Stream
+                      </div>
                     </div>
-                    <button
-                      class="active action-btn"
-                      @click="toggleCopy(index)"
-                      @mouseover="showTooltip = true"
-                      @mouseout="showTooltip = false"
-                    >
+                    <button class="cop-btn" @click="toggleCopy(index)">
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
-                    <!-- <div class="tooltip" v-if="showTooltip">Copy Link</div> -->
                     <div
                       id="copy-pop"
                       class="cop-cont"
@@ -233,6 +232,14 @@
                       >
                         <img src="@/assets/images/Participant.svg" />
                         Copy Co-host url
+                      </button>
+                      <button
+                        @click="copy(cast.public_meeting_id, undefined)"
+                        id="copy-btn-3"
+                        v-if="streamInfo[cast.public_meeting_id]"
+                      >
+                        <img src="@/assets/images/dashboard/Live.svg" />
+                        Copy Stream url
                       </button>
                     </div>
                     <button
@@ -461,6 +468,7 @@ export default {
       showPopup: false,
       showCopy: false,
       showTooltip: false,
+      showTooltip2: false,
       showSettings: false,
       moment,
       casts: [],
@@ -520,6 +528,7 @@ export default {
       this.invite = true;
     },
     async toggleStream(id, action) {
+      this.resetShowTooltip2();
       console.log(action);
       try {
         this.$vs.loading();
@@ -543,6 +552,7 @@ export default {
             text: 'Stream Ended',
             color: 'success',
           });
+          this.resetShowTooltip2();
           this.streamInfo[id].stream_status =
             !this.streamInfo[id].stream_status;
         }
@@ -703,13 +713,9 @@ export default {
       }
     },
     handleClick2(event) {
-      const isOutsideCopyPopup = !event.target.closest('.cop-cont');
-      const isNotToggleCopyButton = !event.target.closest('.active');
-      if (
-        isOutsideCopyPopup &&
-        isNotToggleCopyButton &&
-        this.showCopy !== null
-      ) {
+      // const isOutsideCopyPopup = !event.target.closest('.cop-cont');
+      const isNotToggleCopyButton = !event.target.closest('.cop-btn');
+      if (isNotToggleCopyButton && this.showCopy !== null) {
         this.showCopy = null;
       }
     },
@@ -730,6 +736,12 @@ export default {
       this.focusYourRooms = toYourRooms;
     },
     copy(id, pass) {
+      if (pass === undefined) {
+        navigator.clipboard.writeText(
+          'https://dev.stream.video.wiki/live/' + id
+        );
+        return;
+      }
       navigator.clipboard.writeText(
         'https://dev.stream.video.wiki/join-cast/' + id + '/?pass=' + pass
       );
@@ -837,6 +849,16 @@ export default {
       this.postPoneVisible = false;
       this.showCopy = this.showCopy === index ? null : index;
     },
+    resetShowTooltip2() {
+      this.showTooltip2 = null;
+      this.showTooltip = null;
+    },
+    // toggleTool1(index){
+    //   this.showTooltip = this.showTooltip === index ? null : index;
+    // },
+    toggleTool2(index) {
+      this.showTooltip2 = this.showTooltip2 === index ? null : index;
+    },
     async deleteCast(index) {
       const res = await this.$store.dispatch('cast/deleteCast', this.index);
       console.log(res);
@@ -873,8 +895,17 @@ export default {
   height: 100%;
 }
 
-.active:active {
-  border: 1px solid #d7df23;
+.cop-btn {
+  border: 1px solid #31394e !important;
+  width: 33px !important;
+  height: 33px;
+}
+
+.cop-btn img {
+  margin: auto !important;
+}
+.cop-btn:active {
+  border: 1px solid #d7df23 !important;
 }
 
 .options-button {
@@ -896,6 +927,18 @@ export default {
   width: 270px;
 }
 
+.tooltip {
+  position: absolute;
+  z-index: 5;
+  width: fit-content;
+  font-size: 12px;
+  color: #a6a6a8;
+  background-color: #31394e;
+  border-radius: 4px;
+  padding: 5px;
+  pointer-events: none;
+  top: -30px;
+}
 .footer-content {
   text-align: center;
   margin-top: 40px !important;
@@ -1249,25 +1292,5 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.tooltip {
-  position: absolute;
-  background-color: #31394e;
-  color: #a6a6a8;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 5px;
-  border-radius: 5px;
-  display: inline-block;
-  z-index: 1;
-  top: 100%;
-  left: 0;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-button.active:hover + .tooltip {
-  opacity: 1;
 }
 </style>

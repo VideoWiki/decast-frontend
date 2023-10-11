@@ -1,18 +1,46 @@
 <template>
   <div id="kk-cont">
     <div class="mm-cont">
-      <!-- <h2>
-        <span class="number">{{ hours }}</span>
-        <span class="text">hrs</span>
-        <span class="dots ml-5">{{ dot1 }}</span>
-        <span class="number ml-5">{{ minutes }}</span>
-        <span class="text">min</span>
-        <span class="dots ml-5">{{ dot2 }}</span>
-        <span class="number ml-5">{{ seconds }}</span>
-        <span class="text">sec</span>
-      </h2> -->
+      <!-- <h2> <span class="number">{{ hours }}</span>
+                <span class="text">hrs</span>
+                <span class="dots ml-5">{{ dot1 }}</span>
+                <span class="number ml-5">{{ minutes }}</span>
+                <span class="text">min</span>
+                <span class="dots ml-5">{{ dot2 }}</span>
+                <span class="number ml-5">{{ seconds }}</span>
+                <span class="text">sec</span>
+            </h2> -->
+      <vue-countdown-timer
+        @start_callback="startCallBack('')"
+        @end_callback="endCallBack('')"
+        :start-time="`${start_time}`"
+        :end-time="`${start_time}`"
+        :interval="1000"
+        label-position="begin"
+        :end-text="endText"
+        :day-txt="'days'"
+        :hour-txt="'hours'"
+        :minutes-txt="'minutes'"
+        :seconds-txt="'seconds'"
+      >
+        <template slot="countdown" slot-scope="scope">
+          <span class="dtm">
+            <p class="p">{{ scope.props.hours }}</p>
+            <div class="cnt">hrs</div>
+          </span>
+          <span class="dtm">
+            <p class="p">{{ scope.props.minutes }}</p>
+            <div class="cnt">min</div>
+          </span>
+          <span class="dtm">
+            <p class="p">{{ scope.props.seconds }}</p>
+            <div class="cnt">sec</div>
+          </span>
+        </template>
+      </vue-countdown-timer>
+
       <!-- <h2>{{start_time }}</h2> -->
-      <h3 v-if="running === 'false'">
+      <h3 v-if="running">
         Cast is live <img src="@/assets/images/dashboard/Live.svg" alt="" />
       </h3>
       <h3 v-else>Cast is not live</h3>
@@ -78,9 +106,11 @@ export default {
           },
         },
       ],
+      localtime: null,
       dataLoaded: false,
       running: false,
       e_title: null,
+      endText: '',
       e_cover_image: null,
       e_date: null,
       e_description: null,
@@ -109,6 +139,7 @@ export default {
       interval: '',
       public_auth: '',
       public: '',
+      moment: moment,
     };
   },
   computed: {
@@ -162,6 +193,8 @@ export default {
           this.public_nft_status = details.public_nft_status;
           this.airdrop = details.airdrop;
           this.give_nft = details.give_nft || details.vc_details_submitted;
+          this.running = details.running;
+          console.log(this.running);
           document.getElementById('loading-bg').style.display = 'none';
 
           if (!details.running) {
@@ -169,18 +202,19 @@ export default {
               this.fetchEventDetails(eventId);
             }, 5000);
           } else {
-            setTimeout(() => {
-              this.running = details.running;
-            }, 5000);
+            setTimeout(() => {}, 5000);
           }
 
           this.stream_url =
             Constants.streamUrl + this.$route.params.eventId + '.m3u8';
           const now = moment.utc().format('yyyy-MM-DD HH:mm:ss');
           // const event_dtae ='2021-09-13'+' '+ '10:32:59';
-          const eventDate = this.e_date + ' ' + this.e_time;
+          const eventDate = this.e_date + ', ' + this.e_time;
           const localTime = moment.utc(eventDate).toDate();
-          this.start_time = moment.utc().format('HH:mm:ss');
+          this.start_time = moment
+            .utc(eventDate, 'YYYY-MM-DD, HH:mm:ss')
+            .local()
+            .format('YYYY-MM-DD HH:mm:ss');
           this.start_time_new = moment(localTime).format('HH: mm: ss');
 
           this.end_time = localTime;
@@ -195,11 +229,38 @@ export default {
           this.$vs.loading.close();
         });
     },
+    startCallBack(eventMessage) {
+      this.start_time;
+    },
+    endCallBack(eventMessage) {
+      this.start_time;
+    },
   },
 };
 </script>
 
 <style scoped>
+.dtm {
+  width: 80px;
+  padding: 10px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 10px;
+}
+.p {
+  text-align: center !important;
+  color: #d7df23 !important;
+  font-size: xx-large;
+  width: 25px;
+  height: 25px;
+}
+.cnt {
+  width: 15px;
+  height: 15px;
+  color: #647181;
+  font-size: 13px;
+  font-weight: 500;
+}
 .ll-cont {
   border: 1px solid #31394e;
   background-color: #1f272f;
