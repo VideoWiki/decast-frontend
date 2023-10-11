@@ -201,6 +201,7 @@
                         id="stream-btn"
                         v-else
                         @mouseover="toggleTool2(index)"
+                        @mouseleave="toggleTool2(index)"
                         @click="toggleStream(cast.public_meeting_id, 'start')"
                       >
                         <img src="@/assets/images/dashboard/Live.svg" alt="" />
