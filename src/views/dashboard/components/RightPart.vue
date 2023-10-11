@@ -183,14 +183,10 @@
 
                 <div class="inner-child3">
                   <div class="inner-child4">
-                    <button class="cop-btn" @click="toggleCopy(index)">
-                      <img src="@/assets/images/dashboard/copy.svg" alt="" />
-                    </button>
                     <div v-if="streamInfo[cast.public_meeting_id]">
                       <button
                         v-if="streamInfo[cast.public_meeting_id].stream_status"
                         class="stream-btn"
-                      
                         @click="toggleStream(cast.public_meeting_id, 'pause')"
                       >
                         <feather-icon
@@ -209,8 +205,13 @@
                       >
                         <img src="@/assets/images/dashboard/Live.svg" alt="" />
                       </button>
-                      <div class="tooltip" v-if="showTooltip2===index">Start Stream</div>
+                      <div class="tooltip" v-if="showTooltip2 === index">
+                        Start Stream
+                      </div>
                     </div>
+                    <button class="cop-btn" @click="toggleCopy(index)">
+                      <img src="@/assets/images/dashboard/copy.svg" alt="" />
+                    </button>
                     <div
                       id="copy-pop"
                       class="cop-cont"
@@ -230,6 +231,14 @@
                       >
                         <img src="@/assets/images/Participant.svg" />
                         Copy Co-host url
+                      </button>
+                      <button
+                        @click="copy(cast.public_meeting_id, undefined)"
+                        id="copy-btn-3"
+                        v-if="streamInfo[cast.public_meeting_id]"
+                      >
+                        <img src="@/assets/images/dashboard/Live.svg" />
+                        Copy Stream url
                       </button>
                     </div>
                     <button
@@ -458,7 +467,7 @@ export default {
       showPopup: false,
       showCopy: false,
       showTooltip: false,
-      showTooltip2:false,
+      showTooltip2: false,
       showSettings: false,
       moment,
       casts: [],
@@ -531,7 +540,8 @@ export default {
             text: 'Stream Started',
             color: 'success',
           });
-          this.streamInfo[id].stream_status = !this.streamInfo[id].stream_status;
+          this.streamInfo[id].stream_status =
+            !this.streamInfo[id].stream_status;
         } else {
           await this.$store.dispatch('studio/endStream', {
             cast_id: id,
@@ -542,7 +552,8 @@ export default {
             color: 'success',
           });
           this.resetShowTooltip2();
-          this.streamInfo[id].stream_status = !this.streamInfo[id].stream_status;
+          this.streamInfo[id].stream_status =
+            !this.streamInfo[id].stream_status;
         }
       } catch (err) {
         this.$vs.notify({
@@ -701,13 +712,9 @@ export default {
       }
     },
     handleClick2(event) {
-      const isOutsideCopyPopup = !event.target.closest('.cop-cont');
+      // const isOutsideCopyPopup = !event.target.closest('.cop-cont');
       const isNotToggleCopyButton = !event.target.closest('.cop-btn');
-      if (
-        isOutsideCopyPopup &&
-        isNotToggleCopyButton &&
-        this.showCopy !== null
-      ) {
+      if (isNotToggleCopyButton && this.showCopy !== null) {
         this.showCopy = null;
       }
     },
@@ -728,6 +735,12 @@ export default {
       this.focusYourRooms = toYourRooms;
     },
     copy(id, pass) {
+      if (pass === undefined) {
+        navigator.clipboard.writeText(
+          'https://dev.stream.video.wiki/live/' + id
+        );
+        return;
+      }
       navigator.clipboard.writeText(
         'https://dev.stream.video.wiki/join-cast/' + id + '/?pass=' + pass
       );
@@ -837,12 +850,12 @@ export default {
     },
     resetShowTooltip2() {
       this.showTooltip2 = null;
-      this.showTooltip=null;
+      this.showTooltip = null;
     },
     // toggleTool1(index){
     //   this.showTooltip = this.showTooltip === index ? null : index;
     // },
-    toggleTool2(index){
+    toggleTool2(index) {
       this.showTooltip2 = this.showTooltip2 === index ? null : index;
     },
     async deleteCast(index) {
@@ -881,13 +894,13 @@ export default {
   height: 100%;
 }
 
-.cop-btn{
+.cop-btn {
   border: 1px solid #31394e !important;
   width: 33px !important;
   height: 33px;
 }
 
-.cop-btn img{
+.cop-btn img {
   margin: auto !important;
 }
 .cop-btn:active {
@@ -913,7 +926,7 @@ export default {
   width: 270px;
 }
 
-.tooltip{
+.tooltip {
   position: absolute;
   z-index: 5;
   width: fit-content;
