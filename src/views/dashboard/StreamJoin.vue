@@ -1,7 +1,7 @@
 <template>
   <div id="kk-cont">
     <div class="mm-cont">
-      <h2>
+      <!-- <h2>
         <span class="number">{{ hours }}</span>
         <span class="text">hrs</span>
         <span class="dots ml-5">{{ dot1 }}</span>
@@ -10,11 +10,12 @@
         <span class="dots ml-5">{{ dot2 }}</span>
         <span class="number ml-5">{{ seconds }}</span>
         <span class="text">sec</span>
-      </h2>
+      </h2> -->
       <!-- <h2>{{start_time }}</h2> -->
-      <h3>
+      <h3 v-if="running === 'false'">
         Cast is live <img src="@/assets/images/dashboard/Live.svg" alt="" />
       </h3>
+      <h3 v-else>Cast is not live</h3>
       <h4>{{ e_title }}</h4>
       <h5>Hosted by "{{ e_creator_name }}"</h5>
       <p>{{ e_description }}</p>
@@ -161,6 +162,8 @@ export default {
           this.public_nft_status = details.public_nft_status;
           this.airdrop = details.airdrop;
           this.give_nft = details.give_nft || details.vc_details_submitted;
+          document.getElementById('loading-bg').style.display = 'none';
+
           if (!details.running) {
             setTimeout(() => {
               this.fetchEventDetails(eventId);

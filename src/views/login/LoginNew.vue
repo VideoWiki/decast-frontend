@@ -147,6 +147,7 @@ export default {
     },
   },
   mounted() {
+    document.getElementById('loading-bg').style.display = 'none';
     this.initilizeGAuth();
   },
   created() {
