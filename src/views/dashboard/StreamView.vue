@@ -22,7 +22,7 @@
             />
           </div>
           <div class="md:py-10 pb-0 stream_detail">
-            <h4 class="live">Live Streaming at {{ start_time_new }}</h4>
+            <!-- <h4 class="live">Live Streaming at {{ start_time_new }}</h4> -->
             <h3 class="my-3 text-3xl font-semibold">
               {{ e_title }}
             </h3>
@@ -233,7 +233,7 @@ export default {
   margin-left: 2rem;
   margin-right: 2rem;
   width: 700px !important;
-  max-width: 900px;
+  max-width: 80%;
   border-radius: 6px;
   /* border: 1px solid yellow; */
 }

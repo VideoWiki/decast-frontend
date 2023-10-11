@@ -23,7 +23,11 @@
         :minutes-txt="'minutes'"
         :seconds-txt="'seconds'"
       >
-        <template slot="countdown" slot-scope="scope">
+        <template slot="countdown" class="countdown" slot-scope="scope">
+          <span class="dtm"
+            ><p class="p">{{ scope.props.days }}</p>
+            <div class="cnt">Days</div></span
+          >
           <span class="dtm">
             <p class="p">{{ scope.props.hours }}</p>
             <div class="cnt">hrs</div>
@@ -213,8 +217,8 @@ export default {
           const localTime = moment.utc(eventDate).toDate();
           this.start_time = moment
             .utc(eventDate, 'YYYY-MM-DD, HH:mm:ss')
-            .local()
             .format('YYYY-MM-DD HH:mm:ss');
+          console.log(this.start_time);
           this.start_time_new = moment(localTime).format('HH: mm: ss');
 
           this.end_time = localTime;
@@ -251,11 +255,11 @@ export default {
   text-align: center !important;
   color: #d7df23 !important;
   font-size: xx-large;
-  width: 25px;
+  text-align: center;
   height: 25px;
 }
 .cnt {
-  width: 15px;
+  text-align: center;
   height: 15px;
   color: #647181;
   font-size: 13px;
@@ -279,6 +283,11 @@ export default {
   word-spacing: 5px;
   /* letter-spacing: 5px; */
   /* 00:00:00 */
+}
+
+.p {
+  font-size: 16px !important;
+  margin: 5px;
 }
 
 .number {
