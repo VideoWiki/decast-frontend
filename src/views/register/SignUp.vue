@@ -3,7 +3,6 @@
     <div class="container">
       <div class="signUp">
         <div class="signUp-text">Sign Up</div>
-        <button class="close-icon" @click="close">✕</button>
       </div>
       <div class="singUp-box">
         <div
@@ -78,6 +77,7 @@ import GAuth from 'vue-google-oauth2';
 import Web3 from 'web3';
 import Vue from 'vue';
 import { detectIncognito } from 'detectincognitojs';
+import constants from '../../../constant';
 export default {
   name: 'SignUp',
   props: {
@@ -147,10 +147,7 @@ export default {
       return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,12})+$/.test(this.email);
     },
     checkLogin() {
-      // If user is already logged in notify
       if (this.$store.state.auth.isUserLoggedIn()) {
-        // Close animation if passed as payload
-
         this.$vs.notify({
           title: 'Login Attempt',
           text: 'You are already logged in!',
@@ -165,7 +162,7 @@ export default {
     },
     registerUserJWt() {
       // If form is not validated or user is already login return
-      if (!this.validateForm || !this.checkLogin()) return;
+      // if (!this.validateForm || !this.checkLogin()) return;
 
       this.$vs.loading();
 
@@ -187,39 +184,7 @@ export default {
             authenticationMethod: 'Email',
             userId: response.data.usersData.id, // this should be replaced with an actual ID
           });
-          const payload = {
-            checkbox_remember_me: true,
-            userDetails: {
-              email: this.email,
-              password: this.password,
-            },
-          };
-
-          this.$store
-            .dispatch('auth/login', payload)
-            .then((response) => {
-              this.$vs.loading.close();
-              this.$acl.change(this.activeUserInfo.userRole);
-              if (this.popup) this.$emit('registered');
-              else this.$router.push('/');
-            })
-            .catch((error) => {
-              this.$vs.loading.close();
-              console.log(
-                error.response.data.message,
-                error.response.data.message === 'username already exists'
-              );
-              this.$vs.notify({
-                title: 'Login Error',
-                text:
-                  error.response.data.message === 'username already exists'
-                    ? 'Email already exists'
-                    : error.response.data.message,
-                iconPack: 'feather',
-                icon: 'icon-alert-circle',
-                color: 'danger',
-              });
-            });
+          location.href = constants.challengeUri;
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -239,11 +204,8 @@ export default {
           });
         });
     },
-    close() {
-      window.parent.postMessage('closeIframe', '*');
-    },
     navigateToLogin() {
-      window.parent.postMessage('navigateToLogin', '*');
+      // window.parent.postMessage('navigateToLogin', '*');
       this.$router.push('/login');
     },
     // Metamsask Connection

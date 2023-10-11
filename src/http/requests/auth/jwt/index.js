@@ -85,7 +85,7 @@ export default {
     for (const [key, value] of Object.entries(payload)) {
       form.append(key, value);
     }
-    return axios.post(Constant.apiUrl + `/api/user/update/`, form);
+    return axios.patch(Constant.profilingUrl + `/api/profile/update/`, form);
   },
   changePassword(payload) {
     return axios.post(`${Constant.hydra_ep}/api/change_password/`, payload);

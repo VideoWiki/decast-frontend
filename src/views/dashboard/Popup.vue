@@ -8,32 +8,32 @@
         alt=""
       />
     </div>
-    
+
     <div class="popup-svg">
       <img src="@/assets/images/create-event/trophy.svg" />
     </div>
     <div class="popup-text2">Great your cast was created</div>
-    <div class="extra-text">Next steps: </div>
+    <div class="extra-text">Next steps:</div>
     <div class="extra-text2">Add attendees, Add drops, Share ...etc</div>
     <div class="my-5 flex justify-center bottom">
-      <button
-        class="success-btn button flex  items-center"
-      >
+      <button class="success-btn button flex items-center">
         <img src="@/assets/images/create-event/tabler.svg" /> Add drops
       </button>
       <button
         @click="changeStatus('invite')"
-        class="success-btn button flex  items-center"
+        class="success-btn button flex items-center"
       >
-        <img src="@/assets/images/create-event/tabler-icon.svg" />Invite your audience
+        <img src="@/assets/images/create-event/tabler-icon.svg" />Invite your
+        audience
       </button>
       <button
-        class="success-btn button flex  items-center "
+        class="success-btn button flex items-center"
+        @click="changeStatus('stream')"
       >
-        <img src="@/assets/images/create-event/Vector29.svg" />Share your cast
+        <img src="@/assets/images/create-event/Cam.svg" />Stream your cast
       </button>
     </div>
-    <div class="skip">
+    <div class="skip cursor-pointer">
       Skip for now
       <div class="underline"></div>
     </div>
@@ -68,7 +68,6 @@ export default {
   margin: 18px;
   display: flex;
   flex-direction: column;
-
 }
 .popup-text {
   font-family: Karla;
@@ -109,42 +108,42 @@ export default {
   height: 40px;
   border: 1px;
   cursor: pointer;
- 
 }
-.success-btn img{
+.success-btn img {
   margin-right: 10px;
   margin-left: 80px;
 }
-.button{
+.button {
   width: 297px;
-  background-color: #31394E;
-  color: #A6A6A8;
+  background-color: #31394e;
+  color: #a6a6a8;
   margin-top: 15px;
 }
-.bottom{
+.bottom {
   flex-direction: column;
   align-items: center;
 }
-.extra-text ,.extra-text2 {
+.extra-text,
+.extra-text2 {
   text-align: center;
   font-size: 500;
   font-weight: 16px;
   color: #647181;
 }
-.skip{
+.skip {
   margin-top: 50px;
   font-size: 16px;
   font-weight: 500;
   color: #647181;
   align-self: flex-end;
 }
-.underline{
+.underline {
   width: 93px;
   height: 2px;
-  background-color: #31394E;
+  background-color: #31394e;
   margin-top: 3px;
 }
-.cross-img{
+.cross-img {
   align-self: flex-end;
   width: 12px;
   height: 12px;

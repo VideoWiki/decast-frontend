@@ -5,18 +5,26 @@
         <h2 style="color: #a6a6a8; font-weight: 500; font-size: 24px">Rooms</h2>
         <p class="sub-heading pt-2">
           Rooms are social spaces for direct communication. Ideal for X Y Z.
-          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
-            Rooms.</a>
+          <a
+            target="_blank"
+            href="#"
+            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
+            >Learn more about Rooms.</a
+          >
         </p>
       </div>
       <div class="flex justify-between">
-        <button class="header-button p-2" @click="createPopup = true" style="
+        <button
+          class="header-button p-2"
+          @click="createPopup = true"
+          style="
             border: 1px solid #a6a6a8;
             border-radius: 5px;
             background-color: #1f272f;
             width: 28px;
             height: 28px;
-          ">
+          "
+        >
           <img src="@/assets/images/Rooms/Plus.svg" alt="" />
         </button>
         <!-- <button class="header-button border-none dot">
@@ -27,12 +35,18 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button class="options-button border-none" @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }">
+        <button
+          class="options-button border-none"
+          @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }"
+        >
           Your Rooms
         </button>
-        <button class="options-button border-none px-4" @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }">
+        <button
+          class="options-button border-none px-4"
+          @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }"
+        >
           Room Recordings
         </button>
       </div>
@@ -49,7 +63,7 @@
               <div class="flex justify-between">
                 <div class="tooltip-container">
                   <button 
-                    class="copy-link tooltip-button" 
+                    class ="copy-link tooltip-button" 
                     @click="copy(room.room_url)" 
                     @mouseover="showTooltip[index] = true"
                     @mouseout="showTooltip[index] = false"
@@ -60,14 +74,28 @@
 
                   <!-- <span class="tooltip">Tooltip text</span> -->
                 </div>
-                <button class="session-button ml-4" @click="start(room.room_url)">
+                <button
+                  class="session-button ml-4"
+                  @click="start(room.room_url)"
+                >
                   Start Session
                 </button>
-                <button class="side-btn border-none" @click="togglePopup(index)">
-                  <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+                <button
+                  class="side-btn border-none"
+                  @click="togglePopup(index)"
+                >
+                  <img
+                    src="@/assets/images/Rooms/Vector2.svg"
+                    class="h-7 p-2"
+                    alt=""
+                  />
                 </button>
               </div>
-              <div class="room-popup" v-if="showPopup === index" @click="closePopup(index)">
+              <div
+                class="room-popup"
+                v-if="showPopup === index"
+                @click="closePopup(index)"
+              >
                 <button @click="openShare(room)">
                   <img src="@/assets/images/share.svg" />
                   Share
@@ -90,8 +118,11 @@
         </div>
         <div v-else>
           <div v-if="recordingList.length">
-            <div class="recordings flex justify-between items-center mb-4" v-for="(recording, index) in recordings"
-              :key="index">
+            <div
+              class="recordings flex justify-between items-center mb-4"
+              v-for="(recording, index) in recordings"
+              :key="index"
+            >
               <div class="w-3/4 flex justify-between items-center">
                 <p>
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
@@ -110,12 +141,29 @@
                 </p>
               </div>
 
-              <button class="side-btn border-none" @click="toggleRecordingPopup(index)">
-                <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+              <button
+                class="side-btn border-none"
+                @click="toggleRecordingPopup(index)"
+              >
+                <img
+                  src="@/assets/images/Rooms/Vector2.svg"
+                  class="h-7 p-2"
+                  alt=""
+                />
               </button>
-              <div class="room-popup" v-if="showPopup === index" @click="closePopup(index)">
+              <div
+                class="room-popup"
+                v-if="showPopup === index"
+                @click="closePopup(index)"
+              >
                 <button @click="openRecording(recording)">
-                  <vs-icon icon-pack="feather" icon="icon-play" size="12px" rounded="true" style="align-self: center">
+                  <vs-icon
+                    icon-pack="feather"
+                    icon="icon-play"
+                    size="12px"
+                    rounded="true"
+                    style="align-self: center"
+                  >
                   </vs-icon>
                   Play
                 </button>
@@ -135,8 +183,14 @@
             </div>
           </div>
           <div v-else class="flex flex-col items-center justify-items-center">
-            <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
-            <img src="@/assets/images/dashboard/NoRecordingText1.svg" class="mb-3" />
+            <img
+              src="@/assets/images/dashboard/NoRecording.svg"
+              class="w-1/2"
+            />
+            <img
+              src="@/assets/images/dashboard/NoRecordingText1.svg"
+              class="mb-3"
+            />
             <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
@@ -147,7 +201,9 @@
       <p class="m-auto">3/3</p>
       <p>
         Need more dedicated room?
-        <a target="_blank" href="#" style="color: #31a2f4; cursor: pointer">Contact us for a tailored plan</a>
+        <a target="_blank" href="#" style="color: #31a2f4; cursor: pointer"
+          >Contact us for a tailored plan</a
+        >
       </p>
     </div>
     <div class="popup" v-if="createPopup" @click="closeAllPopups">
@@ -414,7 +470,11 @@ export default {
     handleGlobalClick(event) {
       const isOutsideRoomPopup = !event.target.closest('.room-popup');
       const isNotTogglePopupButton = !event.target.closest('.side-btn');
-      if (isOutsideRoomPopup && isNotTogglePopupButton && this.showPopup !== null) {
+      if (
+        isOutsideRoomPopup &&
+        isNotTogglePopupButton &&
+        this.showPopup !== null
+      ) {
         this.showPopup = null;
       }
     },
@@ -508,7 +568,7 @@ export default {
   text-align: left;
 }
 
-.room-popup>button {
+.room-popup > button {
   display: flex;
   cursor: pointer;
   font-size: 14px;
@@ -520,7 +580,7 @@ export default {
   margin-top: 5px;
 }
 
-.room-popup>button img {
+.room-popup > button img {
   width: 10px;
   height: 10px;
   margin: auto;
@@ -598,26 +658,25 @@ export default {
 .tooltip-button {
   position: relative;
   z-index: 1;
-  /* Ensure the button is above the tooltip */
 }
 
 .tooltip {
   position: absolute;
   top: -10%;
-  /* Position it below the button */
   left: -20%;
-  background-color: #333;
-  color: #fff;
+  background-color: #31394E;
+  color: #A6A6A8;
+  font-size: 12px;
+  font-weight: 500;
   width: 100px;
   height: 20px;
   padding: 5px;
-  border-radius: 3px;
+  border-radius: 6px;
   display: none;
 }
 
-.tooltip-button:hover+.tooltip {
+.tooltip-button:hover + .tooltip {
   display: block;
-  /* Show the tooltip on hover */
 }
 
 .popup {

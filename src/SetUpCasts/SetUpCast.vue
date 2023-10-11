@@ -92,6 +92,12 @@
             v-else
             :createCast="createCast"
             :changeActiveTab="changeActiveTab"
+            :stepFourProps="stepFourProps"
+            :stepThreeProps="stepThreeProps"
+            :stepTwoProps="stepTwoProps"
+            :stepOneProps="stepOneProps"
+            :closeCreate="closeCreate"
+            :castId="castId"
           />
         </div>
       </div>
@@ -238,6 +244,7 @@ export default {
         screen_sharing: true,
         restrict_participants: false,
         meeting_settings: false,
+        checkBox: '',
       },
     };
   },
@@ -360,20 +367,6 @@ export default {
           });
           this.status = 'success';
           this.castId = response.data.meeting_id;
-          // if (
-          //   this.startNow ||
-          //   (this.startNow === 'True' &&
-          //     response.data &&
-          //     response.data.url !== '')
-          // ) {
-          // this.$refs.Event.setAttribute(
-          //   'href',
-          //   `/user_details/${response.data.meeting_id}`
-          // );
-          // this.$refs.Event.click();
-          // window.location.href = response.data.url;
-          // return (this.newWindow.location = `/user_details/${response.data.meeting_id}`);
-          // } else this.$router.push(`/user_details/${response.data.meeting_id}`);
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -438,7 +431,7 @@ export default {
   margin-top: 23px;
 }
 .buttons button {
-  width: 135px;
+  width: 33%;
   height: 40px;
   border: 1px solid #31394e;
   font-size: 12px;

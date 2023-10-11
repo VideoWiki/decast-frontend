@@ -5,6 +5,7 @@
   display: block;
   position: absolute;
   z-index: 999;
+  overflow: hidden;
 }
 
 .loading-logo {
