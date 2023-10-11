@@ -205,7 +205,7 @@
                       </button>
                     </div>
                     <div class="tooltip" v-if="showTooltip">Copy Link</div>
-                    <div id="copy-pop" v-if="cast.showCopy">
+                    <div id="copy-pop" class="cop-cont" v-if="showCopy===index">
                       <button
                         id="copy-btn-1"
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
@@ -472,9 +472,11 @@ export default {
     this.getCastList();
     this.getRecordings();
     window.addEventListener('click', this.handleGlobalClick);
+    window.addEventListener('click', this.handleClick2);
   },
   beforeDestroy() {
     window.removeEventListener('click', this.handleGlobalClick);
+    window.removeEventListener('click', this.handleClick2);
   },
   computed: {
     totalImagesCount() {
@@ -668,6 +670,17 @@ export default {
         this.showPopup = null;
       }
     },
+    handleClick2(event) {
+      const isOutsideCopyPopup = !event.target.closest('.cop-cont');
+      const isNotToggleCopyButton = !event.target.closest('.active');
+      if (
+        isOutsideCopyPopup &&
+        isNotToggleCopyButton &&
+        this.showCopy !== null
+      ) {
+        this.showCopy = null;
+      }
+    },
     async getRecordings() {
       const res = await this.$store.dispatch('cast/recordingList');
       this.recordingList = res.data.status || [];
@@ -788,7 +801,7 @@ export default {
     },
     toggleCopy(index) {
       this.postPoneVisible = false;
-      this.$set(this.casts[index], 'showCopy', !this.casts[index].showCopy);
+      this.showCopy = this.showCopy === index ? null : index;
     },
     async deleteCast(index) {
       const res = await this.$store.dispatch('cast/deleteCast', this.index);

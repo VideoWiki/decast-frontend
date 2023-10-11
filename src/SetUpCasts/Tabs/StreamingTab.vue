@@ -148,9 +148,9 @@
         Create Cast
       </button>
     </div>
-    <div class="button cursor-pointer">
+    <!-- <div class="button cursor-pointer">
       <button class="cursor-pointer" @click="handleSubmit">Create Cast</button>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
