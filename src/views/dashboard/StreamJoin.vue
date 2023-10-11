@@ -24,18 +24,24 @@
         :seconds-txt="'seconds'"
       >
         <template slot="countdown" slot-scope="scope">
-          <span class="dtm">
-            <p class="p">{{ scope.props.hours }}</p>
-            <div class="cnt">hrs</div>
-          </span>
-          <span class="dtm">
-            <p class="p">{{ scope.props.minutes }}</p>
-            <div class="cnt">min</div>
-          </span>
-          <span class="dtm">
-            <p class="p">{{ scope.props.seconds }}</p>
-            <div class="cnt">sec</div>
-          </span>
+          <div class="mm-cont">
+            <h2>
+            <!-- <span>{{ start_time }}</span> -->
+            <span class="number">{{ scope.props.hours }}</span>
+            <span class="text">hrs</span>
+
+          <span class="dots ml-5">{{ dot2 }}</span>
+
+            <span class="number ml-5">{{ scope.props.minutes }}</span>
+            <span class="text">min</span>
+
+          <span class="dots ml-5">{{ dot2 }}</span>
+  
+            <span class="number ml-5">{{ scope.props.seconds }}</span>
+            <span class="text">sec</span>
+
+          </h2>
+          </div>
         </template>
       </vue-countdown-timer>
 
@@ -156,7 +162,7 @@ export default {
       return this.start_time.slice(3, 5);
     },
     dot2() {
-      return this.start_time.slice(5, 6);
+      return this.start_time.slice(13, 14);
     },
     seconds() {
       return this.start_time.slice(6, 8);
@@ -240,31 +246,28 @@ export default {
 </script>
 
 <style scoped>
-.dtm {
-  width: 80px;
-  padding: 10px;
-  display: inline-block;
-  text-align: center;
-  margin-right: 10px;
+
+/* .tim-cont{
+  display: flex;
 }
-.p {
+.dtm {
+  display: flex !important;
+}
+.p{
   text-align: center !important;
   color: #d7df23 !important;
-  font-size: xx-large;
-  width: 25px;
-  height: 25px;
+  font-size: 20px !important;
 }
 .cnt {
-  width: 15px;
-  height: 15px;
   color: #647181;
   font-size: 13px;
   font-weight: 500;
-}
+} */
 .ll-cont {
   border: 1px solid #31394e;
   background-color: #1f272f;
   border-radius: 6px;
+  max-height: 215px !important;
   padding: 18px;
   margin-bottom: 5px;
   width: 380px !important;
@@ -400,6 +403,36 @@ export default {
   width: auto;
   margin: auto !important;
   /* margin-left: -40% !important; */
-  margin-top: -5rem !important;
+  margin-top: -10rem !important;
 }
+
+@media screen and (max-device-width: 700px) {
+  #kk-cont {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  max-width: 400px !important;
+  min-width: 300px !important;
+  width: auto;
+  margin: auto !important;
+  /* margin-left: -40% !important; */
+  margin-top: -20rem !important;
+}
+
+.ll-cont {
+  border: 1px solid #31394e;
+  background-color: #1f272f;
+  border-radius: 6px;
+  max-height: 215px !important;
+  padding: 18px;
+  margin: auto !important;
+  margin-bottom: 5px;
+  max-width: 320px;
+  width: auto;
+  min-width: 200px;
+}
+}
+
+
 </style>

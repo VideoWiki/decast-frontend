@@ -253,12 +253,14 @@ export default {
   background-position: bottom;
   height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .par-cont {
   backdrop-filter: brightness(0.2);
   height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .log-cont img {
