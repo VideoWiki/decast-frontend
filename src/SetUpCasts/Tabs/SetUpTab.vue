@@ -283,13 +283,15 @@ textarea {
   bottom: 100%;
   left: 0;
   height: 300px;
-  overflow: auto;
+  overflow: scroll;
   background: #1d232b;
   width: 100px;
+  overflow: auto;
 }
 
 .options-list::-webkit-scrollbar {
   width: 5px;
+  height: 0px;
 }
 
 .options-list::-webkit-scrollbar-thumb {

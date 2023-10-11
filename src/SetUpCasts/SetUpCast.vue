@@ -92,6 +92,12 @@
             v-else
             :createCast="createCast"
             :changeActiveTab="changeActiveTab"
+            :stepFourProps="stepFourProps"
+            :stepThreeProps="stepThreeProps"
+            :stepTwoProps="stepTwoProps"
+            :stepOneProps="stepOneProps"
+            :closeCreate="closeCreate"
+            :castId="castId"
           />
         </div>
       </div>
@@ -238,6 +244,7 @@ export default {
         screen_sharing: true,
         restrict_participants: false,
         meeting_settings: false,
+        checkBox: '',
       },
     };
   },

@@ -293,6 +293,7 @@ export default {
 .stream-container {
   background: #1f272f;
   border-radius: 10px;
+  width: 583px;
 }
 
 .toggle-switch {

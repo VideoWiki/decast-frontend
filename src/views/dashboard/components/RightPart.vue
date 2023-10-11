@@ -177,7 +177,12 @@
                     Cast is live
                   </button>
                   <div class="inner-child4">
-                    <button class="active" @click="toggleCopy(index)">
+                    <button
+                      class="active"
+                      @click="toggleCopy(index)"
+                      @mouseover="showTooltip = true"
+                      @mouseout="showTooltip = false"
+                    >
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
                     <div v-if="streamInfo[cast.public_meeting_id]">
@@ -199,6 +204,7 @@
                         <img src="@/assets/images/dashboard/Live.svg" alt="" />
                       </button>
                     </div>
+                    <div class="tooltip" v-if="showTooltip">Copy Link</div>
                     <div id="copy-pop" v-if="cast.showCopy">
                       <button
                         id="copy-btn-1"
@@ -223,6 +229,9 @@
                       class="live-btn"
                     >
                       Go live now
+                      <p v-if="castInProgress(cast)">
+                        {{ calculateRemainingTime(cast) }}
+                      </p>
                     </button>
                   </div>
                 </div>
@@ -285,14 +294,22 @@
       ></set-up-cast>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="stream">
-      <stream-card
+      <StreamingTab
         :closeCreate="() => (stream = false)"
         :stepFourProps="stepFourProps"
         :stepThreeProps="stepThreeProps"
         :stepTwoProps="stepTwoProps"
         :stepOneProps="stepOneProps"
         :castId="index"
-      ></stream-card>
+      ></StreamingTab>
+      <!--<stream-card
+        :closeCreate="() => (stream = false)"
+        :stepFourProps="stepFourProps"
+        :stepThreeProps="stepThreeProps"
+        :stepTwoProps="stepTwoProps"
+        :stepOneProps="stepOneProps"
+        :castId="index"
+      ></stream-card>-->
     </div>
     <div class="popup" v-if="showSettings" @click="closeAllPopups">
       <div class="edit-settings p-5">
@@ -399,12 +416,18 @@
 <script>
 import moment from 'moment-timezone';
 import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
-import StreamCard from '../StreamCard.vue';
 import InviteCard from '../InviteCard.vue';
 import postPoneCast from '../postPoneCast.vue';
 import SettingsTab from '../../../SetUpCasts/Tabs/SettingsTab.vue';
+import StreamingTab from '../../../SetUpCasts/Tabs/StreamingTab.vue';
 export default {
-  components: { SetUpCast, StreamCard, InviteCard, postPoneCast, SettingsTab },
+  components: {
+    SetUpCast,
+    InviteCard,
+    postPoneCast,
+    SettingsTab,
+    StreamingTab,
+  },
   name: 'rightpart',
   data() {
     return {
@@ -416,9 +439,11 @@ export default {
       invite: false,
       showPopup: false,
       showCopy: false,
+      showTooltip: false,
       showSettings: false,
       moment,
       casts: [],
+      remainingTime: [],
       invites: [],
       recordingList: [],
       postPoneVisible: false,
@@ -455,6 +480,9 @@ export default {
     totalImagesCount() {
       return this.casts.map((cast) => cast.images.length);
     },
+  },
+  created() {
+    this.updateRemainingTime();
   },
   methods: {
     async toggleStream(id, action) {
@@ -503,6 +531,34 @@ export default {
       // var timeAbbr = moment().tz(timezone).zoneAbbr();
       var newTime = moment(a._d).tz(timezone).format('h:mm A');
       return newTime;
+    },
+    calculateRemainingTime(cast) {
+      const eventDateTime = moment(cast.event_date + ' ' + cast.event_time);
+      const currentTime = moment();
+      if (eventDateTime.isBefore(currentTime)) {
+        return '';
+      }
+      const duration = moment.duration(eventDateTime.diff(currentTime));
+      const hours = Math.floor(duration.asHours());
+      const minutes = moment.utc(duration.asMilliseconds()).format('mm');
+      return `${hours}:${minutes}`;
+    },
+    castInProgress(cast) {
+      const eventDateTime = moment(cast.event_date + ' ' + cast.event_time);
+      const currentTime = moment();
+      return eventDateTime.isAfter(currentTime);
+    },
+    updateRemainingTime() {
+      setInterval(() => {
+        this.casts.forEach((cast, index) => {
+          if (this.castInProgress(cast)) {
+            this.$set(this.casts, index, {
+              ...cast,
+              remainingTime: this.calculateRemainingTime(cast),
+            });
+          }
+        });
+      }, 1000);
     },
     closeRes(e) {
       if (e.currentTarget === e.target) {
@@ -1068,6 +1124,12 @@ export default {
 #go-btn {
   background-color: #d7df23 !important;
   color: #31394e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#go-btn p {
+  margin-left: 3px;
 }
 
 .popup {
@@ -1140,5 +1202,25 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.tooltip {
+  position: absolute;
+  background-color: #31394e;
+  color: #a6a6a8;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+button.active:hover + .tooltip {
+  opacity: 1;
 }
 </style>

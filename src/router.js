@@ -372,6 +372,14 @@ const router = new Router({
       },
     },
     {
+      path: '/privatecast',
+      name: 'JoinPrivateCast',
+      component: () => import('@/views/dashboard/JoinPrivateCast.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/password/email',
       name: 'Reset Email',
       component: () => import('@/views/passwordReset/Reset.vue'),
