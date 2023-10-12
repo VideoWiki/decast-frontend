@@ -1201,7 +1201,7 @@ export default {
   }
   .child-options {
     max-width: 480px;
-    width: 97%;
+    width: 98%;
     height: 140px;
     display: flex;
     justify-content: space-between;
@@ -1212,6 +1212,22 @@ export default {
     padding: 0px 0px 10px 10px;
     margin-bottom: 30px;
     position: relative;
+  }
+  .options-container {
+    height: 230px;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    margin-top: 30px;
+  }
+
+  .options-container::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .options-container::-webkit-scrollbar-thumb {
+    background-color: #31394e;
+    border-radius: 4px;
+    height: 10px;
   }
   .inner-child4 button {
     background: none;
