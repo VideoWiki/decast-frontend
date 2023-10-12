@@ -400,6 +400,7 @@ export default {
 
   #kk-cont {
     flex-direction: column-reverse;
+    margin-top: 0 !important;
   }
 
   .verification-img {

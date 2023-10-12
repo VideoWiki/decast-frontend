@@ -32,8 +32,12 @@
         >
           <img src="@/assets/images/Plus.svg" alt="" />
         </button>
-        <!-- <button class="header-button border-none dot">
-          <img src="@/assets/images/Vector2.svg" class="h-7 p-1" alt="" />
+        <!-- <button class="header-button border-none">
+          <img
+            src="@/assets/images/dashboard/dots3.svg"
+            class="h-7 p-1"
+            alt="dots"
+          />
         </button> -->
       </div>
     </div>
@@ -69,7 +73,208 @@
       <div class="options-container">
         <div v-if="focusYourRooms">
           <div v-for="(cast, index) in casts" :key="index">
-            <div class="child-options">
+            <div
+              v-if="isMobileView"
+              class="child-options"
+              :style="{ borderRight: '5px solid ' + getColor(index) }"
+              @click="expandRoom(index)"
+              :class="{ 'expanded-room': expandedRoom === index }"
+            >
+              <div class="inner-div1">
+                <div class="inner-child1">
+                  <p class="text-lg whitespace-no-wrap" style="width: 50%">
+                    {{ cast.event_name }}
+                  </p>
+                  <button class="text-xs whitespace-no-wrap">
+                    {{
+                      moment(cast.event_date).format('ll').split(',')[0] +
+                      ' ' +
+                      moment(cast.event_time.split('.')[0], 'HH:mm:ss').format(
+                        'h:mm A'
+                      )
+                    }}
+                  </button>
+                </div>
+                <div v-if="cast.invitee_list.length === 0" class="inner-child2">
+                  <span class="invite-text" href="#">Invite Attendees</span>
+                  <img src="@/assets/images/user.svg" />
+                </div>
+                <div v-else class="inner-child2 my-4">
+                  <p class="invite-text">
+                    {{ cast.invitee_list.length }} attendees invited
+                  </p>
+                  <div class="flex my-1">
+                    <span
+                      v-for="(image, imageIndex) in cast.invitee_list"
+                      :key="imageIndex"
+                      alt=""
+                    >
+                      <span class="attendee">
+                        {{ image.email.slice(0, 2) }}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <!-- <p>{{ totalImagesCount[index] }}</p> -->
+              </div>
+              <div
+                class="inner-div2"
+                v-if="expandedRoom !== null && expandedRoom !== index"
+              >
+                <button
+                  class="k-btn"
+                  @click="
+                    togglePopup(
+                      index,
+                      cast.public_meeting_id,
+                      cast.invitee_list
+                    )
+                  "
+                >
+                  <img
+                    src="@/assets/images/dashboard/dots3.svg"
+                    class="h-7 p-2 text-white"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div
+                class="inner-div2"
+                v-else-if="expandedRoom === index"
+                :style="{ backgroundColor: getColor(index) }"
+              >
+                <button
+                  class="k-btn"
+                  @click="
+                    togglePopup(
+                      index,
+                      cast.public_meeting_id,
+                      cast.invitee_list
+                    )
+                  "
+                >
+                  <img
+                    src="@/assets/images/dashboard/dots3.svg"
+                    class="h-7 p-2 text-white"
+                    alt=""
+                  />
+                </button>
+                <div
+                  class="cast-popup"
+                  v-if="showPopup === index"
+                  @click="closePopup(index)"
+                >
+                  <button @click="invite = true">
+                    <img src="@/assets/images/manage.svg" alt="" />Manage
+                    attendees
+                  </button>
+                  <button @click="showSettings = true">
+                    <img src="@/assets/images/call.svg" alt="" />Call settings
+                  </button>
+                  <button @click="stream = true">
+                    <img src="@/assets/images/stream.svg" alt="" />Stream
+                    settings
+                  </button>
+                  <button>
+                    <img src="@/assets/images/drops.svg" alt="" />Drops
+                  </button>
+                  <button
+                    @click="togglePostpone(cast.public_meeting_id, index, true)"
+                  >
+                    <img
+                      src="@/assets/images/reschedule.svg"
+                      alt=""
+                    />Reschedule cast
+                  </button>
+                  <button>
+                    <img src="@/assets/images/clock.svg" alt="" />Set reminder
+                  </button>
+                  <button>
+                    <img src="@/assets/images/pen.svg" alt="" />Edit
+                  </button>
+                  <button
+                    @click="
+                      togglePostpone(cast.public_meeting_id, index, false)
+                    "
+                  >
+                    <img src="@/assets/images/prepone.svg" alt="" />Postpone
+                    cast
+                  </button>
+                  <button @click="openDeletePopup(cast.public_meeting_id)">
+                    <img src="@/assets/images/delete.svg" />
+                    Delete
+                  </button>
+                </div>
+                <div class="inner-child3">
+                  <button v-if="cast.is_running === 'true'" class="live-btn">
+                    Cast is live
+                  </button>
+                  <div class="inner-child4">
+                    <button
+                      class="copy-button ml-4 border-none"
+                      @click="toggleCopy(index)"
+                      v-if="expandedRoom === index"
+                      :style="{ backgroundColor: getColor(index) }"
+                    >
+                      <img
+                        src="@/assets/images/dashboard/copymob.svg"
+                        class="p-3 bg-white bg-opacity-50"
+                        style="
+                          border: none;
+                          padding: 10px;
+                          background: rgba(255, 255, 255, 0.5);
+                          border-radius: 5px;
+                        "
+                        alt="copy"
+                        :style="{ backgroundColor: getColor(index) }"
+                      />
+                    </button>
+                    <div id="copy-pop" v-if="cast.showCopy">
+                      <button
+                        id="copy-btn-1"
+                        @click="copy(cast.public_meeting_id, cast.h_ap)"
+                      >
+                        <img src="@/assets/images/co-host.svg" />
+                        Copy Participant url
+                      </button>
+                      <br />
+                      <button id="copy-btn-2">
+                        <img src="@/assets/images/Participant.svg" />
+                        Copy Co-host url
+                      </button>
+                    </div>
+                    <button
+                      v-if="cast.is_running === 'false'"
+                      @click="joinNow(cast.public_meeting_id)"
+                      id="go-btn"
+                      class="btn-1"
+                    >
+                      Go live now
+                    </button>
+                    <button
+                      class="copy-button ml-4 border-none"
+                      @click="toggleCopy(index)"
+                      v-if="expandedRoom === index"
+                      :style="{ backgroundColor: getColor(index) }"
+                    >
+                      <img
+                        :style="{ backgroundColor: getColor(index) }"
+                        src="@/assets/images/dashboard/record.svg"
+                        class="p-3 mr-5 bg-white bg-opacity-50"
+                        style="
+                          border: none;
+                          padding: 10px;
+                          background: rgba(255, 255, 255, 0.5);
+                          border-radius: 5px;
+                        "
+                        alt="record"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else class="child-options">
               <div class="inner-div1">
                 <div class="inner-child1">
                   <p>{{ cast.event_name }}</p>
@@ -292,7 +497,10 @@
               </button>
             </div>
           </div>
-          <div v-else class="flex flex-col items-center justify-items-center">
+          <div
+            v-else
+            class="recording flex flex-col items-center justify-items-center"
+          >
             <img
               src="@/assets/images/dashboard/NoRecording.svg"
               class="w-1/2"
@@ -459,6 +667,8 @@ export default {
   name: 'rightpart',
   data() {
     return {
+      isMobileView: false,
+      expandedRoom: null,
       showDeletePopup: false,
       focusYourRooms: true,
       create: false,
@@ -493,6 +703,8 @@ export default {
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'block';
+    this.checkScreenWidth();
+    window.addEventListener('resize', this.checkScreenWidth);
     const container = document.querySelectorAll('.options-container')[1];
     container.addEventListener('mousemove', (e) => {
       // Get the mouse coordinates relative to the div
@@ -508,6 +720,9 @@ export default {
   beforeDestroy() {
     window.removeEventListener('click', this.handleGlobalClick);
     window.removeEventListener('click', this.handleClick2);
+
+    // Remove the global click event listener when the component is destroyed
+    window.removeEventListener('resize', this.checkScreenWidth);
   },
   computed: {
     totalImagesCount() {
@@ -603,6 +818,27 @@ export default {
           }
         });
       }, 1000);
+    },
+    truncateText(text, maxLength) {
+      if (text.length > maxLength) {
+        return text.slice(0, maxLength) + '...';
+      } else {
+        return text;
+      }
+    },
+    checkScreenWidth() {
+      // Define your breakpoint for mobile view (e.g., 768 pixels)
+      const mobileBreakpoint = 480;
+
+      // Check if the screen width is below the mobile breakpoint
+      this.isMobileView = window.innerWidth < mobileBreakpoint;
+    },
+    expandRoom(index) {
+      this.expandedRoom = index;
+    },
+    getColor(index) {
+      const colors = ['#FCB92d', '#FB7E84', '#2CC2D3', '#79FC9E', '#D971BC'];
+      return colors[index % colors.length];
     },
     closeRes(e) {
       if (e.currentTarget === e.target) {
@@ -906,6 +1142,9 @@ export default {
 }
 .cop-btn:active {
   border: 1px solid #d7df23 !important;
+}
+.active:active {
+  border: 1px solid #d7df23;
 }
 
 .options-button {
@@ -1292,5 +1531,99 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.center-container-full {
+  justify-content: center;
+  align-items: center;
+  color: #a6a6a8;
+  width: 100%;
+  /* max-width: 500px; */
+  margin: auto;
+  margin-left: 37px;
+  /* border: 1px solid white; */
+  height: 100%;
+}
+
+@media (max-width: 480px) {
+  .center-container-full {
+    border: 0.5px;
+    border-radius: 7px;
+    padding: 16px;
+    border-color: #31394e;
+    background-color: #1f272f;
+    width: 100%;
+  }
+  .center-container-full {
+    justify-content: center;
+    align-items: center;
+    color: #a6a6a8;
+    width: 100%;
+    /* max-width: 500px; */
+    margin: auto;
+    margin-left: 17px;
+    /* border: 1px solid white; */
+    height: 100%;
+  }
+  .child-options {
+    max-width: 480px;
+    width: 97%;
+    height: 140px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #31394e;
+    background-color: #1f272f;
+    color: #a6a6a8;
+    border-radius: 6px;
+    padding: 0px 0px 10px 10px;
+    margin-bottom: 30px;
+    position: relative;
+  }
+  .inner-child4 button {
+    background: none;
+    border: 1px solid #31394e;
+    width: 33px;
+    height: 33px;
+  }
+  .choose-room button {
+    width: 45%;
+    margin: 0;
+    padding: 5px;
+    white-space: nowrap;
+  }
+  .recording img {
+    width: 100%;
+    padding: 2px;
+    margin: 10px;
+  }
+  .inner-div2 {
+    height: 108.5%;
+  }
+  .k-btn {
+    height: 3px;
+    padding-right: 10px;
+    padding-top: 0;
+  }
+  .btn-1 {
+    display: none;
+  }
+  .inner-child3 button {
+    background: none;
+    cursor: pointer;
+    height: max-content;
+    margin-left: 5px;
+    color: #a6a6a8;
+  }
+  .child-options div {
+    width: 80%;
+  }
+  .inner-child4 {
+    margin-right: 2px;
+  }
+}
+
+@media (min-width: 480px) {
+  .btn-23 {
+    display: none;
+  }
 }
 </style>

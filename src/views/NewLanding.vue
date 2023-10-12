@@ -40,12 +40,13 @@
           <p>
             We re-engineered the service we built for secure business meetings,
           </p>
-          <p>Cast Meet, to make it free and available for all.
-          </p>
+          <p>Cast Meet, to make it free and available for all.</p>
         </div>
         <div class="op-3">
-          <button><img src="@/assets/images/meet.svg"/>New Meeting</button>
-          <button><img src="@/assets/images/key.svg"/>Enter a code or link</button>
+          <button><img src="@/assets/images/meet.svg" />New Meeting</button>
+          <button>
+            <img src="@/assets/images/key.svg" />Enter a code or link
+          </button>
         </div>
         <div class="op-4">
           <img src="@/assets/images/homeSlide.svg" />
@@ -185,7 +186,7 @@ export default {
 }
 
 .op-1 h1 {
-  font-size: 50px;
+  font-size: 60px;
   color: #a6a6a8;
   font-weight: 700;
 }
@@ -196,7 +197,7 @@ export default {
   font-weight: 500;
 }
 
-.op-3{
+.op-3 {
   display: flex;
   margin: auto;
   gap: 10px;
@@ -204,7 +205,7 @@ export default {
   margin-top: 30px;
 }
 
-.op-3 button:nth-child(1){
+.op-3 button:nth-child(1) {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -220,14 +221,14 @@ export default {
   cursor: pointer;
 }
 
-.op-3 button:nth-child(2){
+.op-3 button:nth-child(2) {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
   width: 250px;
   height: 40px;
-  background-color: #181A20;
+  background-color: #181a20;
   font-size: 13px;
   font-style: italic;
   color: #a6a6a6;
@@ -236,19 +237,19 @@ export default {
   border-radius: 4px;
   cursor: pointer;
 }
-.op-4{
+.op-4 {
   margin: auto;
   max-width: 800px;
   width: fit-content;
   margin-top: 20px;
 }
 
-.op-4 img{
+.op-4 img {
   /* width: auto; */
   width: 700px;
   height: auto;
 }
-.iframe { 
+.iframe {
   position: absolute;
   border: 1px solid #31394e;
   top: 50%;
@@ -370,4 +371,131 @@ export default {
   font-weight: 600;
   cursor: pointer;
 }
+
+@media screen and (max-device-width: 700px) {
+
+  .home-cont{
+    background-image: url('../assets/images/rightPart.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right;
+  }
+  .cont-1,
+  .cont-3 {
+    display: none;
+  }
+
+  .cont-2 {
+    width: auto;
+    margin: auto;
+    padding-top:10px;
+    /* margin-top: -30px; */
+  }
+
+  .op-1 h1 {
+    font-size: 4xl;
+    color: #a6a6a8;
+    font-weight: 600;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  .op-2 {
+    max-width: 95%;
+    width: auto;
+    margin: auto;
+  }
+  .op-2 p {
+    display: inline;
+    font-size: 12px;
+    color: #a6a6a8;
+    font-weight: 500;
+  }
+
+  .op-4 {
+    margin: auto;
+    max-width: 100%;
+    /* width: fit-content; */
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .op-4 img {
+    /* width: auto; */
+    margin: auto;
+    width: 95%;
+    max-width: 97%;
+    width: auto;
+    height: auto;
+  }
+
+  .op-3 button:nth-child(1) {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 130px;
+    height: 40px;
+    background-color: #d7df23;
+    font-size: 12px;
+    font-style: italic;
+    align-items: center;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .op-3 button:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 165px;
+    height: 40px;
+    background-color: #181a20;
+    font-size: 12px;
+    font-style: italic;
+    color: #a6a6a6;
+    font-weight: 600;
+    border: 1px solid #31394e;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .opt-cont {
+    display: none;
+  }
+
+  .child-2 {
+    display: none;
+  }
+
+  .child-2 button {
+    display: none;
+  }
+
+  .wiki-logo img {
+    /* border: 1px solid red; */
+    height: 60px;
+    width: 60px;
+  }
+
+  .nav-cont {
+    /* border: 1px solid white; */
+    width: 100%;
+    height: 60px;
+    padding-top: 10px;
+    background-color: #000000;
+  }
+
+  .nav-cont nav {
+    display: flex;
+    /* border: 1px solid yellow; */
+    width: 95%;
+    max-width: 98%;
+    margin: auto;
+    justify-content: space-between;
+  }
+}
+
 </style>

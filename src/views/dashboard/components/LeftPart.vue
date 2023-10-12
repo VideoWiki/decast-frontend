@@ -1,9 +1,19 @@
 <template>
   <div class="dashboard-container mx-auto">
+    <div class="picture">
+      <img src="@/assets/images/dashboard/profile.svg" alt="profile-pic" />
+    </div>
     <div class="left-container flex justify-items-center flex-col">
       <div class="welcome-text">
-        <div class="text">Welcome User!</div>
+        <div class="text">
+          Welcome
+          <span>{{ getFirstLetter }}</span
+          >!
+        </div>
         <div class="text">What are we starting today?</div>
+      </div>
+      <div class="bottom-date">
+        <p>Today: September 21, 2023</p>
       </div>
       <div class="box">
         <div class="first-row flex">
@@ -46,6 +56,12 @@ export default {
   computed: {
     room() {
       return this.$store.state.room.room;
+    },
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
+    getFirstLetter() {
+      return this.activeUserInfo.first_name.charAt(0).toUpperCase();
     },
   },
   methods: {
@@ -109,5 +125,40 @@ export default {
 }
 .button-full {
   margin-top: 12px;
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    align-items: flex-start; /* Align to start for mobile view */
+  }
+  .box {
+    display: none;
+  }
+  .text {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .bottom-date {
+    margin-top: 54px;
+    margin-bottom: 4px;
+  }
+  .welcome-text {
+    margin-top: 15px;
+  }
+}
+
+@media (min-width: 480px) {
+  .picture {
+    display: none;
+    height: 67px;
+    width: 67px;
+  }
+
+  .bottom-date {
+    display: none;
+    font-weight: 500;
+    size: 13px;
+    padding: 104px;
+  }
 }
 </style>
