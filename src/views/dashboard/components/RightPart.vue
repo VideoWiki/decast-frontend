@@ -1179,7 +1179,7 @@ export default {
   height: 100%;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 499px) {
   .center-container-full {
     border: 0.5px;
     border-radius: 7px;
@@ -1256,7 +1256,7 @@ export default {
   }
 }
 
-@media (min-width: 400px) {
+@media (min-width: 499px) {
   .btn-23 {
     display: none;
   }

@@ -285,7 +285,7 @@ export default {
 .vertical-line {
   border-right: 1px solid #31394e;
 }
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .container-full {
     padding: 0;
     margin: 0;
@@ -369,17 +369,20 @@ export default {
     display: none;
   }
   .scroll-container {
-    width: 200%; /* Twice the width of the viewport */
+    width: 100%; /* Twice the width of the viewport */
     display: flex;
+    overflow-x: scroll;
+    /* border: 1px solid red; */
     transition: transform 0.3s ease-in-out; /* Smooth transition */
   }
   .scroll {
     width: 80vw; /* Half the width of the viewport */
-    height: 100vh;
+    height: auto;
+    /* max-height: 500px; */
   }
 }
 
-@media (min-width: 399px) {
+@media (min-width: 499px) {
   .ppp {
     display: none;
     width: 0;
