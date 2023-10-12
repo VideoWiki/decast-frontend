@@ -1010,9 +1010,6 @@ input {
 body {
   background: none transparent;
 }
-.button {
-  display: none;
-}
 @media (max-width: 400px) {
   .copy-link {
     border-radius: 10px;
