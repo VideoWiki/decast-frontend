@@ -49,6 +49,7 @@
       <h3 v-if="running">
         Cast is live <img src="@/assets/images/dashboard/Live.svg" alt="" />
       </h3>
+      <h3 v-else-if="expired">Cast has expired</h3>
       <h3 v-else>Cast is not live</h3>
       <h4>{{ e_title }}</h4>
       <h5>Hosted by "{{ e_creator_name }}"</h5>
@@ -82,7 +83,7 @@
           <div class="flex flex-wrap my-3">
             <button
               class="acc-btn flex-1 h-16"
-              :disabled="!validateForm"
+              :disabled="!validateForm || expired"
               @click.prevent="joinStreaming"
             >
               Access Cast
@@ -134,6 +135,7 @@ export default {
       emailVerify: true,
       otpVerify: false,
       otp_error: false,
+      expired:false,
       verified: false,
       name: '',
       publicStream: false,
@@ -200,7 +202,9 @@ export default {
           this.airdrop = details.airdrop;
           this.give_nft = details.give_nft || details.vc_details_submitted;
           this.running = details.running;
-          console.log(this.running);
+          this.expired=details.expired;
+          console.log(this.running,'run');
+          console.log(this.expired,'rrr');
           document.getElementById('loading-bg').style.display = 'none';
 
           if (!details.running) {
@@ -377,6 +381,11 @@ export default {
   font-weight: 600 !important;
   cursor: pointer;
   margin-top: 20px;
+}
+
+.acc-btn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 @media screen and (max-device-width: 480px) {
