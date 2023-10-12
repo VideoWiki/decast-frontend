@@ -454,7 +454,7 @@
                       class="live-btn"
                     >
                       Go live now
-                      <p v-if="castInProgress(cast)">
+                      <p v-if="showRemainingTime(cast)">
                         {{ calculateRemainingTime(cast) }}
                       </p>
                     </button>
@@ -792,31 +792,23 @@ export default {
       return newTime;
     },
     calculateRemainingTime(cast) {
-      const eventDateTime = moment(cast.event_date + ' ' + cast.event_time);
+      const eventDateTime = moment.utc(cast.event_date + ' ' + cast.event_time);
       const currentTime = moment();
-      if (eventDateTime.isBefore(currentTime)) {
-        return '';
-      }
       const duration = moment.duration(eventDateTime.diff(currentTime));
       const hours = Math.floor(duration.asHours());
       const minutes = moment.utc(duration.asMilliseconds()).format('mm');
-      return `${hours}:${minutes}`;
+      if (hours === 0) {
+        return `${minutes}`;
+      }
     },
-    castInProgress(cast) {
-      const eventDateTime = moment(cast.event_date + ' ' + cast.event_time);
+    showRemainingTime(cast) {
+      const eventDateTime = moment.utc(cast.event_date + ' ' + cast.event_time);
       const currentTime = moment();
       return eventDateTime.isAfter(currentTime);
     },
     updateRemainingTime() {
       setInterval(() => {
-        this.casts.forEach((cast, index) => {
-          if (this.castInProgress(cast)) {
-            this.$set(this.casts, index, {
-              ...cast,
-              remainingTime: this.calculateRemainingTime(cast),
-            });
-          }
-        });
+        this.$forceUpdate();
       }, 1000);
     },
     truncateText(text, maxLength) {
@@ -1111,6 +1103,9 @@ export default {
     closeCreate() {
       this.create = false;
     },
+  },
+  created() {
+    this.updateRemainingTime();
   },
 };
 </script>

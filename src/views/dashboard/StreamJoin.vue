@@ -399,7 +399,7 @@ export default {
   }
 
   #kk-cont {
-    flex-direction: column-reverse;
+    flex-direction: column;
     margin-top: 0 !important;
   }
 
