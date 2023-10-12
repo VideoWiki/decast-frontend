@@ -13,7 +13,7 @@
           >
         </p>
       </div>
-      <div class="flex justify-between">
+      <div class="flex flex-shrink justify-between">
         <button
           class="header-button p-2"
           @click="createPopup = true"
@@ -27,8 +27,12 @@
         >
           <img src="@/assets/images/Rooms/Plus.svg" alt="" />
         </button>
-        <!-- <button class="header-button border-none dot">
-          <img src="./Rooms/Vector2.svg" class="h-7 p-1" alt="" />
+        <!-- <button class="header-button button border-none dot">
+          <img
+            src="@/assets/images/dashboard/dots.svg"
+            class="h-7 p-1"
+            alt="dots"
+          />
         </button> -->
       </div>
     </div>
@@ -54,10 +58,124 @@
       <div class="options-container">
         <div v-if="focusYourRooms">
           <div v-for="(room, index) in rooms" :key="index">
-            <div class="child-options flex justify-between items-center mb-4">
+            <div
+              v-if="isMobileView"
+              class="child-options flex justify-between items-center mb-4"
+              :style="{ borderRight: '0.5rem solid ' + getColor(index) }"
+              @click="expandRoom(index)"
+              :class="{ 'expanded-room': expandedRoom === index }"
+            >
               <div>
-                <p style="font-size: 14px; font-weight: 500">
-                  {{ room.room_name }}
+                <p style="font-size: 14px; font-weight: 500; width: 100%">
+                  {{ truncateText(room.room_name, 10) }}
+                </p>
+              </div>
+              <div class="flex justify-between">
+                <div class="mobile-options">
+                  <div
+                    class="button-container"
+                    v-if="expandedRoom === index"
+                    :style="{ backgroundColor: getColor(index) }"
+                  >
+                    <button
+                      class="session-button ml-4"
+                      @click.stop="start(room.room_url)"
+                    >
+                      Start Session
+                    </button>
+                    <button
+                      class="copy-button ml-4 border-none"
+                      @click.stop="copy(room.room_url)"
+                      :style="{ backgroundColor: getColor(index) }"
+                    >
+                      <img
+                        src="@/assets/images/dashboard/copymob.svg"
+                        class="p-3 bg-white bg-opacity-50"
+                        style="
+                          border: none;
+                          padding: 10px;
+                          background: rgba(255, 255, 255, 0.5);
+                          border-radius: 5px;
+                        "
+                        alt="copy"
+                        :style="{ backgroundColor: getColor(index) }"
+                      />
+                    </button>
+                    <button
+                      class="copy-button ml-4 border-none"
+                      @click.stop="copy(room.room_url)"
+                      :style="{ backgroundColor: getColor(index) }"
+                    >
+                      <img
+                        :style="{ backgroundColor: getColor(index) }"
+                        src="@/assets/images/dashboard/record.svg"
+                        class="p-3 bg-white bg-opacity-50"
+                        style="
+                          border: none;
+                          padding: 10px;
+                          background: rgba(255, 255, 255, 0.5);
+                          border-radius: 5px;
+                        "
+                        alt="record"
+                      />
+                    </button>
+                    <button
+                      class="side-btn border-none"
+                      @click.stop="togglePopup(index)"
+                      v-if="expandedRoom == index"
+                      style="color: white"
+                    >
+                      <img
+                        src="@/assets/images/dashboard/dots3.svg"
+                        class="h-7 p-3"
+                        alt=""
+                      />
+                    </button>
+                  </div>
+                </div>
+                <div class="tooltip-container" v-if="expandedRoom !== index">
+                  <button
+                    class="copy-link tooltip-button"
+                    @click.stop="copy(room.room_url)"
+                  >
+                    <img src="@/assets/images/Rooms/copy.svg" alt="" />
+                  </button>
+                </div>
+
+                <button
+                  class="side-btn border-none"
+                  @click.stop="togglePopup(index)"
+                  v-if="expandedRoom !== index"
+                >
+                  <img
+                    src="@/assets/images/Rooms/Vector2.svg"
+                    class="h-7 p-2"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div
+                class="room-popup"
+                v-if="showPopup === index"
+                @click.stop="closePopup(index)"
+              >
+                <button @click.stop="openShare(room)">
+                  <img src="@/assets/images/share.svg" />
+                  Share
+                </button>
+                <button @click.stop="deleteRoom(room)">
+                  <img src="@/assets/images/delete.svg" />
+                  Delete
+                </button>
+              </div>
+            </div>
+            <div
+              v-else
+              class="child-options flex justify-between items-center mb-4"
+            >
+              <div>
+                <p style="font-size: 14px; font-weight: 500 width: 50%">
+                  {{ truncateText(room.room_name, 10) }}
                 </p>
               </div>
               <div class="flex justify-between">
@@ -187,7 +305,10 @@
               </div>
             </div>
           </div>
-          <div v-else class="flex flex-col items-center justify-items-center">
+          <div
+            v-else
+            class="recording flex flex-col items-center justify-items-center"
+          >
             <img
               src="@/assets/images/dashboard/NoRecording.svg"
               class="w-1/2"
@@ -259,6 +380,8 @@ export default {
   name: 'DashBoardMiddlePart',
   data() {
     return {
+      isMobileView: false,
+      expandedRoom: null,
       createPopup: false,
       focusYourRooms: true,
       showTooltip: [],
@@ -305,6 +428,27 @@ export default {
     },
   },
   methods: {
+    checkScreenWidth() {
+      // Define your breakpoint for mobile view (e.g., 768 pixels)
+      const mobileBreakpoint = 480;
+
+      // Check if the screen width is below the mobile breakpoint
+      this.isMobileView = window.innerWidth < mobileBreakpoint;
+    },
+    truncateText(text, maxLength) {
+      if (text.length > maxLength) {
+        return text.slice(0, maxLength) + '...';
+      } else {
+        return text;
+      }
+    },
+    expandRoom(index) {
+      this.expandedRoom = index;
+    },
+    getColor(index) {
+      const colors = ['#FCB92d', '#FB7E84', '#2CC2D3', '#79FC9E', '#D971BC'];
+      return colors[index % colors.length];
+    },
     closeAllPopups(e) {
       if (e.currentTarget === e.target) {
         this.sharePopup = false;
@@ -484,6 +628,8 @@ export default {
     },
   },
   mounted() {
+    this.checkScreenWidth();
+    window.addEventListener('resize', this.checkScreenWidth);
     console.log(this.room);
     window.addEventListener('click', this.handleGlobalClick);
     const container = document.querySelector('.options-container');
@@ -498,7 +644,7 @@ export default {
   },
   beforeDestroy() {
     // Remove the global click event listener when the component is destroyed
-    window.removeEventListener('click', this.handleGlobalClick);
+    window.removeEventListener('resize', this.checkScreenWidth);
   },
 };
 </script>
@@ -599,11 +745,11 @@ export default {
 
 .child-options {
   position: relative;
-  padding: 10px 10px 10px 15px;
+  padding: 10px 0px 10px 15px;
   border: 1px solid #31394e;
-  width: 96%;
-  border-radius: 6px;
-  height: 62px;
+  width: 100%;
+  border-radius: 10px;
+  height: 63px;
   font-weight: 600;
 }
 
@@ -863,5 +1009,51 @@ input {
 
 body {
   background: none transparent;
+}
+.button {
+  display: none;
+}
+@media (max-width: 400px) {
+  .copy-link {
+    border-radius: 10px;
+  }
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden; /* Ensures content doesn't spill over */
+    height: 62px;
+  }
+  .center-container-full {
+    height: 70%;
+    border: 0.2px;
+    border-color: #31394e;
+    border-radius: 7px;
+    border-style: solid;
+    padding: 16px;
+    background-color: #1f272f;
+    margin-bottom: 5px;
+    width: 305px;
+  }
+
+  .sub-heading {
+    font-weight: 400;
+    font-size: 11px;
+  }
+
+  .footer-content {
+    display: none;
+  }
+
+  .recording img {
+    width: 100%;
+    padding: 2px;
+    margin: 10px;
+  }
+
+  .tooltip-container,
+  .session-button {
+    display: none;
+  }
 }
 </style>
