@@ -454,7 +454,7 @@
                       class="live-btn"
                     >
                       Go live now
-                      <p v-if="castInProgress(cast)">
+                      <p v-if="showRemainingTime(cast)">
                         {{ calculateRemainingTime(cast) }}
                       </p>
                     </button>
@@ -792,31 +792,23 @@ export default {
       return newTime;
     },
     calculateRemainingTime(cast) {
-      const eventDateTime = moment(cast.event_date + ' ' + cast.event_time);
+      const eventDateTime = moment.utc(cast.event_date + ' ' + cast.event_time);
       const currentTime = moment();
-      if (eventDateTime.isBefore(currentTime)) {
-        return '';
-      }
       const duration = moment.duration(eventDateTime.diff(currentTime));
       const hours = Math.floor(duration.asHours());
       const minutes = moment.utc(duration.asMilliseconds()).format('mm');
-      return `${hours}:${minutes}`;
+      if (hours === 0) {
+        return `${minutes}`;
+      }
     },
-    castInProgress(cast) {
-      const eventDateTime = moment(cast.event_date + ' ' + cast.event_time);
+    showRemainingTime(cast) {
+      const eventDateTime = moment.utc(cast.event_date + ' ' + cast.event_time);
       const currentTime = moment();
       return eventDateTime.isAfter(currentTime);
     },
     updateRemainingTime() {
       setInterval(() => {
-        this.casts.forEach((cast, index) => {
-          if (this.castInProgress(cast)) {
-            this.$set(this.casts, index, {
-              ...cast,
-              remainingTime: this.calculateRemainingTime(cast),
-            });
-          }
-        });
+        this.$forceUpdate();
       }, 1000);
     },
     truncateText(text, maxLength) {
@@ -1111,6 +1103,9 @@ export default {
     closeCreate() {
       this.create = false;
     },
+  },
+  created() {
+    this.updateRemainingTime();
   },
 };
 </script>
@@ -1544,7 +1539,7 @@ export default {
   height: 100%;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 499px) {
   .center-container-full {
     border: 0.5px;
     border-radius: 7px;
@@ -1566,7 +1561,7 @@ export default {
   }
   .child-options {
     max-width: 480px;
-    width: 97%;
+    width: 98%;
     height: 140px;
     display: flex;
     justify-content: space-between;
@@ -1577,6 +1572,23 @@ export default {
     padding: 0px 0px 10px 10px;
     margin-bottom: 30px;
     position: relative;
+  }
+  .options-container {
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .options-container::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .options-container::-webkit-scrollbar-thumb {
+    background-color: #31394e;
+    border-radius: 4px;
+    height: 10px;
   }
   .inner-child4 button {
     background: none;
@@ -1621,7 +1633,7 @@ export default {
   }
 }
 
-@media (min-width: 480px) {
+@media (min-width: 499px) {
   .btn-23 {
     display: none;
   }

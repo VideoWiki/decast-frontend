@@ -26,24 +26,21 @@
         <template slot="countdown" slot-scope="scope">
           <div class="mm-cont">
             <h2>
-              <!-- <span>{{ start_time }}</span> -->
-              <span class="number">{{ scope.props.days }}</span>
-              <span class="text">days</span>
+            <!-- <span>{{ start_time }}</span> -->
+            <span class="number">{{ scope.props.hours }}</span>
+            <span class="text">hrs</span>
 
-              <span class="dots ml-5">{{ dot2 }}</span>
-              <span class="number ml-5">{{ scope.props.hours }}</span>
-              <span class="text">hrs</span>
+          <span class="dots ml-5">{{ dot2 }}</span>
 
-              <span class="dots ml-5">{{ dot2 }}</span>
+            <span class="number ml-5">{{ scope.props.minutes }}</span>
+            <span class="text">min</span>
 
-              <span class="number ml-5">{{ scope.props.minutes }}</span>
-              <span class="text">min</span>
+          <span class="dots ml-5">{{ dot2 }}</span>
+  
+            <span class="number ml-5">{{ scope.props.seconds }}</span>
+            <span class="text">sec</span>
 
-              <span class="dots ml-5">{{ dot2 }}</span>
-
-              <span class="number ml-5">{{ scope.props.seconds }}</span>
-              <span class="text">sec</span>
-            </h2>
+          </h2>
           </div>
         </template>
       </vue-countdown-timer>
@@ -52,6 +49,7 @@
       <h3 v-if="running">
         Cast is live <img src="@/assets/images/dashboard/Live.svg" alt="" />
       </h3>
+      <h3 v-else-if="expired">Cast has expired</h3>
       <h3 v-else>Cast is not live</h3>
       <h4>{{ e_title }}</h4>
       <h5>Hosted by "{{ e_creator_name }}"</h5>
@@ -85,7 +83,7 @@
           <div class="flex flex-wrap my-3">
             <button
               class="acc-btn flex-1 h-16"
-              :disabled="!validateForm"
+              :disabled="!validateForm || expired"
               @click.prevent="joinStreaming"
             >
               Access Cast
@@ -99,7 +97,7 @@
 
 <script>
 import Constants from '../../../constant';
-var moment = require('moment-timezone');
+var moment = require('moment');
 export default {
   data() {
     return {
@@ -137,6 +135,7 @@ export default {
       emailVerify: true,
       otpVerify: false,
       otp_error: false,
+      expired:false,
       verified: false,
       name: '',
       publicStream: false,
@@ -203,7 +202,9 @@ export default {
           this.airdrop = details.airdrop;
           this.give_nft = details.give_nft || details.vc_details_submitted;
           this.running = details.running;
-          console.log(this.running);
+          this.expired=details.expired;
+          console.log(this.running,'run');
+          console.log(this.expired,'rrr');
           document.getElementById('loading-bg').style.display = 'none';
 
           if (!details.running) {
@@ -216,18 +217,14 @@ export default {
 
           this.stream_url =
             Constants.streamUrl + this.$route.params.eventId + '.m3u8';
+          const now = moment.utc().format('yyyy-MM-DD HH:mm:ss');
+          // const event_dtae ='2021-09-13'+' '+ '10:32:59';
           const eventDate = this.e_date + ', ' + this.e_time;
-          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          const a = moment(this.e_date + ' ' + this.e_time)
-            .clone()
-            .tz(timezone);
-          // var timeAbbr = moment().tz(timezone).zoneAbbr();
-          var newTime = moment(a._d).tz(timezone).format('h:mm A');
           const localTime = moment.utc(eventDate).toDate();
-          this.start_time = moment(a._d)
-            .tz(timezone)
+          this.start_time = moment
+            .utc(eventDate, 'YYYY-MM-DD, HH:mm:ss')
+            .local()
             .format('YYYY-MM-DD HH:mm:ss');
-          console.log(this.start_time);
           this.start_time_new = moment(localTime).format('HH: mm: ss');
 
           this.end_time = localTime;
@@ -253,6 +250,7 @@ export default {
 </script>
 
 <style scoped>
+
 /* .tim-cont{
   display: flex;
 }
@@ -288,11 +286,6 @@ export default {
   word-spacing: 5px;
   /* letter-spacing: 5px; */
   /* 00:00:00 */
-}
-
-.p {
-  font-size: 16px !important;
-  margin: 5px;
 }
 
 .number {
@@ -390,6 +383,11 @@ export default {
   margin-top: 20px;
 }
 
+.acc-btn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media screen and (max-device-width: 480px) {
   .join-box {
     padding: 1.6em;
@@ -399,7 +397,7 @@ export default {
   }
 
   #kk-cont {
-    flex-direction: column-reverse;
+    flex-direction: column;
     margin-top: 0 !important;
   }
 
@@ -424,29 +422,31 @@ export default {
 
 @media screen and (max-device-width: 700px) {
   #kk-cont {
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center !important;
-    align-items: center !important;
-    max-width: 400px !important;
-    min-width: 300px !important;
-    width: auto;
-    margin: auto !important;
-    /* margin-left: -40% !important; */
-    margin-top: -20rem !important;
-  }
-
-  .ll-cont {
-    border: 1px solid #31394e;
-    background-color: #1f272f;
-    border-radius: 6px;
-    max-height: 215px !important;
-    padding: 18px;
-    margin: auto !important;
-    margin-bottom: 5px;
-    max-width: 320px;
-    width: auto;
-    min-width: 200px;
-  }
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  max-width: 400px !important;
+  min-width: 300px !important;
+  width: auto;
+  margin: auto !important;
+  /* margin-left: -40% !important; */
+  margin-top: -20rem !important;
 }
+
+.ll-cont {
+  border: 1px solid #31394e;
+  background-color: #1f272f;
+  border-radius: 6px;
+  max-height: 215px !important;
+  padding: 18px;
+  margin: auto !important;
+  margin-bottom: 5px;
+  max-width: 320px;
+  width: auto;
+  min-width: 200px;
+}
+}
+
+
 </style>

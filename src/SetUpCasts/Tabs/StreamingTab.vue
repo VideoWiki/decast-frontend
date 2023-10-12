@@ -136,7 +136,7 @@
         </div>
       </div>
     </div>
-    <div class="button cursor-pointer">
+    <div class="buttonn cursor-pointer">
       <button
         v-if="this.castId !== ''"
         class="cursor-pointer"
@@ -506,11 +506,11 @@ export default {
   font-size: 12px;
   font-weight: 500;
 }
-.button {
+.buttonn {
   align-self: flex-end;
   margin-top: 25px;
 }
-.button button {
+.buttonn button {
   width: 141px;
   height: 40px;
   border: 1px solid #31394e;

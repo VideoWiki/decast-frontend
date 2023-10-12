@@ -293,10 +293,15 @@ export default {
 }
 
 .container {
-  margin-left: 2rem;
-  margin-right: 2rem;
-  width: 75%;
+  margin: auto;
+  width: 90%;
   max-width: 100%;
+}
+
+.container img{
+  max-width: 95%;
+  width: auto;
+  margin: auto;
 }
 
 .stream_detail {

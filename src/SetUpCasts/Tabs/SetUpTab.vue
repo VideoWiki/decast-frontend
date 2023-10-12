@@ -99,7 +99,7 @@
       {{ convertTo12(stepOneProps.startTime) }} until
       {{ convertTo12(selectedEndTime) }}
     </div>
-    <div class="button cursor-pointer">
+    <div class="buttonn cursor-pointer">
       <button class="cursor-pointer" @click="goNext">Next</button>
     </div>
   </div>
@@ -327,11 +327,11 @@ textarea {
   font-size: 11px;
   color: #637181;
 }
-.button {
+.buttonn {
   align-self: flex-end;
   margin-top: 35px;
 }
-.button button {
+.buttonn button {
   width: 141px;
   height: 40px;
   border: 1px solid #31394e;

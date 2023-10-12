@@ -127,7 +127,7 @@ export default {
   margin-top: 12px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 499px) {
   .dashboard-container {
     align-items: flex-start; /* Align to start for mobile view */
   }
@@ -147,7 +147,7 @@ export default {
   }
 }
 
-@media (min-width: 480px) {
+@media (min-width: 500px) {
   .picture {
     display: none;
     height: 67px;
