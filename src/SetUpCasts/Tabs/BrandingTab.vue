@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <div class="button">
+    <div class="buttonn">
       <button @click="changeActiveTab('Settings')" class="cursor-pointer">
         Next
       </button>
@@ -214,11 +214,11 @@ export default {
   font-size: 18px;
   color: #a6a6a8;
 }
-.button {
+.buttonn {
   align-self: flex-end;
   margin-top: 40px;
 }
-.button button {
+.buttonn button {
   width: 141px;
   height: 40px;
   border: 1px solid #31394e;

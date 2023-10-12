@@ -396,6 +396,11 @@ export default {
     width: 100% !important;
   }
 
+  #kk-cont {
+    flex-direction: column;
+    margin-top: 0 !important;
+  }
+
   .verification-img {
     display: none !important;
   }
