@@ -1574,10 +1574,11 @@ export default {
     position: relative;
   }
   .options-container {
-    height: 230px;
+    height: 200px;
     overflow-y: scroll;
     overflow-x:hidden;
-    margin-top: 30px;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
 
   .options-container::-webkit-scrollbar {

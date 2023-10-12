@@ -1010,7 +1010,7 @@ input {
 body {
   background: none transparent;
 }
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .copy-link {
     border-radius: 10px;
   }
@@ -1046,6 +1046,14 @@ body {
     width: 100%;
     padding: 2px;
     margin: 10px;
+  }
+
+  .options-container {
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    margin-top: 30px;
+    margin-bottom: 10px;
   }
 
   .tooltip-container,
