@@ -61,7 +61,7 @@
         <div class="middleOne vertical-line scroll" @click="scroll(0)">
           <Rooms />
         </div>
-        <div class="sideOne last scroll" @click="scroll(-70)">
+        <div class="sideOne last scroll">
           <RightPart />
         </div>
       </div>
@@ -285,7 +285,7 @@ export default {
 .vertical-line {
   border-right: 1px solid #31394e;
 }
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .container-full {
     padding: 0;
     margin: 0;
@@ -371,19 +371,23 @@ export default {
     display: none;
   }
   .scroll-container {
-    width: 200%; /* Twice the width of the viewport */
+    width: 100%; /* Twice the width of the viewport */
     display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    /* border: 1px solid red; */
     transition: transform 0.3s ease-in-out; /* Smooth transition */
     display: flex !important;
     flex-direction: column;
   }
   .scroll {
     width: 80vw; /* Half the width of the viewport */
-    height: 100vh;
+    height: auto;
+    /* max-height: 500px; */
   }
 }
 
-@media (min-width: 480px) {
+@media (min-width: 499px) {
   .ppp {
     display: none;
     width: 0;
