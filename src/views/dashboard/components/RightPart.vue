@@ -490,7 +490,7 @@
                 <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
               </button>
               <div
-                class="cast-popup"
+                class="record-popup"
                 v-if="showRecord === index"
                 @click="closePopup(index)"
               >
@@ -752,9 +752,9 @@ export default {
     totalImagesCount() {
       return this.casts.map((cast) => cast.images.length);
     },
-    recording() {
-      return this.$store.state.cast.recordingList;
-    },
+    // recording() {
+    //   return this.$store.state.cast.recordingList;
+    // },
   },
   created() {
     this.updateRemainingTime();
@@ -977,7 +977,7 @@ export default {
     toggleRecordingPopup(index) {
       this.showRecord = this.showRecord === index ? null : index;
       setTimeout(() => {
-        const roomPopups = document.querySelectorAll('.cast-popup');
+        const roomPopups = document.querySelectorAll('.record-popup');
         if (this.mouse > 222) {
           console.log('yes', roomPopups);
           roomPopups.forEach((item) => (item.style.top = '-85%'));
@@ -1508,6 +1508,12 @@ export default {
   margin-left: 3px;
 }
 
+.recordings{
+  position: relative;
+  border-radius: 6px;
+  border: 1px solid #31394e;
+  padding: 8px;
+}
 .side-btn {
   background: none;
   cursor: pointer;
@@ -1515,6 +1521,25 @@ export default {
   margin-left: 5px;
 }
 
+.record-popup{
+  position:absolute;
+  background-color: #1f272f;
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #31394e;
+  border-radius: 6px;
+  z-index: 99;
+  right: 10px;
+}
+
+.record-popup button{
+  background:transparent;
+  outline:none;
+  border:none;
+  margin: auto;
+  cursor: pointer;
+  color:#a6a6a8;
+}
 .popup {
   height: 100vh;
   width: 100%;
