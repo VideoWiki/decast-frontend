@@ -999,7 +999,7 @@ export default {
     },
     openRecording(recording) {
       console.log(recording,'mmmmmmm');
-      const playbackURL=recording['Playback Data']['Playback URL'];
+      const playbackURL=recording['Playback Data']['Playback URL']+'/video-0.m4v';
         window.open(playbackURL , '_blank');
     },
     // getCastList() {
