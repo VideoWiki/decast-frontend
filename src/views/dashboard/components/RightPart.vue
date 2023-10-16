@@ -479,22 +479,45 @@
             >
               <div class="w-3/4 flex justify-between items-center">
                 <p>
-                  {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
+                  {{ recording['Start Time (Readable)'].split(' ')[0] }}
                 </p>
                 <p>{{ recording.Name }}</p>
-                <p>
-                  {{
-                    recording.url['Playback Data']['Playback Size'].split('.') +
-                    ' ' +
-                    recording.url['Playback Data']['Playback Size'].split(
-                      ' '
-                    )[1]
-                  }}
-                </p>
               </div>
-              <button class="side-btn border-none">
+              <button
+                class="side-btn border-none"
+                @click="toggleRecordingPopup(index)"
+              >
                 <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
               </button>
+              <div
+                class="cast-popup"
+                v-if="showRecord === index"
+                @click="closePopup(index)"
+              >
+                <button @click="openRecording(recording)">
+                  <vs-icon
+                    icon-pack="feather"
+                    icon="icon-play"
+                    size="12px"
+                    rounded="true"
+                    style="align-self: center"
+                  >
+                  </vs-icon>
+                  Play
+                </button>
+                <!-- <button @click="downloadRoom(room)">
+                  <img src="@/assets/images/download.svg" />
+                  Download
+                </button> -->
+                <!-- <button @click="copyLink(room)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy Link
+                </button> -->
+                <!-- <button @click="copyRecording(recording, index)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy Link
+                </button> -->
+              </div>
             </div>
           </div>
           <div
@@ -676,6 +699,7 @@ export default {
       stream: false,
       invite: false,
       showPopup: false,
+      showRecord: false,
       showCopy: false,
       showTooltip: false,
       showTooltip2: false,
@@ -728,9 +752,9 @@ export default {
     totalImagesCount() {
       return this.casts.map((cast) => cast.images.length);
     },
-    recording(){
+    recording() {
       return this.$store.state.cast.recordingList;
-    }
+    },
   },
   created() {
     this.updateRemainingTime();
@@ -950,16 +974,33 @@ export default {
         this.showCopy = null;
       }
     },
+    toggleRecordingPopup(index) {
+      this.showRecord = this.showRecord === index ? null : index;
+      setTimeout(() => {
+        const roomPopups = document.querySelectorAll('.cast-popup');
+        if (this.mouse > 222) {
+          console.log('yes', roomPopups);
+          roomPopups.forEach((item) => (item.style.top = '-85%'));
+        } else {
+          roomPopups.forEach((item) => (item.style.top = '85%'));
+        }
+      }, 0);
+    },
     async getRecordings() {
-      try{
+      try {
         const res = await this.$store.dispatch('cast/recordingList');
-        this.recordingList=res.status[0] || [];
-        console.log(this.recordingList,'lliii')
-        console.log(this.recording,'jdjfks')
-        console.log(res,'records')
-      }catch(e){
+        this.recordingList = res.status[0] || [];
+        console.log(this.recordingList, 'lliii');
+        console.log(this.recording, 'jdjfks');
+        console.log(res, 'records');
+      } catch (e) {
         console.log(e);
       }
+    },
+    openRecording(recording) {
+      console.log(recording,'mmmmmmm');
+      const playbackURL=recording['Playback Data']['Playback URL'];
+        window.open(playbackURL , '_blank');
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
@@ -1082,6 +1123,7 @@ export default {
     },
     closePopup(index) {
       this.showPopup = null;
+      this.showRecord = null;
     },
     toggleCopy(index) {
       this.postPoneVisible = false;
@@ -1466,6 +1508,13 @@ export default {
   margin-left: 3px;
 }
 
+.side-btn {
+  background: none;
+  cursor: pointer;
+  height: max-content;
+  margin-left: 5px;
+}
+
 .popup {
   height: 100vh;
   width: 100%;
@@ -1524,6 +1573,7 @@ export default {
   align-self: flex-end;
   margin-top: 33px;
 }
+
 .lower-part button {
   width: 86px;
   height: 26px;
@@ -1586,7 +1636,7 @@ export default {
   .options-container {
     height: 200px;
     overflow-y: scroll;
-    overflow-x:hidden;
+    overflow-x: hidden;
     margin-top: 20px;
     margin-bottom: 10px;
   }
