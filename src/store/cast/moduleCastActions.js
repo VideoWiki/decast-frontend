@@ -361,12 +361,9 @@ export default {
       public_meeting_id: payload,
     });
   },
-  recordingList({ commit }) {
-    const options = {
-      method: 'GET',
-      url: constants.apiCastUrl + '/api/event/user/recordings',
-    };
-
-    return axios.request(options);
+  async recordingList({ commit }) {
+    const res=await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
+    commit('SET_RECORDINGLIST', res.data);
+    return res.data;
   },
 };

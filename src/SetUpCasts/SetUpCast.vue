@@ -232,7 +232,7 @@ export default {
       },
       stepFourProps: {
         start_stop_recording: true,
-        record: false,
+        record: true,
         mute_on_start: true,
         end_when_no_moderator: true,
         allow_moderator_to_unmute_user: false,

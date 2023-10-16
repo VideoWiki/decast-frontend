@@ -481,7 +481,7 @@
                 <p>
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
                 </p>
-                <p>{{ recording.room_name }}</p>
+                <p>{{ recording.Name }}</p>
                 <p>
                   {{
                     recording.url['Playback Data']['Playback Size'].split('.') +
@@ -728,6 +728,9 @@ export default {
     totalImagesCount() {
       return this.casts.map((cast) => cast.images.length);
     },
+    recording(){
+      return this.$store.state.cast.recordingList;
+    }
   },
   created() {
     this.updateRemainingTime();
@@ -948,8 +951,15 @@ export default {
       }
     },
     async getRecordings() {
-      const res = await this.$store.dispatch('cast/recordingList');
-      this.recordingList = res.data.status || [];
+      try{
+        const res = await this.$store.dispatch('cast/recordingList');
+        this.recordingList=res.status[0] || [];
+        console.log(this.recordingList,'lliii')
+        console.log(this.recording,'jdjfks')
+        console.log(res,'records')
+      }catch(e){
+        console.log(e);
+      }
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
