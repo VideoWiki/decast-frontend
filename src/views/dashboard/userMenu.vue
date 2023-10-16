@@ -47,7 +47,8 @@ export default {
     handleGlobalClick(event) {
       const isOutsideRoomPopup = !event.target.closest('.user-menu');
       const isNotMenu = !event.target.closest('.con-img');
-      if (isOutsideRoomPopup && isNotMenu && this.showMenu !== false) {
+      const mobSet=!event.target.closest('.ppp');
+      if (isOutsideRoomPopup && isNotMenu &&mobSet && this.showMenu !== false) {
         this.showMenu = false;
         this.$emit('menu-closed');
       }

@@ -1,7 +1,13 @@
 <template>
   <div class="dashboard-container mx-auto">
     <div class="picture">
-      <img src="@/assets/images/dashboard/profile.svg" alt="profile-pic" />
+      <vs-avatar
+        :text="{getFirstLetter }"
+        color="primary"
+        class="m-0 shadow-md"
+        :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''"
+        size="67px"
+      />
     </div>
     <div class="left-container flex justify-items-center flex-col">
       <div class="welcome-text">

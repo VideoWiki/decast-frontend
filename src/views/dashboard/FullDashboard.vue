@@ -15,7 +15,7 @@
           <img src="@/assets/images/dashboard/Wallet.svg" />
         </div>
         <div class="setting">
-          <div class="ppp">
+          <div class="ppp" @click="toggleUserMenu">
             <img src="@/assets/images/dashboard/settings.svg" alt="settings" />
           </div>
           <div class="">
@@ -87,6 +87,7 @@ import Rooms from './components/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 import Popups from './Popups.vue';
+import UserMenu from './userMenu.vue';
 
 export default {
   mixins: [utils],
@@ -97,6 +98,7 @@ export default {
     Rooms,
     userMenu,
     Popups,
+    UserMenu,
   },
   data() {
     return {
