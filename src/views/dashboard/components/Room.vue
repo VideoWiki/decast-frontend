@@ -1019,5 +1019,23 @@ body {
   .session-button {
     display: none;
   }
+  .createPopup {
+    height: 100vh;
+    max-width: 300px !important;
+    min-width: 250px;
+  }
+  .popup {
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #1f272f67;
+    z-index: 999;
+  }
+  .container {
+    max-width: 330px !important;
+    min-width: 250px;
+  }
 }
 </style>

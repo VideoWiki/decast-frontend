@@ -377,4 +377,19 @@ export default {
   cursor: pointer;
   font-family: Popins, sans-serif;
 }
+@media (max-width: 500px) {
+  .full-cont {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  .info-cont {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-cont {
+    display: flex;
+    flex-direction: column;
+  }
+}
 </style>

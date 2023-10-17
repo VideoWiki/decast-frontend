@@ -199,4 +199,13 @@ label {
   margin-top: 20px;
   margin-left: 60%;
 }
+
+@media (max-width: 500px) {
+  .container {
+    width: 350px;
+  }
+  .form input {
+    width: 100%;
+  }
+}
 </style>

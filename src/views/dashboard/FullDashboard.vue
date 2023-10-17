@@ -35,11 +35,13 @@
                   />
                 </div>
               </div>
-              <userMenu
-                :showMenu="userMenuVisible"
-                :closeMenu="toggleUserMenu"
-                @menu-closed="toggleUserMenu"
-              />
+              <div class="pop-up">
+                <userMenu
+                  :showMenu="userMenuVisible"
+                  :closeMenu="toggleUserMenu"
+                  @menu-closed="toggleUserMenu"
+                />
+              </div>
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
               Login
@@ -382,6 +384,12 @@ export default {
     width: 80vw; /* Half the width of the viewport */
     height: auto;
     /* max-height: 500px; */
+  }
+  .pop-up {
+    top: 0;
+    left: 0;
+
+    z-index: 999;
   }
 }
 
