@@ -110,4 +110,17 @@ export default {
 .option img {
   margin-right: 5px;
 }
+
+@media (max-width:499px) {
+  .user-menu{
+    width: fit-content;
+    padding: 5px;
+    font-size: 10px;
+    height: auto;
+  }
+
+  .option{
+    padding: 5px;
+  }
+}
 </style>

@@ -67,7 +67,7 @@ export default {
       return this.$store.state.AppActiveUser;
     },
     getFirstLetter() {
-      return this.activeUserInfo.first_name.charAt(0).toUpperCase();
+      return this.activeUserInfo.first_name;
     },
   },
   methods: {
