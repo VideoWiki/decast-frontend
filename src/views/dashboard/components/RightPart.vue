@@ -1187,11 +1187,13 @@ export default {
     border-color: #31394e;
     background-color: #1f272f;
     width: 100%;
+    overflow: hidden;
   }
   .center-container-full {
     justify-content: center;
     align-items: center;
     color: #a6a6a8;
+    padding-bottom: 10px !important;
     width: 100%;
     /* max-width: 500px; */
     margin: auto;
@@ -1210,14 +1212,15 @@ export default {
     color: #a6a6a8;
     border-radius: 6px;
     padding: 0px 0px 10px 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     position: relative;
   }
   .options-container {
-    height: 230px;
+    height: 200px !important;
     overflow-y: scroll;
     overflow-x:hidden;
-    margin-top: 30px;
+    margin-top: 20px;
+    padding-bottom: 10px;
   }
 
   .options-container::-webkit-scrollbar {
@@ -1272,7 +1275,7 @@ export default {
   }
 }
 
-@media (min-width: 499px) {
+@media (min-width: 500px) {
   .btn-23 {
     display: none;
   }
