@@ -42,14 +42,7 @@
             </div>
             <div class="p-4 lg:w-2/3 md:w-4/5 w-4/5 mx-auto">
               <h3
-                class="
-                  mb-base
-                  font-semibold
-                  lg:text-left
-                  md:text-left
-                  sm:text-left
-                  text-center
-                "
+                class="mb-base font-semibold lg:text-left md:text-left sm:text-left text-center"
               >
                 {{ target.title }}
               </h3>
