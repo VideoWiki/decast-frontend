@@ -977,7 +977,7 @@ body {
 .button {
   display: none;
 }
-@media (max-width: 400px) {
+@media (max-width: 499px) {
   .copy-link {
     border-radius: 10px;
   }
@@ -989,7 +989,7 @@ body {
     height: 62px;
   }
   .center-container-full {
-    height: 70%;
+    height: auto;
     border: 0.2px;
     border-color: #31394e;
     border-radius: 7px;
@@ -998,6 +998,27 @@ body {
     background-color: #1f272f;
     margin-bottom: 5px;
     width: 305px;
+    overflow: hidden;
+    padding-bottom: 10px !important;
+  }
+
+  .options-container {
+    margin-top: 20px;
+    height: 190px !important;
+    padding-top: 0;
+    overflow-y: scroll;
+    /* border: 1px solid red; */
+    padding-bottom: 10px;
+  }
+
+  .options-container::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .options-container::-webkit-scrollbar-thumb {
+    background-color: #31394e;
+    border-radius: 4px;
+    height: 10px;
   }
 
   .sub-heading {
