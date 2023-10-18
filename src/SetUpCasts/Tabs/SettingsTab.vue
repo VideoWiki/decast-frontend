@@ -71,7 +71,7 @@
         </button>
       </div>
     </div>
-    <div class="button cursor-pointer">
+    <div class="buttonn cursor-pointer">
       <button class="cursor-pointer" @click="handleSubmit">Create Cast</button>
     </div>
   </div>
@@ -259,11 +259,11 @@ export default {
   height: 20px;
   margin-top: -5px;
 }
-.button {
+.buttonn {
   align-self: flex-end;
   margin-top: 25px;
 }
-.button button {
+.buttonn button {
   width: 141px;
   height: 40px;
   border: 1px solid #31394e;

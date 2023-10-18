@@ -376,7 +376,7 @@ export default {
     width: 100%; /* Twice the width of the viewport */
     display: flex;
     overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: auto;
     /* border: 1px solid red; */
     transition: transform 0.3s ease-in-out; /* Smooth transition */
   }
@@ -388,7 +388,6 @@ export default {
   .pop-up {
     top: 0;
     left: 0;
-
     z-index: 999;
   }
 }
