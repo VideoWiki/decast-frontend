@@ -138,6 +138,7 @@
                   />
                 </button>
               </div>
+
               <div
                 class="inner-div2"
                 v-else-if="expandedRoom === index"
@@ -159,6 +160,7 @@
                     alt=""
                   />
                 </button>
+
                 <div
                   class="cast-popup"
                   v-if="showPopup === index"
@@ -205,13 +207,14 @@
                     Delete
                   </button>
                 </div>
+                <!----------------->
                 <div class="inner-child3">
                   <button v-if="cast.is_running === 'true'" class="live-btn">
                     Cast is live
                   </button>
                   <div class="inner-child4">
                     <button
-                      class="copy-button ml-4 border-none"
+                      class="copy-button border-none"
                       @click="toggleCopy(index)"
                       v-if="expandedRoom === index"
                       :style="{ backgroundColor: getColor(index) }"
@@ -229,6 +232,7 @@
                         :style="{ backgroundColor: getColor(index) }"
                       />
                     </button>
+
                     <div id="copy-pop" v-if="cast.showCopy">
                       <button
                         id="copy-btn-1"
@@ -243,6 +247,7 @@
                         Copy Co-host url
                       </button>
                     </div>
+
                     <button
                       v-if="cast.is_running === 'false'"
                       @click="joinNow(cast.public_meeting_id)"
@@ -252,9 +257,11 @@
                       Go live now
                     </button>
                     <button
-                      class="copy-button ml-4 border-none"
-                      @click="toggleCopy(index)"
-                      v-if="expandedRoom === index"
+                      class="copy-button border-none"
+                      v-if="
+                        cast.is_running === 'false' && expandedRoom === index
+                      "
+                      @click="joinNow(cast.public_meeting_id)"
                       :style="{ backgroundColor: getColor(index) }"
                     >
                       <img
@@ -1218,11 +1225,30 @@ export default {
   .options-container {
     height: 200px !important;
     overflow-y: scroll;
-    overflow-x:hidden;
+    overflow-x: hidden;
     margin-top: 20px;
     padding-bottom: 10px;
   }
-
+  .cast-popup {
+    width: 145px !important;
+    left: 40%;
+  }
+  .invite-text {
+    font-size: 10px;
+    font-weight: 500;
+  }
+  .inner-child2 img {
+    width: 12px;
+    height: 12px;
+  }
+  .inner-child2 {
+    width: 120px !important;
+    gap: 0px;
+    display: flex !important;
+  }
+  .copy-button {
+    padding-left: -40px;
+  }
   .options-container::-webkit-scrollbar {
     width: 5px;
   }
@@ -1254,7 +1280,7 @@ export default {
   }
   .k-btn {
     height: 3px;
-    padding-right: 10px;
+    padding-right: 0px !important;
     padding-top: 0;
   }
   .btn-1 {
@@ -1265,7 +1291,13 @@ export default {
     cursor: pointer;
     height: max-content;
     margin-left: 5px;
-    color: #a6a6a8;
+  }
+  .live-btn {
+    color: #283140 !important;
+    font-size: 10px;
+    font-weight: 400;
+    padding-left: 50px !important;
+    padding-top: 15px !important;
   }
   .child-options div {
     width: 80%;
