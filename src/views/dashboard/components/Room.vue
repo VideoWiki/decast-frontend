@@ -981,6 +981,11 @@ body {
   .copy-link {
     border-radius: 10px;
   }
+
+  .button .button-text{
+    font-size: 12px;
+    height: 30px;
+  }
   .button-container {
     display: flex;
     align-items: center;
@@ -1004,11 +1009,10 @@ body {
 
   .options-container {
     margin-top: 20px;
-    height: 190px !important;
+    height: 43vh !important;
     padding-top: 0;
     overflow-y: scroll;
-    /* border: 1px solid red; */
-    padding-bottom: 10px;
+    padding-bottom: 10px !important;
   }
 
   .options-container::-webkit-scrollbar {
@@ -1018,7 +1022,7 @@ body {
   .options-container::-webkit-scrollbar-thumb {
     background-color: #31394e;
     border-radius: 4px;
-    height: 10px;
+    height: 6px;
   }
 
   .sub-heading {
@@ -1046,12 +1050,11 @@ body {
     min-width: 250px;
   }
   .popup {
-    height: 100vh;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    background: #1f272f67;
+    background: transparent !important;
     z-index: 999;
   }
   .container {
