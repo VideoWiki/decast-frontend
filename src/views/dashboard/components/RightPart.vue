@@ -1216,11 +1216,15 @@ export default {
     position: relative;
   }
   .options-container {
-    height: 200px !important;
+    max-height: 60vh !important;
     overflow-y: scroll;
     overflow-x:hidden;
     margin-top: 20px;
     padding-bottom: 10px;
+  }
+
+  .rooms-container{
+    padding-bottom: 10px !important;
   }
 
   .options-container::-webkit-scrollbar {

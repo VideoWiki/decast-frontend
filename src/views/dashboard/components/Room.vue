@@ -1004,11 +1004,14 @@ body {
 
   .options-container {
     margin-top: 20px;
-    height: 190px !important;
+    max-height: 100vh !important;
     padding-top: 0;
     overflow-y: scroll;
-    /* border: 1px solid red; */
-    padding-bottom: 10px;
+    padding-bottom: 10px !important;
+  }
+
+  .rooms-container{
+    margin-bottom: 10px !important;
   }
 
   .options-container::-webkit-scrollbar {

@@ -296,7 +296,7 @@ export default {
   .middleOne {
     width: 35%;
     padding: 0px 10px 0px 20px;
-    border: 1px solid white;
+    /* border: 1px solid white; */
     /* border: 1px solid red; */
   }
   .rightPart {
@@ -314,8 +314,8 @@ export default {
     padding: 0; /* Remove padding for mobile view */
     margin: 0; /* Remove margin for mobile view */
     width: 100%;
-    border: 1px solid red;
-    height: auto;
+    /* border: 1px solid red; */
+    height: 85vh !important;
   }
 
   .one {
@@ -330,9 +330,11 @@ export default {
     width: 100%; /* Make sure components take full width */
     flex-shrink: 1; /* Distribute available space equally among them */
     justify-content: flex-start;
-    height: 100px;
-    border: 1px solid blue;
+    height: 220px;
+    /* border: 1px solid blue; */
+    margin-top: 0px;
   }
+
   .nav-bar {
     padding: 0;
     align-items: center;
@@ -382,13 +384,16 @@ export default {
     display: flex;
     overflow-x: scroll;
     /* overflow-y: hidden; */
-    border: 1px solid yellow;
+    margin-top: 10px;
+    /* border: 1px solid yellow; */
+    max-height: 600px;
+    height: 100%;
     transition: transform 0.3s ease-in-out; /* Smooth transition */
   }
   .scroll {
     width: 80vw; /* Half the width of the viewport */
     height: auto;
-    border: 1px solid green;
+    /* border: 1px solid green; */
     /* max-height: 500px; */
   }
 }
