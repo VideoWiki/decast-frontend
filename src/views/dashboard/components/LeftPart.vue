@@ -19,7 +19,7 @@
         <div class="text">What are we starting today?</div>
       </div>
       <div class="bottom-date">
-        <p>Today: September 21, 2023</p>
+        <p>Today: {{ formattedDate }}</p>
       </div>
       <div class="box">
         <div class="first-row flex">
@@ -57,6 +57,7 @@ export default {
     return {
       forRoom: 'Start Session',
       forCast: 'Create a Cast',
+      formattedDate: '',
     };
   },
   computed: {
@@ -69,6 +70,9 @@ export default {
     getFirstLetter() {
       return this.activeUserInfo.first_name;
     },
+  },
+  mounted() {
+    this.created();
   },
   methods: {
     start() {
@@ -84,6 +88,11 @@ export default {
           console.log(e);
         });
     },
+    created() {
+    const currentDate = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    this.formattedDate = currentDate.toLocaleDateString(undefined, options);
+  },
   },
 };
 </script>
@@ -133,7 +142,7 @@ export default {
   margin-top: 12px;
 }
 
-@media (max-width: 499px) {
+@media (max-width: 499px){
   .dashboard-container {
     align-items: flex-start; /* Align to start for mobile view */
   }
@@ -145,8 +154,8 @@ export default {
     font-weight: 400;
   }
   .bottom-date {
-    margin-top: 54px;
-    margin-bottom: 4px;
+    margin-top: 15px;
+    margin-bottom: 6px;
   }
   .welcome-text {
     margin-top: 15px;

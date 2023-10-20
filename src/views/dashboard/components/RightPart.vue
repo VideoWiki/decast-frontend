@@ -177,9 +177,9 @@
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/drops.svg" alt="" />Drops
-                  </button>
+                  </button> -->
                   <button
                     @click="togglePostpone(cast.public_meeting_id, index, true)"
                   >
@@ -188,9 +188,9 @@
                       alt=""
                     />Reschedule cast
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
-                  </button>
+                  </button> -->
                   <button>
                     <img src="@/assets/images/pen.svg" alt="" />Edit
                   </button>
@@ -1223,11 +1223,11 @@ export default {
     position: relative;
   }
   .options-container {
-    height: 200px !important;
-    overflow-y: scroll;
-    overflow-x: hidden;
     margin-top: 20px;
-    padding-bottom: 10px;
+    height: 44vh !important;
+    padding-top: 0;
+    overflow-y: scroll;
+    padding-bottom: 10px !important;
   }
   .cast-popup {
     width: 145px !important;
@@ -1256,7 +1256,7 @@ export default {
   .options-container::-webkit-scrollbar-thumb {
     background-color: #31394e;
     border-radius: 4px;
-    height: 10px;
+    height: 6px;
   }
   .inner-child4 button {
     background: none;
@@ -1304,6 +1304,31 @@ export default {
   }
   .inner-child4 {
     margin-right: 2px;
+  }
+  .popup {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 60%;
+    background: transparent !important;
+    z-index: 999;
+    /* border: 1px solid red; */
+  }
+  .full-wrapper {
+    width: 278px;
+    height: 212px;
+    background-color: #1f272f;
+    border-radius: 10px;
+    border: 1px solid #31394e;
+    padding: 14px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .post-time,
+  .delete-popup {
+    margin-top: -40vh !important;
+    /* margin-left: 60%; */
+    /* border: 1px solid red; */
   }
 }
 
