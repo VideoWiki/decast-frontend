@@ -384,7 +384,7 @@ export default {
     width: 100%; /* Twice the width of the viewport */
     display: flex;
     overflow-x: scroll;
-    overflow-y: scroll;
+    overflow-y: hidden;
     margin-top: 10px;
     max-height: 600px;
     height: 100%;

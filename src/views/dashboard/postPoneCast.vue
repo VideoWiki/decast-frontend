@@ -569,6 +569,7 @@ export default {
   height: 8px;
 }
 
+
 #date .calendar .calendar-container .custom-date-pick input {
   height: 30px !important;
   background: transparent;
@@ -587,5 +588,19 @@ export default {
   margin-left: -45px;
   width: 285px;
   height: 310px;
+}
+
+@media (max-width: 499px) {
+  #date .vdpInnerWrap {
+  width: 285px;
+  height: 310px;
+  margin-left: 100%;
+  margin-right: -33%;
+  margin-top: 25px;
+}
+
+#date .vdpOuterWrap{
+  background: transparent;
+}
 }
 </style>

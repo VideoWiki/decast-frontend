@@ -96,7 +96,19 @@
                   </button>
                 </div>
                 <div v-if="cast.invitee_list.length === 0" class="inner-child2">
-                  <span class="invite-text" href="#">Invite Attendees</span>
+                  <span
+                    class="invite-text"
+                    href="#"
+                    @click="
+                      ShowInvite(
+                        cast.public_meeting_id,
+                        cast.invitee_list,
+                        streamInfo[cast.public_meeting_id],
+                        cast.viewer_mode
+                      )
+                    "
+                    >Invite Attendees</span
+                  >
                   <img src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
@@ -230,11 +242,10 @@
                       />
                     </button>
                     <button
-                      class="live-btn"
+                      id="new-id"
+                      
                       v-if="
-                        cast.is_running === 'true' && expandedRoom === index
-                      "
-                      :style="{ backgroundColor: getColor(index) }"
+                        cast.is_running === 'true' && expandedRoom === index"
                     >
                       live
                     </button>
@@ -1708,6 +1719,9 @@ export default {
   .copy-button {
     padding-left: -40px;
   }
+  .cop-btn {
+    border: none !important;
+  }
   .options-container::-webkit-scrollbar {
     width: 5px;
   }
@@ -1754,7 +1768,8 @@ export default {
     height: max-content;
     margin-left: 5px;
   }
-  .live-btn {
+
+  /* .live-btn {
     color: #283140 !important;
     border: none !important;
     background-color: none !important;
@@ -1768,6 +1783,16 @@ export default {
     margin-top: 8px;
     margin-right: -5px;
     margin-left: -3px;
+  } */
+
+  #new-id {
+    /* padding: 5px; */
+    height: 36px !important;
+    min-width: 36px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    background-color: red !important;
+    padding: 0;
   }
   .inner-child3 {
     display: flex;
@@ -1786,7 +1811,8 @@ export default {
     top: 0;
     left: 60%;
     background: transparent !important;
-    z-index: 999;
+    overflow-y: hidden !important;
+    /* height: 70%; */
     /* border: 1px solid red; */
   }
   .full-wrapper {

@@ -775,6 +775,8 @@ button {
   .invite-cont {
     width: 370px;
     padding: auto;
+    margin: auto;
+    margin-top: -30rem;
   }
   .input-container input {
     width: 200px;

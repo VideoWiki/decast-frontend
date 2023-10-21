@@ -103,7 +103,7 @@
                     </button>
                     <button
                       class="copy-button ml-4 border-none"
-                      @click.stop="copy(room.room_url)"
+                      @click.stop="start(room.room_url)"
                       :style="{ backgroundColor: getColor(index) }"
                     >
                       <img
@@ -1097,6 +1097,10 @@ body {
     height: 100vh;
     max-width: 300px !important;
     min-width: 250px;
+  }
+
+  .centered-container{
+    margin-top:-20rem !important  ;
   }
   .popup {
     width: 100%;
