@@ -215,7 +215,7 @@
 
                   <div class="inner-child4">
                     <button
-                      class="copy-button border-none"
+                      class="copy-button cop-btn border-none"
                       @click="toggleCopy(index)"
                       v-if="expandedRoom === index"
                       :style="{ backgroundColor: getColor(index) }"
@@ -1137,6 +1137,7 @@ export default {
     toggleCopy(index) {
       this.postPoneVisible = false;
       this.showCopy = this.showCopy === index ? null : index;
+      console.log(index, 'copy');
     },
     resetShowTooltip2() {
       this.showTooltip2 = null;

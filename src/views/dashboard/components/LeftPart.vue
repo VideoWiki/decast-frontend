@@ -2,7 +2,7 @@
   <div class="dashboard-container mx-auto">
     <div class="picture">
       <vs-avatar
-        :text="{getFirstLetter }"
+        :text="getFirstLetter"
         color="primary"
         class="m-0 shadow-md"
         :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''"
@@ -13,7 +13,7 @@
       <div class="welcome-text">
         <div class="text">
           Welcome
-          <span>{{ getFirstLetter }}</span
+          <span>{{ getFirstname }}</span
           >!
         </div>
         <div class="text">What are we starting today?</div>
@@ -67,8 +67,11 @@ export default {
     activeUserInfo() {
       return this.$store.state.AppActiveUser;
     },
-    getFirstLetter() {
+    getFirstname(){
       return this.activeUserInfo.first_name;
+    },
+    getFirstLetter() {
+      return this.activeUserInfo.first_name[0];
     },
   },
   mounted() {
