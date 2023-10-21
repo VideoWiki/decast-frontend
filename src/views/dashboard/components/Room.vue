@@ -443,7 +443,11 @@ export default {
       }
     },
     expandRoom(index) {
-      this.expandedRoom = index;
+      if (this.expandedRoom === index) {
+        this.expandedRoom = null;
+      } else {
+        this.expandedRoom = index;
+      }
     },
     getColor(index) {
       const colors = ['#FCB92d', '#FB7E84', '#2CC2D3', '#79FC9E', '#D971BC'];

@@ -209,10 +209,6 @@
                 </div>
                 <!----------------->
                 <div class="inner-child3">
-                  <button v-if="cast.is_running === 'true'" class="live-btn">
-                    Cast is live
-                  </button>
-
                   <div class="inner-child4">
                     <button
                       class="copy-button border-none"
@@ -232,6 +228,15 @@
                         alt="copy"
                         :style="{ backgroundColor: getColor(index) }"
                       />
+                    </button>
+                    <button
+                      class="live-btn"
+                      v-if="
+                        cast.is_running === 'true' && expandedRoom === index
+                      "
+                      :style="{ backgroundColor: getColor(index) }"
+                    >
+                      live
                     </button>
 
                     <div id="copy-pop" v-if="showCopy === index">
@@ -861,7 +866,13 @@ export default {
       this.isMobileView = window.innerWidth < mobileBreakpoint;
     },
     expandRoom(index) {
-      this.expandedRoom = index;
+      if (this.expandedRoom === index) {
+        // If the clicked room is already expanded, collapse it by setting `expandedRoom` to null
+        this.expandedRoom = null;
+      } else {
+        // If a different room is clicked, expand it by setting `expandedRoom` to the room index
+        this.expandedRoom = index;
+      }
     },
     getColor(index) {
       const colors = ['#FCB92d', '#FB7E84', '#2CC2D3', '#79FC9E', '#D971BC'];
@@ -1744,10 +1755,23 @@ export default {
   }
   .live-btn {
     color: #283140 !important;
-    font-size: 10px;
-    font-weight: 400;
-    padding-left: 50px !important;
-    padding-top: 15px !important;
+    border: none !important;
+    background-color: none !important;
+    border-radius: 5px;
+    padding: 3px;
+    height: fit-content;
+    z-index: 999;
+    font-size: 12px;
+    font-weight: 500;
+    width: 34px !important;
+    margin-top: 8px;
+    margin-right: -5px;
+    margin-left: -3px;
+  }
+  .inner-child3 {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
   }
   .child-options div {
     width: 80%;
