@@ -568,6 +568,7 @@ export default {
             var newRooms = this.rooms;
             newRooms.splice(index, 1);
             this.$store.commit('room/setRooms', newRooms);
+            this.showPopup=null;
           }
         })
         .catch((error) => {
@@ -595,7 +596,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.sharePopup = false;
-          this.showPopup = false;
+          this.showPopup = null;
           this.$vs.notify({
             color: 'success',
             title: 'Success',
