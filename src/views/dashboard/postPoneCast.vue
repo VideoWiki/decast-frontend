@@ -569,7 +569,6 @@ export default {
   height: 8px;
 }
 
-
 #date .calendar .calendar-container .custom-date-pick input {
   height: 30px !important;
   background: transparent;
@@ -592,15 +591,48 @@ export default {
 
 @media (max-width: 499px) {
   #date .vdpInnerWrap {
-  width: 285px;
-  height: 310px;
-  margin-left: 100%;
-  margin-right: -33%;
-  margin-top: 25px;
+    width: 285px;
+    height: 310px;
+    margin-left: 40%;
+    /* margin-right: -20%; */
+    margin-top: 100px;
+  }
+
+  #date .vdpOuterWrap {
+    background: transparent;
+    width: 285px;
+  }
+
+  .child1,.child2{
+    position: relative;
+  }
+
+  .options-list2 {
+  background-color: #31394e;
+  border-radius: 6px;
+  color: #a6a6a6;
+  font-size: 12px;
+  position: absolute;
+  z-index: 999;
+  height: 150px;
+  width: 85px;
+  padding: 6px;
+  text-align: left !important;
+  overflow-y: scroll;
+  cursor: pointer;
+  /* top: 10%; */
+  bottom: auto !important;
+  margin-left: 130px;
 }
 
-#date .vdpOuterWrap{
-  background: transparent;
-}
+  .options-list2::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .options-list2::-webkit-scrollbar-thumb {
+    background-color: #1d232b;
+    border-radius: 4px;
+    height: 8px;
+  }
 }
 </style>

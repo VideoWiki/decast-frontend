@@ -208,10 +208,10 @@
                     <img src="@/assets/images/manage.svg" alt="" />Manage
                     attendees
                   </button>
-                  <button @click="showSettings = true">
+                  <button @click="showSettingsPopup(cast.public_meeting_id)">
                     <img src="@/assets/images/call.svg" alt="" />Call settings
                   </button>
-                  <button @click="stream = true">
+                  <button @click="showStream(cast.public_meeting_id)">
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
@@ -612,6 +612,7 @@
     </div>
     <div class="popup" @click="closeAllPopups" v-if="stream">
       <StreamingTab
+        class="stream-co"
         :closeCreate="() => (stream = false)"
         :stepFourProps="stepFourProps"
         :stepThreeProps="stepThreeProps"
@@ -1864,6 +1865,28 @@ export default {
     overflow-y: hidden !important;
     /* height: 70%; */
     /* border: 1px solid red; */
+  }
+
+  .popup .stream-co{
+    margin-top: -30rem;
+    height: auto !important;
+    border: 1px solid #31394e;
+    padding: 6px;
+    border-radius: 8px;
+    overflow-y: scroll !important;
+    min-height: 350px !important;
+    max-height: 450px !important;
+  }
+
+  .edit-settings{
+    margin-top: -30rem;
+    height: auto !important;
+    border: 1px solid #31394e;
+    padding: 6px;
+    border-radius: 8px;
+    overflow-y: scroll !important;
+    min-height: 350px !important;
+    max-height: 450px !important;
   }
   .full-wrapper {
     width: 278px;
