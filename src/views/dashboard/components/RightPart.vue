@@ -234,8 +234,7 @@
                   </button>
                   <button
                     @click="
-                      togglePostpone(cast.public_meeting_id, index, false)
-                    "
+                      togglePostpone(cast.public_meeting_id, index, false)"
                   >
                     <img src="@/assets/images/prepone.svg" alt="" />Postpone
                     cast
