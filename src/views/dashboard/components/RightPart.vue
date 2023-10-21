@@ -234,7 +234,7 @@
                       />
                     </button>
 
-                    <div id="copy-pop" v-if="cast.showCopy">
+                    <div id="copy-pop" v-if="showCopy === index">
                       <button
                         id="copy-btn-1"
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
