@@ -395,5 +395,14 @@ export default {
     display: flex;
     flex-direction: column;
   }
+
+  .child-2 {
+    margin-top: -20px;
+  }
+
+  .name-cont h3 {
+    color: #a6a6a8;
+    font-size: 16px;
+  }
 }
 </style>
