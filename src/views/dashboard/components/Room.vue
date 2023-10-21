@@ -84,6 +84,7 @@
                       Start Session
                     </button>
                     <button
+                      @click.stop
                       class="copy-button ml-4 border-none"
                       @click.stop="copy(room.room_url)"
                       :style="{ backgroundColor: getColor(index) }"
@@ -102,6 +103,7 @@
                       />
                     </button>
                     <button
+                      @click.stop
                       class="copy-button ml-4 border-none"
                       @click.stop="start(room.room_url)"
                       :style="{ backgroundColor: getColor(index) }"
@@ -120,6 +122,7 @@
                       />
                     </button>
                     <button
+                      @click.stop
                       class="side-btn border-none"
                       @click.stop="togglePopup(index)"
                       v-if="expandedRoom == index"
@@ -155,6 +158,7 @@
                 </button>
               </div>
               <div
+                @click.stop
                 class="room-popup"
                 v-if="showPopup === index"
                 @click.stop="closePopup(index)"
@@ -581,7 +585,7 @@ export default {
             var newRooms = this.rooms;
             newRooms.splice(index, 1);
             this.$store.commit('room/setRooms', newRooms);
-            this.showPopup=null;
+            this.showPopup = null;
           }
         })
         .catch((error) => {

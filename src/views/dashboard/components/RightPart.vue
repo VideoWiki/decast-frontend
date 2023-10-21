@@ -156,8 +156,33 @@
                 v-else-if="expandedRoom === index"
                 :style="{ backgroundColor: getColor(index) }"
               >
+                <span v-if="streamInfo[cast.public_meeting_id]">
+                  <button
+                    v-if="streamInfo[cast.public_meeting_id].stream_status"
+                    class="stream-btn"
+                    @click.stop
+                    @click="toggleStream(cast.public_meeting_id, 'pause')"
+                  >
+                    <feather-icon
+                      icon="PauseIcon"
+                      svgClasses="stroke-current"
+                      class="block icon"
+                    />
+                  </button>
+                  <!-- <div class="tooltip" v-if="showTooltip===index">Pause Stream</div> -->
+                  <button
+                    class="action-btn"
+                    id="stream-btn"
+                    v-else
+                    @click.stop
+                    @click="toggleStream(cast.public_meeting_id, 'start')"
+                  >
+                    <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                  </button>
+                </span>
                 <button
                   class="k-btn"
+                  @click.stop
                   @click="
                     togglePopup(
                       index,
@@ -175,6 +200,7 @@
 
                 <div
                   class="cast-popup"
+                  @click.stop
                   v-if="showPopup === index"
                   @click="closePopup(index)"
                 >
@@ -224,6 +250,7 @@
                   <div class="inner-child4">
                     <button
                       class="copy-button cop-btn border-none"
+                      @click.stop
                       @click="toggleCopy(index)"
                       v-if="expandedRoom === index"
                       :style="{ backgroundColor: getColor(index) }"
@@ -243,25 +270,33 @@
                     </button>
                     <button
                       id="new-id"
-                      
                       v-if="
-                        cast.is_running === 'true' && expandedRoom === index"
+                        cast.is_running === 'true' && expandedRoom === index
+                      "
                     >
                       live
                     </button>
 
-                    <div id="copy-pop" v-if="showCopy === index">
+                    <div id="copy-pop" @click.stop v-if="showCopy === index">
                       <button
                         id="copy-btn-1"
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
                       >
                         <img src="@/assets/images/co-host.svg" />
-                        Copy Participant url
+                        Participant url
                       </button>
                       <br />
                       <button id="copy-btn-2">
                         <img src="@/assets/images/Participant.svg" />
-                        Copy Co-host url
+                        Co-host url
+                      </button>
+                      <button
+                        @click="copy(cast.public_meeting_id, undefined)"
+                        id="copy-btn-3"
+                        v-if="streamInfo[cast.public_meeting_id]"
+                      >
+                        <img src="@/assets/images/dashboard/Live.svg" />
+                        Stream url
                       </button>
                     </div>
 
@@ -275,6 +310,7 @@
                     </button>
                     <button
                       class="copy-button border-none"
+                      @click.stop
                       v-if="
                         cast.is_running === 'false' && expandedRoom === index
                       "
@@ -878,10 +914,8 @@ export default {
     },
     expandRoom(index) {
       if (this.expandedRoom === index) {
-        // If the clicked room is already expanded, collapse it by setting `expandedRoom` to null
         this.expandedRoom = null;
       } else {
-        // If a different room is clicked, expand it by setting `expandedRoom` to the room index
         this.expandedRoom = index;
       }
     },
@@ -1701,7 +1735,7 @@ export default {
   }
   .cast-popup {
     width: 145px !important;
-    left: 45%;
+    left: 40%;
   }
   .invite-text {
     font-size: 10px;
@@ -1754,6 +1788,21 @@ export default {
   .inner-div2 {
     height: 108.5%;
   }
+
+  .stream-btn, .action-btn{
+    width:36px !important;
+    height:36px !important;
+    position: absolute;
+    left: 60%;
+    top: 5px;
+  }
+
+  .stream-btn{
+    background-color: blue !important;
+  }
+  .action-btn{
+    background-color: orangered !important;
+  }
   .k-btn {
     height: 3px;
     padding-right: 0px !important;
@@ -1792,6 +1841,7 @@ export default {
     border: none !important;
     border-radius: 5px !important;
     background-color: red !important;
+    color: yellow !important;
     padding: 0;
   }
   .inner-child3 {
@@ -1830,6 +1880,11 @@ export default {
     margin-top: -40vh !important;
     /* margin-left: 60%; */
     /* border: 1px solid red; */
+  }
+  #copy-pop {
+    width: 120px;
+    /* right: -1px; */
+    /* left: 0px; */
   }
 }
 
