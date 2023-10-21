@@ -146,6 +146,7 @@
               >
                 <button
                   class="k-btn"
+                  @click.stop
                   @click="
                     togglePopup(
                       index,
@@ -163,6 +164,7 @@
 
                 <div
                   class="cast-popup"
+                  @click.stop
                   v-if="showPopup === index"
                   @click="closePopup(index)"
                 >
@@ -212,6 +214,7 @@
                   <div class="inner-child4">
                     <button
                       class="copy-button border-none"
+                      @click.stop
                       @click="toggleCopy(index)"
                       v-if="expandedRoom === index"
                       :style="{ backgroundColor: getColor(index) }"
@@ -231,6 +234,7 @@
                     </button>
                     <button
                       class="live-btn"
+                      @click.stop
                       v-if="
                         cast.is_running === 'true' && expandedRoom === index
                       "
@@ -239,7 +243,7 @@
                       live
                     </button>
 
-                    <div id="copy-pop" v-if="showCopy === index">
+                    <div id="copy-pop" @click.stop v-if="showCopy === index">
                       <button
                         id="copy-btn-1"
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
@@ -264,6 +268,7 @@
                     </button>
                     <button
                       class="copy-button border-none"
+                      @click.stop
                       v-if="
                         cast.is_running === 'false' && expandedRoom === index
                       "
@@ -867,10 +872,8 @@ export default {
     },
     expandRoom(index) {
       if (this.expandedRoom === index) {
-        // If the clicked room is already expanded, collapse it by setting `expandedRoom` to null
         this.expandedRoom = null;
       } else {
-        // If a different room is clicked, expand it by setting `expandedRoom` to the room index
         this.expandedRoom = index;
       }
     },
@@ -1803,6 +1806,9 @@ export default {
     margin-top: -40vh !important;
     /* margin-left: 60%; */
     /* border: 1px solid red; */
+  }
+  #copy-pop {
+    width: 140px;
   }
 }
 
