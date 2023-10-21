@@ -204,14 +204,18 @@ export default {
           fname: this.firstName,
           lname: this.lastName,
           email: this.email,
-          p_image: this.uploadedImageBlob || '',
+          p_image: this.uploadedImageBlob ? this.uploadedImageBlob : '',
         };
-        axios
-          .patch(constants.profilingUrl + '/api/profile/update/', payload)
+        console.log(payload);
+        this.$store
+          .dispatch('auth/updateUserDetails', payload)
           .then((res) => {
+            console.log(res, 'res');
             localStorage.setItem('designation', this.designation);
             this.isEditing = false;
-            res.data.profile_image = this.uploadedImageBlob;
+            this.activeUserInfo.profile_pic = res.data.profile_image;
+            console.log(res.data.profile_image, 'img');
+            console.log(payload, 'pay');
             this.$store.commit('UPDATE_USER_INFO', this.activeUserInfo);
             this.$vs.notify({
               title: 'Success',

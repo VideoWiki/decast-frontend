@@ -158,9 +158,7 @@ export default {
       twitchSecret: '',
     };
   },
-  mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
-  },
+  mounted() {},
   methods: {
     toggleSwitch1() {
       this.VWStream = !this.VWStream;
@@ -262,10 +260,24 @@ export default {
         'password_auth',
         this.stepOneProps.password_auth ? 'True' : 'False'
       );
-      this.$store.dispatch('cast/formSubmit', data).then((response) => {
-        console.log(response);
-        this.closeCreate();
-      });
+      try {
+        this.$store.dispatch('cast/formSubmit', data).then((response) => {
+          console.log(response);
+          this.$vs.notify({
+            title: 'Success',
+            text: 'Changes Saved',
+            color: 'success',
+          });
+          this.closeCreate();
+        });
+      } catch (e) {
+        console.log(e);
+        this.$vs.notify({
+          title: 'Error',
+          text: 'Changes Not Saved',
+          color: 'danger',
+        });
+      }
     },
   },
 };
@@ -279,6 +291,7 @@ export default {
 .stream-container {
   background: #1f272f;
   border-radius: 10px;
+  width: 583px;
 }
 
 .toggle-switch {

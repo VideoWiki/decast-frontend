@@ -88,15 +88,27 @@
             :stepFourProps="stepFourProps"
             :changeActiveTab="changeActiveTab"
           />
-          <!-- <StreamingTab
+          <StreamingTab
             v-else
             :createCast="createCast"
             :changeActiveTab="changeActiveTab"
-          /> -->
+            :stepFourProps="stepFourProps"
+            :stepThreeProps="stepThreeProps"
+            :stepTwoProps="stepTwoProps"
+            :stepOneProps="stepOneProps"
+            :closeCreate="closeCreate"
+            :castId="castId"
+          />
         </div>
       </div>
       <div v-else-if="status === 'invite'">
-        <invite-card :closeInvite="closeCreate" :Id="castId" :invites="[]" />
+        <invite-card
+          :isStream="stepThreeProps.is_streaming"
+          :viewer="stepFourProps.viewer_mode"
+          :closeInvite="closeCreate"
+          :Id="castId"
+          :invites="[]"
+        />
       </div>
       <div v-else>
         <stream-card
@@ -144,7 +156,7 @@ export default {
         invalidTimeError: false,
         moderator_password: '',
         attendee_password: '',
-        meeting_type: '',
+        meeting_type: 'public',
         schedule_time: '',
         description: '',
         max_participant: 100,
@@ -186,7 +198,7 @@ export default {
         auth_type: 'public',
         meeting_auth_error: false,
         send_otp: false,
-        public_auth: true,
+        public_auth: false,
         public_otp: false,
         give_nft: false,
         public_stream_nfts: 'true',
@@ -209,18 +221,18 @@ export default {
         guest_policy: '',
         welcome_text: '',
         showText: true,
-        duration: '60',
+        duration: '480',
         logout_url: 'https://dev.stream.video.wiki/full',
       },
       stepThreeProps: {
         vw_stream: false,
         vw_stream_url: [{ vw_stream: '' }, { urls: [] }],
         is_streaming: false,
-        public_stream: false,
+        public_stream: true,
       },
       stepFourProps: {
         start_stop_recording: true,
-        record: false,
+        record: true,
         mute_on_start: true,
         end_when_no_moderator: true,
         allow_moderator_to_unmute_user: false,
@@ -238,12 +250,11 @@ export default {
         screen_sharing: true,
         restrict_participants: false,
         meeting_settings: false,
+        checkBox: '',
       },
     };
   },
-  mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
-  },
+  mounted() {},
   methods: {
     changeActiveTab(tab) {
       this.activeTab = tab;
@@ -424,7 +435,7 @@ export default {
   margin-top: 23px;
 }
 .buttons button {
-  width: 135px;
+  width: 33%;
   height: 40px;
   border: 1px solid #31394e;
   font-size: 12px;

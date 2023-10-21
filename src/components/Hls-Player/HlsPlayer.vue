@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="w-9/10">
       <video ref="video" controls crossorigin playsinline :data-poster="poster">
         <source ref="source" type="application/x-mpegURL" :src="videoSrc" />
       </video>
@@ -68,9 +68,9 @@ export default {
 .plyr__control:hover,
 .plyr__control[role='menuitemradio'][aria-checked='true']::before,
 .plyr__control[aria-expanded='true'] {
-  background: #8d56f8 !important;
+  background: #d7df23 !important;
 }
 .plyr--full-ui input[type='range'] {
-  color: #8d56f8;
+  color: #d7df23;
 }
 </style>
