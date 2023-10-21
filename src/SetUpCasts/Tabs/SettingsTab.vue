@@ -1,20 +1,8 @@
 <template>
   <div class="wrapper">
-    <div class="tab-content" v-if="activeTab !== ''">
+    <div class="tab-content" v-if="activeTab === 'CustomPopup'">
       <div class="button-first">
-        <button v-if="activeTab === 'BigMeetingPopup'" class="bigMeeting">
-          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
-          <label>Big Meeting</label>
-        </button>
-        <button v-if="activeTab === 'WebinarPopup'" class="webinar">
-          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
-          <label>Webinar</label>
-        </button>
-        <button v-if="activeTab === 'BroadcastPopup'" class="broadcast">
-          <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
-          <label>Broadcast</label>
-        </button>
-        <button v-if="activeTab === 'CustomPopup'" class="custom">
+        <button class="custom">
           <img src="@/assets/images/editor/Vector10.svg" @click="tabChange()" />
           <label>Custom</label>
         </button>
@@ -27,21 +15,31 @@
     <div v-if="activeTab === ''">
       <div class="heading-text">You can edit these settings at any time</div>
       <div class="first-row flex">
-        <button @click="activeTab = 'BigMeetingPopup'" class="box box1">
+        <button @click="change('BigMeetingPopup')" class="box box1">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector4.svg"
               class="left-img box1-left"
             />
+            <img
+              class="rightImg"
+              v-if="stepFourProps.checkBox === 'BigMeetingPopup'"
+              src="@/assets/images/dashboard/Vector32.svg"
+            />
           </div>
           <div class="define-text">Big Meeting</div>
           <div class="info-text">Collaborate with others and work together</div>
         </button>
-        <button @click="activeTab = 'WebinarPopup'" class="box box2">
+        <button @click="change('WebinarPopup')" class="box box2">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector6.svg"
               class="left-img box2-left"
+            />
+            <img
+              class="rightImg"
+              v-if="stepFourProps.checkBox === 'WebinarPopup'"
+              src="@/assets/images/dashboard/Vector32.svg"
             />
           </div>
           <div class="define-text">Webinar</div>
@@ -49,21 +47,31 @@
         </button>
       </div>
       <div class="second-row flex">
-        <button @click="activeTab = 'BroadcastPopup'" class="box box3">
+        <button @click="change('BroadcastPopup')" class="box box3">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector7.svg"
               class="left-img box3-left"
             />
+            <img
+              class="rightImg"
+              v-if="stepFourProps.checkBox === 'BroadcastPopup'"
+              src="@/assets/images/dashboard/Vector32.svg"
+            />
           </div>
           <div class="define-text">Broadcast</div>
           <div class="info-text">Broadcast your screen to others all over</div>
         </button>
-        <button @click="activeTab = 'CustomPopup'" class="box box4">
+        <button @click="change('CustomPopup')" class="box box4">
           <div class="box-imges">
             <img
               src="@/assets/images/editor/Vector8.svg"
               class="left-img box4-left"
+            />
+            <img
+              class="rightImg"
+              v-if="stepFourProps.checkBox === 'CustomPopup'"
+              src="@/assets/images/dashboard/Vector32.svg"
             />
           </div>
           <div class="define-text">Custom</div>
@@ -72,7 +80,10 @@
       </div>
     </div>
     <div class="buttonn cursor-pointer">
-      <button class="cursor-pointer" @click="handleSubmit">Create Cast</button>
+      <button @click="changeActiveTab('Streaming')" class="cursor-pointer">
+        Next
+      </button>
+      <!---<button class="cursor-pointer" @click="createCast">Create Cast</button>-->
     </div>
   </div>
 </template>
@@ -84,7 +95,15 @@ export default {
   components: {
     BigMeetingPopup,
   },
-  props: ['createCast', 'stepFourProps'],
+  props: [
+    'changeActiveTab',
+    'stepFourProps',
+    'stepOneProps',
+    'stepThreeProps',
+    'stepTwoProps',
+    'castId',
+    'closeCreate',
+  ],
   data() {
     return {
       activeTab: '',
@@ -98,27 +117,117 @@ export default {
       if (this.createCast) {
         this.createCast();
       } else {
-        alert();
+        console.log(this.castId);
+        this.changeSettings();
       }
     },
-  },
-  mounted() {
-    console.log(this.activeTab, 'sTab');
-  },
-  computed: {
-    activeTabComponent() {
-      switch (this.activeTab) {
-        case 'BigMeetingPopup':
-          return BigMeetingPopup;
-        case 'WebinarPopup':
-          return BigMeetingPopup;
-        case 'BroadcastPopup':
-          return BigMeetingPopup;
-        case 'CustomPopup':
-          return BigMeetingPopup;
-        default:
-          return null;
+    changeSettings() {
+      const data = new FormData();
+      data.append('cast_id', this.castId);
+      data.append('cast_name', this.stepOneProps.event_name);
+      data.append('logo', this.stepTwoProps.logo);
+      data.append('cover_image', this.stepTwoProps.cover_image);
+      data.append('back_image', this.stepTwoProps.back_image);
+      data.append('description', this.stepOneProps.description);
+      data.append('cast_type', this.stepOneProps.auth_type);
+      data.append(
+        'collect_attendee_email',
+        this.stepOneProps.public_otp ? 'True' : 'False'
+      );
+      data.append('schedule_time', this.stepOneProps.schedule_time);
+      data.append('timezone', this.stepOneProps.timezone);
+      data.append('primary_color', this.stepTwoProps.primary_color);
+      data.append('welcome_text', this.stepTwoProps.welcome_text);
+      data.append('banner_text', this.stepTwoProps.banner_text);
+      data.append('guest_policy', this.stepTwoProps.guest_policy);
+      data.append('moderator_only_text', this.stepTwoProps.moderator_only_text);
+      data.append('duration', this.stepTwoProps.duration);
+      data.append('logout_url', this.stepTwoProps.logout_url);
+      data.append(
+        'is_streaming',
+        this.stepThreeProps.is_streaming ? 'True' : 'False'
+      );
+      data.append(
+        'public_stream',
+        this.stepThreeProps.public_stream ? 'True' : 'False'
+      );
+      data.append(
+        'bbb_stream_url',
+        JSON.stringify(this.stepThreeProps.vw_stream_url)
+      );
+      data.append('record', this.stepFourProps.record ? 'True' : 'False');
+      data.append(
+        'end_when_no_moderator',
+        this.stepFourProps.end_when_no_moderator ? 'True' : 'False'
+      );
+      data.append(
+        'allow_moderator_to_unmute_user',
+        this.stepFourProps.allow_moderator_to_unmute_user ? 'True' : 'False'
+      );
+      data.append(
+        'auto_start_recording',
+        this.stepFourProps.auto_start_recording ? 'True' : 'False'
+      );
+      data.append(
+        'mute_on_start',
+        this.stepFourProps.mute_on_start ? 'True' : 'False'
+      );
+      data.append(
+        'webcam_only_for_moderator',
+        this.stepFourProps.webcam_only_for_moderator ? 'True' : 'False'
+      );
+      data.append(
+        'disable_cam',
+        this.stepFourProps.disable_cam ? 'True' : 'False'
+      );
+      data.append(
+        'disable_mic',
+        this.stepFourProps.disable_mic ? 'True' : 'False'
+      );
+      data.append(
+        'lock_layout',
+        this.stepFourProps.lock_layout ? 'True' : 'False'
+      );
+      data.append(
+        'viewer_mode',
+        this.stepFourProps.viewer_mode ? 'True' : 'False'
+      );
+      data.append('private_otp', this.stepOneProps.send_otp ? 'True' : 'False');
+      data.append(
+        'password_auth',
+        this.stepOneProps.password_auth ? 'True' : 'False'
+      );
+      this.$store.dispatch('cast/formSubmit', data).then((response) => {
+        console.log(response);
+        this.closeCreate();
+      });
+    },
+    change(tab) {
+      console.log(this.tab, 'tab');
+
+      if (tab === 'BigMeetingPopup') {
+        this.stepFourProps.checkBox = 'BigMeetingPopup';
+        setTimeout(() => {
+          this.changeActiveTab('Streaming');
+          this.activeTab = 'BigMeetingPopup';
+        }, 500);
+      } else if (tab === 'WebinarPopup') {
+        this.stepFourProps.checkBox = 'WebinarPopup';
+        setTimeout(() => {
+          this.changeActiveTab('Streaming');
+          this.activeTab = 'WebinarPopup';
+        }, 500);
+      } else if (tab === 'BroadcastPopup') {
+        this.stepFourProps.checkBox = 'BroadcastPopup';
+        setTimeout(() => {
+          this.activeTab = 'BroadcastPopup';
+          this.changeActiveTab('Streaming');
+        }, 500);
+      } else {
+        this.activeTab = 'CustomPopup';
+        this.stepFourProps.checkBox = 'CustomPopup';
       }
+      console.log(this.activeTab, 'activeTab');
     },
   },
 };
@@ -272,5 +381,8 @@ export default {
   font-size: 12px;
   font-weight: 700;
   color: #1f272f;
+}
+.rightImg {
+  margin-top: -15px;
 }
 </style>

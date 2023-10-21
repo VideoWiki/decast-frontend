@@ -60,7 +60,7 @@
         class="scroll-container"
         :style="{ transform: `translateX(${offset}vw)` }"
       >
-        <div class="middleOne vertical-line scroll" @click="scroll(0)">
+        <div class="middleOne vertical-line scroll">
           <Rooms />
         </div>
         <div class="sideOne last scroll">
@@ -293,7 +293,6 @@ export default {
   .container-full {
     padding: 0;
     margin: 0;
-    /* border: 1px solid red; */
   }
   .middleOne {
     width: 35%;
@@ -385,11 +384,12 @@ export default {
     width: 100%; /* Twice the width of the viewport */
     display: flex;
     overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: scroll;
     margin-top: 10px;
     max-height: 600px;
     height: 100%;
     transition: transform 0.3s ease-in-out; /* Smooth transition */
+    /* flex-direction: column; */
   }
   .scroll {
     width: 80vw; /* Half the width of the viewport */

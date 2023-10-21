@@ -4,7 +4,7 @@ import constant from '../../../constant';
 export default {
   async getList({ commit }, payload) {
     const res = await axios.get('https://dev.api.room.video.wiki/api/list/');
-    console.log(res);
+    console.log(res,'roomlkis');
     const { room_data } = res.data;
     if (room_data.length > 1) {
       commit('setRooms', room_data.slice(1, room_data.length));

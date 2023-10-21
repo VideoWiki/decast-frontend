@@ -212,6 +212,7 @@
                   <button v-if="cast.is_running === 'true'" class="live-btn">
                     Cast is live
                   </button>
+
                   <div class="inner-child4">
                     <button
                       class="copy-button border-none"
@@ -289,15 +290,24 @@
                     {{
                       moment(cast.event_date).format('ll').split(',')[0] +
                       ' ' +
-                      moment(cast.event_time.split('.')[0], 'HH:mm:ss').format(
-                        'h:mm A'
-                      )
+                      NewTime(cast.event_date, cast.event_time)
                     }}
                   </button>
                 </div>
-                <div v-if="cast.invitee_list.length === 0" class="inner-child2">
+                <div
+                  v-if="cast.invitee_list.length === 0"
+                  class="inner-child2"
+                  @click="
+                    ShowInvite(
+                      cast.public_meeting_id,
+                      cast.invitee_list,
+                      streamInfo[cast.public_meeting_id],
+                      cast.viewer_mode
+                    )
+                  "
+                >
                   <span class="invite-text" href="#">Invite Attendees</span>
-                  <img src="@/assets/images/user.svg" />
+                  <img id="user-img" src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
                   <p class="invite-text">
@@ -325,7 +335,9 @@
                     togglePopup(
                       index,
                       cast.public_meeting_id,
-                      cast.invitee_list
+                      cast.invitee_list,
+                      streamInfo[cast.public_meeting_id],
+                      cast.viewer_mode
                     )
                   "
                 >
@@ -351,9 +363,9 @@
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/drops.svg" alt="" />Drops
-                  </button>
+                  </button> -->
                   <button
                     @click="togglePostpone(cast.public_meeting_id, index, true)"
                   >
@@ -362,9 +374,9 @@
                       alt=""
                     />Reschedule cast
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
-                  </button>
+                  </button> -->
                   <button>
                     <img src="@/assets/images/pen.svg" alt="" />Edit
                   </button>
@@ -381,15 +393,44 @@
                     Delete
                   </button>
                 </div>
+
                 <div class="inner-child3">
-                  <button v-if="cast.is_running === 'true'" class="live-btn">
-                    Cast is live
-                  </button>
                   <div class="inner-child4">
-                    <button class="active" @click="toggleCopy(index)">
+                    <div v-if="streamInfo[cast.public_meeting_id]">
+                      <button
+                        v-if="streamInfo[cast.public_meeting_id].stream_status"
+                        class="stream-btn"
+                        @click="toggleStream(cast.public_meeting_id, 'pause')"
+                      >
+                        <feather-icon
+                          icon="PauseIcon"
+                          svgClasses="stroke-current"
+                          class="block icon"
+                        />
+                      </button>
+                      <!-- <div class="tooltip" v-if="showTooltip===index">Pause Stream</div> -->
+                      <button
+                        class="action-btn"
+                        id="stream-btn"
+                        v-else
+                        @mouseover="toggleTool2(index)"
+                        @mouseleave="toggleTool2(index)"
+                        @click="toggleStream(cast.public_meeting_id, 'start')"
+                      >
+                        <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                      </button>
+                      <div class="tooltip" v-if="showTooltip2 === index">
+                        Start Stream
+                      </div>
+                    </div>
+                    <button class="cop-btn" @click="toggleCopy(index)">
                       <img src="@/assets/images/dashboard/copy.svg" alt="" />
                     </button>
-                    <div id="copy-pop" v-if="cast.showCopy">
+                    <div
+                      id="copy-pop"
+                      class="cop-cont"
+                      v-if="showCopy === index"
+                    >
                       <button
                         id="copy-btn-1"
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
@@ -398,17 +439,38 @@
                         Copy Participant url
                       </button>
                       <br />
-                      <button id="copy-btn-2">
+                      <button
+                        @click="copy(cast.public_meeting_id, cast.h_mp)"
+                        id="copy-btn-2"
+                      >
                         <img src="@/assets/images/Participant.svg" />
                         Copy Co-host url
+                      </button>
+                      <button
+                        @click="copy(cast.public_meeting_id, undefined)"
+                        id="copy-btn-3"
+                        v-if="streamInfo[cast.public_meeting_id]"
+                      >
+                        <img src="@/assets/images/dashboard/Live.svg" />
+                        Copy Stream url
                       </button>
                     </div>
                     <button
                       v-if="cast.is_running === 'false'"
                       @click="joinNow(cast.public_meeting_id)"
                       id="go-btn"
+                      class="live-btn"
                     >
                       Go live now
+                      <p v-if="showRemainingTime(cast)">
+                        {{ calculateRemainingTime(cast) }}
+                      </p>
+                    </button>
+                    <button
+                      v-if="cast.is_running === 'true'"
+                      class="live-btn red-btn"
+                    >
+                      Cast is live
                     </button>
                   </div>
                 </div>
@@ -425,22 +487,45 @@
             >
               <div class="w-3/4 flex justify-between items-center">
                 <p>
-                  {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
+                  {{ recording['Start Time (Readable)'].split(' ')[0] }}
                 </p>
-                <p>{{ recording.room_name }}</p>
-                <p>
-                  {{
-                    recording.url['Playback Data']['Playback Size'].split('.') +
-                    ' ' +
-                    recording.url['Playback Data']['Playback Size'].split(
-                      ' '
-                    )[1]
-                  }}
-                </p>
+                <p>{{ recording.Name }}</p>
               </div>
-              <button class="side-btn border-none">
+              <button
+                class="side-btn border-none"
+                @click="toggleRecordingPopup(index)"
+              >
                 <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
               </button>
+              <div
+                class="record-popup"
+                v-if="showRecord === index"
+                @click="closePopup(index)"
+              >
+                <button @click="openRecording(recording)">
+                  <vs-icon
+                    icon-pack="feather"
+                    icon="icon-play"
+                    size="12px"
+                    rounded="true"
+                    style="align-self: center"
+                  >
+                  </vs-icon>
+                  Play
+                </button>
+                <!-- <button @click="downloadRoom(room)">
+                  <img src="@/assets/images/download.svg" />
+                  Download
+                </button> -->
+                <!-- <button @click="copyLink(room)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy Link
+                </button> -->
+                <!-- <button @click="copyRecording(recording, index)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy Link
+                </button> -->
+              </div>
             </div>
           </div>
           <div
@@ -461,12 +546,12 @@
       </div>
     </div>
 
-    <div class="footer-content m-auto">
+    <!-- <div class="footer-content m-auto">
       <p>
         You can only create one cast per week in our free plan want to create
         more try our premium plan.
       </p>
-    </div>
+    </div> -->
     <div class="popup" @click="closeAllPopups" v-if="create">
       <set-up-cast
         :getList="getCastList"
@@ -474,19 +559,41 @@
       ></set-up-cast>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="stream">
-      <stream-card :closeCreate="() => (stream = false)"></stream-card>
+      <StreamingTab
+        :closeCreate="() => (stream = false)"
+        :stepFourProps="stepFourProps"
+        :stepThreeProps="stepThreeProps"
+        :stepTwoProps="stepTwoProps"
+        :stepOneProps="stepOneProps"
+        :castId="index"
+      ></StreamingTab>
+      <!--<stream-card
+        :closeCreate="() => (stream = false)"
+        :stepFourProps="stepFourProps"
+        :stepThreeProps="stepThreeProps"
+        :stepTwoProps="stepTwoProps"
+        :stepOneProps="stepOneProps"
+        :castId="index"
+      ></stream-card>-->
     </div>
     <div class="popup" v-if="showSettings" @click="closeAllPopups">
       <div class="edit-settings p-5">
         <div class="flex justify-between">
-          <div class="heading">Delete cast</div>
+          <div class="heading">Change Settings</div>
           <img
             class="cursor-pointer"
             src="@/assets/images/create-event/Vector30.svg"
-            @click="closeDeletePopup"
+            @click="closeAllPopups"
           />
         </div>
-        <settings-tab :stepFourProps="{}" />
+        <settings-tab
+          :stepFourProps="stepFourProps"
+          :stepThreeProps="stepThreeProps"
+          :stepTwoProps="stepTwoProps"
+          :stepOneProps="stepOneProps"
+          :castId="index"
+          :closeCreate="() => (showSettings = false)"
+        />
       </div>
     </div>
     <div class="popup" v-if="showPostpone" @click="closeRes">
@@ -566,20 +673,28 @@
       <invite-card
         :Id="meetingId"
         :invites="invites"
+        :isStream="isStream"
+        :viewer="viewer"
         :closeInvite="() => (invite = false)"
       ></invite-card>
     </div>
   </div>
 </template>
 <script>
-import moment from 'moment';
+import moment from 'moment-timezone';
 import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
-import StreamCard from '../StreamCard.vue';
 import InviteCard from '../InviteCard.vue';
 import postPoneCast from '../postPoneCast.vue';
 import SettingsTab from '../../../SetUpCasts/Tabs/SettingsTab.vue';
+import StreamingTab from '../../../SetUpCasts/Tabs/StreamingTab.vue';
 export default {
-  components: { SetUpCast, StreamCard, InviteCard, postPoneCast, SettingsTab },
+  components: {
+    SetUpCast,
+    InviteCard,
+    postPoneCast,
+    SettingsTab,
+    StreamingTab,
+  },
   name: 'rightpart',
   data() {
     return {
@@ -592,10 +707,14 @@ export default {
       stream: false,
       invite: false,
       showPopup: false,
+      showRecord: false,
       showCopy: false,
+      showTooltip: false,
+      showTooltip2: false,
       showSettings: false,
       moment,
       casts: [],
+      remainingTime: [],
       invites: [],
       recordingList: [],
       postPoneVisible: false,
@@ -603,26 +722,36 @@ export default {
       toPostpone: false,
       showPostpone: false,
       mouse: 0,
+      index: '',
+      stepFourProps: {},
+      stepOneProps: {},
+      stepTwoProps: {},
+      stepThreeProps: {},
+      castsInfo: [],
+      streamInfo: {},
+      isStream: false,
+      viewer: false,
     };
   },
   mounted() {
+    document.getElementById('loading-bg').style.display = 'block';
     this.checkScreenWidth();
     window.addEventListener('resize', this.checkScreenWidth);
     const container = document.querySelectorAll('.options-container')[1];
-    console.log(container);
     container.addEventListener('mousemove', (e) => {
       // Get the mouse coordinates relative to the div
       const divRect = container.getBoundingClientRect();
       const mouseY = e.clientY - divRect.top;
-      console.log(mouseY);
       this.mouse = mouseY;
     });
     this.getCastList();
     this.getRecordings();
     window.addEventListener('click', this.handleGlobalClick);
+    window.addEventListener('click', this.handleClick2);
   },
   beforeDestroy() {
     window.removeEventListener('click', this.handleGlobalClick);
+    window.removeEventListener('click', this.handleClick2);
 
     // Remove the global click event listener when the component is destroyed
     window.removeEventListener('resize', this.checkScreenWidth);
@@ -631,8 +760,92 @@ export default {
     totalImagesCount() {
       return this.casts.map((cast) => cast.images.length);
     },
+    // recording() {
+    //   return this.$store.state.cast.recordingList;
+    // },
+  },
+  created() {
+    this.updateRemainingTime();
   },
   methods: {
+    ShowInvite(id, inviteList, stream, viewer) {
+      this.meetingId = id;
+      this.invites = inviteList;
+      this.isStream = typeof stream !== 'undefined';
+      console.log(typeof stream !== 'undefined');
+      this.viewer = viewer;
+      console.log(viewer);
+      this.invite = true;
+    },
+    async toggleStream(id, action) {
+      this.resetShowTooltip2();
+      console.log(action);
+      try {
+        this.$vs.loading();
+        if (action === 'start') {
+          await this.$store.dispatch('studio/startStream', {
+            cast_id: id,
+          });
+          this.$vs.notify({
+            title: 'Successful',
+            text: 'Stream Started',
+            color: 'success',
+          });
+          this.streamInfo[id].stream_status =
+            !this.streamInfo[id].stream_status;
+        } else {
+          await this.$store.dispatch('studio/endStream', {
+            cast_id: id,
+          });
+          this.$vs.notify({
+            title: 'Successful',
+            text: 'Stream Ended',
+            color: 'success',
+          });
+          this.resetShowTooltip2();
+          this.streamInfo[id].stream_status =
+            !this.streamInfo[id].stream_status;
+        }
+      } catch (err) {
+        this.$vs.notify({
+          title: 'An Error occurred',
+          text:
+            err.response != null ? err.response.data.message : 'Try again !',
+          color: 'danger',
+        });
+      } finally {
+        this.$vs.loading.close();
+      }
+    },
+    NewTime(date, time) {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const a = moment(date + ' ' + time)
+        .clone()
+        .tz(timezone);
+      // var timeAbbr = moment().tz(timezone).zoneAbbr();
+      var newTime = moment(a._d).tz(timezone).format('h:mm A');
+      return newTime;
+    },
+    calculateRemainingTime(cast) {
+      const eventDateTime = moment.utc(cast.event_date + ' ' + cast.event_time);
+      const currentTime = moment();
+      const duration = moment.duration(eventDateTime.diff(currentTime));
+      const hours = Math.floor(duration.asHours());
+      const minutes = moment.utc(duration.asMilliseconds()).format('mm');
+      if (hours === 0) {
+        return `${minutes}`;
+      }
+    },
+    showRemainingTime(cast) {
+      const eventDateTime = moment.utc(cast.event_date + ' ' + cast.event_time);
+      const currentTime = moment();
+      return eventDateTime.isAfter(currentTime);
+    },
+    updateRemainingTime() {
+      setInterval(() => {
+        this.$forceUpdate();
+      }, 1000);
+    },
     truncateText(text, maxLength) {
       if (text.length > maxLength) {
         return text.slice(0, maxLength) + '...';
@@ -642,7 +855,7 @@ export default {
     },
     checkScreenWidth() {
       // Define your breakpoint for mobile view (e.g., 768 pixels)
-      const mobileBreakpoint = 400;
+      const mobileBreakpoint = 480;
 
       // Check if the screen width is below the mobile breakpoint
       this.isMobileView = window.innerWidth < mobileBreakpoint;
@@ -658,6 +871,82 @@ export default {
       if (e.currentTarget === e.target) {
         this.showPostpone = false;
       }
+    },
+    setProps(id) {
+      const details = this.castsInfo[id].details;
+      this.stepOneProps = {
+        event_name: details.event_name,
+        moderator_password: '',
+        attendee_password: '',
+        meeting_type: '',
+        schedule_time: details.schedule_time,
+        description: details.description,
+        startTime: '0:00:00',
+        timezone: details.timezone,
+        startD: moment().format('YYYY-MM-DD'),
+        password_auth: details.password_auth,
+        auth_type: details.cast_type,
+        send_otp: details.otp_private,
+        public_auth: false,
+        public_otp: details.collect_attendee_email,
+      };
+      this.stepTwoProps = {
+        BackImageURL: '',
+        imageURL: '',
+        primary_color: details.primary_color,
+        secondary_color: '',
+        logo: details.logo,
+        back_image: '',
+        cover_image: details.cover_image,
+        cover_image_error: false,
+        back_image_error: false,
+        banner_text: details.banner_text,
+        moderator_only_text:
+          'You are a Moderator, you can control who presents and participates in the live cast',
+        guest_policy: details.guest_policy,
+        welcome_text: details.welcome_text,
+        showText: true,
+        duration: details.duration,
+        logout_url: details.logout_url,
+      };
+      this.stepThreeProps = {
+        vw_stream: false,
+        vw_stream_url: details.bbb_stream_url,
+        is_streaming: details.is_streaming,
+        public_stream: details.public_stream,
+      };
+      this.stepFourProps = {
+        start_stop_recording: details.record,
+        record: details.record,
+        mute_on_start: details.mute_on_start,
+        end_when_no_moderator: details.end_when_no_moderator,
+        allow_moderator_to_unmute_user: details.allow_moderator_to_unmute_user,
+        webcam_only_for_moderator: details.webcam_only_for_moderator,
+        auto_start_recording: details.auto_start_recording,
+        allow_start_stop_recording: details.record,
+        disable_cam: details.disable_cam,
+        disable_mic: details.disable_mic,
+        lock_layout: details.lock_layout,
+        lock_on_join: false,
+        viewer_mode: details.viewer_mode,
+        viewer_password: false,
+        listen_only_mode: true,
+        webcam_enable: false,
+        screen_sharing: true,
+        restrict_participants: false,
+        meeting_settings: false,
+      };
+    },
+    showStream(id) {
+      this.index = id;
+      this.setProps(id);
+      this.stream = true;
+    },
+    showSettingsPopup(id) {
+      this.setProps(id);
+      this.index = id;
+
+      this.showSettings = true;
     },
     openDeletePopup(id) {
       this.showDeletePopup = true;
@@ -686,10 +975,41 @@ export default {
         this.showPopup = null;
       }
     },
+    handleClick2(event) {
+      // const isOutsideCopyPopup = !event.target.closest('.cop-cont');
+      const isNotToggleCopyButton = !event.target.closest('.cop-btn');
+      if (isNotToggleCopyButton && this.showCopy !== null) {
+        this.showCopy = null;
+      }
+    },
+    toggleRecordingPopup(index) {
+      this.showRecord = this.showRecord === index ? null : index;
+      setTimeout(() => {
+        const roomPopups = document.querySelectorAll('.record-popup');
+        if (this.mouse > 222) {
+          console.log('yes', roomPopups);
+          roomPopups.forEach((item) => (item.style.top = '-85%'));
+        } else {
+          roomPopups.forEach((item) => (item.style.top = '85%'));
+        }
+      }, 0);
+    },
     async getRecordings() {
-      const res = await this.$store.dispatch('cast/recordingList');
-      console.log(res.data);
-      this.recordingList = res.data.recordings || [];
+      try {
+        const res = await this.$store.dispatch('cast/recordingList');
+        this.recordingList = res.status[0] || [];
+        console.log(this.recordingList, 'lliii');
+        console.log(this.recording, 'jdjfks');
+        console.log(res, 'records');
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    openRecording(recording) {
+      console.log(recording, 'mmmmmmm');
+      const playbackURL =
+        recording['Playback Data']['Playback URL'] + '/video-0.m4v';
+      window.open(playbackURL, '_blank');
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
@@ -698,13 +1018,18 @@ export default {
     // },
 
     closePostpone() {
-      console.log('close');
       this.showPostpone = false;
     },
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
     },
     copy(id, pass) {
+      if (pass === undefined) {
+        navigator.clipboard.writeText(
+          'https://dev.stream.video.wiki/live/' + id
+        );
+        return;
+      }
       navigator.clipboard.writeText(
         'https://dev.stream.video.wiki/join-cast/' + id + '/?pass=' + pass
       );
@@ -721,7 +1046,6 @@ export default {
         guest: false,
         attendee_password: '',
         meetingId: '',
-        index: 0,
       };
       try {
         const res = await this.$store.dispatch('cast/joinNow', data);
@@ -729,7 +1053,6 @@ export default {
       } catch (e) {
         console.log('error', e);
       }
-      console.log(id);
     },
     async getCastList() {
       const response = await this.$store.dispatch('cast/getUserCasts');
@@ -747,36 +1070,59 @@ export default {
           return null;
         }
       });
+
+      const streamInfoPromise = casts.map(async (cast) => {
+        try {
+          const castDetails = await this.$store.dispatch(
+            'auth/eventDetail',
+            cast.public_meeting_id
+          );
+          return {
+            castId: cast.public_meeting_id,
+            details: castDetails.data.meeting_info,
+          };
+        } catch (error) {
+          console.log(error);
+        }
+      });
+      const streamInfoList = await Promise.all(streamInfoPromise);
       const castInfoList = await Promise.all(castInfoPromises);
       const validCastInfoList = castInfoList.filter((info) => info !== null);
+      const validStreamInfo = streamInfoList.filter((info) => info !== null);
       const castsInfo = {};
+      const streamInfo = {};
       validCastInfoList.forEach((info) => {
         castsInfo[info.castId] = info.details;
       });
+      validStreamInfo.forEach((info) => {
+        if (info.details.stream_urls !== null)
+          streamInfo[info.castId] = info.details;
+      });
+      this.streamInfo = streamInfo;
       this.castsInfo = castsInfo;
       this.casts = casts;
-      console.log(castsInfo, 'TTTT');
-      console.log(casts, 'pppp');
+      console.log(streamInfo, 'streamInfo');
+      document.getElementById('loading-bg').style.display = 'none';
+      // console.log(castsInfo, 'TTTT');
+      // console.log(casts, 'pppp');
     },
     togglePostpone(id, index, toPostpone) {
-      console.log(index);
       this.showPostpone = true;
       this.index = id;
       this.toPostpone = toPostpone;
     },
-    togglePopup(index, id, inviteList) {
-      console.log(id);
+    togglePopup(index, id, inviteList, stream, viewer) {
       this.meetingId = id;
       this.invites = inviteList;
       this.postPoneVisible = false;
+      this.isStream = typeof stream !== 'undefined';
+      this.viewer = viewer;
       this.showPopup = this.showPopup === index ? null : index;
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.cast-popup');
         if (this.mouse < 80) {
-          console.log('yes', roomPopups);
           roomPopups.forEach((item) => (item.style.top = '30%'));
         } else {
-          console.log('hello');
           roomPopups.forEach((item) => {
             item.style.top = '-100%';
             item.style.left = '59%';
@@ -786,10 +1132,21 @@ export default {
     },
     closePopup(index) {
       this.showPopup = null;
+      this.showRecord = null;
     },
     toggleCopy(index) {
       this.postPoneVisible = false;
-      this.$set(this.casts[index], 'showCopy', !this.casts[index].showCopy);
+      this.showCopy = this.showCopy === index ? null : index;
+    },
+    resetShowTooltip2() {
+      this.showTooltip2 = null;
+      this.showTooltip = null;
+    },
+    // toggleTool1(index){
+    //   this.showTooltip = this.showTooltip === index ? null : index;
+    // },
+    toggleTool2(index) {
+      this.showTooltip2 = this.showTooltip2 === index ? null : index;
     },
     async deleteCast(index) {
       const res = await this.$store.dispatch('cast/deleteCast', this.index);
@@ -798,6 +1155,7 @@ export default {
         return item.public_meeting_id !== index;
       });
       this.casts = newCasts;
+      this.getCastList();
       this.closeDeletePopup();
     },
     openCreate() {
@@ -807,6 +1165,9 @@ export default {
       this.create = false;
     },
   },
+  created() {
+    this.updateRemainingTime();
+  },
 };
 </script>
 <style scoped>
@@ -814,6 +1175,30 @@ export default {
   font-family: 'Karla', sans-serif;
 }
 
+.center-container-full {
+  justify-content: center;
+  align-items: center;
+  color: #a6a6a8;
+  width: 100%;
+  /* max-width: 500px; */
+  margin: auto;
+  margin-left: 37px;
+  /* border: 1px solid white; */
+  height: 100%;
+}
+
+.cop-btn {
+  border: 1px solid #31394e !important;
+  width: 33px !important;
+  height: 33px;
+}
+
+.cop-btn img {
+  margin: auto !important;
+}
+.cop-btn:active {
+  border: 1px solid #d7df23 !important;
+}
 .active:active {
   border: 1px solid #d7df23;
 }
@@ -826,10 +1211,29 @@ export default {
   cursor: pointer;
 }
 
+#stream-btn {
+  border: 1px solid #31394e !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .heading-container {
   width: 270px;
 }
 
+.tooltip {
+  position: absolute;
+  z-index: 5;
+  width: fit-content;
+  font-size: 12px;
+  color: #a6a6a8;
+  background-color: #31394e;
+  border-radius: 4px;
+  padding: 5px;
+  pointer-events: none;
+  top: -30px;
+}
 .footer-content {
   text-align: center;
   margin-top: 40px !important;
@@ -893,6 +1297,9 @@ export default {
   height: 10px;
 }
 
+#user-img {
+  margin-bottom: -4px;
+}
 .images-container {
   width: 140px;
   height: 30px !important;
@@ -962,11 +1369,9 @@ export default {
   position: absolute;
   z-index: 999;
   background-color: #1f272f;
-  width: 140px;
   border: 1px solid #31394e;
   border-radius: 6px;
   top: 35px;
-  height: 60px;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -990,6 +1395,10 @@ export default {
   color: #a6a6a8;
 }
 
+#copy-pop button:hover {
+  color: white;
+}
+
 #copy-pop button img {
   width: 15px;
   height: 15px;
@@ -1006,7 +1415,7 @@ export default {
   color: #a6a6a8;
   border-radius: 6px;
   padding: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   position: relative;
 }
 
@@ -1049,9 +1458,10 @@ export default {
 }
 
 .inner-div2 {
-  width: max-content;
+  width: 48%;
   justify-content: right;
   text-align: right;
+  /* transform: translate(-20px, 0px); */
   /* border: 1px solid yellow; */
 }
 
@@ -1064,21 +1474,17 @@ export default {
 
 .inner-child3 {
   position: relative;
-  width: 156px;
+  /* width: 156px; */
 }
 
-.inner-child3 button {
-  background-color: #f84330;
+.live-btn {
+  background-color: #f84330 !important;
   border-radius: 6px;
   color: #ffffff;
   padding: 5px;
   height: 33px;
   width: 115px;
-}
-
-.live-btn {
   z-index: 999;
-  margin-top: 40px;
 }
 
 .inner-child4 {
@@ -1087,11 +1493,13 @@ export default {
   margin-top: 5px;
   z-index: 5;
   position: absolute;
+  width: 100%;
+  justify-content: flex-end;
   top: 35px !important;
   /* left: 20px; */
 }
 
-.inner-child4 button:nth-child(1) {
+.inner-child4 .action-btn {
   background: none;
   border: 1px solid #31394e;
   width: 33px;
@@ -1101,8 +1509,46 @@ export default {
 #go-btn {
   background-color: #d7df23 !important;
   color: #31394e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#go-btn p {
+  margin-left: 3px;
 }
 
+.recordings {
+  position: relative;
+  border-radius: 6px;
+  border: 1px solid #31394e;
+  padding: 8px;
+}
+.side-btn {
+  background: none;
+  cursor: pointer;
+  height: max-content;
+  margin-left: 5px;
+}
+
+.record-popup {
+  position: absolute;
+  background-color: #1f272f;
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #31394e;
+  border-radius: 6px;
+  z-index: 99;
+  right: 10px;
+}
+
+.record-popup button {
+  background: transparent;
+  outline: none;
+  border: none;
+  margin: auto;
+  cursor: pointer;
+  color: #a6a6a8;
+}
 .popup {
   height: 100vh;
   width: 100%;
@@ -1161,6 +1607,7 @@ export default {
   align-self: flex-end;
   margin-top: 33px;
 }
+
 .lower-part button {
   width: 86px;
   height: 26px;
@@ -1231,7 +1678,7 @@ export default {
   }
   .cast-popup {
     width: 145px !important;
-    left: 40%;
+    left: 45%;
   }
   .invite-text {
     font-size: 10px;
@@ -1257,6 +1704,9 @@ export default {
     background-color: #31394e;
     border-radius: 4px;
     height: 6px;
+  }
+  .inner-child4 {
+    margin-left: 10px;
   }
   .inner-child4 button {
     background: none;
@@ -1284,7 +1734,7 @@ export default {
     padding-top: 0;
   }
   .btn-1 {
-    display: none;
+    display: none !important;
   }
   .inner-child3 button {
     background: none;

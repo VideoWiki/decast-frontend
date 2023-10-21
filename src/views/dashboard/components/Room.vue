@@ -183,9 +183,18 @@
                   <button
                     class="copy-link tooltip-button"
                     @click="copy(room.room_url)"
+                    @mouseover="showTooltip[index] = true"
+                    @mouseout="showTooltip[index] = false"
                   >
                     <img src="@/assets/images/Rooms/copy.svg" alt="" />
                   </button>
+                  <div
+                    class="tooltip"
+                    :class="{ 'show-tooltip': showTooltip[index] }"
+                  >
+                    Copy Link
+                  </div>
+
                   <!-- <span class="tooltip">Tooltip text</span> -->
                 </div>
                 <button
@@ -314,7 +323,7 @@
       </div>
     </div>
 
-    <div class="footer-content m-auto">
+    <!-- <div class="footer-content m-auto">
       <p class="m-auto">3/3</p>
       <p>
         Need more dedicated room?
@@ -322,7 +331,7 @@
           >Contact us for a tailored plan</a
         >
       </p>
-    </div>
+    </div> -->
     <div class="popup" v-if="createPopup" @click="closeAllPopups">
       <div class="createPopup">
         <div class="container">
@@ -375,6 +384,7 @@ export default {
       expandedRoom: null,
       createPopup: false,
       focusYourRooms: true,
+      showTooltip: [],
       items: [
         { title: 'Click Me' },
         { title: 'Click Me' },
@@ -420,7 +430,7 @@ export default {
   methods: {
     checkScreenWidth() {
       // Define your breakpoint for mobile view (e.g., 768 pixels)
-      const mobileBreakpoint = 400;
+      const mobileBreakpoint = 480;
 
       // Check if the screen width is below the mobile breakpoint
       this.isMobileView = window.innerWidth < mobileBreakpoint;
@@ -496,7 +506,6 @@ export default {
       this.$store
         .dispatch('room/getList')
         .then((res) => {
-          document.getElementById('loading-bg').style.display = 'none';
           console.log(res);
         })
         .catch((e) => {
@@ -799,26 +808,25 @@ export default {
 .tooltip-button {
   position: relative;
   z-index: 1;
-  /* Ensure the button is above the tooltip */
 }
 
 .tooltip {
   position: absolute;
   top: -10%;
-  /* Position it below the button */
   left: -20%;
-  background-color: #333;
-  color: #fff;
+  background-color: #31394e;
+  color: #a6a6a8;
+  font-size: 12px;
+  font-weight: 500;
   width: 100px;
   height: 20px;
   padding: 5px;
-  border-radius: 3px;
+  border-radius: 6px;
   display: none;
 }
 
 .tooltip-button:hover + .tooltip {
   display: block;
-  /* Show the tooltip on hover */
 }
 
 .popup {
@@ -964,6 +972,34 @@ export default {
   font-size: 2em;
   color: #647181;
 }
+.tooltip-container {
+  position: relative;
+}
+
+.tooltip-button {
+  position: relative;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  background-color: #31394e85;
+  color: #a6a6a8;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 5px;
+  border-radius: 6px;
+  top: calc(100%);
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  width: 65px;
+  height: 30px;
+}
+
+.show-tooltip {
+  display: block;
+}
 </style>
 
 <style>
@@ -982,7 +1018,7 @@ body {
     border-radius: 10px;
   }
 
-  .button .button-text{
+  .button .button-text {
     font-size: 12px;
     height: 30px;
   }
@@ -1038,6 +1074,14 @@ body {
     width: 100%;
     padding: 2px;
     margin: 10px;
+  }
+
+  .options-container {
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-top: 30px;
+    margin-bottom: 10px;
   }
 
   .tooltip-container,

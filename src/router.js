@@ -295,6 +295,14 @@ const router = new Router({
       },
     },
     {
+      path: '/live/:eventId?',
+      name: 'Stream View',
+      component: () => import('./views/dashboard/StreamView.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/consent',
       name: 'Consent',
       component: () => import('./views/login/components/Consent.vue'),
@@ -359,6 +367,14 @@ const router = new Router({
       path: '/popup',
       name: 'Reset Passwo',
       component: () => import('@/views/dashboard/Popups.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/privatecast',
+      name: 'JoinPrivateCast',
+      component: () => import('@/views/dashboard/JoinPrivateCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -437,6 +453,14 @@ const router = new Router({
       },
     },
     {
+      path: '/nftw',
+      name: 'NftWallet',
+      component: () => import('./views/dashboard/NftWallet.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/postpone',
       name: 'postPoneCast',
       component: () => import('./views/dashboard/postPoneCast.vue'),
@@ -461,14 +485,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/live/:eventId',
-      name: 'Stream Page',
-      component: () => import('./views/events/StreamPage.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/live/:eventId',
+    //   name: 'Stream Page',
+    //   component: () => import('./views/events/StreamPage.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/public/nftdrop',
       name: 'Public NFT Drop',
