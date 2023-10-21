@@ -459,6 +459,10 @@ export default {
     top: 0;
     left: 0;
     z-index: 999;
+    width: 380px !important;
+  }
+  .buttons button {
+    width: 90px;
   }
 }
 </style>

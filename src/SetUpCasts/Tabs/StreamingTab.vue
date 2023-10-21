@@ -183,7 +183,9 @@ export default {
     };
   },
   components: {},
-  mounted() {},
+  mounted() {
+    console.log(this.castId, 'cast--');
+  },
   methods: {
     ChangeStream() {
       this.ThirdPartyStreaming = !this.ThirdPartyStreaming;
@@ -372,14 +374,15 @@ export default {
   font-family: 'Karla', sans-serif;
 }
 .style {
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 10px !important;
+  padding: 20px !important;
   background-color: #1f272f !important;
   border: 1px solid #31394e !important;
 }
 .wrapper {
   display: flex;
   flex-direction: column;
+  background-color: #1f272f;
 }
 .head-container {
   width: 100%;
@@ -565,11 +568,37 @@ export default {
   transform: translateX(16px);
 }
 @media (max-width: 499px) {
-  .wrapper {
-    border-radius: 10px;
-    padding: 20px;
+  .wrapper .style {
+    border-radius: 10px !important;
+    padding: 20px !important;
     background-color: #1f272f !important;
     border: 1px solid #31394e !important;
+  }
+  .wrapper {
+    width: 360px;
+  }
+  .horizontal-line {
+    width: 80px;
+  }
+  .lower-wrap {
+    width: 360px;
+  }
+  .left {
+    width: 270px;
+  }
+  .full-info {
+    width: 270px;
+  }
+  .buttonn button {
+    width: 100px;
+  }
+  .box-input {
+    width: 360px;
+  }
+  .box-input input {
+    width: 170px;
+    height: 40px;
+    padding: 0px 8px;
   }
 }
 </style>

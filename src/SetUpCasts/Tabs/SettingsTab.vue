@@ -385,4 +385,29 @@ export default {
 .rightImg {
   margin-top: -15px;
 }
+@media (max-width: 500px) {
+  .wrapper {
+    width: 360px;
+    margin: auto;
+    justify-content: center;
+  }
+  .first-row {
+    display: flex;
+    width: 270px;
+    flex-direction: column;
+    margin: auto;
+  }
+  .second-row {
+    display: flex;
+    width: 270px;
+    flex-direction: column;
+    margin: auto;
+  }
+  .buttonn button {
+    width: 100px;
+  }
+  .button-first button {
+    width: 360px;
+  }
+}
 </style>
