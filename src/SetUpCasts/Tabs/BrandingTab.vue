@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="choose-color">
-          <label>Choose your brand color</label>
+          <label class="text">Choose your brand color</label>
           <ColorPicker :stepTwoProps="stepTwoProps" />
         </div>
       </div>
@@ -315,5 +315,57 @@ export default {
 }
 .text-one p {
   color: #31a2f4;
+}
+@media (max-width: 500px) {
+  .room-image {
+    margin: auto;
+    width: 360px;
+  }
+  .logo {
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    width: 62px;
+    height: 60px;
+  }
+  .some-text {
+    width: 360px;
+    height: 55px;
+    position: absolute;
+    left: 0px;
+    top: 76px;
+    font-size: 15px;
+  }
+  .img3 {
+    position: absolute;
+    bottom: 0px;
+    right: 2px;
+    width: 102px;
+    height: 98px;
+  }
+  .buttonn button {
+    width: 100px;
+  }
+  .left {
+    width: 300px;
+    display: flex;
+    margin: auto;
+  }
+  .custom-look {
+    display: flex;
+    flex-direction: column;
+  }
+  .input-button {
+    width: 300px;
+  }
+  .button-text {
+    left: 40px;
+  }
+  .choose-color {
+    margin-left: 20px;
+  }
+  .text {
+    margin-bottom: 8px;
+  }
 }
 </style>
