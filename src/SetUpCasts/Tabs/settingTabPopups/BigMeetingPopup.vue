@@ -312,4 +312,25 @@ label {
 .open-dropdown {
   border-radius: 6px 6px 0px 0px;
 }
+@media (max-width: 499px) {
+  .dropdown {
+    width: 360px;
+    height: fit-content;
+  }
+  .setting {
+    width: 360px;
+    height: fit-content;
+    padding: 8px;
+  }
+  .left-side {
+    display: flex;
+    flex-direction: column;
+  }
+  .left-side p {
+    margin-left: 0px;
+  }
+  .text-info {
+    width: 265px;
+  }
+}
 </style>

@@ -1,10 +1,11 @@
 <template>
-  <div class="container-full flex">
-    <div class="logo">
-      <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
-    </div>
-    <div class="left-side">
-      <!-- <div class="time flex">
+  <div class="idk-co">
+    <div class="container-full flex">
+      <div class="logo">
+        <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
+      </div>
+      <div class="left-side">
+        <!-- <div class="time flex">
         <div class="number flex">
           02
           <p>hr</p>
@@ -20,31 +21,34 @@
           <p>sec</p>
         </div>
       </div> -->
-      <div v-if="running" class="info-part flex">
-        <div>Cast is live</div>
-        <img src="@/assets/images/dashboard/Live.svg" alt="" />
+        <div v-if="running" class="info-part flex">
+          <div>Cast is live</div>
+          <img src="@/assets/images/dashboard/Live.svg" alt="" />
+        </div>
+        <div v-else class="info-part flex text-danger">
+          <div>Cast is not live</div>
+        </div>
+        <div class="class-name">
+          <p>{{ eventName }}</p>
+          <div class="host-name">Hosted by “{{ creator }}”</div>
+        </div>
+        <div class="bottom-text">
+          {{ eventDescription }}
+        </div>
       </div>
-      <div v-else class="info-part flex text-danger">
-        <div>Cast is not live</div>
-      </div>
-      <div class="class-name">
-        <p>{{ eventName }}</p>
-        <div class="host-name">Hosted by “{{ creator }}”</div>
-      </div>
-      <div class="bottom-text">
-        {{ eventDescription }}
-      </div>
-    </div>
-    <div class="right-side">
-      <div class="heading">You're joining the cast</div>
-      <div class="name">Joining name</div>
-      <input
-        placeholder="e.g John G. Miguel"
-        @keydown.enter="accessCast"
-        v-model="joiningName"
-      />
-      <div class="button">
-        <button class="cursor-pointer" @click="accessCast">Access cast</button>
+      <div class="right-side">
+        <div class="heading">You're joining the cast</div>
+        <div class="name">Joining name</div>
+        <input
+          placeholder="e.g John G. Miguel"
+          @keydown.enter="accessCast"
+          v-model="joiningName"
+        />
+        <div class="button">
+          <button class="cursor-pointer" :disabled="!validateForm" @click="accessCast">
+            Access cast
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -62,6 +66,11 @@ export default {
       disabled: false,
       running: false,
     };
+  },
+  computed:{
+    validateForm() {
+      return (!this.errors.any() && this.joiningName !== '');
+    },
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'block';
@@ -136,14 +145,21 @@ export default {
 *:not(i) {
   font-family: 'Karla', sans-serif !important;
 }
-.container-full {
+.idk-co {
   background: #000000;
-  background-image: url('../assets/images/dashboard/background.png');
-  width: 100%;
-  height: 100vh;
-  padding: 53px 67px;
+  background-image: url('../assets/images/back.jpeg');
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position-y: bottom;
+  background-position: bottom;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+.container-full {
+  backdrop-filter: brightness(0.2);
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
 }
 .logo {
   width: 91px;
@@ -176,7 +192,7 @@ export default {
   display: flex;
 }
 .info-part {
-  margin-top: 30px;
+  margin-top: 20px;
   align-items: center;
 }
 .info-part div {
@@ -190,7 +206,7 @@ export default {
   height: 12px;
 }
 .class-name p {
-  margin-top: 15px;
+  margin-top: 10px;
   font-weight: 500;
   font-size: 24px;
   color: #a6a6a8;
@@ -202,7 +218,7 @@ export default {
   color: #647181;
 }
 .bottom-text {
-  margin-top: 33px;
+  margin-top: 15px;
   font-weight: 500;
   font-size: 12px;
   color: #a6a6a8;
@@ -252,5 +268,47 @@ export default {
   font-size: 12px;
   color: #181a20;
   background-color: #d7df23;
+}
+
+.button button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 499px) {
+  .container-full {
+    flex-direction: column;
+    justify-content: center;
+    max-width: 499px;
+    margin: auto;
+    /* border: 1px solid red; */
+  }
+
+  .left-side {
+    /* border: 1px solid red; */
+    margin: auto;
+    width: auto !important;
+    max-width: 400px !important;
+    margin-top: 60px;
+  }
+
+  .right-side {
+    /* border: 1px solid yellow; */
+    max-height: 215px !important;
+    max-width: 320px;
+    width: auto;
+    min-width: 280px;
+    margin: auto;
+    margin-top: -100px;
+    padding: 15px;
+  }
+
+  .right-side input{
+    width: 100%;
+  }
+
+  .button button{
+    width: 100%;
+  }
 }
 </style>

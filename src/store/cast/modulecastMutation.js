@@ -13,6 +13,9 @@ export default {
   addCast(state, payload) {
     state.casts.push(payload);
   },
+  SET_RECORDINGLIST(state,payload){
+    state.recordingList = payload; 
+  },
   SET_CASTS_INFO(state, castsInfo) {
     state.castsInfo = castsInfo;
   },
