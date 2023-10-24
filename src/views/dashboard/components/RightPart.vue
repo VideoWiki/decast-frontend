@@ -96,7 +96,19 @@
                   </button>
                 </div>
                 <div v-if="cast.invitee_list.length === 0" class="inner-child2">
-                  <span class="invite-text" href="#">Invite Attendees</span>
+                  <span
+                    class="invite-text"
+                    href="#"
+                    @click="
+                      ShowInvite(
+                        cast.public_meeting_id,
+                        cast.invitee_list,
+                        streamInfo[cast.public_meeting_id],
+                        cast.viewer_mode
+                      )
+                    "
+                    >Invite Attendees</span
+                  >
                   <img src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
@@ -144,6 +156,30 @@
                 v-else-if="expandedRoom === index"
                 :style="{ backgroundColor: getColor(index) }"
               >
+                <span v-if="streamInfo[cast.public_meeting_id]">
+                  <button
+                    v-if="streamInfo[cast.public_meeting_id].stream_status"
+                    class="stream-btn"
+                    @click.stop
+                    @click="toggleStream(cast.public_meeting_id, 'pause')"
+                  >
+                    <feather-icon
+                      icon="PauseIcon"
+                      svgClasses="stroke-current"
+                      class="block icon"
+                    />
+                  </button>
+                  <!-- <div class="tooltip" v-if="showTooltip===index">Pause Stream</div> -->
+                  <button
+                    class="action-btn"
+                    id="stream-btn"
+                    v-else
+                    @click.stop
+                    @click="toggleStream(cast.public_meeting_id, 'start')"
+                  >
+                    <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                  </button>
+                </span>
                 <button
                   class="k-btn"
                   @click.stop
@@ -172,10 +208,10 @@
                     <img src="@/assets/images/manage.svg" alt="" />Manage
                     attendees
                   </button>
-                  <button @click="showSettings = true">
+                  <button @click="showSettingsPopup(cast.public_meeting_id)">
                     <img src="@/assets/images/call.svg" alt="" />Call settings
                   </button>
-                  <button @click="stream = true">
+                  <button @click="showStream(cast.public_meeting_id)">
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
@@ -213,7 +249,7 @@
                 <div class="inner-child3">
                   <div class="inner-child4">
                     <button
-                      class="copy-button border-none"
+                      class="copy-button cop-btn border-none"
                       @click.stop
                       @click="toggleCopy(index)"
                       v-if="expandedRoom === index"
@@ -233,12 +269,10 @@
                       />
                     </button>
                     <button
-                      class="live-btn"
-                      @click.stop
+                      id="new-id"
                       v-if="
                         cast.is_running === 'true' && expandedRoom === index
                       "
-                      :style="{ backgroundColor: getColor(index) }"
                     >
                       live
                     </button>
@@ -249,12 +283,20 @@
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
                       >
                         <img src="@/assets/images/co-host.svg" />
-                        Copy Participant url
+                        Participant url
                       </button>
                       <br />
                       <button id="copy-btn-2">
                         <img src="@/assets/images/Participant.svg" />
-                        Copy Co-host url
+                        Co-host url
+                      </button>
+                      <button
+                        @click="copy(cast.public_meeting_id, undefined)"
+                        id="copy-btn-3"
+                        v-if="streamInfo[cast.public_meeting_id]"
+                      >
+                        <img src="@/assets/images/dashboard/Live.svg" />
+                        Stream url
                       </button>
                     </div>
 
@@ -570,6 +612,7 @@
     </div>
     <div class="popup" @click="closeAllPopups" v-if="stream">
       <StreamingTab
+        class="stream-co"
         :closeCreate="() => (stream = false)"
         :stepFourProps="stepFourProps"
         :stepThreeProps="stepThreeProps"
@@ -1151,6 +1194,7 @@ export default {
     toggleCopy(index) {
       this.postPoneVisible = false;
       this.showCopy = this.showCopy === index ? null : index;
+      console.log(index, 'copy');
     },
     resetShowTooltip2() {
       this.showTooltip2 = null;
@@ -1692,7 +1736,7 @@ export default {
   }
   .cast-popup {
     width: 145px !important;
-    left: 45%;
+    left: 40%;
   }
   .invite-text {
     font-size: 10px;
@@ -1709,6 +1753,9 @@ export default {
   }
   .copy-button {
     padding-left: -40px;
+  }
+  .cop-btn {
+    border: none !important;
   }
   .options-container::-webkit-scrollbar {
     width: 5px;
@@ -1744,6 +1791,21 @@ export default {
     min-width: 95px !important;
     max-width: 120px !important;
   }
+
+  .stream-btn, .action-btn{
+    width:36px !important;
+    height:36px !important;
+    position: absolute;
+    left: 60%;
+    top: 5px;
+  }
+
+  .stream-btn{
+    background-color: blue !important;
+  }
+  .action-btn{
+    background-color: orangered !important;
+  }
   .k-btn {
     height: 3px;
     padding-right: 0px !important;
@@ -1758,7 +1820,8 @@ export default {
     height: max-content;
     margin-left: 5px;
   }
-  .live-btn {
+
+  /* .live-btn {
     color: #283140 !important;
     border: none !important;
     background-color: none !important;
@@ -1772,6 +1835,17 @@ export default {
     margin-top: 8px;
     margin-right: -5px;
     margin-left: -3px;
+  } */
+
+  #new-id {
+    /* padding: 5px; */
+    height: 36px !important;
+    min-width: 36px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    background-color: red !important;
+    color: yellow !important;
+    padding: 0;
   }
   .inner-child3 {
     display: flex;
@@ -1790,8 +1864,31 @@ export default {
     top: 0;
     left: 60%;
     background: transparent !important;
-    z-index: 999;
+    overflow-y: hidden !important;
+    /* height: 70%; */
     /* border: 1px solid red; */
+  }
+
+  .popup .stream-co{
+    margin-top: -30rem;
+    height: auto !important;
+    border: 1px solid #31394e;
+    padding: 6px;
+    border-radius: 8px;
+    overflow-y: scroll !important;
+    min-height: 350px !important;
+    max-height: 450px !important;
+  }
+
+  .edit-settings{
+    margin-top: -30rem;
+    height: auto !important;
+    border: 1px solid #31394e;
+    padding: 6px;
+    border-radius: 8px;
+    overflow-y: scroll !important;
+    min-height: 350px !important;
+    max-height: 450px !important;
   }
   .full-wrapper {
     width: 278px;
@@ -1810,7 +1907,9 @@ export default {
     /* border: 1px solid red; */
   }
   #copy-pop {
-    width: 140px;
+    width: 120px;
+    /* right: -1px; */
+    /* left: 0px; */
   }
 }
 

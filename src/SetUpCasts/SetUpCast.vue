@@ -460,6 +460,8 @@ export default {
     left: 0;
     z-index: 999;
     width: 380px !important;
+    overflow-y: scroll;
+    max-height: 480px;
   }
   .buttons button {
     width: 90px;
