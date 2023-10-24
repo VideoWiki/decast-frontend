@@ -234,7 +234,8 @@
                   </button>
                   <button
                     @click="
-                      togglePostpone(cast.public_meeting_id, index, false)"
+                      togglePostpone(cast.public_meeting_id, index, false)
+                    "
                   >
                     <img src="@/assets/images/prepone.svg" alt="" />Postpone
                     cast
@@ -1787,20 +1788,23 @@ export default {
   }
   .inner-div2 {
     height: 108.5%;
+    min-width: 95px !important;
+    max-width: 120px !important;
   }
 
-  .stream-btn, .action-btn{
-    width:36px !important;
-    height:36px !important;
+  .stream-btn,
+  .action-btn {
+    width: 36px !important;
+    height: 36px !important;
     position: absolute;
-    left: 60%;
+    margin-left: 5px;
     top: 5px;
   }
 
-  .stream-btn{
+  .stream-btn {
     background-color: blue !important;
   }
-  .action-btn{
+  .action-btn {
     background-color: orangered !important;
   }
   .k-btn {
@@ -1866,7 +1870,7 @@ export default {
     /* border: 1px solid red; */
   }
 
-  .popup .stream-co{
+  .popup .stream-co {
     margin-top: -30rem;
     height: auto !important;
     border: 1px solid #31394e;
@@ -1877,7 +1881,7 @@ export default {
     max-height: 450px !important;
   }
 
-  .edit-settings{
+  .edit-settings {
     margin-top: -30rem;
     height: auto !important;
     border: 1px solid #31394e;
