@@ -1861,6 +1861,8 @@ export default {
   }
   .inner-div2 {
     height: 108.5%;
+    min-width: 95px !important;
+    max-width: 120px !important;
   }
 
   .stream-btn,
