@@ -534,15 +534,18 @@
           <div v-if="recordingList.length">
             <div
               class="recordings flex justify-between items-center mb-4"
-              v-for="(recording, index) in recordingList"
+              v-for="(recording, index) in flattenedRecordingList"
               :key="index"
             >
               <div class="w-3/4 flex justify-between items-center">
                 <p>
                   {{ recording['Start Time (Readable)'].split(' ')[0] }}
                 </p>
-                <p>{{ recording.Name }}</p>
+                <p>
+                  {{ recording.Name }}
+                </p>
               </div>
+
               <button
                 class="side-btn border-none"
                 @click="toggleRecordingPopup(index)"
@@ -574,7 +577,8 @@
                 </button>
                 <div class="tooltip2" v-if="showTooltip === index">
                   <div>
-                    The recording may require some time for processing. If it doesn't work, please try again later.
+                    The recording may require some time for processing. If it
+                    doesn't work, please try again later.
                   </div>
                   <div class="triangle"></div>
                 </div>
@@ -827,6 +831,9 @@ export default {
     totalImagesCount() {
       return this.casts.map((cast) => cast.images.length);
     },
+    flattenedRecordingList() {
+      return this.flattenRecordingList(this.recordingList);
+    },
     // recording() {
     //   return this.$store.state.cast.recordingList;
     // },
@@ -835,6 +842,15 @@ export default {
     this.updateRemainingTime();
   },
   methods: {
+    flattenRecordingList(recordingList) {
+      const flattenedList = [];
+      recordingList.forEach((meetings) => {
+        meetings.forEach((recording) => {
+          flattenedList.push(recording);
+        });
+      });
+      return flattenedList;
+    },
     ShowInvite(id, inviteList, stream, viewer) {
       this.meetingId = id;
       this.invites = inviteList;
@@ -1079,16 +1095,15 @@ export default {
     async getRecordings() {
       try {
         const res = await this.$store.dispatch('cast/recordingList');
-        this.recordingList = res.status[0] || [];
+        this.recordingList = res.status || [];
         console.log(this.recordingList, 'lliii');
-        console.log(this.recording, 'jdjfks');
         console.log(res, 'records');
       } catch (e) {
         console.log(e);
       }
     },
     openRecording(recording) {
-      console.log(recording, 'mmmmmmm');
+      // console.log(recording, 'mmmmmmm');
       const playbackURL =
         recording['Playback Data']['Playback URL'] + '/video-0.m4v';
       window.open(playbackURL, '_blank');
@@ -1099,11 +1114,12 @@ export default {
       //   text: 'Recording may take some time to process. Please wait.',
       //   color: 'primary',
       // });
+      console.log(recording, 'mmmmmmm');
       setTimeout(() => {
         const meetingId = recording['Record ID'];
         const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
         window.open(url, '_blank');
-      }, 2000);
+      }, 1000);
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
@@ -1320,7 +1336,7 @@ export default {
   width: 270px;
 }
 
-.tooltip{
+.tooltip {
   position: absolute;
   z-index: 5;
   width: fit-content;
@@ -1345,18 +1361,18 @@ export default {
   width: 280px;
 }
 
-.tooltip2 div:nth-child(1){
+.tooltip2 div:nth-child(1) {
   background-color: #31394e;
   display: flex;
   font-size: 12px;
   border-radius: 4px;
   padding: 5px;
 }
-.triangle{
+.triangle {
   width: 0px;
   height: 0px;
   background: transparent;
-  border-left: 10px solid #31394e; 
+  border-left: 10px solid #31394e;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   margin: auto;
@@ -1836,7 +1852,7 @@ export default {
     height: 6px;
   }
 
-  .tooltip2{
+  .tooltip2 {
     display: none;
   }
   .inner-child4 {
@@ -1963,7 +1979,7 @@ export default {
     max-height: 450px !important;
   }
 
-  .tooltip2{
+  .tooltip2 {
     display: none;
   }
   .full-wrapper {
