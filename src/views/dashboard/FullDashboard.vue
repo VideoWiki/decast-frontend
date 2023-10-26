@@ -215,7 +215,7 @@ export default {
 .sideOne {
   width: 31%;
   /* border: 1px solid yellow; */
-  padding-right: 37px;
+  padding-right: 27px;
 }
 
 .load {
@@ -290,6 +290,11 @@ export default {
   border-right: 1px solid #31394e;
 }
 @media (max-width: 499px) {
+  .sideOne {
+    width: 31%;
+    /* border: 1px solid yellow; */
+    padding-right: 24px;
+  }
   .container-full {
     padding: 0;
     margin: 0;
