@@ -1767,7 +1767,7 @@ export default {
     padding: 16px;
     border-color: #31394e;
     background-color: #1f272f;
-    width: 100%;
+    width: 70vw;
     overflow: hidden;
   }
   .center-container-full {
@@ -1778,7 +1778,6 @@ export default {
     width: 100%;
     /* max-width: 500px; */
     margin: auto;
-    margin-left: 17px;
     /* border: 1px solid white; */
     height: 100%;
   }

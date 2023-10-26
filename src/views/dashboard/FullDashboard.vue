@@ -57,7 +57,7 @@
       </div>
 
       <div
-        class="scroll-container"
+        class="scroll-container gap-x-2"
         :style="{ transform: `translateX(${offset}vw)` }"
       >
         <div class="middleOne vertical-line scroll">
@@ -215,7 +215,7 @@ export default {
 .sideOne {
   width: 31%;
   /* border: 1px solid yellow; */
-  padding-right: 37px;
+  padding-right: 27px;
 }
 
 .load {
@@ -290,13 +290,19 @@ export default {
   border-right: 1px solid #31394e;
 }
 @media (max-width: 499px) {
+  .sideOne {
+    width: 31%;
+    /* border: 1px solid yellow; */
+    padding-right: 24px;
+  }
   .container-full {
     padding: 0;
     margin: 0;
   }
   .middleOne {
     width: 35%;
-    padding: 0px 10px 0px 20px;
+    padding: 0px 0px 0px 20px;
+    margin-right: 10px;
     /* border: 1px solid white; */
     /* border: 1px solid red; */
   }
@@ -392,7 +398,7 @@ export default {
     /* flex-direction: column; */
   }
   .scroll {
-    width: 80vw; /* Half the width of the viewport */
+    width: 90vw; /* Half the width of the viewport */
     height: auto;
     /* border: 1px solid green; */
     /* max-height: 500px; */

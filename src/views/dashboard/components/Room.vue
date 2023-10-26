@@ -178,7 +178,7 @@
               class="child-options flex justify-between items-center mb-4"
             >
               <div>
-                <p style="font-size: 14px; font-weight: 500 width: 50%">
+                <p style="font-size: 14px; font-weight: 500">
                   {{ truncateText(room.room_name, 10) }}
                 </p>
               </div>
@@ -213,7 +213,7 @@
                 >
                   <img
                     src="@/assets/images/Rooms/Vector2.svg"
-                    class="h-7 p-2"
+                    class="h-7 p-2 ml-0"
                     alt=""
                   />
                 </button>
@@ -682,7 +682,7 @@ export default {
   align-items: center;
   color: #a6a6a8;
   width: 100%;
-  max-width: 450px;
+  max-width: 425px;
   margin: auto;
   /* border: 1px solid white; */
   height: 100%;
@@ -768,9 +768,9 @@ export default {
 
 .child-options {
   position: relative;
-  padding: 10px 0px 10px 15px;
+  padding: 10px 0px 10px 10px;
   border: 1px solid #31394e;
-  width: 100%;
+  width: 98%;
   border-radius: 10px;
   height: 63px;
   font-weight: 600;
@@ -786,7 +786,7 @@ export default {
 }
 
 .child-options div p {
-  width: 160px;
+  width: 100px;
 }
 
 .session-button {
@@ -1090,7 +1090,7 @@ body {
     padding: 16px;
     background-color: #1f272f;
     margin-bottom: 5px;
-    width: 305px;
+    width: 70vw;
     overflow: hidden;
     padding-bottom: 10px !important;
   }
