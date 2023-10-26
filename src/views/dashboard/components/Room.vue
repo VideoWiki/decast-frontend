@@ -305,7 +305,8 @@
                 </button>
                 <div class="tooltip2" v-if="showTooltip3 === index">
                   <div>
-                    The recording may require some time for processing. If it doesn't work, please try again later.
+                    The recording may require some time for processing. If it
+                    doesn't work, please try again later.
                   </div>
                   <div class="triangle"></div>
                 </div>
@@ -392,7 +393,7 @@ export default {
       createPopup: false,
       focusYourRooms: true,
       showTooltip: [],
-      showTooltip3:false,
+      showTooltip3: false,
       items: [
         { title: 'Click Me' },
         { title: 'Click Me' },
@@ -443,7 +444,7 @@ export default {
       // Check if the screen width is below the mobile breakpoint
       this.isMobileView = window.innerWidth < mobileBreakpoint;
     },
-    toggleEditTool(index){
+    toggleEditTool(index) {
       this.showTooltip3 = this.showTooltip3 === index ? null : index;
     },
     truncateText(text, maxLength) {
@@ -491,9 +492,11 @@ export default {
     editRecord(recording) {
       // console.log(recording,'pppp');
       const meetingId = recording.url['Record ID'];
-      console.log(meetingId,'mid');
-      const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
-      window.open(url, '_blank');
+      console.log(meetingId, 'mid');
+      setTimeout(() => {
+        const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
+        window.open(url, '_blank');
+      }, 2000);
     },
     copy(url) {
       let id = url.split('/');
@@ -855,7 +858,7 @@ export default {
 .tooltip-button:hover + .tooltip {
   display: block;
 }
-.tooltip2{
+.tooltip2 {
   position: absolute;
   z-index: 5;
   color: #a6a6a8;
@@ -864,22 +867,22 @@ export default {
   background-color: none;
   background: transparent;
   pointer-events: none;
-  top:30px;
-  right:7rem;
-  width:265px;
+  top: 30px;
+  right: 7rem;
+  width: 265px;
 }
-.tooltip2 div:nth-child(1){
+.tooltip2 div:nth-child(1) {
   background-color: #31394e;
   display: flex;
   font-size: 12px;
   border-radius: 4px;
   padding: 5px;
 }
-.triangle{
+.triangle {
   width: 0px;
   height: 0px;
   background: transparent;
-  border-left: 10px solid #31394e; 
+  border-left: 10px solid #31394e;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   margin: auto;
