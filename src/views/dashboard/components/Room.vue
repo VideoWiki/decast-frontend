@@ -667,8 +667,8 @@ export default {
   justify-content: center;
   align-items: center;
   color: #a6a6a8;
-  width: 100%;
-  max-width: 450px;
+  width: 83vw;
+  max-width: 500px;
   margin: auto;
   /* border: 1px solid white; */
   height: 100%;
@@ -756,7 +756,7 @@ export default {
   position: relative;
   padding: 10px 0px 10px 15px;
   border: 1px solid #31394e;
-  width: 100%;
+  width: 70vw;
   border-radius: 10px;
   height: 63px;
   font-weight: 600;

@@ -1706,16 +1706,16 @@ export default {
     align-items: center;
     color: #a6a6a8;
     padding-bottom: 10px !important;
-    width: 100%;
+    width: 85vw;
     /* max-width: 500px; */
     margin: auto;
-    margin-left: 17px;
+    margin-right: 5px;
     /* border: 1px solid white; */
     height: 100%;
   }
   .child-options {
     max-width: 480px;
-    width: 98%;
+    width: 72vw;
     height: 140px;
     display: flex;
     justify-content: space-between;
@@ -1792,18 +1792,19 @@ export default {
     max-width: 120px !important;
   }
 
-  .stream-btn, .action-btn{
-    width:36px !important;
-    height:36px !important;
+  .stream-btn,
+  .action-btn {
+    width: 36px !important;
+    height: 36px !important;
     position: absolute;
     left: 60%;
     top: 5px;
   }
 
-  .stream-btn{
+  .stream-btn {
     background-color: blue !important;
   }
-  .action-btn{
+  .action-btn {
     background-color: orangered !important;
   }
   .k-btn {
@@ -1869,7 +1870,7 @@ export default {
     /* border: 1px solid red; */
   }
 
-  .popup .stream-co{
+  .popup .stream-co {
     margin-top: -30rem;
     height: auto !important;
     border: 1px solid #31394e;
@@ -1880,7 +1881,7 @@ export default {
     max-height: 450px !important;
   }
 
-  .edit-settings{
+  .edit-settings {
     margin-top: -30rem;
     height: auto !important;
     border: 1px solid #31394e;
