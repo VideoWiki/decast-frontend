@@ -539,9 +539,9 @@
             >
               <div class="w-3/4 flex justify-between items-center">
                 <p>
-                  {{ recording['Start Time (Readable)'].split(' ')[0] }}
+                  {{ recording[0]['Start Time (Readable)'].split(' ')[0] }}
                 </p>
-                <p>{{ recording.Name }}</p>
+                <p>{{ recording[0].Name }}</p>
               </div>
               <button
                 class="side-btn border-none"
@@ -1079,7 +1079,7 @@ export default {
     async getRecordings() {
       try {
         const res = await this.$store.dispatch('cast/recordingList');
-        this.recordingList = res.status[0] || [];
+        this.recordingList = res.status || [];
         console.log(this.recordingList, 'lliii');
         console.log(this.recording, 'jdjfks');
         console.log(res, 'records');
@@ -1090,7 +1090,7 @@ export default {
     openRecording(recording) {
       console.log(recording, 'mmmmmmm');
       const playbackURL =
-        recording['Playback Data']['Playback URL'] + '/video-0.m4v';
+        recording[0]['Playback Data']['Playback URL'] + '/video-0.m4v';
       window.open(playbackURL, '_blank');
     },
     editRecord(recording) {
@@ -1100,10 +1100,10 @@ export default {
       //   color: 'primary',
       // });
       setTimeout(() => {
-        const meetingId = recording['Record ID'];
+        const meetingId = recording[0]['Record ID'];
         const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
         window.open(url, '_blank');
-      }, 1000);
+      }, 2000);
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
@@ -1767,7 +1767,7 @@ export default {
     padding: 16px;
     border-color: #31394e;
     background-color: #1f272f;
-    width: 70vw;
+    width: 100%;
     overflow: hidden;
   }
   .center-container-full {
@@ -1778,6 +1778,7 @@ export default {
     width: 100%;
     /* max-width: 500px; */
     margin: auto;
+    margin-left: 17px;
     /* border: 1px solid white; */
     height: 100%;
   }
@@ -1860,8 +1861,6 @@ export default {
   }
   .inner-div2 {
     height: 108.5%;
-    min-width: 95px !important;
-    max-width: 120px !important;
   }
 
   .stream-btn,

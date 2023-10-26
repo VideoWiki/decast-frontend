@@ -4,7 +4,7 @@
       <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
     </div>
     <div class="h-full w-full flex justify-center items-center">
-      <div class="flex">
+      <div class="flex idgf">
         <div class="left">
           <img src="@/assets/images/dashboard/Onlinemeeting.svg" alt="" />
         </div>
@@ -255,5 +255,61 @@ export default {
   font-weight: 600;
   font-size: 13px;
   margin-left: 5px;
+}
+
+@media (max-width: 499px) {
+  .full-container {
+    background-color: #181a20;
+    /* background-image: url('../assets/images/joiningPage/right.png'); */
+    background-image: none;
+    background-position: right center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .logo {
+    width: 91px;
+    height: 91px;
+    padding-top: 0px;
+  }
+  .idgf {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+  }
+
+  .left {
+    /* border: 1px solid yellow; */
+    width: 200px;
+    height: 150px;
+    margin: auto;
+    margin-top: -50px;
+  }
+
+  .left img {
+    object-fit: conatin;
+  }
+
+  .right {
+    /* border: 1x solid white; */
+    margin: auto;
+  }
+  .class-info {
+    margin-top: 10px;
+  }
+
+  .host-info {
+    margin-top: 10px;
+  }
+
+  .dynamic-part {
+    margin-top: 15px;
+  }
 }
 </style>

@@ -178,7 +178,7 @@
               class="child-options flex justify-between items-center mb-4"
             >
               <div>
-                <p style="font-size: 14px; font-weight: 500">
+                <p style="font-size: 14px; font-weight: 500 width: 50%">
                   {{ truncateText(room.room_name, 10) }}
                 </p>
               </div>
@@ -213,7 +213,7 @@
                 >
                   <img
                     src="@/assets/images/Rooms/Vector2.svg"
-                    class="h-7 p-2 ml-0"
+                    class="h-7 p-2"
                     alt=""
                   />
                 </button>
@@ -470,8 +470,12 @@ export default {
         this.createPopup = false;
       }
     },
-    openRecording(room) {
-      this.$router.push(`/recording/${room.url['Record ID']}`);
+    openRecording(recording) {
+      // this.$router.push(`/recording/${recording.url['Record ID']}`);
+      console.log(recording, 'mmmmmmm');
+      const playbackURL =
+        recording.url['Playback Data']['Playback URL'] + '/video-0.m4v';
+      window.open(playbackURL, '_blank');
       // window.location.href = '/recording/' + room.url['Record ID'];
     },
     copyRecording(room, index) {
@@ -487,7 +491,7 @@ export default {
     editRecord(recording) {
       // console.log(recording,'pppp');
       const meetingId = recording.url['Record ID'];
-      // console.log(meetingId,'mid');
+      console.log(meetingId,'mid');
       const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
       window.open(url, '_blank');
     },
@@ -682,7 +686,7 @@ export default {
   align-items: center;
   color: #a6a6a8;
   width: 100%;
-  max-width: 425px;
+  max-width: 450px;
   margin: auto;
   /* border: 1px solid white; */
   height: 100%;
@@ -768,9 +772,9 @@ export default {
 
 .child-options {
   position: relative;
-  padding: 10px 0px 10px 10px;
+  padding: 10px 0px 10px 15px;
   border: 1px solid #31394e;
-  width: 98%;
+  width: 100%;
   border-radius: 10px;
   height: 63px;
   font-weight: 600;
@@ -786,7 +790,7 @@ export default {
 }
 
 .child-options div p {
-  width: 100px;
+  width: 160px;
 }
 
 .session-button {
@@ -1090,7 +1094,7 @@ body {
     padding: 16px;
     background-color: #1f272f;
     margin-bottom: 5px;
-    width: 70vw;
+    width: 305px;
     overflow: hidden;
     padding-bottom: 10px !important;
   }
