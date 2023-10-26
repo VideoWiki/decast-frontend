@@ -255,17 +255,6 @@
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
                 </p>
                 <p>{{ recording.room_name }}</p>
-                <p>
-                  {{
-                    recording.url['Playback Data']['Playback Size'].split(
-                      '.'
-                    )[0] +
-                    ' ' +
-                    recording.url['Playback Data']['Playback Size'].split(
-                      ' '
-                    )[1]
-                  }}
-                </p>
               </div>
 
               <button
@@ -305,6 +294,10 @@
                 <button @click="copyRecording(recording, index)">
                   <img src="@/assets/images/copy.svg" />
                   Copy Link
+                </button>
+
+                <button @click="editRecord(recording)">
+                  <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
                 </button>
               </div>
             </div>
@@ -476,6 +469,13 @@ export default {
         'showPopup',
         !this.recordings[index].showPopup
       );
+    },
+    editRecord(recording){
+      console.log(recording,'pppp');
+      const meetingId= recording.url['Record ID'];
+      console.log(meetingId,'mid');
+      const url=`https://beta.editor.video.wiki/studio?meetingId=${meetingId}`
+      window.open(url, '_blank');
     },
     copy(url) {
       let id = url.split('/');

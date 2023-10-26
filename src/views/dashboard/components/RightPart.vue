@@ -564,6 +564,9 @@
                   </vs-icon>
                   Play
                 </button>
+                <button @click="editRecord(recording)">
+                  <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
+                </button>
                 <!-- <button @click="downloadRoom(room)">
                   <img src="@/assets/images/download.svg" />
                   Download
@@ -1066,6 +1069,13 @@ export default {
       const playbackURL =
         recording['Playback Data']['Playback URL'] + '/video-0.m4v';
       window.open(playbackURL, '_blank');
+    },
+    editRecord(recording){
+      console.log(recording,'pppp');
+      const meetingId=recording['Record ID'];
+      console.log(meetingId,'mid');
+      const url=`https://beta.editor.video.wiki/studio?meetingId=${meetingId}`
+      window.open(url, '_blank');
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
