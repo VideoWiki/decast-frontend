@@ -234,7 +234,8 @@
                   </button>
                   <button
                     @click="
-                      togglePostpone(cast.public_meeting_id, index, false)"
+                      togglePostpone(cast.public_meeting_id, index, false)
+                    "
                   >
                     <img src="@/assets/images/prepone.svg" alt="" />Postpone
                     cast
@@ -564,9 +565,19 @@
                   </vs-icon>
                   Play
                 </button>
-                <button @click="editRecord(recording)">
+                <button
+                  @mouseover="toggleEditTool(index)"
+                  @mouseleave="toggleEditTool(index)"
+                  @click="editRecord(recording)"
+                >
                   <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
                 </button>
+                <div class="tooltip2" v-if="showTooltip === index">
+                  <div>
+                    The recording may require some time for processing. If it doesn't work, please try again later.
+                  </div>
+                  <div class="triangle"></div>
+                </div>
                 <!-- <button @click="downloadRoom(room)">
                   <img src="@/assets/images/download.svg" />
                   Download
@@ -803,11 +814,12 @@ export default {
     this.getRecordings();
     window.addEventListener('click', this.handleGlobalClick);
     window.addEventListener('click', this.handleClick2);
+    window.addEventListener('click', this.handleClick3);
   },
   beforeDestroy() {
     window.removeEventListener('click', this.handleGlobalClick);
     window.removeEventListener('click', this.handleClick2);
-
+    window.removeEventListener('click', this.handleClick3);
     // Remove the global click event listener when the component is destroyed
     window.removeEventListener('resize', this.checkScreenWidth);
   },
@@ -1041,6 +1053,17 @@ export default {
         this.showCopy = null;
       }
     },
+    handleClick3(event) {
+      const isNotToggleRecordButton = !event.target.closest('.record-popup');
+      const isNotTogglePopupButton = !event.target.closest('.side-btn');
+      if (
+        isNotToggleRecordButton &&
+        isNotTogglePopupButton &&
+        this.showRecord !== null
+      ) {
+        this.showRecord = null;
+      }
+    },
     toggleRecordingPopup(index) {
       this.showRecord = this.showRecord === index ? null : index;
       setTimeout(() => {
@@ -1070,12 +1093,17 @@ export default {
         recording['Playback Data']['Playback URL'] + '/video-0.m4v';
       window.open(playbackURL, '_blank');
     },
-    editRecord(recording){
-      console.log(recording,'pppp');
-      const meetingId=recording['Record ID'];
-      console.log(meetingId,'mid');
-      const url=`https://beta.editor.video.wiki/studio?meetingId=${meetingId}`
-      window.open(url, '_blank');
+    editRecord(recording) {
+      // this.$vs.notify({
+      //   title: 'Info',
+      //   text: 'Recording may take some time to process. Please wait.',
+      //   color: 'primary',
+      // });
+      setTimeout(() => {
+        const meetingId = recording['Record ID'];
+        const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
+        window.open(url, '_blank');
+      }, 2000);
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
@@ -1215,6 +1243,9 @@ export default {
     toggleTool2(index) {
       this.showTooltip2 = this.showTooltip2 === index ? null : index;
     },
+    toggleEditTool(index) {
+      this.showTooltip = this.showTooltip === index ? null : index;
+    },
     async deleteCast(index) {
       const res = await this.$store.dispatch('cast/deleteCast', this.index);
       console.log(res);
@@ -1289,7 +1320,7 @@ export default {
   width: 270px;
 }
 
-.tooltip {
+.tooltip{
   position: absolute;
   z-index: 5;
   width: fit-content;
@@ -1300,6 +1331,35 @@ export default {
   padding: 5px;
   pointer-events: none;
   top: -30px;
+}
+
+.tooltip2 {
+  top: 10px;
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  right: 6rem;
+  background-color: none;
+  background: transparent;
+  width: 280px;
+}
+
+.tooltip2 div:nth-child(1){
+  background-color: #31394e;
+  display: flex;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 5px;
+}
+.triangle{
+  width: 0px;
+  height: 0px;
+  background: transparent;
+  border-left: 10px solid #31394e; 
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  margin: auto;
 }
 .footer-content {
   text-align: center;
@@ -1775,6 +1835,10 @@ export default {
     border-radius: 4px;
     height: 6px;
   }
+
+  .tooltip2{
+    display: none;
+  }
   .inner-child4 {
     margin-left: 10px;
   }
@@ -1799,18 +1863,19 @@ export default {
     height: 108.5%;
   }
 
-  .stream-btn, .action-btn{
-    width:36px !important;
-    height:36px !important;
+  .stream-btn,
+  .action-btn {
+    width: 36px !important;
+    height: 36px !important;
     position: absolute;
     left: 60%;
     top: 5px;
   }
 
-  .stream-btn{
+  .stream-btn {
     background-color: blue !important;
   }
-  .action-btn{
+  .action-btn {
     background-color: orangered !important;
   }
   .k-btn {
@@ -1876,7 +1941,7 @@ export default {
     /* border: 1px solid red; */
   }
 
-  .popup .stream-co{
+  .popup .stream-co {
     margin-top: -30rem;
     height: auto !important;
     border: 1px solid #31394e;
@@ -1887,7 +1952,7 @@ export default {
     max-height: 450px !important;
   }
 
-  .edit-settings{
+  .edit-settings {
     margin-top: -30rem;
     height: auto !important;
     border: 1px solid #31394e;
@@ -1896,6 +1961,10 @@ export default {
     overflow-y: scroll !important;
     min-height: 350px !important;
     max-height: 450px !important;
+  }
+
+  .tooltip2{
+    display: none;
   }
   .full-wrapper {
     width: 278px;
