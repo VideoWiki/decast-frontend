@@ -96,7 +96,19 @@
                   </button>
                 </div>
                 <div v-if="cast.invitee_list.length === 0" class="inner-child2">
-                  <span class="invite-text" href="#">Invite Attendees</span>
+                  <span
+                    class="invite-text"
+                    href="#"
+                    @click="
+                      ShowInvite(
+                        cast.public_meeting_id,
+                        cast.invitee_list,
+                        streamInfo[cast.public_meeting_id],
+                        cast.viewer_mode
+                      )
+                    "
+                    >Invite Attendees</span
+                  >
                   <img src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
@@ -138,13 +150,39 @@
                   />
                 </button>
               </div>
+
               <div
                 class="inner-div2"
                 v-else-if="expandedRoom === index"
                 :style="{ backgroundColor: getColor(index) }"
               >
+                <span v-if="streamInfo[cast.public_meeting_id]">
+                  <button
+                    v-if="streamInfo[cast.public_meeting_id].stream_status"
+                    class="stream-btn"
+                    @click.stop
+                    @click="toggleStream(cast.public_meeting_id, 'pause')"
+                  >
+                    <feather-icon
+                      icon="PauseIcon"
+                      svgClasses="stroke-current"
+                      class="block icon"
+                    />
+                  </button>
+                  <!-- <div class="tooltip" v-if="showTooltip===index">Pause Stream</div> -->
+                  <button
+                    class="action-btn"
+                    id="stream-btn"
+                    v-else
+                    @click.stop
+                    @click="toggleStream(cast.public_meeting_id, 'start')"
+                  >
+                    <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                  </button>
+                </span>
                 <button
                   class="k-btn"
+                  @click.stop
                   @click="
                     togglePopup(
                       index,
@@ -159,8 +197,10 @@
                     alt=""
                   />
                 </button>
+
                 <div
                   class="cast-popup"
+                  @click.stop
                   v-if="showPopup === index"
                   @click="closePopup(index)"
                 >
@@ -168,16 +208,16 @@
                     <img src="@/assets/images/manage.svg" alt="" />Manage
                     attendees
                   </button>
-                  <button @click="showSettings = true">
+                  <button @click="showSettingsPopup(cast.public_meeting_id)">
                     <img src="@/assets/images/call.svg" alt="" />Call settings
                   </button>
-                  <button @click="stream = true">
+                  <button @click="showStream(cast.public_meeting_id)">
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/drops.svg" alt="" />Drops
-                  </button>
+                  </button> -->
                   <button
                     @click="togglePostpone(cast.public_meeting_id, index, true)"
                   >
@@ -186,16 +226,15 @@
                       alt=""
                     />Reschedule cast
                   </button>
-                  <button>
+                  <!-- <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
-                  </button>
+                  </button> -->
                   <button>
                     <img src="@/assets/images/pen.svg" alt="" />Edit
                   </button>
                   <button
                     @click="
-                      togglePostpone(cast.public_meeting_id, index, false)
-                    "
+                      togglePostpone(cast.public_meeting_id, index, false)"
                   >
                     <img src="@/assets/images/prepone.svg" alt="" />Postpone
                     cast
@@ -205,13 +244,12 @@
                     Delete
                   </button>
                 </div>
+                <!----------------->
                 <div class="inner-child3">
-                  <button v-if="cast.is_running === 'true'" class="live-btn">
-                    Cast is live
-                  </button>
                   <div class="inner-child4">
                     <button
-                      class="copy-button ml-4 border-none"
+                      class="copy-button cop-btn border-none"
+                      @click.stop
                       @click="toggleCopy(index)"
                       v-if="expandedRoom === index"
                       :style="{ backgroundColor: getColor(index) }"
@@ -229,20 +267,38 @@
                         :style="{ backgroundColor: getColor(index) }"
                       />
                     </button>
-                    <div id="copy-pop" v-if="cast.showCopy">
+                    <button
+                      id="new-id"
+                      v-if="
+                        cast.is_running === 'true' && expandedRoom === index
+                      "
+                    >
+                      live
+                    </button>
+
+                    <div id="copy-pop" @click.stop v-if="showCopy === index">
                       <button
                         id="copy-btn-1"
                         @click="copy(cast.public_meeting_id, cast.h_ap)"
                       >
                         <img src="@/assets/images/co-host.svg" />
-                        Copy Participant url
+                        Participant url
                       </button>
                       <br />
                       <button id="copy-btn-2">
                         <img src="@/assets/images/Participant.svg" />
-                        Copy Co-host url
+                        Co-host url
+                      </button>
+                      <button
+                        @click="copy(cast.public_meeting_id, undefined)"
+                        id="copy-btn-3"
+                        v-if="streamInfo[cast.public_meeting_id]"
+                      >
+                        <img src="@/assets/images/dashboard/Live.svg" />
+                        Stream url
                       </button>
                     </div>
+
                     <button
                       v-if="cast.is_running === 'false'"
                       @click="joinNow(cast.public_meeting_id)"
@@ -252,9 +308,12 @@
                       Go live now
                     </button>
                     <button
-                      class="copy-button ml-4 border-none"
-                      @click="toggleCopy(index)"
-                      v-if="expandedRoom === index"
+                      class="copy-button border-none"
+                      @click.stop
+                      v-if="
+                        cast.is_running === 'false' && expandedRoom === index
+                      "
+                      @click="joinNow(cast.public_meeting_id)"
                       :style="{ backgroundColor: getColor(index) }"
                     >
                       <img
@@ -505,6 +564,9 @@
                   </vs-icon>
                   Play
                 </button>
+                <button @click="editRecord(recording)">
+                  <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
+                </button>
                 <!-- <button @click="downloadRoom(room)">
                   <img src="@/assets/images/download.svg" />
                   Download
@@ -552,6 +614,7 @@
     </div>
     <div class="popup" @click="closeAllPopups" v-if="stream">
       <StreamingTab
+        class="stream-co"
         :closeCreate="() => (stream = false)"
         :stepFourProps="stepFourProps"
         :stepThreeProps="stepThreeProps"
@@ -853,7 +916,11 @@ export default {
       this.isMobileView = window.innerWidth < mobileBreakpoint;
     },
     expandRoom(index) {
-      this.expandedRoom = index;
+      if (this.expandedRoom === index) {
+        this.expandedRoom = null;
+      } else {
+        this.expandedRoom = index;
+      }
     },
     getColor(index) {
       const colors = ['#FCB92d', '#FB7E84', '#2CC2D3', '#79FC9E', '#D971BC'];
@@ -998,9 +1065,17 @@ export default {
       }
     },
     openRecording(recording) {
-      console.log(recording,'mmmmmmm');
-      const playbackURL=recording['Playback Data']['Playback URL']+'/video-0.m4v';
-        window.open(playbackURL , '_blank');
+      console.log(recording, 'mmmmmmm');
+      const playbackURL =
+        recording['Playback Data']['Playback URL'] + '/video-0.m4v';
+      window.open(playbackURL, '_blank');
+    },
+    editRecord(recording){
+      console.log(recording,'pppp');
+      const meetingId=recording['Record ID'];
+      console.log(meetingId,'mid');
+      const url=`https://beta.editor.video.wiki/studio?meetingId=${meetingId}`
+      window.open(url, '_blank');
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
@@ -1128,6 +1203,7 @@ export default {
     toggleCopy(index) {
       this.postPoneVisible = false;
       this.showCopy = this.showCopy === index ? null : index;
+      console.log(index, 'copy');
     },
     resetShowTooltip2() {
       this.showTooltip2 = null;
@@ -1508,7 +1584,7 @@ export default {
   margin-left: 3px;
 }
 
-.recordings{
+.recordings {
   position: relative;
   border-radius: 6px;
   border: 1px solid #31394e;
@@ -1521,8 +1597,8 @@ export default {
   margin-left: 5px;
 }
 
-.record-popup{
-  position:absolute;
+.record-popup {
+  position: absolute;
   background-color: #1f272f;
   width: 80px;
   padding: 8px;
@@ -1532,13 +1608,13 @@ export default {
   right: 10px;
 }
 
-.record-popup button{
-  background:transparent;
-  outline:none;
-  border:none;
+.record-popup button {
+  background: transparent;
+  outline: none;
+  border: none;
   margin: auto;
   cursor: pointer;
-  color:#a6a6a8;
+  color: #a6a6a8;
 }
 .popup {
   height: 100vh;
@@ -1632,11 +1708,13 @@ export default {
     border-color: #31394e;
     background-color: #1f272f;
     width: 100%;
+    overflow: hidden;
   }
   .center-container-full {
     justify-content: center;
     align-items: center;
     color: #a6a6a8;
+    padding-bottom: 10px !important;
     width: 100%;
     /* max-width: 500px; */
     margin: auto;
@@ -1655,17 +1733,39 @@ export default {
     color: #a6a6a8;
     border-radius: 6px;
     padding: 0px 0px 10px 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     position: relative;
   }
   .options-container {
-    height: 200px;
-    overflow-y: scroll;
-    overflow-x: hidden;
     margin-top: 20px;
-    margin-bottom: 10px;
+    height: 44vh !important;
+    padding-top: 0;
+    overflow-y: scroll;
+    padding-bottom: 10px !important;
   }
-
+  .cast-popup {
+    width: 145px !important;
+    left: 40%;
+  }
+  .invite-text {
+    font-size: 10px;
+    font-weight: 500;
+  }
+  .inner-child2 img {
+    width: 12px;
+    height: 12px;
+  }
+  .inner-child2 {
+    width: 120px !important;
+    gap: 0px;
+    display: flex !important;
+  }
+  .copy-button {
+    padding-left: -40px;
+  }
+  .cop-btn {
+    border: none !important;
+  }
   .options-container::-webkit-scrollbar {
     width: 5px;
   }
@@ -1673,7 +1773,10 @@ export default {
   .options-container::-webkit-scrollbar-thumb {
     background-color: #31394e;
     border-radius: 4px;
-    height: 10px;
+    height: 6px;
+  }
+  .inner-child4 {
+    margin-left: 10px;
   }
   .inner-child4 button {
     background: none;
@@ -1695,20 +1798,66 @@ export default {
   .inner-div2 {
     height: 108.5%;
   }
+
+  .stream-btn, .action-btn{
+    width:36px !important;
+    height:36px !important;
+    position: absolute;
+    left: 60%;
+    top: 5px;
+  }
+
+  .stream-btn{
+    background-color: blue !important;
+  }
+  .action-btn{
+    background-color: orangered !important;
+  }
   .k-btn {
     height: 3px;
-    padding-right: 10px;
+    padding-right: 0px !important;
     padding-top: 0;
   }
   .btn-1 {
-    display: none;
+    display: none !important;
   }
   .inner-child3 button {
     background: none;
     cursor: pointer;
     height: max-content;
     margin-left: 5px;
-    color: #a6a6a8;
+  }
+
+  /* .live-btn {
+    color: #283140 !important;
+    border: none !important;
+    background-color: none !important;
+    border-radius: 5px;
+    padding: 3px;
+    height: fit-content;
+    z-index: 999;
+    font-size: 12px;
+    font-weight: 500;
+    width: 34px !important;
+    margin-top: 8px;
+    margin-right: -5px;
+    margin-left: -3px;
+  } */
+
+  #new-id {
+    /* padding: 5px; */
+    height: 36px !important;
+    min-width: 36px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    background-color: red !important;
+    color: yellow !important;
+    padding: 0;
+  }
+  .inner-child3 {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
   }
   .child-options div {
     width: 80%;
@@ -1716,9 +1865,62 @@ export default {
   .inner-child4 {
     margin-right: 2px;
   }
+  .popup {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 60%;
+    background: transparent !important;
+    overflow-y: hidden !important;
+    /* height: 70%; */
+    /* border: 1px solid red; */
+  }
+
+  .popup .stream-co{
+    margin-top: -30rem;
+    height: auto !important;
+    border: 1px solid #31394e;
+    padding: 6px;
+    border-radius: 8px;
+    overflow-y: scroll !important;
+    min-height: 350px !important;
+    max-height: 450px !important;
+  }
+
+  .edit-settings{
+    margin-top: -30rem;
+    height: auto !important;
+    border: 1px solid #31394e;
+    padding: 6px;
+    border-radius: 8px;
+    overflow-y: scroll !important;
+    min-height: 350px !important;
+    max-height: 450px !important;
+  }
+  .full-wrapper {
+    width: 278px;
+    height: 212px;
+    background-color: #1f272f;
+    border-radius: 10px;
+    border: 1px solid #31394e;
+    padding: 14px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .post-time,
+  .delete-popup {
+    margin-top: -40vh !important;
+    /* margin-left: 60%; */
+    /* border: 1px solid red; */
+  }
+  #copy-pop {
+    width: 120px;
+    /* right: -1px; */
+    /* left: 0px; */
+  }
 }
 
-@media (min-width: 499px) {
+@media (min-width: 500px) {
   .btn-23 {
     display: none;
   }

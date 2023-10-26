@@ -15,7 +15,7 @@
           <img src="@/assets/images/dashboard/Wallet.svg" />
         </div>
         <div class="setting">
-          <div class="ppp">
+          <div class="ppp" @click="toggleUserMenu">
             <img src="@/assets/images/dashboard/settings.svg" alt="settings" />
           </div>
           <div class="">
@@ -35,11 +35,13 @@
                   />
                 </div>
               </div>
-              <userMenu
-                :showMenu="userMenuVisible"
-                :closeMenu="toggleUserMenu"
-                @menu-closed="toggleUserMenu"
-              />
+              <div class="pop-up">
+                <userMenu
+                  :showMenu="userMenuVisible"
+                  :closeMenu="toggleUserMenu"
+                  @menu-closed="toggleUserMenu"
+                />
+              </div>
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
               Login
@@ -87,6 +89,7 @@ import Rooms from './components/Room.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 import Popups from './Popups.vue';
+import UserMenu from './userMenu.vue';
 
 export default {
   mixins: [utils],
@@ -97,6 +100,7 @@ export default {
     Rooms,
     userMenu,
     Popups,
+    UserMenu,
   },
   data() {
     return {
@@ -285,20 +289,15 @@ export default {
 .vertical-line {
   border-right: 1px solid #31394e;
 }
-@media (max-width: 500px) {
+@media (max-width: 499px) {
   .container-full {
     padding: 0;
     margin: 0;
   }
-
-  .close-container{
-    display: none;
-  }
   .middleOne {
     width: 35%;
     padding: 0px 10px 0px 20px;
-    max-height: 75vh;
-    min-height: fit-content;
+    /* border: 1px solid white; */
     /* border: 1px solid red; */
   }
   .rightPart {
@@ -316,7 +315,7 @@ export default {
     padding: 0; /* Remove padding for mobile view */
     margin: 0; /* Remove margin for mobile view */
     width: 100%;
-    /* border: 1px solid red; */
+    overflow: hidden !important;
     height: 85vh !important;
   }
 
@@ -332,7 +331,11 @@ export default {
     width: 100%; /* Make sure components take full width */
     flex-shrink: 1; /* Distribute available space equally among them */
     justify-content: flex-start;
+    height: 220px;
+    /* border: 1px solid blue; */
+    margin-top: 0px;
   }
+
   .nav-bar {
     padding: 0;
     align-items: center;
@@ -372,6 +375,7 @@ export default {
   }
   .vertical-line {
     border-right: none;
+    /* border: 1px solid white; */
   }
   .no-scroll {
     display: none;
@@ -381,17 +385,26 @@ export default {
     display: flex;
     overflow-x: scroll;
     overflow-y: hidden;
+    margin-top: 10px;
+    max-height: 600px;
+    height: 100%;
     transition: transform 0.3s ease-in-out; /* Smooth transition */
     /* flex-direction: column; */
   }
   .scroll {
     width: 80vw; /* Half the width of the viewport */
     height: auto;
+    /* border: 1px solid green; */
     /* max-height: 500px; */
+  }
+  .pop-up {
+    top: 0;
+    left: 0;
+    z-index: 999;
   }
 }
 
-@media (min-width: 499px) {
+@media (min-width: 500px) {
   .ppp {
     display: none;
     width: 0;

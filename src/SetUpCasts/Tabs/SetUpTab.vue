@@ -31,64 +31,66 @@
           <Calendar :stepOneProps="stepOneProps" />
         </div>
       </div>
-      <div class="input-date">
-        <label for="startTimeSelect" class="text">Start Time</label>
-        <div
-          id="startTimeSelect"
-          @click="openPopup('selectStart')"
-          class="custom-dropdown1 input-box"
-        >
-          {{ convertTo12(stepOneProps.startTime) }}
-          <i class="arrow"></i>
-          <div v-if="selectStart" class="options-list">
-            <span
-              class="timeOption"
-              v-for="time in timeOptions"
-              @click="stepOneProps.startTime = time.value"
-              :key="time.label"
-            >
-              {{ time.label }}
-            </span>
+      <div class="times flex">
+        <div class="input-date">
+          <label for="startTimeSelect" class="text">Start Time</label>
+          <div
+            id="startTimeSelect"
+            @click="openPopup('selectStart')"
+            class="custom-dropdown1 input-box"
+          >
+            {{ convertTo12(stepOneProps.startTime) }}
+            <i class="arrow"></i>
+            <div v-if="selectStart" class="options-list">
+              <span
+                class="timeOption"
+                v-for="time in timeOptions"
+                @click="stepOneProps.startTime = time.value"
+                :key="time.label"
+              >
+                {{ time.label }}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <label for="endTimeSelect" class="text">End Time</label>
-        <div
-          id="endTimeSelect"
-          @click="openPopup('selectEnd')"
-          class="custom-dropdown2 input-box"
-        >
-          {{ convertTo12(selectedEndTime) }}
-          <i class="arrow"></i>
-          <div v-if="selectEnd" class="options-list">
-            <span
-              class="timeOption"
-              v-for="time in timeOptions"
-              @click="setEndTime(time)"
-              :key="time.label"
-            >
-              {{ time.label }}
-            </span>
+        <div>
+          <label for="endTimeSelect" class="text">End Time</label>
+          <div
+            id="endTimeSelect"
+            @click="openPopup('selectEnd')"
+            class="custom-dropdown2 input-box"
+          >
+            {{ convertTo12(selectedEndTime) }}
+            <i class="arrow"></i>
+            <div v-if="selectEnd" class="options-list">
+              <span
+                class="timeOption"
+                v-for="time in timeOptions"
+                @click="setEndTime(time)"
+                :key="time.label"
+              >
+                {{ time.label }}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="time-zone">
-        <label class="text">Time zone</label>
-        <div
-          @click="openPopup('selectTimeZone')"
-          class="timezone-dropdown1 input-box"
-        >
-          {{ this.stepOneProps.timezone }}
-          <div v-if="selectTimeZone" class="options-list w-full">
-            <span
-              class="timeOption"
-              v-for="(item, index) in allTimeZone"
-              @click="stepOneProps.timezone = item.value"
-              :key="index"
-            >
-              {{ item.label }}
-            </span>
+        <div class="time-zone">
+          <label class="text">Time zone</label>
+          <div
+            @click="openPopup('selectTimeZone')"
+            class="timezone-dropdown1 input-box"
+          >
+            {{ this.stepOneProps.timezone }}
+            <div v-if="selectTimeZone" class="options-list w-full">
+              <span
+                class="timeOption"
+                v-for="(item, index) in allTimeZone"
+                @click="stepOneProps.timezone = item.value"
+                :key="index"
+              >
+                {{ item.label }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -505,5 +507,27 @@ textarea {
 
 #startTimeSelect {
   width: 100px;
+}
+@media (max-width: 500px) {
+  .cast-name input {
+    width: 360px;
+    padding-left: 10px;
+  }
+  .desc {
+    width: 360px;
+  }
+  .times {
+    margin-top: 10px;
+  }
+  .cast-time {
+    display: flex;
+    flex-direction: column;
+  }
+  .input-date {
+    margin-left: 0px;
+  }
+  .buttonn button {
+    width: 100px;
+  }
 }
 </style>

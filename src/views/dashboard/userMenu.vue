@@ -47,7 +47,8 @@ export default {
     handleGlobalClick(event) {
       const isOutsideRoomPopup = !event.target.closest('.user-menu');
       const isNotMenu = !event.target.closest('.con-img');
-      if (isOutsideRoomPopup && isNotMenu && this.showMenu !== false) {
+      const mobSet=!event.target.closest('.ppp');
+      if (isOutsideRoomPopup && isNotMenu &&mobSet && this.showMenu !== false) {
         this.showMenu = false;
         this.$emit('menu-closed');
       }
@@ -108,5 +109,18 @@ export default {
 
 .option img {
   margin-right: 5px;
+}
+
+@media (max-width:499px) {
+  .user-menu{
+    width: fit-content;
+    padding: 5px;
+    font-size: 10px;
+    height: auto;
+  }
+
+  .option{
+    padding: 5px;
+  }
 }
 </style>

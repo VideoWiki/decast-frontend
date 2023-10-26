@@ -524,4 +524,18 @@ export default {
 .button-4 {
   border-radius: 0px 6px 6px 0px;
 }
+@media (max-width: 500px) {
+  .main-containr {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 380px !important;
+    overflow-y: scroll;
+    max-height: 480px;
+  }
+  .buttons button {
+    width: 90px;
+  }
+}
 </style>

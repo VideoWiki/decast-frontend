@@ -41,7 +41,6 @@ export default {
 </script>
 
 <style>
-
 .custom-date-pick input {
   border: 1px solid #31394e;
   background-color: #1f272f;
@@ -156,5 +155,17 @@ export default {
 .vdpTimeUnit > input:hover,
 .vdpTimeUnit > input:focus {
   border-bottom-color: #cc99cd;
+}
+@media (max-width: 499px) {
+  .vdpInnerWrap {
+    position: absolute;
+    top: 0;
+    left: 60%;
+    z-index: 999;
+    border: 1px solid #31394e;
+  }
+  .calendar-container .vdpOuterWrap {
+    background: transparent;
+  }
 }
 </style>

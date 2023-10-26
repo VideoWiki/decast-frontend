@@ -80,14 +80,16 @@
         <div class="midStroke"></div>
 
         <div class="prog-cont">
-          <progress
-            max="100"
-            class="prog-bar"
-            :value="uploadPercentage"
-          ></progress>
-          <p class="w-2/12 px-4" style="line-height: 15px">
-            {{ uploadPercentage }}%
-          </p>
+          <div class="progression">
+            <progress
+              max="100"
+              class="prog-bar"
+              :value="uploadPercentage"
+            ></progress>
+            <p class="w-2/12 px-4" style="line-height: 15px">
+              {{ uploadPercentage }}%
+            </p>
+          </div>
           <div class="btn-cont">
             <button class="sample-Btn">
               <a
@@ -176,6 +178,7 @@ export default {
     },
     selectOption(option) {
       this.selectedOption = option.value;
+      this.isDropdownOpen = false;
     },
 
     async checkInvitee(email) {
@@ -729,7 +732,7 @@ button {
   /* border: 1px solid #fff; */
 }
 
-.prog-cont p {
+.progression p {
   margin: auto;
 }
 
@@ -767,5 +770,68 @@ button {
   color: #fff;
   border: none;
   margin: auto !important;
+}
+@media (max-width: 499px) {
+  .invite-cont {
+    width: 370px;
+    padding: auto;
+    margin: auto;
+    margin-top: -30rem;
+  }
+  .input-container input {
+    width: 200px;
+    padding: 3px;
+    height: 40px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .input-container button {
+    width: 50px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .input-container {
+    width: 350px;
+  }
+  .opt-cont {
+    width: 100px;
+    padding: 8px 3px;
+    font-size: 10px;
+  }
+
+  .opt-cont .custom-selector select {
+    max-width: 95px;
+    min-width: 90px;
+  }
+  .opt-cont .custom-selector::after {
+    right: 5px;
+  }
+  .opt-container {
+    width: 350px;
+    height: auto;
+  }
+  .prog-cont {
+    display: flex;
+    flex-direction: column;
+  }
+  .midStroke {
+    width: 350px;
+  }
+  .prog-cont {
+    display: flex;
+    width: 350px;
+    margin: auto;
+    height: auto;
+  }
+  .progression {
+    display: flex;
+  }
+  .btn-cont {
+    margin: 10px 0px 10px 0px;
+  }
+  .done-btn button {
+    width: 100px;
+    height: 40px;
+  }
 }
 </style>

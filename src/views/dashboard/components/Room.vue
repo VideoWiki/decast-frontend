@@ -84,6 +84,7 @@
                       Start Session
                     </button>
                     <button
+                      @click.stop
                       class="copy-button ml-4 border-none"
                       @click.stop="copy(room.room_url)"
                       :style="{ backgroundColor: getColor(index) }"
@@ -102,8 +103,9 @@
                       />
                     </button>
                     <button
+                      @click.stop
                       class="copy-button ml-4 border-none"
-                      @click.stop="copy(room.room_url)"
+                      @click.stop="start(room.room_url)"
                       :style="{ backgroundColor: getColor(index) }"
                     >
                       <img
@@ -120,6 +122,7 @@
                       />
                     </button>
                     <button
+                      @click.stop
                       class="side-btn border-none"
                       @click.stop="togglePopup(index)"
                       v-if="expandedRoom == index"
@@ -155,6 +158,7 @@
                 </button>
               </div>
               <div
+                @click.stop
                 class="room-popup"
                 v-if="showPopup === index"
                 @click.stop="closePopup(index)"
@@ -251,17 +255,6 @@
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
                 </p>
                 <p>{{ recording.room_name }}</p>
-                <p>
-                  {{
-                    recording.url['Playback Data']['Playback Size'].split(
-                      '.'
-                    )[0] +
-                    ' ' +
-                    recording.url['Playback Data']['Playback Size'].split(
-                      ' '
-                    )[1]
-                  }}
-                </p>
               </div>
 
               <button
@@ -301,6 +294,10 @@
                 <button @click="copyRecording(recording, index)">
                   <img src="@/assets/images/copy.svg" />
                   Copy Link
+                </button>
+
+                <button @click="editRecord(recording)">
+                  <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
                 </button>
               </div>
             </div>
@@ -443,7 +440,11 @@ export default {
       }
     },
     expandRoom(index) {
-      this.expandedRoom = index;
+      if (this.expandedRoom === index) {
+        this.expandedRoom = null;
+      } else {
+        this.expandedRoom = index;
+      }
     },
     getColor(index) {
       const colors = ['#FCB92d', '#FB7E84', '#2CC2D3', '#79FC9E', '#D971BC'];
@@ -468,6 +469,13 @@ export default {
         'showPopup',
         !this.recordings[index].showPopup
       );
+    },
+    editRecord(recording){
+      console.log(recording,'pppp');
+      const meetingId= recording.url['Record ID'];
+      console.log(meetingId,'mid');
+      const url=`https://beta.editor.video.wiki/studio?meetingId=${meetingId}`
+      window.open(url, '_blank');
     },
     copy(url) {
       let id = url.split('/');
@@ -577,6 +585,7 @@ export default {
             var newRooms = this.rooms;
             newRooms.splice(index, 1);
             this.$store.commit('room/setRooms', newRooms);
+            this.showPopup = null;
           }
         })
         .catch((error) => {
@@ -604,7 +613,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.sharePopup = false;
-          this.showPopup = false;
+          this.showPopup = null;
           this.$vs.notify({
             color: 'success',
             title: 'Success',
@@ -1010,9 +1019,17 @@ input {
 body {
   background: none transparent;
 }
-@media (max-width: 500px) {
+.button {
+  display: none;
+}
+@media (max-width: 499px) {
   .copy-link {
     border-radius: 10px;
+  }
+
+  .button .button-text {
+    font-size: 12px;
+    height: 30px;
   }
   .button-container {
     display: flex;
@@ -1022,7 +1039,7 @@ body {
     height: 62px;
   }
   .center-container-full {
-    height: 70%;
+    height: auto;
     border: 0.2px;
     border-color: #31394e;
     border-radius: 7px;
@@ -1031,6 +1048,26 @@ body {
     background-color: #1f272f;
     margin-bottom: 5px;
     width: 305px;
+    overflow: hidden;
+    padding-bottom: 10px !important;
+  }
+
+  .options-container {
+    margin-top: 20px;
+    height: 43vh !important;
+    padding-top: 0;
+    overflow-y: scroll;
+    padding-bottom: 10px !important;
+  }
+
+  .options-container::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .options-container::-webkit-scrollbar-thumb {
+    background-color: #31394e;
+    border-radius: 4px;
+    height: 6px;
   }
 
   .sub-heading {
@@ -1051,7 +1088,7 @@ body {
   .options-container {
     height: 200px;
     overflow-y: scroll;
-    overflow-x:hidden;
+    overflow-x: hidden;
     margin-top: 30px;
     margin-bottom: 10px;
   }
@@ -1059,6 +1096,27 @@ body {
   .tooltip-container,
   .session-button {
     display: none;
+  }
+  .createPopup {
+    height: 100vh;
+    max-width: 300px !important;
+    min-width: 250px;
+  }
+
+  .centered-container{
+    margin-top:-20rem !important  ;
+  }
+  .popup {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent !important;
+    z-index: 999;
+  }
+  .container {
+    max-width: 330px !important;
+    min-width: 250px;
   }
 }
 </style>

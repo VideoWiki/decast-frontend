@@ -26,21 +26,24 @@
         <template slot="countdown" slot-scope="scope">
           <div class="mm-cont">
             <h2>
-            <!-- <span>{{ start_time }}</span> -->
-            <span class="number">{{ scope.props.hours }}</span>
-            <span class="text">hrs</span>
+              <span class="number">{{ scope.props.days }}</span>
+              <span class="text">days</span>
 
-          <span class="dots ml-5">{{ dot2 }}</span>
+              <span class="dots ml-5">{{ dot2 }}</span>
+              <!-- <span>{{ start_time }}</span> -->
+              <span class="number">{{ scope.props.hours }}</span>
+              <span class="text">hrs</span>
 
-            <span class="number ml-5">{{ scope.props.minutes }}</span>
-            <span class="text">min</span>
+              <span class="dots ml-5">{{ dot2 }}</span>
 
-          <span class="dots ml-5">{{ dot2 }}</span>
-  
-            <span class="number ml-5">{{ scope.props.seconds }}</span>
-            <span class="text">sec</span>
+              <span class="number ml-5">{{ scope.props.minutes }}</span>
+              <span class="text">min</span>
 
-          </h2>
+              <span class="dots ml-5">{{ dot2 }}</span>
+
+              <span class="number ml-5">{{ scope.props.seconds }}</span>
+              <span class="text">sec</span>
+            </h2>
           </div>
         </template>
       </vue-countdown-timer>
@@ -135,7 +138,7 @@ export default {
       emailVerify: true,
       otpVerify: false,
       otp_error: false,
-      expired:false,
+      expired: false,
       verified: false,
       name: '',
       publicStream: false,
@@ -202,9 +205,9 @@ export default {
           this.airdrop = details.airdrop;
           this.give_nft = details.give_nft || details.vc_details_submitted;
           this.running = details.running;
-          this.expired=details.expired;
-          console.log(this.running,'run');
-          console.log(this.expired,'rrr');
+          this.expired = details.expired;
+          console.log(this.running, 'run');
+          console.log(this.expired, 'rrr');
           document.getElementById('loading-bg').style.display = 'none';
 
           if (!details.running) {
@@ -250,7 +253,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* .tim-cont{
   display: flex;
 }
@@ -383,12 +385,12 @@ export default {
   margin-top: 20px;
 }
 
-.acc-btn:disabled{
+.acc-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-@media screen and (max-device-width: 480px) {
+@media screen and (max-device-width: 499px) {
   .join-box {
     padding: 1.6em;
     margin: 0;
@@ -422,31 +424,29 @@ export default {
 
 @media screen and (max-device-width: 700px) {
   #kk-cont {
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center !important;
-  align-items: center !important;
-  max-width: 400px !important;
-  min-width: 300px !important;
-  width: auto;
-  margin: auto !important;
-  /* margin-left: -40% !important; */
-  margin-top: -20rem !important;
-}
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
+    max-width: 400px !important;
+    min-width: 300px !important;
+    width: auto;
+    margin: auto !important;
+    /* margin-left: -40% !important; */
+    margin-top: -20rem !important;
+  }
 
-.ll-cont {
-  border: 1px solid #31394e;
-  background-color: #1f272f;
-  border-radius: 6px;
-  max-height: 215px !important;
-  padding: 18px;
-  margin: auto !important;
-  margin-bottom: 5px;
-  max-width: 320px;
-  width: auto;
-  min-width: 200px;
+  .ll-cont {
+    border: 1px solid #31394e;
+    background-color: #1f272f;
+    border-radius: 6px;
+    max-height: 215px !important;
+    padding: 18px;
+    margin: auto !important;
+    margin-bottom: 5px;
+    max-width: 320px;
+    width: auto;
+    min-width: 200px;
+  }
 }
-}
-
-
 </style>
