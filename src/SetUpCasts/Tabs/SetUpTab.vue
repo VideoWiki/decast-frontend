@@ -101,6 +101,27 @@
       {{ convertTo12(stepOneProps.startTime) }} until
       {{ convertTo12(selectedEndTime) }}
     </div>
+    <div class="cast-type flex flex-shrink pt-6">
+      <div class="child1 w-3/5 border-none">
+        <span class="whitespace-no-wrap">Access Restriction :</span>
+        <span
+          @click="toggleTextColor('public')"
+          :style="{ color: publicIsChecked ? '#31a2f4' : 'gray' }"
+          >Public</span
+        >
+        <ToggleSwitch @toggle="toggleSwitch()" />
+        <span
+          @click="toggleTextColor('private')"
+          :style="{ color: privateIsChecked ? '#31a2f4' : 'gray' }"
+          >Private</span
+        >
+      </div>
+
+      <div class="child2 pl-5 flex">
+        Collect Attendee Email
+        <button-toggle class="pl-5 pt-1" />
+      </div>
+    </div>
     <div class="buttonn cursor-pointer">
       <button class="cursor-pointer" @click="goNext">Next</button>
     </div>
@@ -111,14 +132,22 @@ import allTimeZone from './allTimeZone';
 import Calendar from '../../views/login/Calendar.vue';
 import { TimeFrames } from './TimeFrames';
 import moment from 'moment-timezone';
+import ToggleSwitch from './ToggleSwitch.vue';
+import ButtonToggle from './buttonToggle.vue';
 export default {
   name: 'SetUpTab',
   components: {
     Calendar,
+    ToggleSwitch,
+    ButtonToggle,
   },
   props: ['stepOneProps', 'changeActiveTab'],
   data() {
     return {
+      publicIsChecked: true,
+      privateIsChecked: false,
+      textColor: 'blue',
+      isChecked: false,
       startH: null,
       moment,
       selectStart: false,
@@ -162,6 +191,119 @@ export default {
     window.removeEventListener('click', this.closePopups);
   },
   methods: {
+    toggleSwitch() {
+      if (this.stepOneProps.auth_type === 'public') {
+        this.stepOneProps.auth_type = 'private'; // Update auth_type to private
+        this.stepOneProps.public_otp = false;
+        this.stepOneProps.send_otp = true;
+      } else {
+        this.stepOneProps.auth_type = 'public'; // Update auth_type to public
+        this.stepOneProps.send_otp = false;
+        this.stepOneProps.password_auth = false;
+      }
+      // Toggle publicIsChecked and privateIsChecked
+      this.publicIsChecked = !this.publicIsChecked;
+      this.privateIsChecked = !this.privateIsChecked;
+
+      console.log(
+        'Toggle Switch Clicked, auth_type:',
+        this.stepOneProps.auth_type
+      );
+
+      // Validation logic
+      if (
+        this.stepOneProps.event_name === '' ||
+        this.stepOneProps.description === '' ||
+        (this.stepOneProps.audienceAirdrop &&
+          this.stepOneProps.airdropType === 'NFTs' &&
+          (this.stepOneProps.mint_function_name === '' ||
+            this.stepOneProps.contract_address === '' ||
+            this.stepOneProps.aib === '' ||
+            this.stepOneProps.nft_description === '' ||
+            this.stepOneProps.nft_image === '')) ||
+        (this.stepOneProps.auth_type === 'private' &&
+          this.stepOneProps.send_otp === false &&
+          this.stepOneProps.password_auth === false) ||
+        (!this.stepOneProps.start_now &&
+          this.stepOneProps.schedule_time_error) ||
+        this.stepOneProps.invalidTimeError
+      ) {
+        this.stepOneProps.event_name_error =
+          this.stepOneProps.event_name === '';
+        this.stepOneProps.description_error =
+          this.stepOneProps.description === '';
+        if (
+          this.stepOneProps.audienceAirdrop &&
+          this.stepOneProps.airdropType === 'NFTs'
+        ) {
+          this.stepOneProps.mintfnc_name_error =
+            this.stepOneProps.mint_function_name === '';
+          this.stepOneProps.contract_address_error =
+            this.stepOneProps.contract_address === '';
+          this.stepOneProps.aib_error = this.stepOneProps.aib === '';
+          this.stepOneProps.nft_image_error =
+            this.stepOneProps.nft_image === '';
+          this.stepOneProps.nft_description_error =
+            this.stepOneProps.nft_description === '';
+        }
+
+        if (
+          this.stepOneProps.auth_type === 'private' &&
+          this.stepOneProps.send_otp === false &&
+          this.stepOneProps.password_auth === false
+        ) {
+          this.stepOneProps.meeting_auth_error = true;
+        }
+
+        this.stepOneProps.public_nft_flow =
+          this.stepOneProps.public_stream_nfts === 'true';
+        this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
+
+        if (this.stepOneProps.invalidTimeError) {
+          this.$vs.notify({
+            time: 3000,
+            title: 'Time Error',
+            text: 'Time Should Be In 24 Hours Format',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+        } else if (this.stepOneProps.schedule_time_error) {
+          this.$vs.notify({
+            time: 3000,
+            title: 'Time Error',
+            text: "Can't create a cast for the past",
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+        } else {
+          if (
+            this.stepOneProps.event_name === '' &&
+            this.stepOneProps.description !== ''
+          ) {
+            this.stepOneProps.event_name =
+              this.stepOneProps.generated_event_title;
+          }
+        }
+        return false;
+      } else {
+        this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
+        this.stepOneProps.public_nft_flow =
+          this.stepOneProps.public_stream_nfts === 'true';
+        window.scroll(0, 0);
+        localStorage.setItem('Step1', JSON.stringify(this.stepOneProps));
+        return true;
+      }
+    },
+
+    toggleTextColor(type) {
+      if (type === 'public') {
+        this.textColor = this.publicIsChecked ? '#31a2f4' : 'gray';
+      } else if (type === 'private') {
+        this.textColor = this.privateIsChecked ? 'gray' : '#31a2f4';
+      }
+    },
     convertTo12(time) {
       console.log(moment(time, 'HH:mm:ss').format('h:mm A'));
       return moment(time, 'HH:mm:ss').format('h:mm A');
