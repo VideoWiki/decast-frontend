@@ -1103,7 +1103,7 @@ export default {
         const meetingId = recording['Record ID'];
         const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
         window.open(url, '_blank');
-      }, 2000);
+      }, 1000);
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
