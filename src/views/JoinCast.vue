@@ -316,8 +316,8 @@ export default {
   font-family: 'Karla', sans-serif !important;
 }
 .container-full {
-  background: #000000;
-  background-image: url('../assets/images/dashboard/background.png');
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+    url('../assets/images/dashboard/background.png');
   width: 100%;
   height: 100vh;
   background-repeat: no-repeat;
@@ -388,7 +388,8 @@ export default {
 }
 .right-side {
   margin-top: 200px;
-  margin-left: 44px;
+  margin-left: 14px;
+  margin-right: 50px;
   width: 376px;
   height: 266px;
   background-color: #1f272f;
