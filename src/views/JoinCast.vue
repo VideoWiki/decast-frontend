@@ -77,18 +77,22 @@
             autocomplete="off"
             v-model="otp"
           />
-          <div class="flex flex-wrap my-3 w-full">
-            <vs-button
-              class="flex items-center join-btn mr-4 text-black bg-white"
+          <div class="flex flex-wrap my-6 w-full px-16">
+            <button
+              class="sub-btn justify-center text-lg flex items-center"
+              :style="{ backgroundColor: '#1D232B', color: '#A6A6A8' }"
               :disabled="!validateOtp"
               @click.prevent="userVerification"
-              >Verify</vs-button
             >
-            <vs-button
-              class="flex items-center text-black go-back-btn bg-white"
+              Verify
+            </button>
+
+            <button
+              class="sub-btn justify-center text-lg flex items-center text-black"
               @click.prevent="goBack"
-              >Cancel</vs-button
             >
+              Cancel
+            </button>
           </div>
         </span>
       </form>
@@ -389,7 +393,7 @@ export default {
 .right-side {
   margin-top: 200px;
   margin-left: 14px;
-  margin-right: 50px;
+  margin-right: 10rem;
   width: 376px;
   height: 266px;
   background-color: #1f272f;
@@ -432,5 +436,17 @@ export default {
   font-size: 12px;
   color: #181a20;
   background-color: #d7df23;
+}
+.sub-btn {
+  height: 40px;
+  width: 89px;
+  cursor: pointer;
+  border-radius: 6px;
+  background: #d7df23;
+  border: #31394e 1px solid;
+  margin: 4px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 15px;
 }
 </style>
