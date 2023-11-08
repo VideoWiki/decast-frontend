@@ -35,8 +35,12 @@
       <div class="ijdk">
         <div class="cont-2">
           <div class="op-1">
-            <h1 :style="{ fontSize: dynamicFontSize2 }">Cast your content</h1>
-            <h1 :style="{ fontSize: dynamicFontSize2 }">from the future!</h1>
+            <h1 id="head-id" :style="{ fontSize: dynamicFontSize2 }">
+              Cast your content
+            </h1>
+            <h1 id="head-id" :style="{ fontSize: dynamicFontSize2 }">
+              from the future!
+            </h1>
           </div>
           <div class="op-2 mt-2">
             <p>
@@ -89,7 +93,10 @@
       <div class="sticky3">
         <div class="scroll_section">
           <div class="cont-contain">
-            <div class="text">Why use Cast?</div>
+            <div class="text">
+              <h1 :style="{ fontSize: dynamicFontSize3 }">Why use</h1>
+              <h1 :style="{ fontSize: dynamicFontSize3 }">Cast?</h1>
+            </div>
             <div class="ima-cont" v-for="image in images" :key="image">
               <img
                 style="border-radius: 80px !important"
@@ -112,17 +119,25 @@
             :key="index"
             class="fallbox2"
             :style="box2.style"
+            draggable="true"
+            @dragstart="dragStart(index)"
+            @dragover="dragOver(index)"
+            @drop="drop(index)"
           >
             {{ box2.text }}
           </div>
         </div>
 
-        <div>
+        <div class="fall-child2">
           <div
             v-for="(box, index) in boxes"
             :key="index"
             class="fallbox"
             :style="box.style"
+            draggable="true"
+            @dragstart="dragStart(index)"
+            @dragover="dragOver(index)"
+            @drop="drop(index)"
           >
             {{ box.text }}
           </div>
@@ -134,6 +149,10 @@
             :key="index"
             class="fallbox1"
             :style="box1.style"
+            draggable="true"
+            @dragstart="dragStart(index)"
+            @dragover="dragOver(index)"
+            @drop="drop(index)"
           >
             {{ box1.text }}
           </div>
@@ -271,12 +290,13 @@
         <div class="log-co">
           <img src="@/assets/images/mono-logo.svg" />
           <p>
-            LDA, Parque de Ciéncia e Inovacáo - Vía do Conhecimento s/n 3830-352
-            Ílhavo, Portugal - +351 912159105
+            LEREN LEREN , UNIPESSOAL LDA, Parque de Ciéncia e Inovacáo - Vía do
+            Conhecimento s/n 3830-352 Ílhavo, Portugal NIF/NIPC - 517383861
+            Phone no. +351 912159105
           </p>
         </div>
         <div class="log-co2">
-          <p>see yourself</p>
+          <p>See yourself</p>
           <button>Book a Demo</button>
           <div class="mt-10">
             <div>
@@ -377,7 +397,8 @@ export default {
       boxes1: [],
       boxTexts1: ['Incredible', 'Fantastic', 'Whoa'],
       boxes2: [],
-      boxTexts2: ['Mind-blowingly', 'Insane', 'Unreal'],
+      boxTexts2: ['Mind-blowingly', 'Insane', 'Cool'],
+      draggedBoxIndex: null,
     };
   },
   computed: {
@@ -389,15 +410,39 @@ export default {
     },
     dynamicFontSize() {
       const scalingFactor = 5;
-      return `${scalingFactor}vw`;
+      const viewportWidth = window.innerWidth;
+      const minFontSize = 14;
+
+      if (viewportWidth < 499) {
+        return `${minFontSize}vw`;
+      } else {
+        const fontSize = `${scalingFactor}vw`;
+        return fontSize;
+      }
     },
     dynamicFontSize2() {
       const scalingFactor = 4;
-      return `${scalingFactor}vw`;
+      const viewportWidth = window.innerWidth;
+      const minFontSize = 14;
+
+      if (viewportWidth < 499) {
+        return `${minFontSize}vw`;
+      } else {
+        const fontSize = `${scalingFactor}vw`;
+        return fontSize;
+      }
     },
     dynamicFontSize3() {
       const scalingFactor = 8;
-      return `${scalingFactor}vw`;
+      const viewportWidth = window.innerWidth;
+      const minFontSize = 16;
+
+      if (viewportWidth < 499) {
+        return `${minFontSize}vw`;
+      } else {
+        const fontSize = `${scalingFactor}vw`;
+        return fontSize;
+      }
     },
     borderStyle() {
       const maxBorderSize = 250;
@@ -480,9 +525,10 @@ export default {
     images.forEach((img) => {
       sticky3Sections.forEach((section) => {
         let image = document.createElement('img');
-        image.style.borderRadius = '50px';
-        image.style.width = 'auto';
-        image.style.height = '85vh';
+        image.style.borderRadius = '20px';
+        image.style.width = '100%';
+        // image.style.maxHeight = '85vh';
+        image.style.height = '100%';
         image.style.objectFit = 'contain';
         image.setAttribute('id', 'border');
         image.setAttribute('class', 'border2');
@@ -518,7 +564,7 @@ export default {
       console.log('Scrolling...');
       const scrollPosition = window.scrollY;
       this.scrollPosition = event.target.documentElement.scrollTop;
-      const threshold = 30; // Adjust this threshold as needed
+      const threshold = 10; // Adjust this threshold as needed
       if (scrollPosition > threshold) {
         this.isNavbarScrolled = true;
       } else {
@@ -607,6 +653,23 @@ export default {
           text: text,
         };
         this.boxes.push(box);
+      }
+    },
+    dragStart(index) {
+      this.draggedBoxIndex = index;
+    },
+
+    dragOver(index) {
+      event.preventDefault();
+    },
+
+    drop(index) {
+      event.preventDefault();
+      if (this.draggedBoxIndex !== null) {
+        const draggedBox = this.boxes[this.draggedBoxIndex];
+        this.boxes.splice(this.draggedBoxIndex, 1);
+        this.boxes.splice(index, 0, draggedBox);
+        this.draggedBoxIndex = null;
       }
     },
     createFallingBoxes1() {
@@ -734,6 +797,35 @@ export default {
   width: 90%;
 }
 
+.fall-child1 > div:nth-child(2) {
+  animation: fallbox-fall5 linear both;
+  transition: 0.3s ease;
+  /* animation-delay: 0.5ms; */
+  transform-origin: center bottom;
+}
+
+@keyframes fallbox-fall5 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(3vh) rotate(45deg);
+  }
+
+  50% {
+    transform: translateY(6vh) rotate(90deg);
+  }
+
+  75% {
+    transform: translateY(8vh) rotate(135deg);
+  }
+
+  100% {
+    transform: translateY(10vh) rotate(180deg);
+  }
+}
+
 .fall-child1 > div:nth-child(3) {
   animation: fallbox-fall4 linear both;
   animation-delay: 0.5ms;
@@ -756,7 +848,7 @@ export default {
 }
 
 .fall-child3 > div:nth-child(3) {
-  margin-left: 8rem;
+  margin-left: 12rem;
 }
 
 .fallbox {
@@ -1098,6 +1190,7 @@ export default {
   height: auto;
   width: 100%;
   background-image: linear-gradient(180deg, #000, #111, #222);
+  /* overflow-x: hidden; */
   /* background: -webkit-linear-gradient(to bottom,#302f2f,#222121); 
   background: linear-gradient(to bottom,#000000,#000000,#000000,#1d1c1c,#141318,#181a20,#222121);  */
 }
@@ -1109,7 +1202,8 @@ export default {
 }
 
 .slider {
-  height: 70vh;
+  max-height: 70vh;
+  height: fit-content;
   margin: auto;
   margin-top: 6rem;
   position: relative;
@@ -1134,7 +1228,8 @@ export default {
 }
 .slide {
   height: auto;
-  width: 1200px;
+  max-width: 1200px;
+  width: auto;
   display: flex;
   align-items: center;
   padding: 15px;
@@ -1195,7 +1290,9 @@ export default {
 }
 
 .sticky3_parent {
-  height: 350vh;
+  max-height: 350vh;
+  min-height: 300vh;
+  height: auto;
   margin-top: 6rem;
 }
 .sticky3 {
@@ -1235,13 +1332,10 @@ export default {
   border: 1px solid red !important;
 }
 
-.text {
-  font-size: 90px;
+.text h1 {
   font-weight: 700;
-  width: 380px;
   padding-right: 20px;
   color: #d7df23;
-  line-height: 105.21px;
 }
 
 .opt-cont {
@@ -1472,7 +1566,328 @@ export default {
   width: auto;
 }
 
-@media screen and (max-device-width: 700px) {
+@media screen and (max-width: 499px) {
+  .home-cont {
+    /* background: #000000; */
+    background-image: url('../assets/images/rightPart.svg');
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    /* border: 1px solid yellow; */
+  }
+
+  .ijdk {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    margin: auto;
+    overflow: hidden;
+  }
+
+  .cont-3 {
+    max-width: 400px;
+    width: 100%;
+    height: 400px;
+    position: relative;
+    margin-top: 1rem;
+    margin: auto;
+    /* border: 1px solid green; */
+  }
+
+  .cont-2 {
+    padding: 15px;
+    margin-top: 3rem;
+  }
+  .op-1 {
+    text-align: center;
+  }
+
+  .op-2 {
+    text-align: center;
+  }
+
+  .op-1 h1 {
+    text-align: center;
+  }
+
+  .op-3 button:nth-child(1) {
+    gap: 20px;
+    width: 150px;
+    height: 40px;
+    font-size: 2xl;
+    font-weight: 500;
+  }
+
+  .op-3 button:nth-child(2) {
+    gap: 20px;
+    width: 190px;
+    height: 40px;
+    font-size: 2xl;
+    font-weight: 500;
+  }
+
+  .slider {
+    max-height: 70vh;
+    min-height: 50vh;
+    height: fit-content;
+    margin: auto;
+    margin-top: 6rem;
+    position: relative;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .slide-track {
+    display: flex;
+    width: calc(450px * 6);
+    animation: scroll 40s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-450px * 3));
+    }
+  }
+  .slide {
+    height: auto;
+    max-width: 450px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    perspective: 100px;
+  }
+
+  .sticky3_parent {
+    max-height: 700vh;
+    min-height: 600vh;
+    margin-top: 6rem;
+  }
+  .sticky3 {
+    overflow: hidden;
+    position: sticky;
+    display: flex !important;
+    height: 60vh;
+    top: 10rem;
+    /* border: 1px solid red; */
+  }
+
+  .scroll_section {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 750vw;
+    will-change: transform;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5vw !important;
+    overflow: hidden;
+  }
+  .cont-contain {
+    display: flex !important;
+    align-items: center;
+    padding-right: 20px;
+    transition: transform 0.5s;
+    margin: 20px;
+    margin-right: 25vw;
+  }
+  .scroll_section:hover .cont-contain {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .text h1 {
+    font-weight: 700;
+    padding-right: 20px;
+    color: #d7df23;
+  }
+
+  .mid-cont {
+    width: 98%;
+    margin: auto;
+    text-align: center;
+    margin-top: 6rem;
+  }
+
+  .mid-cont > h1 {
+    width: 100%;
+    text-align: center;
+  }
+
+  .fallbox-container {
+    flex-wrap: wrap;
+    height: fit-content;
+  }
+
+  .fallbox-container > div {
+    flex-wrap: wrap;
+  }
+
+  .fallbox2,
+  .fallbox,
+  .fallbox1 {
+    width: fit-content !important;
+    height: fit-content !important;
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 20px;
+    color: white;
+    align-items: center !important;
+    justify-content: center;
+    font-size: medium;
+    font-weight: bold;
+    animation: fallbox-fall linear both;
+    transform-origin: center bottom;
+    cursor: pointer;
+  }
+
+  .testimonial {
+    display: flex;
+    max-width: 380px;
+    max-height: 600px;
+    min-width: 299px;
+    margin-left: 10px;
+    min-height: 499px;
+    border-radius: 20px;
+    /* backdrop-filter: blur(6px); */
+    padding: 15px !important;
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    cursor: pointer;
+    /* border: 1px solid #141318; */
+  }
+
+  .rev-cont {
+    max-width: 380px;
+    max-height: 600px;
+    min-width: 299px;
+    margin-left: 10px;
+    min-height: 499px;
+    height: auto;
+    width: auto;
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .testimonial h2 {
+    font-size: medium;
+    color: #a6a6a8;
+    font-size: 500;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+  }
+
+  .testimonial h3 {
+    margin-top: 1rem;
+  }
+
+  .hov-cont {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+
+  .step-cont {
+    width: 95%;
+  }
+  .idk-1 {
+    margin-top: 4rem;
+    width: fit-content;
+    max-width: 90%;
+  }
+
+  .step-vid-cont > div {
+    padding: 20px;
+    padding: 15px;
+    width: 98%;
+    border-radius: 10px;
+  }
+  .step-vid-cont > div > img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+
+  .nav-cont {
+    width: 100%;
+    background-color: #000;
+    height: 80px;
+  }
+
+  .opt-cont {
+    display: none;
+  }
+
+  .child-2 {
+    display: none;
+  }
+
+  .slog-cont button {
+    background-color: #000;
+    border: none;
+    font-size: 2xl;
+    color: #a6a6a6;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .foot-cont {
+  background-color: rgba(24, 26, 32, 1);
+  padding: 20px;
+  margin-top: 6rem;
+}
+
+.footer {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  gap:30px;
+  flex-direction: column;
+}
+.log-co {
+  width: 90%;
+  max-width: 350px;
+}
+
+.log-co p{
+  text-align: left;
+  margin-top: 2rem;
+}
+
+.log-co img {
+  max-width: 120px;
+  max-height: 120px;
+  width: auto;
+  height: auto;
+  margin-left: -10px;
+}
+.log-co2{
+  width: 95%;
+}
+
+.log-co2 div{
+  flex-direction: column;
+  gap: 30px;
+}
+
+.log-co3 div:nth-child(2) {
+  text-align: left;
+  width: fit-content;
+  margin-left: 0%;
+}
+}
+
+/* @media screen and (max-device-width: 700px) {
   .home-cont {
     background-image: url('../assets/images/rightPart.svg');
     background-repeat: no-repeat;
@@ -1488,7 +1903,6 @@ export default {
     width: auto;
     margin: auto;
     padding-top: 10px;
-    /* margin-top: -30px; */
   }
 
   .op-1 h1 {
@@ -1514,13 +1928,11 @@ export default {
   .op-4 {
     margin: auto;
     max-width: 100%;
-    /* width: fit-content; */
     width: 100%;
     margin-top: 20px;
   }
 
   .op-4 img {
-    /* width: auto; */
     margin: auto;
     width: 95%;
     max-width: 97%;
@@ -1574,13 +1986,12 @@ export default {
   }
 
   .wiki-logo img {
-    /* border: 1px solid red; */
+
     height: 60px;
     width: 60px;
   }
 
   .nav-cont {
-    /* border: 1px solid white; */
     width: 100%;
     height: 60px;
     padding-top: 10px;
@@ -1589,13 +2000,12 @@ export default {
 
   .nav-cont nav {
     display: flex;
-    /* border: 1px solid yellow; */
     width: 95%;
     max-width: 98%;
     margin: auto;
     justify-content: space-between;
   }
-}
+}*/
 </style>
 
 <style>
