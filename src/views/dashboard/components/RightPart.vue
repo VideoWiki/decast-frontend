@@ -177,7 +177,7 @@
                     @click.stop
                     @click="toggleStream(cast.public_meeting_id, 'start')"
                   >
-                    <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                    <img src="@/assets/images/dashboard/Livecopy.svg" alt="" />
                   </button>
                 </span>
                 <button
@@ -1425,7 +1425,7 @@ export default {
 }
 
 .options-container {
-  height: 303px;
+  height: 58vh;
   overflow: auto;
   margin-top: 30px;
 }
@@ -1886,13 +1886,9 @@ export default {
     position: absolute;
     left: 60%;
     top: 5px;
-  }
-
-  .stream-btn {
-    background-color: blue !important;
-  }
-  .action-btn {
-    background-color: orangered !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    border-radius: 5px;
+    border: none !important;
   }
   .k-btn {
     height: 3px;

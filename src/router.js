@@ -372,6 +372,14 @@ const router = new Router({
       },
     },
     {
+      path: '/middlepart',
+      name: 'middlepart',
+      component: () => import('@/views/HomePage/MiddlePart.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/privatecast',
       name: 'JoinPrivateCast',
       component: () => import('@/views/dashboard/JoinPrivateCast.vue'),

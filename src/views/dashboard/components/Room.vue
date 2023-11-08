@@ -907,7 +907,7 @@ export default {
 
 .options-container {
   margin-top: 30px;
-  height: 303px;
+  height: 58vh;
   padding-top: 0;
   overflow-y: scroll;
 }

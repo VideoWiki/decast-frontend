@@ -111,6 +111,7 @@
         >
         <ToggleSwitch @toggle="toggleSwitch()" />
         <span
+          class="private-text"
           @click="toggleTextColor('private')"
           :style="{ color: privateIsChecked ? '#31a2f4' : 'gray' }"
           >Private</span
@@ -528,6 +529,21 @@ textarea {
   }
   .buttonn button {
     width: 100px;
+  }
+  .cast-type {
+    display: flex;
+    flex-direction: column;
+  }
+  .child1 {
+    width: 100%;
+  }
+  .child2 {
+    width: 100%;
+    margin-left: -17px;
+    margin-top: 10px;
+  }
+  .private-text {
+    margin-left: 45px;
   }
 }
 </style>
