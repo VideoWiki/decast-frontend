@@ -388,6 +388,14 @@ const router = new Router({
       },
     },
     {
+      path: '/NftBox',
+      name: 'NftBox',
+      component: () => import('@/views/dashboard/NftBox.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/password/email',
       name: 'Reset Email',
       component: () => import('@/views/passwordReset/Reset.vue'),
