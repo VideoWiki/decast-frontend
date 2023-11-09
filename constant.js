@@ -17,7 +17,7 @@ const constants = {
   hydra_ep: 'https://openid.video.wiki',
   hydra_lg: 'https://login.decast.live',
   challengeUri:
-    'https://login.decast.live/oauth2/auth?audience=&max_age=0&prompt=&redirect_uri=https://decast.live/callback/&response_type=code&scope=openid+offline&client_id=decast-prod&nonce=hognfveoohhddoralbeygsjg&sta',
+    'https://login.decast.live/oauth2/auth?audience=&max_age=0&prompt=&redirect_uri=https://decast.live/callback/&response_type=code&scope=openid+offline&client_id=decast-prod&nonce=hognfveoohhddoralbeygsjg&state=imnweycejbfpyrmnahgqzcmm',
   profilingUrl: 'https://openid.video.wiki/',
 };
 
