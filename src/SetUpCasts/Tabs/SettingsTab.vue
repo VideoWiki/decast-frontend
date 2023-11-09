@@ -391,17 +391,37 @@ export default {
     margin: auto;
     justify-content: center;
   }
+  .left-img {
+    margin-top: 0px;
+  }
+  .rightImg {
+    margin-top: -8px;
+  }
+  .define-text {
+    margin-top: 20px;
+  }
+  .info-text {
+    margin-left: 0px !important;
+    display: flex;
+    align-self: flex-start !important;
+    padding-left: 0px !important;
+  }
+  .box {
+    margin-top: 10px;
+    width: 172px;
+    height: 100px;
+    padding: 5px;
+    padding-left: 5px;
+  }
   .first-row {
     display: flex;
-    width: 270px;
-    flex-direction: column;
     margin: auto;
+    justify-content: space-between;
   }
   .second-row {
     display: flex;
-    width: 270px;
-    flex-direction: column;
     margin: auto;
+    justify-content: space-between;
   }
   .buttonn button {
     width: 100px;

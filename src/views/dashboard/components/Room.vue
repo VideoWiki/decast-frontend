@@ -907,9 +907,9 @@ export default {
 
 .options-container {
   margin-top: 30px;
-  height: 303px;
-  overflow: auto;
-  /* border: 1px solid red; */
+  height: 58vh;
+  padding-top: 0;
+  overflow-y: scroll;
 }
 
 .options-container::-webkit-scrollbar {
