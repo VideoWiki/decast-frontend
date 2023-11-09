@@ -30,7 +30,6 @@
         </div>
       </nav>
     </div>
-    <!-- <div class=""><img src="@/assets/images/Home.jpg" class="img" /></div> -->
     <div class="home-cont">
       <div class="ijdk">
         <div class="cont-2">
