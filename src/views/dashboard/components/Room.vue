@@ -908,8 +908,7 @@ export default {
 .options-container {
   margin-top: 30px;
   height: 58vh;
-  padding-top: 0;
-  overflow-y: scroll;
+  overflow:auto;
 }
 
 .options-container::-webkit-scrollbar {
@@ -1106,18 +1105,8 @@ body {
     margin-top: 20px;
     height: 43vh !important;
     padding-top: 0;
-    overflow-y: scroll;
+    overflow: auto;
     padding-bottom: 10px !important;
-  }
-
-  .options-container::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  .options-container::-webkit-scrollbar-thumb {
-    background-color: #31394e !important;
-    border-radius: 4px;
-    height: 6px;
   }
 
   .sub-heading {
@@ -1137,7 +1126,7 @@ body {
 
   .options-container {
     height: 200px;
-    overflow-y: scroll;
+    overflow: auto;
     overflow-x: hidden;
     margin-top: 30px;
     margin-bottom: 10px;

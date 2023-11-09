@@ -1816,7 +1816,7 @@ export default {
     margin-top: 20px;
     height: 44vh !important;
     padding-top: 0;
-    overflow-y: scroll;
+    overflow: auto;
     padding-bottom: 10px !important;
   }
   .cast-popup {
