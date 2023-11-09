@@ -1,6 +1,6 @@
 <template>
   <div class="landing">
-    <div class="nav-cont">
+    <div :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }">
       <nav>
         <div class="wiki-logo">
           <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" />
@@ -15,7 +15,11 @@
         </div>
 
         <div class="log-cont">
-          <div class="child-1 cursor-pointer" @click="open">
+          <div
+            class="cursor-pointer"
+            :class="{ 'child-1': true, 'slog-cont': isNavbarScrolled }"
+            @click="open"
+          >
             <button>Login</button>
             <div class="vertical-line sideOne"></div>
             <button>Signup</button>
@@ -28,34 +32,283 @@
     </div>
     <!-- <div class=""><img src="@/assets/images/Home.jpg" class="img" /></div> -->
     <div class="home-cont">
-      <div class="cont-1">
-        <img id="img-1" src="@/assets/images/leftPart.svg" />
-      </div>
-      <div class="cont-2">
-        <div class="op-1">
-          <h1>Cast your content</h1>
-          <h1>from the future!</h1>
+      <div class="ijdk">
+        <div class="cont-2">
+          <div class="op-1">
+            <h1 :style="{ fontSize: dynamicFontSize2 }">Cast your content</h1>
+            <h1 :style="{ fontSize: dynamicFontSize2 }">from the future!</h1>
+          </div>
+          <div class="op-2 mt-2">
+            <p>
+              We re-engineered the service we built for secure business
+              meetings,
+            </p>
+            <p>Cast Meet, to make it free and available for all.</p>
+          </div>
+          <div class="op-3">
+            <button><img src="@/assets/images/meet.svg" />New Meeting</button>
+            <button>
+              <img src="@/assets/images/key.svg" />Enter a code or link
+            </button>
+          </div>
         </div>
-        <div class="op-2 mt-2">
-          <p>
-            We re-engineered the service we built for secure business meetings,
-          </p>
-          <p>Cast Meet, to make it free and available for all.</p>
+
+        <div class="cont-3" @scroll="handleScroll">
+          <div class="vid-cont" :style="borderStyle">
+            <img src="@/assets/images/vidi.svg" />
+            <!-- <button><img src="@/assets/images/vid.svg" /></button> -->
+          </div>
         </div>
-        <div class="op-3">
-          <button><img src="@/assets/images/meet.svg" />New Meeting</button>
-          <button>
-            <img src="@/assets/images/key.svg" />Enter a code or link
-          </button>
-        </div>
-        <div class="op-4">
-          <img src="@/assets/images/homeSlide.svg" />
-        </div>
-      </div>
-      <div class="cont-3">
-        <img id="img-2" src="@/assets/images/rightPart.svg" />
       </div>
     </div>
+
+    <div class="slider">
+      <div class="slide-track">
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Book more meetings</span>
+        </div>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Make meaningful connections</span>
+        </div>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Collaborate instantly</span>
+        </div>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Book more meetings</span>
+        </div>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Make meaningful connections</span>
+        </div>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Collaborate instantly</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sticky3_parent">
+      <div class="sticky3">
+        <div class="scroll_section">
+          <div class="cont-contain">
+            <div class="text">Why use Cast?</div>
+            <div class="ima-cont" v-for="image in images" :key="image">
+              <img
+                style="border-radius: 80px !important"
+                :src="image"
+                alt="product"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mid-cont" ref="fallboxContainer">
+      <h1 :style="{ fontSize: dynamicFontSize }">Trusted by 4000+</h1>
+      <h1 :style="{ fontSize: dynamicFontSize }">Students and Professionals</h1>
+      <div class="fallbox-container">
+        <div class="fall-child1">
+          <div
+            v-for="(box2, index) in boxes2"
+            :key="index"
+            class="fallbox2"
+            :style="box2.style"
+          >
+            {{ box2.text }}
+          </div>
+        </div>
+
+        <div>
+          <div
+            v-for="(box, index) in boxes"
+            :key="index"
+            class="fallbox"
+            :style="box.style"
+          >
+            {{ box.text }}
+          </div>
+        </div>
+
+        <div class="fall-child3">
+          <div
+            v-for="(box1, index) in boxes1"
+            :key="index"
+            class="fallbox1"
+            :style="box1.style"
+          >
+            {{ box1.text }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-cont">
+      <div class="testm-cont" ref="container">
+        <div
+          class="rev-cont"
+          v-for="(testimonial, index) in testimonials"
+          :key="index"
+        >
+          <div class="testimonial">
+            <img :src="testimonial.image" alt="Testimonial Image" />
+            <h2>{{ testimonial.comment }}</h2>
+            <h3>
+              {{ testimonial.name }}<span> - {{ testimonial.profession }}</span>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="btn-cont">
+        <button @click="handleScrollLeft">
+          <img src="@/assets/images/left.svg" />
+        </button>
+        <button @click="handleScrollRight">
+          <img src="@/assets/images/right.svg" />
+        </button>
+      </div>
+    </div>
+
+    <div class="logos">
+      <div class="logos-slide">
+        <img src="@/assets/images/homepage/aws.svg" />
+        <img src="@/assets/images/homepage/nor.svg" />
+        <img src="@/assets/images/homepage/coke.svg" />
+      </div>
+      <div class="logos-slide">
+        <img src="@/assets/images/homepage/aws.svg" />
+        <img src="@/assets/images/homepage/nor.svg" />
+        <img src="@/assets/images/homepage/coke.svg" />
+      </div>
+      <div class="logos-slide">
+        <img src="@/assets/images/homepage/aws.svg" />
+        <img src="@/assets/images/homepage/nor.svg" />
+        <img src="@/assets/images/homepage/coke.svg" />
+      </div>
+    </div>
+
+    <div class="step-cont">
+      <div class="head1">
+        <h1 :style="{ fontSize: dynamicFontSize }">
+          <span style="color: #d7df23">Three </span>
+          <span
+            style="
+              background-color: #31a2f4;
+              padding: 0px 15px 10px 15px;
+              border-radius: 40px;
+            "
+            >easy</span
+          >
+          steps
+        </h1>
+        <h1 :style="{ fontSize: dynamicFontSize }">to setup your Cast call</h1>
+      </div>
+      <div class="hov-cont">
+        <div class="idk-1">
+          <div class="idk-child mt-3">
+            <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
+              1.
+            </h1>
+            <h1
+              :style="{
+                fontSize: dynamicFontSize,
+                background:
+                  'linear-gradient(45deg, #f12711, #f5af19,#ff416c, #ff4b2b)',
+                '-webkit-background-clip': 'text',
+                'background-clip': 'text',
+                color: 'transparent',
+                fontWeight: 700,
+              }"
+            >
+              Fill up your basic cast details
+            </h1>
+          </div>
+          <div class="idk-child mt-10">
+            <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
+              2.
+            </h1>
+            <h1
+              :style="{
+                fontSize: dynamicFontSize,
+                background:
+                  'linear-gradient(45deg,#8a2387, #da4453, #89216b, #3c1053)',
+                '-webkit-background-clip': 'text',
+                'background-clip': 'text',
+                color: 'transparent',
+                fontWeight: 700,
+              }"
+            >
+              Fill up your basic cast details
+            </h1>
+          </div>
+          <div class="idk-child mt-10">
+            <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
+              3.
+            </h1>
+            <h1
+              :style="{
+                fontSize: dynamicFontSize,
+                background:
+                  'linear-gradient(45deg, #a8c0ff, #3f2b96,#4e54c8, #8f94fb)',
+                '-webkit-background-clip': 'text',
+                'background-clip': 'text',
+                color: 'transparent',
+                fontWeight: 700,
+              }"
+            >
+              Fill up your basic cast details
+            </h1>
+          </div>
+        </div>
+        <div class="step-vid-cont">
+          <div>
+            <img src="@/assets/images/cast.svg" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-cont">
+      <div class="footer">
+        <div class="log-co">
+          <img src="@/assets/images/mono-logo.svg" />
+          <p>
+            LDA, Parque de Ciéncia e Inovacáo - Vía do Conhecimento s/n 3830-352
+            Ílhavo, Portugal - +351 912159105
+          </p>
+        </div>
+        <div class="log-co2">
+          <p>see yourself</p>
+          <button>Book a Demo</button>
+          <div class="mt-10">
+            <div>
+              <p>Helpful links</p>
+              <h5 class="mt-8" style="color: #ffffff">Features</h5>
+              <h5 class="mt-4" style="color: #ffffff">Faqs</h5>
+            </div>
+            <div>
+              <P>Contact us</P>
+              <h5 class="mt-8" style="color: #ffffff">Contact Us</h5>
+              <h5 class="mt-4" style="color: #ffffff">Work With Us</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="log-co3">
+          <div>
+            <p>Follow Us</p>
+            <button><img src="@/assets/images/f.svg" /></button>
+            <button><img src="@/assets/images/t.svg" /></button>
+            <button><img src="@/assets/images/l.svg" /></button>
+          </div>
+
+          <div class="mt-12">
+            <p>Policy</p>
+            <h5 class="mt-8" style="color: #ffffff">Report</h5>
+            <h5 class="mt-5" style="color: #ffffff">Privacy</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div :class="{ 'close-container': iframe, hidden: !iframe }">
       <loading />
       <!-- <button class="close-icon" @click="closeForm">✕</button> -->
@@ -72,6 +325,59 @@ export default {
   data() {
     return {
       iframe: false,
+      isNavbarScrolled: false,
+      scrollPosition: 0,
+      testimonials: [
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+      ],
+      boxes: [],
+      boxTexts: [
+        'my superpowers',
+        'Awesome!',
+        'Perfect!',
+        'Amazing!',
+        'Unreal',
+        'Super!',
+        'Next-level',
+      ],
+      boxes1: [],
+      boxTexts1: ['Incredible', 'Fantastic', 'Whoa'],
+      boxes2: [],
+      boxTexts2: ['Mind-blowingly', 'Insane', 'Unreal'],
     };
   },
   computed: {
@@ -80,6 +386,35 @@ export default {
     },
     loggedIn() {
       return this.$store.state.auth.loggedIn;
+    },
+    dynamicFontSize() {
+      const scalingFactor = 5;
+      return `${scalingFactor}vw`;
+    },
+    dynamicFontSize2() {
+      const scalingFactor = 4;
+      return `${scalingFactor}vw`;
+    },
+    dynamicFontSize3() {
+      const scalingFactor = 8;
+      return `${scalingFactor}vw`;
+    },
+    borderStyle() {
+      const maxBorderSize = 250;
+      const maxScroll = 400;
+      const borderSize = Math.min(
+        (this.scrollPosition / maxScroll) * maxBorderSize * 3,
+        maxBorderSize
+      );
+      const style = {
+        border: `${borderSize}px solid #D7DF23`,
+        backgroundColor: `#D7DF23`,
+      };
+      console.log('Computed border style:', style);
+      return style;
+    },
+    generateRandomGradient() {
+      return `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`;
     },
   },
   components: {
@@ -129,6 +464,43 @@ export default {
         this.url = '';
       }
     });
+    this.setupIntersectionObserver();
+    // this.createFallingBoxes();
+    // this.createFallingBoxes1();
+    // this.createFallingBoxes2();
+    const sticky3Sections = [...document.querySelectorAll('.sticky3')];
+    const images = [
+      require('@/assets/images/homepage/img1.svg'),
+      require('@/assets/images/homepage/img2.svg'),
+      require('@/assets/images/homepage/img3.svg'),
+      require('@/assets/images/homepage/img4.svg'),
+      require('@/assets/images/homepage/img5.svg'),
+    ];
+
+    images.forEach((img) => {
+      sticky3Sections.forEach((section) => {
+        let image = document.createElement('img');
+        image.style.borderRadius = '50px';
+        image.style.width = 'auto';
+        image.style.height = '85vh';
+        image.style.objectFit = 'contain';
+        image.setAttribute('id', 'border');
+        image.setAttribute('class', 'border2');
+        image.src = img;
+        section.querySelector('.scroll_section').appendChild(image);
+      });
+    });
+
+    window.addEventListener('scroll', this.handleScroll2);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll2);
+  },
+  created() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     open() {
@@ -142,51 +514,523 @@ export default {
       // console.log(this.iframe);
       // window.location.href = constants.challengeUri;
     },
+    handleScroll(event) {
+      console.log('Scrolling...');
+      const scrollPosition = window.scrollY;
+      this.scrollPosition = event.target.documentElement.scrollTop;
+      const threshold = 30; // Adjust this threshold as needed
+      if (scrollPosition > threshold) {
+        this.isNavbarScrolled = true;
+      } else {
+        this.isNavbarScrolled = false;
+      }
+    },
+    handleScroll2() {
+      const sticky3Sections = [...document.querySelectorAll('.sticky3')];
+      for (let i = 0; i < sticky3Sections.length; i++) {
+        this.transform(sticky3Sections[i]);
+      }
+    },
+    transform(section) {
+      const offsetTop = section.parentElement.offsetTop;
+      const scrollSection = section.querySelector('.scroll_section');
+      let percentage =
+        ((window.scrollY - offsetTop) / window.innerHeight) * 100;
+      percentage = percentage < 0 ? 0 : percentage > 400 ? 400 : percentage;
+      scrollSection.style.transform = `translate3d(${-percentage}vw, 0, 0)`;
+    },
+    handleScrollLeft() {
+      const container = this.$refs.container;
+      const scrollAmount = 100;
+      container.scrollLeft -= scrollAmount;
+    },
+    handleScrollRight() {
+      const container = this.$refs.container;
+      const scrollAmount = 100;
+      container.scrollLeft += scrollAmount;
+    },
+    getRandomColor() {
+      const colorShades = {
+        red: ['#FF5733', '#FF2400', '#FF5C5C', '#FF6F61'],
+        blue: ['#33A1DE', '#4F86F7', '#62A9E3', '#45A6CA'],
+        green: ['#4CAF50', '#00B894', '#5DBB63', '#17A05E'],
+        purple: ['#9B59B6', '#8E44AD', '#C56CF0', '#7A6C5D'],
+        orange: ['#FFA726', '#FFD600', '#FFB83C', '#FFB74D'],
+        violet: ['#663399', '#9370DB', '#A569BD', '#9B59B6'],
+      };
+
+      const colorCategory =
+        Object.keys(colorShades)[
+          Math.floor(Math.random() * Object.keys(colorShades).length)
+        ];
+
+      const randomShade =
+        colorShades[colorCategory][
+          Math.floor(Math.random() * colorShades[colorCategory].length)
+        ];
+
+      return randomShade;
+    },
+    setupIntersectionObserver() {
+      const container = this.$refs.fallboxContainer;
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          this.createFallingBoxes();
+          this.createFallingBoxes1();
+          this.createFallingBoxes2();
+          observer.unobserve(container);
+        }
+      });
+      observer.observe(container);
+    },
+    createFallingBoxes() {
+      for (let i = 0; i < 7; i++) {
+        const delay = Math.random() * 2 + 0.5;
+        const duration = Math.random() * 2 + 2;
+        const leftPosition = Math.random() * 90 + 'vw';
+        const rotation = Math.round(Math.random() * 20);
+        console.log(rotation, 'rot');
+
+        const textIndex = Math.floor(Math.random() * this.boxTexts.length);
+        const text = this.boxTexts[textIndex];
+        this.boxTexts.splice(textIndex, 1);
+
+        const box = {
+          style: {
+            left: leftPosition,
+            top: '0vh',
+            animationDuration: duration + 's',
+            animationDelay: delay + 's',
+            background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
+            transform: `rotate(${rotation}deg)`,
+          },
+          text: text,
+        };
+        this.boxes.push(box);
+      }
+    },
+    createFallingBoxes1() {
+      for (let i = 0; i < 3; i++) {
+        const delay = Math.random() * 2 + 0.3;
+        const duration = Math.random() * 2 + 2;
+        const leftPosition = Math.random() * 90 + 'vw';
+        const rotation = Math.round(Math.random() * 20);
+        console.log(rotation, 'rot');
+
+        const textIndex1 = Math.floor(Math.random() * this.boxTexts1.length);
+        const text = this.boxTexts1[textIndex1];
+        this.boxTexts1.splice(textIndex1, 1);
+
+        const box1 = {
+          style: {
+            left: leftPosition,
+            top: '0vh',
+            animationDuration: duration + 's',
+            animationDelay: delay + 's',
+            background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
+            transform: `rotate(${rotation}deg)`,
+          },
+          text: text,
+        };
+        this.boxes1.push(box1);
+      }
+    },
+    createFallingBoxes2() {
+      for (let i = 0; i < 3; i++) {
+        const delay = Math.random() * 2 + 0.6;
+        const duration = Math.random() * 2 + 2;
+        const leftPosition = Math.random() * 90 + 'vw';
+        const rotation = Math.round(Math.random() * 20);
+        console.log(rotation, 'rot');
+
+        const textIndex2 = Math.floor(Math.random() * this.boxTexts2.length);
+        const text = this.boxTexts2[textIndex2];
+        this.boxTexts2.splice(textIndex2, 1);
+
+        const box2 = {
+          style: {
+            left: leftPosition,
+            top: '0vh',
+            animationDuration: duration + 's',
+            animationDelay: delay + 's',
+            background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
+            transform: `rotate(${rotation}deg)`,
+          },
+          text: text,
+        };
+        this.boxes2.push(box2);
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
 .home-cont {
-  display: flex;
-  justify-content: space-between;
+  /* background: #000000; */
+  background-image: url('../assets/images/leftPart.svg'),
+    url('../assets/images/rightPart.svg');
+  background-position: left, right;
+  background-repeat: no-repeat, no-repeat;
+  background-size: contain, contain;
   width: 100%;
-  height: 100%;
-  /* overflow: hidden; */
+  height: 100vh;
+  /* border: 1px solid white; */
 }
-
-.cont-3,
-.cont-2,
-.cont-1 {
+.ijdk {
+  display: flex;
+  width: 85%;
+  justify-content: space-between;
+  margin: auto;
+}
+.cont-2 {
   height: auto;
+  z-index: 5 !important;
 }
 
 .cont-2 {
-  padding-top: 6rem;
+  padding-top: 8rem;
 }
 
-.cont-1 {
-  padding-top: 5rem;
-  /* min-width: 220px; */
-  width: auto;
+.mid-cont {
+  margin: auto;
+  width: 95%;
+  margin-top: 8rem;
+  /* border: 1px solid yellow; */
 }
 
-#img-1,
-#img-2 {
-  max-height: 70vh;
+.mid-cont h1 {
+  color: #d7df23;
+  /* font-size: 90px; */
+  text-align: center;
+  font-weight: 700;
+  width: 80%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.fallbox-container {
   width: 100%;
-  /* min-width: 210px; */
+  position: relative;
+  height: 60vh;
+  margin: auto;
+  padding-bottom: 10px;
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
 }
 
-.op-1,
-.op-2 {
+.fallbox-container > div {
+  /* border: 1px solid yellow; */
+  display: flex;
+  width: 100%;
+  margin: auto;
+  height: 20vh;
+  gap: 1rem;
+}
+
+.fallbox-container > div:nth-child(1) {
+  justify-content: flex-end;
+  width: 90%;
+}
+
+.fall-child1 > div:nth-child(3) {
+  animation: fallbox-fall4 linear both;
+  animation-delay: 0.5ms;
+  /* margin-left: -20px; */
+  transform-origin: center bottom;
+  /* border: 1px solid red; */
+}
+
+@keyframes fallbox-fall4 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(22vh) rotate(45deg);
+  }
+}
+
+.fall-child3 {
+  justify-content: center;
+}
+
+.fall-child3 > div:nth-child(3) {
+  margin-left: 8rem;
+}
+
+.fallbox {
+  /* position: absolute; */
+  width: fit-content !important;
+  height: fit-content !important;
+  padding: 20px 30px;
+  text-align: center;
+  border-radius: 35px;
+  color: white;
+  /* display: flex !important;
+  flex-wrap: nowrap; */
+  align-items: center !important;
+  justify-content: center;
+  font-size: large;
+  font-weight: bold;
+  animation: fallbox-fall linear both;
+  transform-origin: center bottom;
+  cursor: pointer;
+}
+
+@keyframes fallbox-fall {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(14vh);
+  }
+}
+
+.fallbox2 {
+  /* position: absolute; */
+  width: fit-content !important;
+  height: fit-content !important;
+  padding: 20px 30px;
+  text-align: center;
+  border-radius: 35px;
+  color: white;
+  /* display: flex !important;
+  flex-wrap: nowrap; */
+  align-items: center !important;
+  justify-content: center;
+  font-size: large;
+  font-weight: bold;
+  animation: fallbox-fall2 linear both;
+  transform-origin: center bottom;
+  cursor: pointer;
+}
+
+@keyframes fallbox-fall2 {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(20vh);
+  }
+}
+
+.fallbox1 {
+  /* position: absolute; */
+  width: fit-content !important;
+  height: fit-content !important;
+  padding: 20px 30px;
+  text-align: center;
+  border-radius: 35px;
+  color: white;
+  /* display: flex !important;
+  flex-wrap: nowrap; */
+  align-items: center !important;
+  justify-content: center;
+  font-size: large;
+  font-weight: bold;
+  animation: fallbox-fall1 linear both;
+  transform-origin: center bottom;
+  cursor: pointer;
+}
+
+@keyframes fallbox-fall1 {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(8vh);
+  }
+}
+
+.cont-3 {
+  width: 400px;
+  height: 400px;
+  /* overflow: hidden; */
+  position: relative;
+  margin-top: 6rem;
+  /* flex-direction: column-reverse; */
+  /* border: 1px solid red; */
+}
+.cont-3 .vid-cont {
+  min-height: 300px !important;
+  min-width: 300px !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  /* margin: auto !important; */
+  top: 50% !important;
+  left: 50% !important;
+  transition: border 0.3s ease !important;
+  transform-origin: center !important;
+  transform: translate(-50%, -50%) !important;
+  position: absolute !important;
+  z-index: 2 !important;
+  border-radius: 50% !important;
+  cursor: pointer;
+}
+
+.step-cont {
+  width: 85%;
+  /* border: 1px solid yellow; */
+  margin: auto;
+  margin-top: 10rem;
+  max-width: 1200px;
+}
+
+.foot-cont {
+  background-color: rgba(24, 26, 32, 1);
+  padding: 40px;
+  margin-top: 6rem;
+}
+
+.footer {
+  width: 85%;
+  margin: auto;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.log-co {
+  max-width: 250px;
+  width: 20%;
+}
+
+.log-co p {
+  font-size: small;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 4rem;
+}
+.log-co img {
+  max-width: 200px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+}
+
+.log-co2 {
+  width: 40%;
+}
+.log-co2 button {
+  height: 60px;
+  width: 200px;
+  background-color: #d7df23;
+  border-radius: 4px;
+  border: none;
+  margin-top: 3rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: medium;
+}
+
+.log-co2 > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.log-co2 p,
+.log-co3 p {
+  color: #637181;
+}
+
+.log-co3 button {
+  margin-top: 2rem;
+  border: 1px solid #637181;
+  border-radius: 50%;
+  background: transparent;
+  width: 61px;
+  height: 61px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.log-co3 div:nth-child(2) {
+  text-align: left;
+  width: fit-content;
+  margin-left: 75%;
+}
+
+.head1 {
   margin: auto;
   width: fit-content;
   text-align: center;
 }
 
+.head1 h1 {
+  color: #ffffff;
+}
+
+.hov-cont {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6rem;
+}
+
+.idk-1 {
+  /* border: 1px solid red; */
+  margin-top: 4rem;
+  width: fit-content;
+  max-width: 40%;
+}
+
+.step-vid-cont > div {
+  position: sticky;
+  /* max-width: 600px; */
+  padding: 35px;
+  margin: auto;
+  top: 8rem;
+  width: auto;
+  border-radius: 20px;
+  height: auto;
+  background-image: url('../assets/images/d.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  background-color: #f1f1f1;
+  animation: backgroundAnimation 5s linear infinite;
+}
+
+.step-vid-cont > div > img {
+  width: auto;
+  height: auto;
+  max-width: 550px;
+  margin: auto;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-color: #8133ff;
+  }
+  25% {
+    background-color: #ff57e9;
+  }
+  50% {
+    background-color: #ff335f;
+  }
+  75% {
+    background-color: #33e7ff;
+  }
+  100% {
+    background-color: #5733ff;
+  }
+}
+
+.vid-cont img {
+  /* display: none; */
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
+  /* position: fixed; */
+  /* margin: auto; */
+}
+.op-1,
+.op-2 {
+  width: fit-content;
+  text-align: left;
+}
+
 .op-1 h1 {
-  font-size: 60px;
   color: #a6a6a8;
   font-weight: 700;
 }
@@ -199,10 +1043,9 @@ export default {
 
 .op-3 {
   display: flex;
-  margin: auto;
   gap: 10px;
   width: fit-content;
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .op-3 button:nth-child(1) {
@@ -212,7 +1055,7 @@ export default {
   width: 180px;
   height: 40px;
   background-color: #d7df23;
-  font-size: 13px;
+  font-size: 2xl;
   font-style: italic;
   align-items: center;
   font-weight: 600;
@@ -229,7 +1072,7 @@ export default {
   width: 250px;
   height: 40px;
   background-color: #181a20;
-  font-size: 13px;
+  font-size: 2xl;
   font-style: italic;
   color: #a6a6a6;
   font-weight: 600;
@@ -237,18 +1080,7 @@ export default {
   border-radius: 4px;
   cursor: pointer;
 }
-.op-4 {
-  margin: auto;
-  max-width: 800px;
-  width: fit-content;
-  margin-top: 20px;
-}
 
-.op-4 img {
-  /* width: auto; */
-  width: 700px;
-  height: auto;
-}
 .iframe {
   position: absolute;
   border: 1px solid #31394e;
@@ -262,40 +1094,77 @@ export default {
   overflow: hidden;
 }
 
-.butt {
-  background: #d7df23;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 5px;
-  color: #1f272f;
-  font-weight: 700;
-  font-size: 12px;
-}
-.img {
-  width: 98vw;
-  height: 83vh;
+.landing {
+  height: auto;
+  width: 100%;
+  background-image: linear-gradient(180deg, #000, #111, #222);
+  /* background: -webkit-linear-gradient(to bottom,#302f2f,#222121); 
+  background: linear-gradient(to bottom,#000000,#000000,#000000,#1d1c1c,#141318,#181a20,#222121);  */
 }
 
-.landing {
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  background: #000000;
-}
 .wiki-logo img {
   /* border: 1px solid red; */
   height: 91px;
   width: 91px;
 }
 
+.slider {
+  height: 70vh;
+  margin: auto;
+  margin-top: 6rem;
+  position: relative;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.slide-track {
+  display: flex;
+  width: calc(1200px * 6);
+  animation: scroll 40s linear infinite;
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1200px * 3));
+  }
+}
+.slide {
+  height: auto;
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  perspective: 100px;
+}
+.slide span {
+  width: 100%;
+  color: #d7df23;
+  font-weight: 700;
+}
+/* .slider:hover .slide-track {
+  animation-play-state: paused;
+} */
+
 .nav-cont {
   /* border: 1px solid white; */
   width: 100%;
-  height: 100px;
-  padding-top: 30px;
+  height: 80px;
+  /* padding-top: 30px; */
   background-color: #000000;
+  transition: background-color 0.3s;
+  position: sticky;
+  top: 0%;
+  z-index: 99;
+  align-items: middle;
 }
 
+.scrolled {
+  background-color: #141318;
+}
 .close-container {
   position: absolute;
   top: 50%;
@@ -309,10 +1178,13 @@ export default {
 .nav-cont nav {
   display: flex;
   /* border: 1px solid yellow; */
-  width: 85%;
+  width: 95%;
+  height: 80px;
   max-width: 1400px;
   margin: auto;
   justify-content: space-between;
+  align-items: middle;
+  vertical-align: middle;
 }
 
 .sideOne {
@@ -322,15 +1194,67 @@ export default {
   height: 13px;
 }
 
+.sticky3_parent {
+  height: 350vh;
+  margin-top: 6rem;
+}
+.sticky3 {
+  overflow: hidden;
+  position: sticky;
+  display: flex !important;
+  height: 85vh;
+  top: 7rem;
+  /* border: 1px solid red; */
+}
+
+.scroll_section {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 300vw;
+  will-change: transform;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5vw !important;
+  overflow: hidden;
+}
+.cont-contain {
+  display: flex !important;
+  align-items: center;
+  padding-right: 20px;
+  transition: transform 0.5s;
+  margin: 20px;
+  margin-right: 25vw;
+}
+.scroll_section:hover .cont-contain {
+  transform: translate3d(0, 0, 0);
+}
+
+.ima-cont {
+  border: 1px solid red !important;
+}
+
+.text {
+  font-size: 90px;
+  font-weight: 700;
+  width: 380px;
+  padding-right: 20px;
+  color: #d7df23;
+  line-height: 105.21px;
+}
+
 .opt-cont {
   width: fit-content;
   /* border: 1px solid green; */
   display: flex;
-  gap: 20px;
+  gap: 30px;
   color: #a6a6a6;
   margin: auto;
-  font-size: 12px;
+  font-size: 2xl;
   font-weight: 500;
+  /* border: 1px solid red; */
+  vertical-align: middle;
 }
 
 .opt-cont div a {
@@ -346,14 +1270,31 @@ export default {
   /* margin: auto; */
 }
 
+.slog-cont,
 .child-1 {
   display: flex;
   gap: 5px;
+  font-size: 2xl;
+}
+
+.child-1 {
+  transition: background-color 0.3s;
 }
 
 .child-1 button {
   background-color: #000000;
   border: none;
+  font-size: 2xl;
+  color: #a6a6a6;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.slog-cont button {
+  background-color: #141318;
+  border: none;
+  font-size: 2xl;
   color: #a6a6a6;
   font-weight: 500;
   cursor: pointer;
@@ -361,20 +1302,178 @@ export default {
 
 .child-2 {
   margin: auto;
+  font-size: 2xl;
 }
 
 .child-2 button {
   background-color: #d7df23;
-  padding: 8px;
+  padding: 8px 12px 8px 12px;
   border: none;
+  font-size: 2xl;
   border-radius: 3px;
   font-weight: 600;
   cursor: pointer;
 }
 
-@media screen and (max-device-width: 700px) {
+.testm-cont {
+  border: 1px solid transparent;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow: auto;
+  transition: 0.3s ease;
+  margin-top: 10rem;
+}
 
-  .home-cont{
+.testm-cont::-webkit-scrollbar {
+  display: none !important;
+}
+
+.rev-cont {
+  /* border: 1px solid yellow; */
+  max-width: 700px;
+  max-height: 700px;
+  min-width: 499px;
+  min-height: 499px;
+  height: auto;
+  width: auto;
+  border-radius: 30px;
+  background: rgba(0, 0, 0, 0.2);
+  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px; */
+}
+
+.btn-cont {
+  margin: auto;
+  width: 170px;
+  height: 90px;
+  display: flex;
+  margin-top: 4rem;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  /* gap: 20px; */
+}
+
+.btn-cont button {
+  border-radius: 50%;
+  margin: auto;
+  width: 70px;
+  height: 70px;
+  background: transparent;
+  transition: 0.3s ease-in-out;
+  transform-origin: center;
+  cursor: pointer;
+  background: #0f0f0f;
+  border: 1px solid #222;
+}
+
+.btn-cont button:hover {
+  width: 90px;
+  height: 90px;
+}
+
+.btn-cont button img {
+  width: 27px;
+  height: 18px;
+}
+
+.testimonial {
+  /* border: 1px solid green; */
+  display: flex;
+  max-width: 700px;
+  max-height: 700px;
+  min-width: 499px;
+  min-height: 499px;
+  border-radius: 30px;
+  /* backdrop-filter: blur(6px); */
+  padding: 30px !important;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  cursor: pointer;
+  /* border: 1px solid #141318; */
+}
+
+.testimonial h2 {
+  font-size: 22px;
+  color: #a6a6a8;
+  font-size: 500;
+  text-align: center;
+  margin-bottom: 30px;
+  padding-top: 20px;
+}
+
+.testimonial h3 {
+  margin-top: 2rem;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: medium;
+  padding-bottom: 20px;
+}
+
+.testimonial h3 span {
+  font-weight: 500;
+  font-size: medium;
+  color: #a6a6a8;
+}
+
+.testimonial img {
+  width: 131px;
+  height: 131px;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.logos {
+  overflow: hidden;
+  height: 100px;
+  white-space: nowrap;
+  position: relative;
+  margin-top: 10rem;
+}
+.logos:before,
+.logos:after {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  content: '';
+  z-index: 2;
+}
+.logos:before {
+  left: 0;
+}
+
+.logos:after {
+  right: 0;
+}
+.logos:hover .logos-slide {
+  animation-play-state: paused;
+}
+@keyframes logos {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+.logos-slide {
+  display: inline-block;
+  animation: 25s logos infinite linear;
+  margin: auto;
+}
+.logos-slide img {
+  margin: auto 60px;
+  max-height: 69px;
+  height: auto;
+  width: auto;
+}
+
+@media screen and (max-device-width: 700px) {
+  .home-cont {
     background-image: url('../assets/images/rightPart.svg');
     background-repeat: no-repeat;
     background-size: contain;
@@ -388,7 +1487,7 @@ export default {
   .cont-2 {
     width: auto;
     margin: auto;
-    padding-top:10px;
+    padding-top: 10px;
     /* margin-top: -30px; */
   }
 
@@ -497,5 +1596,24 @@ export default {
     justify-content: space-between;
   }
 }
+</style>
 
+<style>
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020202;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #181717;
+  border-radius: 4px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background: #1f1e1e;
+}
 </style>

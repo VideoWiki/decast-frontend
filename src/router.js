@@ -460,6 +460,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
+    // {
+    //   path: '/fall',
+    //   name: 'FallBox',
+    //   component: () => import('./views/dashboard/FallBox.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/nftw',
       name: 'NftWallet',
