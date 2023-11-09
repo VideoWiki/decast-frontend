@@ -131,7 +131,7 @@ export default {
         const firstCast = castInfoList[0];
         const id = firstCast.public_meeting_id;
         const pass = firstCast.h_ap;
-        const castLink = `https://dev.stream.video.wiki/join-cast/${id}/?pass=${pass}`;
+        const castLink = `https://decast.live/join-cast/${id}/?pass=${pass}`;
         const shareUrls = {
           // link: castLink,
           facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -161,7 +161,7 @@ export default {
         const firstCast = castInfoList[0];
         const id = firstCast.public_meeting_id;
         const pass = firstCast.h_ap;
-        const link = `https://dev.stream.video.wiki/join-cast/${id}/?pass=${pass}`;
+        const link = `https://decast.live/join-cast/${id}/?pass=${pass}`;
         navigator.clipboard
           .writeText(link)
           .then(() => {

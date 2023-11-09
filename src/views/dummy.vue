@@ -1,90 +1,57 @@
 <template>
-  <div class="fallbox-container">
-    <div
-      v-for="(box, index) in boxes"
-      :key="index"
-      class="fallbox"
-      :style="box.style"
-    >
-      {{ box.text }}
+  <div class="sticky3_parent">
+      <div class="sticky3">
+        <div class="scroll_section">
+          <div class="cont-contain">
+            <div class="text">
+              <h1 :style="{ fontSize: dynamicFontSize3 }">Why use</h1>
+              <h1 :style="{ fontSize: dynamicFontSize3 }">Cast?</h1>
+            </div>
+            <div class="ima-cont" v-for="image in images" :key="image">
+              <img
+                style="border-radius: 80px !important"
+                :src="image"
+                alt="product"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      boxes: [
-        {
-          text: 'my superpowers',
-        },
-        {
-          text: 'Awesome!',
-        },
-        {
-          text: 'Perfect!',
-        },
-        {
-          text: 'Super!',
-        },
-        {
-          text: 'Unreal',
-        },
-        {
-          text: 'Super!',
-        },
-        {
-          text: 'Next-level',
-        },
-        {
-          text: 'mind-blowingly',
-        },
-        {
-          text: 'Insane',
-        },
-        {
-          text: 'Incredible',
-        },
-        {
-          text: 'Fantastic',
-        },
-        {
-          text: 'Whoa',
-        },
-      ],
+     
     };
   },
   mounted() {
-    this.createFallingBoxes();
+    const sticky3Sections = [...document.querySelectorAll('.sticky3')];
+    const images = [
+      require('@/assets/images/homepage/img1.svg'),
+      require('@/assets/images/homepage/img2.svg'),
+      require('@/assets/images/homepage/img3.svg'),
+      require('@/assets/images/homepage/img4.svg'),
+      require('@/assets/images/homepage/img5.svg'),
+    ];
+
+    images.forEach((img) => {
+      sticky3Sections.forEach((section) => {
+        let image = document.createElement('img');
+        image.style.borderRadius = '20px';
+        image.style.width = '100%';
+        // image.style.maxHeight = '85vh';
+        image.style.height = '100%';
+        image.style.objectFit = 'contain';
+        image.setAttribute('id', 'border');
+        image.setAttribute('class', 'border2');
+        image.src = img;
+        section.querySelector('.scroll_section').appendChild(image);
+      });
+    });
   },
   methods: {
-    getRandomColor() {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
-    },
-    createFallingBoxes() {
-      for (let i = 0; i < 12; i++) {
-        const delay = Math.random() * 2 + 0.5;
-        const duration = Math.random() * 2 + 1;
-        const leftPosition = Math.random() * 90 + 5 + 'vw';
-        const rotation = Math.random() * 20 - 10;
-
-        const box = {
-          style: {
-            left: leftPosition,
-            animationDuration: duration + 's',
-            animationDelay: delay + 's',
-            backgroundColor:`linear-gradient(45deg, ${getRandomColor()}, ${getRandomColor()})`,
-            transform: `rotate(${rotation}deg)`,
-          },
-        };
-        this.boxes.push(box);
-      }
-    },
   },
 };
 </script>

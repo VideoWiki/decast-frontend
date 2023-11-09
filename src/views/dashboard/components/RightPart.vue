@@ -1136,12 +1136,12 @@ export default {
     copy(id, pass) {
       if (pass === undefined) {
         navigator.clipboard.writeText(
-          'https://dev.stream.video.wiki/live/' + id
+          'https://decast.live/join-cast/' + id
         );
         return;
       }
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/join-cast/' + id + '/?pass=' + pass
+        'https://decast.live/join-cast/' + id + '/?pass=' + pass
       );
     },
     async joinNow(id) {
@@ -1431,13 +1431,13 @@ export default {
 }
 
 .options-container::-webkit-scrollbar {
-  width: 5px;
+  width: 5px !important;
 }
 
 .options-container::-webkit-scrollbar-thumb {
-  background-color: #31394e;
-  border-radius: 4px;
-  height: 10px;
+  background-color: #31394e !important;
+  border-radius: 4px !important;
+  height: 10px !important;
 }
 
 #user-img {
@@ -1847,7 +1847,7 @@ export default {
   }
 
   .options-container::-webkit-scrollbar-thumb {
-    background-color: #31394e;
+    background-color: #31394e !important;
     border-radius: 4px;
     height: 6px;
   }

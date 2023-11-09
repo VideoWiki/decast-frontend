@@ -429,7 +429,7 @@ const router = new Router({
       },
     },
     {
-      path: '/full',
+      path: '/manage',
       name: 'FullDashBoard',
       component: () => import('./views/dashboard/FullDashboard.vue'),
       meta: {

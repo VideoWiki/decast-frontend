@@ -3,6 +3,7 @@ const constants = {
   url: 'https://videowiki.pt',
   backImageUrl: 'https://api.cast.video.wiki/api/photos/?category=',
   apiCastUrl: 'https://api.cast.decast.live',
+  apiRoomUrl:'https://api.room.video.wiki',
   streamUrl: 'https://play.stream.video.wiki/live/',
   eventDetailsUrl:
     'https://api.cast.video.wiki/api/event/meeting/info/?public_meeting_id=',
@@ -18,7 +19,7 @@ const constants = {
   hydra_lg: 'https://login.decast.live',
   challengeUri:
     'https://login.decast.live/oauth2/auth?audience=&max_age=0&prompt=&redirect_uri=https://decast.live/callback/&response_type=code&scope=openid+offline&client_id=decast-prod&nonce=hognfveoohhddoralbeygsjg&state=imnweycejbfpyrmnahgqzcmm',
-  profilingUrl: 'https://openid.video.wiki/',
+  profilingUrl: 'https://openid.video.wiki',
 };
 
 if (process.env.NODE_ENV === 'production') {
