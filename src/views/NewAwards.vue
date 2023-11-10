@@ -48,12 +48,13 @@
             <h3>{{ recog.title }}</h3>
             <img :src="recog.banner" :alt="recog.title" />
             <p class="recog-desc">{{ recog.description }}</p>
-            <button>Read More</button>
+            <a :href="recog.url" target="_blank">Read More</a>
           </div>
 
           <div v-else>
             <div class="awards-vcard-bigimg" v-if="recog.banner">
               <img :src="recog.banner" :alt="recog.title" />
+              <a :href="recog.url" target="_blank"><span>{{recog.title}}</span></a>
             </div>
           </div>
         </div>
@@ -77,7 +78,7 @@
           <div class="awards-nc-right">
             <h4>{{ topic.title }}</h4>
             <p>{{ topic.description }}</p>
-            <button>Read More</button>
+            <a :href="topic.url" target="_blank">Read More</a>
           </div>
         </div>
       </div>
@@ -138,77 +139,92 @@ export default {
         {
           isImage: false,
           title: '#Partnership with SWARM',
+          url:"https://www.ethswarm.org/ecosystem.html#:~:text=Apply%20for%20a%20grant,mentors%20the%20developers%20and%20founders.",
           banner: require('@/assets/images/awards/swarmlogo.svg'),
           description: "After applying for SWARM grant program, VideoWiki had the opportunity of showcasing the product to SWARM team, which led to conversations for a partnership. SWARM is a decentralised storage and communication system for a sovereign digital society. It works as a system of peer-to-peer networked nodes, that create a decentralised storage and communication service. The system is economically self-sustaining due to a built-in incentive system enforced through smart contracts on the Ethereum blockchain.",
         },
         {
           isImage: false,
           title: '#DFINITY Foundation Finalist',
+          url: "https://dfinity.org/",
           banner: require('@/assets/images/awards/dfinitylogo.svg'),
           description: "The DFINITY Foundation is a not-for-profit organization based in Zurich, Switzerland, which believes smart contracts that run on a public blockchain are a vastly superior new form of software. Thus, their mission is to develop technology that supports the next generation Internet Computer blockchain network and ecosystem. The Internet Computer is supported by a growing community of crypto enthusiasts, investors, and independent node providers, who operate the node machines that power the Internet Computer. And VideoWiki was one of the 8 finalists who saw their project being selected in a program that allows developers to build dapps that are scaleable, run smart contracts at web speed, and serve user experiences directly on chain.",
         },
         {
           isImage: false,
           title: '#EUvsVirus Hackathon Challenge Winner',
+          url: "https://www.euvsvirus.org/",
           banner: require('@/assets/images/awards/euvsviruslogo.svg'),
           description: "The European Commission launched the #EUvsVirus hackathon, a non-profit online hackathon to connect civil society, innovators, partners and buyers across Europe to develop innovative solutions to overcome coronavirus-related challenges. It is also the largest hackathon in the world. VideoWiki (“Video Wikipedia for Learners and Creators”) was one of the winning projects in the hackathon, being supported by the EUA members. It is a simple tool to create teaching content without any additional skills needed from the teachers' side. VideoWiki enables you to easily create content and make it available for everyone, with censorship protection through a Public Blockchain Network.",
         },
         {
           isImage: false,
           title: '#HackBack Overall Winner 2020',
+          url: "https://what-the-hack.co/hackback/",
           banner: require('@/assets/images/awards/hackbacklogo.svg'),
           description: "#HackBack, an online hackathon organised by What The Hack aims to address the needs of small to medium enterprises (SMEs) and startups during the recovery from Covid-19 crisis. Besides securing the first prize in #HackBack 2020, it has also been awarded for the user-friendly UX. VideoWiki platform is made keeping simplicity and ease of use in mind. It ensures continuous content consumption without any form of distraction or disturbance. The UI provides every needed tool in a simple step-by-step workflow which makes content-creation and consumption easy and effective.",
         },
         {
           isImage: false,
           title: '#And... the winner is out!',
+          url: "https://x.com/oceanprotocol/status/1654889932152885250?t=2lxJyg7ZaI6w4Zhg-EU_RQ&s=08",
           banner: require('@/assets/images/awards/oceanlogo.svg'),
           description: "Video Wiki is the very first decentralized video marketplace that uses Ocean & ChatGPT to autogenerate, publish & monetise content Congratulations to @VideoWiki_PT  for winning the $1000 DevChallenge announced at @PolkadotNowInd",
         },
         {
           isImage: true,
-          banner: require('@/assets/images/awards/meetingframe.svg'),
+          title: 'Startup, Stories, and Selfies: A Gratitude-Filled Reflection',
+          url: "https://www.linkedin.com/pulse/startup-stories-selfies-gratitude-filled-reflection-shivam-dhawan-j5ezf/?utm_source=share&utm_medium=member_android&utm_campaign=share_via",
+          banner: require('@/assets/images/awards/galp.jpg'),
         },
       ],
       news: [
         {
           image: require('@/assets/images/awards/news1.svg'),
           title: "#EUvsVIRUS Hackathon results: bringing solutions to Covid-19 challenges to the next level",
+          url: "https://www.eua.eu/partners-news/519-euvsvirus-hackathon-results-bringing-solutions-to-covid-19-challenges-to-the-next-level.html?utm_source=social&utm_medium=LinkedIn&utm_name=LinkedIn-social-10-6-2020",
           description: 'VideoWiki: defined as a "Video Wikipedia for Learners and Creators", this simple tool helps teachers create teaching content without any advanced knowledge of a tool or code.',
         },
         {
           image: require('@/assets/images/awards/news2.svg'),
           title: "VideoWiki “Video Wikipedia for Learners and Creators",
+          url: "https://hundred.org/en/innovations/videowiki-video-wikipedia-for-learners-and-creators",
           description: "We offer a tool for teachers. They copy-paste the content they want to convert to a video. A collaborative platform for learners and educators to secure learning continuity in times of restrictions and beyond.",
         },
         {
           image: require('@/assets/images/awards/news3.svg'),
           title: "Remote Working & Education - E-Learning methods & tools",
+          url: "https://eic.eismea.eu/challenges/solution/videowiki/about",
           description: "A collaborative platform for learners and educators to secure learning continuity in times of restrictions and beyond. A simple tool for teachers to create teaching content without any advanced knowledge of a tool or code.",
         },
         {
           image: require('@/assets/images/awards/news4.svg'),
           title: "UA Incubator Startup creates an award-winning automatic content scanning project",
+          url: "https://www.ua.pt/en/news/16/63381",
           description: "The VideoWiki - Video Wikipedia for Learners and Creators project consists of a platform that allows the automatic conversion of teaching content into appealing digital media.",
         },
         {
           image: require('@/assets/images/awards/news5.svg'),
           title: "Sustainable education through digital learning spaces",
+          url: "https://digieduhack.com/en/solutions/videowiki",
           description: "VideoWiki is an AI teaching assistant tool that quickly creates teaching courses in video format that can be shared online while streaming or sharing.",
         },
         {
           image: require('@/assets/images/awards/news6.svg'),
           title: "Awards.News.sustainable.remote",
+          url: "https://www.euvsvirus.org/finalreport.pdf",
           description: "A collaborative platform for learners and educators to secure learning continuity in times of restrictions and beyond. A simple tool for teachers to create teaching content without any advanced knowledge of a tool or code.",
         },
         {
           image: require('@/assets/images/awards/news7.svg'),
           title: "The Alternate Future Summit",
+          url: "https://www.linkedin.com/posts/thealternatefuture_creativity-personaldevelopment-motivation-activity-7120314541179101184-c8jH?utm_source=share&utm_medium=member_android",
           description: "It has been three weeks since the successful hosting of the inaugural in-person Alternate Future Summit at PCI · Creative Science Park Aveiro Region 🎉 We are delighted to inform you that the Summit was only the beginning. As our community continues to grow, we are committed to sharing our developments and initiatives with you. ",
         },
         {
           image: require('@/assets/images/awards/news8.svg'),
           title: "VideoWiki (TCH Protocol)",
+          url: "https://twitter.com/oceanprotocol/status/1356921263952977922",
           description: "An open content editing platform that powers the creation and monetization of content while prioritizing IP protection. The Team recognized the need for simple text-to-video content creation to benefit the rise of online learning and enable a more immersive learning experience.",
         },
       ]
@@ -362,7 +378,12 @@ export default {
 .awards-vcard-bigimg img {
   border-radius: 10px;
   width: 100%;
-  margin: 50px 20px 50px 0px;
+  margin: 50px 20px 10px 0px;
+}
+
+.awards-vcard-bigimg a {
+  cursor: pointer;
+  color: rgb(126, 126, 255);
 }
 
 .awards-rcard h3 {
@@ -384,7 +405,7 @@ export default {
   line-height: 22px;
 }
 
-.awards-rcard button {
+.awards-rcard a {
   color: #FFF;
   font-family: Karla;
   font-size: 13px;
@@ -509,7 +530,7 @@ export default {
   margin: 14px 0px;
 }
 
-.awards-nc-right button {
+.awards-nc-right a {
   color: #FFF;
   font-family: Karla;
   font-size: 13px;
