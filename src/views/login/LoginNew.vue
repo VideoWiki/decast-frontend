@@ -374,9 +374,9 @@ export default {
           })
           .then((response) => {
             console.log(5);
+            window.location.replace(response.data.redirect_to);
             this.$acl.change(this.activeUserInfo.userRole);
-            this.$router.push('/');
-            this.$vs.loading.close();
+            if (this.popup) this.$emit('loggedIn');
           });
       } else {
         this.$vs.notify({
