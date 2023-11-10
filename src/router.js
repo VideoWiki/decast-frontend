@@ -71,6 +71,14 @@ const router = new Router({
           },
         },
         {
+          path: '/achievements',
+          name: 'Awards',
+          component: () => import('./views/NewAwards.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
           path: '/room',
           name: 'Room',
           component: () => import('./views/classroom/Classroom.vue'),
