@@ -15,15 +15,34 @@
         <div class="mt-10">
           <div>
             <p>Helpful links</p>
-            <h5 class="cursor-pointer mt-8" style="color: #ffffff" @click="redirectToLink">
+            <h5
+              class="cursor-pointer mt-8"
+              style="color: #ffffff"
+              @click="redirectToLink"
+            >
               Features
             </h5>
             <h5 class="cursor-pointer mt-4" style="color: #ffffff">Faqs</h5>
+            <h5
+              class="cursor-pointer mt-4"
+              style="color: #ffffff"
+              @click="$router.push('/achievements')"
+            >
+              Achievements
+            </h5>
           </div>
           <div>
             <P>Contact us</P>
-            <h5 class="cursor-pointer mt-8" style="color: #ffffff">Contact Us</h5>
-            <h5 class="cursor-pointer mt-4" style="color: #ffffff">Work With Us</h5>
+            <h5
+              class="cursor-pointer mt-8"
+              style="color: #ffffff"
+              @click="redirect"
+            >
+              Contact Us
+            </h5>
+            <h5 class="cursor-pointer mt-4" style="color: #ffffff">
+              Work With Us
+            </h5>
           </div>
         </div>
       </div>
@@ -39,7 +58,13 @@
         <div class="mt-12">
           <p>Policy</p>
           <h5 class="cursor-pointer mt-8" style="color: #ffffff">Report</h5>
-          <h5 class="cursor-pointer mt-5" style="color: #ffffff">Privacy</h5>
+          <h5
+            class="cursor-pointer mt-5"
+            style="color: #ffffff"
+            @click="redirectTo"
+          >
+            Privacy
+          </h5>
         </div>
       </div>
     </div>
@@ -52,6 +77,12 @@ export default {
   methods: {
     redirectToLink() {
       window.open('https://fider.video.wiki/', '_blank');
+    },
+    redirectTo() {
+      window.open('https://video.wiki/contact-us', '_blank');
+    },
+    redirect() {
+      window.open('https://video.wiki/privacy-policy', '_blank');
     },
   },
 };
@@ -170,7 +201,7 @@ export default {
     width: 95%;
   }
 
-  h5{
+  h5 {
     cursor: pointer !important;
   }
 
