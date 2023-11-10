@@ -26,6 +26,8 @@
                   ? 'rgba(255, 255, 255, 0.8) '
                   : 'rgba(166, 166, 168, 0.8)',
             }"
+            ref="stepone"
+            :stepOneProps="stepOneProps"
             @click="activeTab = 'Set up'"
           >
             Set up
@@ -39,6 +41,8 @@
                   ? 'rgba(255, 255, 255, 0.8)'
                   : 'rgba(166, 166, 168, 0.8)',
             }"
+            :before-change="() => validateFormOne()"
+            :stepOneProps="stepOneProps"
             @click="activeTab = 'Branding'"
           >
             Branding
@@ -222,7 +226,7 @@ export default {
         welcome_text: '',
         showText: true,
         duration: '480',
-        logout_url: 'https://dev.stream.video.wiki/full',
+        logout_url: 'https://decast.live/dashboard',
       },
       stepThreeProps: {
         vw_stream: false,
@@ -256,6 +260,69 @@ export default {
   },
   mounted() {},
   methods: {
+    validateFormOne() {
+      if (
+        this.stepOneProps.event_name === '' ||
+        this.stepOneProps.description === '' ||
+        (this.stepOneProps.audienceAirdrop &&
+          this.stepOneProps.airdropType === 'NFTs' &&
+          (this.stepOneProps.mint_function_name === '' ||
+            this.stepOneProps.contract_address === '' ||
+            this.stepOneProps.aib === '' ||
+            this.stepOneProps.nft_description === '' ||
+            this.stepOneProps.nft_image === '')) ||
+        (this.stepOneProps.auth_type === 'private' &&
+          this.stepOneProps.send_otp === false &&
+          this.stepOneProps.password_auth === false) ||
+        (!this.stepOneProps.start_now &&
+          this.stepOneProps.schedule_time_error) ||
+        this.stepOneProps.invalidTimeError
+      ) {
+        this.stepOneProps.event_name_error =
+          this.stepOneProps.event_name === '';
+        this.stepOneProps.description_error =
+          this.stepOneProps.description === '';
+
+        if (
+          this.stepOneProps.audienceAirdrop &&
+          this.stepOneProps.airdropType === 'NFTs'
+        ) {
+          this.stepOneProps.mintfnc_name_error =
+            this.stepOneProps.mint_function_name === '';
+          this.stepOneProps.contract_address_error =
+            this.stepOneProps.contract_address === '';
+          this.stepOneProps.aib_error = this.stepOneProps.aib === '';
+          this.stepOneProps.nft_image_error =
+            this.stepOneProps.nft_image === '';
+          this.stepOneProps.nft_description_error =
+            this.stepOneProps.nft_description === '';
+        }
+
+        if (
+          this.stepOneProps.auth_type === 'private' &&
+          this.stepOneProps.send_otp === false &&
+          this.stepOneProps.password_auth === false
+        ) {
+          this.stepOneProps.meeting_auth_error = true;
+          // Here, adjust stepOneProps based on the 'private' auth_type
+          this.stepOneProps.moderator_password = '';
+          // Add more properties to reset as necessary
+        }
+
+        this.stepOneProps.public_nft_flow =
+          this.stepOneProps.public_stream_nfts === 'true';
+        this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
+        return false;
+      } else {
+        this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
+        this.stepOneProps.public_nft_flow =
+          this.stepOneProps.public_stream_nfts === 'true';
+        window.scroll(0, 0);
+        localStorage.setItem('Step1', JSON.stringify(this.stepOneProps));
+        return true;
+      }
+    },
+
     changeActiveTab(tab) {
       this.activeTab = tab;
     },
@@ -263,7 +330,10 @@ export default {
       this.status = newStatus;
     },
     createCast() {
-      this.formSubmitted();
+      if (this.validateFormOne) {
+        console.log('success validated');
+        this.formSubmitted();
+      }
     },
     setCreateEventData() {
       console.log('12');
@@ -334,7 +404,8 @@ export default {
     formSubmitted() {
       console.log(
         this.stepFourProps.record,
-        this.stepFourProps.start_stop_recording
+        this.stepFourProps.start_stop_recording,
+        this.stepOneProps
       );
       this.stepFourProps.start_stop_recording = this.stepFourProps.record;
       this.stepFourProps.allow_start_stop_recording = this.stepFourProps.record;

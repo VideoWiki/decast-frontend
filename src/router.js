@@ -71,6 +71,14 @@ const router = new Router({
           },
         },
         {
+          path: '/achievements',
+          name: 'Awards',
+          component: () => import('./views/NewAwards.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
           path: '/room',
           name: 'Room',
           component: () => import('./views/classroom/Classroom.vue'),
@@ -372,9 +380,25 @@ const router = new Router({
       },
     },
     {
+      path: '/middlepart',
+      name: 'middlepart',
+      component: () => import('@/views/HomePage/MiddlePart.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/privatecast',
       name: 'JoinPrivateCast',
       component: () => import('@/views/dashboard/JoinPrivateCast.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/NftBox',
+      name: 'NftBox',
+      component: () => import('@/views/dashboard/NftBox.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -397,7 +421,7 @@ const router = new Router({
     },
 
     {
-      path: '/dashboard',
+      path: '/manage',
       name: 'Dashboard',
       component: () => import('./views/dashboard/Dashboard.vue'),
       meta: {
@@ -429,7 +453,7 @@ const router = new Router({
       },
     },
     {
-      path: '/full',
+      path: '/dashboard',
       name: 'FullDashBoard',
       component: () => import('./views/dashboard/FullDashboard.vue'),
       meta: {
@@ -452,6 +476,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
+    // {
+    //   path: '/fall',
+    //   name: 'FallBox',
+    //   component: () => import('./views/dashboard/FallBox.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/nftw',
       name: 'NftWallet',

@@ -255,17 +255,6 @@
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
                 </p>
                 <p>{{ recording.room_name }}</p>
-                <p>
-                  {{
-                    recording.url['Playback Data']['Playback Size'].split(
-                      '.'
-                    )[0] +
-                    ' ' +
-                    recording.url['Playback Data']['Playback Size'].split(
-                      ' '
-                    )[1]
-                  }}
-                </p>
               </div>
 
               <button
@@ -306,6 +295,21 @@
                   <img src="@/assets/images/copy.svg" />
                   Copy Link
                 </button>
+
+                <button
+                  @mouseover="toggleEditTool(index)"
+                  @mouseleave="toggleEditTool(index)"
+                  @click="editRecord(recording)"
+                >
+                  <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
+                </button>
+                <div class="tooltip2" v-if="showTooltip3 === index">
+                  <div>
+                    The recording may require some time for processing. If it
+                    doesn't work, please try again later.
+                  </div>
+                  <div class="triangle"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -389,6 +393,7 @@ export default {
       createPopup: false,
       focusYourRooms: true,
       showTooltip: [],
+      showTooltip3: false,
       items: [
         { title: 'Click Me' },
         { title: 'Click Me' },
@@ -439,6 +444,9 @@ export default {
       // Check if the screen width is below the mobile breakpoint
       this.isMobileView = window.innerWidth < mobileBreakpoint;
     },
+    toggleEditTool(index) {
+      this.showTooltip3 = this.showTooltip3 === index ? null : index;
+    },
     truncateText(text, maxLength) {
       if (text.length > maxLength) {
         return text.slice(0, maxLength) + '...';
@@ -463,13 +471,17 @@ export default {
         this.createPopup = false;
       }
     },
-    openRecording(room) {
-      this.$router.push(`/recording/${room.url['Record ID']}`);
+    openRecording(recording) {
+      // this.$router.push(`/recording/${recording.url['Record ID']}`);
+      console.log(recording, 'mmmmmmm');
+      const playbackURL =
+        recording.url['Playback Data']['Playback URL'] + '/video-0.m4v';
+      window.open(playbackURL, '_blank');
       // window.location.href = '/recording/' + room.url['Record ID'];
     },
     copyRecording(room, index) {
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/recording/' + room.url['Record ID']
+        'https://api.room.video.wiki/recording/' + room.url['Record ID']
       );
       this.$set(
         this.recordings[index],
@@ -477,11 +489,20 @@ export default {
         !this.recordings[index].showPopup
       );
     },
+    editRecord(recording) {
+      // console.log(recording,'pppp');
+      const meetingId = recording.url['Record ID'];
+      console.log(meetingId, 'mid');
+      setTimeout(() => {
+        const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
+        window.open(url, '_blank');
+      }, 2000);
+    },
     copy(url) {
       let id = url.split('/');
       id = id[id.length - 1];
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/join-room/' + id
+        'https://decast.live/join-room/' + id
       );
     },
     createRoom() {
@@ -572,7 +593,7 @@ export default {
     deleteRoom(room) {
       const options = {
         method: 'DELETE',
-        url: 'https://dev.api.room.video.wiki/api/delete/room/',
+        url: 'https://api.room.video.wiki/api/delete/room/',
         data: { public_meeting_id: room.room_url.split('/').pop() },
       };
 
@@ -601,7 +622,7 @@ export default {
     shareRoom() {
       const options = {
         method: 'POST',
-        url: 'https://dev.api.room.video.wiki/api/share/room/',
+        url: 'https://api.room.video.wiki/api/share/room/',
         data: {
           public_id: this.roomUrl.split('/').pop(),
           user: this.email,
@@ -730,7 +751,7 @@ export default {
 .room-popup > button {
   display: flex;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   gap: 7px;
   background-color: #1f272f;
   border: none;
@@ -837,6 +858,35 @@ export default {
 .tooltip-button:hover + .tooltip {
   display: block;
 }
+.tooltip2 {
+  position: absolute;
+  z-index: 5;
+  color: #a6a6a8;
+  display: flex;
+  align-items: center;
+  background-color: none;
+  background: transparent;
+  pointer-events: none;
+  top: 30px;
+  right: 7rem;
+  width: 265px;
+}
+.tooltip2 div:nth-child(1) {
+  background-color: #31394e;
+  display: flex;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 5px;
+}
+.triangle {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+  border-left: 10px solid #31394e;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  margin: auto;
+}
 
 .popup {
   height: 100vh;
@@ -857,9 +907,8 @@ export default {
 
 .options-container {
   margin-top: 30px;
-  height: 303px;
-  padding-top: 0;
-  overflow-y: scroll;
+  height: 58vh;
+  overflow:auto;
 }
 
 .options-container::-webkit-scrollbar {
@@ -867,7 +916,7 @@ export default {
 }
 
 .options-container::-webkit-scrollbar-thumb {
-  background-color: #31394e;
+  background-color: #31394e !important;
   border-radius: 4px;
   height: 10px;
 }
@@ -1056,18 +1105,8 @@ body {
     margin-top: 20px;
     height: 43vh !important;
     padding-top: 0;
-    overflow-y: scroll;
+    overflow: auto;
     padding-bottom: 10px !important;
-  }
-
-  .options-container::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  .options-container::-webkit-scrollbar-thumb {
-    background-color: #31394e;
-    border-radius: 4px;
-    height: 6px;
   }
 
   .sub-heading {
@@ -1087,7 +1126,7 @@ body {
 
   .options-container {
     height: 200px;
-    overflow-y: scroll;
+    overflow: auto;
     overflow-x: hidden;
     margin-top: 30px;
     margin-bottom: 10px;
@@ -1103,8 +1142,8 @@ body {
     min-width: 250px;
   }
 
-  .centered-container{
-    margin-top:-20rem !important  ;
+  .centered-container {
+    margin-top: -20rem !important  ;
   }
   .popup {
     width: 100%;

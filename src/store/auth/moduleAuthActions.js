@@ -13,6 +13,38 @@ import router from '@/router';
 import axios from '@/axios.js';
 
 export default {
+  sendingOtp({ commit }, payload) {
+    const { email, meeting_id } = payload;
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          `${constants.apiCastUrl}/api/event/send/otp/?email=${email}&cast_id=${meeting_id}`
+        )
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((error) => {
+          reject(error);
+          console.log(error);
+        });
+    });
+  },
+  verifyingOtp({ commit }, payload) {
+    const { email, otp, meeting_id } = payload;
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          `${constants.apiCastUrl}/api/event/validate/otp/?email=${email}&cast_id=${meeting_id}&otp=${otp}`
+        )
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((error) => {
+          reject(error);
+          console.log(error);
+        });
+    });
+  },
   async otpSent({ commit }, payload) {
     const email = payload.email;
     const userDetails = {
@@ -24,12 +56,11 @@ export default {
         constants.apiUrl + `/api/send_otp/`,
         userDetails
       );
-      console.log('resObj', resObj.data);
+      console.log('resObj is', resObj.data);
       return true;
     } catch (err) {
+      console.log(err);
       return false;
-      console.log('not hello');
-      throw err;
     }
   },
   login({ commit }, payload) {

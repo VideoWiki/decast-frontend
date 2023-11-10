@@ -1,6 +1,6 @@
 <template>
   <div class="landing">
-    <div class="nav-cont">
+    <div :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }">
       <nav>
         <div class="wiki-logo">
           <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" />
@@ -15,7 +15,11 @@
         </div>
 
         <div class="log-cont">
-          <div class="child-1 cursor-pointer" @click="open">
+          <div
+            class="cursor-pointer"
+            :class="{ 'child-1': true, 'slog-cont': isNavbarScrolled }"
+            @click="open"
+          >
             <button>Login</button>
             <div class="vertical-line sideOne"></div>
             <button>Signup</button>
@@ -26,35 +30,257 @@
         </div>
       </nav>
     </div>
-    <!-- <div class=""><img src="@/assets/images/Home.jpg" class="img" /></div> -->
     <div class="home-cont">
-      <div class="cont-1">
-        <img id="img-1" src="@/assets/images/leftPart.svg" />
+      <div class="ijdk">
+        <div class="cont-2">
+          <div class="op-1">
+            <h1 id="head-id" :style="{ fontSize: dynamicFontSize2 }">
+              Cast your content
+            </h1>
+            <h1 id="head-id" :style="{ fontSize: dynamicFontSize2 }">
+              from the future!
+            </h1>
+          </div>
+          <div class="op-2 mt-2">
+            <p>
+              We re-engineered the service we built for secure business
+              meetings,
+            </p>
+            <p>Cast Meet, to make it free and available for all.</p>
+          </div>
+          <div class="op-3">
+            <button><img src="@/assets/images/meet.svg" />New Meeting</button>
+            <button>
+              <img src="@/assets/images/key.svg" />Enter a code or link
+            </button>
+          </div>
+        </div>
+
+        <div class="cont-3" @scroll="handleScroll">
+          <div class="vid-cont" :style="borderStyle">
+            <img src="@/assets/images/vidi.svg" />
+            <!-- <button><img src="@/assets/images/vid.svg" /></button> -->
+          </div>
+        </div>
       </div>
-      <div class="cont-2">
-        <div class="op-1">
-          <h1>Cast your content</h1>
-          <h1>from the future!</h1>
+    </div>
+
+    <div class="slider">
+      <div class="slide-track">
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Book more meetings</span>
         </div>
-        <div class="op-2 mt-2">
-          <p>
-            We re-engineered the service we built for secure business meetings,
-          </p>
-          <p>Cast Meet, to make it free and available for all.</p>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Make meaningful connections</span>
         </div>
-        <div class="op-3">
-          <button><img src="@/assets/images/meet.svg" />New Meeting</button>
-          <button>
-            <img src="@/assets/images/key.svg" />Enter a code or link
-          </button>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Collaborate instantly</span>
         </div>
-        <div class="op-4">
-          <img src="@/assets/images/homeSlide.svg" />
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Book more meetings</span>
+        </div>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Make meaningful connections</span>
+        </div>
+        <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+          <span>Collaborate instantly</span>
         </div>
       </div>
-      <div class="cont-3">
-        <img id="img-2" src="@/assets/images/rightPart.svg" />
+    </div>
+
+    <div class="sticky3_parent">
+      <div class="sticky3">
+        <div class="scroll_section">
+          <div class="cont-contain">
+            <div class="text">
+              <h1 :style="{ fontSize: dynamicFontSize3 }">Why use</h1>
+              <h1 :style="{ fontSize: dynamicFontSize3 }">Cast?</h1>
+            </div>
+            <div class="ima-cont" v-for="image in images" :key="image">
+              <img :src="image" alt="product" />
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="mid-cont" ref="fallboxContainer">
+      <h1 :style="{ fontSize: dynamicFontSize }">Trusted by 4000+</h1>
+      <h1 :style="{ fontSize: dynamicFontSize }">Students and Professionals</h1>
+      <div class="fallbox-container">
+        <div class="fall-child1">
+          <div
+            v-for="(box2, index) in boxes2"
+            :key="index"
+            class="fallbox2"
+            :style="box2.style"
+            draggable="true"
+            @dragstart="dragStart(index)"
+            @dragover="dragOver(index)"
+            @drop="drop(index)"
+          >
+            {{ box2.text }}
+          </div>
+        </div>
+
+        <div class="fall-child2">
+          <div
+            v-for="(box, index) in boxes"
+            :key="index"
+            class="fallbox"
+            :style="box.style"
+            draggable="true"
+            @dragstart="dragStart(index, $event)"
+            @dragover="dragOver(index)"
+            @drop="drop(index)"
+          >
+            {{ box.text }}
+          </div>
+        </div>
+
+        <div class="fall-child3">
+          <div
+            v-for="(box1, index) in boxes1"
+            :key="index"
+            class="fallbox1"
+            :style="box1.style"
+            draggable="true"
+            @dragstart="dragStart(index)"
+            @dragover="dragOver(index)"
+            @drop="drop(index)"
+          >
+            {{ box1.text }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-cont">
+      <div class="testm-cont" ref="container">
+        <div
+          class="rev-cont"
+          v-for="(testimonial, index) in testimonials"
+          :key="index"
+        >
+          <div class="testimonial">
+            <img :src="testimonial.image" alt="Testimonial Image" />
+            <h2>{{ testimonial.comment }}</h2>
+            <h3>
+              {{ testimonial.name }}<span> - {{ testimonial.profession }}</span>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="btn-cont">
+        <button @click="handleScrollLeft">
+          <img src="@/assets/images/left.svg" />
+        </button>
+        <button @click="handleScrollRight">
+          <img src="@/assets/images/right.svg" />
+        </button>
+      </div>
+    </div>
+
+    <div class="logos">
+      <div class="logos-slide">
+        <img src="@/assets/images/homepage/aws.svg" />
+        <img src="@/assets/images/homepage/nor.svg" />
+        <img src="@/assets/images/homepage/coke.svg" />
+      </div>
+      <div class="logos-slide">
+        <img src="@/assets/images/homepage/aws.svg" />
+        <img src="@/assets/images/homepage/nor.svg" />
+        <img src="@/assets/images/homepage/coke.svg" />
+      </div>
+      <div class="logos-slide">
+        <img src="@/assets/images/homepage/aws.svg" />
+        <img src="@/assets/images/homepage/nor.svg" />
+        <img src="@/assets/images/homepage/coke.svg" />
+      </div>
+    </div>
+
+    <div class="step-cont">
+      <div class="head1">
+        <h1 :style="{ fontSize: dynamicFontSize }">
+          <span style="color: #d7df23">Three </span>
+          <span
+            style="
+              background-color: #31a2f4;
+              padding: 0px 15px 10px 15px;
+              border-radius: 40px;
+            "
+            >easy</span
+          >
+          steps
+        </h1>
+        <h1 :style="{ fontSize: dynamicFontSize }">to setup your Cast call</h1>
+      </div>
+      <div class="hov-cont">
+        <div class="idk-1">
+          <div class="idk-child mt-3">
+            <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
+              1.
+            </h1>
+            <h1
+              :style="{
+                fontSize: dynamicFontSize,
+                background:
+                  'linear-gradient(45deg, #f12711, #f5af19,#ff416c, #ff4b2b)',
+                '-webkit-background-clip': 'text',
+                'background-clip': 'text',
+                color: 'transparent',
+                fontWeight: 700,
+              }"
+            >
+              Fill up your basic cast details
+            </h1>
+          </div>
+          <div class="idk-child mt-10">
+            <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
+              2.
+            </h1>
+            <h1
+              :style="{
+                fontSize: dynamicFontSize,
+                background:
+                  'linear-gradient(45deg,#8a2387, #da4453, #89216b, #3c1053)',
+                '-webkit-background-clip': 'text',
+                'background-clip': 'text',
+                color: 'transparent',
+                fontWeight: 700,
+              }"
+            >
+              Fill up your basic cast details
+            </h1>
+          </div>
+          <div class="idk-child mt-10">
+            <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
+              3.
+            </h1>
+            <h1
+              :style="{
+                fontSize: dynamicFontSize,
+                background:
+                  'linear-gradient(45deg, #a8c0ff, #3f2b96,#4e54c8, #8f94fb)',
+                '-webkit-background-clip': 'text',
+                'background-clip': 'text',
+                color: 'transparent',
+                fontWeight: 700,
+              }"
+            >
+              Fill up your basic cast details
+            </h1>
+          </div>
+        </div>
+        <div class="step-vid-cont">
+          <div>
+            <img src="@/assets/images/cast.svg" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <FootSec />
     </div>
     <div :class="{ 'close-container': iframe, hidden: !iframe }">
       <loading />
@@ -67,11 +293,88 @@
 <script>
 import constants from '../../constant';
 import Loading from './Loading.vue';
+import FootSec from './FootSec.vue';
 
 export default {
+  name: 'NewLanding',
   data() {
     return {
       iframe: false,
+      isNavbarScrolled: false,
+      scrollPosition: 0,
+      testimonials: [
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+      ],
+      boxes: [],
+      boxTexts: [
+        'my superpowers',
+        'Awesome!',
+        'Perfect!',
+        'Amazing!',
+        'Unreal',
+        'Super!',
+        'Next-level',
+      ],
+      boxes1: [],
+      boxTexts1: ['Incredible', 'Fantastic', 'Whoa'],
+      boxes2: [],
+      boxTexts2: ['Mind-blowingly', 'Insane', 'Cool'],
+      images: [
+        require('@/assets/images/homepage/img1.svg'),
+        require('@/assets/images/homepage/img2.svg'),
+        require('@/assets/images/homepage/img3.svg'),
+        require('@/assets/images/homepage/img4.svg'),
+        require('@/assets/images/homepage/img5.svg'),
+      ],
+      draggedBoxIndex: null,
     };
   },
   computed: {
@@ -81,9 +384,63 @@ export default {
     loggedIn() {
       return this.$store.state.auth.loggedIn;
     },
+    dynamicFontSize() {
+      const scalingFactor = 5;
+      const viewportWidth = window.innerWidth;
+      const minFontSize = 14;
+
+      if (viewportWidth < 499) {
+        return `${minFontSize}vw`;
+      } else {
+        const fontSize = `${scalingFactor}vw`;
+        return fontSize;
+      }
+    },
+    dynamicFontSize2() {
+      const scalingFactor = 4;
+      const viewportWidth = window.innerWidth;
+      const minFontSize = 14;
+
+      if (viewportWidth < 499) {
+        return `${minFontSize}vw`;
+      } else {
+        const fontSize = `${scalingFactor}vw`;
+        return fontSize;
+      }
+    },
+    dynamicFontSize3() {
+      const scalingFactor = 8;
+      const viewportWidth = window.innerWidth;
+      const minFontSize = 16;
+
+      if (viewportWidth < 499) {
+        return `${minFontSize}vw`;
+      } else {
+        const fontSize = `${scalingFactor}vw`;
+        return fontSize;
+      }
+    },
+    borderStyle() {
+      const maxBorderSize = 250;
+      const maxScroll = 400;
+      const borderSize = Math.min(
+        (this.scrollPosition / maxScroll) * maxBorderSize * 3,
+        maxBorderSize
+      );
+      const style = {
+        border: `${borderSize}px solid #D7DF23`,
+        backgroundColor: `#D7DF23`,
+      };
+      console.log('Computed border style:', style);
+      return style;
+    },
+    generateRandomGradient() {
+      return `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`;
+    },
   },
   components: {
     Loading,
+    FootSec,
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
@@ -125,10 +482,24 @@ export default {
         this.$store.dispatch('auth/fetched');
         this.$acl.change('user');
         this.$store.commit('auth/SET_LOGGEDIN', true);
-        this.$router.push('/full');
+        this.$router.push('/dashboard');
         this.url = '';
       }
     });
+    this.setupIntersectionObserver();
+    // this.createFallingBoxes();
+    // this.createFallingBoxes1();
+    // this.createFallingBoxes2();
+    window.addEventListener('scroll', this.handleScroll2);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll2);
+  },
+  created() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     open() {
@@ -142,51 +513,506 @@ export default {
       // console.log(this.iframe);
       // window.location.href = constants.challengeUri;
     },
+    handleScroll(event) {
+      console.log('Scrolling...');
+      const scrollPosition = window.scrollY;
+      this.scrollPosition = event.target.documentElement.scrollTop;
+      const threshold = 10; // Adjust this threshold as needed
+      if (scrollPosition > threshold) {
+        this.isNavbarScrolled = true;
+      } else {
+        this.isNavbarScrolled = false;
+      }
+    },
+    handleScroll2() {
+      const sticky3Sections = [...document.querySelectorAll('.sticky3')];
+      for (let i = 0; i < sticky3Sections.length; i++) {
+        this.transform(sticky3Sections[i]);
+      }
+    },
+    transform(section) {
+      if (window.innerWidth > 720) {
+        const offsetTop = section.parentElement.offsetTop;
+        const scrollSection = section.querySelector('.scroll_section');
+        let percentage =
+          ((window.scrollY - offsetTop) / window.innerHeight) * 100;
+        percentage = percentage < 0 ? 0 : percentage > 400 ? 400 : percentage;
+        scrollSection.style.transform = `translate3d(${-percentage}vw, 0, 0)`;
+      }
+    },
+
+    handleScrollLeft() {
+      const container = this.$refs.container;
+      const scrollAmount = window.innerWidth; // Use 100vw equivalent
+      container.scrollLeft -= scrollAmount;
+    },
+    handleScrollRight() {
+      const container = this.$refs.container;
+      const scrollAmount = window.innerWidth; // Use 100vw equivalent
+      container.scrollLeft += scrollAmount;
+    },
+    getRandomColor() {
+      const colorShades = {
+        red: ['#FF5733', '#FF2400', '#FF5C5C', '#FF6F61'],
+        blue: ['#33A1DE', '#4F86F7', '#62A9E3', '#45A6CA'],
+        green: ['#4CAF50', '#00B894', '#5DBB63', '#17A05E'],
+        purple: ['#9B59B6', '#8E44AD', '#C56CF0', '#7A6C5D'],
+        orange: ['#FFA726', '#FFD600', '#FFB83C', '#FFB74D'],
+        violet: ['#663399', '#9370DB', '#A569BD', '#9B59B6'],
+      };
+
+      const colorCategory =
+        Object.keys(colorShades)[
+          Math.floor(Math.random() * Object.keys(colorShades).length)
+        ];
+
+      const randomShade =
+        colorShades[colorCategory][
+          Math.floor(Math.random() * colorShades[colorCategory].length)
+        ];
+
+      return randomShade;
+    },
+    setupIntersectionObserver() {
+      const container = this.$refs.fallboxContainer;
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          this.createFallingBoxes();
+          this.createFallingBoxes1();
+          this.createFallingBoxes2();
+          observer.unobserve(container);
+        }
+      });
+      observer.observe(container);
+    },
+    createFallingBoxes() {
+      for (let i = 0; i < 7; i++) {
+        const delay = Math.random() * 2 + 0.2;
+        const duration = Math.random() * 2;
+        const leftPosition = Math.random() * 90 + 'vw';
+        const rotation = Math.round(Math.random() * 20);
+        console.log(rotation, 'rot');
+
+        const textIndex = Math.floor(Math.random() * this.boxTexts.length);
+        const text = this.boxTexts[textIndex];
+        this.boxTexts.splice(textIndex, 1);
+
+        const box = {
+          style: {
+            left: leftPosition,
+            top: '0vh',
+            animationDuration: duration + 's',
+            animationDelay: delay + 's',
+            background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
+            transform: `rotate(${rotation}deg)`,
+          },
+          text: text,
+        };
+        this.boxes.push(box);
+      }
+    },
+    dragStart(index, event) {
+      this.draggedBoxIndex = index;
+
+      event.dataTransfer.setData('text/plain', index);
+
+      event.dataTransfer.setDragImage(new Image(), 0, 0);
+    },
+
+    dragOver(index) {
+      event.preventDefault();
+    },
+
+    drop(index) {
+      event.preventDefault();
+      const draggedIndex = event.dataTransfer.getData('text/plain');
+      if (this.draggedBoxIndex !== null) {
+        const draggedBox = this.boxes[this.draggedBoxIndex];
+        this.boxes.splice(this.draggedBoxIndex, 1);
+        this.boxes.splice(index, 0, draggedBox);
+        this.draggedBoxIndex = null;
+      }
+    },
+    createFallingBoxes1() {
+      for (let i = 0; i < 3; i++) {
+        const delay = Math.random() * 2 + 0.3;
+        const duration = Math.random() * 2 + 0.4;
+        const leftPosition = Math.random() * 90 + 'vw';
+        const rotation = Math.round(Math.random() * 20);
+        console.log(rotation, 'rot');
+
+        const textIndex1 = Math.floor(Math.random() * this.boxTexts1.length);
+        const text = this.boxTexts1[textIndex1];
+        this.boxTexts1.splice(textIndex1, 1);
+
+        const box1 = {
+          style: {
+            left: leftPosition,
+            top: '0vh',
+            animationDuration: duration + 's',
+            animationDelay: delay + 's',
+            background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
+            transform: `rotate(${rotation}deg)`,
+          },
+          text: text,
+        };
+        this.boxes1.push(box1);
+      }
+    },
+    createFallingBoxes2() {
+      for (let i = 0; i < 3; i++) {
+        const delay = Math.random() * 2 + 0.1;
+        const duration = Math.random() * 2;
+        const leftPosition = Math.random() * 90 + 'vw';
+        const rotation = Math.round(Math.random() * 20);
+        console.log(rotation, 'rot');
+
+        const textIndex2 = Math.floor(Math.random() * this.boxTexts2.length);
+        const text = this.boxTexts2[textIndex2];
+        this.boxTexts2.splice(textIndex2, 1);
+
+        const box2 = {
+          style: {
+            left: leftPosition,
+            top: '0vh',
+            animationDuration: duration + 's',
+            animationDelay: delay + 's',
+            background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
+            transform: `rotate(${rotation}deg)`,
+          },
+          text: text,
+        };
+        this.boxes2.push(box2);
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
 .home-cont {
-  display: flex;
-  justify-content: space-between;
+  /* background: #000000; */
+  background-image: url('../assets/images/leftPart.svg'),
+    url('../assets/images/rightPart.svg');
+  background-position: left, right;
+  background-repeat: no-repeat, no-repeat;
+  background-size: contain, contain;
   width: 100%;
-  height: 100%;
-  /* overflow: hidden; */
+  height: 100vh;
+  /* border: 1px solid white; */
 }
-
-.cont-3,
-.cont-2,
-.cont-1 {
+.ijdk {
+  display: flex;
+  width: 85%;
+  justify-content: space-between;
+  margin: auto;
+}
+.cont-2 {
   height: auto;
+  z-index: 5 !important;
 }
 
 .cont-2 {
-  padding-top: 6rem;
+  padding-top: 8rem;
 }
 
-.cont-1 {
-  padding-top: 5rem;
-  /* min-width: 220px; */
-  width: auto;
+.mid-cont {
+  margin: auto;
+  width: 95%;
+  margin-top: 8rem;
+  /* border: 1px solid yellow; */
 }
 
-#img-1,
-#img-2 {
-  max-height: 70vh;
+.mid-cont h1 {
+  color: #d7df23;
+  /* font-size: 90px; */
+  text-align: center;
+  font-weight: 700;
+  width: 80%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.fallbox-container {
   width: 100%;
-  /* min-width: 210px; */
+  position: relative;
+  height: 60vh;
+  margin: auto;
+  padding-bottom: 10px;
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
 }
 
-.op-1,
-.op-2 {
+.fallbox-container > div {
+  /* border: 1px solid yellow; */
+  display: flex;
+  width: 100%;
+  margin: auto;
+  height: 20vh;
+  gap: 1rem;
+}
+
+.fallbox-container > div:nth-child(1) {
+  justify-content: flex-end;
+  width: 90%;
+}
+
+.fall-child1 > div:nth-child(2) {
+  animation: fallbox-fall5 linear both;
+  transition: 0.3s ease;
+  /* animation-delay: 0.5ms; */
+  transform-origin: center bottom;
+}
+
+@keyframes fallbox-fall5 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(3vh) rotate(45deg);
+  }
+
+  50% {
+    transform: translateY(6vh) rotate(90deg);
+  }
+
+  75% {
+    transform: translateY(8vh) rotate(135deg);
+  }
+
+  100% {
+    transform: translateY(10vh) rotate(180deg);
+  }
+}
+
+.fall-child1 > div:nth-child(3) {
+  animation: fallbox-fall4 linear both;
+  animation-delay: 0.3ms;
+  /* margin-left: -20px; */
+  transform-origin: center bottom;
+  /* border: 1px solid red; */
+}
+
+@keyframes fallbox-fall4 {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(22vh) rotate(45deg);
+  }
+}
+
+.fall-child3 {
+  justify-content: center;
+}
+
+.fall-child3 > div:nth-child(3) {
+  margin-left: 12rem;
+}
+
+.fallbox {
+  /* position: absolute; */
+  width: fit-content !important;
+  height: fit-content !important;
+  padding: 20px 30px;
+  text-align: center;
+  border-radius: 35px;
+  color: white;
+  /* display: flex !important;
+  flex-wrap: nowrap; */
+  align-items: center !important;
+  justify-content: center;
+  font-size: large;
+  font-weight: bold;
+  animation: fallbox-fall linear both;
+  transform-origin: center bottom;
+  cursor: pointer;
+}
+
+@keyframes fallbox-fall {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(14vh);
+  }
+}
+
+.fallbox2 {
+  /* position: absolute; */
+  width: fit-content !important;
+  height: fit-content !important;
+  padding: 20px 30px;
+  text-align: center;
+  border-radius: 35px;
+  color: white;
+  /* display: flex !important;
+  flex-wrap: nowrap; */
+  align-items: center !important;
+  justify-content: center;
+  font-size: large;
+  font-weight: bold;
+  animation: fallbox-fall2 linear both;
+  transform-origin: center bottom;
+  cursor: pointer;
+}
+
+@keyframes fallbox-fall2 {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(20vh);
+  }
+}
+
+.fallbox1 {
+  /* position: absolute; */
+  width: fit-content !important;
+  height: fit-content !important;
+  padding: 20px 30px;
+  text-align: center;
+  border-radius: 35px;
+  color: white;
+  /* display: flex !important;
+  flex-wrap: nowrap; */
+  align-items: center !important;
+  justify-content: center;
+  font-size: large;
+  font-weight: bold;
+  animation: fallbox-fall1 linear both;
+  transform-origin: center bottom;
+  cursor: pointer;
+}
+
+@keyframes fallbox-fall1 {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(8vh);
+  }
+}
+
+.cont-3 {
+  width: 400px;
+  height: 400px;
+  /* overflow: hidden; */
+  position: relative;
+  margin-top: 6rem;
+  /* flex-direction: column-reverse; */
+  /* border: 1px solid red; */
+}
+.cont-3 .vid-cont {
+  min-height: 300px !important;
+  min-width: 300px !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  /* margin: auto !important; */
+  top: 50% !important;
+  left: 50% !important;
+  transition: border 0.3s ease !important;
+  transform-origin: center !important;
+  transform: translate(-50%, -50%) !important;
+  position: absolute !important;
+  z-index: 2 !important;
+  border-radius: 50% !important;
+  cursor: pointer;
+}
+
+.step-cont {
+  width: 85%;
+  /* border: 1px solid yellow; */
+  margin: auto;
+  margin-top: 10rem;
+  max-width: 1200px;
+}
+
+.head1 {
   margin: auto;
   width: fit-content;
   text-align: center;
 }
 
+.head1 h1 {
+  color: #ffffff;
+}
+
+.hov-cont {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6rem;
+}
+
+.idk-1 {
+  /* border: 1px solid red; */
+  margin-top: 4rem;
+  width: fit-content;
+  max-width: 40%;
+}
+
+.step-vid-cont > div {
+  position: sticky;
+  /* max-width: 600px; */
+  padding: 35px;
+  margin: auto;
+  top: 8rem;
+  width: auto;
+  border-radius: 20px;
+  height: auto;
+  background-image: url('../assets/images/d.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  background-color: #f1f1f1;
+  animation: backgroundAnimation 5s linear infinite;
+}
+
+.step-vid-cont > div > img {
+  width: auto;
+  height: auto;
+  max-width: 550px;
+  margin: auto;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-color: #f5af19;
+  }
+  20% {
+    background-color: #da4453;
+  }
+  40% {
+    background-color: #ff335f;
+  }
+  60% {
+    background-color: #3f2b96;
+  }
+  80% {
+    background-color: #8f94fb;
+  }
+  100% {
+    background-color: #5733ff;
+  }
+}
+
+.vid-cont img {
+  /* display: none; */
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
+  /* position: fixed; */
+  /* margin: auto; */
+}
+.op-1,
+.op-2 {
+  width: fit-content;
+  text-align: left;
+}
+
 .op-1 h1 {
-  font-size: 60px;
   color: #a6a6a8;
   font-weight: 700;
 }
@@ -199,10 +1025,9 @@ export default {
 
 .op-3 {
   display: flex;
-  margin: auto;
   gap: 10px;
   width: fit-content;
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .op-3 button:nth-child(1) {
@@ -212,7 +1037,7 @@ export default {
   width: 180px;
   height: 40px;
   background-color: #d7df23;
-  font-size: 13px;
+  font-size: 2xl;
   font-style: italic;
   align-items: center;
   font-weight: 600;
@@ -229,7 +1054,7 @@ export default {
   width: 250px;
   height: 40px;
   background-color: #181a20;
-  font-size: 13px;
+  font-size: 2xl;
   font-style: italic;
   color: #a6a6a6;
   font-weight: 600;
@@ -237,18 +1062,7 @@ export default {
   border-radius: 4px;
   cursor: pointer;
 }
-.op-4 {
-  margin: auto;
-  max-width: 800px;
-  width: fit-content;
-  margin-top: 20px;
-}
 
-.op-4 img {
-  /* width: auto; */
-  width: 700px;
-  height: auto;
-}
 .iframe {
   position: absolute;
   border: 1px solid #31394e;
@@ -262,40 +1076,80 @@ export default {
   overflow: hidden;
 }
 
-.butt {
-  background: #d7df23;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 5px;
-  color: #1f272f;
-  font-weight: 700;
-  font-size: 12px;
-}
-.img {
-  width: 98vw;
-  height: 83vh;
+.landing {
+  height: auto;
+  width: 100%;
+  background-image: linear-gradient(180deg, #000, #111, #222);
+  /* overflow-x: hidden; */
+  /* background: -webkit-linear-gradient(to bottom,#302f2f,#222121); 
+  background: linear-gradient(to bottom,#000000,#000000,#000000,#1d1c1c,#141318,#181a20,#222121);  */
 }
 
-.landing {
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  background: #000000;
-}
 .wiki-logo img {
   /* border: 1px solid red; */
   height: 91px;
   width: 91px;
 }
 
+.slider {
+  max-height: 70vh;
+  height: fit-content;
+  margin: auto;
+  margin-top: 6rem;
+  position: relative;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.slide-track {
+  display: flex;
+  width: calc(1200px * 6);
+  animation: scroll 40s linear infinite;
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1200px * 3));
+  }
+}
+.slide {
+  height: auto;
+  max-width: 1200px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  perspective: 100px;
+}
+.slide span {
+  width: 100%;
+  color: #d7df23;
+  font-weight: 700;
+}
+/* .slider:hover .slide-track {
+  animation-play-state: paused;
+} */
+
 .nav-cont {
   /* border: 1px solid white; */
   width: 100%;
-  height: 100px;
-  padding-top: 30px;
+  height: 80px;
+  /* padding-top: 30px; */
   background-color: #000000;
+  transition: background-color 0.3s;
+  position: sticky;
+  top: 0%;
+  z-index: 99;
+  align-items: middle;
 }
 
+.scrolled {
+  background-color: #141318;
+}
 .close-container {
   position: absolute;
   top: 50%;
@@ -309,10 +1163,13 @@ export default {
 .nav-cont nav {
   display: flex;
   /* border: 1px solid yellow; */
-  width: 85%;
+  width: 95%;
+  height: 80px;
   max-width: 1400px;
   margin: auto;
   justify-content: space-between;
+  align-items: middle;
+  vertical-align: middle;
 }
 
 .sideOne {
@@ -322,15 +1179,84 @@ export default {
   height: 13px;
 }
 
+.sticky3_parent {
+  max-height: 350vh;
+  min-height: 300vh;
+  /* border: 1px solid greenyellow; */
+  height: auto;
+  margin-top: 6rem;
+}
+.sticky3 {
+  overflow: hidden;
+  position: sticky;
+  /* border: 1px solid green; */
+  display: flex !important;
+  height: 85vh;
+  top: 7rem;
+  /* border: 1px solid red; */
+}
+
+.scroll_section {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 300vw;
+  max-width: 310vw;
+  will-change: transform;
+  /* border: 1px solid yellow; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5vw !important;
+  overflow: hidden;
+}
+.cont-contain {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding-right: 20px;
+  transition: transform 0.5s;
+  height: 100%;
+  gap: 2rem;
+  /* border: 1px solid red !important; */
+}
+.scroll_section:hover .cont-contain {
+  transform: translate3d(0, 0, 0);
+}
+
+.ima-cont {
+  /* border: 1px solid red !important; */
+  border-radius: 60px;
+  height: 90%;
+  margin: auto !important;
+}
+.ima-cont img {
+  width: auto;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  border-radius: 60px;
+  /* border: 1px solid yellow !important; */
+}
+
+.text h1 {
+  font-weight: 700;
+  padding-right: 20px;
+  color: #d7df23;
+  margin-right: 15rem;
+}
+
 .opt-cont {
   width: fit-content;
   /* border: 1px solid green; */
   display: flex;
-  gap: 20px;
+  gap: 30px;
   color: #a6a6a6;
   margin: auto;
-  font-size: 12px;
+  font-size: 2xl;
   font-weight: 500;
+  /* border: 1px solid red; */
+  vertical-align: middle;
 }
 
 .opt-cont div a {
@@ -346,14 +1272,31 @@ export default {
   /* margin: auto; */
 }
 
+.slog-cont,
 .child-1 {
   display: flex;
   gap: 5px;
+  font-size: 2xl;
+}
+
+.child-1 {
+  transition: background-color 0.3s;
 }
 
 .child-1 button {
   background-color: #000000;
   border: none;
+  font-size: 2xl;
+  color: #a6a6a6;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.slog-cont button {
+  background-color: #141318;
+  border: none;
+  font-size: 2xl;
   color: #a6a6a6;
   font-weight: 500;
   cursor: pointer;
@@ -361,20 +1304,488 @@ export default {
 
 .child-2 {
   margin: auto;
+  font-size: 2xl;
 }
 
 .child-2 button {
   background-color: #d7df23;
-  padding: 8px;
+  padding: 8px 12px 8px 12px;
   border: none;
+  font-size: 2xl;
   border-radius: 3px;
   font-weight: 600;
   cursor: pointer;
 }
 
-@media screen and (max-device-width: 700px) {
+.testm-cont {
+  border: 1px solid transparent;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow: auto;
+  scroll-behavior: smooth;
+  transition: 0.3s ease;
+  transform-origin: center;
+  margin-top: 10rem;
+}
 
-  .home-cont{
+.testm-cont::-webkit-scrollbar {
+  display: none !important;
+}
+
+.rev-cont {
+  /* border: 1px solid yellow; */
+  max-width: 700px;
+  max-height: 700px;
+  min-width: 499px;
+  min-height: 499px;
+  height: auto;
+  transition: 0.3s ease;
+  transform-origin: center;
+  width: auto;
+  border-radius: 30px;
+  background: rgba(0, 0, 0, 0.2);
+  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px; */
+}
+
+.btn-cont {
+  margin: auto;
+  width: 170px;
+  height: 90px;
+  display: flex;
+  margin-top: 4rem;
+  transition: 0.3s ease;
+  transform-origin: right;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  /* gap: 20px; */
+}
+
+.btn-cont button {
+  border-radius: 50%;
+  margin: auto;
+  width: 70px;
+  height: 70px;
+  background: transparent;
+  transition: 0.3s ease-in-out;
+  transform-origin: center;
+  cursor: pointer;
+  background: #0f0f0f;
+  border: 1px solid #222;
+}
+
+.btn-cont button:hover {
+  width: 90px;
+  height: 90px;
+}
+
+.btn-cont button img {
+  width: 27px;
+  height: 18px;
+}
+
+.testimonial {
+  /* border: 1px solid green; */
+  display: flex;
+  max-width: 700px;
+  max-height: 700px;
+  min-width: 499px;
+  min-height: 499px;
+  border-radius: 30px;
+  /* backdrop-filter: blur(6px); */
+  padding: 30px !important;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  cursor: pointer;
+  /* border: 1px solid #141318; */
+}
+
+.testimonial h2 {
+  font-size: 22px;
+  color: #a6a6a8;
+  font-size: 500;
+  text-align: center;
+  margin-bottom: 30px;
+  padding-top: 20px;
+}
+
+.testimonial h3 {
+  margin-top: 2rem;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: medium;
+  padding-bottom: 20px;
+}
+
+.testimonial h3 span {
+  font-weight: 500;
+  font-size: medium;
+  color: #a6a6a8;
+}
+
+.testimonial img {
+  width: 131px;
+  height: 131px;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.logos {
+  overflow: hidden;
+  height: 100px;
+  white-space: nowrap;
+  position: relative;
+  margin-top: 10rem;
+}
+.logos:before,
+.logos:after {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  content: '';
+  z-index: 2;
+}
+.logos:before {
+  left: 0;
+}
+
+.logos:after {
+  right: 0;
+}
+.logos:hover .logos-slide {
+  animation-play-state: paused;
+}
+@keyframes logos {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+.logos-slide {
+  display: inline-block;
+  animation: 25s logos infinite linear;
+  margin: auto;
+}
+.logos-slide img {
+  margin: auto 60px;
+  max-height: 69px;
+  height: auto;
+  width: auto;
+}
+
+@media screen and (max-width: 499px) {
+  .home-cont {
+    /* background: #000000; */
+    background-image: url('../assets/images/rightPart.svg');
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    /* border: 1px solid yellow; */
+  }
+
+  .ijdk {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    margin: auto;
+    overflow: hidden;
+  }
+
+  .cont-3 {
+    max-width: 400px;
+    width: 100%;
+    height: 400px;
+    position: relative;
+    margin-top: 1rem;
+    margin: auto;
+    /* border: 1px solid green; */
+  }
+
+  .cont-2 {
+    padding: 15px;
+    margin-top: 3rem;
+  }
+  .op-1 {
+    text-align: center;
+  }
+
+  .op-2 {
+    text-align: center;
+  }
+
+  .op-1 h1 {
+    text-align: center;
+  }
+
+  .op-3 {
+    margin: auto;
+    margin-top: 40px;
+  }
+
+  .op-3 button:nth-child(1) {
+    gap: 20px;
+    width: 150px;
+    height: 40px;
+    font-size: 2xl;
+    font-weight: 500;
+  }
+
+  .op-3 button:nth-child(2) {
+    gap: 20px;
+    width: 170px;
+    height: 40px;
+    font-size: 2xl;
+    font-weight: 500;
+  }
+
+  .slider {
+    max-height: 70vh;
+    min-height: 50vh;
+    height: fit-content;
+    margin: auto;
+    margin-top: 6rem;
+    position: relative;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .slide-track {
+    display: flex;
+    width: calc(450px * 6);
+    animation: scroll 40s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-450px * 3));
+    }
+  }
+  .slide {
+    height: auto;
+    max-width: 450px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    perspective: 100px;
+  }
+
+  .sticky3_parent {
+    height: auto;
+    min-height: 95%;
+    max-height: 98%;
+    margin: auto;
+    margin-top: 6rem;
+    /* border: 1px solid blue; */
+  }
+  .sticky3 {
+    position: relative;
+    /* border: 1px solid green; */
+    display: block !important;
+    height: auto;
+    top: 0;
+  }
+
+  .scroll_section {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-width: 380px;
+    /* border: 1px solid yellow; */
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5vw !important;
+    overflow: hidden;
+  }
+  .cont-contain {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    gap: 2rem;
+    /* border: 1px solid red !important; */
+  }
+  .scroll_section:hover .cont-contain {
+    transform: 0;
+  }
+
+  .ima-cont {
+    border-radius: 30px;
+    height: auto;
+    margin: auto !important;
+    /* border: 1px solid red !important; */
+  }
+  .ima-cont img {
+    width: auto;
+    height: auto;
+    max-height: 45vh;
+    object-fit: fill;
+    border-radius: 30px;
+    border: 1px solid yellow !important;
+  }
+  .text h1 {
+    font-weight: 700;
+    padding-right: 0px;
+    color: #d7df23;
+    margin-right: 0;
+  }
+
+  .mid-cont {
+    width: 98%;
+    margin: auto;
+    text-align: center;
+    margin-top: 6rem;
+  }
+
+  .mid-cont > h1 {
+    width: 100%;
+    text-align: center;
+  }
+
+  .fallbox-container {
+    flex-wrap: wrap;
+    height: fit-content;
+  }
+
+  .fallbox-container > div {
+    flex-wrap: wrap;
+  }
+
+  .fallbox2,
+  .fallbox,
+  .fallbox1 {
+    width: fit-content !important;
+    height: fit-content !important;
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 20px;
+    color: white;
+    align-items: center !important;
+    justify-content: center;
+    font-size: medium;
+    font-weight: bold;
+    animation: fallbox-fall linear both;
+    transform-origin: center bottom;
+    cursor: pointer;
+  }
+
+  .testimonial {
+    display: flex;
+    max-width: 380px;
+    max-height: 600px;
+    min-width: 299px;
+    margin-left: 10px;
+    min-height: 499px;
+    border-radius: 20px;
+    /* backdrop-filter: blur(6px); */
+    padding: 15px !important;
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    cursor: pointer;
+    /* border: 1px solid #141318; */
+  }
+
+  .rev-cont {
+    max-width: 380px;
+    max-height: 600px;
+    min-width: 299px;
+    margin-left: 10px;
+    min-height: 499px;
+    height: auto;
+    width: auto;
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .testimonial h2 {
+    font-size: medium;
+    color: #a6a6a8;
+    font-size: 500;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+  }
+
+  .testimonial h3 {
+    margin-top: 1rem;
+  }
+
+  .hov-cont {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+
+  .step-cont {
+    width: 95%;
+  }
+  .idk-1 {
+    margin-top: 4rem;
+    width: fit-content;
+    max-width: 90%;
+  }
+
+  .step-vid-cont > div {
+    padding: 20px;
+    padding: 15px;
+    width: 98%;
+    border-radius: 10px;
+  }
+  .step-vid-cont > div > img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+
+  .nav-cont {
+    width: 100%;
+    background-color: #000;
+    height: 80px;
+  }
+
+  .opt-cont {
+    display: none;
+  }
+
+  .child-2 {
+    display: none;
+  }
+
+  .slog-cont button {
+    background-color: #000;
+    border: none;
+    font-size: 2xl;
+    color: #a6a6a6;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
+
+/* @media screen and (max-device-width: 700px) {
+  .home-cont {
     background-image: url('../assets/images/rightPart.svg');
     background-repeat: no-repeat;
     background-size: contain;
@@ -388,8 +1799,7 @@ export default {
   .cont-2 {
     width: auto;
     margin: auto;
-    padding-top:10px;
-    /* margin-top: -30px; */
+    padding-top: 10px;
   }
 
   .op-1 h1 {
@@ -415,13 +1825,11 @@ export default {
   .op-4 {
     margin: auto;
     max-width: 100%;
-    /* width: fit-content; */
     width: 100%;
     margin-top: 20px;
   }
 
   .op-4 img {
-    /* width: auto; */
     margin: auto;
     width: 95%;
     max-width: 97%;
@@ -475,13 +1883,12 @@ export default {
   }
 
   .wiki-logo img {
-    /* border: 1px solid red; */
+
     height: 60px;
     width: 60px;
   }
 
   .nav-cont {
-    /* border: 1px solid white; */
     width: 100%;
     height: 60px;
     padding-top: 10px;
@@ -490,12 +1897,30 @@ export default {
 
   .nav-cont nav {
     display: flex;
-    /* border: 1px solid yellow; */
     width: 95%;
     max-width: 98%;
     margin: auto;
     justify-content: space-between;
   }
+}*/
+</style>
+
+<style>
+::-webkit-scrollbar {
+  width: 6px;
 }
 
+::-webkit-scrollbar-track {
+  background: #020202;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #181717;
+  border-radius: 4px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background: #1f1e1e;
+}
 </style>

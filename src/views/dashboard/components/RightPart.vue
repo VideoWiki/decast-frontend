@@ -177,7 +177,7 @@
                     @click.stop
                     @click="toggleStream(cast.public_meeting_id, 'start')"
                   >
-                    <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                    <img src="@/assets/images/dashboard/Livecopy.svg" alt="" />
                   </button>
                 </span>
                 <button
@@ -534,15 +534,18 @@
           <div v-if="recordingList.length">
             <div
               class="recordings flex justify-between items-center mb-4"
-              v-for="(recording, index) in recordingList"
+              v-for="(recording, index) in flattenedRecordingList"
               :key="index"
             >
               <div class="w-3/4 flex justify-between items-center">
                 <p>
                   {{ recording['Start Time (Readable)'].split(' ')[0] }}
                 </p>
-                <p>{{ recording.Name }}</p>
+                <p>
+                  {{ recording.Name }}
+                </p>
               </div>
+
               <button
                 class="side-btn border-none"
                 @click="toggleRecordingPopup(index)"
@@ -565,6 +568,20 @@
                   </vs-icon>
                   Play
                 </button>
+                <button
+                  @mouseover="toggleEditTool(index)"
+                  @mouseleave="toggleEditTool(index)"
+                  @click="editRecord(recording)"
+                >
+                  <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
+                </button>
+                <div class="tooltip2" v-if="showTooltip === index">
+                  <div>
+                    The recording may require some time for processing. If it
+                    doesn't work, please try again later.
+                  </div>
+                  <div class="triangle"></div>
+                </div>
                 <!-- <button @click="downloadRoom(room)">
                   <img src="@/assets/images/download.svg" />
                   Download
@@ -801,17 +818,21 @@ export default {
     this.getRecordings();
     window.addEventListener('click', this.handleGlobalClick);
     window.addEventListener('click', this.handleClick2);
+    window.addEventListener('click', this.handleClick3);
   },
   beforeDestroy() {
     window.removeEventListener('click', this.handleGlobalClick);
     window.removeEventListener('click', this.handleClick2);
-
+    window.removeEventListener('click', this.handleClick3);
     // Remove the global click event listener when the component is destroyed
     window.removeEventListener('resize', this.checkScreenWidth);
   },
   computed: {
     totalImagesCount() {
       return this.casts.map((cast) => cast.images.length);
+    },
+    flattenedRecordingList() {
+      return this.flattenRecordingList(this.recordingList);
     },
     // recording() {
     //   return this.$store.state.cast.recordingList;
@@ -821,6 +842,15 @@ export default {
     this.updateRemainingTime();
   },
   methods: {
+    flattenRecordingList(recordingList) {
+      const flattenedList = [];
+      recordingList.forEach((meetings) => {
+        meetings.forEach((recording) => {
+          flattenedList.push(recording);
+        });
+      });
+      return flattenedList;
+    },
     ShowInvite(id, inviteList, stream, viewer) {
       this.meetingId = id;
       this.invites = inviteList;
@@ -1039,6 +1069,17 @@ export default {
         this.showCopy = null;
       }
     },
+    handleClick3(event) {
+      const isNotToggleRecordButton = !event.target.closest('.record-popup');
+      const isNotTogglePopupButton = !event.target.closest('.side-btn');
+      if (
+        isNotToggleRecordButton &&
+        isNotTogglePopupButton &&
+        this.showRecord !== null
+      ) {
+        this.showRecord = null;
+      }
+    },
     toggleRecordingPopup(index) {
       this.showRecord = this.showRecord === index ? null : index;
       setTimeout(() => {
@@ -1054,19 +1095,31 @@ export default {
     async getRecordings() {
       try {
         const res = await this.$store.dispatch('cast/recordingList');
-        this.recordingList = res.status[0] || [];
+        this.recordingList = res.status || [];
         console.log(this.recordingList, 'lliii');
-        console.log(this.recording, 'jdjfks');
         console.log(res, 'records');
       } catch (e) {
         console.log(e);
       }
     },
     openRecording(recording) {
-      console.log(recording, 'mmmmmmm');
+      // console.log(recording, 'mmmmmmm');
       const playbackURL =
         recording['Playback Data']['Playback URL'] + '/video-0.m4v';
       window.open(playbackURL, '_blank');
+    },
+    editRecord(recording) {
+      // this.$vs.notify({
+      //   title: 'Info',
+      //   text: 'Recording may take some time to process. Please wait.',
+      //   color: 'primary',
+      // });
+      console.log(recording, 'mmmmmmm');
+      setTimeout(() => {
+        const meetingId = recording['Record ID'];
+        const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
+        window.open(url, '_blank');
+      }, 1000);
     },
     // getCastList() {
     //   this.$store.dispatch('cast/getUserCasts').then((res) => {
@@ -1082,13 +1135,11 @@ export default {
     },
     copy(id, pass) {
       if (pass === undefined) {
-        navigator.clipboard.writeText(
-          'https://dev.stream.video.wiki/live/' + id
-        );
+        navigator.clipboard.writeText('https://decast.live/join-cast/' + id);
         return;
       }
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/join-cast/' + id + '/?pass=' + pass
+        'https://decast.live/join-cast/' + id + '/?pass=' + pass
       );
     },
     async joinNow(id) {
@@ -1206,6 +1257,9 @@ export default {
     toggleTool2(index) {
       this.showTooltip2 = this.showTooltip2 === index ? null : index;
     },
+    toggleEditTool(index) {
+      this.showTooltip = this.showTooltip === index ? null : index;
+    },
     async deleteCast(index) {
       const res = await this.$store.dispatch('cast/deleteCast', this.index);
       console.log(res);
@@ -1292,6 +1346,35 @@ export default {
   pointer-events: none;
   top: -30px;
 }
+
+.tooltip2 {
+  top: 10px;
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  right: 6rem;
+  background-color: none;
+  background: transparent;
+  width: 280px;
+}
+
+.tooltip2 div:nth-child(1) {
+  background-color: #31394e;
+  display: flex;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 5px;
+}
+.triangle {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+  border-left: 10px solid #31394e;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  margin: auto;
+}
 .footer-content {
   text-align: center;
   margin-top: 40px !important;
@@ -1340,19 +1423,19 @@ export default {
 }
 
 .options-container {
-  height: 303px;
+  height: 58vh;
   overflow: auto;
   margin-top: 30px;
 }
 
 .options-container::-webkit-scrollbar {
-  width: 5px;
+  width: 5px !important;
 }
 
 .options-container::-webkit-scrollbar-thumb {
-  background-color: #31394e;
-  border-radius: 4px;
-  height: 10px;
+  background-color: #31394e !important;
+  border-radius: 4px !important;
+  height: 10px !important;
 }
 
 #user-img {
@@ -1731,7 +1814,7 @@ export default {
     margin-top: 20px;
     height: 44vh !important;
     padding-top: 0;
-    overflow-y: scroll;
+    overflow: auto;
     padding-bottom: 10px !important;
   }
   .cast-popup {
@@ -1762,9 +1845,13 @@ export default {
   }
 
   .options-container::-webkit-scrollbar-thumb {
-    background-color: #31394e;
+    background-color: #31394e !important;
     border-radius: 4px;
     height: 6px;
+  }
+
+  .tooltip2 {
+    display: none;
   }
   .inner-child4 {
     margin-left: 10px;
@@ -1799,6 +1886,9 @@ export default {
     position: absolute;
     margin-left: 5px;
     top: 5px;
+    background: rgba(255, 255, 255, 0.5) !important;
+    border-radius: 5px;
+    border: none !important;
   }
 
   .stream-btn {
@@ -1890,6 +1980,10 @@ export default {
     overflow-y: scroll !important;
     min-height: 350px !important;
     max-height: 450px !important;
+  }
+
+  .tooltip2 {
+    display: none;
   }
   .full-wrapper {
     width: 278px;

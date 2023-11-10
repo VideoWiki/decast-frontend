@@ -59,7 +59,7 @@ export default {
             this.$store.commit('auth/SET_LOGGEDIN', true);
             window.opener.postMessage('loginSuccess', '*');
             window.close();
-            location.href = '/full';
+            location.href = '/dashboard';
             // location.href =
             //   'https://dev.stream.video.wiki/saveInfo/?name=' +
             //   response.data.data.user_info.first_name +

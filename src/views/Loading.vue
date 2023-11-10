@@ -26,18 +26,18 @@ export default {
 }
 
 .loader {
-  animation: fade 2s ease-in-out infinite;
+  animation: fade 2s ease infinite;
 }
 
 @keyframes fade {
   0% {
-    opacity: 0; /* Start with full transparency (invisible) */
+    opacity: 0; 
   }
   50% {
-    opacity: 1; /* Fade in to fully visible */
+    opacity: 1; 
   }
   100% {
-    opacity: 0; /* Fade out to fully transparent again */
+    opacity: 0; 
   }
 }
 </style>
