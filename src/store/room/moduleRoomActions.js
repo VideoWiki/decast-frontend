@@ -32,7 +32,7 @@ export default {
         event_name: payload,
         room_code: '',
         join_now: 'False',
-        logout_url: 'https://decast.live/manage',
+        logout_url: 'https://decast.live/dashboard',
       },
     });
     var room = {

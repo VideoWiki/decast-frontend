@@ -483,7 +483,7 @@ export default {
         this.$store.dispatch('auth/fetched');
         this.$acl.change('user');
         this.$store.commit('auth/SET_LOGGEDIN', true);
-        this.$router.push('/manage');
+        this.$router.push('/dashboard');
         this.url = '';
       }
     });

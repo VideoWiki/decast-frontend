@@ -226,7 +226,7 @@ export default {
         welcome_text: '',
         showText: true,
         duration: '480',
-        logout_url: 'https://decast.live/manage',
+        logout_url: 'https://decast.live/dashboard',
       },
       stepThreeProps: {
         vw_stream: false,
