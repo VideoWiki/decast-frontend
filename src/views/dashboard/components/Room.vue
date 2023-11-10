@@ -481,7 +481,7 @@ export default {
     },
     copyRecording(room, index) {
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/recording/' + room.url['Record ID']
+        'https://api.room.video.wiki/recording/' + room.url['Record ID']
       );
       this.$set(
         this.recordings[index],
@@ -502,7 +502,7 @@ export default {
       let id = url.split('/');
       id = id[id.length - 1];
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/join-room/' + id
+        'https://decast.live/join-room/' + id
       );
     },
     createRoom() {
@@ -593,7 +593,7 @@ export default {
     deleteRoom(room) {
       const options = {
         method: 'DELETE',
-        url: 'https://dev.api.room.video.wiki/api/delete/room/',
+        url: 'https://api.room.video.wiki/api/delete/room/',
         data: { public_meeting_id: room.room_url.split('/').pop() },
       };
 
@@ -622,7 +622,7 @@ export default {
     shareRoom() {
       const options = {
         method: 'POST',
-        url: 'https://dev.api.room.video.wiki/api/share/room/',
+        url: 'https://api.room.video.wiki/api/share/room/',
         data: {
           public_id: this.roomUrl.split('/').pop(),
           user: this.email,
@@ -907,9 +907,8 @@ export default {
 
 .options-container {
   margin-top: 30px;
-  height: 303px;
-  padding-top: 0;
-  overflow-y: scroll;
+  height: 58vh;
+  overflow:auto;
 }
 
 .options-container::-webkit-scrollbar {
@@ -917,7 +916,7 @@ export default {
 }
 
 .options-container::-webkit-scrollbar-thumb {
-  background-color: #31394e;
+  background-color: #31394e !important;
   border-radius: 4px;
   height: 10px;
 }
@@ -1106,18 +1105,8 @@ body {
     margin-top: 20px;
     height: 43vh !important;
     padding-top: 0;
-    overflow-y: scroll;
+    overflow: auto;
     padding-bottom: 10px !important;
-  }
-
-  .options-container::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  .options-container::-webkit-scrollbar-thumb {
-    background-color: #31394e;
-    border-radius: 4px;
-    height: 6px;
   }
 
   .sub-heading {
@@ -1137,7 +1126,7 @@ body {
 
   .options-container {
     height: 200px;
-    overflow-y: scroll;
+    overflow: auto;
     overflow-x: hidden;
     margin-top: 30px;
     margin-bottom: 10px;

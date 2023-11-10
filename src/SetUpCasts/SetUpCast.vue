@@ -226,7 +226,7 @@ export default {
         welcome_text: '',
         showText: true,
         duration: '480',
-        logout_url: 'https://dev.stream.video.wiki/full',
+        logout_url: 'https://decast.live/manage',
       },
       stepThreeProps: {
         vw_stream: false,

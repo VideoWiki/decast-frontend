@@ -380,9 +380,25 @@ const router = new Router({
       },
     },
     {
+      path: '/middlepart',
+      name: 'middlepart',
+      component: () => import('@/views/HomePage/MiddlePart.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/privatecast',
       name: 'JoinPrivateCast',
       component: () => import('@/views/dashboard/JoinPrivateCast.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/NftBox',
+      name: 'NftBox',
+      component: () => import('@/views/dashboard/NftBox.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -437,7 +453,7 @@ const router = new Router({
       },
     },
     {
-      path: '/full',
+      path: '/manage',
       name: 'FullDashBoard',
       component: () => import('./views/dashboard/FullDashboard.vue'),
       meta: {

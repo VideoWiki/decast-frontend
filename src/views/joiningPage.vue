@@ -89,7 +89,7 @@ export default {
         return;
       }
       axios
-        .post('https://dev.api.room.video.wiki/api/join/', {
+        .post('https://api.room.video.wiki/api/join/', {
           name: this.name,
           public_meeting_id: this.roomId,
           password: this.code,
@@ -117,7 +117,7 @@ export default {
       const config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `https://dev.api.room.video.wiki/api/room/fetch/info/?room_id=${this.roomId}`,
+        url: `https://api.room.video.wiki/api/room/fetch/info/?room_id=${this.roomId}`,
       };
 
       try {

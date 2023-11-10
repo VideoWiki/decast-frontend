@@ -30,7 +30,6 @@
         </div>
       </nav>
     </div>
-    <!-- <div class=""><img src="@/assets/images/Home.jpg" class="img" /></div> -->
     <div class="home-cont">
       <div class="ijdk">
         <div class="cont-2">
@@ -98,11 +97,7 @@
               <h1 :style="{ fontSize: dynamicFontSize3 }">Cast?</h1>
             </div>
             <div class="ima-cont" v-for="image in images" :key="image">
-              <img
-                style="border-radius: 80px !important"
-                :src="image"
-                alt="product"
-              />
+              <img :src="image" alt="product" />
             </div>
           </div>
         </div>
@@ -135,7 +130,7 @@
             class="fallbox"
             :style="box.style"
             draggable="true"
-            @dragstart="dragStart(index)"
+            @dragstart="dragStart(index, $event)"
             @dragover="dragOver(index)"
             @drop="drop(index)"
           >
@@ -284,51 +279,9 @@
         </div>
       </div>
     </div>
-
-    <div class="foot-cont">
-      <div class="footer">
-        <div class="log-co">
-          <img src="@/assets/images/mono-logo.svg" />
-          <p>
-            LEREN LEREN , UNIPESSOAL LDA, Parque de Ciéncia e Inovacáo - Vía do
-            Conhecimento s/n 3830-352 Ílhavo, Portugal NIF/NIPC - 517383861
-            Phone no. +351 912159105
-          </p>
-        </div>
-        <div class="log-co2">
-          <p>See yourself</p>
-          <button>Book a Demo</button>
-          <div class="mt-10">
-            <div>
-              <p>Helpful links</p>
-              <h5 class="mt-8" style="color: #ffffff">Features</h5>
-              <h5 class="mt-4" style="color: #ffffff">Faqs</h5>
-            </div>
-            <div>
-              <P>Contact us</P>
-              <h5 class="mt-8" style="color: #ffffff">Contact Us</h5>
-              <h5 class="mt-4" style="color: #ffffff">Work With Us</h5>
-            </div>
-          </div>
-        </div>
-
-        <div class="log-co3">
-          <div>
-            <p>Follow Us</p>
-            <button><img src="@/assets/images/f.svg" /></button>
-            <button><img src="@/assets/images/t.svg" /></button>
-            <button><img src="@/assets/images/l.svg" /></button>
-          </div>
-
-          <div class="mt-12">
-            <p>Policy</p>
-            <h5 class="mt-8" style="color: #ffffff">Report</h5>
-            <h5 class="mt-5" style="color: #ffffff">Privacy</h5>
-          </div>
-        </div>
-      </div>
+    <div>
+      <FootSec />
     </div>
-
     <div :class="{ 'close-container': iframe, hidden: !iframe }">
       <loading />
       <!-- <button class="close-icon" @click="closeForm">✕</button> -->
@@ -340,14 +293,31 @@
 <script>
 import constants from '../../constant';
 import Loading from './Loading.vue';
+import FootSec from './FootSec.vue';
+
 
 export default {
+  name: 'NewLanding',
   data() {
     return {
       iframe: false,
       isNavbarScrolled: false,
       scrollPosition: 0,
       testimonials: [
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
+        {
+          image: require('@/assets/images/of.svg'),
+          name: 'Kevin Rich',
+          profession: 'Sales & Marketing, Digital Lab',
+          comment:
+            '“Cast saves us from having an entire team of HR people. It saves time in training employees or supervisors and managers—half-hour increments here and there versus days compiling information.”',
+        },
         {
           image: require('@/assets/images/of.svg'),
           name: 'Kevin Rich',
@@ -398,6 +368,13 @@ export default {
       boxTexts1: ['Incredible', 'Fantastic', 'Whoa'],
       boxes2: [],
       boxTexts2: ['Mind-blowingly', 'Insane', 'Cool'],
+      images: [
+        require('@/assets/images/homepage/img1.svg'),
+        require('@/assets/images/homepage/img2.svg'),
+        require('@/assets/images/homepage/img3.svg'),
+        require('@/assets/images/homepage/img4.svg'),
+        require('@/assets/images/homepage/img5.svg'),
+      ],
       draggedBoxIndex: null,
     };
   },
@@ -464,6 +441,7 @@ export default {
   },
   components: {
     Loading,
+    FootSec,
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
@@ -505,7 +483,7 @@ export default {
         this.$store.dispatch('auth/fetched');
         this.$acl.change('user');
         this.$store.commit('auth/SET_LOGGEDIN', true);
-        this.$router.push('/full');
+        this.$router.push('/manage');
         this.url = '';
       }
     });
@@ -513,30 +491,6 @@ export default {
     // this.createFallingBoxes();
     // this.createFallingBoxes1();
     // this.createFallingBoxes2();
-    const sticky3Sections = [...document.querySelectorAll('.sticky3')];
-    const images = [
-      require('@/assets/images/homepage/img1.svg'),
-      require('@/assets/images/homepage/img2.svg'),
-      require('@/assets/images/homepage/img3.svg'),
-      require('@/assets/images/homepage/img4.svg'),
-      require('@/assets/images/homepage/img5.svg'),
-    ];
-
-    images.forEach((img) => {
-      sticky3Sections.forEach((section) => {
-        let image = document.createElement('img');
-        image.style.borderRadius = '20px';
-        image.style.width = '100%';
-        // image.style.maxHeight = '85vh';
-        image.style.height = '100%';
-        image.style.objectFit = 'contain';
-        image.setAttribute('id', 'border');
-        image.setAttribute('class', 'border2');
-        image.src = img;
-        section.querySelector('.scroll_section').appendChild(image);
-      });
-    });
-
     window.addEventListener('scroll', this.handleScroll2);
   },
   destroyed() {
@@ -578,21 +532,24 @@ export default {
       }
     },
     transform(section) {
-      const offsetTop = section.parentElement.offsetTop;
-      const scrollSection = section.querySelector('.scroll_section');
-      let percentage =
-        ((window.scrollY - offsetTop) / window.innerHeight) * 100;
-      percentage = percentage < 0 ? 0 : percentage > 400 ? 400 : percentage;
-      scrollSection.style.transform = `translate3d(${-percentage}vw, 0, 0)`;
+      if (window.innerWidth > 720) {
+        const offsetTop = section.parentElement.offsetTop;
+        const scrollSection = section.querySelector('.scroll_section');
+        let percentage =
+          ((window.scrollY - offsetTop) / window.innerHeight) * 100;
+        percentage = percentage < 0 ? 0 : percentage > 400 ? 400 : percentage;
+        scrollSection.style.transform = `translate3d(${-percentage}vw, 0, 0)`;
+      }
     },
+
     handleScrollLeft() {
       const container = this.$refs.container;
-      const scrollAmount = 100;
+      const scrollAmount = window.innerWidth; // Use 100vw equivalent
       container.scrollLeft -= scrollAmount;
     },
     handleScrollRight() {
       const container = this.$refs.container;
-      const scrollAmount = 100;
+      const scrollAmount = window.innerWidth; // Use 100vw equivalent
       container.scrollLeft += scrollAmount;
     },
     getRandomColor() {
@@ -631,8 +588,8 @@ export default {
     },
     createFallingBoxes() {
       for (let i = 0; i < 7; i++) {
-        const delay = Math.random() * 2 + 0.5;
-        const duration = Math.random() * 2 + 2;
+        const delay = Math.random() * 2 + 0.2;
+        const duration = Math.random() * 2;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
         console.log(rotation, 'rot');
@@ -655,8 +612,12 @@ export default {
         this.boxes.push(box);
       }
     },
-    dragStart(index) {
+    dragStart(index, event) {
       this.draggedBoxIndex = index;
+
+      event.dataTransfer.setData('text/plain', index);
+
+      event.dataTransfer.setDragImage(new Image(), 0, 0);
     },
 
     dragOver(index) {
@@ -665,6 +626,7 @@ export default {
 
     drop(index) {
       event.preventDefault();
+      const draggedIndex = event.dataTransfer.getData('text/plain');
       if (this.draggedBoxIndex !== null) {
         const draggedBox = this.boxes[this.draggedBoxIndex];
         this.boxes.splice(this.draggedBoxIndex, 1);
@@ -675,7 +637,7 @@ export default {
     createFallingBoxes1() {
       for (let i = 0; i < 3; i++) {
         const delay = Math.random() * 2 + 0.3;
-        const duration = Math.random() * 2 + 2;
+        const duration = Math.random() * 2 + 0.4;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
         console.log(rotation, 'rot');
@@ -700,8 +662,8 @@ export default {
     },
     createFallingBoxes2() {
       for (let i = 0; i < 3; i++) {
-        const delay = Math.random() * 2 + 0.6;
-        const duration = Math.random() * 2 + 2;
+        const delay = Math.random() * 2 + 0.1;
+        const duration = Math.random() * 2;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
         console.log(rotation, 'rot');
@@ -828,7 +790,7 @@ export default {
 
 .fall-child1 > div:nth-child(3) {
   animation: fallbox-fall4 linear both;
-  animation-delay: 0.5ms;
+  animation-delay: 0.3ms;
   /* margin-left: -20px; */
   transform-origin: center bottom;
   /* border: 1px solid red; */
@@ -969,80 +931,6 @@ export default {
   max-width: 1200px;
 }
 
-.foot-cont {
-  background-color: rgba(24, 26, 32, 1);
-  padding: 40px;
-  margin-top: 6rem;
-}
-
-.footer {
-  width: 85%;
-  margin: auto;
-  max-width: 1200px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.log-co {
-  max-width: 250px;
-  width: 20%;
-}
-
-.log-co p {
-  font-size: small;
-  color: #ffffff;
-  text-align: center;
-  margin-top: 4rem;
-}
-.log-co img {
-  max-width: 200px;
-  max-height: 200px;
-  width: auto;
-  height: auto;
-}
-
-.log-co2 {
-  width: 40%;
-}
-.log-co2 button {
-  height: 60px;
-  width: 200px;
-  background-color: #d7df23;
-  border-radius: 4px;
-  border: none;
-  margin-top: 3rem;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: medium;
-}
-
-.log-co2 > div {
-  display: flex;
-  justify-content: space-between;
-}
-
-.log-co2 p,
-.log-co3 p {
-  color: #637181;
-}
-
-.log-co3 button {
-  margin-top: 2rem;
-  border: 1px solid #637181;
-  border-radius: 50%;
-  background: transparent;
-  width: 61px;
-  height: 61px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.log-co3 div:nth-child(2) {
-  text-align: left;
-  width: fit-content;
-  margin-left: 75%;
-}
-
 .head1 {
   margin: auto;
   width: fit-content;
@@ -1092,16 +980,19 @@ export default {
 
 @keyframes backgroundAnimation {
   0% {
-    background-color: #8133ff;
+    background-color: #f5af19;
   }
-  25% {
-    background-color: #ff57e9;
+  20% {
+    background-color: #da4453;
   }
-  50% {
+  40% {
     background-color: #ff335f;
   }
-  75% {
-    background-color: #33e7ff;
+  60% {
+    background-color: #3f2b96;
+  }
+  80% {
+    background-color: #8f94fb;
   }
   100% {
     background-color: #5733ff;
@@ -1292,12 +1183,14 @@ export default {
 .sticky3_parent {
   max-height: 350vh;
   min-height: 300vh;
+  /* border: 1px solid greenyellow; */
   height: auto;
   margin-top: 6rem;
 }
 .sticky3 {
   overflow: hidden;
   position: sticky;
+  /* border: 1px solid green; */
   display: flex !important;
   height: 85vh;
   top: 7rem;
@@ -1309,7 +1202,9 @@ export default {
   top: 0;
   height: 100%;
   width: 300vw;
+  max-width: 310vw;
   will-change: transform;
+  /* border: 1px solid yellow; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1318,24 +1213,38 @@ export default {
 }
 .cont-contain {
   display: flex !important;
+  justify-content: center;
   align-items: center;
   padding-right: 20px;
   transition: transform 0.5s;
-  margin: 20px;
-  margin-right: 25vw;
+  height: 100%;
+  gap: 2rem;
+  /* border: 1px solid red !important; */
 }
 .scroll_section:hover .cont-contain {
   transform: translate3d(0, 0, 0);
 }
 
 .ima-cont {
-  border: 1px solid red !important;
+  /* border: 1px solid red !important; */
+  border-radius: 60px;
+  height: 90%;
+  margin: auto !important;
+}
+.ima-cont img {
+  width: auto;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  border-radius: 60px;
+  /* border: 1px solid yellow !important; */
 }
 
 .text h1 {
   font-weight: 700;
   padding-right: 20px;
   color: #d7df23;
+  margin-right: 15rem;
 }
 
 .opt-cont {
@@ -1415,7 +1324,9 @@ export default {
   flex-wrap: nowrap;
   gap: 20px;
   overflow: auto;
+  scroll-behavior: smooth;
   transition: 0.3s ease;
+  transform-origin: center;
   margin-top: 10rem;
 }
 
@@ -1430,6 +1341,8 @@ export default {
   min-width: 499px;
   min-height: 499px;
   height: auto;
+  transition: 0.3s ease;
+  transform-origin: center;
   width: auto;
   border-radius: 30px;
   background: rgba(0, 0, 0, 0.2);
@@ -1442,6 +1355,8 @@ export default {
   height: 90px;
   display: flex;
   margin-top: 4rem;
+  transition: 0.3s ease;
+  transform-origin: right;
   flex-wrap: wrap-reverse;
   justify-content: space-between;
   /* gap: 20px; */
@@ -1614,6 +1529,11 @@ export default {
     text-align: center;
   }
 
+  .op-3 {
+    margin: auto;
+    margin-top: 40px;
+  }
+
   .op-3 button:nth-child(1) {
     gap: 20px;
     width: 150px;
@@ -1624,7 +1544,7 @@ export default {
 
   .op-3 button:nth-child(2) {
     gap: 20px;
-    width: 190px;
+    width: 170px;
     height: 40px;
     font-size: 2xl;
     font-weight: 500;
@@ -1667,26 +1587,30 @@ export default {
   }
 
   .sticky3_parent {
-    max-height: 700vh;
-    min-height: 600vh;
+    height: auto;
+    min-height: 95%;
+    max-height: 98%;
+    margin: auto;
     margin-top: 6rem;
+    /* border: 1px solid blue; */
   }
   .sticky3 {
-    overflow: hidden;
-    position: sticky;
-    display: flex !important;
-    height: 60vh;
-    top: 10rem;
-    /* border: 1px solid red; */
+    position: relative;
+    /* border: 1px solid green; */
+    display: block !important;
+    height: auto;
+    top: 0;
   }
 
   .scroll_section {
-    position: absolute;
-    top: 0;
+    position: relative;
     height: 100%;
-    width: 750vw;
-    will-change: transform;
+    width: 100%;
+    max-width: 380px;
+    /* border: 1px solid yellow; */
+    margin: auto;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     padding: 0 5vw !important;
@@ -1694,20 +1618,39 @@ export default {
   }
   .cont-contain {
     display: flex !important;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding-right: 20px;
     transition: transform 0.5s;
-    margin: 20px;
-    margin-right: 25vw;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    gap: 2rem;
+    /* border: 1px solid red !important; */
   }
   .scroll_section:hover .cont-contain {
-    transform: translate3d(0, 0, 0);
+    transform: 0;
   }
 
+  .ima-cont {
+    border-radius: 30px;
+    height: auto;
+    margin: auto !important;
+    /* border: 1px solid red !important; */
+  }
+  .ima-cont img {
+    width: auto;
+    height: auto;
+    max-height: 45vh;
+    object-fit: fill;
+    border-radius: 30px;
+    border: 1px solid yellow !important;
+  }
   .text h1 {
     font-weight: 700;
-    padding-right: 20px;
+    padding-right: 0px;
     color: #d7df23;
+    margin-right: 0;
   }
 
   .mid-cont {
@@ -1840,51 +1783,6 @@ export default {
     font-weight: 500;
     cursor: pointer;
   }
-  .foot-cont {
-  background-color: rgba(24, 26, 32, 1);
-  padding: 20px;
-  margin-top: 6rem;
-}
-
-.footer {
-  width: 95%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  gap:30px;
-  flex-direction: column;
-}
-.log-co {
-  width: 90%;
-  max-width: 350px;
-}
-
-.log-co p{
-  text-align: left;
-  margin-top: 2rem;
-}
-
-.log-co img {
-  max-width: 120px;
-  max-height: 120px;
-  width: auto;
-  height: auto;
-  margin-left: -10px;
-}
-.log-co2{
-  width: 95%;
-}
-
-.log-co2 div{
-  flex-direction: column;
-  gap: 30px;
-}
-
-.log-co3 div:nth-child(2) {
-  text-align: left;
-  width: fit-content;
-  margin-left: 0%;
-}
 }
 
 /* @media screen and (max-device-width: 700px) {

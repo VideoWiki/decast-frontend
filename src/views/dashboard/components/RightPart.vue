@@ -177,7 +177,7 @@
                     @click.stop
                     @click="toggleStream(cast.public_meeting_id, 'start')"
                   >
-                    <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                    <img src="@/assets/images/dashboard/Livecopy.svg" alt="" />
                   </button>
                 </span>
                 <button
@@ -1136,12 +1136,12 @@ export default {
     copy(id, pass) {
       if (pass === undefined) {
         navigator.clipboard.writeText(
-          'https://dev.stream.video.wiki/live/' + id
+          'https://decast.live/join-cast/' + id
         );
         return;
       }
       navigator.clipboard.writeText(
-        'https://dev.stream.video.wiki/join-cast/' + id + '/?pass=' + pass
+        'https://decast.live/join-cast/' + id + '/?pass=' + pass
       );
     },
     async joinNow(id) {
@@ -1425,19 +1425,19 @@ export default {
 }
 
 .options-container {
-  height: 303px;
+  height: 58vh;
   overflow: auto;
   margin-top: 30px;
 }
 
 .options-container::-webkit-scrollbar {
-  width: 5px;
+  width: 5px !important;
 }
 
 .options-container::-webkit-scrollbar-thumb {
-  background-color: #31394e;
-  border-radius: 4px;
-  height: 10px;
+  background-color: #31394e !important;
+  border-radius: 4px !important;
+  height: 10px !important;
 }
 
 #user-img {
@@ -1816,7 +1816,7 @@ export default {
     margin-top: 20px;
     height: 44vh !important;
     padding-top: 0;
-    overflow-y: scroll;
+    overflow: auto;
     padding-bottom: 10px !important;
   }
   .cast-popup {
@@ -1847,7 +1847,7 @@ export default {
   }
 
   .options-container::-webkit-scrollbar-thumb {
-    background-color: #31394e;
+    background-color: #31394e !important;
     border-radius: 4px;
     height: 6px;
   }
@@ -1886,13 +1886,9 @@ export default {
     position: absolute;
     left: 60%;
     top: 5px;
-  }
-
-  .stream-btn {
-    background-color: blue !important;
-  }
-  .action-btn {
-    background-color: orangered !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    border-radius: 5px;
+    border: none !important;
   }
   .k-btn {
     height: 3px;
