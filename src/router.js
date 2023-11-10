@@ -421,7 +421,7 @@ const router = new Router({
     },
 
     {
-      path: '/dashboard',
+      path: '/manage',
       name: 'Dashboard',
       component: () => import('./views/dashboard/Dashboard.vue'),
       meta: {
@@ -453,7 +453,7 @@ const router = new Router({
       },
     },
     {
-      path: '/manage',
+      path: '/dashboard',
       name: 'FullDashBoard',
       component: () => import('./views/dashboard/FullDashboard.vue'),
       meta: {
