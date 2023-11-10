@@ -1135,9 +1135,7 @@ export default {
     },
     copy(id, pass) {
       if (pass === undefined) {
-        navigator.clipboard.writeText(
-          'https://decast.live/join-cast/' + id
-        );
+        navigator.clipboard.writeText('https://decast.live/join-cast/' + id);
         return;
       }
       navigator.clipboard.writeText(
@@ -1877,6 +1875,8 @@ export default {
   }
   .inner-div2 {
     height: 108.5%;
+    min-width: 95px !important;
+    max-width: 120px !important;
   }
 
   .stream-btn,
@@ -1884,11 +1884,18 @@ export default {
     width: 36px !important;
     height: 36px !important;
     position: absolute;
-    left: 60%;
+    margin-left: 5px;
     top: 5px;
     background: rgba(255, 255, 255, 0.5) !important;
     border-radius: 5px;
     border: none !important;
+  }
+
+  .stream-btn {
+    background-color: blue !important;
+  }
+  .action-btn {
+    background-color: orangered !important;
   }
   .k-btn {
     height: 3px;

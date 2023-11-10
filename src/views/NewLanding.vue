@@ -295,7 +295,6 @@ import constants from '../../constant';
 import Loading from './Loading.vue';
 import FootSec from './FootSec.vue';
 
-
 export default {
   name: 'NewLanding',
   data() {
