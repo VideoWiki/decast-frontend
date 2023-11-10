@@ -90,12 +90,15 @@
         </div>
       </div>
     </section>
+
+    <FootSec/>
   </div>
 </template>
 
 <script>
 import constants from '../../constant';
 import Loading from './Loading.vue';
+import FootSec from './FootSec.vue';
 
 export default {
   data() {
@@ -215,6 +218,7 @@ export default {
   },
   components: {
     Loading,
+    FootSec,
   },
   mounted() {
   },
@@ -542,6 +546,18 @@ export default {
 
 .awards-news-img2 img {
   width: 100%;
+}
+
+@media screen and (max-width: 1220px) {
+  .awards-ml-wrapper {
+    margin-left: 50px;
+  }
+  .awards-vision {
+    padding: 0px 50px;
+  }
+  .awards-news[data-v-d2f068a8] {
+    padding: 0px 50px;
+  }
 }
 
 @media screen and (max-width: 499px) {
