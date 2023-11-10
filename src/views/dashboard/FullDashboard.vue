@@ -3,7 +3,7 @@
     <div class="nav-bar flex">
       <div class="leftPart">
         <div class="wiki-logo">
-          <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" />
+          <img src="@/assets/images/logot.svg" />
         </div>
       </div>
       <div class="rightPart flex">

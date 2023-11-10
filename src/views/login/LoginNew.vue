@@ -360,56 +360,56 @@ export default {
       Vue.use(GAuth, gauthOption);
     },
     async loginWithGoogle() {
-      // Loading
-      this.$vs.loading();
-      try {
-        const googleUser = await this.$gAuth.signIn();
-        if (googleUser) {
-          this.gAccessToken = googleUser.getAuthResponse().access_token;
-          this.$store
-            .dispatch('auth/sendAccessToken', {
-              access_token: this.gAccessToken,
-              login_type: 'web2',
-              login_challenge: this.$route.query.login_challenge,
-            })
-            .then((response) => {
-              console.log(5);
-              window.location.replace(response.data.redirect_to);
-              this.$acl.change(this.activeUserInfo.userRole);
-              if (this.popup) this.$emit('loggedIn');
-            });
-        } else {
-          this.$vs.notify({
-            title: this.$t('Login.notify.title'),
-            text: this.$t('GoogleLogin.notverified'),
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger',
+    // Loading
+    this.$vs.loading();
+    try {
+      const googleUser = await this.$gAuth.signIn();
+      if (googleUser) {
+        this.gAccessToken = googleUser.getAuthResponse().access_token;
+        this.$store
+          .dispatch('auth/sendAccessToken', {
+            access_token: this.gAccessToken,
+            login_type: 'web2',
+            login_challenge: this.$route.query.login_challenge,
+          })
+          .then((response) => {
+            console.log(5);
+            this.$acl.change(this.activeUserInfo.userRole);
+            this.$router.push('/');
+            this.$vs.loading.close();
           });
-          this.$vs.loading.close();
-        }
-      } catch (error) {
-        console.log(error, 'err');
-        if (this.isIncognito) {
-          this.$vs.notify({
-            title: this.$t('Login.notify.title'),
-            text: 'Allow Third Party Cookies',
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger',
-          });
-        } else {
-          this.$vs.notify({
-            title: this.$t('Login.notify.title'),
-            text: 'User not verified',
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger',
-          });
-        }
+      } else {
+        this.$vs.notify({
+          title: this.$t('Login.notify.title'),
+          text: this.$t('GoogleLogin.notverified'),
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'danger',
+        });
         this.$vs.loading.close();
       }
-    },
+    } catch (error) {
+      console.log(error, 'err');
+      if (this.isIncognito) {
+        this.$vs.notify({
+          title: this.$t('Login.notify.title'),
+          text: 'Allow Third Party Cookies',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'danger',
+        });
+      } else {
+        this.$vs.notify({
+          title: this.$t('Login.notify.title'),
+          text: 'User not verified',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'danger',
+        });
+      }
+      this.$vs.loading.close();
+    }
+  },
   },
 };
 </script>

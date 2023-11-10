@@ -3,7 +3,7 @@
     <div :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }">
       <nav>
         <div class="wiki-logo">
-          <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" />
+          <img src="@/assets/images/logot.svg" />
         </div>
 
         <div class="opt-cont">
