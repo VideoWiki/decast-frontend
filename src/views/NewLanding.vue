@@ -7,14 +7,14 @@
         </div>
 
         <div class="opt-cont">
-          <div><a href="#">Features</a></div>
+          <div><a href="#" @click="redirectToLink">Features</a></div>
           <div><a href="#">Pricing</a></div>
           <div><a href="#">About</a></div>
           <div><a href="#">Faq</a></div>
-          <div><a href="#">Contact</a></div>
+          <div><a href="#" @click="redirectTo">Contact</a></div>
         </div>
 
-        <div class="log-cont">
+        <div class="log-cont" v-if="!isLoggedIn">
           <div
             class="cursor-pointer"
             :class="{ 'child-1': true, 'slog-cont': isNavbarScrolled }"
@@ -27,6 +27,22 @@
           <div class="child-2">
             <button>Book a Demo</button>
           </div>
+        </div>
+
+        <div class="nam-con" v-else>
+          <p>Hi, {{ username }}!</p>
+          <button>
+            <router-link
+              to="/dashboard"
+              style="
+                font-size: small;
+                font-weight: 500;
+                color: #000;
+              "
+            >
+              Dashboard
+            </router-link>
+          </button>
         </div>
       </nav>
     </div>
@@ -250,7 +266,7 @@
                 fontWeight: 700,
               }"
             >
-              Fill up your basic cast details
+              Chooose or Customize your branding
             </h1>
           </div>
           <div class="idk-child mt-10">
@@ -268,7 +284,7 @@
                 fontWeight: 700,
               }"
             >
-              Fill up your basic cast details
+              Choose or customize the cast settings
             </h1>
           </div>
         </div>
@@ -302,6 +318,8 @@ export default {
       iframe: false,
       isNavbarScrolled: false,
       scrollPosition: 0,
+      isLoggedIn: false,
+      username: '',
       testimonials: [
         {
           image: require('@/assets/images/of.svg'),
@@ -384,6 +402,9 @@ export default {
     loggedIn() {
       return this.$store.state.auth.loggedIn;
     },
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
     dynamicFontSize() {
       const scalingFactor = 5;
       const viewportWidth = window.innerWidth;
@@ -431,7 +452,7 @@ export default {
         border: `${borderSize}px solid #D7DF23`,
         backgroundColor: `#D7DF23`,
       };
-      console.log('Computed border style:', style);
+      // console.log('Computed border style:', style);
       return style;
     },
     generateRandomGradient() {
@@ -444,7 +465,7 @@ export default {
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
-    console.log(this.accessToken || this.loggedIn, 'prof');
+    // console.log(this.accessToken || this.loggedIn, 'prof');
     window.addEventListener('message', (event) => {
       // if (event.data === 'closeIframe') {
       //   this.iframe = false;
@@ -491,6 +512,7 @@ export default {
     // this.createFallingBoxes1();
     // this.createFallingBoxes2();
     window.addEventListener('scroll', this.handleScroll2);
+    this.handleLogin();
   },
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll2);
@@ -514,7 +536,7 @@ export default {
       // window.location.href = constants.challengeUri;
     },
     handleScroll(event) {
-      console.log('Scrolling...');
+      // console.log('Scrolling...');
       const scrollPosition = window.scrollY;
       this.scrollPosition = event.target.documentElement.scrollTop;
       const threshold = 10; // Adjust this threshold as needed
@@ -528,6 +550,17 @@ export default {
       const sticky3Sections = [...document.querySelectorAll('.sticky3')];
       for (let i = 0; i < sticky3Sections.length; i++) {
         this.transform(sticky3Sections[i]);
+      }
+    },
+    handleLogin() {
+      const userInfo = localStorage.getItem('userInfo');
+      const accessToken = localStorage.getItem('accessToken');
+      if (userInfo && accessToken) {
+        this.isLoggedIn = true;
+        console.log('Ture');
+        this.username = this.activeUserInfo.first_name || 'User';
+      } else {
+        console.log('false');
       }
     },
     transform(section) {
@@ -591,7 +624,7 @@ export default {
         const duration = Math.random() * 2;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
-        console.log(rotation, 'rot');
+        // console.log(rotation, 'rot');
 
         const textIndex = Math.floor(Math.random() * this.boxTexts.length);
         const text = this.boxTexts[textIndex];
@@ -639,7 +672,7 @@ export default {
         const duration = Math.random() * 2 + 0.4;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
-        console.log(rotation, 'rot');
+        // console.log(rotation, 'rot');
 
         const textIndex1 = Math.floor(Math.random() * this.boxTexts1.length);
         const text = this.boxTexts1[textIndex1];
@@ -665,7 +698,7 @@ export default {
         const duration = Math.random() * 2;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
-        console.log(rotation, 'rot');
+        // console.log(rotation, 'rot');
 
         const textIndex2 = Math.floor(Math.random() * this.boxTexts2.length);
         const text = this.boxTexts2[textIndex2];
@@ -684,6 +717,12 @@ export default {
         };
         this.boxes2.push(box2);
       }
+    },
+    redirectTo() {
+      window.open('https://video.wiki/contact-us', '_blank');
+    },
+    redirectToLink() {
+      window.open('https://fider.video.wiki/', '_blank');
     },
   },
 };
@@ -730,6 +769,31 @@ export default {
   font-weight: 700;
   width: 80%;
   max-width: 1200px;
+  margin: auto;
+}
+
+.nam-con {
+  padding: 6px;
+  width: fit-content;
+  display: flex;
+  gap: 15px;
+}
+
+.nam-con p {
+  font-size: medium;
+  font-weight: 500;
+  color: #a6a6a6;
+  margin: auto;
+}
+
+.nam-con button {
+  background-color: #d7df23;
+  height: 40px;
+  border-radius: 5px;
+  padding: 6px;
+  outline: none;
+  cursor: pointer;
+  border: none;
   margin: auto;
 }
 

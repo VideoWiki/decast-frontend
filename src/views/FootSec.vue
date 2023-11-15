@@ -36,7 +36,7 @@
             <h5
               class="cursor-pointer mt-8"
               style="color: #ffffff"
-              @click="redirect"
+              @click="redirectTo"
             >
               Contact Us
             </h5>
@@ -61,7 +61,7 @@
           <h5
             class="cursor-pointer mt-5"
             style="color: #ffffff"
-            @click="redirectTo"
+            @click="redirect"
           >
             Privacy
           </h5>

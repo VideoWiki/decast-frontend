@@ -170,6 +170,12 @@ export default {
     editProfile() {
       this.isEditing = true;
     },
+    logout() {
+      this.$cookies.remove('userId');
+      this.$cookies.remove('Token');
+      this.$router.push('/');
+      return this.$store.dispatch('auth/logOut');
+    },
     saveProfile() {
       this.error = {
         firstName: '',
@@ -219,9 +225,10 @@ export default {
             this.$store.commit('UPDATE_USER_INFO', this.activeUserInfo);
             this.$vs.notify({
               title: 'Success',
-              text: 'Changes Saved',
+              text: 'Changes Saved, Please Login again',
               color: 'success',
             });
+           this.logout();
           })
           .catch((err) => {
             console.error(err);
