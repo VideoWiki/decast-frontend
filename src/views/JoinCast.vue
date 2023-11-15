@@ -1,11 +1,10 @@
 <template>
-  <div class="idk-co">
-    <div class="container-full flex">
-      <div class="logo">
-        <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
-      </div>
-      <div class="left-side">
-        <!-- <div class="time flex">
+  <div class="container-full flex">
+    <div class="logo">
+      <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
+    </div>
+    <div class="left-side">
+      <!-- <div class="time flex">
         <div class="number flex">
           02
           <p>hr</p>
@@ -21,34 +20,93 @@
           <p>sec</p>
         </div>
       </div> -->
-        <div v-if="running" class="info-part flex">
-          <div>Cast is live</div>
-          <img src="@/assets/images/dashboard/Live.svg" alt="" />
-        </div>
-        <div v-else class="info-part flex text-danger">
-          <div>Cast is not live</div>
-        </div>
-        <div class="class-name">
-          <p>{{ eventName }}</p>
-          <div class="host-name">Hosted by “{{ creator }}”</div>
-        </div>
-        <div class="bottom-text">
-          {{ eventDescription }}
-        </div>
+      <div v-if="running" class="info-part flex">
+        <div><span v-if="sentOtp">Private </span>Cast is live</div>
+        <img src="@/assets/images/dashboard/Live.svg" alt="" />
       </div>
-      <div class="right-side">
-        <div class="heading">You're joining the cast</div>
-        <div class="name">Joining name</div>
-        <input
-          placeholder="e.g John G. Miguel"
-          @keydown.enter="accessCast"
-          v-model="joiningName"
-        />
-        <div class="button">
-          <button class="cursor-pointer" :disabled="!validateForm" @click="accessCast">
-            Access cast
-          </button>
+      <div v-else class="info-part flex text-danger">
+        <div><span v-if="sentOtp">Private </span>Cast is not live</div>
+      </div>
+      <div class="class-name">
+        <p>{{ eventName }}</p>
+        <div class="host-name">Hosted by “{{ creator }}”</div>
+      </div>
+      <div class="bottom-text">
+        {{ eventDescription }}
+      </div>
+    </div>
+    <div v-if="sentOtp && !verified" class="right-side">
+      <p class="heading">
+        This is a private secure event, so let's just verify that it is really
+        you.
+      </p>
+      <form
+        @submit.prevent="requestOtp"
+        v-if="activeSection === 'Verification' && !verified"
+      >
+        <div v-if="!otpSent" class="name">
+          Enter Your Email
+          <input
+            class="verification-input text-xl"
+            v-validate="'required'"
+            type="email"
+            name="email"
+            placeholder="xyz@example.com"
+            autocomplete="off"
+            v-model="email"
+          />
+          <p class="otp-text pt-3">
+            We will send an OTP to your email to verify your email. This does
+            not create your VideoWiki account.
+          </p>
+          <div class="button">
+            <button v-if="!otpField" @click.prevent="requestOtp">
+              Request OTP
+            </button>
+          </div>
         </div>
+        <span v-if="otpField">
+          <div class="flex name">
+            <p class="text-grey">Check your email for OTP</p>
+          </div>
+          <input
+            class="verification-input text-xl"
+            v-validate="'required'"
+            name="Name"
+            placeholder="Enter OTP"
+            autocomplete="off"
+            v-model="otp"
+          />
+          <div class="flex flex-wrap my-6 w-full px-16">
+            <button
+              class="sub-btn justify-center text-lg flex items-center"
+              :style="{ backgroundColor: '#1D232B', color: '#A6A6A8' }"
+              :disabled="!validateOtp"
+              @click.prevent="userVerification"
+            >
+              Verify
+            </button>
+
+            <button
+              class="sub-btn justify-center text-lg flex items-center text-black"
+              @click.prevent="goBack"
+            >
+              Cancel
+            </button>
+          </div>
+        </span>
+      </form>
+    </div>
+    <div v-else class="right-side">
+      <div class="heading">You're joining the cast</div>
+      <div class="name">Joining name</div>
+      <input
+        placeholder="e.g John G. Miguel"
+        @keydown.enter="accessCast"
+        v-model="joiningName"
+      />
+      <div class="button">
+        <button class="cursor-pointer" @click="accessCast">Access cast</button>
       </div>
     </div>
   </div>
@@ -65,11 +123,27 @@ export default {
       creator: '',
       disabled: false,
       running: false,
+      activeSection: 'Verification',
+      email: '',
+      name: '',
+      verified: false,
+      otpField: false,
+      otp: '',
+      skippedStep: false,
+      otpSent: false,
+      payload: {},
+      sentOtp: false,
     };
   },
-  computed:{
-    validateForm() {
-      return (!this.errors.any() && this.joiningName !== '');
+  computed: {
+    validateEmail() {
+      return !this.errors.any() && this.email !== '';
+    },
+    validateOtp() {
+      return !this.errors.any() && this.email !== '' && this.otp !== '';
+    },
+    walletAddress() {
+      return this.$store.state.auth.isGetWalletAddress;
     },
   },
   mounted() {
@@ -84,6 +158,8 @@ export default {
       );
       const details = res.data.meeting_info;
       console.log(details);
+      this.sentOtp = details.send_otp;
+      console.log(this.sentOtp);
       this.eventName = details.event_name;
       this.eventDescription = details.description;
       this.creator = details.event_creator_name;
@@ -138,6 +214,104 @@ export default {
           console.log(e.response);
         });
     },
+    requestOtp() {
+      if (this.otpField) {
+        this.userVerification();
+      } else {
+        this.payload = {
+          email: this.email.toLowerCase(),
+          meeting_id: this.$route.params.meetingID,
+        };
+
+        // Loading
+        if (this.email === '') {
+          this.$vs.notify({
+            title: 'Email Require',
+            text: 'Enter Email to Proceed Further',
+            color: 'danger',
+          });
+          return;
+        }
+        this.$vs.loading();
+        this.$store
+          .dispatch('auth/sendingOtp', this.payload)
+          .then((res) => {
+            console.log(res.data);
+            this.$vs.loading.close();
+
+            if (res.data.status) {
+              this.otpField = true;
+              this.otpSent = true;
+              this.$vs.notify({
+                // title: 'Error',
+                text: this.$t('Verification.otpsent'),
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'success',
+              });
+            }
+          })
+          .catch((e) => {
+            console.log(e.response.data);
+            this.$vs.loading.close();
+            if (e.response.data.message === 'invalid email')
+              this.$vs.notify({
+                title: 'Unauthorized',
+                text: 'Invalid Email',
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger',
+              });
+            else {
+              this.$vs.notify({
+                title: 'Error Occurred',
+                text: 'Try Again',
+                color: 'danger',
+              });
+            }
+          });
+      }
+    },
+    userVerification() {
+      const payload = {
+        email: this.email,
+        meeting_id: this.$route.params.meetingID,
+        otp: this.otp,
+      };
+      // Loading
+      this.$vs.loading();
+
+      this.$store
+        .dispatch('auth/verifyingOtp', payload)
+        .then((res) => {
+          this.$vs.loading.close();
+          if (res.data.status) {
+            this.verified = true;
+          }
+          this.$vs.notify({
+            title: 'Congrats',
+            text: 'Verified',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'success',
+          });
+          this.activeSection = 'Join';
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: 'Error',
+            text: this.$t('Verification.correctotp'),
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger',
+          });
+        });
+    },
+    goBack() {
+      this.otpSent = false;
+      this.otpField = false;
+    },
   },
 };
 </script>
@@ -145,22 +319,15 @@ export default {
 *:not(i) {
   font-family: 'Karla', sans-serif !important;
 }
-.idk-co {
-  background: #000000;
-  background-image: url('../assets/images/back.jpeg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-}
 .container-full {
-  backdrop-filter: brightness(0.2);
-  height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+    url('../assets/images/dashboard/background.png');
   width: 100%;
-  overflow: hidden;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-position-y: bottom;
 }
+
 .logo {
   width: 91px;
   height: 91px;
@@ -192,12 +359,12 @@ export default {
   display: flex;
 }
 .info-part {
-  margin-top: 20px;
+  margin-top: 30px;
   align-items: center;
 }
 .info-part div {
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   color: #d7df23;
 }
 .info-part img {
@@ -206,7 +373,7 @@ export default {
   height: 12px;
 }
 .class-name p {
-  margin-top: 10px;
+  margin-top: 15px;
   font-weight: 500;
   font-size: 24px;
   color: #a6a6a8;
@@ -218,16 +385,17 @@ export default {
   color: #647181;
 }
 .bottom-text {
-  margin-top: 15px;
+  margin-top: 33px;
   font-weight: 500;
   font-size: 12px;
   color: #a6a6a8;
 }
 .right-side {
   margin-top: 200px;
-  margin-left: 44px;
+  margin-left: 14px;
+  margin-right: 10rem;
   width: 376px;
-  height: 206px;
+  height: 266px;
   background-color: #1f272f;
   border: 1px solid #31394e;
   border-radius: 6px;
@@ -269,46 +437,16 @@ export default {
   color: #181a20;
   background-color: #d7df23;
 }
-
-.button button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-@media (max-width: 499px) {
-  .container-full {
-    flex-direction: column;
-    justify-content: center;
-    max-width: 499px;
-    margin: auto;
-    /* border: 1px solid red; */
-  }
-
-  .left-side {
-    /* border: 1px solid red; */
-    margin: auto;
-    width: auto !important;
-    max-width: 400px !important;
-    margin-top: 60px;
-  }
-
-  .right-side {
-    /* border: 1px solid yellow; */
-    max-height: 215px !important;
-    max-width: 320px;
-    width: auto;
-    min-width: 280px;
-    margin: auto;
-    margin-top: -100px;
-    padding: 15px;
-  }
-
-  .right-side input{
-    width: 100%;
-  }
-
-  .button button{
-    width: 100%;
-  }
+.sub-btn {
+  height: 40px;
+  width: 89px;
+  cursor: pointer;
+  border-radius: 6px;
+  background: #d7df23;
+  border: #31394e 1px solid;
+  margin: 4px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 15px;
 }
 </style>
