@@ -1,4 +1,5 @@
 <template>
+ <div class="idk-co">
   <div class="container-full flex">
     <div class="logo">
       <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
@@ -110,6 +111,7 @@
       </div>
     </div>
   </div>
+ </div>
 </template>
 <script>
 export default {
@@ -319,13 +321,21 @@ export default {
 *:not(i) {
   font-family: 'Karla', sans-serif !important;
 }
-.container-full {
-  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
-    url('../assets/images/dashboard/background.png');
-  width: 100%;
-  height: 100vh;
+.idk-co {
+  background: #000000;
+  background-image: url('../assets/images/back.jpeg');
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position-y: bottom;
+  background-position: bottom;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+.container-full {
+  backdrop-filter: brightness(0.2);
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
 }
 
 .logo {
@@ -448,5 +458,42 @@ export default {
   font-weight: 600;
   font-size: 13px;
   line-height: 15px;
+}
+
+@media (max-width: 499px) {
+  .container-full {
+    flex-direction: column;
+    justify-content: center;
+    max-width: 499px;
+    margin: auto;
+    /* border: 1px solid red; */
+  }
+
+  .left-side {
+    /* border: 1px solid red; */
+    margin: auto;
+    width: auto !important;
+    max-width: 400px !important;
+    margin-top: 60px;
+  }
+
+  .right-side {
+    /* border: 1px solid yellow; */
+    max-height: 280px !important;
+    max-width: 320px;
+    width: auto;
+    min-width: 280px;
+    margin: auto;
+    margin-top: -100px;
+    padding: 15px;
+  }
+
+  .right-side input{
+    width: 100%;
+  }
+
+  .button button{
+    width: 100%;
+  }
 }
 </style>

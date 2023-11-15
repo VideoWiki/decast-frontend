@@ -1017,6 +1017,10 @@ export default {
   max-width: 40%;
 }
 
+.idk-child:nth-child(3){
+  margin-bottom: 5rem;
+}
+
 .step-vid-cont > div {
   position: sticky;
   /* max-width: 600px; */
