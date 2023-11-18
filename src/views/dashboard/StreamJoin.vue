@@ -31,7 +31,7 @@
 
               <span class="dots ml-5">{{ dot2 }}</span>
               <!-- <span>{{ start_time }}</span> -->
-              <span class="number">{{ scope.props.hours }}</span>
+              <span class="number ml-5">{{ scope.props.hours }}</span>
               <span class="text">hrs</span>
 
               <span class="dots ml-5">{{ dot2 }}</span>

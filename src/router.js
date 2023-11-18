@@ -221,9 +221,9 @@ const router = new Router({
       },
     },
     {
-      path: '/joining/:cast_Id?',
+      path: '/joining/:meetingID?',
       name: 'Waiting Room',
-      component: () => import('./views/Verification/WaitingRoom.vue'),
+      component: () => import('./views/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -629,7 +629,7 @@ const router = new Router({
     {
       path: '/e/:session_key?',
       name: 'Join Cast',
-      component: () => import('./views/Verification/Join.vue'),
+      component: () => import('./views/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },

@@ -1,9 +1,7 @@
 <template>
   <div class="loader-container" id="loading-bg">
     <div class="svg-container">
-      <object type="image/svg+xml" data="./vw.svg">
-        <img src="@/../public/logo.svg" alt="Logo" />
-      </object>
+      <img src="@/assets/images/logot.svg" alt="Logo" />
     </div>
   </div>
 </template>
