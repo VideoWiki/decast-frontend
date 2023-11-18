@@ -429,7 +429,11 @@
                   <!-- <button>
                     <img src="@/assets/images/clock.svg" alt="" />Set reminder
                   </button> -->
-                  <button>
+                  <button
+                    @click="
+                      toggleEditCast(cast.public_meeting_id, index, false)
+                    "
+                  >
                     <img src="@/assets/images/pen.svg" alt="" />Edit
                   </button>
                   <button
@@ -713,6 +717,14 @@
         />
       </div>
     </div>
+    <div class="popup" v-if="showEditCast">
+      <SetUpEditCast
+        :cast_id="index"
+        :showEditCast="showEditCast"
+        @updateShowEditCast="updateShowEditCast"
+      ></SetUpEditCast>
+    </div>
+
     <div class="popup" v-if="showDeletePopup" @click="closeAllPopups">
       <div class="delete-popup">
         <div class="full-wrapper">
@@ -757,9 +769,11 @@ import InviteCard from '../InviteCard.vue';
 import postPoneCast from '../postPoneCast.vue';
 import SettingsTab from '../../../SetUpCasts/Tabs/SettingsTab.vue';
 import StreamingTab from '../../../SetUpCasts/Tabs/StreamingTab.vue';
+import SetUpEditCast from '../../EditCast/SetUpEditCast.vue';
 export default {
   components: {
     SetUpCast,
+    SetUpEditCast,
     InviteCard,
     postPoneCast,
     SettingsTab,
@@ -791,6 +805,7 @@ export default {
       castInfo: {},
       toPostpone: false,
       showPostpone: false,
+      showEditCast: false,
       mouse: 0,
       index: '',
       stepFourProps: {},
@@ -1213,6 +1228,15 @@ export default {
       document.getElementById('loading-bg').style.display = 'none';
       // console.log(castsInfo, 'TTTT');
       // console.log(casts, 'pppp');
+    },
+    toggleEditCast(id, index, toEditCast) {
+      this.showEditCast = true;
+      this.index = id;
+      this.toEditCast = toEditCast;
+      console.log('index', this.index);
+    },
+    updateShowEditCast(value) {
+      this.showEditCast = value;
     },
     togglePostpone(id, index, toPostpone) {
       this.showPostpone = true;

@@ -198,6 +198,8 @@ export default {
       })
         .then((res) => {
           resolve(res);
+          console.log(res,"res..")
+         
         })
         .catch((error) => {
           reject(error);
@@ -213,6 +215,7 @@ export default {
         .then((res) => {
           console.log('form submitting');
           resolve(res);
+          
         })
         .catch((error) => {
           console.log('not submitting');
