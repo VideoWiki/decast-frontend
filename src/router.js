@@ -627,7 +627,7 @@ const router = new Router({
       },
     },
     {
-      path: '/e/:session_key?',
+      path: '/e/:meetingID?',
       name: 'Join Cast',
       component: () => import('./views/JoinCast.vue'),
       meta: {
