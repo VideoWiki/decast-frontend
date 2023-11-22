@@ -9,7 +9,7 @@
         <div class="opt-cont">
           <div><a href="#" @click="redirectToLink">Features</a></div>
           <div><a href="#">Pricing</a></div>
-          <div><a href="#">About</a></div>
+          <div><a href="/aboutUs">About</a></div>
           <div><a href="#">Faq</a></div>
           <div><a href="#" @click="redirectTo">Contact</a></div>
         </div>
@@ -34,11 +34,7 @@
           <button>
             <router-link
               to="/dashboard"
-              style="
-                font-size: small;
-                font-weight: 500;
-                color: #000;
-              "
+              style="font-size: small; font-weight: 500; color: #000"
             >
               Dashboard
             </router-link>
@@ -1017,7 +1013,7 @@ export default {
   max-width: 40%;
 }
 
-.idk-child:nth-child(3){
+.idk-child:nth-child(3) {
   margin-bottom: 5rem;
 }
 
