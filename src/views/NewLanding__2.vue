@@ -7,7 +7,7 @@
                 </router-link>
 
                 <div class="opt-cont items-center gap-10 md:flex hidden ">
-                    <div><a class="" href="#" @click="redirectToLink">Features</a></div>
+                    <div><a class="" href="#" >Features</a></div>
                     <div class="dropbtn flex flex-col items-center relative" @click="dropOpen">
                         <a class="flex gap-2 items-center" href="#">
                             Join
@@ -90,23 +90,36 @@
         <div class="slider my-16">
             <div class="slide-track">
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Book more meetings</span>
+                    <span>Creators . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Make meaningful connections</span>
+                    <span>Content . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Collaborate instantly</span>
+                    <span>Connections . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Book more meetings</span>
+                    <span>Community . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Make meaningful connections</span>
+                    <span>Collaborations . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Collaborate instantly</span>
+                    <span>Creators . </span>
                 </div>
+                <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+                    <span>Content . </span>
+                </div>
+                <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+                    <span>Connections . </span>
+                </div>
+                <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+                    <span>Community . </span>
+                </div>
+                <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+                    <span>Collaborations . </span>
+                </div>
+
             </div>
         </div>
 
@@ -127,7 +140,7 @@
                     </div>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing-img.jpg" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/nft.png" />
                 </div>
             </div>
         </div>
@@ -146,7 +159,7 @@
                         where Edge computing requires low-latency responses. </p>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing-img.jpg" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/network.jpg" />
                 </div>
             </div>
         </div>
@@ -167,7 +180,7 @@
                     </div>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing-img.jpg" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/access.jpg" />
                 </div>
             </div>
         </div>
@@ -186,12 +199,12 @@
                         and the community supports the ongoing infrastructure maintenance and protocol improvements.</p>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing-img.jpg" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/money.jpg" />
                 </div>
             </div>
         </div>
 
-        <div class="flex w-full justify-center items-center">
+        <div class="hidden w-full justify-center items-center">
 
             <div class="slide-cont max-w-5xl w-full lg:px-16 px-4 rounded-lg">
                 <div class="btn-cont">
@@ -218,7 +231,6 @@
 
         <div class="logos">
             <div class="logos-slide">
-                <img src="@/assets/images/partners/videowiki.png" />
                 <img src="@/assets/images/partners/tedx.png" />
                 <img src="@/assets/images/partners/startup portugal.png" />
                 <img src="@/assets/images/partners/pci.png" />
@@ -228,7 +240,6 @@
                 <img src="@/assets/images/partners/getboarded.png" />
             </div>
             <div class="logos-slide">
-                <img src="@/assets/images/partners/videowiki.png" />
                 <img src="@/assets/images/partners/tedx.png" />
                 <img src="@/assets/images/partners/startup portugal.png" />
                 <img src="@/assets/images/partners/pci.png" />
@@ -1337,7 +1348,7 @@ button {
 
 .slide {
     height: auto;
-    max-width: 1200px;
+    max-width: 1300px;
     width: auto;
     display: flex;
     align-items: center;
@@ -1349,6 +1360,7 @@ button {
     width: 100%;
     color: #d7df23;
     font-weight: 700;
+    white-space: nowrap !important;
 }
 
 /* .slider:hover .slide-track {

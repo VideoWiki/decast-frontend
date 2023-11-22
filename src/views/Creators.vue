@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="landing">
         <div class="flex w-full justify-center items-center" :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }">
             <nav class="max-w-5xl w-full items-center flex flex-row justify-between lg:px-16 md:px-6 px-4 py-6">
                 <router-link to="/" class="w-16 h-16">
@@ -7,7 +7,7 @@
                 </router-link>
 
                 <div class="opt-cont items-center gap-10 md:flex hidden ">
-                    <div><a class="" href="#" @click="redirectToLink">Features</a></div>
+                    <div><a class="" href="#" >Features</a></div>
                     <div class="dropbtn flex flex-col items-center relative" @click="dropOpen">
                         <a class="flex gap-2 items-center" href="#">
                             Join
@@ -59,16 +59,13 @@
                 <div class=" lg:w-full md:w-8/12 sm:w-10/12 w-full">
                     <div class="op-1">
                         <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
-                            Cast your content
-                        </h1>
-                        <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
-                            from the future!
+                            Turn your Event Audience into NFT Fan Clubs.
                         </h1>
                     </div>
                     <div class="op-2 mt-2">
                         <p class="text-base text-left">
-                            Groundbreaking technology converges with <br class="xl:block hidden" />the future of live
-                            content creation!
+                            CAST a spell in your townhalls, launch parties, <br class="xl:block hidden" />and AMAs with Web3
+                            Casting.
                         </p>
                     </div>
                     <div class="op-3">
@@ -81,7 +78,7 @@
 
                 <div class="cont-3 flex justify-end items-center w-full" @scroll="handleScroll">
                     <div class="vid-cont rounded-lg">
-                        <img class="rounded-lg" src="@/assets/images/landing-img.jpg" />
+                        <img class="rounded-lg" src="@/assets/images/create.jpg" />
                     </div>
                 </div>
             </div>
@@ -90,23 +87,36 @@
         <div class="slider my-16">
             <div class="slide-track">
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Book more meetings</span>
+                    <span>Creators . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Make meaningful connections</span>
+                    <span>Content . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Collaborate instantly</span>
+                    <span>Connections . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Book more meetings</span>
+                    <span>Community . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Make meaningful connections</span>
+                    <span>Collaborations . </span>
                 </div>
                 <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
-                    <span>Collaborate instantly</span>
+                    <span>Creators . </span>
                 </div>
+                <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+                    <span>Content . </span>
+                </div>
+                <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+                    <span>Connections . </span>
+                </div>
+                <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+                    <span>Community . </span>
+                </div>
+                <div class="slide" :style="{ fontSize: dynamicFontSize3 }">
+                    <span>Collaborations . </span>
+                </div>
+
             </div>
         </div>
 
@@ -117,22 +127,27 @@
                     <div class=" flex-col flex md:w-10/12 sm:w-10/12">
                         <div class="w-24 h-24 relative mb-4 pr-2"><img class="w-full h-full"
                                 src="@/assets/images/play.svg" /></div>
-                        <h5 class="lg:text-5xl text-4xl text-grey font-semibold ">Creators - Content - Community</h5>
+                        <h5 class="lg:text-5xl text-4xl text-grey font-semibold ">Why Create with Cast?</h5>
                         <div class="w-64 my-4 h-2 rounded-full" style="background-color:#d7df23;"></div>
-                        <p class="text-base text-grey font-normal">From live casting to post-production, Decast empowers
-                            content creators with cutting-edge AI technologies, offering unparalleled opportunities for
-                            innovation and self-expression. Other than the usual advantages of decentralization with
-                            governance and ownership, Decentralized and Distributed systems will provide better performance
-                            and resilience to build applications in future. </p>
+                        <p class="text-base text-grey font-normal">CAST is an engaging video collaboration solution that is
+                            built for online events and digital parties.
+                            <br /><br />
+                            A fan club activation point for your events to reward audiences for their trust, loyalty and
+                            contributions. Our tools allow knowledge creators and brands to start and manage fan clubs. All
+                            of this driven by innovative NFT and Token subscriptions models.
+                            <br /><br />
+                            Wallet balances and subscription NFTs provide your users benefits online and in virtual
+                            'verses'. NFT drops that can serve function in real life and provide utility.
+                        </p>
                     </div>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing-img.jpg" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/create cast.jpg" />
                 </div>
             </div>
         </div>
 
-        <div class="basic__section basic__section__2 flex w-full justify-center items-center py-16">
+        <div class="basic__section basic__section__2 hidden w-full justify-center items-center py-16">
             <div
                 class=" max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
                 <div class="flex flex-col text-grey gap-4  w-full col-span-1">
@@ -151,47 +166,7 @@
             </div>
         </div>
 
-        <div class="basic__section basic__section__1 flex w-full justify-center items-center py-16">
-            <div
-                class=" max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
-                <div class="flex flex-col text-grey gap-4  w-full col-span-1 lg:order-last  lg:justify-end lg:items-end">
-                    <div class=" flex-col flex md:w-10/12 sm:w-10/12">
-                        <div class="w-24 h-24 relative mb-4 pr-2"><img class="w-full h-full"
-                                src="@/assets/images/access.svg" /></div>
-                        <h5 class="lg:text-5xl text-4xl text-grey font-semibold ">Democratized Ownership and Access to the
-                            Community</h5>
-                        <div class="w-64 my-4 h-2 rounded-full" style="background-color:#d7df23;"></div>
-                        <p class="text-base text-grey font-normal">Access to deploy apps on shared infrastructure which
-                            cultivates a collaborative, dynamic, and innovative ecosystem for diverse contributors to
-                            collectively shape the future of digital services</p>
-                    </div>
-                </div>
-                <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing-img.jpg" />
-                </div>
-            </div>
-        </div>
-
-        <div class="basic__section basic__section__2 flex w-full justify-center items-center py-16">
-            <div
-                class=" max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
-                <div class="flex flex-col text-grey gap-4  w-full col-span-1">
-                    <div class="w-24 h-24 relative mb-4 pr-2"><img class="w-full h-full" src="@/assets/images/money.svg" />
-                    </div>
-                    <h5 class="lg:text-5xl text-4xl text-grey font-semibold md:w-10/12 sm:w-10/12">On-Demand Costs and
-                        Revenue Share</h5>
-                    <div class="w-64 my-4 h-2 rounded-full" style="background-color:#d7df23;"></div>
-                    <p class="text-base text-grey font-normal md:w-10/12 sm:w-10/12">Creating a sustainable and
-                        collaborative ecosystem where platform operators are fairly compensated, users have pay-per-use fee,
-                        and the community supports the ongoing infrastructure maintenance and protocol improvements.</p>
-                </div>
-                <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing-img.jpg" />
-                </div>
-            </div>
-        </div>
-
-        <div class="flex w-full justify-center items-center">
+        <div class="hidden w-full justify-center items-center">
 
             <div class="slide-cont max-w-5xl w-full lg:px-16 px-4 rounded-lg">
                 <div class="btn-cont">
@@ -1349,6 +1324,7 @@ button {
     width: 100%;
     color: #d7df23;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 /* .slider:hover .slide-track {
