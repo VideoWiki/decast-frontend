@@ -188,7 +188,6 @@
 
         <div class="logos">
             <div class="logos-slide">
-                <img src="@/assets/images/partners/videowiki.png" />
                 <img src="@/assets/images/partners/tedx.png" />
                 <img src="@/assets/images/partners/startup portugal.png" />
                 <img src="@/assets/images/partners/pci.png" />
@@ -198,7 +197,6 @@
                 <img src="@/assets/images/partners/getboarded.png" />
             </div>
             <div class="logos-slide">
-                <img src="@/assets/images/partners/videowiki.png" />
                 <img src="@/assets/images/partners/tedx.png" />
                 <img src="@/assets/images/partners/startup portugal.png" />
                 <img src="@/assets/images/partners/pci.png" />
@@ -208,7 +206,6 @@
                 <img src="@/assets/images/partners/getboarded.png" />
             </div>
             <div class="logos-slide">
-                <img src="@/assets/images/partners/videowiki.png" />
                 <img src="@/assets/images/partners/tedx.png" />
                 <img src="@/assets/images/partners/startup portugal.png" />
                 <img src="@/assets/images/partners/pci.png" />
