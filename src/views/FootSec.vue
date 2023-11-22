@@ -117,7 +117,7 @@ export default {
 .log-co p {
   font-size: small;
   color: #ffffff;
-  text-align: center;
+  text-align: left;
   margin-top: 4rem;
   cursor: pointer;
 }
@@ -171,7 +171,7 @@ export default {
   margin-left: 75%;
 }
 
-@media screen and (max-device-width: 499px) {
+@media screen and (max-device-width: 980px) {
   .foot-cont {
     background-color: rgba(24, 26, 32, 1);
     padding: 20px;
@@ -342,7 +342,7 @@ export default {
 .log-co p {
   font-size: small;
   color: #ffffff;
-  text-align: center;
+  text-align: left;
   margin-top: 4rem;
   cursor: pointer;
 }
@@ -396,7 +396,7 @@ export default {
   margin-left: 75%;
 }
 
-@media screen and (max-device-width: 499px) {
+@media screen and (max-device-width: 980px) {
   .foot-cont {
     background-color: rgba(24, 26, 32, 1);
     padding: 20px;

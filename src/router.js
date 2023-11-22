@@ -2,7 +2,11 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import FullPage from '@/layouts/full-page/FullPage.vue';
 // import Landing from '@/views/Landing.vue';
-import Landing from '@/views/NewLanding.vue';
+import Landing from '@/views/NewLanding__2.vue';
+import Creators from '@/views/Creators.vue';
+import Sponsors from '@/views/Sponsors.vue';
+import Operators from '@/views/Operators.vue';
+
 Vue.use(Router);
 
 const router = new Router({
@@ -64,8 +68,32 @@ const router = new Router({
         },
         {
           path: '/',
-          name: 'Cast VideoWiki',
+          name: 'Welcome to Decast',
           component: Landing,
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/creators',
+          name: 'Welcome to Decast | Creators',
+          component: Creators,
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/sponsors',
+          name: 'Welcome to Decast | Sponsors',
+          component: Sponsors,
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/operators',
+          name: 'Welcome to Decast | Operators',
+          component: Operators,
           meta: {
             rule: 'isPublic',
           },
