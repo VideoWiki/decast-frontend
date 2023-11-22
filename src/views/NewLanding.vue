@@ -108,8 +108,18 @@
               <h1 :style="{ fontSize: dynamicFontSize3 }">Why use</h1>
               <h1 :style="{ fontSize: dynamicFontSize3 }">Cast?</h1>
             </div>
-            <div class="ima-cont" v-for="image in images" :key="image">
-              <img :src="image" alt="product" />
+            <div
+              class="ima-cont"
+              v-for="(image, index) in bgcontent"
+              :key="index"
+              :style="{ backgroundColor: bgColors[index] }"
+            >
+              <div class="why-cast">
+                <img :src="image.gif" alt="product" />
+                <h2 :style="{ fontSize: dynamicFontSize5 }">
+                  {{ image.desc }}
+                </h2>
+              </div>
             </div>
           </div>
         </div>
@@ -229,7 +239,7 @@
       </div>
       <div class="hov-cont">
         <div class="idk-1">
-          <div class="idk-child mt-3">
+          <div class="idk-child mt-3" id="idk-child1">
             <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
               1.
             </h1>
@@ -247,7 +257,7 @@
               Fill up your basic cast details
             </h1>
           </div>
-          <div class="idk-child mt-10">
+          <div class="idk-child" id="idk-child2">
             <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
               2.
             </h1>
@@ -262,10 +272,10 @@
                 fontWeight: 700,
               }"
             >
-              Chooose or Customize your branding
+              Customize your branding
             </h1>
           </div>
-          <div class="idk-child mt-10">
+          <div class="idk-child" id="idk-child3">
             <h1 :style="{ fontSize: dynamicFontSize3 }" style="color: #ffffff">
               3.
             </h1>
@@ -280,13 +290,13 @@
                 fontWeight: 700,
               }"
             >
-              Choose or customize the cast settings
+              Customize the cast settings
             </h1>
           </div>
         </div>
         <div class="step-vid-cont">
-          <div>
-            <img src="@/assets/images/cast.svg" />
+          <div ref="stepVidChild">
+            <img :src="activeImage" />
           </div>
         </div>
       </div>
@@ -316,6 +326,9 @@ export default {
       scrollPosition: 0,
       isLoggedIn: false,
       username: '',
+      generatedGradient: '',
+      generatedCol: '',
+      activeImage: require('@/assets/images/cast.svg'),
       testimonials: [
         {
           image: require('@/assets/images/of.svg'),
@@ -388,6 +401,28 @@ export default {
         require('@/assets/images/homepage/img4.svg'),
         require('@/assets/images/homepage/img5.svg'),
       ],
+      bgcontent: [
+        {
+          gif: require('@/assets/images/homepage/bit.webp'),
+          desc: 'Personalized NFT generated videos',
+        },
+        {
+          gif: require('@/assets/images/homepage/nft.webp'),
+          desc: 'Personalized NFT generated videos',
+        },
+        {
+          gif: require('@/assets/images/homepage/lap.webp'),
+          desc: 'Personalized NFT generated videos',
+        },
+        {
+          gif: require('@/assets/images/homepage/dan.gif'),
+          desc: 'Personalized NFT generated videos',
+        },
+        {
+          gif: require('@/assets/images/homepage/mon.webp'),
+          desc: 'Personalized NFT generated videos',
+        },
+      ],
       draggedBoxIndex: null,
     };
   },
@@ -437,6 +472,18 @@ export default {
         return fontSize;
       }
     },
+    dynamicFontSize5() {
+      const scalingFactor = 3;
+      const viewportWidth = window.innerWidth;
+      const minFontSize = 8;
+
+      if (viewportWidth < 499) {
+        return `${minFontSize}vw`;
+      } else {
+        const fontSize = `${scalingFactor}vw`;
+        return fontSize;
+      }
+    },
     borderStyle() {
       const maxBorderSize = 250;
       const maxScroll = 400;
@@ -451,8 +498,30 @@ export default {
       // console.log('Computed border style:', style);
       return style;
     },
-    generateRandomGradient() {
+    computedGradient() {
       return `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`;
+    },
+    bgColors() {
+      const red = ['#FF5733', '#FF2400', '#FF5C5C', '#FF6F61'];
+      const blue = ['#35B8FF', '#0751F0', '#05FAFF', '#00ECFF'];
+      const green = ['#33FF42', '#04F04F', '#027C08', '#8EFF7A'];
+      const purple = ['#CA72EB', '#CC57FF', '#A700FF', '#EB09BD'];
+      const orange = ['#FF7326', '#FF7526', '#FF0000', '#17FDEE'];
+
+      const colorPalettes = [red, blue, green, purple, orange];
+
+      const getRandomBrightColor = (colorArray) => {
+        return colorArray[Math.floor(Math.random() * colorArray.length)];
+      };
+
+      return this.bgcontent.map(() => {
+        const randomSelection = Math.floor(
+          Math.random() * colorPalettes.length
+        );
+        const selectedPalette = colorPalettes[randomSelection];
+        const randomColor = getRandomBrightColor(selectedPalette);
+        return randomColor;
+      });
     },
   },
   components: {
@@ -504,12 +573,28 @@ export default {
       }
     });
     this.setupIntersectionObserver();
+    this.generatedGradient = this.generateRandomGradient();
+    this.generatedCol = this.generatedColor();
     // this.createFallingBoxes();
     // this.createFallingBoxes1();
     // this.createFallingBoxes2();
     window.addEventListener('scroll', this.handleScroll2);
     this.handleLogin();
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.8,
+    };
+    const observer = new IntersectionObserver(this.handleIntersection, options);
+    const childIds = ['#idk-child1', '#idk-child2', '#idk-child3'];
+    childIds.forEach((id) => {
+      const target = document.querySelector(id);
+      if (target) {
+        observer.observe(target);
+      }
+    });
   },
+
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll2);
   },
@@ -540,6 +625,30 @@ export default {
         this.isNavbarScrolled = true;
       } else {
         this.isNavbarScrolled = false;
+      }
+    },
+    handleIntersection(entries) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const targetId = entry.target.id;
+          this.changeImage(targetId);
+        }
+      });
+    },
+    changeImage(targetId) {
+      switch (targetId) {
+        case 'idk-child1':
+          this.activeImage = require('@/assets/images/cast.svg');
+          break;
+        case 'idk-child2':
+          this.activeImage = require('@/assets/images/b.svg');
+          break;
+        case 'idk-child3':
+          this.activeImage = require('@/assets/images/c.svg');
+          break;
+        default:
+          this.activeImage = require('@/assets/images/cast.svg');
+          break;
       }
     },
     handleScroll2() {
@@ -580,14 +689,20 @@ export default {
       const scrollAmount = window.innerWidth; // Use 100vw equivalent
       container.scrollLeft += scrollAmount;
     },
+    generatedColor() {
+      return this.getRandomColor();
+    },
+    generateRandomGradient() {
+      return `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`;
+    },
     getRandomColor() {
       const colorShades = {
         red: ['#FF5733', '#FF2400', '#FF5C5C', '#FF6F61'],
-        blue: ['#33A1DE', '#4F86F7', '#62A9E3', '#45A6CA'],
-        green: ['#4CAF50', '#00B894', '#5DBB63', '#17A05E'],
-        purple: ['#9B59B6', '#8E44AD', '#C56CF0', '#7A6C5D'],
-        orange: ['#FFA726', '#FFD600', '#FFB83C', '#FFB74D'],
-        violet: ['#663399', '#9370DB', '#A569BD', '#9B59B6'],
+        blue: ['#35B8FF', '#0751F0', '#05FAFF', '#00ECFF'],
+        green: ['#33FF42', '#04F04F', '#41FF4B', '#21E103'],
+        purple: ['#CA72EB', '#CC57FF', '#A700FF', '#EB09BD'],
+        orange: ['#FF7326', '#FFD600', '#FF0000', '#F7EE05'],
+        // violet: ['#A651FF', '#6A1BFF', '#E4ABFF', '#C449FA'],
       };
 
       const colorCategory =
@@ -1004,6 +1119,7 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-top: 6rem;
+  scroll-behavior: smooth;
 }
 
 .idk-1 {
@@ -1013,7 +1129,16 @@ export default {
   max-width: 40%;
 }
 
-.idk-child:nth-child(3) {
+#idk-child1 {
+  margin-top: 5rem;
+}
+
+#idk-child2 {
+  margin-top: 7rem;
+}
+
+#idk-child3 {
+  margin-top: 6rem;
   margin-bottom: 5rem;
 }
 
@@ -1032,6 +1157,7 @@ export default {
   cursor: pointer;
   background-color: #f1f1f1;
   animation: backgroundAnimation 5s linear infinite;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .step-vid-cont > div > img {
@@ -1039,6 +1165,7 @@ export default {
   height: auto;
   max-width: 550px;
   margin: auto;
+  border-radius: 8px;
 }
 
 @keyframes backgroundAnimation {
@@ -1294,13 +1421,34 @@ export default {
   height: 90%;
   margin: auto !important;
 }
-.ima-cont img {
+.ima-cont div {
   width: auto;
-  height: auto;
+  height: 100%;
   max-height: 80vh;
-  object-fit: cover;
+  max-width: 480px;
   border-radius: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  padding: 15px;
+  padding-bottom: 30px;
+  background: transparent;
   /* border: 1px solid yellow !important; */
+}
+
+.why-cast img {
+  width: 20rem;
+  height: 20rem;
+  margin: auto;
+}
+
+.why-cast h2 {
+  text-align: center !important;
+  font-weight: 700;
+  text-wrap: balance;
+  color: #d7df23;
 }
 
 .text h1 {
@@ -1701,13 +1849,11 @@ export default {
     margin: auto !important;
     /* border: 1px solid red !important; */
   }
-  .ima-cont img {
+  .ima-cont div {
     width: auto;
     height: auto;
     max-height: 45vh;
-    object-fit: fill;
     border-radius: 30px;
-    border: 1px solid yellow !important;
   }
   .text h1 {
     font-weight: 700;

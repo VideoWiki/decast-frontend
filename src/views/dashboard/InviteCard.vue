@@ -261,6 +261,7 @@ export default {
             color: 'success',
           });
           this.userEmail = '';
+          this.$vs.loading.close();
         })
         .catch((err) => {
           console.log(err);

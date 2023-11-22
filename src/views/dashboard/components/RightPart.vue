@@ -1150,7 +1150,7 @@ export default {
     },
     copy(id, pass) {
       if (pass === undefined) {
-        navigator.clipboard.writeText('https://decast.live/join-cast/' + id);
+        navigator.clipboard.writeText('https://decast.live/live/' + id);
         return;
       }
       navigator.clipboard.writeText(

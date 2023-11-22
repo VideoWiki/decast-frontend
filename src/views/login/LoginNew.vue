@@ -3,7 +3,7 @@
     <div class="center-container">
       <div class="flex justify-between items-center">
         <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
-        <h6 class="custom-heading" style="color: #a6a6a8">Sign Up</h6>
+        <h6 class="custom-heading" style="color: #a6a6a8">Log In</h6>
         <!-- <button class="close-icon" @click="closeForm">✕</button> -->
       </div>
 
@@ -378,6 +378,13 @@ export default {
               this.$acl.change(this.activeUserInfo.userRole);
               this.$router.push('/');
               this.$vs.loading.close();
+              this.$vs.notify({
+                title: this.$t('Login.notify.title'),
+                text: 'Successfully signed up with Google!',
+                iconPack: 'feather',
+                icon: 'icon-check-circle',
+                color: 'success',
+              });
             });
         } else {
           this.$vs.notify({

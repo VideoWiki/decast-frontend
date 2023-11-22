@@ -1,117 +1,117 @@
 <template>
- <div class="idk-co">
-  <div class="container-full flex">
-    <div class="logo">
-      <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
-    </div>
-    <div class="left-side">
-      <!-- <div class="time flex">
-        <div class="number flex">
-          02
-          <p>hr</p>
-          <p class="dot">:</p>
+  <div class="idk-co">
+    <div class="container-full flex">
+      <div class="logo">
+        <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
+      </div>
+      <div class="left-side">
+        <!-- <div class="time flex">
+         <div class="number flex">
+           02
+           <p>hr</p>
+           <p class="dot">:</p>
+         </div>
+         <div class="number flex">
+           06
+           <p>min</p>
+           <p class="dot">:</p>
+         </div>
+         <div class="number flex">
+           08
+           <p>sec</p>
+         </div>
+       </div> -->
+        <div v-if="running" class="info-part flex">
+          <div><span v-if="sentOtp">Private </span>Cast is live</div>
+          <img src="@/assets/images/dashboard/Live.svg" alt="" />
         </div>
-        <div class="number flex">
-          06
-          <p>min</p>
-          <p class="dot">:</p>
+        <div v-else class="info-part flex text-danger">
+          <div><span v-if="sentOtp">Private </span>Cast is not live</div>
         </div>
-        <div class="number flex">
-          08
-          <p>sec</p>
+        <div class="class-name">
+          <p>{{ eventName }}</p>
+          <div class="host-name">Hosted by “{{ creator }}”</div>
         </div>
-      </div> -->
-      <div v-if="running" class="info-part flex">
-        <div><span v-if="sentOtp">Private </span>Cast is live</div>
-        <img src="@/assets/images/dashboard/Live.svg" alt="" />
+        <div class="bottom-text">
+          {{ eventDescription }}
+        </div>
       </div>
-      <div v-else class="info-part flex text-danger">
-        <div><span v-if="sentOtp">Private </span>Cast is not live</div>
-      </div>
-      <div class="class-name">
-        <p>{{ eventName }}</p>
-        <div class="host-name">Hosted by “{{ creator }}”</div>
-      </div>
-      <div class="bottom-text">
-        {{ eventDescription }}
-      </div>
-    </div>
-    <div v-if="sentOtp && !verified" class="right-side">
-      <p class="heading">
-        This is a private secure event, so let's just verify that it is really
-        you.
-      </p>
-      <form
-        @submit.prevent="requestOtp"
-        v-if="activeSection === 'Verification' && !verified"
-      >
-        <div v-if="!otpSent" class="name">
-          Enter Your Email
-          <input
-            class="verification-input text-xl"
-            v-validate="'required'"
-            type="email"
-            name="email"
-            placeholder="xyz@example.com"
-            autocomplete="off"
-            v-model="email"
-          />
-          <p class="otp-text pt-3">
-            We will send an OTP to your email to verify your email. This does
-            not create your VideoWiki account.
-          </p>
-          <div class="button">
-            <button v-if="!otpField" @click.prevent="requestOtp">
-              Request OTP
-            </button>
+      <div v-if="sentOtp && !verified" class="right-side">
+        <p class="heading">
+          This is a private secure event, so let's just verify that it is really
+          you.
+        </p>
+        <form
+          @submit.prevent="requestOtp"
+          v-if="activeSection === 'Verification' && !verified"
+        >
+          <div v-if="!otpSent" class="name">
+            Enter Your Email
+            <input
+              class="verification-input text-xl"
+              v-validate="'required'"
+              type="email"
+              name="email"
+              placeholder="xyz@example.com"
+              autocomplete="off"
+              v-model="email"
+            />
+            <p class="otp-text pt-3">
+              We will send an OTP to your email to verify your email. This does
+              not create your VideoWiki account.
+            </p>
+            <div class="button">
+              <button v-if="!otpField" @click.prevent="requestOtp">
+                Request OTP
+              </button>
+            </div>
           </div>
-        </div>
-        <span v-if="otpField">
-          <div class="flex name">
-            <p class="text-grey">Check your email for OTP</p>
-          </div>
-          <input
-            class="verification-input text-xl"
-            v-validate="'required'"
-            name="Name"
-            placeholder="Enter OTP"
-            autocomplete="off"
-            v-model="otp"
-          />
-          <div class="flex flex-wrap my-6 w-full px-16">
-            <button
-              class="sub-btn justify-center text-lg flex items-center"
-              :style="{ backgroundColor: '#1D232B', color: '#A6A6A8' }"
-              :disabled="!validateOtp"
-              @click.prevent="userVerification"
-            >
-              Verify
-            </button>
+          <span v-if="otpField">
+            <div class="flex name">
+              <p class="text-grey">Check your email for OTP</p>
+            </div>
+            <input
+              class="verification-input text-xl"
+              v-validate="'required'"
+              name="Name"
+              placeholder="Enter OTP"
+              autocomplete="off"
+              v-model="otp"
+            />
+            <div class="flex flex-wrap my-6 w-full px-16">
+              <button
+                class="sub-btn justify-center text-lg flex items-center"
+                :style="{ backgroundColor: '#1D232B', color: '#A6A6A8' }"
+                :disabled="!validateOtp"
+                @click.prevent="userVerification"
+              >
+                Verify
+              </button>
 
-            <button
-              class="sub-btn justify-center text-lg flex items-center text-black"
-              @click.prevent="goBack"
-            >
-              Cancel
-            </button>
-          </div>
-        </span>
-      </form>
-    </div>
-    <div v-else class="right-side">
-      <div class="heading">You're joining the cast</div>
-      <div class="name">Joining name</div>
-      <input
-        placeholder="e.g John G. Miguel"
-        @keydown.enter="accessCast"
-        v-model="joiningName"
-      />
-      <div class="button">
-        <button class="cursor-pointer" @click="accessCast">Access cast</button>
+              <button
+                class="sub-btn justify-center text-lg flex items-center text-black"
+                @click.prevent="goBack"
+              >
+                Cancel
+              </button>
+            </div>
+          </span>
+        </form>
+      </div>
+      <div v-else class="right-side">
+        <div class="heading">You're joining the cast</div>
+        <div class="name">Joining name</div>
+        <input
+          placeholder="e.g John G. Miguel"
+          @keydown.enter="joinCast"
+          v-model="joiningName"
+        />
+        <div class="button">
+          <button class="cursor-pointer" @click="joinCast">Access cast</button>
+        </div>
       </div>
     </div>
   </div>
- </div>
 </template>
 <script>
 export default {
@@ -135,8 +135,16 @@ export default {
       otpSent: false,
       payload: {},
       sentOtp: false,
+      password: '',
     };
   },
+  // created() {
+  //   const credentials = this.extractCredentials();
+  //   if (credentials) {
+  //     this.password = credentials.password;
+  //     this.email = credentials.email;
+  //   }
+  // },
   computed: {
     validateEmail() {
       return !this.errors.any() && this.email !== '';
@@ -153,6 +161,24 @@ export default {
     this.getMeetingDetails();
   },
   methods: {
+    // extractCredentials() {
+    //   const url = window.location.href;
+    //   const passStartIndex = url.indexOf('?pass=') + 6; // 6 is the length of '?pass='
+    //   const passEndIndex = url.indexOf('%3Femail%3D', passStartIndex); // '%3Femail%3D' is the end of the password
+
+    //   if (passStartIndex !== -1 && passEndIndex !== -1) {
+    //     const passParam = url.substring(passStartIndex, passEndIndex);
+    //     let emailParam = url.substring(passEndIndex + 10); // 10 is the length of '%3Femail%3D'
+    //     emailParam = emailParam.substring(1); // remove the first character
+    //     return {
+    //       password: decodeURIComponent(passParam),
+    //       email: emailParam ? decodeURIComponent(emailParam) : '',
+    //     };
+    //   }
+
+    //   return null;
+    // },
+
     async getMeetingDetails() {
       const res = await this.$store.dispatch(
         'cast/meetingInfo',
@@ -167,6 +193,129 @@ export default {
       this.creator = details.event_creator_name;
       this.running = details.running;
       document.getElementById('loading-bg').style.display = 'none';
+    },
+    async joinCast() {
+      // const credentials = this.extractCredentials();
+      // console.log('my credentials are', credentials);
+      const payload = {
+        name: this.joiningName,
+        email: !this.sentOtp ? '' : this.email,
+        password: !this.sentOtp ? this.$route.query.pass : '',
+        public_meeting_id: this.meeting_id,
+        avatar_url: '',
+        isPublic: !this.sentOtp,
+      };
+
+      console.log('my payload is this', payload);
+      if (this.payload) {
+        this.email = this.payload.email;
+      } else {
+        this.email = '';
+      }
+
+      if (!this.sentOtp) {
+        const joineePayload = {
+          user_name: this.joiningName,
+          user_email: payload.email || '',
+          session_id: payload.public_meeting_id,
+        };
+
+        await this.$store
+          .dispatch('studio/addJoinee', joineePayload)
+          .then(async (response) => {
+            console.log(response.data);
+            if (response.data.status) {
+              console.log('public path');
+              if (this.$route.query.pass !== undefined) {
+                console.log(payload);
+                await this.magicJoin(payload);
+              } else {
+                await this.joinCastUtil(payload);
+              }
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$vs.loading.close();
+            this.disabled = false;
+            this.$vs.notify({
+              title: 'Error Occurred',
+              text:
+                err.response != null
+                  ? err.response.data.message
+                  : 'Something went wrong! Try Again',
+              color: 'danger',
+            });
+          });
+      } else {
+        if (this.$route.query.pass !== undefined) {
+          await this.magicJoin(payload);
+        } else {
+          this.joinCastUtil(payload);
+        }
+      }
+    },
+    joinCastUtil(payload) {
+      console.log('----->');
+      this.$store
+        .dispatch('studio/joinEvent', payload)
+        .then((response) => {
+          this.responsedata = response.data.url;
+          window.location.href = response.data.url;
+          this.$vs.notify({
+            title: 'Success',
+            text: response.data.message,
+            color: 'success',
+          });
+        })
+        .catch((e) => {
+          console.log(e.response);
+          this.$vs.loading.close();
+          this.disabled = false;
+          this.$vs.notify({
+            title: 'Error Occurred',
+            text:
+              e.response != null
+                ? e.response.data.message
+                : 'Check either your password or the cast timing',
+            color: 'danger',
+          });
+        });
+    },
+    async magicJoin(payload) {
+      console.log(payload);
+      var data = JSON.stringify({
+        id: this.meeting_id,
+        pass: this.$route.query.pass,
+        name: this.joiningName,
+      });
+      console.log(178);
+      await this.$store
+        .dispatch('studio/magicJoin', data)
+        .then((res) => {
+          console.log(res.data.url, 181);
+          if (res.data.url) {
+            console.log(184);
+            this.$vs.notify({
+              title: 'Success',
+              color: 'success',
+            });
+            location.href = res.data.url;
+          } else {
+            this.$vs.loading.close();
+            this.disabled = false;
+            this.$vs.notify({
+              title: 'Wrong Link',
+              text: 'You have the wrong link to join',
+              color: 'danger',
+            });
+          }
+        })
+        .catch((e) => {
+          this.$vs.loading.close();
+          this.disabled = false;
+          console.log(e.response);
+        });
     },
     accessCast() {
       if (this.disabled) {
@@ -185,7 +334,7 @@ export default {
       }
       var data = JSON.stringify({
         id: this.meeting_id,
-        pass: this.$route.query.pass,
+        pass: !this.sentOtp ? this.$route.query.pass : '',
         name: this.joiningName,
       });
       this.$vs.loading();
@@ -488,11 +637,11 @@ export default {
     padding: 15px;
   }
 
-  .right-side input{
+  .right-side input {
     width: 100%;
   }
 
-  .button button{
+  .button button {
     width: 100%;
   }
 }

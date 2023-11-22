@@ -163,7 +163,7 @@ export default {
     registerUserJWt() {
       // If form is not validated or user is already login return
       // if (!this.validateForm || !this.checkLogin()) return;
-
+      console.log('yessss');
       this.$vs.loading();
 
       const payload = {
@@ -182,8 +182,18 @@ export default {
           window.dataLayer.push({
             event: 'register',
             authenticationMethod: 'Email',
-            userId: response.data.usersData.id, // this should be replaced with an actual ID
+            userId: response.data.data.user_id, // this should be replaced with an actual ID
           });
+          console.log('Registration successful - before notification');
+          this.$vs.notify({
+            title: 'Registration Successful',
+            text: 'You have successfully registered!',
+            iconPack: 'feather',
+            icon: 'icon-check-circle',
+            color: 'success',
+          });
+          console.log('Registration successful - after notification');
+          console.log('ye res', response);
           location.href = constants.challengeUri;
         })
         .catch((error) => {
@@ -335,6 +345,13 @@ export default {
               this.$acl.change(this.activeUserInfo.userRole);
               this.$router.push('/');
               this.$vs.loading.close();
+              this.$vs.notify({
+                title: this.$t('Login.notify.title'),
+                text: 'Successfully signed up with Google!',
+                iconPack: 'feather',
+                icon: 'icon-check-circle',
+                color: 'success',
+              });
             });
         } else {
           this.$vs.notify({
