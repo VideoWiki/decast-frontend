@@ -182,7 +182,14 @@ export default {
           window.dataLayer.push({
             event: 'register',
             authenticationMethod: 'Email',
-            userId: response.data.usersData.id, // this should be replaced with an actual ID
+            userId: response.data.data.user_id, // this should be replaced with an actual ID
+          });
+          this.$vs.notify({
+            title: 'Registration Successful',
+            text: 'You have successfully registered!',
+            iconPack: 'feather',
+            icon: 'icon-check-circle',
+            color: 'success',
           });
           location.href = constants.challengeUri;
         })

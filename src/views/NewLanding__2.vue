@@ -7,7 +7,7 @@
                 </router-link>
 
                 <div class="opt-cont items-center gap-10 md:flex hidden ">
-                    <div><a class="" href="#" >Features</a></div>
+                    <div><a class="" href="/features" >Features</a></div>
                     <div class="dropbtn flex flex-col items-center relative" @click="dropOpen">
                         <a class="flex gap-2 items-center" href="#">
                             Join
@@ -26,9 +26,9 @@
                         </div>
 
                     </div>
-                    <div><a href="#">Pricing</a></div>
-                    <div><a href="#">About</a></div>
-                    <div><a href="#">Faq</a></div>
+                    <div><a href="/pricing">Pricing</a></div>
+                    <div><a href="/about">About</a></div>
+                    <div><a href="">Faq</a></div>
                     <div><a href="#" @click="redirectTo">Contact</a></div>
                 </div>
 
