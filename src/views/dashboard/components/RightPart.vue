@@ -63,7 +63,7 @@
         </button>
         <button
           class="options-button border-none px-5"
-          @click="changeFocus(false)"
+          @click="handleButtonClick"
           :class="{ 'focused-button': !focusYourRooms }"
         >
           Cast Recordings
@@ -830,7 +830,7 @@ export default {
       this.mouse = mouseY;
     });
     this.getCastList();
-    this.getRecordings();
+    // this.getRecordings();
     window.addEventListener('click', this.handleGlobalClick);
     window.addEventListener('click', this.handleClick2);
     window.addEventListener('click', this.handleClick3);
@@ -865,6 +865,10 @@ export default {
         });
       });
       return flattenedList;
+    },
+    handleButtonClick() {
+      this.changeFocus(false);
+      this.getRecordings();
     },
     ShowInvite(id, inviteList, stream, viewer) {
       this.meetingId = id;

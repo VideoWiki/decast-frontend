@@ -177,7 +177,7 @@ export default {
       this.$store
         .dispatch('cast/getCastList')
         .then((response) => {
-          console.log(response, 'll');
+          // console.log(response, 'll');
         })
         .catch((error) => {
           // Handle API request error here
