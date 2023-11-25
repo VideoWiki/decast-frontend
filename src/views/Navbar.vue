@@ -6,12 +6,12 @@
     <nav
       class="max-w-5xl w-full items-center flex flex-row justify-between lg:px-16 md:px-6 px-4 py-6"
     >
-      <router-link to="/" class="w-16 h-16">
+      <a href="/" class="w-16 h-16">
         <img
           class="w-full h-full object-cover"
           src="@/assets/images/logo square.svg"
         />
-      </router-link>
+      </a>
 
       <div class="opt-cont items-center gap-10 md:flex hidden">
         <div><a class="" href="/features">Features</a></div>

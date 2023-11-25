@@ -262,8 +262,7 @@
                           border: none;
                           padding: 10px;
                           background: rgba(255, 255, 255, 0.5);
-                          border-radius: 5px;
-                        "
+                          border-radius: 5px;"
                         alt="copy"
                         :style="{ backgroundColor: getColor(index) }"
                       />
@@ -720,6 +719,7 @@
     <div class="popup" v-if="showEditCast">
       <SetUpEditCast
         :cast_id="index"
+        :getCast="getCastList"
         :showEditCast="showEditCast"
         @updateShowEditCast="updateShowEditCast"
       ></SetUpEditCast>
