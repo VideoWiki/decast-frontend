@@ -1,16 +1,16 @@
 <template>
   <div class="parent-1">
-    <Navbar/>
+    <Navbar />
     <div class="parent-2">
       <div>
         <h1>Video conferencing with no monthly fees</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et
-          risus blandit, iaculis magna et, viverra odio. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Etiam et risus blandit, iaculis
-          magna et, viverra odio. Pellentesque imperdiet dui vitae ligula porta,
-          sit amet sollicitudin sapien ornare. Orci varius natoque penatibus et
-          magnis dis parturient montes, nascetur ridiculus
+          A collaborative platform for learners and educators to secure learning
+          continuity in times of restrictions and beyond. A simple tool for
+          teachers to create teaching content without any advance knowledge of a
+          tool or code. They create by using various media and graphics from the
+          open stock libraries and merging it with their own content to keep it
+          engaging and diverse.
         </p>
       </div>
       <img src="@/assets/images/girls.svg" />
@@ -24,12 +24,13 @@
       <div>
         <h1>Helping millions of Students to grow better</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et
-          risus blandit, iaculis magna et, viverra odio. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Etiam et risus blandit, iaculis
-          magna et, viverra odio. Pellentesque imperdiet dui vitae ligula porta,
-          sit amet sollicitudin sapien ornare. Orci varius natoque penatibus et
-          magnis dis parturient montes, nascetur ridiculus
+          Theoretical knowledge online is what most universities have achieved,
+          but practical training online so far seems unique. We are building
+          tools to auto-generate (convert) text-based content to video-based
+          online content with an extension towards gamification and immersive
+          techniques for advanced pieces of training. Vision to ensure learning
+          continuity for all. Standardized education and access to all with
+          equal opportunities to educational processes.
         </p>
       </div>
     </div>
@@ -74,7 +75,7 @@ import Navbar from './Navbar.vue';
 export default {
   components: {
     Navbar,
-},
+  },
 };
 </script>
 
