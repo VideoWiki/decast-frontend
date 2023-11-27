@@ -634,6 +634,14 @@ const router = new Router({
       },
     },
     {
+      path: '/contact',
+      name: 'Contact',
+      component: () => import('./views/Contact.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/loader',
       name: 'Loading',
       component: () =>
