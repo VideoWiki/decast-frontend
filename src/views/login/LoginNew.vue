@@ -374,10 +374,17 @@ export default {
             })
             .then((response) => {
               console.log(5);
-              console.log(5);
+              console.log(response);
+              window.location.replace(response.data.redirect_to);
               this.$acl.change(this.activeUserInfo.userRole);
-              this.$router.push('/');
+              if (this.popup) this.$emit('loggedIn');
               this.$vs.loading.close();
+              this.$vs.notify({
+                title: 'Success',
+                text: 'Login Successfull',
+                iconPack: 'feather',
+                color: 'success',
+              });
             });
         } else {
           this.$vs.notify({
