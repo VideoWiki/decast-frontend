@@ -352,7 +352,7 @@ export default {
       this.isIncognito = false;
       const gauthOption = {
         clientId:
-          '902793198689-nu0nnljgq6vkc6remk68u2lnabo0b31m.apps.googleusercontent.com',
+          '819083977574-sq0gi88sfdb5skebh2kjk62t41nuegfv.apps.googleusercontent.com',
         scope: 'profile email',
         prompt: 'consent',
         fetch_basic_profile: true,

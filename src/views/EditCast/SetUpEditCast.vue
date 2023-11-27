@@ -146,8 +146,8 @@ export default {
   },
   props: {
     getCast: {
-      type: Function, // Define it as a function type
-      required: true, // Adjust as needed
+      type: Function, 
+      required: true, 
     },
     cast_id: {
       type: String, // Replace String with the actual type of cast_id
