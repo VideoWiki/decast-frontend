@@ -184,7 +184,6 @@ export default {
             authenticationMethod: 'Email',
             userId: response.data.data.user_id, // this should be replaced with an actual ID
           });
-          console.log('Registration successful - before notification');
           this.$vs.notify({
             title: 'Registration Successful',
             text: 'You have successfully registered!',

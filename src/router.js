@@ -34,14 +34,14 @@ const router = new Router({
             rule: 'isPublic',
           },
         },
-        {
-          path: '/about',
-          name: 'About Us',
-          component: () => import('./views/AboutUs.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
+        // {
+        //   path: '/about',
+        //   name: 'About Us',
+        //   component: () => import('./views/AboutUs.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
         {
           path: '/test',
           name: 'Testing',
@@ -473,6 +473,22 @@ const router = new Router({
       },
     },
     {
+      path: '/about',
+      name: 'About',
+      component: () => import('./views/AboutPage.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/navbar',
+      name: 'Navbar',
+      component: () => import('./views/Navbar.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/rightpart',
       name: 'rightpart',
       component: () => import('./views/dashboard/components/RightPart.vue'),
@@ -508,6 +524,14 @@ const router = new Router({
       path: '/aboutUs',
       name: 'About',
       component: () => import('./views/dashboard/AboutPage.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/contactUs',
+      name: 'Contact Us',
+      component: () => import('./views/dashboard/ContactUs.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -597,6 +621,30 @@ const router = new Router({
       path: '/contact-us',
       name: 'Contact Us',
       component: () => import('./views/ContactUs.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/features',
+      name: 'Features',
+      component: () => import('./views/Features.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/faq',
+      name: 'Faq',
+      component: () => import('./views/Faq.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/pricing',
+      name: 'Pricing',
+      component: () => import('./views/Pricing.vue'),
       meta: {
         rule: 'isPublic',
       },

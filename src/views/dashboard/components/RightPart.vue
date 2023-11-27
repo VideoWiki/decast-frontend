@@ -63,7 +63,7 @@
         </button>
         <button
           class="options-button border-none px-5"
-          @click="changeFocus(false)"
+          @click="handleButtonClick"
           :class="{ 'focused-button': !focusYourRooms }"
         >
           Cast Recordings
@@ -262,8 +262,7 @@
                           border: none;
                           padding: 10px;
                           background: rgba(255, 255, 255, 0.5);
-                          border-radius: 5px;
-                        "
+                          border-radius: 5px;"
                         alt="copy"
                         :style="{ backgroundColor: getColor(index) }"
                       />
@@ -720,6 +719,7 @@
     <div class="popup" v-if="showEditCast">
       <SetUpEditCast
         :cast_id="index"
+        :getCast="getCastList"
         :showEditCast="showEditCast"
         @updateShowEditCast="updateShowEditCast"
       ></SetUpEditCast>
@@ -830,7 +830,7 @@ export default {
       this.mouse = mouseY;
     });
     this.getCastList();
-    this.getRecordings();
+    // this.getRecordings();
     window.addEventListener('click', this.handleGlobalClick);
     window.addEventListener('click', this.handleClick2);
     window.addEventListener('click', this.handleClick3);
@@ -865,6 +865,10 @@ export default {
         });
       });
       return flattenedList;
+    },
+    handleButtonClick() {
+      this.changeFocus(false);
+      this.getRecordings();
     },
     ShowInvite(id, inviteList, stream, viewer) {
       this.meetingId = id;
