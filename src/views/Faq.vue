@@ -1,5 +1,6 @@
 <template>
   <div class="parent-1">
+    <Navbar />
     <div class="head-cont">
       <h1>Frequently asked questions</h1>
       <p>Have questions? We're here to help.</p>
@@ -21,29 +22,33 @@
         </transition>
       </div>
     </div>
+    <FootSec />
   </div>
 </template>
 
 <script>
+import Navbar from './Navbar.vue';
+import FootSec from './FootSec.vue';
 export default {
+  components: {
+    Navbar,
+    FootSec,
+  },
   data() {
     return {
       activeIndex: null,
       faqs: [
         {
           question: 'Is there a free trial available?',
-          answer:
-            'Yes we provide free trial plans as well.',
+          answer: 'Yes we provide free trial plans as well.',
         },
         {
           question: 'Can I change my plan later?',
-          answer:
-            'Yes you can change your plan later.',
+          answer: 'Yes you can change your plan later.',
         },
         {
           question: 'Can I reschedule a cast?',
-          answer:
-            'Yes you can rescedule your cast for later.',
+          answer: 'Yes you can rescedule your cast for later.',
         },
         {
           question: 'Can I see the cast or room recordings?',
@@ -57,8 +62,7 @@ export default {
         },
         {
           question: 'Can I change the name or description of my cast',
-          answer:
-            'Yes you can update every cast detail under edit cast option',
+          answer: 'Yes you can update every cast detail under edit cast option',
         },
       ],
     };
@@ -79,7 +83,7 @@ export default {
 
 .fade-enter,
 .fade-leave-to {
-    transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 .parent-1 {
   background-image: linear-gradient(180deg, #000, #111, #222);

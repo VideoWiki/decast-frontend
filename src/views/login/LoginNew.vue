@@ -3,7 +3,7 @@
     <div class="center-container">
       <div class="flex justify-between items-center">
         <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
-        <h6 class="custom-heading" style="color: #a6a6a8">Sign Up</h6>
+        <h6 class="custom-heading" style="color: #a6a6a8">Log In</h6>
         <!-- <button class="close-icon" @click="closeForm">✕</button> -->
       </div>
 
@@ -16,7 +16,7 @@
           <p class="flex justify-start items-center">
             <img src="@/assets/images/login/google.png" class="h-6 px-3" />
             <!-- Log in with Google uncomment after design fix and remove the below line -->
-            Sign up with Google
+            Log in with Google
           </p>
           <!-- <GoogleLogin/> -->
         </div>
