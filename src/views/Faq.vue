@@ -100,6 +100,7 @@ export default {
   width: 100%;
   height: 25vh;
   text-align: center;
+  margin-top: -5rem;
   display: flex;
   flex-direction: column;
   align-items: center;

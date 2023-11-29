@@ -14,50 +14,31 @@
           />
         </router-link>
 
-        <div class="opt-cont items-center gap-10 md:flex hidden">
-          <div><a class="" href="/features">Features</a></div>
-          <div
-            class="dropbtn flex flex-col items-center relative"
-            @click="dropOpen"
-          >
-            <a class="flex gap-2 items-center" href="#">
-              Join
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="8"
-                viewBox="0 0 14 8"
-                fill="none"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M7.70734 7.70698C7.51981 7.89445 7.26551 7.99976 7.00034 7.99976C6.73518 7.99976 6.48087 7.89445 6.29334 7.70698L0.636343 2.04998C0.540833 1.95773 0.464651 1.84739 0.412242 1.72538C0.359833 1.60338 0.332246 1.47216 0.331092 1.33938C0.329939 1.2066 0.355241 1.07492 0.405521 0.952023C0.455802 0.829127 0.530055 0.717474 0.623948 0.623581C0.717841 0.529689 0.829492 0.455436 0.952389 0.405155C1.07529 0.354874 1.20696 0.329572 1.33974 0.330726C1.47252 0.33188 1.60374 0.359466 1.72575 0.411875C1.84775 0.464284 1.9581 0.540466 2.05034 0.635976L7.00034 5.58598L11.9503 0.635976C12.1389 0.453818 12.3915 0.353024 12.6537 0.355302C12.9159 0.357581 13.1668 0.46275 13.3522 0.648158C13.5376 0.833566 13.6427 1.08438 13.645 1.34658C13.6473 1.60877 13.5465 1.86137 13.3643 2.04998L7.70734 7.70698Z"
-                  fill="#a6a6a6"
-                />
-              </svg>
-            </a>
-            <div
-              id="Navdrop"
-              class="flex-col absolute py-2 px-4 rounded-sm Navdrop hideNav bg-black items-center"
-              style="top: 100%"
-            >
-              <router-link class="" to="/creators" style="width: fit-content"
-                >Creators</router-link
-              >
-              <router-link class="" to="/sponsors" style="width: fit-content"
-                >Sponsers</router-link
-              >
-              <router-link class="" to="/operators" style="width: fit-content"
-                >Operators</router-link
-              >
-            </div>
-          </div>
-          <div><a href="/pricing">Pricing</a></div>
-          <div><a href="/about">About</a></div>
-          <div><a href="/faq">Faq</a></div>
-          <div><a href="/contact">Contact</a></div>
-        </div>
+                <div class="opt-cont items-center gap-10 md:flex hidden ">
+                    <div><a class="" href="/features" >Features</a></div>
+                    <div class="dropbtn flex flex-col items-center relative" @click="dropOpen">
+                        <a class="flex gap-2 items-center" href="#">
+                            Join
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 14 8" fill="none">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M7.70734 7.70698C7.51981 7.89445 7.26551 7.99976 7.00034 7.99976C6.73518 7.99976 6.48087 7.89445 6.29334 7.70698L0.636343 2.04998C0.540833 1.95773 0.464651 1.84739 0.412242 1.72538C0.359833 1.60338 0.332246 1.47216 0.331092 1.33938C0.329939 1.2066 0.355241 1.07492 0.405521 0.952023C0.455802 0.829127 0.530055 0.717474 0.623948 0.623581C0.717841 0.529689 0.829492 0.455436 0.952389 0.405155C1.07529 0.354874 1.20696 0.329572 1.33974 0.330726C1.47252 0.33188 1.60374 0.359466 1.72575 0.411875C1.84775 0.464284 1.9581 0.540466 2.05034 0.635976L7.00034 5.58598L11.9503 0.635976C12.1389 0.453818 12.3915 0.353024 12.6537 0.355302C12.9159 0.357581 13.1668 0.46275 13.3522 0.648158C13.5376 0.833566 13.6427 1.08438 13.645 1.34658C13.6473 1.60877 13.5465 1.86137 13.3643 2.04998L7.70734 7.70698Z"
+                                    fill="#a6a6a6" />
+                            </svg>
+                        </a>
+                        <div id="Navdrop"
+                            class="flex-col absolute py-2 px-4 rounded-sm Navdrop hideNav bg-black items-center"
+                            style="top: 100%;">
+                            <router-link class="" to="/creators" style="width: fit-content;">Creators</router-link>
+                            <router-link class="" to="/sponsors" style="width: fit-content;">Sponsers</router-link>
+                            <router-link class="" to="/operators" style="width: fit-content;">Operators</router-link>
+                        </div>
+
+                    </div>
+                    <div><a href="/pricing">Pricing</a></div>
+                    <div><a href="/about">About</a></div>
+                    <div><a href="/faq">Faq</a></div>
+                    <div><a href="/contact" @click="redirectTo">Contact</a></div>
+                </div>
 
         <div class="log-cont" v-if="!isLoggedIn">
           <div
@@ -74,43 +55,37 @@
                     </div> -->
         </div>
 
-        <div class="nam-con" v-else>
-          <p>Hi, {{ username }}!</p>
-          <button>
-            <router-link
-              to="/dashboard"
-              style="font-size: small; font-weight: 500; color: #000"
-            >
-              Dashboard
-            </router-link>
-          </button>
+                <div class="nam-con" v-else>
+                    <p>Hi, {{ username }}!</p>
+                    <button>
+                        <router-link to="/dashboard" style="font-size: small; font-weight: 500; color: #000">
+                            Dashboard
+                        </router-link>
+                    </button>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
-    <div class="home-cont mb-16">
-      <div
-        class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16 flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start"
-      >
-        <div class="lg:w-full md:w-8/12 sm:w-10/12 w-full">
-          <div class="op-1">
-            <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
-              Cast your content
-            </h1>
-            <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
-              from the future!
-            </h1>
-          </div>
-          <div class="op-2 mt-2">
-            <p class="text-base text-left">
-              Groundbreaking technology converges with
-              <br class="xl:block hidden" />the future of live content creation!
-            </p>
-          </div>
-          <div class="op-3">
-            <button @click="open">
-              <img src="@/assets/images/meet.svg" />Enter
-            </button>
-            <!-- <button>
+        <div class="home-cont mb-16">
+            <div
+                class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
+                <div class=" lg:w-full md:w-8/12 sm:w-10/12 w-full">
+                    <div class="op-1">
+                        <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
+                            Cast your content
+                        </h1>
+                        <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
+                            from the future!
+                        </h1>
+                    </div>
+                    <div class="op-2 mt-2">
+                        <p class="text-base text-left">
+                            Groundbreaking technology converges with <br class="xl:block hidden" />the future of live
+                            content creation!
+                        </p>
+                    </div>
+                    <div class="op-3">
+                        <button @click="handleButtonClick"><img src="@/assets/images/meet.svg" />Enter</button>
+                        <!-- <button>
                             <img src="@/assets/images/key.svg" />Enter a code or link
                         </button> -->
           </div>
@@ -692,6 +667,15 @@ export default {
       // console.log(this.iframe);
       // window.location.href = constants.challengeUri;
     },
+    handleButtonClick() {
+      const userInfo = localStorage.getItem('userInfo');
+      const accessToken = localStorage.getItem('accessToken');
+      if (userInfo && accessToken) {
+        this.$router.push('/dashboard');
+      } else {
+        this.open();
+      }
+    },
     handleScroll(event) {
       // console.log('Scrolling...');
       const scrollPosition = window.scrollY;
@@ -890,24 +874,27 @@ export default {
         const text = this.boxTexts2[textIndex2];
         this.boxTexts2.splice(textIndex2, 1);
 
-        const box2 = {
-          style: {
-            left: leftPosition,
-            top: '0vh',
-            animationDuration: duration + 's',
-            animationDelay: delay + 's',
-            background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
-            transform: `rotate(${rotation}deg)`,
-          },
-          text: text,
-        };
-        this.boxes2.push(box2);
-      }
+                const box2 = {
+                    style: {
+                        left: leftPosition,
+                        top: '0vh',
+                        animationDuration: duration + 's',
+                        animationDelay: delay + 's',
+                        background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
+                        transform: `rotate(${rotation}deg)`,
+                    },
+                    text: text,
+                };
+                this.boxes2.push(box2);
+            }
+        },
+        redirectTo() {
+            window.open('https://video.wiki/contact-us', '_blank');
+        },
+        redirectToLink() {
+            window.open('https://fider.video.wiki/', '_blank');
+        },
     },
-    redirectToLink() {
-      window.open('https://fider.video.wiki/', '_blank');
-    },
-  },
 };
 </script>
 
@@ -1802,13 +1789,18 @@ button {
 
 .logos:after {
   right: 0;
+  right: 0;
 }
 
 .logos:hover .logos-slide {
   animation-play-state: paused;
+  animation-play-state: paused;
 }
 
 @keyframes logos {
+  from {
+    transform: translateX(0);
+  }
   from {
     transform: translateX(0);
   }
