@@ -37,7 +37,7 @@
                     <div><a href="/pricing">Pricing</a></div>
                     <div><a href="/about">About</a></div>
                     <div><a href="/faq">Faq</a></div>
-                    <div><a href="/contact" @click="redirectTo">Contact</a></div>
+                    <div><a href="/contact">Contact</a></div>
                 </div>
 
         <div class="log-cont" v-if="!isLoggedIn">
