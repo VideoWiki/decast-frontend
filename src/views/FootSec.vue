@@ -18,11 +18,17 @@
             <h5
               class="cursor-pointer mt-8"
               style="color: #ffffff"
-              @click="redirectToLink"
+              @click="$router.push('/features')"
             >
               Features
             </h5>
-            <h5 class="cursor-pointer mt-4" style="color: #ffffff">Faqs</h5>
+            <h5
+              class="cursor-pointer mt-4"
+              style="color: #ffffff"
+              @click="$router.push('/faq')"
+            >
+              Faqs
+            </h5>
             <h5
               class="cursor-pointer mt-4"
               style="color: #ffffff"
@@ -36,12 +42,19 @@
             <h5
               class="cursor-pointer mt-8"
               style="color: #ffffff"
-              @click="redirectTo"
+              @click="$router.push('/contact')"
             >
               Contact Us
             </h5>
             <h5 class="cursor-pointer mt-4" style="color: #ffffff">
               Work With Us
+            </h5>
+            <h5
+              class="cursor-pointer mt-4"
+              style="color: #ffffff"
+              @click="redirectToLink"
+            >
+              Suggestions
             </h5>
           </div>
         </div>
@@ -78,18 +91,15 @@ export default {
     redirectToLink() {
       window.open('https://fider.video.wiki/', '_blank');
     },
-    redirectTo() {
-      window.open('https://video.wiki/contact-us', '_blank');
-    },
     redirect() {
       window.open('https://video.wiki/privacy-policy', '_blank');
     },
-    reTweet(){
-      window.open('https://twitter.com/VideoWiki_PT','_blank')
+    reTweet() {
+      window.open('https://twitter.com/VideoWiki_PT', '_blank');
     },
-    reLink(){
-      window.open('https://www.linkedin.com/company/videowiki.pt/','_blank')
-    }
+    reLink() {
+      window.open('https://www.linkedin.com/company/videowiki.pt/', '_blank');
+    },
   },
 };
 </script>
@@ -243,11 +253,17 @@ export default {
             <h5
               class="cursor-pointer mt-8"
               style="color: #ffffff"
-              @click="redirectToLink"
+              @click="$router.push('/features')"
             >
               Features
             </h5>
-            <h5 class="cursor-pointer mt-4" style="color: #ffffff">Faqs</h5>
+            <h5
+              class="cursor-pointer mt-4"
+              style="color: #ffffff"
+              @click="$router.push('/faq')"
+            >
+              Faqs
+            </h5>
             <h5
               class="cursor-pointer mt-4"
               style="color: #ffffff"
@@ -261,12 +277,19 @@ export default {
             <h5
               class="cursor-pointer mt-8"
               style="color: #ffffff"
-              @click="redirectTo"
+              @click="$router.push('/contact')"
             >
               Contact Us
             </h5>
             <h5 class="cursor-pointer mt-4" style="color: #ffffff">
               Work With Us
+            </h5>
+            <h5
+              class="cursor-pointer mt-4"
+              style="color: #ffffff"
+              @click="redirectToLink"
+            >
+              Suggestions
             </h5>
           </div>
         </div>
@@ -303,18 +326,16 @@ export default {
     redirectToLink() {
       window.open('https://fider.video.wiki/', '_blank');
     },
-    redirectTo() {
-      window.open('https://video.wiki/contact-us', '_blank');
-    },
+
     redirect() {
       window.open('https://video.wiki/privacy-policy', '_blank');
     },
-    reTweet(){
-      window.open('https://twitter.com/VideoWiki_PT','_blank')
+    reTweet() {
+      window.open('https://twitter.com/VideoWiki_PT', '_blank');
     },
-    reLink(){
-      window.open('https://www.linkedin.com/company/videowiki.pt/','_blank')
-    }
+    reLink() {
+      window.open('https://www.linkedin.com/company/videowiki.pt/', '_blank');
+    },
   },
 };
 </script>
