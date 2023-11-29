@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <Navbar />
-    <div class="header">
+    <div class="header max-w-5xl w-full">
       <div class="left">
         <div class="heading">Get in touch</div>
         <div class="info">
@@ -13,8 +13,10 @@
         <img src="@/assets/images/lap.svg" />
       </div>
     </div>
-    <div class="middle">Connect with one of our global offices</div>
-    <div class="buttom">
+    <div class="middle max-w-5xl w-full">
+      Connect with one of our global offices
+    </div>
+    <div class="buttom max-w-5xl w-full">
       <div class="img-part">
         <img src="@/assets/images/map.svg" />
       </div>
@@ -53,11 +55,15 @@ export default {
   height: auto;
   padding-bottom: 20px;
   background-color: #181a20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .header {
   height: 420px;
   background-color: #d7df23;
   display: flex;
+  margin: auto;
   justify-content: space-between;
   width: 100%;
 }
@@ -91,8 +97,7 @@ export default {
   width: 100%;
 }
 .middle {
-  margin-top: 80px;
-  margin-bottom: 80px;
+  margin: 80px auto;
   font-size: 40px;
   font-weight: 700;
   color: #a6a6a8;
@@ -136,5 +141,50 @@ export default {
   font-size: 22px;
   font-weight: 400;
   color: #a6a6a8;
+}
+@media screen and (max-device-width: 980px) {
+  .buttom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+  }
+  .header {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .heading {
+    font-weight: 600;
+    font-size: 62px;
+  }
+  .left {
+    padding-left: 20px;
+  }
+  .middle {
+    font-size: 35px;
+    font-weight: 600;
+    margin-left: 20px;
+  }
+  .head-part {
+    font-size: 25px;
+    font-weight: 500;
+  }
+  .info-part {
+    font-size: 15px;
+    font-weight: 400;
+  }
+  .img-part {
+    width: 90%;
+    margin: auto;
+    /* border: 1px solid green; */
+  }
+  .img-part img {
+    width: 100%;
+    object-fit: cover;
+  }
+  .text-part {
+    width: 90%;
+    margin: auto;
+  }
 }
 </style>

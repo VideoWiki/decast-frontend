@@ -1,11 +1,11 @@
 <template>
   <div class="containr">
     <Navbar />
-    <div class="heading">
+    <div class="heading max-w-5xl w-full">
       <p>We’re changing the way people</p>
       <p>think about video conferencing</p>
     </div>
-    <div class="middle">
+    <div class="middle max-w-5xl w-full">
       <div class="left">
         <p class="text">
           A collaborative platform for learners and educators to secure learning
@@ -26,7 +26,7 @@
         <img src="@/assets/images/about.svg" />
       </div>
     </div>
-    <div class="footer">
+    <div class="footer max-w-5xl w-full">
       <div class="miss">Our Mission</div>
       <div class="info">
         Theoretical knowledge online is what most universities have achieved,
@@ -70,9 +70,10 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 .heading {
-  margin-top: 100px;
+  margin: 100px auto 0px auto;
 }
 .heading p {
   display: flex;
@@ -105,7 +106,7 @@ export default {
   width: 100%;
   height: auto;
   background-color: #d7df23;
-  margin-top: 80px;
+  margin: 80px auto 0px auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,5 +125,35 @@ export default {
   color: #181a20;
   margin-top: 50px;
   width: 655px;
+}
+@media screen and (max-device-width: 980px) {
+  .middle {
+    display: flex;
+    flex-direction: column;
+  }
+  .left {
+    width: 90%;
+    margin: auto;
+  }
+  .text {
+    font-weight: 400;
+    font-size: 16px;
+  }
+  .right {
+    width: 90%;
+
+    margin: auto;
+  }
+  .right img {
+    width: 100%;
+    object-fit: cover;
+  }
+  .info {
+    font-weight: 400;
+    font-size: 16px;
+
+    margin: 50px auto 0px auto;
+    width: 90%;
+  }
 }
 </style>
