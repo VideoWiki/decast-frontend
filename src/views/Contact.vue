@@ -30,14 +30,17 @@
         <div class="info-part">support@cast.com</div>
       </div>
     </div>
+    <FootSec />
   </div>
 </template>
 <script>
+import FootSec from './FootSec.vue';
 import Navbar from './Navbar.vue';
 export default {
   name: 'Contact',
   components: {
     Navbar,
+    FootSec,
   },
 };
 </script>

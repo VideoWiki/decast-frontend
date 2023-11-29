@@ -46,14 +46,17 @@
         education model.
       </div>
     </div>
+    <FootSec />
   </div>
 </template>
 <script>
 import Navbar from './Navbar.vue';
+import FootSec from './FootSec.vue';
 export default {
   name: 'About',
   components: {
     Navbar,
+    FootSec,
   },
 };
 </script>

@@ -67,14 +67,17 @@
         </p>
       </div>
     </div>
+    <FootSec />
   </div>
 </template>
 
 <script>
 import Navbar from './Navbar.vue';
+import FootSec from './FootSec.vue';
 export default {
   components: {
     Navbar,
+    FootSec,
   },
 };
 </script>
@@ -87,7 +90,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 5rem;
-  padding-bottom: 5rem;
+  padding-bottom: 0rem;
   justify-content: center;
 }
 
