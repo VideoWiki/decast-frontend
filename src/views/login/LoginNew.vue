@@ -3,7 +3,7 @@
     <div class="center-container">
       <div class="flex justify-between items-center">
         <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
-        <h6 class="custom-heading" style="color: #a6a6a8">Sign Up</h6>
+        <h6 class="custom-heading" style="color: #a6a6a8">Log In</h6>
         <!-- <button class="close-icon" @click="closeForm">✕</button> -->
       </div>
 
@@ -16,7 +16,7 @@
           <p class="flex justify-start items-center">
             <img src="@/assets/images/login/google.png" class="h-6 px-3" />
             <!-- Log in with Google uncomment after design fix and remove the below line -->
-            Sign up with Google
+            Log in with Google
           </p>
           <!-- <GoogleLogin/> -->
         </div>
@@ -352,7 +352,7 @@ export default {
       this.isIncognito = false;
       const gauthOption = {
         clientId:
-          '902793198689-nu0nnljgq6vkc6remk68u2lnabo0b31m.apps.googleusercontent.com',
+          '819083977574-sq0gi88sfdb5skebh2kjk62t41nuegfv.apps.googleusercontent.com',
         scope: 'profile email',
         prompt: 'consent',
         fetch_basic_profile: true,
@@ -374,10 +374,17 @@ export default {
             })
             .then((response) => {
               console.log(5);
-              console.log(5);
+              console.log(response);
+              window.location.replace(response.data.redirect_to);
               this.$acl.change(this.activeUserInfo.userRole);
-              this.$router.push('/');
+              if (this.popup) this.$emit('loggedIn');
               this.$vs.loading.close();
+              this.$vs.notify({
+                title: 'Success',
+                text: 'Login Successfull',
+                iconPack: 'feather',
+                color: 'success',
+              });
             });
         } else {
           this.$vs.notify({
