@@ -1,6 +1,6 @@
 <template>
   <div class="parent-1">
-    <Navbar/>
+    <Navbar />
     <div class="head-cont">
       <h1>
         Pick the plan that supports your <br />
@@ -23,18 +23,42 @@
           growth</small
         >
         <p>Custom solutions for teams of 10 or more users</p>
-        <button>Contact sales</button>
+        <button @click="showPopUp()">Contact sales</button>
       </div>
     </div>
+    <div v-if="showContactPopUp" class="popup-container">
+      <ContactPopUp
+        :showContactPopUp="showContactPopUp"
+        @updateContactPopUp="updateContactPopUp"
+      />
+    </div>
+    <FootSec />
   </div>
 </template>
 
 <script>
 import Navbar from './Navbar.vue';
+import ContactPopUp from './ContactPopUp.vue';
+import FootSec from './FootSec.vue';
 export default {
+  data() {
+    return {
+      showContactPopUp: false,
+    };
+  },
   components: {
     Navbar,
-},
+    ContactPopUp,
+    FootSec,
+  },
+  methods: {
+    showPopUp() {
+      this.showContactPopUp = true;
+    },
+    updateContactPopUp(value) {
+      this.showContactPopUp = value;
+    },
+  },
 };
 </script>
 
@@ -47,7 +71,8 @@ export default {
   flex-direction: column;
   gap: 5rem;
   justify-content: center;
-  padding-bottom: 5rem;
+
+  position: relative;
 }
 
 .head-cont {
@@ -122,5 +147,14 @@ export default {
 
 .bod-cont div:nth-child(2) button {
   background-color: #464775;
+}
+.popup-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  padding: 20px;
+  z-index: 1000;
 }
 </style>

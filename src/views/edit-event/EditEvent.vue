@@ -272,7 +272,7 @@ export default {
         this.stepTwoProps.logout_url = info.logout_url;
         this.stepThreeProps.public_stream = info.public_stream;
         this.stepThreeProps.is_streaming = info.is_streaming;
-        // this.stepThreeProps.vw_stream_url = info.bbbstream_url;
+        //this.stepThreeProps.vw_stream_url = info.bbbstream_url;
         this.stepFourProps.record = info.record;
         this.stepFourProps.end_when_no_moderator = info.end_when_no_moderator;
         this.stepFourProps.allow_moderator_to_unmute_user =

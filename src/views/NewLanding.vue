@@ -9,7 +9,7 @@
         <div class="opt-cont">
           <div><a href="#" @click="redirectToLink">Features</a></div>
           <div><a href="#">Pricing</a></div>
-          <div><a href="#">About</a></div>
+          <div><a href="/aboutUs">About</a></div>
           <div><a href="#">Faq</a></div>
           <div><a href="#" @click="redirectTo">Contact</a></div>
         </div>
@@ -1129,15 +1129,15 @@ export default {
   max-width: 40%;
 }
 
-#idk-child1{
+#idk-child1 {
   margin-top: 5rem;
 }
 
-#idk-child2{
+#idk-child2 {
   margin-top: 7rem;
 }
 
-#idk-child3{
+#idk-child3 {
   margin-top: 6rem;
   margin-bottom: 5rem;
 }
