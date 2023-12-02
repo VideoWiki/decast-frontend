@@ -1,100 +1,188 @@
 <template>
-  <div class="sticky3_parent">
-    <div class="sticky3">
-      <div class="scroll_section">
-        <div class="cont-contain">
-          <div class="text">
-            <h1 :style="{ fontSize: dynamicFontSize3 }">Why use</h1>
-            <h1 :style="{ fontSize: dynamicFontSize3 }">Cast?</h1>
+  <div
+    class="flex w-full justify-center items-center"
+    :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }"
+  >
+    <nav
+      class="max-w-5xl w-full items-center flex flex-row justify-between lg:px-16 md:px-6 px-4 py-6"
+    >
+      <a href="/" class="w-16 h-16">
+        <img
+          :style="{ display: showMobileMenu ? 'none' : 'block' }"
+          class="w-full h-full object-cover"
+          src="@/assets/images/logo square.svg"
+        />
+      </a>
+
+      <!-- Desktop Navbar Options -->
+      <div class="opt-cont items-center gap-10 md:flex hidden">
+        
+      </div>
+
+      <!-- Mobile Menu Options -->
+      <div class="md:hidden mob-opt" v-show="showMobileMenu">
+        <div class="w-full flex flex-row justify-between text-a6a6a6">
+          <div class="mob-con flex flex-col gap-3">
+            <a v-if="!isLoggedIn" @click="open">Login</a>
+            <a href="/dashboard" v-else>Dashboard</a>
+            <a href="/features">Features</a>
+            <a href="/creators">Creators</a>
+            <a href="/sponsors">Sponsors</a>
+            <a href="/operators">Operators</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/about">About</a>
+            <a href="/faq">Faq</a>
+            <a href="/contact">Contact</a>
           </div>
-          <div class="ima-cont" v-for="image in images" :key="image">
-            <img
-              style="border-radius: 80px !important"
-              :src="image"
-              alt="product"
-            />
-          </div>
+
+          <button
+            @click="toggleMobileMenu"
+            v-show="showMobileMenu"
+            class="text-black bg-transparent border-none outline-none"
+          >
+            <!-- Close button icon -->
+            <svg
+              v-if="showMobileMenu"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+                stroke="#d7df23"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
       </div>
-    </div>
+
+      <!-- Mobile Hamburger Menu -->
+
+      <div class="md:hidden">
+        <button
+          @click="toggleMobileMenu"
+          v-show="!showMobileMenu"
+          class="text-black bg-transparent border-none outline-none"
+        >
+          <svg
+            v-if="!showMobileMenu"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="3"
+              stroke="#d7df23"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="log-cont" v-if="!isLoggedIn">
+        <div
+          class="cursor-pointer"
+          :class="{ 'child-1': true, 'slog-cont': isNavbarScrolled }"
+          @click="open"
+        >
+          <button>Login</button>
+          <div class="vertical-line sideOne"></div>
+          <button>Signup</button>
+        </div>
+      </div>
+
+      <div class="nam-con" v-else>
+        <p>Hi, {{ username }}!</p>
+        <button>
+          <router-link
+            to="/dashboard"
+            style="font-size: small; font-weight: 500; color: #000"
+          >
+            Dashboard
+          </router-link>
+        </button>
+      </div>
+    </nav>
   </div>
 </template>
+
 <script>
+import constants from '../../constant';
+import Loading from './Loading.vue';
 export default {
+  name: 'Navbar',
   data() {
-    return {};
+    return {
+      username: '',
+      isLoggedIn: false,
+      isNavbarScrolled: false,
+      showMobileMenu: false,
+    };
+  },
+  computed: {
+    accessToken() {
+      return this.$store.state.auth.accessToken;
+    },
+    loggedIn() {
+      return this.$store.state.auth.loggedIn;
+    },
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
   },
   mounted() {
-    const sticky3Sections = [...document.querySelectorAll('.sticky3')];
-    const images = [
-      require('@/assets/images/homepage/img1.svg'),
-      require('@/assets/images/homepage/img2.svg'),
-      require('@/assets/images/homepage/img3.svg'),
-      require('@/assets/images/homepage/img4.svg'),
-      require('@/assets/images/homepage/img5.svg'),
-    ];
-
-    images.forEach((img) => {
-      sticky3Sections.forEach((section) => {
-        let image = document.createElement('img');
-        image.style.borderRadius = '20px';
-        image.style.width = '100%';
-        // image.style.maxHeight = '85vh';
-        image.style.height = '100%';
-        image.style.objectFit = 'contain';
-        image.setAttribute('id', 'border');
-        image.setAttribute('class', 'border2');
-        image.src = img;
-        section.querySelector('.scroll_section').appendChild(image);
-      });
-    });
+    document.getElementById('loading-bg').style.display = 'none';
+    this.handleLogin();
   },
+  created() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+
   methods: {
-    // 'l4E9vuzw8mq5Uz7R2-jV_etSvY-wJFF0pFnmclfW_4Y.Y2DnBxW8hAldU7U_9DFgcZEbvGd4DEoozQgOQX5EX8Y'
-    // '{"uid":0,"displayName":"John Doe","about":"Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.","email":"deepakjha0785@gmail.com","profile_image":null,"status":"online","userRole":"user","fist_name":"Sanji","profile_pic":"https://openid.video.wiki/media/user/profile_img/luufy.___Manga_anime_one_piece_Anime_faces_expressions_One_piece_luffy","username":"Sanji San","access_token":"l4E9vuzw8mq5Uz7R2-jV_etSvY-wJFF0pFnmclfW_4Y.Y2DnBxW8hAldU7U_9DFgcZEbvGd4DEoozQgOQX5EX8Y","acr":"labo","aud":["decast-prod"],"auth_time":1700286730,"first_name":"Sanji","iat":1700304394,"id":643,"iss":"https://login.decast.live/","last_name":"San","rat":1700304386,"sub":"ut "}'
+    open() {
+      window.open(constants.challengeUri, '_blank', 'width=600,height=600');
+    },
+    dropOpen() {
+      document.getElementById('Navdrop').classList.toggle('showNav');
+    },
+    handleScroll(event) {
+      const scrollPosition = window.scrollY;
+      this.scrollPosition = event.target.documentElement.scrollTop;
+      const threshold = 10;
+      if (scrollPosition > threshold) {
+        this.isNavbarScrolled = true;
+      } else {
+        this.isNavbarScrolled = false;
+      }
+    },
+    handleLogin() {
+      const userInfo = localStorage.getItem('userInfo');
+      const accessToken = localStorage.getItem('accessToken');
+      if (userInfo && accessToken) {
+        this.isLoggedIn = true;
+        this.username = this.activeUserInfo.first_name || 'User';
+      } else {
+        console.log('false');
+      }
+    },
+    toggleMobileMenu() {
+      this.showMobileMenu = !this.showMobileMenu;
+    },
+    closeMobileMenu() {
+      this.showMobileMenu = false;
+    },
   },
 };
 </script>
-
-<style>
-.fallbox-container {
-  position: relative;
-  width: 100%;
-  height: 60vh;
-  /* background-color: #f0f0f0; */
-  overflow: hidden;
-  display: flex;
-  justify-content: space-between;
-}
-
-.fallbox {
-  position: absolute;
-  width: fit-content;
-  height: fit-content;
-  padding: 20px 30px;
-  border-radius: 35px;
-  display: block;
-  /* align-items: center; */
-  /* justify-content: center; */
-  color: white;
-  font-size: xl;
-  font-weight: bold;
-  animation: fallbox-fall linear both;
-  transform-origin: center bottom;
-}
-
-@keyframes fallbox-fall {
-  0% {
-    transform: translateY(0);
-  }
-  70% {
-    transform: translateY(20vh);
-  }
-  85% {
-    transform: translateY(30vh);
-  }
-  100% {
-    transform: translateY(50vh);
-  }
-}
-</style>
