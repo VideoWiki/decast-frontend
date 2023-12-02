@@ -112,7 +112,17 @@
                   <img src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
-                  <p class="invite-text">
+                  <p
+                    class="invite-text"
+                    @click="
+                      ShowInvite(
+                        cast.public_meeting_id,
+                        cast.invitee_list,
+                        streamInfo[cast.public_meeting_id],
+                        cast.viewer_mode
+                      )
+                    "
+                  >
                     {{ cast.invitee_list.length }} attendees invited
                   </p>
                   <div class="flex my-1">
@@ -262,7 +272,8 @@
                           border: none;
                           padding: 10px;
                           background: rgba(255, 255, 255, 0.5);
-                          border-radius: 5px;"
+                          border-radius: 5px;
+                        "
                         alt="copy"
                         :style="{ backgroundColor: getColor(index) }"
                       />
@@ -361,7 +372,17 @@
                   <img id="user-img" src="@/assets/images/user.svg" />
                 </div>
                 <div v-else class="inner-child2 my-4">
-                  <p class="invite-text">
+                  <p
+                    class="invite-text"
+                    @click="
+                      ShowInvite(
+                        cast.public_meeting_id,
+                        cast.invitee_list,
+                        streamInfo[cast.public_meeting_id],
+                        cast.viewer_mode
+                      )
+                    "
+                  >
                     {{ cast.invitee_list.length }} attendees invited
                   </p>
                   <div class="flex my-1">

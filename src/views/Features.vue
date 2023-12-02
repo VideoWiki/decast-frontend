@@ -1,6 +1,7 @@
 <template>
-  <div class="parent-1">
-    <Navbar />
+ <div class="parent-0">
+  <Navbar />
+  <div class="max-w-5xl w-full parent-1">
     <div class="parent-2">
       <div>
         <h1>Video conferencing with no monthly fees</h1>
@@ -39,12 +40,13 @@
       <div>
         <h1>Video conferencing shouldn’t cost you money</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et
-          risus blandit, iaculis magna et, viverra odio. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Etiam et risus blandit, iaculis
-          magna et, viverra odio. Pellentesque imperdiet dui vitae ligula porta,
-          sit amet sollicitudin sapien ornare. Orci varius natoque penatibus et
-          magnis dis parturient montes, nascetur ridiculus
+          In a world where connections matter most, the ability to communicate
+          seamlessly shouldn't come with a hefty price tag. Video conferencing
+          shouldn't cost you money; it should enrich your collaborations, break
+          down barriers, and foster connections without burdening your budget.
+          Every conversation, every idea shared, shouldn't be hindered by
+          financial constraints. It's about breaking free from limitations,
+          empowering individuals and businesses.
         </p>
       </div>
       <img src="@/assets/images/free.svg" />
@@ -58,47 +60,72 @@
       <div>
         <h1>We take security seriously</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et
-          risus blandit, iaculis magna et, viverra odio. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Etiam et risus blandit, iaculis
-          magna et, viverra odio. Pellentesque imperdiet dui vitae ligula porta,
-          sit amet sollicitudin sapien ornare. Orci varius natoque penatibus et
-          magnis dis parturient montes, nascetur ridiculus
+          Taking security seriously isn’t just a motto—it’s a commitment woven
+          into every fiber of our operations. From the moment data enters our
+          systems to its storage and transmission, safeguarding your information
+          is our top priority. We employ state-of-the-art encryption protocols,
+          robust firewalls, and continuous monitoring to ensure that your data
+          remains protected at every step. 
         </p>
       </div>
     </div>
+    <FootSec />
   </div>
+ </div>
 </template>
 
 <script>
 import Navbar from './Navbar.vue';
+import FootSec from './FootSec.vue';
 export default {
   components: {
     Navbar,
+    FootSec,
   },
 };
 </script>
 
 <style scoped>
+
+.parent-0{
+  background-image: linear-gradient(180deg, #000, #111, #222);
+  height: 100%;
+  width: 100%;
+}
 .parent-1 {
   background-image: linear-gradient(180deg, #000, #111, #222);
-  width: 100vw;
   height: 100%;
   display: flex;
+  /* border: 1px solid red; */
   flex-direction: column;
   gap: 5rem;
-  padding-bottom: 5rem;
+  padding-bottom: 0rem;
   justify-content: center;
+  margin: auto;
 }
 
 .parent-2,
 .parent-3 {
-  width: 80vw;
+  /* width: 80vw; */
   display: flex;
   margin: auto;
   justify-content: space-between;
+  gap: 5rem;
   text-align: left;
   color: white;
+  align-items: center;
+}
+
+.parent-2{
+  flex-wrap: wrap;
+}
+
+.parent-3{
+  flex-wrap: wrap-reverse;
+}
+
+.parent-3 div{
+  margin: auto;
 }
 
 .parent-2 img {
@@ -106,6 +133,7 @@ export default {
   max-height: 380px;
   height: auto;
   width: auto;
+  margin: auto;
 }
 
 .parent-3 img {
@@ -119,6 +147,7 @@ export default {
   width: 50%;
   max-width: 500px;
   color: #ffffff;
+  margin: auto;
 }
 
 .parent-3 div:nth-child(2) {

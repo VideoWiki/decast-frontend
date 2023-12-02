@@ -16,7 +16,7 @@
           <p class="flex justify-start items-center">
             <img src="@/assets/images/login/google.png" class="h-6 px-3" />
             <!-- Log in with Google uncomment after design fix and remove the below line -->
-            Sign up with Google
+            Log in with Google
           </p>
           <!-- <GoogleLogin/> -->
         </div>
@@ -374,15 +374,15 @@ export default {
             })
             .then((response) => {
               console.log(5);
-              console.log(5);
+              console.log(response);
+              window.location.replace(response.data.redirect_to);
               this.$acl.change(this.activeUserInfo.userRole);
-              this.$router.push('/');
+              if (this.popup) this.$emit('loggedIn');
               this.$vs.loading.close();
               this.$vs.notify({
-                title: this.$t('Login.notify.title'),
-                text: 'Successfully signed up with Google!',
+                title: 'Success',
+                text: 'Login Successfull',
                 iconPack: 'feather',
-                icon: 'icon-check-circle',
                 color: 'success',
               });
             });
