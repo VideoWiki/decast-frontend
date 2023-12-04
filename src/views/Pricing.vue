@@ -71,7 +71,7 @@ export default {
   flex-direction: column;
   gap: 5rem;
   justify-content: center;
-
+  /* border: 1px solid red; */
   position: relative;
 }
 

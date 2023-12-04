@@ -1,20 +1,20 @@
 <template>
   <div class="foot-cont">
-    <div class="footer">
+    <div class="footer max-w-5xl w-full items-center lg:px-16 md:px-6 px-4 py-6 w-full">
       <div class="log-co">
         <img src="@/assets/images/mono-logo.svg" />
-        <p>
+        <p class="cursor-default">
           LEREN LEREN , UNIPESSOAL LDA, Parque de Ciéncia e Inovacáo - Vía do
           Conhecimento s/n 3830-352 Ílhavo, Portugal NIF/NIPC - 517383861 Phone
           no. +351 912159105
         </p>
       </div>
       <div class="log-co2">
-        <p>See yourself</p>
+        <p class="cursor-default">See yourself</p>
         <button @click="showPopUp()">Book a Demo</button>
         <div class="mt-10">
           <div>
-            <p>Helpful links</p>
+            <p class="cursor-default">Helpful links</p>
             <h5
               class="cursor-pointer mt-8"
               style="color: #ffffff"
@@ -38,7 +38,7 @@
             </h5>
           </div>
           <div>
-            <P>Contact us</P>
+            <P class="cursor-default">Contact us</P>
             <h5
               class="cursor-pointer mt-8"
               style="color: #ffffff"
@@ -62,14 +62,14 @@
 
       <div class="log-co3">
         <div>
-          <p>Follow Us</p>
+          <p class="cursor-default">Follow Us</p>
           <button><img src="@/assets/images/f.svg" /></button>
           <button @click="reTweet"><img src="@/assets/images/t.svg" /></button>
           <button @click="reLink"><img src="@/assets/images/l.svg" /></button>
         </div>
 
         <div class="mt-12">
-          <p>Policy</p>
+          <p class="cursor-default">Policy</p>
           <h5 class="cursor-pointer mt-8" style="color: #ffffff">Report</h5>
           <h5
             class="cursor-pointer mt-5"
@@ -133,9 +133,7 @@ export default {
 }
 
 .footer {
-  width: 85%;
   margin: auto;
-  max-width: 1200px;
   display: flex;
   justify-content: space-between;
 }
@@ -222,17 +220,18 @@ export default {
     width: 95%;
     margin: auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     gap: 30px;
     flex-direction: column;
   }
   .log-co {
-    width: 90%;
-    max-width: 350px;
+    width: 95%;
+    max-width: 95%;
   }
 
   .log-co p {
     text-align: left;
+    max-width: 350px;
     margin-top: 2rem;
   }
 
@@ -254,6 +253,11 @@ export default {
   .log-co2 div {
     flex-direction: column;
     gap: 30px;
+  }
+
+  .log-co3{
+    width: 95%;
+    /* border: 1px solid red; */
   }
 
   .log-co3 div:nth-child(2) {

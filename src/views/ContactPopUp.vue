@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="heading-part">
       <h3>Contact Us</h3>
-      <img src="@/assets/images/create-event/Vector.svg" @click="closePopUp" />
+      <img class="cursor-pointer" src="@/assets/images/create-event/Vector.svg" @click="closePopUp" />
     </div>
     <div class="input-part">
       <input placeholder="Your Name" type="text" class="input-box" />
@@ -76,6 +76,7 @@ h3 {
   margin: 12px !important;
   width: 96%;
   height: 109px;
+  resize: none;
   background-color: #31394e;
   border: 1px solid #1f272f;
   color: #a6a6a8;

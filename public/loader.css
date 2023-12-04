@@ -6,8 +6,8 @@
   position: absolute;
   z-index: 9999;
   overflow: hidden; 
-  margin-top: -0.6vw;
-  margin-left: -0.6vw;
+  /* margin-top: -2rem;
+  margin-left: -2rem; */
 }
 
 
