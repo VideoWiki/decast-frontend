@@ -1,12 +1,14 @@
 <template>
   <div class="foot-cont">
-    <div class="footer max-w-5xl w-full items-center lg:px-16 md:px-6 px-4 py-6 w-full">
+    <div
+      class="footer max-w-5xl w-full items-center lg:px-16 md:px-6 px-4 py-6 w-full"
+    >
       <div class="log-co">
         <img src="@/assets/images/mono-logo.svg" />
         <p class="cursor-default">
-          LEREN LEREN , UNIPESSOAL LDA, Parque de Ciéncia e Inovacáo - Vía do
-          Conhecimento s/n 3830-352 Ílhavo, Portugal NIF/NIPC - 517383861 Phone
-          no. +351 912159105
+          Headquarters 463 Avenue,Lalonde State-Québec City-
+          Sainte-Bernadette, Post Code-D0W7D1,Phone +185 254 698,Email -
+          support@cast.com
         </p>
       </div>
       <div class="log-co2">
@@ -256,7 +258,7 @@ export default {
     gap: 30px;
   }
 
-  .log-co3{
+  .log-co3 {
     width: 95%;
     /* border: 1px solid red; */
   }
