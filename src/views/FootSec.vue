@@ -130,6 +130,7 @@ export default {
   background-color: rgba(24, 26, 32, 1);
   padding: 40px;
   margin-top: 6rem;
+  width: 100%;
 }
 
 .footer {

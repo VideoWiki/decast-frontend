@@ -1,5 +1,5 @@
 <template>
-  <div class="parent-1">
+  <div class="parent-1 w-full flex flex-col justify-center items-center gap-5">
     <Navbar />
     <div class="head-cont">
       <h1>
@@ -7,7 +7,9 @@
         video conferencing goals
       </h1>
     </div>
-    <div class="bod-cont">
+    <div
+      class="bod-cont max-w-5xl w-full items-center flex flex-row justify-between gap-5 lg:px-16 md:px-6 px-4 py-6"
+    >
       <div>
         <img src="@/assets/images/hold.svg" />
         <h3>Free</h3>
@@ -65,18 +67,12 @@ export default {
 <style scoped>
 .parent-1 {
   background-image: linear-gradient(180deg, #000, #111, #222);
-  width: 100vw;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 5rem;
-  justify-content: center;
-  /* border: 1px solid red; */
   position: relative;
 }
 
 .head-cont {
-  width: 60%;
+  width: 60vw;
   margin: auto;
 }
 
@@ -85,13 +81,6 @@ export default {
   color: #d7df23;
   text-align: center;
   font-size: 3em;
-}
-
-.bod-cont {
-  display: flex;
-  width: 85vw;
-  margin: auto;
-  justify-content: space-between;
 }
 
 .bod-cont div {
@@ -148,13 +137,26 @@ export default {
 .bod-cont div:nth-child(2) button {
   background-color: #464775;
 }
-.popup-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: none;
-  padding: 20px;
-  z-index: 1000;
+@media screen and (max-device-width: 768px) {
+  .head-cont {
+    width: 85vw;
+    margin: auto;
+  }
+  .bod-cont {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+  }
+  .bod-cont div {
+    margin: auto;
+    height: auto;
+    gap:2rem;
+  }
+  .head-cont h1 {
+    font-weight: 500;
+    font-size: 2em;
+  }
 }
 </style>
