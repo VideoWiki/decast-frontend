@@ -62,7 +62,7 @@
       </div>
 
       <!-- Mobile Menu Options -->
-      <div class="md:hidden flex w-full jusify-between" v-show="showMobileMenu">
+      <div class="md:hidden flex w-full jusify-between fixed z-5 top-0 left-0" v-show="showMobileMenu">
         <div class="md:hidden mob-opt" v-show="showMobileMenu">
           <div class="w-full flex flex-row justify-left text-a6a6a6">
             <div class="mob-con flex flex-col gap-3">
