@@ -1,16 +1,18 @@
 <template>
   <div class="wrapper">
     <Navbar />
-    <div class="header max-w-5xl w-full">
-      <div class="left">
-        <div class="heading">Get in touch</div>
-        <div class="info">
-          Want to get in touch? We'd love to hear from you. Here's how you can
-          reach us...
+    <div class="header">
+      <div class="max-w-5xl w-full last">
+        <div class="left">
+          <div class="heading">Get in touch</div>
+          <div class="info">
+            Want to get in touch? We'd love to hear from you. Here's how you can
+            reach us...
+          </div>
         </div>
-      </div>
-      <div class="right">
-        <img src="@/assets/images/lap.svg" />
+        <div class="right">
+          <img src="@/assets/images/lap.svg" />
+        </div>
       </div>
     </div>
     <div class="middle max-w-5xl w-full">
@@ -95,6 +97,7 @@ export default {
 .right img {
   height: 100%;
   width: 100%;
+  object-fit: cover;
 }
 .middle {
   margin: 80px auto;
@@ -142,16 +145,23 @@ export default {
   font-weight: 400;
   color: #a6a6a8;
 }
-@media screen and (max-device-width: 980px) {
+.last {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+@media screen and (max-device-width: 1050px) {
   .buttom {
     display: flex;
     flex-direction: column;
     justify-content: center !important;
   }
-  .header {
+  header {
+    height: auto;
+  }
+  .last {
     display: flex;
     flex-direction: column;
-    height: auto;
   }
   .heading {
     font-weight: 600;
@@ -160,10 +170,22 @@ export default {
   .left {
     padding-left: 20px;
   }
+  .right {
+    width: 48%;
+    height: 400px;
+    align-self: flex-end;
+    /* margin-right: -15px; */
+  }
+  .right img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
   .middle {
     font-size: 35px;
     font-weight: 600;
     margin-left: 20px;
+    margin-bottom: 20px;
   }
   .head-part {
     font-size: 25px;
@@ -175,11 +197,13 @@ export default {
   }
   .img-part {
     width: 90%;
+    height: 500px;
     margin: auto;
     /* border: 1px solid green; */
   }
   .img-part img {
     width: 100%;
+    height: 100%;
     object-fit: cover;
   }
   .text-part {

@@ -1,6 +1,6 @@
 <template>
   <div class="parent-1">
-    <Navbar/>
+    <Navbar />
     <div class="head-cont">
       <h1>
         Pick the plan that supports your <br />
@@ -34,7 +34,7 @@ import Navbar from './Navbar.vue';
 export default {
   components: {
     Navbar,
-},
+  },
 };
 </script>
 
@@ -122,5 +122,19 @@ export default {
 
 .bod-cont div:nth-child(2) button {
   background-color: #464775;
+}
+@media screen and (max-device-width: 1080px) {
+  .bod-cont {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .bod-cont div {
+    margin-bottom: 30px;
+  }
+  .head-cont h1 {
+    font-weight: 500;
+    font-size: 2em;
+  }
 }
 </style>

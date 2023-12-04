@@ -26,24 +26,26 @@
         <img src="@/assets/images/about.svg" />
       </div>
     </div>
-    <div class="footer max-w-5xl w-full">
-      <div class="miss">Our Mission</div>
-      <div class="info">
-        Theoretical knowledge online is what most universities have achieved,
-        but practical training online so far seems unique. We are building tools
-        to auto-generate (convert) text-based content to video-based online
-        content with an extension towards gamification and immersive techniques
-        for advanced pieces of training. Vision to ensure learning continuity
-        for all. Standardized education and access to all with equal
-        opportunities to educational processes.
-        <br />
-        In the education system, more than 90% of students are impacted by
-        school and university closures. The map is a depiction of countries that
-        are experiencing lockdown in terms of a countrywide or a localized
-        lockdown. The education sector and an estimated 1.5 billion students
-        were affected worldwide due to these lockdowns. Learning has been
-        disrupted due to the pandemic, and there is a requirement for a new
-        education model.
+    <div class="footer">
+      <div class="max-w-5xl w-full last">
+        <div class="miss">Our Mission</div>
+        <div class="info">
+          Theoretical knowledge online is what most universities have achieved,
+          but practical training online so far seems unique. We are building
+          tools to auto-generate (convert) text-based content to video-based
+          online content with an extension towards gamification and immersive
+          techniques for advanced pieces of training. Vision to ensure learning
+          continuity for all. Standardized education and access to all with
+          equal opportunities to educational processes.
+          <br />
+          In the education system, more than 90% of students are impacted by
+          school and university closures. The map is a depiction of countries
+          that are experiencing lockdown in terms of a countrywide or a
+          localized lockdown. The education sector and an estimated 1.5 billion
+          students were affected worldwide due to these lockdowns. Learning has
+          been disrupted due to the pandemic, and there is a requirement for a
+          new education model.
+        </div>
       </div>
     </div>
     <FootSec />
@@ -84,9 +86,10 @@ export default {
   line-height: 74.82px;
 }
 .middle {
-  margin-top: 120px !important;
+  margin: 120px auto 0px auto;
+  padding: 20px;
   display: flex;
-  margin: auto;
+  justify-content: space-between;
 }
 .text {
   color: #a6a6a8;
@@ -94,13 +97,17 @@ export default {
   font-size: 20px;
 }
 .left {
-  width: 604px;
+  width: 48%;
 }
 .right {
-  width: 660px;
-  height: 405px;
+  width: 48%;
+  margin-left: 30px;
+}
+.right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 6px;
-  margin-left: 50px;
 }
 .footer {
   width: 100%;
@@ -126,10 +133,26 @@ export default {
   margin-top: 50px;
   width: 655px;
 }
+.last {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  margin: 0px auto 0px auto;
+}
 @media screen and (max-device-width: 980px) {
+  .heading p {
+    font-weight: 500;
+    font-size: 45px;
+    padding-left: 20px;
+  }
   .middle {
+    margin-top: 50px !important;
+    padding: 20px;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .left {
     width: 90%;
@@ -147,6 +170,7 @@ export default {
   .right img {
     width: 100%;
     object-fit: cover;
+    margin-top: 20px;
   }
   .info {
     font-weight: 400;
@@ -154,6 +178,14 @@ export default {
 
     margin: 50px auto 0px auto;
     width: 90%;
+  }
+  .footer {
+    margin-top: 20px;
+  }
+  .miss {
+    font-weight: 500;
+    font-size: 55px;
+    color: #181a20;
   }
 }
 </style>

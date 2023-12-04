@@ -171,4 +171,30 @@ export default {
 .div-to-hide p {
   color: #a6a6a6;
 }
+@media screen and (max-device-width: 980px) {
+  .head-cont h1 {
+    font-size: 2em;
+    font-weight: 500;
+    line-height: 1.5em !important;
+  }
+
+  .head-cont p {
+    font-size: 1em;
+    font-weight: 500;
+    color: black;
+  }
+  .div-to-show h1 {
+    font-size: 1em;
+    font-weight: 500;
+  }
+  .faq-cont {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .big-box-1 {
+    margin-left: -1em;
+  }
+}
 </style>
