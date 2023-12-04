@@ -660,7 +660,8 @@
         :stepTwoProps="stepTwoProps"
         :stepOneProps="stepOneProps"
         :castId="index"
-      ></StreamingTab>
+      >
+      </StreamingTab>
       <!--<stream-card
         :closeCreate="() => (stream = false)"
         :stepFourProps="stepFourProps"
@@ -1357,9 +1358,11 @@ export default {
 .cop-btn img {
   margin: auto !important;
 }
+
 .cop-btn:active {
   border: 1px solid #d7df23 !important;
 }
+
 .active:active {
   border: 1px solid #d7df23;
 }
@@ -1415,6 +1418,7 @@ export default {
   border-radius: 4px;
   padding: 5px;
 }
+
 .triangle {
   width: 0px;
   height: 0px;
@@ -1424,6 +1428,7 @@ export default {
   border-bottom: 10px solid transparent;
   margin: auto;
 }
+
 .footer-content {
   text-align: center;
   margin-top: 40px !important;
@@ -1490,6 +1495,7 @@ export default {
 #user-img {
   margin-bottom: -4px;
 }
+
 .images-container {
   width: 140px;
   height: 30px !important;
@@ -1703,6 +1709,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 #go-btn p {
   margin-left: 3px;
 }
@@ -1713,6 +1720,7 @@ export default {
   border: 1px solid #31394e;
   padding: 8px;
 }
+
 .side-btn {
   background: none;
   cursor: pointer;
@@ -1739,6 +1747,7 @@ export default {
   cursor: pointer;
   color: #a6a6a8;
 }
+
 .popup {
   height: 100vh;
   width: 100%;
@@ -1757,6 +1766,7 @@ export default {
 *:not(i) {
   font-family: 'Karla', sans-serif;
 }
+
 .full-wrapper {
   width: 278px;
   height: 212px;
@@ -1767,32 +1777,38 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
 .heading {
   font-size: 14px;
   font-weight: 600;
   color: #a6a6a8;
 }
+
 .uppar-part img {
   height: 12px;
   width: 12px;
   margin-right: -18px;
   margin-top: -6px;
 }
+
 .middle-part {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 25px;
 }
+
 .img {
   margin: auto;
 }
+
 .middle-part p {
   margin: auto;
   font-size: 13px;
   font-weight: 500;
   color: #a6a6a8;
 }
+
 .lower-part {
   align-self: flex-end;
   margin-top: 33px;
@@ -1811,6 +1827,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 .center-container-full {
   justify-content: center;
   align-items: center;
@@ -1833,6 +1850,7 @@ export default {
     width: 100%;
     overflow: hidden;
   }
+
   .center-container-full {
     justify-content: center;
     align-items: center;
@@ -1845,6 +1863,7 @@ export default {
     /* border: 1px solid white; */
     height: 100%;
   }
+
   .child-options {
     max-width: 480px;
     width: 98%;
@@ -1859,6 +1878,7 @@ export default {
     margin-bottom: 20px;
     position: relative;
   }
+
   .options-container {
     margin-top: 20px;
     height: 44vh !important;
@@ -1866,29 +1886,36 @@ export default {
     overflow: auto;
     padding-bottom: 10px !important;
   }
+
   .cast-popup {
     width: 145px !important;
     left: 40%;
   }
+
   .invite-text {
     font-size: 10px;
     font-weight: 500;
   }
+
   .inner-child2 img {
     width: 12px;
     height: 12px;
   }
+
   .inner-child2 {
     width: 120px !important;
     gap: 0px;
     display: flex !important;
   }
+
   .copy-button {
     padding-left: -40px;
   }
+
   .cop-btn {
     border: none !important;
   }
+
   .options-container::-webkit-scrollbar {
     width: 5px;
   }
@@ -1902,26 +1929,31 @@ export default {
   .tooltip2 {
     display: none;
   }
+
   .inner-child4 {
     margin-left: 10px;
   }
+
   .inner-child4 button {
     background: none;
     border: 1px solid #31394e;
     width: 33px;
     height: 33px;
   }
+
   .choose-room button {
     width: 45%;
     margin: 0;
     padding: 5px;
     white-space: nowrap;
   }
+
   .recording img {
     width: 100%;
     padding: 2px;
     margin: 10px;
   }
+
   .inner-div2 {
     height: 108.5%;
     min-width: 95px !important;
@@ -1943,17 +1975,21 @@ export default {
   .stream-btn {
     background-color: blue !important;
   }
+
   .action-btn {
     background-color: orangered !important;
   }
+
   .k-btn {
     height: 3px;
     padding-right: 0px !important;
     padding-top: 0;
   }
+
   .btn-1 {
     display: none !important;
   }
+
   .inner-child3 button {
     background: none;
     cursor: pointer;
@@ -1987,17 +2023,21 @@ export default {
     color: yellow !important;
     padding: 0;
   }
+
   .inner-child3 {
     display: flex;
     align-items: center;
     margin-left: 12px;
   }
+
   .child-options div {
     width: 80%;
   }
+
   .inner-child4 {
     margin-right: 2px;
   }
+
   .popup {
     width: 100%;
     position: absolute;
@@ -2034,6 +2074,7 @@ export default {
   .tooltip2 {
     display: none;
   }
+
   .full-wrapper {
     width: 278px;
     height: 212px;
@@ -2044,12 +2085,14 @@ export default {
     display: flex;
     flex-direction: column;
   }
+
   .post-time,
   .delete-popup {
     margin-top: -40vh !important;
     /* margin-left: 60%; */
     /* border: 1px solid red; */
   }
+
   #copy-pop {
     width: 120px;
     /* right: -1px; */

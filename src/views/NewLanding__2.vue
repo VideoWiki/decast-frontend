@@ -1,6 +1,6 @@
 <template>
   <div class="landing">
-    <div
+    <!-- <div
       class="flex w-full justify-center items-center"
       :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }"
     >
@@ -37,7 +37,7 @@
                     <div><a href="/pricing">Pricing</a></div>
                     <div><a href="/about">About</a></div>
                     <div><a href="/faq">Faq</a></div>
-                    <div><a href="/contact" @click="redirectTo">Contact</a></div>
+                    <div><a href="/contact">Contact</a></div>
                 </div>
 
         <div class="log-cont" v-if="!isLoggedIn">
@@ -50,9 +50,6 @@
             <div class="vertical-line sideOne"></div>
             <button>Signup</button>
           </div>
-          <!-- <div class="child-2">
-                        <button>Book a Demo</button>
-                    </div> -->
         </div>
 
                 <div class="nam-con" v-else>
@@ -64,7 +61,8 @@
                     </button>
                 </div>
             </nav>
-        </div>
+        </div> -->
+        <Navbar/>
         <div class="home-cont mb-16">
             <div
                 class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
@@ -364,7 +362,7 @@
 import constants from '../../constant';
 import Loading from './Loading.vue';
 import FootSec from './FootSec.vue';
-
+import Navbar from './Navbar.vue';
 export default {
   name: 'NewLanding',
   data() {
@@ -575,6 +573,7 @@ export default {
   components: {
     Loading,
     FootSec,
+    Navbar
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';

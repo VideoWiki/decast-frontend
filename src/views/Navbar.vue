@@ -8,18 +8,20 @@
     >
       <a href="/" class="w-16 h-16">
         <img
+          :style="{ display: showMobileMenu ? 'none' : 'block' }"
           class="w-full h-full object-cover"
           src="@/assets/images/logo square.svg"
         />
       </a>
 
+      <!-- Desktop Navbar Options -->
       <div class="opt-cont items-center gap-10 md:flex hidden">
         <div><a class="" href="/features">Features</a></div>
         <div
           class="dropbtn flex flex-col items-center relative"
           @click="dropOpen"
         >
-          <a class="flex gap-2 items-center" href="#">
+          <a class="flex gap-2 items-center">
             Join
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,6 +60,76 @@
         <div><a href="/contact">Contact</a></div>
       </div>
 
+      <!-- Mobile Menu Options -->
+      <div class="md:hidden mob-opt" v-show="showMobileMenu">
+        <div class="w-full flex flex-row justify-center text-a6a6a6">
+          <div class="mob-con flex flex-col gap-3">
+            <a v-if="!isLoggedIn" @click="open">Login</a>
+            <a href="/dashboard" v-else>Dashboard</a>
+            <a href="/features">Features</a>
+            <a href="/creators">Creators</a>
+            <a href="/sponsors">Sponsors</a>
+            <a href="/operators">Operators</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/contact">Contact</a>
+            <a href="/about">About</a>
+            <a href="/faq">Faq</a>
+          </div>
+
+          <button
+            @click="handleDual"
+            v-show="showMobileMenu"
+            :class="{ shake: shakeMenu }"
+            class="text-black bg-transparent border-none outline-none"
+          >
+            <!-- Close button icon -->
+            <svg
+              v-if="showMobileMenu"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+                stroke="#ffffff"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Hamburger Menu -->
+
+      <div class="md:hidden" :class="{ shake: shakeMenu }">
+        <button
+          @click="handleDual"
+          v-show="!showMobileMenu"
+          class="text-black bg-transparent border-none outline-none"
+        >
+          <svg
+            v-if="!showMobileMenu"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="3"
+              stroke="#d7df23"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </button>
+      </div>
+
       <div class="log-cont" v-if="!isLoggedIn">
         <div
           class="cursor-pointer"
@@ -68,9 +140,6 @@
           <div class="vertical-line sideOne"></div>
           <button>Signup</button>
         </div>
-        <!-- <div class="child-2">
-                        <button>Book a Demo</button>
-                    </div> -->
       </div>
 
       <div class="nam-con" v-else>
@@ -89,6 +158,9 @@
 </template>
 
 <script>
+import constants from '../../constant';
+import Loading from './Loading.vue';
+import { ref } from 'vue';
 export default {
   name: 'Navbar',
   data() {
@@ -96,6 +168,8 @@ export default {
       username: '',
       isLoggedIn: false,
       isNavbarScrolled: false,
+      showMobileMenu: false,
+      shakeMenu: false,
     };
   },
   computed: {
@@ -112,7 +186,6 @@ export default {
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
     this.handleLogin();
-    // this.handleScroll();
   },
   created() {
     window.addEventListener('scroll', this.handleScroll);
@@ -120,6 +193,7 @@ export default {
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
   },
+
   methods: {
     open() {
       window.open(constants.challengeUri, '_blank', 'width=600,height=600');
@@ -147,11 +221,56 @@ export default {
         console.log('false');
       }
     },
+    toggleMobileMenu() {
+      this.showMobileMenu = !this.showMobileMenu;
+    },
+    closeMobileMenu() {
+      this.showMobileMenu = false;
+    },
+    warnDisabled() {
+      this.shakeMenu = true;
+      setTimeout(() => {
+        this.shakeMenu = true;
+      }, 1500);
+    },
+    handleDual() {
+      this.warnDisabled();
+      setTimeout(() => {
+        this.toggleMobileMenu();
+      }, 1000);
+    },
   },
 };
 </script>
 
 <style scoped>
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
 .hideNav {
   display: none;
 }
@@ -296,5 +415,80 @@ button {
   width: 1px;
   margin: auto;
   height: 13px;
+}
+
+@media (max-width: 768px) {
+  .log-cont {
+    display: none;
+  }
+
+  .nam-con {
+    display: none;
+  }
+  .opt-cont {
+    display: none;
+  }
+  .md\\:hidden {
+    display: block !important;
+  }
+
+  .text-a6a6a6 {
+    color: #a6a6a6;
+    text-align: left;
+    /* border: 1px solid red; */
+    background-color: #141318;
+    background: #141318;
+  }
+
+  .text-a6a6a6 div {
+    position: relative;
+  }
+
+  .text-a6a6a6 button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .text-a6a6a6 div a {
+    text-decoration: none;
+    color: #a6a6a6;
+    text-align: left;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .mob-log {
+    display: block;
+  }
+
+  .mob-log button {
+    background: transparent;
+    outline: none;
+    border: none;
+    color: #a6a6a6;
+    text-align: left;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .mob-con {
+    margin-top: 4rem;
+  }
+
+  .mob-opt {
+    /* border: 1px solid yellow; */
+    width: 70vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 15px;
+    padding-right: 25px;
+    background-color: #141318;
+    background: #141318;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
 }
 </style>
