@@ -520,6 +520,22 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
+    {
+      path: '/aboutUs',
+      name: 'About',
+      component: () => import('./views/dashboard/AboutPage.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/contactUs',
+      name: 'Contact Us',
+      component: () => import('./views/dashboard/ContactUs.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
     // {
     //   path: '/fall',
     //   name: 'FallBox',

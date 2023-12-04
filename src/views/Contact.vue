@@ -1,22 +1,24 @@
 <template>
   <div class="wrapper">
     <Navbar />
-    <div class="header max-w-5xl w-full">
-      <div class="left">
-        <div class="heading">Get in touch</div>
-        <div class="info">
-          Want to get in touch? We'd love to hear from you. Here's how you can
-          reach us...
+    <div class="header">
+      <div class="max-w-5xl w-full flex items-center justify-between p-0 ga[-5] lg:px-16 md:px-6 px-4 py-6 last">
+        <div class="left">
+          <div class="heading">Get in touch</div>
+          <div class="info">
+            Want to get in touch? We'd love to hear from you. Here's how you can
+            reach us...
+          </div>
         </div>
-      </div>
-      <div class="right">
-        <img src="@/assets/images/lap.svg" />
+        <div class="right">
+          <img src="@/assets/images/lap.svg" />
+        </div>
       </div>
     </div>
     <div class="middle max-w-5xl w-full">
       Connect with one of our global offices
     </div>
-    <div class="buttom max-w-5xl w-full">
+    <div class="buttom max-w-5xl w-full flex items-center justify-center p-0 lg:px-16 md:px-6 px-4 py-6">
       <div class="img-part">
         <img src="@/assets/images/map.svg" />
       </div>
@@ -82,7 +84,6 @@ export default {
 .left {
   flex: 1;
   height: 100%;
-  padding-left: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -95,6 +96,7 @@ export default {
 .right img {
   height: 100%;
   width: 100%;
+  object-fit: cover;
 }
 .middle {
   margin: 80px auto;
@@ -106,27 +108,32 @@ export default {
   align-items: center;
 }
 .buttom {
-  width: 80%;
-  height: 520px;
+  height: auto;
+  max-height: 420px;
   margin: auto;
   display: flex;
-  justify-content: center;
+  gap: 0;
+  justify-content: center !important;
+  align-items: center !important;
 }
 .img-part {
-  flex: 2;
+  max-width: 600px;
+  width: auto;
   /* border: 1px solid green; */
 }
 .img-part img {
   width: 100%;
-  height: 100%;
+  max-width: 600px;
+  height: 100% !important;
   /* border: 1px solid red; */
   object-fit: cover;
 }
 .text-part {
-  flex: 1;
   padding: 0px 20px;
   box-sizing: border-box;
   display: flex;
+  max-width: 400px;
+  height: 100% !important;
   flex-direction: column;
   justify-content: center;
   border: 1px solid #31394e;
@@ -142,28 +149,53 @@ export default {
   font-weight: 400;
   color: #a6a6a8;
 }
-@media screen and (max-device-width: 980px) {
+.last {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+@media screen and (max-device-width: 768px) {
   .buttom {
     display: flex;
     flex-direction: column;
     justify-content: center !important;
+    /* border: 1px solid red; */
+    overflow: hidden;
+    height: auto;
+    max-height: fit-content;
   }
-  .header {
-    display: flex;
-    flex-direction: column;
+  header {
     height: auto;
   }
-  .heading {
-    font-weight: 600;
-    font-size: 62px;
+  .last {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  .left {
-    padding-left: 20px;
+  .heading {
+    font-weight: 700;
+    font-size: 56px;
+    text-align: center;
+  }
+  .info{
+    text-align: center;
+  }
+  .right {
+    display: none;
+  }
+  .right img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
   .middle {
     font-size: 35px;
     font-weight: 600;
-    margin-left: 20px;
+    margin: auto;
+    text-align: center;
+    width: 90vw;
+    height: auto;
   }
   .head-part {
     font-size: 25px;
@@ -174,16 +206,22 @@ export default {
     font-weight: 400;
   }
   .img-part {
-    width: 90%;
+    width: 100%;
+    max-width: 80vw;
+    height: auto;
     margin: auto;
     /* border: 1px solid green; */
   }
   .img-part img {
     width: 100%;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
   }
   .text-part {
     width: 90%;
+    max-width: 80vw;
+    text-align: left;
+    width: 100%;
     margin: auto;
   }
 }

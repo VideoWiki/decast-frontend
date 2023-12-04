@@ -9,7 +9,7 @@
       <a href="/" class="w-16 h-16">
         <img
           :style="{ display: showMobileMenu ? 'none' : 'block' }"
-          class="w-full h-full object-cover"
+          class="w-full h-full object-contain"
           src="@/assets/images/logo square.svg"
         />
       </a>
@@ -21,7 +21,7 @@
           class="dropbtn flex flex-col items-center relative"
           @click="dropOpen"
         >
-          <a class="flex gap-2 items-center">
+          <a class="flex gap-2 items-center cursor-pointer">
             Join
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +42,7 @@
             id="Navdrop"
             class="flex-col absolute py-2 px-4 rounded-sm Navdrop hideNav bg-black items-center"
             style="top: 100%"
+            @click="dropOpen"
           >
             <router-link class="" to="/creators" style="width: fit-content"
               >Creators</router-link
@@ -61,46 +62,53 @@
       </div>
 
       <!-- Mobile Menu Options -->
-      <div class="md:hidden mob-opt" v-show="showMobileMenu">
-        <div class="w-full flex flex-row justify-center text-a6a6a6">
-          <div class="mob-con flex flex-col gap-3">
-            <a v-if="!isLoggedIn" @click="open">Login</a>
-            <a href="/dashboard" v-else>Dashboard</a>
-            <a href="/features">Features</a>
-            <a href="/creators">Creators</a>
-            <a href="/sponsors">Sponsors</a>
-            <a href="/operators">Operators</a>
-            <a href="/pricing">Pricing</a>
-            <a href="/contact">Contact</a>
-            <a href="/about">About</a>
-            <a href="/faq">Faq</a>
-          </div>
+      <div class="md:hidden flex w-full jusify-between fixed z-5 top-0 left-0" v-show="showMobileMenu">
+        <div class="md:hidden mob-opt" v-show="showMobileMenu">
+          <div class="w-full flex flex-row justify-left text-a6a6a6">
+            <div class="mob-con flex flex-col gap-3">
+              <a v-if="!isLoggedIn" @click="open">Login</a>
+              <a href="/dashboard" v-else>Dashboard</a>
+              <a href="/features">Features</a>
+              <a href="/creators">Creators</a>
+              <a href="/sponsors">Sponsors</a>
+              <a href="/operators">Operators</a>
+              <a href="/pricing">Pricing</a>
+              <a href="/contact">Contact</a>
+              <a href="/about">About</a>
+              <a href="/faq">Faq</a>
+            </div>
 
-          <button
-            @click="handleDual"
-            v-show="showMobileMenu"
-            :class="{ shake: shakeMenu }"
-            class="text-black bg-transparent border-none outline-none"
-          >
-            <!-- Close button icon -->
-            <svg
-              v-if="showMobileMenu"
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-10 w-10"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <button
+              @click="handleDual"
+              v-show="showMobileMenu"
+              :class="{ shake: shakeMenu }"
+              class="text-black bg-transparent border-none outline-none"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="3"
-                stroke="#ffffff"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+              <!-- Close button icon -->
+              <svg
+                v-if="showMobileMenu"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-10 w-10"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="3"
+                  stroke="#d7d23f"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
+        <div
+          class="overlay"
+          v-show="showMobileMenu"
+          @click="toggleMobileMenu"
+        ></div>
       </div>
 
       <!-- Mobile Hamburger Menu -->
@@ -237,7 +245,7 @@ export default {
       this.warnDisabled();
       setTimeout(() => {
         this.toggleMobileMenu();
-      }, 1000);
+      }, 0);
     },
   },
 };
@@ -417,6 +425,10 @@ button {
   height: 13px;
 }
 
+.overlay{
+  display: none;
+}
+
 @media (max-width: 768px) {
   .log-cont {
     display: none;
@@ -458,6 +470,13 @@ button {
     font-size: 16px;
   }
 
+  .text-a6a6a6 div a:hover {
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-color: #d7df23;
+    text-decoration-thickness: 2px;
+  }
+
   .mob-log {
     display: block;
   }
@@ -474,21 +493,54 @@ button {
 
   .mob-con {
     margin-top: 4rem;
+    transition: 0.3s ease;
+    transform-origin: right;
   }
 
   .mob-opt {
-    /* border: 1px solid yellow; */
-    width: 70vw;
+    width: 50vw;
     height: 100vh;
     position: absolute;
     left: 0;
     top: 0;
     padding: 15px;
-    padding-right: 25px;
-    background-color: #141318;
+    padding-left: 15px;
+    background-color: hsl(252, 12%, 8%);
     background: #141318;
     overflow: hidden;
-    transition: max-height 0.3s ease-out;
+    transition: 0.3s ease;
+    transform-origin: right;
+    animation: nav 0.3s linear forwards;
+    box-shadow: 10vw 0 10vw rgba(0, 0, 0, 0.3);
+  }
+
+  @keyframes nav {
+    0% {
+      transform: translateX(120vw);
+    }
+    25% {
+      transform: translateX(90vw);
+    }
+    50% {
+      transform: translateX(50vw);
+    }
+    75% {
+      transform: translateX(30vw);
+    }
+    100% {
+      transform: translateX(0vw);
+    }
+  }
+
+  .overlay {
+    display: block;
+    width: 50vw;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+    /* border: 1px solid red; */
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 </style>

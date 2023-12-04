@@ -1,13 +1,15 @@
 <template>
-  <div class="parent-1">
-    <Navbar/>
+  <div class="parent-1 w-full flex flex-col justify-center items-center gap-5">
+    <Navbar />
     <div class="head-cont">
       <h1>
         Pick the plan that supports your <br />
         video conferencing goals
       </h1>
     </div>
-    <div class="bod-cont">
+    <div
+      class="bod-cont max-w-5xl w-full items-center flex flex-row justify-between gap-5 lg:px-16 md:px-6 px-4 py-6"
+    >
       <div>
         <img src="@/assets/images/hold.svg" />
         <h3>Free</h3>
@@ -23,35 +25,54 @@
           growth</small
         >
         <p>Custom solutions for teams of 10 or more users</p>
-        <button>Contact sales</button>
+        <button @click="showPopUp()">Contact sales</button>
       </div>
     </div>
+    <div v-if="showContactPopUp" class="popup-container">
+      <ContactPopUp
+        :showContactPopUp="showContactPopUp"
+        @updateContactPopUp="updateContactPopUp"
+      />
+    </div>
+    <FootSec />
   </div>
 </template>
 
 <script>
 import Navbar from './Navbar.vue';
+import ContactPopUp from './ContactPopUp.vue';
+import FootSec from './FootSec.vue';
 export default {
+  data() {
+    return {
+      showContactPopUp: false,
+    };
+  },
   components: {
     Navbar,
-},
+    ContactPopUp,
+    FootSec,
+  },
+  methods: {
+    showPopUp() {
+      this.showContactPopUp = true;
+    },
+    updateContactPopUp(value) {
+      this.showContactPopUp = value;
+    },
+  },
 };
 </script>
 
 <style scoped>
 .parent-1 {
   background-image: linear-gradient(180deg, #000, #111, #222);
-  width: 100vw;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 5rem;
-  justify-content: center;
-  padding-bottom: 5rem;
+  position: relative;
 }
 
 .head-cont {
-  width: 60%;
+  width: 60vw;
   margin: auto;
 }
 
@@ -60,13 +81,6 @@ export default {
   color: #d7df23;
   text-align: center;
   font-size: 3em;
-}
-
-.bod-cont {
-  display: flex;
-  width: 85vw;
-  margin: auto;
-  justify-content: space-between;
 }
 
 .bod-cont div {
@@ -122,5 +136,27 @@ export default {
 
 .bod-cont div:nth-child(2) button {
   background-color: #464775;
+}
+@media screen and (max-device-width: 768px) {
+  .head-cont {
+    width: 85vw;
+    margin: auto;
+  }
+  .bod-cont {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+  }
+  .bod-cont div {
+    margin: auto;
+    height: auto;
+    gap:2rem;
+  }
+  .head-cont h1 {
+    font-weight: 500;
+    font-size: 2em;
+  }
 }
 </style>

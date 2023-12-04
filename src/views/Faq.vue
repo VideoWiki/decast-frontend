@@ -7,7 +7,7 @@
     </div>
 
     <div class="faq-cont">
-      <div v-for="(faq, index) in faqs" :key="index" class="big-box-1">
+      <div v-for="(faq, index) in faqs" :key="index" class="big-box-1 max-w-5xl w-full">
         <div class="div-to-show">
           <h1>{{ faq.question }}</h1>
           <button class="open-faq" @click="toggleFAQ(index)">
@@ -87,7 +87,7 @@ export default {
 }
 .parent-1 {
   background-image: linear-gradient(180deg, #000, #111, #222);
-  width: 100vw;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -127,7 +127,6 @@ export default {
 }
 
 .big-box-1 {
-  width: 75vw;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -170,5 +169,26 @@ export default {
 
 .div-to-hide p {
   color: #a6a6a6;
+}
+@media screen and (max-device-width: 980px) {
+  .head-cont h1 {
+    font-size: 2em;
+    font-weight: 500;
+    line-height: 1.5em !important;
+  }
+
+  .head-cont p {
+    font-size: 1em;
+    font-weight: 500;
+    color: black;
+  }
+  .div-to-show h1 {
+    font-size: 1em;
+    font-weight: 500;
+  }
+  .faq-cont {
+    /* border: 1px solid red; */
+    padding: 2rem;
+  }
 }
 </style>
