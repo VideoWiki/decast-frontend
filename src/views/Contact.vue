@@ -1,37 +1,34 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper flex justify-center items-center">
     <Navbar />
-    <div class="header">
-      <div class="max-w-5xl w-full flex items-center justify-between p-0 ga[-5] lg:px-16 md:px-6 px-4 py-6 last">
-        <div class="left">
-          <div class="heading">Get in touch</div>
-          <div class="info">
+    <div class="header py-16">
+      <div class="max-w-5xl w-full flex items-center justify-center p-0 ga[-5] lg:px-16 md:px-6 px-4 py-6 last">
+        <div class="left w-full">
+          <div class="heading text-center w-full">Get in touch</div>
+          <div class="info text-center">
             Want to get in touch? We'd love to hear from you. Here's how you can
             reach us...
           </div>
         </div>
-        <div class="right">
-          <img src="@/assets/images/lap.svg" />
-        </div>
       </div>
     </div>
-    <div class="middle max-w-5xl w-full">
+    <div class="middle max-w-5xl w-full my-16">
       Connect with one of our global offices
     </div>
-    <div class="buttom max-w-5xl w-full flex items-center justify-center p-0 lg:px-16 md:px-6 px-4 py-6">
-      <div class="img-part">
-        <img src="@/assets/images/map.svg" />
+    <div class="max-w-5xl flex flex-col lg:flex-row items-center gap-8 justify-center border-black border-solid border-2 rounded-lg overflow-hidden h-full p-0 lg:px-8 md:px-6 px-4 py-10 mx-4" style="width: fit-content;">
+      <div class="flex max-w-md relative h-full bg-white overflow-hidden rounded-lg">
+        <img class="w-full h-full object-cover" src="@/assets/images/map.svg" />
       </div>
-      <div class="text-part">
+      <div class="">
         <div class="head-part">Headquarters</div>
         <div class="info-part">463 Avenue Lalonde</div>
         <div class="info-part">State : Québec</div>
         <div class="info-part">City : Sainte-Bernadette</div>
         <div class="info-part">Post Code :D0W7D1</div>
-        <div class="head-part">Phone</div>
+        <div class="head-part mt-6">Phone</div>
         <div class="info-part">+185 254 698</div>
-        <div class="head-part">Email</div>
-        <div class="info-part">support@cast.com</div>
+        <div class="head-part mt-6">Email</div>
+        <a class="info-part hover:text-white" href="mailto:support@cast.com">support@cast.com</a>
       </div>
     </div>
     <FootSec />
@@ -55,14 +52,12 @@ export default {
 .wrapper {
   width: 100%;
   height: auto;
-  padding-bottom: 20px;
   background-color: #181a20;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .header {
-  height: 420px;
   background-color: #d7df23;
   display: flex;
   margin: auto;
@@ -109,7 +104,6 @@ export default {
 }
 .buttom {
   height: auto;
-  max-height: 420px;
   margin: auto;
   display: flex;
   gap: 0;
@@ -122,8 +116,6 @@ export default {
   /* border: 1px solid green; */
 }
 .img-part img {
-  width: 100%;
-  max-width: 600px;
   height: 100% !important;
   /* border: 1px solid red; */
   object-fit: cover;
@@ -142,7 +134,6 @@ export default {
   font-size: 32px;
   font-weight: 500;
   color: #a6a6a8;
-  margin: 10px 0px;
 }
 .info-part {
   font-size: 22px;
