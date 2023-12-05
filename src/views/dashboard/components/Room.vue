@@ -44,8 +44,11 @@
           :class="{ 'focused-button': focusYourRooms }">
           Your Rooms
         </button>
-        <button class="options-button border-none px-4" @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }">
+        <button
+          class="options-button border-none px-4"
+          @click="handleButtonClick"
+          :class="{ 'focused-button': !focusYourRooms }"
+        >
           Room Recordings
         </button>
       </div>
@@ -567,6 +570,10 @@ export default {
         this.showPopup = null;
       }
     },
+    handleButtonClick() {
+    this.changeFocus(false);
+    this.getRecordings();
+  },
   },
   mounted() {
     this.checkScreenWidth();
@@ -580,7 +587,6 @@ export default {
       const mouseY = e.clientY - divRect.top;
       this.mouse = mouseY;
     });
-    this.getRecordings();
     this.getList();
   },
   beforeDestroy() {
