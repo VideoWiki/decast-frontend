@@ -48,7 +48,7 @@
               >Creators</router-link
             >
             <router-link class="" to="/sponsors" style="width: fit-content"
-              >Sponsers</router-link
+              >Sponsors</router-link
             >
             <router-link class="" to="/operators" style="width: fit-content"
               >Operators</router-link

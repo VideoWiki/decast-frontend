@@ -68,11 +68,11 @@
                 class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
                 <div class=" lg:w-full md:w-8/12 sm:w-10/12 w-full">
                     <div class="op-1">
-                        <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
-                            Cast your content
+                        <h1 id="head-id" class="sm:text-3xl xl:text-6xl text-4xl text-left">
+                            Revolutionary Decentralized
                         </h1>
-                        <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
-                            from the future!
+                        <h1 id="head-id" class="sm:text-3xl xl:text-6xl text-4xl text-left">
+                            Live Casting
                         </h1>
                     </div>
                     <div class="op-2 mt-2">
@@ -93,8 +93,8 @@
           class="cont-3 flex justify-end items-center w-full"
           @scroll="handleScroll"
         >
-          <div class="vid-cont rounded-lg">
-            <img class="rounded-lg" src="@/assets/images/landing-img.jpg" />
+          <div class="rounded-lg relative p-6 basic__section__img" style="width: 500px;">
+            <img class="rounded-lg object-cover w-full h-full" src="@/assets/images/landing/home__cover.png" />
           </div>
         </div>
       </div>
@@ -170,7 +170,7 @@
         >
           <img
             class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/nft.png"
+            src="@/assets/images/landing/home1.png"
           />
         </div>
       </div>
@@ -189,7 +189,7 @@
           <h5
             class="lg:text-5xl text-4xl text-grey font-semibold md:w-10/12 sm:w-10/12"
           >
-            Decentralized and Hyper Networked
+            Decentralized and Hyperconverged Networked
           </h5>
           <div
             class="w-64 my-4 h-2 rounded-full"
@@ -206,7 +206,7 @@
         >
           <img
             class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/network.jpg"
+            src="@/assets/images/landing/home2.png"
           />
         </div>
       </div>
@@ -244,7 +244,7 @@
         >
           <img
             class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/access.jpg"
+            src="@/assets/images/landing/home3.png"
           />
         </div>
       </div>
@@ -281,7 +281,7 @@
         >
           <img
             class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/money.jpg"
+            src="@/assets/images/landing/home4.png"
           />
         </div>
       </div>
@@ -1163,17 +1163,13 @@ button {
 }
 
 .cont-3 {
-  width: 400px;
-  height: 400px;
   position: relative;
 }
 
 .cont-3 .vid-cont {
-  min-height: 400px !important;
-  min-width: 400px !important;
   max-width: fit-content;
   margin-top: 2rem;
-  background-color: #d7df23;
+  border: 5px solid #d7df23;
   transform-origin: center !important;
   cursor: pointer;
 }
@@ -1276,11 +1272,9 @@ button {
 }
 
 .vid-cont img {
-  height: 400px;
-  width: 400px;
-  transform: translate(-8%, -8%);
+  /* transform: translate(-8%, -8%); */
   object-fit: cover;
-  animation: beat 6s infinite ease-in-out;
+  /* animation: beat 6s infinite ease-in-out; */
 }
 
 @keyframes beat {

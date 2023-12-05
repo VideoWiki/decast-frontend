@@ -1,9 +1,9 @@
 <template>
   <div class="containr">
     <Navbar />
-    <div class="heading max-w-5xl w-full">
-      <p>We’re changing the way people</p>
-      <p>think about video conferencing</p>
+    <div class="w-full text-black py-10 px-4" style="background-color: #d6de22;">
+      <p class="text-black text-5xl font-semibold text-center">We’re changing the way people</p>
+      <p class="text-black text-5xl font-semibold text-center">think about video conferencing</p>
     </div>
 
     <div class="middle max-w-5xl w-full items-center flex flex-row justify-between gap-5 lg:px-16 md:px-6 px-4 py-6">
@@ -31,7 +31,7 @@
     <div class="footer">
       <div class="max-w-5xl w-full last">
         <div class="miss">Our Mission</div>
-        <div class="info">
+        <div class="info text-center">
           Theoretical knowledge online is what most universities have achieved,
           but practical training online so far seems unique. We are building
           tools to auto-generate (convert) text-based content to video-based
