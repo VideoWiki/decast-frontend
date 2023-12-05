@@ -27,6 +27,14 @@ const router = new Router({
         // PAGES
         // =============================================================================
         {
+          path: '/raw',
+          name: 'Raw',
+          component: () => import('./views/Raw.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
           path: '/welcome',
           name: 'Welcome',
           component: () => import('./views/Index.vue'),

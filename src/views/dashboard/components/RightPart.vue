@@ -610,9 +610,9 @@
               class="w-1/2"
             />
             <img
-              src="@/assets/images/dashboard/NoRecordingText1.svg"
-              class="mb-3"
-            />
+                src="@/assets/images/dashboard/NoRecordingText1.svg"
+                class="mb-3"
+              />
             <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>

@@ -5,28 +5,29 @@
         <h2 style="color: #a6a6a8; font-weight: 500; font-size: 24px">Rooms</h2>
         <p class="sub-heading pt-2">
           Rooms are social spaces for direct communication. Ideal for X Y Z.
-          <a
-            target="_blank"
-            href="#"
-            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
-            >Learn more about Rooms.</a
-          >
+          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
+            Rooms.</a>
         </p>
       </div>
       <div class="flex flex-shrink justify-between">
-        <button
-          class="header-button p-2"
-          @click="createPopup = true"
-          style="
-            border: 1px solid #a6a6a8;
-            border-radius: 5px;
-            background-color: #1f272f;
-            width: 28px;
-            height: 28px;
-          "
-        >
+        <button class="header-button p-2" @click="callModal" style="
+                            border: 1px solid #a6a6a8;
+                            border-radius: 5px;
+                            background-color: #1f272f;
+                            width: 28px;
+                            height: 28px;
+                          ">
           <img src="@/assets/images/Rooms/Plus.svg" alt="" />
         </button>
+        <!-- <button class="header-button p-2" @click="createPopup = true" style="
+                      border: 1px solid #a6a6a8;
+                      border-radius: 5px;
+                      background-color: #1f272f;
+                      width: 28px;
+                      height: 28px;
+                    ">
+          <img src="@/assets/images/Rooms/Plus.svg" alt="" />
+        </button> -->
         <!-- <button class="header-button button border-none dot">
           <img
             src="@/assets/images/dashboard/dots.svg"
@@ -39,18 +40,12 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button
-          class="options-button border-none"
-          @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }"
-        >
+        <button class="options-button border-none" @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }">
           Your Rooms
         </button>
-        <button
-          class="options-button border-none px-4"
-          @click="changeFocus(false)"
-          :class="{ 'focused-button': !focusYourRooms }"
-        >
+        <button class="options-button border-none px-4" @click="changeFocus(false)"
+          :class="{ 'focused-button': !focusYourRooms }">
           Room Recordings
         </button>
       </div>
@@ -58,13 +53,9 @@
       <div class="options-container">
         <div v-if="focusYourRooms">
           <div v-for="(room, index) in rooms" :key="index">
-            <div
-              v-if="isMobileView"
-              class="child-options flex justify-between items-center mb-4"
-              :style="{ borderRight: '0.5rem solid ' + getColor(index) }"
-              @click="expandRoom(index)"
-              :class="{ 'expanded-room': expandedRoom === index }"
-            >
+            <div v-if="isMobileView" class="child-options flex justify-between items-center mb-4"
+              :style="{ borderRight: '0.5rem solid ' + getColor(index) }" @click="expandRoom(index)"
+              :class="{ 'expanded-room': expandedRoom === index }">
               <div>
                 <p style="font-size: 14px; font-weight: 500; width: 100%">
                   {{ truncateText(room.room_name, 10) }}
@@ -72,97 +63,47 @@
               </div>
               <div class="flex justify-between">
                 <div class="mobile-options">
-                  <div
-                    class="button-container"
-                    v-if="expandedRoom === index"
-                    :style="{ backgroundColor: getColor(index) }"
-                  >
-                    <button
-                      class="session-button ml-4"
-                      @click.stop="start(room.room_url)"
-                    >
+                  <div class="button-container" v-if="expandedRoom === index"
+                    :style="{ backgroundColor: getColor(index) }">
+                    <button class="session-button ml-4" @click.stop="start(room.room_url)">
                       Start Session
                     </button>
-                    <button
-                      @click.stop
-                      class="copy-button ml-4 border-none"
-                      @click.stop="copy(room.room_url)"
-                      :style="{ backgroundColor: getColor(index) }"
-                    >
-                      <img
-                        src="@/assets/images/dashboard/copymob.svg"
-                        class="p-3 bg-white bg-opacity-50"
-                        style="
-                          border: none;
-                          padding: 10px;
-                          background: rgba(255, 255, 255, 0.5);
-                          border-radius: 5px;
-                        "
-                        alt="copy"
-                        :style="{ backgroundColor: getColor(index) }"
-                      />
+                    <button @click.stop class="copy-button ml-4 border-none" @click.stop="copy(room.room_url)"
+                      :style="{ backgroundColor: getColor(index) }">
+                      <img src="@/assets/images/dashboard/copymob.svg" class="p-3 bg-white bg-opacity-50" style="
+                                          border: none;
+                                          padding: 10px;
+                                          background: rgba(255, 255, 255, 0.5);
+                                          border-radius: 5px;
+                                        " alt="copy" :style="{ backgroundColor: getColor(index) }" />
                     </button>
-                    <button
-                      @click.stop
-                      class="copy-button ml-4 border-none"
-                      @click.stop="start(room.room_url)"
-                      :style="{ backgroundColor: getColor(index) }"
-                    >
-                      <img
-                        :style="{ backgroundColor: getColor(index) }"
-                        src="@/assets/images/dashboard/record.svg"
-                        class="p-3 bg-white bg-opacity-50"
-                        style="
-                          border: none;
-                          padding: 10px;
-                          background: rgba(255, 255, 255, 0.5);
-                          border-radius: 5px;
-                        "
-                        alt="record"
-                      />
+                    <button @click.stop class="copy-button ml-4 border-none" @click.stop="start(room.room_url)"
+                      :style="{ backgroundColor: getColor(index) }">
+                      <img :style="{ backgroundColor: getColor(index) }" src="@/assets/images/dashboard/record.svg"
+                        class="p-3 bg-white bg-opacity-50" style="
+                                          border: none;
+                                          padding: 10px;
+                                          background: rgba(255, 255, 255, 0.5);
+                                          border-radius: 5px;
+                                        " alt="record" />
                     </button>
-                    <button
-                      @click.stop
-                      class="side-btn border-none"
-                      @click.stop="togglePopup(index)"
-                      v-if="expandedRoom == index"
-                      style="color: white"
-                    >
-                      <img
-                        src="@/assets/images/dashboard/dots3.svg"
-                        class="h-7 p-3"
-                        alt=""
-                      />
+                    <button @click.stop class="side-btn border-none" @click.stop="togglePopup(index)"
+                      v-if="expandedRoom == index" style="color: white">
+                      <img src="@/assets/images/dashboard/dots3.svg" class="h-7 p-3" alt="" />
                     </button>
                   </div>
                 </div>
                 <div class="tooltip-container" v-if="expandedRoom !== index">
-                  <button
-                    class="copy-link tooltip-button"
-                    @click.stop="copy(room.room_url)"
-                  >
+                  <button class="copy-link tooltip-button" @click.stop="copy(room.room_url)">
                     <img src="@/assets/images/Rooms/copy.svg" alt="" />
                   </button>
                 </div>
 
-                <button
-                  class="side-btn border-none"
-                  @click.stop="togglePopup(index)"
-                  v-if="expandedRoom !== index"
-                >
-                  <img
-                    src="@/assets/images/Rooms/Vector2.svg"
-                    class="h-7 p-2"
-                    alt=""
-                  />
+                <button class="side-btn border-none" @click.stop="togglePopup(index)" v-if="expandedRoom !== index">
+                  <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
                 </button>
               </div>
-              <div
-                @click.stop
-                class="room-popup"
-                v-if="showPopup === index"
-                @click.stop="closePopup(index)"
-              >
+              <div @click.stop class="room-popup" v-if="showPopup === index" @click.stop="closePopup(index)">
                 <button @click.stop="openShare(room)">
                   <img src="@/assets/images/share.svg" />
                   Share
@@ -173,10 +114,7 @@
                 </button>
               </div>
             </div>
-            <div
-              v-else
-              class="child-options flex justify-between items-center mb-4"
-            >
+            <div v-else class="child-options flex justify-between items-center mb-4">
               <div>
                 <p style="font-size: 14px; font-weight: 500 width: 50%">
                   {{ truncateText(room.room_name, 10) }}
@@ -184,45 +122,24 @@
               </div>
               <div class="flex justify-between">
                 <div class="tooltip-container">
-                  <button
-                    class="copy-link tooltip-button"
-                    @click="copy(room.room_url)"
-                    @mouseover="showTooltip[index] = true"
-                    @mouseout="showTooltip[index] = false"
-                  >
+                  <button class="copy-link tooltip-button" @click="copy(room.room_url)"
+                    @mouseover="showTooltip[index] = true" @mouseout="showTooltip[index] = false">
                     <img src="@/assets/images/Rooms/copy.svg" alt="" />
                   </button>
-                  <div
-                    class="tooltip"
-                    :class="{ 'show-tooltip': showTooltip[index] }"
-                  >
+                  <div class="tooltip" :class="{ 'show-tooltip': showTooltip[index] }">
                     Copy Link
                   </div>
 
                   <!-- <span class="tooltip">Tooltip text</span> -->
                 </div>
-                <button
-                  class="session-button ml-4"
-                  @click="start(room.room_url)"
-                >
+                <button class="session-button ml-4" @click="start(room.room_url)">
                   Start Session
                 </button>
-                <button
-                  class="side-btn border-none"
-                  @click="togglePopup(index)"
-                >
-                  <img
-                    src="@/assets/images/Rooms/Vector2.svg"
-                    class="h-7 p-2"
-                    alt=""
-                  />
+                <button class="side-btn border-none" @click="togglePopup(index)">
+                  <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
                 </button>
               </div>
-              <div
-                class="room-popup"
-                v-if="showPopup === index"
-                @click="closePopup(index)"
-              >
+              <div class="room-popup" v-if="showPopup === index" @click="closePopup(index)">
                 <button @click="openShare(room)">
                   <img src="@/assets/images/share.svg" />
                   Share
@@ -245,11 +162,8 @@
         </div>
         <div v-else>
           <div v-if="recordingList.length">
-            <div
-              class="recordings flex justify-between items-center mb-4"
-              v-for="(recording, index) in recordings"
-              :key="index"
-            >
+            <div class="recordings flex justify-between items-center mb-4" v-for="(recording, index) in recordings"
+              :key="index">
               <div class="w-3/4 flex justify-between items-center">
                 <p>
                   {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
@@ -257,29 +171,12 @@
                 <p>{{ recording.room_name }}</p>
               </div>
 
-              <button
-                class="side-btn border-none"
-                @click="toggleRecordingPopup(index)"
-              >
-                <img
-                  src="@/assets/images/Rooms/Vector2.svg"
-                  class="h-7 p-2"
-                  alt=""
-                />
+              <button class="side-btn border-none" @click="toggleRecordingPopup(index)">
+                <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
               </button>
-              <div
-                class="room-popup"
-                v-if="showPopup === index"
-                @click="closePopup(index)"
-              >
+              <div class="room-popup" v-if="showPopup === index" @click="closePopup(index)">
                 <button @click="openRecording(recording)">
-                  <vs-icon
-                    icon-pack="feather"
-                    icon="icon-play"
-                    size="12px"
-                    rounded="true"
-                    style="align-self: center"
-                  >
+                  <vs-icon icon-pack="feather" icon="icon-play" size="12px" rounded="true" style="align-self: center">
                   </vs-icon>
                   Play
                 </button>
@@ -296,11 +193,8 @@
                   Copy Link
                 </button>
 
-                <button
-                  @mouseover="toggleEditTool(index)"
-                  @mouseleave="toggleEditTool(index)"
-                  @click="editRecord(recording)"
-                >
+                <button @mouseover="toggleEditTool(index)" @mouseleave="toggleEditTool(index)"
+                  @click="editRecord(recording)">
                   <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
                 </button>
                 <div class="tooltip2" v-if="showTooltip3 === index">
@@ -313,18 +207,9 @@
               </div>
             </div>
           </div>
-          <div
-            v-else
-            class="recording flex flex-col items-center justify-items-center"
-          >
-            <img
-              src="@/assets/images/dashboard/NoRecording.svg"
-              class="w-1/2"
-            />
-            <img
-              src="@/assets/images/dashboard/NoRecordingText1.svg"
-              class="mb-3"
-            />
+          <div v-else class="recording flex flex-col items-center justify-items-center">
+            <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
+            <img src="@/assets/images/dashboard/NoRecordingText1.svg" class="mb-3" />
             <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
@@ -340,7 +225,7 @@
         >
       </p>
     </div> -->
-    <div class="popup" v-if="createPopup" @click="closeAllPopups">
+    <!-- <div class="popup" v-if="createPopup" @click="closeAllPopups">
       <div class="createPopup">
         <div class="container">
           <div class="first-row">
@@ -359,7 +244,22 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <Modal v-if="isShowModal" :title="'Create new room'" @close="close">
+      <template #body>
+        <div class="text">Room Name</div>
+        <div class="input">
+          <input placeholder="Name" type="text" v-model="text" />
+        </div>
+      </template>
+      <template #footer>
+        <div class="button">
+          <button class="create-room-button" @click="createRoom">
+            Create Room
+          </button>
+        </div>
+      </template>
+    </Modal>
     <div class="popup" v-if="sharePopup" @click="closeAllPopups">
       <div class="centered-container">
         <div class="container">
@@ -383,11 +283,13 @@
 </template>
 <script>
 import axios from '../../../axios';
+import Modal from '@/components/common/Modal.vue'
 
 export default {
   name: 'DashBoardMiddlePart',
   data() {
     return {
+      isShowModal: false,
       isMobileView: false,
       expandedRoom: null,
       createPopup: false,
@@ -409,6 +311,9 @@ export default {
       roomUrl: '',
       mouse: 0,
     };
+  },
+  components: {
+    Modal
   },
   computed: {
     roomsList() {
@@ -437,6 +342,12 @@ export default {
     },
   },
   methods: {
+    close() {
+      this.isShowModal = false
+    },
+    callModal() {
+      this.isShowModal = true
+    },
     checkScreenWidth() {
       // Define your breakpoint for mobile view (e.g., 768 pixels)
       const mobileBreakpoint = 480;
@@ -512,7 +423,7 @@ export default {
           console.log(res.data);
           // this.rooms.push(room);
           this.createPopup = false;
-
+          this.close();
           // getList();
           // if (joinNow) {
           //   window.location.href = r;es.data.join_now_url;
@@ -684,6 +595,23 @@ export default {
   font-family: 'Karla', sans-serif;
 }
 
+.create-room-button {
+  overflow-wrap: break-word;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: #d7df23;
+  color: rgb(0, 0, 0);
+  border: 1px solid rgb(49, 57, 78);
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  margin: 0px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 .center-container-full {
   justify-content: center;
   align-items: center;
@@ -748,7 +676,7 @@ export default {
   text-align: left;
 }
 
-.room-popup > button {
+.room-popup>button {
   display: flex;
   cursor: pointer;
   font-size: 12px;
@@ -760,7 +688,7 @@ export default {
   margin-top: 5px;
 }
 
-.room-popup > button img {
+.room-popup>button img {
   width: 10px;
   height: 10px;
   margin: auto;
@@ -855,9 +783,10 @@ export default {
   display: none;
 }
 
-.tooltip-button:hover + .tooltip {
+.tooltip-button:hover+.tooltip {
   display: block;
 }
+
 .tooltip2 {
   position: absolute;
   z-index: 5;
@@ -871,6 +800,7 @@ export default {
   right: 7rem;
   width: 265px;
 }
+
 .tooltip2 div:nth-child(1) {
   background-color: #31394e;
   display: flex;
@@ -878,6 +808,7 @@ export default {
   border-radius: 4px;
   padding: 5px;
 }
+
 .triangle {
   width: 0px;
   height: 0px;
@@ -908,7 +839,7 @@ export default {
 .options-container {
   margin-top: 30px;
   height: 58vh;
-  overflow:auto;
+  overflow: auto;
 }
 
 .options-container::-webkit-scrollbar {
@@ -973,14 +904,13 @@ export default {
 
 .text {
   color: #a6a6a8;
-  padding-top: 25px;
   font-weight: regular;
   font-size: 14px;
   font-family: 'Karla', sans-serif;
 }
 
 .input input {
-  margin-top: 20px;
+  margin-top: 14px;
   height: 45px;
   width: 100%;
   background-color: #18191b;
@@ -1030,6 +960,7 @@ export default {
   font-size: 2em;
   color: #647181;
 }
+
 .tooltip-container {
   position: relative;
 }
@@ -1068,9 +999,11 @@ input {
 body {
   background: none transparent;
 }
+
 .button {
   display: none;
 }
+
 @media (max-width: 499px) {
   .copy-link {
     border-radius: 10px;
@@ -1080,13 +1013,16 @@ body {
     font-size: 12px;
     height: 30px;
   }
+
   .button-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    overflow: hidden; /* Ensures content doesn't spill over */
+    overflow: hidden;
+    /* Ensures content doesn't spill over */
     height: 62px;
   }
+
   .center-container-full {
     height: auto;
     border: 0.2px;
@@ -1136,6 +1072,7 @@ body {
   .session-button {
     display: none;
   }
+
   .createPopup {
     height: 100vh;
     max-width: 300px !important;
@@ -1143,8 +1080,9 @@ body {
   }
 
   .centered-container {
-    margin-top: -20rem !important  ;
+    margin-top: -20rem !important;
   }
+
   .popup {
     width: 100%;
     position: absolute;
@@ -1153,6 +1091,7 @@ body {
     background: transparent !important;
     z-index: 999;
   }
+
   .container {
     max-width: 330px !important;
     min-width: 250px;
