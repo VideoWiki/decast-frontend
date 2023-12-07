@@ -70,7 +70,7 @@
 </template>
 <script>
 import buttonToggle from './buttonToggle.vue';
-import ColorPicker from '../../views/login/ColorPicker.vue';
+import ColorPicker from '@/views/login/ColorPicker.vue';
 export default {
   name: 'BrandingTab',
   data() {

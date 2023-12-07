@@ -55,10 +55,9 @@
       <div class="vertical-line sideOne one flex justify-items-start">
         <LeftPart />
       </div>
-
+      <!-- :style="{ transform: `translateX(${offset}vw)` }" -->
       <div
         class="scroll-container gap-x-2"
-        :style="{ transform: `translateX(${offset}vw)` }"
       >
         <div class="middleOne vertical-line scroll">
           <Rooms />

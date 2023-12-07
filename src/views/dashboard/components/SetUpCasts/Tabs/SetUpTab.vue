@@ -130,7 +130,7 @@
 </template>
 <script>
 import allTimeZone from './allTimeZone';
-import Calendar from '../../views/login/Calendar.vue';
+import Calendar from '@/views/login/Calendar.vue';
 import { TimeFrames } from './TimeFrames';
 import moment from 'moment-timezone';
 import ToggleSwitch from './ToggleSwitch.vue';

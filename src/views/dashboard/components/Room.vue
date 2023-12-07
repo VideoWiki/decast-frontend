@@ -248,14 +248,12 @@
         </div>
       </div>
     </div> -->
-    <Modal v-if="isShowModal" :title="'Create new room'" @close="close">
+    <Modal v-if="showModal" :title="'Create new room'" @close="close">
       <template #body>
         <div class="text">Room Name</div>
         <div class="input">
           <input placeholder="Name" type="text" v-model="text" />
         </div>
-      </template>
-      <template #footer>
         <div class="button">
           <button class="create-room-button" @click="createRoom">
             Create Room
@@ -292,7 +290,7 @@ export default {
   name: 'DashBoardMiddlePart',
   data() {
     return {
-      isShowModal: false,
+      showModal: false,
       isMobileView: false,
       expandedRoom: null,
       createPopup: false,
@@ -346,10 +344,10 @@ export default {
   },
   methods: {
     close() {
-      this.isShowModal = false
+      this.showModal = false
     },
     callModal() {
-      this.isShowModal = true
+      this.showModal = true
     },
     checkScreenWidth() {
       // Define your breakpoint for mobile view (e.g., 768 pixels)
@@ -938,6 +936,7 @@ export default {
 .button {
   display: flex;
   justify-content: flex-end;
+  padding-top: 20px;
 }
 
 .button-text {

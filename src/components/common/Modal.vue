@@ -8,9 +8,6 @@
             <section class="modal-body">
                 <slot name="body" />
             </section>
-            <footer class="modal-footer-main">
-                <slot name="footer" />
-            </footer>
         </div>
     </div>
 </template>
@@ -48,7 +45,8 @@ export default {
 
 .modal {
     position: relative;
-    width: 630px;
+    min-width: 500px;
+    margin: 0px 10px;
     z-index: 1000;
     background-color: rgb(31, 39, 47);
     display: flex;
@@ -101,8 +99,7 @@ export default {
     font-weight: 600;
 }
 
-.modal-body,
-.modal-footer-main {
+.modal-body {
     padding: 0px 20px 20px 20px;
 }
 

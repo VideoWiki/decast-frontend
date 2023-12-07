@@ -28,7 +28,7 @@
             width: 28px;
             height: 28px;
           "
-          @click="openCreate"
+          @click="openModal"
         >
           <img src="@/assets/images/Plus.svg" alt="" />
         </button>
@@ -651,6 +651,16 @@
         :closeCreate="closeCreate"
       ></set-up-cast>
     </div>
+
+
+    <SetUpCastNew
+      :getList="getCastList"
+      :closeCreate="closeCreate"
+      :showModal="showModal"
+      :closeModal="closeModal"
+    ></SetUpCastNew>
+
+
     <div class="popup" @click="closeAllPopups" v-if="stream">
       <StreamingTab
         class="stream-co"
@@ -786,11 +796,12 @@
 </template>
 <script>
 import moment from 'moment-timezone';
-import SetUpCast from '../../../SetUpCasts/SetUpCast.vue';
+import SetUpCast from '@/views/dashboard/components/SetUpCasts/SetUpCast.vue';
+import SetUpCastNew from '@/views/dashboard/components/SetUpCasts/SetUpCastNew.vue';
 import InviteCard from '../InviteCard.vue';
 import postPoneCast from '../postPoneCast.vue';
-import SettingsTab from '../../../SetUpCasts/Tabs/SettingsTab.vue';
-import StreamingTab from '../../../SetUpCasts/Tabs/StreamingTab.vue';
+import SettingsTab from '@/views/dashboard/components/SetUpCasts/Tabs/SettingsTab.vue';
+import StreamingTab from '@/views/dashboard/components/SetUpCasts/Tabs/StreamingTab.vue';
 import SetUpEditCast from '../../EditCast/SetUpEditCast.vue';
 export default {
   components: {
@@ -800,10 +811,12 @@ export default {
     postPoneCast,
     SettingsTab,
     StreamingTab,
+    SetUpCastNew,
   },
   name: 'rightpart',
   data() {
     return {
+      showModal: false,
       isMobileView: false,
       expandedRoom: null,
       showDeletePopup: false,
@@ -879,6 +892,12 @@ export default {
     this.updateRemainingTime();
   },
   methods: {
+    closeModal() {
+      this.showModal = false
+    },
+    openModal() {
+      this.showModal = true
+    },
     flattenRecordingList(recordingList) {
       const flattenedList = [];
       recordingList.forEach((meetings) => {

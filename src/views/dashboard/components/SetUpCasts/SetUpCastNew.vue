@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <!-- <div v-if="castCreated"></div> -->
+  <!-- <div>
     <div class="main-containr">
       <popup
         v-if="status === 'success'"
@@ -125,7 +124,66 @@
         />
       </div>
     </div>
-  </div>
+  </div> -->
+  <Modal v-if="showModal" :title="'Set up your cast'" @close="closeModal">
+    <template #body>
+      <div class="center-container">
+        <div class="buttons flex">
+          <button class="button-1" :style="{
+            backgroundColor: activeTab === 'Set up' ? '#464775' : '#1F272F',
+            color:
+              activeTab === 'Set up'
+                ? 'rgba(255, 255, 255, 0.8) '
+                : 'rgba(166, 166, 168, 0.8)',
+          }" ref="stepone" :stepOneProps="stepOneProps" @click="activeTab = 'Set up'">
+            Set up
+          </button>
+          <button class="button-2" :style="{
+            backgroundColor: activeTab === 'Branding' ? '#464775' : '#1F272F',
+            color:
+              activeTab === 'Branding'
+                ? 'rgba(255, 255, 255, 0.8)'
+                : 'rgba(166, 166, 168, 0.8)',
+          }" :before-change="() => validateFormOne()" :stepOneProps="stepOneProps" @click="activeTab = 'Branding'">
+            Branding
+          </button>
+          <button class="button-3" :style="{
+            backgroundColor: activeTab === 'Settings' ? '#464775' : '#1F272F',
+            color:
+              activeTab === 'Settings'
+                ? 'rgba(255, 255, 255, 0.8)'
+                : 'rgba(166, 166, 168, 0.8)',
+          }" @click="activeTab = 'Settings'">
+            Settings
+          </button>
+          <button class="button-4" :style="{
+            backgroundColor:
+              activeTab === 'Streaming' ? '#464775' : '#1F272F',
+            color:
+              activeTab === 'Streaming'
+                ? 'rgba(255, 255, 255, 0.8)'
+                : 'rgba(166, 166, 168, 0.8)',
+          }" @click="activeTab = 'Streaming'">
+            Streaming
+          </button>
+        </div>
+        <div class="tab-content">
+          <SetUpTab v-if="activeTab === 'Set up'" :changeActiveTab="changeActiveTab" :stepOneProps="stepOneProps" />
+          <BrandingTab v-else-if="activeTab === 'Branding'" :stepTwoProps="stepTwoProps"
+            :changeActiveTab="changeActiveTab" />
+          <SettingsTab v-else-if="activeTab === 'Settings'" :createCast="createCast" :stepFourProps="stepFourProps"
+            :changeActiveTab="changeActiveTab" />
+          <StreamingTab v-else :createCast="createCast" :changeActiveTab="changeActiveTab" :stepFourProps="stepFourProps"
+            :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps" :stepOneProps="stepOneProps"
+            :closeCreate="closeCreate" :castId="castId" />
+        </div>
+      </div>
+      <!-- <div v-else-if="status === 'invite'">
+        <invite-card :isStream="stepThreeProps.is_streaming" :viewer="stepFourProps.viewer_mode"
+          :closeInvite="closeCreate" :Id="castId" :invites="[]" />
+      </div> -->
+    </template>
+  </Modal>
 </template>
 <script>
 import BrandingTab from './Tabs/BrandingTab.vue';
@@ -133,11 +191,13 @@ import SettingsTab from './Tabs/SettingsTab.vue';
 import SetUpTab from './Tabs/SetUpTab.vue';
 import StreamingTab from './Tabs/StreamingTab.vue';
 import moment from 'moment';
-import Popup from '../views/dashboard/Popup.vue';
-import StreamCard from '../views/dashboard/StreamCard.vue';
-import InviteCard from '../views/dashboard/InviteCard.vue';
+import Popup from '@/views/dashboard/Popup.vue';
+import StreamCard from '@/views/dashboard/StreamCard.vue';
+import InviteCard from '@/views/dashboard/InviteCard.vue';
+import Modal from '@/components/common/Modal.vue'
+
 export default {
-  name: 'SetUpCast',
+  name: 'SetUpCastNew',
   components: {
     BrandingTab,
     SettingsTab,
@@ -146,8 +206,9 @@ export default {
     Popup,
     StreamCard,
     InviteCard,
+    Modal,
   },
-  props: ['closeCreate', 'getList'],
+  props: ['closeCreate', 'getList', 'showModal', 'closeModal'],
   data() {
     return {
       activeTab: 'Set up',
@@ -258,7 +319,7 @@ export default {
       },
     };
   },
-  mounted() {},
+  mounted() { },
   methods: {
     validateFormOne() {
       if (
@@ -470,10 +531,6 @@ export default {
   font-family: 'Karla', sans-serif;
 }
 
-.center-container {
-  margin: 18px;
-}
-
 .main-containr {
   max-height: 650px;
   min-width: fit-content;
@@ -488,23 +545,24 @@ export default {
   transition: max-height 0.5s ease-in-out;
   /* padding: 18px; */
 }
+
 .heading-part {
   justify-content: space-between;
 }
+
 .heading-part img {
   width: 12px;
   height: 12px;
   color: #647181;
   cursor: pointer;
 }
+
 .heading {
   color: #a6a6a8;
   font-size: 14px;
   font-weight: 600;
 }
-.buttons {
-  margin-top: 23px;
-}
+
 .buttons button {
   width: 33%;
   height: 40px;
@@ -518,12 +576,15 @@ export default {
   justify-content: center;
   cursor: pointer;
 }
+
 .button-1 {
   border-radius: 6px 0px 0px 6px;
 }
+
 .button-4 {
   border-radius: 0px 6px 6px 0px;
 }
+
 @media (max-width: 500px) {
   .main-containr {
     position: absolute;
@@ -534,6 +595,7 @@ export default {
     overflow-y: scroll;
     max-height: 480px;
   }
+
   .buttons button {
     width: 90px;
   }
