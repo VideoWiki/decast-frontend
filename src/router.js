@@ -6,6 +6,8 @@ import Landing from '@/views/NewLanding__2.vue';
 import Creators from '@/views/Creators.vue';
 import Sponsors from '@/views/Sponsors.vue';
 import Operators from '@/views/Operators.vue';
+import Infrastructure from '@/views/Infrastructure.vue';
+
 
 Vue.use(Router);
 
@@ -94,6 +96,14 @@ const router = new Router({
           path: '/operators',
           name: 'Welcome to Decast | Operators',
           component: Operators,
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/infrastructure',
+          name: 'Welcome to Decast | Infrastructure',
+          component: Infrastructure,
           meta: {
             rule: 'isPublic',
           },

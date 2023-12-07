@@ -1,21 +1,30 @@
 <template>
-  <div class="wrapper">
-    <div class="heading-part">
-      <h3>Contact Us</h3>
-      <img class="cursor-pointer" src="@/assets/images/create-event/Vector.svg" @click="closePopUp" />
+  <div class="flex flex-col justify-center items-center w-full h-full min-h-screen p-4" style="min-width: 100vw;">
+
+    <div
+    class="flex flex-col absolute bg-black bg-opacity-50 min-h-screen z-50"
+    style="min-width: 100vw; backdrop-filter: blur(5px);"
+    @click="closePopUp"
+    ></div>
+
+      <div class="wrapper flex flex-col justify-center items-center gap-6 w-full lg:w-7/12 max-w-md px-4 py-8 lg:px-6 lg:py-8" >
+      <div class="heading-part w-full flex justify-between">
+        <h3>Contact Us</h3>
+        <img class="cursor-pointer" src="@/assets/images/create-event/Vector.svg" @click="closePopUp" />
+      </div>
+      <div class="input-part flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full">
+        <input placeholder="Your Name" type="text" class="input-box w-full" />
+        <input placeholder="Your Email" type="email" class="input-box w-full" />
+      </div>
+      <div class="input-part flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full">
+        <input placeholder="Your Phone No." class="input-box w-full" />
+        <input placeholder="Other Phone" class="input-box w-full" />
+      </div>
+      <div class="input-msg flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full">
+        <textarea class="msg w-full" placeholder="Your Message"></textarea>
+      </div>
+      <button>Send</button>
     </div>
-    <div class="input-part">
-      <input placeholder="Your Name" type="text" class="input-box" />
-      <input placeholder="Your Email" type="email" class="input-box" />
-    </div>
-    <div class="input-part">
-      <input placeholder="Your Phone No." class="input-box" />
-      <input placeholder="Other Phone" class="input-box" />
-    </div>
-    <div class="input-msg">
-      <textarea class="msg" placeholder="Your Message"></textarea>
-    </div>
-    <button>Send</button>
   </div>
 </template>
 <script>
@@ -36,14 +45,11 @@ export default {
 </script>
 <style scoped>
 .wrapper {
-  width: 638px;
   height: auto;
   background-color: #181a20;
-  padding: 20px;
   border-radius: 8px;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
+  z-index: 999;
 }
 .heading-part {
   display: flex;
@@ -56,12 +62,9 @@ h3 {
   color: #a6a6a8;
 }
 .input-part {
-  padding: 12px;
   display: flex;
-  justify-content: space-between;
 }
 .input-box {
-  width: 49%;
   height: 45px;
   border: 1px solid #1f272f;
   background-color: #31394e;
@@ -73,8 +76,6 @@ h3 {
 }
 .msg {
   padding: 12px;
-  margin: 12px !important;
-  width: 96%;
   height: 109px;
   resize: none;
   background-color: #31394e;
@@ -93,6 +94,6 @@ button {
   border-radius: 4px;
   font-size: 14px;
   font-weight: 600;
-  margin: 20px auto;
 }
+
 </style>
