@@ -645,12 +645,12 @@
         more try our premium plan.
       </p>
     </div> -->
-    <div class="popup" @click="closeAllPopups" v-if="create">
+    <!-- <div class="popup" @click="closeAllPopups" v-if="create">
       <set-up-cast
         :getList="getCastList"
         :closeCreate="closeCreate"
       ></set-up-cast>
-    </div>
+    </div> -->
 
 
     <SetupCastNew
@@ -813,7 +813,7 @@ export default {
     StreamingTab,
     SetupCastNew,
   },
-  name: 'rightpart',
+  name: 'CastSection',
   data() {
     return {
       showModal: false,

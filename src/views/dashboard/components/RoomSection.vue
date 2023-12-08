@@ -287,7 +287,7 @@ import axios from '../../../axios';
 import Modal from '@/components/common/Modal.vue'
 
 export default {
-  name: 'DashBoardMiddlePart',
+  name: 'RoomSection',
   data() {
     return {
       showModal: false,

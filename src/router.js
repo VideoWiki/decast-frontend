@@ -476,16 +476,16 @@ const router = new Router({
     },
     {
       path: '/leftpart',
-      name: 'DashBoardLeftPart',
-      component: () => import('./views/dashboard/components/LeftPart.vue'),
+      name: 'WelcomeSection',
+      component: () => import('./views/dashboard/components/WelcomeSection.vue'),
       meta: {
         rule: 'isPublic',
       },
     },
     {
       path: '/middlePart',
-      name: 'DashBoardMiddlePart',
-      component: () => import('./views/dashboard/components/Room.vue'),
+      name: 'RoomSection',
+      component: () => import('./views/dashboard/components/RoomSection.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -508,8 +508,8 @@ const router = new Router({
     },
     {
       path: '/rightpart',
-      name: 'rightpart',
-      component: () => import('./views/dashboard/components/RightPart.vue'),
+      name: 'CastSection',
+      component: () => import('./views/dashboard/components/CastSection.vue'),
       meta: {
         rule: 'isPublic',
       },

@@ -49,7 +49,7 @@
 <script>
 import FullLengthButton from './Buttons/fullLengthButton.vue';
 export default {
-  name: 'DashBoardLeftPart',
+  name: 'WelcomeSection',
   components: {
     FullLengthButton,
   },

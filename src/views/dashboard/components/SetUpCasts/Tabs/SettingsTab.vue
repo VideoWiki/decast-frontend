@@ -389,7 +389,8 @@ export default {
 }
 @media (max-width: 500px) {
   .wrapper {
-    width: 360px;
+    /* width: 360px; */
+    width: calc(100vw - 50px);
     margin: auto;
     justify-content: center;
   }

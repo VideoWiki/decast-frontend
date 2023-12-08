@@ -575,7 +575,8 @@ export default {
     border: 1px solid #31394e !important;
   }
   .wrapper {
-    width: 360px;
+    /* width: 360px; */
+    width: calc(100vw - 50px);
   }
   .horizontal-line {
     width: 80px;

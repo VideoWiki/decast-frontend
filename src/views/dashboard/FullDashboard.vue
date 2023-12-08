@@ -53,24 +53,24 @@
     </div>
     <div class="buttomPart">
       <div class="vertical-line sideOne one flex justify-items-start">
-        <LeftPart />
+        <WelcomeSection />
       </div>
       <!-- :style="{ transform: `translateX(${offset}vw)` }" -->
       <div
         class="scroll-container gap-x-2"
       >
         <div class="middleOne vertical-line scroll">
-          <Rooms />
+          <RoomSection />
         </div>
         <div class="sideOne last scroll">
-          <RightPart />
+          <CastSection />
         </div>
       </div>
       <div class="middleOne vertical-line no-scroll">
-        <Rooms />
+        <RoomSection />
       </div>
       <div class="sideOne last no-scroll">
-        <RightPart />
+        <CastSection />
       </div>
     </div>
     <div class="close-container">
@@ -81,10 +81,10 @@
   </div>
 </template>
 <script>
-import LeftPart from './components/LeftPart.vue';
-import RightPart from './components/RightPart.vue';
+import WelcomeSection from './components/WelcomeSection.vue';
+import CastSection from './components/CastSection.vue';
 import userMenu from './userMenu.vue';
-import Rooms from './components/Room.vue';
+import RoomSection from './components/RoomSection.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 import Popups from './Popups.vue';
@@ -94,9 +94,9 @@ export default {
   mixins: [utils],
   name: 'FullDashBoard',
   components: {
-    LeftPart,
-    RightPart,
-    Rooms,
+    WelcomeSection,
+    CastSection,
+    RoomSection,
     userMenu,
     Popups,
     UserMenu,

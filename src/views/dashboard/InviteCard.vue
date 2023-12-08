@@ -802,7 +802,7 @@ button {
   }
   .input-container {
     /* width: 350px; */
-    width: calc(100vw - 60px);
+    width: calc(100vw - 50px);
   }
   .opt-cont {
     width: 100px;
@@ -819,6 +819,7 @@ button {
   }
   .opt-container {
     /* width: 350px; */
+    width: calc(100vw - 50px);
     height: auto;
   }
   .prog-cont {
@@ -826,16 +827,16 @@ button {
     flex-direction: column;
   }
   .info-cont {
-    width: calc(100vw - 60px);
+    width: calc(100vw - 50px);
   }
   .midStroke {
     /* width: 350px; */
-    width: calc(100vw - 60px);
+    width: calc(100vw - 50px);
   }
   .prog-cont {
     display: flex;
     /* width: 350px; */
-    width: calc(100vw - 60px);
+    width: calc(100vw - 50px);
     margin: auto;
     height: auto;
   }

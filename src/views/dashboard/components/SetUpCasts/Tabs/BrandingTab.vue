@@ -319,7 +319,8 @@ export default {
 @media (max-width: 500px) {
   .room-image {
     margin: auto;
-    width: 360px;
+    /* width: 360px; */
+    width: calc(100vw - 50px);
   }
   .logo {
     position: absolute;
@@ -329,7 +330,8 @@ export default {
     height: 60px;
   }
   .some-text {
-    width: 360px;
+    /* width: 360px; */
+    width: calc(100vw - 50px);
     height: 55px;
     position: absolute;
     left: 0px;
