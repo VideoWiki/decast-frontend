@@ -10,7 +10,7 @@
         </p>
       </div>
       <div class="flex flex-shrink justify-between">
-        <button class="header-button p-2" @click="callModal" style="
+        <button class="header-button p-2" @click="openModal" style="
                             border: 1px solid #a6a6a8;
                             border-radius: 5px;
                             background-color: #1f272f;
@@ -248,7 +248,7 @@
         </div>
       </div>
     </div> -->
-    <Modal v-if="showModal" :title="'Create new room'" @close="close">
+    <Modal v-if="showModal" :title="'Create new room'" @close="closeModal">
       <template #body>
         <div class="text">Room Name</div>
         <div class="input">
@@ -343,10 +343,10 @@ export default {
     },
   },
   methods: {
-    close() {
+    closeModal() {
       this.showModal = false
     },
-    callModal() {
+    openModal() {
       this.showModal = true
     },
     checkScreenWidth() {
@@ -424,7 +424,7 @@ export default {
           console.log(res.data);
           // this.rooms.push(room);
           this.createPopup = false;
-          this.close();
+          this.closeModal();
           // getList();
           // if (joinNow) {
           //   window.location.href = r;es.data.join_now_url;

@@ -1,11 +1,11 @@
 <template>
   <div class="invite-cont">
-    <div class="head-container">
+    <!-- <div class="head-container">
       <h3>Invite your attendees</h3>
       <button @click="closeInvite">
         <img src="@/assets/images/cross.svg" />
       </button>
-    </div>
+    </div> -->
 
     <div class="input-container">
       <div class="opt-cont" ref="customSelect" @mousedown="toggleDropdown">
@@ -120,6 +120,7 @@
     </div> -->
 
     <div class="done-btn">
+      <button @click="changeStatus('success')" class="back-btn">Back</button>
       <button @click="closeInvite">Done</button>
     </div>
   </div>
@@ -131,7 +132,7 @@ import constants from '../../../constant';
 import axios from '../../axios';
 export default {
   name: 'InviteCard',
-  props: ['Id', 'invites', 'closeInvite', 'isStream', 'viewer'],
+  props: ['Id', 'invites', 'closeInvite', 'isStream', 'viewer', 'changeStatus'],
 
   data() {
     return {
@@ -441,14 +442,14 @@ export default {
 
 <style scoped>
 .invite-cont {
-  width: 590px;
+  /* width: 590px; */
   /* min-height: 475px; */
   height: auto;
   border-radius: 10px;
   background-color: #1f272f;
-  border: 1px solid #31394e;
-  padding: 15px;
-  padding-bottom: 25px;
+  /* border: 1px solid #31394e; */
+  /* padding: 15px; */
+  /* padding-bottom: 25px; */
   margin: auto;
 }
 
@@ -480,9 +481,9 @@ button {
   border: 1px solid #31394e;
   border-radius: 6px;
   width: 555px;
-  margin: auto;
+  /* margin: auto; */
   height: 42px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 /* :root {
@@ -596,15 +597,15 @@ button {
 }
 
 .info-cont {
-  width: 565px;
-  margin: auto;
-  margin-top: 25px;
+  /* width: 565px; */
+  /* margin: auto;
+  margin-top: 25px; */
 }
 
 .info-cont p {
   color: #637181;
   font-size: 12px;
-  font-weight: 600px;
+  font-weight: 600;
 }
 
 .opt-container {
@@ -772,12 +773,20 @@ button {
   border: none;
   margin: auto !important;
 }
+.back-btn {
+  color: #A6A6A8 !important;
+  border-radius: 6px !important;
+  border: 1px solid #31394E !important;
+  background-color: #2D3A48 !important;
+  margin-right: 10px;
+}
+
 @media (max-width: 499px) {
   .invite-cont {
-    width: 370px;
+    /* width: 370px; */
     padding: auto;
     margin: auto;
-    margin-top: -30rem;
+    /* margin-top: -30rem; */
   }
   .input-container input {
     width: 200px;
@@ -792,7 +801,8 @@ button {
     font-weight: 500;
   }
   .input-container {
-    width: 350px;
+    /* width: 350px; */
+    width: calc(100vw - 60px);
   }
   .opt-cont {
     width: 100px;
@@ -808,19 +818,24 @@ button {
     right: 5px;
   }
   .opt-container {
-    width: 350px;
+    /* width: 350px; */
     height: auto;
   }
   .prog-cont {
     display: flex;
     flex-direction: column;
   }
+  .info-cont {
+    width: calc(100vw - 60px);
+  }
   .midStroke {
-    width: 350px;
+    /* width: 350px; */
+    width: calc(100vw - 60px);
   }
   .prog-cont {
     display: flex;
-    width: 350px;
+    /* width: 350px; */
+    width: calc(100vw - 60px);
     margin: auto;
     height: auto;
   }

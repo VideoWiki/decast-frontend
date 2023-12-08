@@ -125,7 +125,7 @@
       </div>
     </div>
   </div> -->
-  <Modal v-if="showModal" :title="'Set up your cast'" @close="closeModal">
+  <Modal v-if="showModal" :title="status === 'invite' ? 'Invite your attendees' : status === 'success' ? '' : 'Set up your cast'" @close="closeModal">
     <template #body>
       <div v-if="status === 'create'" class="center-container">
         <div class="buttons flex">
@@ -182,11 +182,12 @@
         v-else-if="status === 'success'"
         :changeStatus="changeStatus"
         :closeCreate="closeCreate"
+        :closeModal="closeModal"
       />
-      <!-- <div v-else-if="status === 'invite'">
-        <invite-card :isStream="stepThreeProps.is_streaming" :viewer="stepFourProps.viewer_mode"
+      <div v-else-if="status === 'invite'">
+        <invite-card :isStream="stepThreeProps.is_streaming" :viewer="stepFourProps.viewer_mode" :changeStatus="changeStatus"
           :closeInvite="closeCreate" :Id="castId" :invites="[]" />
-      </div> -->
+      </div>
     </template>
   </Modal>
 </template>

@@ -1,13 +1,13 @@
 <template>
   <div class="margin">
-    <div class="cross-img">
+    <!-- <div class="cross-img">
       <img
         @click="closeCreate"
         class="cursor-pointer"
         src="@/assets/images/create-event/Vector30.svg"
         alt=""
       />
-    </div>
+    </div> -->
 
     <div class="popup-svg">
       <img src="@/assets/images/create-event/trophy.svg" />
@@ -29,45 +29,43 @@
       <button class="success-btn button flex items-center" @click="toggleShare">
         <img src="@/assets/images/stream.svg" />Share your cast
       </button>
+      <div v-if="showShare" class="share-cont">
+        <!-- <div class="close-btn-cont">
+          <h3>Share your Cast</h3>
+          <button @click="closeShare">
+            <img src="@/assets/images/cross.svg" />
+          </button>
+        </div> -->
+        <div class="link-cont">
+          <div class="cursor-pointer" @click="copyCastLink">
+            <img src="@/assets/images/link.png" />
+          </div>
+          <div>
+            <a target="_blank" :href="getShareUrl('facebook')">
+              <img src="@/assets/images/face.svg" />
+            </a>
+          </div>
+          <div>
+            <a target="_blank" :href="getShareUrl('twitter')">
+              <img src="@/assets/images/twitter.svg" />
+            </a>
+          </div>
+          <div>
+            <a target="_blank" :href="getShareUrl('pinterest')">
+              <img src="@/assets/images/pinterest.svg" />
+            </a>
+          </div>
+          <div>
+            <a target="_blank" :href="getShareUrl('linkedin')">
+              <img src="@/assets/images/linked.svg" />
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="skip cursor-pointer" @click="closeCreate">
+    <div class="skip cursor-pointer" @click="closeModal">
       Skip for now
       <div class="underline"></div>
-    </div>
-
-    <div v-if="showShare" class="share-cont">
-      <div class="close-btn-cont">
-        <h3>Share your Cast</h3>
-        <button @click="closeShare">
-          <img src="@/assets/images/cross.svg" />
-        </button>
-      </div>
-
-      <div class="link-cont">
-        <div class="cursor-pointer" @click="copyCastLink">
-          <img src="@/assets/images/link.png" />
-        </div>
-        <div>
-          <a target="_blank" :href="getShareUrl('facebook')">
-            <img src="@/assets/images/face.svg" />
-          </a>
-        </div>
-        <div>
-          <a target="_blank" :href="getShareUrl('twitter')">
-            <img src="@/assets/images/twitter.svg" />
-          </a>
-        </div>
-        <div>
-          <a target="_blank" :href="getShareUrl('pinterest')">
-            <img src="@/assets/images/pinterest.svg" />
-          </a>
-        </div>
-        <div>
-          <a target="_blank" :href="getShareUrl('linkedin')">
-            <img src="@/assets/images/linked.svg" />
-          </a>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -83,7 +81,7 @@ export default {
       // castList: [],
     };
   },
-  props: ['closeCreate', 'changeStatus'],
+  props: ['closeCreate', 'changeStatus', 'closeModal'],
   mounted() {
     this.getCastList();
     window.addEventListener('click', this.handleGlobalClick);
@@ -193,7 +191,6 @@ export default {
 }
 
 .margin {
-  margin: 18px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -266,7 +263,7 @@ export default {
 }
 
 .skip {
-  margin-top: 50px;
+  margin-top: 20px;
   font-size: 16px;
   font-weight: 500;
   color: #647181;
@@ -287,15 +284,15 @@ export default {
 }
 
 .share-cont {
-  width: 350px;
+  width: 297px;
   background-color: #1f272f;
-  border: 1px solid #31394e;
+  /* border: 1px solid #31394e; */
   border-radius: 8px;
-  height: 150px;
-  padding: 10px;
-  position: absolute;
+  /* height: 150px; */
+  padding-top: 10px;
+  /* position: absolute;
   top: 50%;
-  left: 18%;
+  left: 18%; */
 }
 
 .link-cont {
@@ -303,7 +300,10 @@ export default {
   justify-content: space-between;
   padding: 10px;
   margin: auto;
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  > * {
+    padding: 0px 10px;
+  }
 }
 
 .close-btn-cont {
