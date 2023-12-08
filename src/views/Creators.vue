@@ -1,61 +1,9 @@
 <template>
   <div class="landing">
     <Navbar />
-    <!-- <div class="flex w-full justify-center items-center" :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }">
-            <nav class="max-w-5xl w-full items-center flex flex-row justify-between lg:px-16 md:px-6 px-4 py-6">
-                <router-link to="/" class="w-16 h-16">
-                    <img class="w-full h-full object-cover" src="@/assets/images/logo square.svg" />
-                </router-link>
-
-                <div class="opt-cont items-center gap-10 md:flex hidden ">
-                    <div><a class="" href="#" >Features</a></div>
-                    <div class="dropbtn flex flex-col items-center relative" @click="dropOpen">
-                        <a class="flex gap-2 items-center" href="#">
-                            Join
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 14 8" fill="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M7.70734 7.70698C7.51981 7.89445 7.26551 7.99976 7.00034 7.99976C6.73518 7.99976 6.48087 7.89445 6.29334 7.70698L0.636343 2.04998C0.540833 1.95773 0.464651 1.84739 0.412242 1.72538C0.359833 1.60338 0.332246 1.47216 0.331092 1.33938C0.329939 1.2066 0.355241 1.07492 0.405521 0.952023C0.455802 0.829127 0.530055 0.717474 0.623948 0.623581C0.717841 0.529689 0.829492 0.455436 0.952389 0.405155C1.07529 0.354874 1.20696 0.329572 1.33974 0.330726C1.47252 0.33188 1.60374 0.359466 1.72575 0.411875C1.84775 0.464284 1.9581 0.540466 2.05034 0.635976L7.00034 5.58598L11.9503 0.635976C12.1389 0.453818 12.3915 0.353024 12.6537 0.355302C12.9159 0.357581 13.1668 0.46275 13.3522 0.648158C13.5376 0.833566 13.6427 1.08438 13.645 1.34658C13.6473 1.60877 13.5465 1.86137 13.3643 2.04998L7.70734 7.70698Z"
-                                    fill="#a6a6a6" />
-                            </svg>
-                        </a>
-                        <div id="Navdrop"
-                            class="flex-col absolute py-2 px-4 rounded-sm Navdrop hideNav bg-black items-center"
-                            style="top: 100%;">
-                            <router-link class="" to="/creators" style="width: fit-content;">Creators</router-link>
-                            <router-link class="" to="/sponsors" style="width: fit-content;">Sponsers</router-link>
-                            <router-link class="" to="/operators" style="width: fit-content;">Operators</router-link>
-                        </div>
-
-                    </div>
-                    <div><a href="#">Pricing</a></div>
-                    <div><a href="#">About</a></div>
-                    <div><a href="#">Faq</a></div>
-                    <div><a href="#" @click="redirectTo">Contact</a></div>
-                </div>
-
-                <div class="log-cont" v-if="!isLoggedIn">
-                    <div class="cursor-pointer" :class="{ 'child-1': true, 'slog-cont': isNavbarScrolled }" @click="open">
-                        <button>Login</button>
-                        <div class="vertical-line sideOne"></div>
-                        <button>Signup</button>
-                    </div>
-                   
-                </div>
-
-                <div class="nam-con" v-else>
-                    <p>Hi, {{ username }}!</p>
-                    <button>
-                        <router-link to="/dashboard" style="font-size: small; font-weight: 500; color: #000">
-                            Dashboard
-                        </router-link>
-                    </button>
-                </div>
-            </nav>
-        </div> -->
     <div class="home-cont mb-16">
       <div
-        class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16 flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start"
-      >
+        class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16 flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
         <div class="lg:w-full md:w-8/12 sm:w-10/12 w-full">
           <div class="op-1">
             <h1 id="head-id" class="sm:text-5xl xl:text-6xl text-4xl text-left">
@@ -78,12 +26,9 @@
           </div>
         </div>
 
-        <div
-          class="cont-3 flex justify-end items-center w-full"
-          @scroll="handleScroll"
-        >
-          <div class="vid-cont rounded-lg">
-            <img class="rounded-lg" src="@/assets/images/create.jpg" />
+        <div class="cont-3 flex justify-end items-center w-full" @scroll="handleScroll">
+          <div class="rounded-lg relative p-6 basic__section__img" style="width: 500px;">
+            <img class="rounded-lg object-cover w-full h-full" src="@/assets/images/landing/creators/creators__cover.png" />
           </div>
         </div>
       </div>
@@ -124,15 +69,10 @@
       </div>
     </div>
 
-    <div
-      class="basic__section basic__section__1 flex w-full justify-center items-center py-16"
-    >
+    <div class="basic__section basic__section__1 flex w-full justify-center items-center py-16">
       <div
-        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16"
-      >
-        <div
-          class="flex flex-col text-grey gap-4 w-full col-span-1 lg:order-last lg:justify-end lg:items-end"
-        >
+        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
+        <div class="flex flex-col text-grey gap-4 w-full col-span-1 lg:order-last lg:justify-end lg:items-end">
           <div class="flex-col flex md:w-10/12 sm:w-10/12">
             <div class="w-24 h-24 relative mb-4 pr-2">
               <img class="w-full h-full" src="@/assets/images/play.svg" />
@@ -140,10 +80,7 @@
             <h5 class="lg:text-5xl text-4xl text-grey font-semibold">
               Why Create with Cast?
             </h5>
-            <div
-              class="w-64 my-4 h-2 rounded-full"
-              style="background-color: #d7df23"
-            ></div>
+            <div class="w-64 my-4 h-2 rounded-full" style="background-color: #d7df23"></div>
             <p class="text-base text-grey font-normal">
               CAST is an engaging video collaboration solution that is built for
               online events and digital parties. <br /><br />
@@ -155,52 +92,38 @@
               Wallet balances and subscription NFTs provide your users benefits
               online and in virtual 'verses'. NFT drops that can serve function
               in real life and provide utility.
+              <br /><br />
+              We're on a mission to change the way brands and creators interact with fans. We believe in low fees, easy
+              access to NFTs and better buying, selling, trading and interaction with NFTs. We have surprises coming up.
+              Get in touch if you'd like to be a part of the journey.
             </p>
           </div>
         </div>
-        <div
-          class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start"
-        >
-          <img
-            class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/create cast.jpg"
-          />
+        <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
+          <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/creators/creators1.png" />
         </div>
       </div>
     </div>
 
-    <div
-      class="basic__section basic__section__2 hidden w-full justify-center items-center py-16"
-    >
+    <div class="basic__section basic__section__2 hidden w-full justify-center items-center py-16">
       <div
-        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16"
-      >
+        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
         <div class="flex flex-col text-grey gap-4 w-full col-span-1">
           <div class="w-24 h-24 relative mb-4 pr-2">
             <img class="w-full h-full" src="@/assets/images/community.svg" />
           </div>
-          <h5
-            class="lg:text-5xl text-4xl text-grey font-semibold md:w-10/12 sm:w-10/12"
-          >
+          <h5 class="lg:text-5xl text-4xl text-grey font-semibold md:w-10/12 sm:w-10/12">
             Decentralized and Hyper Networked
           </h5>
-          <div
-            class="w-64 my-4 h-2 rounded-full"
-            style="background-color: #d7df23"
-          ></div>
+          <div class="w-64 my-4 h-2 rounded-full" style="background-color: #d7df23"></div>
           <p class="text-base text-grey font-normal md:w-10/12 sm:w-10/12">
             Able to adapt to the growing computing needs of edge computing,
             where processing occurs closer to the data source. Optimal for
             scenarios where Edge computing requires low-latency responses.
           </p>
         </div>
-        <div
-          class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end"
-        >
-          <img
-            class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/landing-img.jpg"
-          />
+        <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
+          <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing-img.jpg" />
         </div>
       </div>
     </div>
@@ -216,11 +139,7 @@
           </button>
         </div>
         <div class="testm-cont" ref="container">
-          <div
-            class="rev-cont"
-            v-for="(testimonial, index) in testimonials"
-            :key="index"
-          >
+          <div class="rev-cont" v-for="(testimonial, index) in testimonials" :key="index">
             <div class="testimonial">
               <img :src="testimonial.image" alt="Testimonial Image" />
               <h2>{{ testimonial.comment }}</h2>
@@ -677,12 +596,12 @@ export default {
 
       const colorCategory =
         Object.keys(colorShades)[
-          Math.floor(Math.random() * Object.keys(colorShades).length)
+        Math.floor(Math.random() * Object.keys(colorShades).length)
         ];
 
       const randomShade =
         colorShades[colorCategory][
-          Math.floor(Math.random() * colorShades[colorCategory].length)
+        Math.floor(Math.random() * colorShades[colorCategory].length)
         ];
 
       return randomShade;
@@ -918,7 +837,7 @@ button {
   flex-direction: column;
 }
 
-.fallbox-container > div {
+.fallbox-container>div {
   /* border: 1px solid yellow; */
   display: flex;
   width: 100%;
@@ -927,12 +846,12 @@ button {
   gap: 1rem;
 }
 
-.fallbox-container > div:nth-child(1) {
+.fallbox-container>div:nth-child(1) {
   justify-content: flex-end;
   width: 90%;
 }
 
-.fall-child1 > div:nth-child(2) {
+.fall-child1>div:nth-child(2) {
   animation: fallbox-fall5 linear both;
   transition: 0.3s ease;
   /* animation-delay: 0.5ms; */
@@ -961,7 +880,7 @@ button {
   }
 }
 
-.fall-child1 > div:nth-child(3) {
+.fall-child1>div:nth-child(3) {
   animation: fallbox-fall4 linear both;
   animation-delay: 0.3ms;
   /* margin-left: -20px; */
@@ -983,7 +902,7 @@ button {
   justify-content: center;
 }
 
-.fall-child3 > div:nth-child(3) {
+.fall-child3>div:nth-child(3) {
   margin-left: 12rem;
 }
 
@@ -1135,7 +1054,7 @@ button {
   margin-bottom: 5rem;
 }
 
-.step-vid-cont > div {
+.step-vid-cont>div {
   position: sticky;
   /* max-width: 600px; */
   padding: 35px;
@@ -1153,7 +1072,7 @@ button {
   transition: opacity 0.3s ease-in-out;
 }
 
-.step-vid-cont > div > img {
+.step-vid-cont>div>img {
   width: auto;
   height: auto;
   max-width: 550px;
@@ -1919,7 +1838,7 @@ button {
     margin-top: 6rem;
   }
 
-  .mid-cont > h1 {
+  .mid-cont>h1 {
     width: 100%;
     text-align: center;
   }
@@ -1929,7 +1848,7 @@ button {
     height: fit-content;
   }
 
-  .fallbox-container > div {
+  .fallbox-container>div {
     flex-wrap: wrap;
   }
 
@@ -2009,14 +1928,14 @@ button {
     max-width: 90%;
   }
 
-  .step-vid-cont > div {
+  .step-vid-cont>div {
     padding: 20px;
     padding: 15px;
     width: 98%;
     border-radius: 10px;
   }
 
-  .step-vid-cont > div > img {
+  .step-vid-cont>div>img {
     width: 100%;
     height: auto;
     margin: auto;
