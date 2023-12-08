@@ -367,7 +367,7 @@ textarea {
 }
 
 .cast-name input {
-  width: 541px;
+  width: 100%;
   height: 40px;
   border: 1px solid #31394e;
   background-color: #1d232b;

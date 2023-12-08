@@ -653,12 +653,12 @@
     </div>
 
 
-    <SetUpCastNew
+    <SetupCastNew
       :getList="getCastList"
       :closeCreate="closeCreate"
       :showModal="showModal"
       :closeModal="closeModal"
-    ></SetUpCastNew>
+    ></SetupCastNew>
 
 
     <div class="popup" @click="closeAllPopups" v-if="stream">
@@ -796,22 +796,22 @@
 </template>
 <script>
 import moment from 'moment-timezone';
-import SetUpCast from '@/views/dashboard/components/SetUpCasts/SetUpCast.vue';
-import SetUpCastNew from '@/views/dashboard/components/SetUpCasts/SetUpCastNew.vue';
+import SetupCast from '@/views/dashboard/components/SetupCasts/SetupCast.vue';
+import SetupCastNew from '@/views/dashboard/components/SetupCasts/SetupCastNew.vue';
 import InviteCard from '../InviteCard.vue';
 import postPoneCast from '../postPoneCast.vue';
-import SettingsTab from '@/views/dashboard/components/SetUpCasts/Tabs/SettingsTab.vue';
-import StreamingTab from '@/views/dashboard/components/SetUpCasts/Tabs/StreamingTab.vue';
+import SettingsTab from '@/views/dashboard/components/SetupCasts/Tabs/SettingsTab.vue';
+import StreamingTab from '@/views/dashboard/components/SetupCasts/Tabs/StreamingTab.vue';
 import SetUpEditCast from '../../EditCast/SetUpEditCast.vue';
 export default {
   components: {
-    SetUpCast,
+    SetupCast,
     SetUpEditCast,
     InviteCard,
     postPoneCast,
     SettingsTab,
     StreamingTab,
-    SetUpCastNew,
+    SetupCastNew,
   },
   name: 'rightpart',
   data() {

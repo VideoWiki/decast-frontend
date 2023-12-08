@@ -127,7 +127,7 @@
   </div> -->
   <Modal v-if="showModal" :title="'Set up your cast'" @close="closeModal">
     <template #body>
-      <div class="center-container">
+      <div v-if="status === 'create'" class="center-container">
         <div class="buttons flex">
           <button class="button-1" :style="{
             backgroundColor: activeTab === 'Set up' ? '#464775' : '#1F272F',
@@ -178,6 +178,11 @@
             :closeCreate="closeCreate" :castId="castId" />
         </div>
       </div>
+      <Popup
+        v-else-if="status === 'success'"
+        :changeStatus="changeStatus"
+        :closeCreate="closeCreate"
+      />
       <!-- <div v-else-if="status === 'invite'">
         <invite-card :isStream="stepThreeProps.is_streaming" :viewer="stepFourProps.viewer_mode"
           :closeInvite="closeCreate" :Id="castId" :invites="[]" />
@@ -197,7 +202,7 @@ import InviteCard from '@/views/dashboard/InviteCard.vue';
 import Modal from '@/components/common/Modal.vue'
 
 export default {
-  name: 'SetUpCastNew',
+  name: 'SetupCastNew',
   components: {
     BrandingTab,
     SettingsTab,

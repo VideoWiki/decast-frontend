@@ -367,7 +367,7 @@ textarea {
 }
 
 .cast-name input {
-  width: 541px;
+  width: 100%;
   height: 40px;
   border: 1px solid #31394e;
   background-color: #1d232b;
@@ -384,7 +384,7 @@ textarea {
 .desc {
   background-color: transparent !important;
   border: none !important;
-  width: 541px;
+  width: 100%;
   height: 100px;
   border: 1px solid #31394e !important;
   background-color: #1d232b !important;
@@ -511,11 +511,11 @@ textarea {
 }
 @media (max-width: 500px) {
   .cast-name input {
-    width: 360px;
+    width: 100%;
     padding-left: 10px;
   }
   .desc {
-    width: 360px;
+    width: 100%;
   }
   .times {
     margin-top: 10px;

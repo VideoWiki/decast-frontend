@@ -137,7 +137,7 @@ import Popup from '@/views/dashboard/Popup.vue';
 import StreamCard from '@/views/dashboard/StreamCard.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
 export default {
-  name: 'SetUpCast',
+  name: 'SetupCast',
   components: {
     BrandingTab,
     SettingsTab,

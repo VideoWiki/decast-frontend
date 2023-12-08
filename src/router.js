@@ -306,9 +306,9 @@ const router = new Router({
       },
     },
     {
-      path: '/setUpCast',
-      name: 'SetUpCast',
-      component: () => import('@/views/dashboard/components/SetUpCasts/SetUpCast.vue'),
+      path: '/SetupCast',
+      name: 'SetupCast',
+      component: () => import('@/views/dashboard/components/SetupCasts/SetupCast.vue'),
       meta: {
         rule: 'isPublic',
       },

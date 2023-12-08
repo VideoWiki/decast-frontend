@@ -137,7 +137,7 @@ import moment from 'moment';
 // import StreamCard from '../dashboard/StreamCard.vue';
 // import InviteCard from '../dashboard/InviteCard.vue';
 export default {
-  name: 'SetUpCast',
+  name: 'SetupCast',
   components: {
     BrandingTab,
     SettingsTab,

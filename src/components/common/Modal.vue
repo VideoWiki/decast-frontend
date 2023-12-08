@@ -68,6 +68,13 @@ export default {
     }
 }
 
+@media screen and (max-width: 500px) {
+  .modal {
+    min-width: calc(100vw - 10px);
+    width: calc(100vw - 10px);
+  }
+}
+
 .modal-header {
     padding: 20px;
 }
