@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
-    <div class="head-cont">
+  <div>
+    <!-- <div class="head-cont">
       <h3>Reset Password</h3>
       <button @click="closeProfile">
         <img src="@/assets/images/cross.svg" />
       </button>
-    </div>
+    </div> -->
 
     <div class="desc-cont">
       <p>Strong password required. Enter 8-14 characters.</p>
@@ -163,7 +163,7 @@ export default {
   border: 1px solid #31394e;
   border-radius: 6px;
   color: #a6a6a8;
-  width: 315px;
+  width: 100%;
   height: 34px;
   font-size: 13px;
   padding: 10px;
@@ -197,7 +197,7 @@ label {
   font-weight: 600;
   cursor: pointer;
   margin-top: 20px;
-  margin-left: 60%;
+  float: right;
 }
 
 @media (max-width: 500px) {

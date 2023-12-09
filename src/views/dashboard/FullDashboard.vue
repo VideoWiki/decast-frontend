@@ -78,6 +78,7 @@
       <!-- <button class="close-icon" @click="closeForm">✕</button> -->
     </div>
     <popups />
+    <SimpleModal />
   </div>
 </template>
 <script>
@@ -89,6 +90,7 @@ import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 import Popups from './Popups.vue';
 import UserMenu from './userMenu.vue';
+import SimpleModal from '../../components/common/simpleModal/SimpleModal.vue'
 
 export default {
   mixins: [utils],
@@ -100,6 +102,7 @@ export default {
     userMenu,
     Popups,
     UserMenu,
+    SimpleModal,
   },
   data() {
     return {

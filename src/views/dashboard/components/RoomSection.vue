@@ -347,7 +347,8 @@ export default {
       this.showModal = false
     },
     openModal() {
-      this.showModal = true
+      // this.showModal = true
+      this.$store.commit('modal/SET_MODAL_OPEN', {activeModal: "roomModal", modalTitle: "Create new room"});
     },
     checkScreenWidth() {
       // Define your breakpoint for mobile view (e.g., 768 pixels)

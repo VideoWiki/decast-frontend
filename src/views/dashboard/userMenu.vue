@@ -55,11 +55,11 @@ export default {
     },
     toggleProfile() {
       this.closeMenu();
-      this.$store.commit('room/SET_POPUP', 'profile');
+      this.$store.commit('modal/SET_MODAL_OPEN', {activeModal: 'profileModal', modalTitle: "My Profile"});
     },
     togglePass() {
       this.closeMenu();
-      this.$store.commit('room/SET_POPUP', 'resetPassword');
+      this.$store.commit('modal/SET_MODAL_OPEN', {activeModal: 'resetPasswordModal', modalTitle: "Reset Password"});
     },
   },
 };

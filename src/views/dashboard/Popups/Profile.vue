@@ -1,11 +1,11 @@
 <template>
   <div class="full-cont">
-    <div class="head-container">
+    <!-- <div class="head-container">
       <h3>My Profiles</h3>
       <button @click="closeProfile">
         <img src="@/assets/images/cross.svg" alt="Close Profile" />
       </button>
-    </div>
+    </div> -->
 
     <div class="info-cont">
       <!-- Profile Image -->
@@ -253,8 +253,8 @@ export default {
   height: auto;
   border-radius: 10px;
   background-color: #1f272f;
-  border: 1px solid #31394e;
-  padding: 15px;
+  /* border: 1px solid #31394e;
+  padding: 15px; */
   z-index: 10000;
 }
 
