@@ -630,9 +630,9 @@
               class="w-1/2"
             />
             <img
-                src="@/assets/images/dashboard/NoRecordingText1.svg"
-                class="mb-3"
-              />
+              src="@/assets/images/dashboard/NoRecordingText1.svg"
+              class="mb-3"
+            />
             <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
@@ -651,15 +651,9 @@
         :closeCreate="closeCreate"
       ></set-up-cast>
     </div> -->
-
-
-    <SetupCastNew
-      :getList="getCastList"
-      :closeCreate="closeCreate"
-      :showModal="showModal"
-      :closeModal="closeModal"
-    ></SetupCastNew>
-
+    <div v-if="toShow">
+      <SetupCastNew :getList="getCastList"></SetupCastNew>
+    </div>
 
     <div class="popup" @click="closeAllPopups" v-if="stream">
       <StreamingTab
@@ -821,6 +815,7 @@ export default {
       expandedRoom: null,
       showDeletePopup: false,
       focusYourRooms: true,
+      toShow: false,
       create: false,
       showCastIsLive: false,
       stream: false,
@@ -893,10 +888,13 @@ export default {
   },
   methods: {
     closeModal() {
-      this.showModal = false
+      this.showModal = false;
     },
     openModal() {
-      this.showModal = true
+      this.$store.commit('modal/SET_MODAL_OPEN', {
+        activeModal: 'createCastModal',
+        modalTitle: 'Set up your cast',
+      });
     },
     flattenRecordingList(recordingList) {
       const flattenedList = [];
@@ -1225,7 +1223,6 @@ export default {
     async getCastList() {
       const response = await this.$store.dispatch('cast/getUserCasts');
       const casts = response.data.my_events;
-
       const castInfoPromises = casts.map(async (cast) => {
         try {
           const castDetails = await this.$store.dispatch(
@@ -1273,6 +1270,9 @@ export default {
       document.getElementById('loading-bg').style.display = 'none';
       // console.log(castsInfo, 'TTTT');
       // console.log(casts, 'pppp');
+    },
+    async updateCastList() {
+      // await this.getCastList();
     },
     toggleEditCast(id, index, toEditCast) {
       this.showEditCast = true;

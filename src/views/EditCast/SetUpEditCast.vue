@@ -76,7 +76,7 @@
           </button>
         </div>
         <div class="tab-content">
-          <SetUpTab
+          <SetupTab
             v-if="activeTab === 'Set up'"
             :changeActiveTab="changeActiveTab"
             :stepOneProps="stepOneProps"
@@ -130,7 +130,7 @@
 <script>
 import BrandingTab from './Tabs/BrandingTab.vue';
 import SettingsTab from './Tabs/SettingsTab.vue';
-import SetUpTab from './Tabs/SetUpTab.vue';
+import SetupTab from './Tabs/SetupTab.vue';
 import StreamingTab from './Tabs/StreamingTab.vue';
 import moment from 'moment';
 // import Popup from '../dashboard/Popup.vue';
@@ -141,7 +141,7 @@ export default {
   components: {
     BrandingTab,
     SettingsTab,
-    SetUpTab,
+    SetupTab,
     StreamingTab,
   },
   props: {

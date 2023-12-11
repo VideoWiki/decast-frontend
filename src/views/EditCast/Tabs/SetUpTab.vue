@@ -136,7 +136,7 @@ import moment from 'moment-timezone';
 import ToggleSwitch from './ToggleSwitch.vue';
 import ButtonToggle from './buttonToggle.vue';
 export default {
-  name: 'SetUpTab',
+  name: 'SetupTab',
   components: {
     Calendar,
     ToggleSwitch,

@@ -9,6 +9,7 @@
                 <CreateRoomModal v-if="activeModal === 'roomModal'" />
                 <profile v-if="activeModal === 'profileModal'" />
                 <reset-password v-if="activeModal === 'resetPasswordModal'" />
+                <SetupCastNew v-if="activeModal === 'createCastModal'" />
             </section>
         </div>
     </div>
@@ -18,6 +19,7 @@
 import CreateRoomModal from '@/views/dashboard/components/CreateRoomModal.vue'
 import Profile from '@/views/dashboard/Popups/Profile.vue';
 import ResetPassword from '@/views/dashboard/Popups/ResetPassword.vue';
+import SetupCastNew from '@/views/dashboard/components/SetupCasts/SetupCastNew.vue'
 
 export default {
     name: 'SimpleModal',
@@ -30,6 +32,7 @@ export default {
         CreateRoomModal,
         Profile,
         ResetPassword,
+        SetupCastNew,
     },
     computed: {
         activeModal() {

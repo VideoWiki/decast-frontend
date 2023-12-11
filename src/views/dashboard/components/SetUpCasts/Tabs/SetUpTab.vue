@@ -136,7 +136,7 @@ import moment from 'moment-timezone';
 import ToggleSwitch from './ToggleSwitch.vue';
 import ButtonToggle from './buttonToggle.vue';
 export default {
-  name: 'SetUpTab',
+  name: 'SetupTab',
   components: {
     Calendar,
     ToggleSwitch,
@@ -169,10 +169,10 @@ export default {
   },
   mounted() {
     const currentTime = moment();
-    console.log(currentTime);
+    // console.log(currentTime);
     for (let i = 0; i < this.timeOptions.length; i++) {
       const time = moment(this.timeOptions[i].value, 'HH:mm:ss');
-      console.log(time.isAfter(currentTime), time);
+      // console.log(time.isAfter(currentTime), time);
       if (time.isAfter(currentTime)) {
         console.log('yes');
         this.stepOneProps.startTime = this.timeOptions[i].value;

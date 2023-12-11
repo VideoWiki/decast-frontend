@@ -1,94 +1,144 @@
 <template>
-  <Modal v-if="showModal" :title="status === 'invite' ? 'Invite your attendees' : status === 'success' ? '' : 'Set up your cast'" @close="closeModal">
-    <template #body>
-      <div v-if="status === 'create'" class="center-container">
-        <div class="buttons flex">
-          <button class="button-1" :style="{
+  <div>
+    <popup
+      v-if="status === 'success'"
+      :changeStatus="changeStatus"
+      :closeCreate="closeCreate"
+    />
+    <div v-else-if="status === 'create'" class="center-container">
+      <div class="buttons flex">
+        <button
+          class="button-1"
+          :style="{
             backgroundColor: activeTab === 'Set up' ? '#464775' : '#1F272F',
             color:
               activeTab === 'Set up'
                 ? 'rgba(255, 255, 255, 0.8) '
                 : 'rgba(166, 166, 168, 0.8)',
-          }" ref="stepone" :stepOneProps="stepOneProps" @click="activeTab = 'Set up'">
-            Set up
-          </button>
-          <button class="button-2" :style="{
+          }"
+          ref="stepone"
+          :stepOneProps="stepOneProps"
+          @click="activeTab = 'Set up'"
+        >
+          Set up
+        </button>
+        <button
+          class="button-2"
+          :style="{
             backgroundColor: activeTab === 'Branding' ? '#464775' : '#1F272F',
             color:
               activeTab === 'Branding'
                 ? 'rgba(255, 255, 255, 0.8)'
                 : 'rgba(166, 166, 168, 0.8)',
-          }" :before-change="() => validateFormOne()" :stepOneProps="stepOneProps" @click="activeTab = 'Branding'">
-            Branding
-          </button>
-          <button class="button-3" :style="{
+          }"
+          :before-change="() => validateFormOne()"
+          :stepOneProps="stepOneProps"
+          @click="activeTab = 'Branding'"
+        >
+          Branding
+        </button>
+        <button
+          class="button-3"
+          :style="{
             backgroundColor: activeTab === 'Settings' ? '#464775' : '#1F272F',
             color:
               activeTab === 'Settings'
                 ? 'rgba(255, 255, 255, 0.8)'
                 : 'rgba(166, 166, 168, 0.8)',
-          }" @click="activeTab = 'Settings'">
-            Settings
-          </button>
-          <button class="button-4" :style="{
-            backgroundColor:
-              activeTab === 'Streaming' ? '#464775' : '#1F272F',
+          }"
+          @click="activeTab = 'Settings'"
+        >
+          Settings
+        </button>
+        <button
+          class="button-4"
+          :style="{
+            backgroundColor: activeTab === 'Streaming' ? '#464775' : '#1F272F',
             color:
               activeTab === 'Streaming'
                 ? 'rgba(255, 255, 255, 0.8)'
                 : 'rgba(166, 166, 168, 0.8)',
-          }" @click="activeTab = 'Streaming'">
-            Streaming
-          </button>
-        </div>
-        <div class="tab-content">
-          <SetUpTab v-if="activeTab === 'Set up'" :changeActiveTab="changeActiveTab" :stepOneProps="stepOneProps" />
-          <BrandingTab v-else-if="activeTab === 'Branding'" :stepTwoProps="stepTwoProps"
-            :changeActiveTab="changeActiveTab" />
-          <SettingsTab v-else-if="activeTab === 'Settings'" :createCast="createCast" :stepFourProps="stepFourProps"
-            :changeActiveTab="changeActiveTab" />
-          <StreamingTab v-else :createCast="createCast" :changeActiveTab="changeActiveTab" :stepFourProps="stepFourProps"
-            :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps" :stepOneProps="stepOneProps"
-            :closeCreate="closeCreate" :castId="castId" />
-        </div>
+          }"
+          @click="activeTab = 'Streaming'"
+        >
+          Streaming
+        </button>
       </div>
-      <Popup
-        v-else-if="status === 'success'"
-        :changeStatus="changeStatus"
-        :closeCreate="closeCreate"
-        :closeModal="closeModal"
+      <div class="tab-content">
+        <SetupTab
+          v-if="activeTab === 'Set up'"
+          :changeActiveTab="changeActiveTab"
+          :stepOneProps="stepOneProps"
+        />
+        <BrandingTab
+          v-else-if="activeTab === 'Branding'"
+          :stepTwoProps="stepTwoProps"
+          :changeActiveTab="changeActiveTab"
+        />
+        <SettingsTab
+          v-else-if="activeTab === 'Settings'"
+          :createCast="createCast"
+          :stepFourProps="stepFourProps"
+          :changeActiveTab="changeActiveTab"
+        />
+        <StreamingTab
+          v-else
+          :createCast="createCast"
+          :changeActiveTab="changeActiveTab"
+          :stepFourProps="stepFourProps"
+          :stepThreeProps="stepThreeProps"
+          :stepTwoProps="stepTwoProps"
+          :stepOneProps="stepOneProps"
+          :closeCreate="closeCreate"
+          :castId="castId"
+        />
+      </div>
+    </div>
+    <div v-else-if="status === 'invite'">
+      <invite-card
+        :isStream="stepThreeProps.is_streaming"
+        :viewer="stepFourProps.viewer_mode"
+        :closeInvite="closeCreate"
+        :Id="castId"
+        :invites="[]"
       />
-      <div v-else-if="status === 'invite'">
-        <invite-card :isStream="stepThreeProps.is_streaming" :viewer="stepFourProps.viewer_mode" :changeStatus="changeStatus"
-          :closeInvite="closeCreate" :Id="castId" :invites="[]" />
-      </div>
-    </template>
-  </Modal>
+    </div>
+    <div v-else>
+      <stream-card
+        :stepFourProps="stepFourProps"
+        :stepThreeProps="stepThreeProps"
+        :stepTwoProps="stepTwoProps"
+        :stepOneProps="stepOneProps"
+        :closeCreate="closeCreate"
+        :castId="castId"
+      />
+    </div>
+  </div>
 </template>
 <script>
 import BrandingTab from './Tabs/BrandingTab.vue';
 import SettingsTab from './Tabs/SettingsTab.vue';
-import SetUpTab from './Tabs/SetUpTab.vue';
+import SetupTab from './Tabs/SetupTab.vue';
 import StreamingTab from './Tabs/StreamingTab.vue';
 import moment from 'moment';
 import Popup from '@/views/dashboard/Popup.vue';
 import StreamCard from '@/views/dashboard/StreamCard.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
-import Modal from '@/components/common/Modal.vue'
+import Modal from '@/components/common/Modal.vue';
 
 export default {
   name: 'SetupCastNew',
   components: {
     BrandingTab,
     SettingsTab,
-    SetUpTab,
+    SetupTab,
     StreamingTab,
     Popup,
     StreamCard,
     InviteCard,
     Modal,
   },
-  props: ['closeCreate', 'getList', 'showModal', 'closeModal'],
+  props: ['getList'],
   data() {
     return {
       activeTab: 'Set up',
@@ -199,7 +249,7 @@ export default {
       },
     };
   },
-  mounted() { },
+  mounted() {},
   methods: {
     validateFormOne() {
       if (
@@ -269,11 +319,13 @@ export default {
     },
     changeStatus(newStatus) {
       this.status = newStatus;
+      console.log(this.status, 'status');
     },
     createCast() {
       if (this.validateFormOne) {
         console.log('success validated');
         this.formSubmitted();
+        // this.status='success';
       }
     },
     setCreateEventData() {
@@ -343,11 +395,11 @@ export default {
       }
     },
     formSubmitted() {
-      console.log(
-        this.stepFourProps.record,
-        this.stepFourProps.start_stop_recording,
-        this.stepOneProps
-      );
+      // console.log(
+      //   this.stepFourProps.record,
+      //   this.stepFourProps.start_stop_recording,
+      //   this.stepOneProps
+      // );
       this.stepFourProps.start_stop_recording = this.stepFourProps.record;
       this.stepFourProps.allow_start_stop_recording = this.stepFourProps.record;
       this.stepOneProps.schedule_time =
@@ -372,8 +424,8 @@ export default {
       this.$store
         .dispatch('cast/submitForm', this.formData)
         .then((response) => {
+          this.status='success';
           this.getList();
-          this.status = 'success';
           this.$vs.loading.close();
           this.responsedata = response.data.message;
           this.$vs.notify({
@@ -381,7 +433,7 @@ export default {
             text: response.data.message,
             color: 'success',
           });
-          this.status = 'success';
+          this.status='success';
           this.castId = response.data.meeting_id;
         })
         .catch((error) => {

@@ -7,7 +7,7 @@ export default {
       const response = await axios.get(
         constants.apiCastUrl + '/api/event/user/events/'
       );
-      console.log(response, 'castlis');
+      // console.log(response, 'castlis');
       const casts = response.data.my_events;
       const castInfoPromises = casts.map(async (cast) => {
         try {
@@ -198,7 +198,7 @@ export default {
       })
         .then((res) => {
           resolve(res);
-          console.log(res,"res..")
+          // console.log(res,"res..")
          
         })
         .catch((error) => {
