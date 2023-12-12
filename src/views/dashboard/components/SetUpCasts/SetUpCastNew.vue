@@ -125,6 +125,7 @@ import Popup from '@/views/dashboard/Popup.vue';
 import StreamCard from '@/views/dashboard/StreamCard.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
 import Modal from '@/components/common/Modal.vue';
+import { EventBus } from './EventBus';
 
 export default {
   name: 'SetupCastNew',
@@ -138,7 +139,6 @@ export default {
     InviteCard,
     Modal,
   },
-  props: ['getList'],
   data() {
     return {
       activeTab: 'Set up',
@@ -425,7 +425,7 @@ export default {
         .dispatch('cast/submitForm', this.formData)
         .then((response) => {
           this.status='success';
-          this.getList();
+          EventBus.$emit('getList-success');
           this.$vs.loading.close();
           this.responsedata = response.data.message;
           this.$vs.notify({

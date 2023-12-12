@@ -651,9 +651,9 @@
         :closeCreate="closeCreate"
       ></set-up-cast>
     </div> -->
-    <div v-if="toShow">
+    <!-- <div v-if="toShow">
       <SetupCastNew :getList="getCastList"></SetupCastNew>
-    </div>
+    </div> -->
 
     <div class="popup" @click="closeAllPopups" v-if="stream">
       <StreamingTab
@@ -797,6 +797,8 @@ import postPoneCast from '../postPoneCast.vue';
 import SettingsTab from '@/views/dashboard/components/SetupCasts/Tabs/SettingsTab.vue';
 import StreamingTab from '@/views/dashboard/components/SetupCasts/Tabs/StreamingTab.vue';
 import SetUpEditCast from '../../EditCast/SetUpEditCast.vue';
+import {EventBus} from '../components/SetupCasts/EventBus'
+
 export default {
   components: {
     SetupCast,
@@ -849,6 +851,7 @@ export default {
     };
   },
   mounted() {
+    EventBus.$on('getList-success', this.getCastList);
     document.getElementById('loading-bg').style.display = 'block';
     this.checkScreenWidth();
     window.addEventListener('resize', this.checkScreenWidth);
@@ -871,6 +874,9 @@ export default {
     window.removeEventListener('click', this.handleClick3);
     // Remove the global click event listener when the component is destroyed
     window.removeEventListener('resize', this.checkScreenWidth);
+  },
+  destroyed() {
+    EventBus.$off('getList-success', this.getCastList);
   },
   computed: {
     totalImagesCount() {
