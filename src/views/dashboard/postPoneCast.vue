@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { TimeFrames } from '@/views/dashboard/components/SetupCasts/Tabs/TimeFrames';
+import { TimeFrames } from '@/views/dashboard/cast-section/components/Tabs/TimeFrames';
 import Calendar from '../login/Calendar.vue';
 import moment from 'moment-timezone';
 export default {

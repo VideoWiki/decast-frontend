@@ -316,14 +316,6 @@ const router = new Router({
       },
     },
     {
-      path: '/SetupCast',
-      name: 'SetupCast',
-      component: () => import('@/views/dashboard/components/SetupCasts/SetupCast.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
       path: '/recording/:id',
       name: 'recording',
       component: () =>
@@ -475,17 +467,9 @@ const router = new Router({
       },
     },
     {
-      path: '/leftpart',
-      name: 'WelcomeSection',
-      component: () => import('./views/dashboard/components/WelcomeSection.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
       path: '/middlePart',
       name: 'RoomSection',
-      component: () => import('./views/dashboard/components/RoomSection.vue'),
+      component: () => import('@/views/dashboard/room-section/RoomSection.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -509,15 +493,15 @@ const router = new Router({
     {
       path: '/rightpart',
       name: 'CastSection',
-      component: () => import('./views/dashboard/components/CastSection.vue'),
+      component: () => import('./views/dashboard/cast-section/CastSection.vue'),
       meta: {
         rule: 'isPublic',
       },
     },
     {
       path: '/dashboard',
-      name: 'FullDashBoard',
-      component: () => import('./views/dashboard/FullDashboard.vue'),
+      name: 'Decast dashBoard',
+      component: () => import('@/views/dashboard/DashboardContainer.vue'),
       meta: {
         rule: 'isLogged',
       },

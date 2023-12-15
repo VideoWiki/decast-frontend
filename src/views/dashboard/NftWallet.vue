@@ -103,8 +103,8 @@
 </template>
 
 <script>
-import ToggleSwitch from '@/views/dashboard/components/SetupCasts/Tabs/ToggleSwitch.vue';
-import buttonToggle from '@/views/dashboard/components/SetupCasts/Tabs/buttonToggle.vue';
+import ToggleSwitch from '@/views/dashboard/cast-section/components/Tabs/ToggleSwitch.vue';
+import buttonToggle from '@/views/dashboard/cast-section/components/Tabs/buttonToggle.vue';
 export default {
   name: 'NftWallet',
   components: {

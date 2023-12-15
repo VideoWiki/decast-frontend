@@ -47,7 +47,7 @@
   </div>
 </template>
 <script>
-import FullLengthButton from './Buttons/fullLengthButton.vue';
+import FullLengthButton from './components/fullLengthButton.vue';
 export default {
   name: 'WelcomeSection',
   components: {

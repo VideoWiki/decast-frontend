@@ -44,11 +44,8 @@
           :class="{ 'focused-button': focusYourRooms }">
           Your Rooms
         </button>
-        <button
-          class="options-button border-none px-4"
-          @click="handleButtonClick"
-          :class="{ 'focused-button': !focusYourRooms }"
-        >
+        <button class="options-button border-none px-4" @click="handleButtonClick"
+          :class="{ 'focused-button': !focusYourRooms }">
           Room Recordings
         </button>
       </div>
@@ -56,111 +53,7 @@
       <div class="options-container">
         <div v-if="focusYourRooms">
           <div v-for="(room, index) in rooms" :key="index">
-            <div v-if="isMobileView" class="child-options flex justify-between items-center mb-4"
-              :style="{ borderRight: '0.5rem solid ' + getColor(index) }" @click="expandRoom(index)"
-              :class="{ 'expanded-room': expandedRoom === index }">
-              <div>
-                <p style="font-size: 14px; font-weight: 500; width: 100%">
-                  {{ truncateText(room.room_name, 10) }}
-                </p>
-              </div>
-              <div class="flex justify-between">
-                <div class="mobile-options">
-                  <div class="button-container" v-if="expandedRoom === index"
-                    :style="{ backgroundColor: getColor(index) }">
-                    <button class="session-button ml-4" @click.stop="start(room.room_url)">
-                      Start Session
-                    </button>
-                    <button @click.stop class="copy-button ml-4 border-none" @click.stop="copy(room.room_url)"
-                      :style="{ backgroundColor: getColor(index) }">
-                      <img src="@/assets/images/dashboard/copymob.svg" class="p-3 bg-white bg-opacity-50" style="
-                                          border: none;
-                                          padding: 10px;
-                                          background: rgba(255, 255, 255, 0.5);
-                                          border-radius: 5px;
-                                        " alt="copy" :style="{ backgroundColor: getColor(index) }" />
-                    </button>
-                    <button @click.stop class="copy-button ml-4 border-none" @click.stop="start(room.room_url)"
-                      :style="{ backgroundColor: getColor(index) }">
-                      <img :style="{ backgroundColor: getColor(index) }" src="@/assets/images/dashboard/record.svg"
-                        class="p-3 bg-white bg-opacity-50" style="
-                                          border: none;
-                                          padding: 10px;
-                                          background: rgba(255, 255, 255, 0.5);
-                                          border-radius: 5px;
-                                        " alt="record" />
-                    </button>
-                    <button @click.stop class="side-btn border-none" @click.stop="togglePopup(index)"
-                      v-if="expandedRoom == index" style="color: white">
-                      <img src="@/assets/images/dashboard/dots3.svg" class="h-7 p-3" alt="" />
-                    </button>
-                  </div>
-                </div>
-                <div class="tooltip-container" v-if="expandedRoom !== index">
-                  <button class="copy-link tooltip-button" @click.stop="copy(room.room_url)">
-                    <img src="@/assets/images/Rooms/copy.svg" alt="" />
-                  </button>
-                </div>
-
-                <button class="side-btn border-none" @click.stop="togglePopup(index)" v-if="expandedRoom !== index">
-                  <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-                </button>
-              </div>
-              <div @click.stop class="room-popup" v-if="showPopup === index" @click.stop="closePopup(index)">
-                <button @click.stop="openShare(room)">
-                  <img src="@/assets/images/share.svg" />
-                  Share
-                </button>
-                <button @click.stop="deleteRoom(room)">
-                  <img src="@/assets/images/delete.svg" />
-                  Delete
-                </button>
-              </div>
-            </div>
-            <div v-else class="child-options flex justify-between items-center mb-4">
-              <div>
-                <p style="font-size: 14px; font-weight: 500 width: 50%">
-                  {{ truncateText(room.room_name, 10) }}
-                </p>
-              </div>
-              <div class="flex justify-between">
-                <div class="tooltip-container">
-                  <button class="copy-link tooltip-button" @click="copy(room.room_url)"
-                    @mouseover="showTooltip[index] = true" @mouseout="showTooltip[index] = false">
-                    <img src="@/assets/images/Rooms/copy.svg" alt="" />
-                  </button>
-                  <div class="tooltip" :class="{ 'show-tooltip': showTooltip[index] }">
-                    Copy Link
-                  </div>
-
-                  <!-- <span class="tooltip">Tooltip text</span> -->
-                </div>
-                <button class="session-button ml-4" @click="start(room.room_url)">
-                  Start Session
-                </button>
-                <button class="side-btn border-none" @click="togglePopup(index)">
-                  <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-                </button>
-              </div>
-              <div class="room-popup" v-if="showPopup === index" @click="closePopup(index)">
-                <button @click="openShare(room)">
-                  <img src="@/assets/images/share.svg" />
-                  Share
-                </button>
-                <!-- <button @click="downloadRoom(room)">
-                  <img src="@/assets/images/download.svg" />
-                  Download
-                </button> -->
-                <!-- <button @click="copyLink(room)">
-                  <img src="@/assets/images/copy.svg" />
-                  Copy Link
-                </button> -->
-                <button @click="deleteRoom(room)">
-                  <img src="@/assets/images/delete.svg" />
-                  Delete
-                </button>
-              </div>
-            </div>
+            <RoomCard :room="room" :index="index"/>
           </div>
         </div>
         <div v-else>
@@ -248,19 +141,6 @@
         </div>
       </div>
     </div> -->
-    <Modal v-if="showModal" :title="'Create new room'" @close="closeModal">
-      <template #body>
-        <div class="text">Room Name</div>
-        <div class="input">
-          <input placeholder="Name" type="text" v-model="text" />
-        </div>
-        <div class="button">
-          <button class="create-room-button" @click="createRoom">
-            Create Room
-          </button>
-        </div>
-      </template>
-    </Modal>
     <div class="popup" v-if="sharePopup" @click="closeAllPopups">
       <div class="centered-container">
         <div class="container">
@@ -284,13 +164,13 @@
 </template>
 <script>
 import axios from '../../../axios';
-import Modal from '@/components/common/Modal.vue'
+import SimpleMenu from '../../../components/common/simpleMenu/SimpleMenu.vue';
+import RoomCard from '@/views/dashboard/room-section/components/RoomCard.vue';
 
 export default {
   name: 'RoomSection',
   data() {
     return {
-      showModal: false,
       isMobileView: false,
       expandedRoom: null,
       createPopup: false,
@@ -311,11 +191,29 @@ export default {
       email: '',
       roomUrl: '',
       mouse: 0,
+      roomCardMenuItems: [
+        {
+          label: "Share",
+          icon: () => import("@/assets/svgs/button-icons/share.vue"),
+          onClick: () => null
+        },
+        {
+          label: "Delete",
+          icon: () => import("@/assets/svgs/button-icons/delete.vue"),
+          onClick: () => null
+        },
+      ],
+      customStyles: {
+        menuList: {
+          right: '0% !important',
+        },
+      },
     };
   },
   components: {
-    Modal
-  },
+    SimpleMenu,
+    RoomCard
+},
   computed: {
     roomsList() {
       return this.$store.state.room.rooms;
@@ -343,12 +241,8 @@ export default {
     },
   },
   methods: {
-    closeModal() {
-      this.showModal = false
-    },
     openModal() {
-      // this.showModal = true
-      this.$store.commit('modal/SET_MODAL_OPEN', {activeModal: "roomModal", modalTitle: "Create new room"});
+      this.$store.commit('modal/SET_MODAL_OPEN', { activeModal: "roomModal", modalTitle: "Create new room" });
     },
     checkScreenWidth() {
       // Define your breakpoint for mobile view (e.g., 768 pixels)
@@ -570,9 +464,9 @@ export default {
       }
     },
     handleButtonClick() {
-    this.changeFocus(false);
-    this.getRecordings();
-  },
+      this.changeFocus(false);
+      this.getRecordings();
+    },
   },
   mounted() {
     this.checkScreenWidth();
@@ -598,6 +492,10 @@ export default {
 <style scoped>
 *:not(i) {
   font-family: 'Karla', sans-serif;
+}
+
+.menuPosition {
+  left: 0;
 }
 
 .create-room-button {

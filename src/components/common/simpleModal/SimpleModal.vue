@@ -16,10 +16,10 @@
 </template>
   
 <script>
-import CreateRoomModal from '@/views/dashboard/components/CreateRoomModal.vue'
+import CreateRoomModal from '@/views/dashboard/room-section/components/CreateRoomModal.vue'
 import Profile from '@/views/dashboard/Popups/Profile.vue';
 import ResetPassword from '@/views/dashboard/Popups/ResetPassword.vue';
-import SetupCastNew from '@/views/dashboard/components/SetupCasts/SetupCastNew.vue'
+import SetupCastNew from '@/views/dashboard/cast-section/components/SetupCastNew.vue'
 
 export default {
     name: 'SimpleModal',

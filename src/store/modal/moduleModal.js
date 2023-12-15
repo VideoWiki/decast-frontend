@@ -1,10 +1,10 @@
-import actions from './moduleModalActions.js';
+// import actions from './moduleModalActions.js';
 import mutations from './moduleModalMutations.js';
 import getDefaultState from './moduleModalState.js';
 
 export default {
   namespaced: true,
-  actions,
+  // actions,
   state: getDefaultState(),
   mutations,
 };

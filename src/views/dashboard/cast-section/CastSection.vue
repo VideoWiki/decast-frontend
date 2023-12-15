@@ -790,14 +790,14 @@
 </template>
 <script>
 import moment from 'moment-timezone';
-import SetupCast from '@/views/dashboard/components/SetupCasts/SetupCast.vue';
-import SetupCastNew from '@/views/dashboard/components/SetupCasts/SetupCastNew.vue';
-import InviteCard from '../InviteCard.vue';
-import postPoneCast from '../postPoneCast.vue';
-import SettingsTab from '@/views/dashboard/components/SetupCasts/Tabs/SettingsTab.vue';
-import StreamingTab from '@/views/dashboard/components/SetupCasts/Tabs/StreamingTab.vue';
-import SetUpEditCast from '../../EditCast/SetUpEditCast.vue';
-import {EventBus} from '../components/SetupCasts/EventBus'
+import SetupCast from '@/views/dashboard/cast-section/components/SetupCast.vue';
+import SetupCastNew from '@/views/dashboard/cast-section/components/SetupCastNew.vue';
+import InviteCard from '@/views/dashboard/InviteCard.vue';
+import postPoneCast from '@/views/dashboard/postPoneCast.vue';
+import SettingsTab from '@/views/dashboard/cast-section/components/Tabs/SettingsTab.vue';
+import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/StreamingTab.vue';
+import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
+import {EventBus} from '@/views/dashboard/cast-section/components/EventBus'
 
 export default {
   components: {

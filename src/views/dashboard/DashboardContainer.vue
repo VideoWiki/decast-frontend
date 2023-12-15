@@ -20,27 +20,27 @@
           </div>
           <div class="">
             <div v-if="accessToken || loggedIn">
-              <div class="con-img ml-3" @click="toggleUserMenu">
+              <!-- <div class="con-img ml-3" @click="toggleUserMenu">
                 <div class="pfp">
-                  <vs-avatar
-                    :text="getFirstLetter(activeUserInfo.first_name)"
-                    color="primary"
-                    class="m-0 shadow-md"
-                    :src="
-                      activeUserInfo.profile_pic
+                  <vs-avatar :text="getFirstLetter(activeUserInfo.first_name)" color="primary" class="m-0 shadow-md" :src="activeUserInfo.profile_pic
+                    ? activeUserInfo.profile_pic
+                    : ''
+                    " size="40px" />
+                </div>
+              </div> -->
+              <SimpleMenu :menuList="profileMenuItems" :menuKey="'profileMenu'">
+                <template #menuButton>
+                  <div class="pfp">
+                    <vs-avatar :text="getFirstLetter(activeUserInfo.first_name)" color="primary" class="m-0 shadow-md"
+                      :src="activeUserInfo.profile_pic
                         ? activeUserInfo.profile_pic
                         : ''
-                    "
-                    size="40px"
-                  />
-                </div>
-              </div>
+                        " size="40px" />
+                  </div>
+                </template>
+              </SimpleMenu>
               <div class="pop-up">
-                <userMenu
-                  :showMenu="userMenuVisible"
-                  :closeMenu="toggleUserMenu"
-                  @menu-closed="toggleUserMenu"
-                />
+                <userMenu :showMenu="userMenuVisible" :closeMenu="toggleUserMenu" @menu-closed="toggleUserMenu" />
               </div>
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
@@ -56,9 +56,7 @@
         <WelcomeSection />
       </div>
       <!-- :style="{ transform: `translateX(${offset}vw)` }" -->
-      <div
-        class="scroll-container gap-x-2"
-      >
+      <div class="scroll-container gap-x-2">
         <div class="middleOne vertical-line scroll">
           <RoomSection />
         </div>
@@ -82,19 +80,20 @@
   </div>
 </template>
 <script>
-import WelcomeSection from './components/WelcomeSection.vue';
-import CastSection from './components/CastSection.vue';
+import WelcomeSection from '@/views/dashboard/welcome-section/WelcomeSection.vue';
+import CastSection from '@/views/dashboard/cast-section/CastSection.vue';
 import userMenu from './userMenu.vue';
-import RoomSection from './components/RoomSection.vue';
+import RoomSection from '@/views/dashboard/room-section/RoomSection.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 import Popups from './Popups.vue';
 import UserMenu from './userMenu.vue';
-import SimpleModal from '../../components/common/simpleModal/SimpleModal.vue'
+import SimpleModal from '@/components/common/simpleModal/SimpleModal.vue';
+import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 
 export default {
   mixins: [utils],
-  name: 'FullDashBoard',
+  name: 'DashboardContainer',
   components: {
     WelcomeSection,
     CastSection,
@@ -103,6 +102,7 @@ export default {
     Popups,
     UserMenu,
     SimpleModal,
+    SimpleMenu,
   },
   data() {
     return {
@@ -110,6 +110,36 @@ export default {
       url: constants.challengeUri,
       iframe: false,
       userMenuVisible: false,
+      profileMenuItems: [
+        {
+          label: "My Profile",
+          icon: () =>import("@/assets/svgs/menu-icons/usermenu.vue"),
+          onClick: () => this.$store.commit('modal/SET_MODAL_OPEN', { activeModal: 'profileModal', modalTitle: "My Profile" })
+        },
+        {
+          label: "Reset Password",
+          icon: () =>import("@/assets/svgs/menu-icons/setting.vue"),
+          onClick: () => this.$store.commit('modal/SET_MODAL_OPEN', { activeModal: 'resetPasswordModal', modalTitle: "Reset Password" })
+        },
+        {
+          label: "Guide",
+          icon: () =>import("@/assets/svgs/menu-icons/guide.vue"),
+        },
+        {
+          label: "Help Center",
+          icon: () =>import("@/assets/svgs/menu-icons/help.vue"),
+        },
+        {
+          label: "Logout",
+          icon: () =>import("@/assets/svgs/menu-icons/export.vue"),
+          onClick: () => {
+            this.$cookies.remove('userId');
+            this.$cookies.remove('Token');
+            this.$router.push('/');
+            return this.$store.dispatch('auth/logOut');
+          }
+        }
+      ]
     };
   },
   computed: {
@@ -178,6 +208,7 @@ export default {
 *:not(i) {
   font-family: 'Karla', sans-serif !important;
 }
+
 .container-full {
   background-color: #181a20;
   /* border: 1px solid red; */
@@ -240,13 +271,16 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+
 .wiki-logo img {
   height: 91px;
   width: 91px;
 }
+
 .rightPart {
   align-items: center;
 }
+
 .search-bar {
   height: 40px;
   width: 197px;
@@ -256,6 +290,7 @@ export default {
   justify-content: space-between;
   padding: 12px 10px 12px 10px;
 }
+
 .search-bar input {
   background-color: #181a20;
   border: none;
@@ -264,21 +299,25 @@ export default {
   font-size: 12px;
   line-height: 14.03px;
 }
+
 .search-bar img {
   width: 16px;
   height: 16px;
   color: #7a7a7a;
 }
+
 .wallet {
   margin-left: 68px;
   width: 16px;
   height: 16px;
   color: #637181;
 }
+
 .setting {
   margin-left: 24px;
   color: #637181;
 }
+
 .buttomPart {
   height: 77vh !important;
   margin: auto;
@@ -288,19 +327,23 @@ export default {
   width: 100%;
   margin-top: 20px;
 }
+
 .vertical-line {
   border-right: 1px solid #31394e;
 }
+
 @media (max-width: 499px) {
   .sideOne {
     width: 31%;
     /* border: 1px solid yellow; */
     padding-right: 24px;
   }
+
   .container-full {
     padding: 0;
     margin: 0;
   }
+
   .middleOne {
     width: 35%;
     padding: 0px 0px 0px 20px;
@@ -308,20 +351,28 @@ export default {
     /* border: 1px solid white; */
     /* border: 1px solid red; */
   }
+
   .rightPart {
     display: flex;
   }
+
   .wiki-logo img {
     height: 68px;
     width: 68px;
   }
+
   .buttomPart {
     display: flex;
-    flex-direction: column; /* Change to column layout */
-    align-items: flex-start; /* Center items horizontally */
-    justify-content: flex-start; /* Align items to the top */
-    padding: 0; /* Remove padding for mobile view */
-    margin: 0; /* Remove margin for mobile view */
+    flex-direction: column;
+    /* Change to column layout */
+    align-items: flex-start;
+    /* Center items horizontally */
+    justify-content: flex-start;
+    /* Align items to the top */
+    padding: 0;
+    /* Remove padding for mobile view */
+    margin: 0;
+    /* Remove margin for mobile view */
     width: 100%;
     overflow: hidden !important;
     height: 85vh !important;
@@ -336,8 +387,10 @@ export default {
 
   .sideOne,
   .middleOne {
-    width: 100%; /* Make sure components take full width */
-    flex-shrink: 1; /* Distribute available space equally among them */
+    width: 100%;
+    /* Make sure components take full width */
+    flex-shrink: 1;
+    /* Distribute available space equally among them */
     justify-content: flex-start;
     height: 220px;
     /* border: 1px solid blue; */
@@ -355,9 +408,12 @@ export default {
     width: 16px;
     border: 0;
   }
+
   .search-bar input {
-    display: none; /* Hide the input element */
+    display: none;
+    /* Hide the input element */
   }
+
   .search-bar,
   .wallet,
   .ppp {
@@ -378,33 +434,42 @@ export default {
     margin-left: 0px;
     margin-right: 20px;
   }
+
   .wallet {
     margin-right: 0px;
   }
+
   .vertical-line {
     border-right: none;
     /* border: 1px solid white; */
   }
+
   .no-scroll {
     display: none;
   }
+
   .scroll-container {
-    width: 100%; /* Twice the width of the viewport */
+    width: 100%;
+    /* Twice the width of the viewport */
     display: flex;
     overflow-x: scroll;
     overflow-y: hidden;
     margin-top: 10px;
     max-height: 600px;
     height: 100%;
-    transition: transform 0.3s ease-in-out; /* Smooth transition */
+    transition: transform 0.3s ease-in-out;
+    /* Smooth transition */
     /* flex-direction: column; */
   }
+
   .scroll {
-    width: 90vw; /* Half the width of the viewport */
+    width: 90vw;
+    /* Half the width of the viewport */
     height: auto;
     /* border: 1px solid green; */
     /* max-height: 500px; */
   }
+
   .pop-up {
     top: 0;
     left: 0;
@@ -417,6 +482,7 @@ export default {
     display: none;
     width: 0;
   }
+
   .scroll-container {
     display: none;
   }
