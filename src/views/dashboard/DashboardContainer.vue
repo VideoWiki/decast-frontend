@@ -28,7 +28,7 @@
                     " size="40px" />
                 </div>
               </div> -->
-              <SimpleMenu :menuList="profileMenuItems" :menuKey="'profileMenu'">
+              <SimpleMenu :menuList="profileMenuItems">
                 <template #menuButton>
                   <div class="pfp">
                     <vs-avatar :text="getFirstLetter(activeUserInfo.first_name)" color="primary" class="m-0 shadow-md"

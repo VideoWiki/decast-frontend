@@ -28,7 +28,7 @@
             <button class="session-button ml-4" @click="start(room.room_url)">
                 Start Session
             </button>
-            <SimpleMenu :menuList="roomCardMenuItems" :menuKey="'roomCardMenu' + index" :customStyles="customStyles">
+            <SimpleMenu :menuList="roomCardMenuItems">
                 <template #menuButton>
                     <button class="side-btn border-none">
                         <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />

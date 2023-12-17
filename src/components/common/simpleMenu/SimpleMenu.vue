@@ -1,5 +1,5 @@
 <template >
-    <div class="menu-wrapper">
+    <!-- <div class="menu-wrapper">
         <section class="menu-button">
             <div class="menu-button-wrapper" @click="toggleMenu">
                 <slot name="menuButton" />
@@ -10,64 +10,74 @@
                 <div v-for="item in menuList" :key="item.id" class="menu-list-item toggle-profile"
                     @click="handleItemClick(item.onClick)">
                     <div class="menu-list-item-svg">
-                        <!-- <img :src="item.icon" /> -->
                         <component :is="item.icon"></component>
                     </div>
                     {{ item.label }}
                 </div>
             </div>
         </section>
-    </div>
+    </div> -->
+    <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
+        <slot name="menuButton" />
+
+        <vs-dropdown-menu class="vx-navbar-dropdown">
+            <div class="menu-list-wrapper">
+                <div v-for="item in menuList" :key="item.id" class="menu-list-item"
+                    @click="item.onClick">
+                    <div class="menu-list-item-svg">
+                        <component :is="item.icon"></component>
+                    </div>
+                    <p>{{ item.label }}</p>
+                </div>
+            </div>
+        </vs-dropdown-menu>
+    </vs-dropdown>
 </template>
   
 <script>
 export default {
     name: 'SimpleMenu',
     props: {
-        menuKey: String,
         menuList: {
             type: Array,
             required: true
-        },
-        customStyles: {
-            type: Object,
-            default: () => ({}),
         },
     },
     data() {
         return {
         }
     },
-    mounted() {
-        window.addEventListener('click', this.handleGlobalClick);
-    },
-    beforeDestroy() {
-        window.removeEventListener('click', this.handleGlobalClick);
-    },
     methods: {
-        activeMenu() {
-            return this.$store.state.menu.activeMenu;
-        },
-        toggleMenu() {
-            this.$store.commit('menu/SET_MENU_OPEN', this.menuKey)
-            console.log("this.activeMenu", this.activeMenu(), this.menuKey)
-        },
-        handleItemClick(cb) {
-            this.$store.commit('menu/SET_MENU_CLOSE')
-            cb();
-        },
-        handleGlobalClick(event) {
-            const isOutSideMenu = !event.target.closest(`.${this.menuKey}`);
-            const isMenuWrapper = !event.target.closest('.menu-wrapper');
-            if (isOutSideMenu && isMenuWrapper && this.activeMenu() == this.menuKey) {
-                this.$store.commit('menu/SET_MENU_CLOSE')
-            }
-        },
     }
 };
 </script>
   
 <style>
+.vs-dropdown--menu,
+  .vs-dropdown--menu--after {
+    background: #1f272f !important;
+    border-color: #31394e !important;
+
+    .con-dropdown--group-ul {
+      background: #1f272f !important;
+    }
+
+    .vs-dropdown--item {
+      .vs-dropdown--item-link.disabled {
+        color: #1f272f !important;
+      }
+    }
+  }
+
+.vs-tooltip {
+    background: #181A20;
+    border: 1px solid #31394e;
+    color: rgba(255, 255, 255, 0.40);
+}
+.vs-tooltip:after {
+    border-top: 1px solid #31394e;
+    border-left: 1px solid #31394e;
+}
 .menu-list {
     position: absolute;
     background-color: #1f272f;
@@ -97,6 +107,11 @@ export default {
     align-content: center;
     padding: 5px 10px;
     transition: 0.2s ease;
+
+    p {
+        white-space: nowrap;
+        font-size: 12px;
+    }
 }
 
 .menu-list-item-svg {

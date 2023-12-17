@@ -163,8 +163,8 @@
   </div>
 </template>
 <script>
-import axios from '../../../axios';
-import SimpleMenu from '../../../components/common/simpleMenu/SimpleMenu.vue';
+import axios from '@/axios';
+import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import RoomCard from '@/views/dashboard/room-section/components/RoomCard.vue';
 
 export default {

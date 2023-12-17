@@ -128,10 +128,10 @@
   </div>
 </template>
 <script>
-import BrandingTab from './Tabs/BrandingTab.vue';
-import SettingsTab from './Tabs/SettingsTab.vue';
-import SetupTab from './Tabs/SetupTab.vue';
-import StreamingTab from './Tabs/StreamingTab.vue';
+import BrandingTab from '@/views/dashboard/cast-section/components/Tabs/BrandingTab.vue';
+import SettingsTab from '@/views/dashboard/cast-section/components/Tabs/SettingsTab.vue';
+import SetupTab from '@/views/dashboard/cast-section/components/Tabs/SetupTab.vue';
+import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/StreamingTab.vue';
 import moment from 'moment';
 import Popup from '@/views/dashboard/Popup.vue';
 import StreamCard from '@/views/dashboard/StreamCard.vue';
