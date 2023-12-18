@@ -1,20 +1,14 @@
 <template>
   <div class="dashboard-container mx-auto">
     <div class="picture">
-      <vs-avatar
-        :text="getFirstLetter"
-        color="primary"
-        class="m-0 shadow-md"
-        :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''"
-        size="67px"
-      />
+      <vs-avatar :text="getFirstLetter" color="primary" class="m-0 shadow-md"
+        :src="activeUserInfo.profile_pic ? activeUserInfo.profile_pic : ''" size="67px" />
     </div>
     <div class="left-container flex justify-items-center flex-col">
       <div class="welcome-text">
         <div class="text">
           Welcome
-          <span>{{ getFirstname }}</span
-          >!
+          <span>{{ getFirstname }}</span>!
         </div>
         <div class="text">What are we starting today?</div>
       </div>
@@ -28,7 +22,11 @@
         </div>
         <div class="desc-text">Something here</div>
         <div class="button-full">
-          <FullLengthButton :buttonName="forRoom" :click="start" />
+          <!-- <FullLengthButton :buttonName="forRoom" :click="start" /> -->
+          <vs-button @click="start" style="width: 100%;">
+            {{ forRoom }}
+            <img class="wel-button-arrow" src="@/assets/images/dashboard/Vector.svg" />
+          </vs-button>
         </div>
       </div>
       <div class="box">
@@ -40,7 +38,11 @@
           Start a cast now or schedule one for the future
         </div>
         <div class="button-full">
-          <FullLengthButton :buttonName="forCast" />
+          <!-- <FullLengthButton :buttonName="forCast" /> -->
+          <vs-button @click="start" style="width: 100%;">
+            {{ forRoom }}
+            <img class="wel-button-arrow" src="@/assets/images/dashboard/Vector.svg" />
+          </vs-button>
         </div>
       </div>
     </div>
@@ -67,7 +69,7 @@ export default {
     activeUserInfo() {
       return this.$store.state.AppActiveUser;
     },
-    getFirstname(){
+    getFirstname() {
       return this.activeUserInfo.first_name;
     },
     getFirstLetter() {
@@ -92,10 +94,10 @@ export default {
         });
     },
     created() {
-    const currentDate = new Date();
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    this.formattedDate = currentDate.toLocaleDateString(undefined, options);
-  },
+      const currentDate = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      this.formattedDate = currentDate.toLocaleDateString(undefined, options);
+    },
   },
 };
 </script>
@@ -103,6 +105,11 @@ export default {
 *:not(i) {
   font-family: 'Karla', sans-serif !important;
 }
+
+.wel-button-arrow {
+  margin-left: 10px;
+}
+
 .dashboard-container {
   font-family: 'Karla', sans-serif;
   /* border: 1px solid red; */
@@ -116,6 +123,7 @@ export default {
   font-weight: 500;
   color: #ffffff;
 }
+
 .box {
   padding: 12px;
   margin-top: 40px;
@@ -125,41 +133,50 @@ export default {
   border: 1px solid #31394e;
   background-color: #181a20;
 }
+
 .first-row {
   font-weight: 500;
   font-size: 16px;
   color: #a6a6a8;
   justify-content: space-between;
 }
+
 .first-row img {
   width: 4px;
   height: 16px;
 }
+
 .desc-text {
   margin-top: 12px;
   font-weight: 400;
   font-size: 11px;
   color: #a6a6a8;
 }
+
 .button-full {
   margin-top: 12px;
 }
 
-@media (max-width: 499px){
+@media (max-width: 499px) {
   .dashboard-container {
-    align-items: flex-start; /* Align to start for mobile view */
+    align-items: flex-start;
+    /* Align to start for mobile view */
   }
+
   .box {
     display: none;
   }
+
   .text {
     font-size: 16px;
     font-weight: 400;
   }
+
   .bottom-date {
     margin-top: 15px;
     margin-bottom: 6px;
   }
+
   .welcome-text {
     margin-top: 15px;
   }

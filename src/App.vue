@@ -154,6 +154,28 @@ input {
 body {
   background: none transparent;
 }
+.vs-button-primary {
+  background-color: #D7DF23 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  border: 1px solid #31394E !important;
+  padding: 0.75rem !important;
+  border-radius: 6px !important;
+}
+.vs-button-primary.vs-button-filled {
+  background: #D7DF23 !important;
+}
+.vs-button-primary:hover {
+  -webkit-box-shadow: 0px 3px 17px -10px #D7DF23 !important;
+  -moz-box-shadow: 0px 3px 17px -10px #D7DF23 !important;
+  box-shadow: 0px 3px 17px -10px #D7DF23 !important;
+}
+.vs-button--text {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
 </style>
 <style lang="scss" scoped>
 iframe {

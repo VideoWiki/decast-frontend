@@ -151,10 +151,9 @@
                         </button>
                     </div>
 
-                    <button v-if="cast.is_running === 'false'" @click="joinNow(cast.public_meeting_id)" id="go-btn"
-                        class="btn-1">
+                    <vs-button v-if="cast.is_running === 'false'" @click="joinNow(cast.public_meeting_id)" id="go-btn">
                         Go live now
-                    </button>
+                    </vs-button>
                     <button class="copy-button border-none" @click.stop v-if="cast.is_running === 'false' && expandedRoom === index
                         " @click="joinNow(cast.public_meeting_id)" :style="{ backgroundColor: getColor(index) }">
                         <img :style="{ backgroundColor: getColor(index) }" src="@/assets/images/dashboard/record.svg"
@@ -217,9 +216,9 @@
         <div class="inner-div2">
             <SimpleMenu :menuList="castOptionMenuItems">
                 <template #menuButton>
-                    <button class="k-btn">
-                        <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
-                    </button>
+                    <vs-button class="custm-more-icon">
+                        <MoreIcon />
+                    </vs-button>
                 </template>
             </SimpleMenu>
 
@@ -243,21 +242,20 @@
 
                     <SimpleMenu :menuList="castCopyMenuItems">
                         <template #menuButton>
-                            <button class="cop-btn">
-                                <img src="@/assets/images/dashboard/copy.svg" alt="" />
-                            </button>
+                            <vs-button class="vs-cast-copy-button">
+                                <CopyIcon />
+                            </vs-button>
                         </template>
                     </SimpleMenu>
-                    <button v-if="cast.is_running === 'false'" @click="joinNow(cast.public_meeting_id)" id="go-btn"
-                        class="live-btn">
+                    <vs-button v-if="cast.is_running === 'false'" @click="joinNow(cast.public_meeting_id)" id="go-btn">
                         Go live now
                         <p v-if="showRemainingTime(cast)">
                             {{ calculateRemainingTime(cast) }}
                         </p>
-                    </button>
-                    <button v-if="cast.is_running === 'true'" class="live-btn red-btn">
+                    </vs-button>
+                    <vs-button v-if="cast.is_running === 'true'" class="live-btn">
                         Cast is live
-                    </button>
+                    </vs-button>
                 </div>
             </div>
         </div>
@@ -274,6 +272,8 @@ import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/Streami
 import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
 import { EventBus } from '@/views/dashboard/cast-section/components/EventBus'
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
+import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
+import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 
 export default {
     name: 'CastCard',
@@ -381,6 +381,8 @@ export default {
         StreamingTab,
         SetupCastNew,
         SimpleMenu,
+        CopyIcon,
+        MoreIcon,
     },
     mounted() {
         EventBus.$on('getList-success', this.getCastList);
@@ -889,11 +891,23 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 *:not(i) {
     font-family: 'Karla', sans-serif;
 }
 
+.custm-more-icon {
+    background-color: transparent !important;
+    border: none !important;
+}
+.vs-cast-copy-button {
+    border: 1px solid #31394E !important;
+    background-color: #1F272F !important;
+    path {
+        stroke: #A6A6A8 !important;
+    }
+}
 .center-container-full {
     justify-content: center;
     align-items: center;
@@ -1232,12 +1246,7 @@ export default {
 
 .live-btn {
     background-color: #f84330 !important;
-    border-radius: 6px;
-    color: #ffffff;
-    padding: 5px;
-    height: 33px;
-    width: 115px;
-    z-index: 999;
+    color: #ffffff !important;
 }
 
 .inner-child4 {

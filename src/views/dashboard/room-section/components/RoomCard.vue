@@ -14,10 +14,13 @@
                     <img src="@/assets/images/Rooms/copy.svg" alt="" />
                 </button> -->
                 <vx-tooltip text="Copy Link" position="bottom" delay=".3s">
-                    <button class="copy-link tooltip-button" @click="copy(room.room_url)" @mouseover="showTooltip[index] = true"
-                    @mouseout="showTooltip[index] = false">
-                    <img src="@/assets/images/Rooms/copy.svg" alt="" />
-                </button>
+                    <!-- <button class="copy-link tooltip-button" @click="copy(room.room_url)"
+                        @mouseover="showTooltip[index] = true" @mouseout="showTooltip[index] = false">
+                        <img src="@/assets/images/Rooms/copy.svg" alt="" />
+                    </button> -->
+                    <vs-button class="vs-custm-copy-button" @click="copy(room.room_url)">
+                        <CopyIcon />
+                    </vs-button>
                 </vx-tooltip>
                 <!-- <div class="tooltip" :class="{ 'show-tooltip': showTooltip[index] }">
                     Copy Link
@@ -25,14 +28,15 @@
 
                 <!-- <span class="tooltip">Tooltip text</span> -->
             </div>
-            <button class="session-button ml-4" @click="start(room.room_url)">
+            <!-- <button class="session-button ml-4" @click="start(room.room_url)">
                 Start Session
-            </button>
+            </button> -->
+            <vs-button class="custm-style-vs-button" @click="start(room.room_url)">Start Session</vs-button>
             <SimpleMenu :menuList="roomCardMenuItems">
                 <template #menuButton>
-                    <button class="side-btn border-none">
-                        <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-                    </button>
+                    <vs-button class="custm-more-icon">
+                        <MoreIcon />
+                    </vs-button>
                 </template>
             </SimpleMenu>
         </div>
@@ -41,6 +45,8 @@
 <script>
 import axios from '@/axios';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
+import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
+import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 
 export default {
     name: 'RoomSection',
@@ -79,7 +85,9 @@ export default {
         };
     },
     components: {
-        SimpleMenu
+        SimpleMenu,
+        CopyIcon,
+        MoreIcon,
     },
     methods: {
         truncateText(text, maxLength) {
@@ -162,6 +170,36 @@ export default {
     left: 0;
 }
 
+.custm-more-icon {
+    background-color: transparent !important;
+    border: none !important;
+}
+.custm-style-vs-button {
+    background-color: #1F272F !important;
+    color: #A6A6A8 !important;
+    border: 1px solid #31394E;
+    margin-left: 10px;
+}
+
+.custm-style-vs-button:hover {
+    background-color: #D7DF23 !important;
+    color: #000000 !important;
+}
+
+.vs-custm-copy-button {
+    border: 1px solid #31394E !important;
+    background-color: #1F272F !important;
+    path {
+        stroke: #A6A6A8 !important;
+    }
+}
+.vs-custm-copy-button:hover {
+    border: 1px solid #D7DF23 !important;
+    path {
+        stroke: #D7DF23 !important;
+    }
+}
+
 .create-room-button {
     overflow-wrap: break-word;
     font-size: 14px;
@@ -205,13 +243,6 @@ export default {
 }
 
 .header-button {
-    background: none;
-    cursor: pointer;
-    height: max-content;
-    margin-left: 5px;
-}
-
-.side-btn {
     background: none;
     cursor: pointer;
     height: max-content;

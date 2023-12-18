@@ -10,15 +10,18 @@
         </p>
       </div>
       <div class="flex flex-shrink justify-between">
-        <button class="header-button p-2" @click="openModal" style="
-                            border: 1px solid #a6a6a8;
-                            border-radius: 5px;
-                            background-color: #1f272f;
-                            width: 28px;
-                            height: 28px;
-                          ">
-          <img src="@/assets/images/Rooms/Plus.svg" alt="" />
-        </button>
+        <vs-button
+          style="
+            border: 1px solid #a6a6a8 !important;
+            background-color: #1f272f !important;
+            padding: 0px !important;
+            height: 28px;
+            width: 28px;
+          "
+          @click="openModal"
+        >
+          <AddIcon />
+        </vs-button>
         <!-- <button class="header-button p-2" @click="createPopup = true" style="
                       border: 1px solid #a6a6a8;
                       border-radius: 5px;
@@ -166,6 +169,7 @@
 import axios from '@/axios';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import RoomCard from '@/views/dashboard/room-section/components/RoomCard.vue';
+import AddIcon from '@/assets/svgs/button-icons/add.vue';
 
 export default {
   name: 'RoomSection',
@@ -212,7 +216,8 @@ export default {
   },
   components: {
     SimpleMenu,
-    RoomCard
+    RoomCard,
+    AddIcon,
 },
   computed: {
     roomsList() {

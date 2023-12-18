@@ -19,19 +19,18 @@
         </p>
       </div>
       <div class="flex justify-between">
-        <button
-          class="header-button p-2"
+        <vs-button
           style="
-            border: 1px solid #a6a6a8;
-            border-radius: 5px;
-            background-color: #1f272f;
-            width: 28px;
+            border: 1px solid #a6a6a8 !important;
+            background-color: #1f272f !important;
+            padding: 0px !important;
             height: 28px;
+            width: 28px;
           "
           @click="openModal"
         >
-          <img src="@/assets/images/Plus.svg" alt="" />
-        </button>
+          <AddIcon />
+        </vs-button>
         <!-- <button class="header-button border-none">
           <img
             src="@/assets/images/dashboard/dots3.svg"
@@ -322,6 +321,7 @@ import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/Streami
 import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
 import {EventBus} from '@/views/dashboard/cast-section/components/EventBus'
 import CastCard from './components/CastCard.vue';
+import AddIcon from '@/assets/svgs/button-icons/add.vue'
 
 export default {
   components: {
@@ -332,7 +332,8 @@ export default {
     SettingsTab,
     StreamingTab,
     SetupCastNew,
-    CastCard
+    CastCard,
+    AddIcon,
 },
   name: 'CastSection',
   data() {
