@@ -39,9 +39,9 @@
                   </div>
                 </template>
               </SimpleMenu>
-              <div class="pop-up">
+              <!-- <div class="pop-up">
                 <userMenu :showMenu="userMenuVisible" :closeMenu="toggleUserMenu" @menu-closed="toggleUserMenu" />
-              </div>
+              </div> -->
             </div>
             <button v-else class="butt cursor-pointer" @click="open">
               Login
@@ -76,20 +76,22 @@
       <!-- <button class="close-icon" @click="closeForm">✕</button> -->
     </div>
     <popups />
-    <SimpleModal />
+    <ResetPasswordModal v-if="activeModal === 'resetPassModal'" :toggleActiveModal="toggleActiveModal"/>
+    <ProfileModal v-if="activeModal === 'profileModal'" :toggleActiveModal="toggleActiveModal"/>
   </div>
 </template>
 <script>
 import WelcomeSection from '@/views/dashboard/welcome-section/WelcomeSection.vue';
 import CastSection from '@/views/dashboard/cast-section/CastSection.vue';
-import userMenu from './userMenu.vue';
+// import userMenu from './userMenu.vue';
 import RoomSection from '@/views/dashboard/room-section/RoomSection.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
-import Popups from './Popups.vue';
-import UserMenu from './userMenu.vue';
-import SimpleModal from '@/components/common/simpleModal/SimpleModal.vue';
+// import Popups from './Popups.vue';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
+
+import ResetPasswordModal from '@/views/dashboard/components/ResetPasswordModal';
+import ProfileModal from '@/views/dashboard/components/ProfileModal';
 
 export default {
   mixins: [utils],
@@ -98,14 +100,15 @@ export default {
     WelcomeSection,
     CastSection,
     RoomSection,
-    userMenu,
-    Popups,
-    UserMenu,
-    SimpleModal,
+    // userMenu,
+    // Popups,
     SimpleMenu,
+    ResetPasswordModal,
+    ProfileModal,
   },
   data() {
     return {
+      activeModal: '',
       offset: 0,
       url: constants.challengeUri,
       iframe: false,
@@ -114,12 +117,12 @@ export default {
         {
           label: "My Profile",
           icon: () =>import("@/assets/svgs/menu-icons/usermenu.vue"),
-          onClick: () => this.$store.commit('modal/SET_MODAL_OPEN', { activeModal: 'profileModal', modalTitle: "My Profile" })
+          onClick: () => this.toggleActiveModal('profileModal')
         },
         {
           label: "Reset Password",
           icon: () =>import("@/assets/svgs/menu-icons/setting.vue"),
-          onClick: () => this.$store.commit('modal/SET_MODAL_OPEN', { activeModal: 'resetPasswordModal', modalTitle: "Reset Password" })
+          onClick: () => this.toggleActiveModal('resetPassModal')
         },
         {
           label: "Guide",
@@ -180,6 +183,9 @@ export default {
     });
   },
   methods: {
+    toggleActiveModal(setModal) {
+      this.activeModal = setModal;
+    },
     scroll(offset) {
       this.offset = offset;
     },

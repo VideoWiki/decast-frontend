@@ -1,5 +1,79 @@
 <template>
-    <div class="child-options flex justify-between items-center mb-4">
+    <div v-if="isMobileView" class="child-options flex justify-between items-center mb-4"
+        :style="{ borderRight: '0.5rem solid ' + getColor(index) }" @click="expandRoom(index)"
+        :class="{ 'expanded-room': expandedRoom }">
+        <div>
+            <p style="font-size: 14px; font-weight: 500; width: 100%">
+                {{ truncateText(room.room_name, 10) }}
+            </p>
+        </div>
+        <div class="flex justify-between" @click.stop>
+            <div class="mobile-options">
+                <div class="button-container" v-if="expandedRoom" :style="{ backgroundColor: getColor(index) }">
+                    <button class="session-button ml-4" @click.stop="start(room.room_url)">
+                        Start Session
+                    </button>
+                    <button @click.stop class="copy-button ml-4 border-none" @click.stop="copy(room.room_url)"
+                        :style="{ backgroundColor: getColor(index) }">
+                        <img src="@/assets/images/dashboard/copymob.svg" class="p-3 bg-white bg-opacity-50" style="
+                                          border: none;
+                                          padding: 10px;
+                                          background: rgba(255, 255, 255, 0.5);
+                                          border-radius: 5px;
+                                        " alt="copy" :style="{ backgroundColor: getColor(index) }" />
+                    </button>
+                    <button @click.stop class="copy-button ml-4 border-none" @click.stop="start(room.room_url)"
+                        :style="{ backgroundColor: getColor(index) }">
+                        <img :style="{ backgroundColor: getColor(index) }" src="@/assets/images/dashboard/record.svg"
+                            class="p-3 bg-white bg-opacity-50" style="
+                                          border: none;
+                                          padding: 10px;
+                                          background: rgba(255, 255, 255, 0.5);
+                                          border-radius: 5px;
+                                        " alt="record" />
+                    </button>
+                    <SimpleMenu :menuList="roomCardMenuItems" :style="{ backgroundColor: getColor(index) + ' !important' }">
+                        <template #menuButton>
+                            <vs-button class="custm-more-icon">
+                                <MoreIcon />
+                            </vs-button>
+                        </template>
+                    </SimpleMenu>
+                    <!-- <button @click.stop class="side-btn border-none" @click.stop="togglePopup(index)"
+                        v-if="expandedRoom == index" style="color: white">
+                        <img src="@/assets/images/dashboard/dots3.svg" class="h-7 p-3" alt="" />
+                    </button> -->
+                </div>
+            </div>
+            <!-- <div class="tooltip-container" v-if="!expandedRoom">
+                <button class="copy-link tooltip-button" @click.stop="copy(room.room_url)">
+                    <img src="@/assets/images/Rooms/copy.svg" alt="" />
+                </button>
+            </div> -->
+            <SimpleMenu :menuList="roomCardMenuItems" v-if="!expandedRoom">
+                <template #menuButton>
+                    <vs-button class="custm-more-icon">
+                        <MoreIcon />
+                    </vs-button>
+                </template>
+            </SimpleMenu>
+
+            <!-- <button class="side-btn border-none" @click.stop="togglePopup(index)" v-if="!expandedRoom">
+                <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
+            </button> -->
+        </div>
+        <!-- <div @click.stop class="room-popup" v-if="showPopup === index" @click.stop="closePopup(index)">
+            <button @click.stop="openShare(room)">
+                <img src="@/assets/images/share.svg" />
+                Share
+            </button>
+            <button @click.stop="deleteRoom(room)">
+                <img src="@/assets/images/delete.svg" />
+                Delete
+            </button>
+        </div> -->
+    </div>
+    <div v-else class="child-options flex justify-between items-center mb-4">
         <div>
             <p style="font-size: 14px; font-weight: 500 width: 50%">
                 {{ truncateText(room.room_name, 20) }}
@@ -40,6 +114,9 @@
                 </template>
             </SimpleMenu>
         </div>
+        <ConfirmationModal v-if="activeModal === 'deleteRoom'" :title="'Delete room'"
+            :description="'Do you really want to delete this room?'" :onConfirm="onConfirm"
+            :toggleConfirmModal="toggleConfirmModal" />
     </div>
 </template>
 <script>
@@ -48,11 +125,16 @@ import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 
+import ConfirmationModal from '@/views/dashboard/components/ConfirmationModal.vue';
+
 export default {
     name: 'RoomSection',
     props: ['room', 'index'],
     data() {
         return {
+            activeModal: '',
+            expandedRoom: false,
+            isMobileView: false,
             showTooltip: [],
             showTooltip3: false,
             items: [
@@ -74,22 +156,28 @@ export default {
                 {
                     label: "Delete",
                     icon: () => import("@/assets/svgs/button-icons/delete.vue"),
-                    onClick: () => deleteRoom(this.room)
+                    onClick: () => this.toggleConfirmModal('deleteRoom')
                 },
             ],
-            customStyles: {
-                menuList: {
-                    right: '0% !important',
-                },
-            },
         };
     },
     components: {
         SimpleMenu,
         CopyIcon,
         MoreIcon,
+        ConfirmationModal,
     },
     methods: {
+        toggleConfirmModal(setModal) {
+            this.activeModal = setModal;
+        },
+        onConfirm() {
+            //delete logic
+            this.activeModal = '';
+        },
+        expandRoom() {
+            this.expandedRoom = !this.expandedRoom;
+        },
         truncateText(text, maxLength) {
             if (text.length > maxLength) {
                 return text.slice(0, maxLength) + '...';
@@ -154,9 +242,20 @@ export default {
                 });
             console.log('delete');
         },
+        checkScreenWidth() {
+            // Define your breakpoint for mobile view (e.g., 768 pixels)
+            const mobileBreakpoint = 480;
+
+            // Check if the screen width is below the mobile breakpoint
+            this.isMobileView = window.innerWidth < mobileBreakpoint;
+        },
     },
     mounted() {
-        // this.getList();
+        this.checkScreenWidth();
+        window.addEventListener('resize', this.checkScreenWidth);
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.checkScreenWidth);
     },
 };
 </script>
@@ -174,6 +273,7 @@ export default {
     background-color: transparent !important;
     border: none !important;
 }
+
 .custm-style-vs-button {
     background-color: #1F272F !important;
     color: #A6A6A8 !important;
@@ -189,12 +289,15 @@ export default {
 .vs-custm-copy-button {
     border: 1px solid #31394E !important;
     background-color: #1F272F !important;
+
     path {
         stroke: #A6A6A8 !important;
     }
 }
+
 .vs-custm-copy-button:hover {
     border: 1px solid #D7DF23 !important;
+
     path {
         stroke: #D7DF23 !important;
     }

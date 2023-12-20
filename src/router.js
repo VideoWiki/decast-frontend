@@ -410,14 +410,6 @@ const router = new Router({
       },
     },
     {
-      path: '/popup',
-      name: 'Reset Passwo',
-      component: () => import('@/views/dashboard/Popups.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
       path: '/middlepart',
       name: 'middlepart',
       component: () => import('@/views/HomePage/MiddlePart.vue'),

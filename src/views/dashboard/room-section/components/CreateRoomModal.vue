@@ -1,26 +1,35 @@
 <template>
-    <div>
-        <div class="text">Room Name</div>
-        <div class="input">
-            <input placeholder="Name" type="text" v-model="roomName" />
-        </div>
-        <div class="button">
-            <button class="create-room-button" @click="createRoom">
-                Create Room
-            </button>
-        </div>
-    </div>
+    <BaseModal :title="'Create new room'"
+        @close="toggleCreateRoomModal">
+        <template #modalContent>
+            <div>
+                <div class="text">Room Name</div>
+                <div class="input">
+                    <input placeholder="Name" type="text" v-model="roomName" />
+                </div>
+                <div class="button">
+                    <vs-button @click="createRoom">
+                        Create room
+                    </vs-button>
+                </div>
+            </div>
+        </template>
+    </BaseModal>
 </template>
 <script>
+import BaseModal from "@/components/common/BaseModal.vue";
+
 
 export default {
     name: 'CreateRoomModal',
+    props: ['toggleCreateRoomModal'],
     data() {
         return {
             roomName: '',
         };
     },
     components: {
+        BaseModal
     },
     computed: {
     },
@@ -29,7 +38,7 @@ export default {
             this.$store
                 .dispatch('room/addRoom', this.roomName)
                 .then(async (res) => {
-                    this.$store.commit('modal/SET_MODAL_CLOSE');
+                    this.toggleCreateRoomModal();
                 })
                 .catch((e) => {
                     console.log(e.resonse);
@@ -44,23 +53,6 @@ export default {
 <style scoped>
 *:not(i) {
     font-family: 'Karla', sans-serif;
-}
-
-.create-room-button {
-    overflow-wrap: break-word;
-    font-size: 14px;
-    font-weight: 400;
-    background-color: #d7df23;
-    color: rgb(0, 0, 0);
-    border: 1px solid rgb(49, 57, 78);
-    padding: 0.6rem 0.75rem;
-    border-radius: 6px;
-    margin: 0px;
-    outline: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
 }
 
 .center-container-full {

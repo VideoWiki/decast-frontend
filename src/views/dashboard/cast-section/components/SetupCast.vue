@@ -133,7 +133,7 @@ import SettingsTab from '@/views/dashboard/cast-section/components/Tabs/Settings
 import SetupTab from '@/views/dashboard/cast-section/components/Tabs/SetupTab.vue';
 import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/StreamingTab.vue';
 import moment from 'moment';
-import Popup from '@/views/dashboard/Popup.vue';
+// import Popup from '@/views/dashboard/Popup.vue';
 import StreamCard from '@/views/dashboard/StreamCard.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
 export default {
@@ -143,7 +143,7 @@ export default {
     SettingsTab,
     SetupTab,
     StreamingTab,
-    Popup,
+    // Popup,
     StreamCard,
     InviteCard,
   },

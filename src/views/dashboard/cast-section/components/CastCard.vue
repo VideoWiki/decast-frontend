@@ -264,13 +264,12 @@
 <script>
 import moment from 'moment-timezone';
 import SetupCast from '@/views/dashboard/cast-section/components/SetupCast.vue';
-import SetupCastNew from '@/views/dashboard/cast-section/components/SetupCastNew.vue';
+import CreateCastModal from '@/views/dashboard/cast-section/components/CreateCastModal.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
 import postPoneCast from '@/views/dashboard/postPoneCast.vue';
 import SettingsTab from '@/views/dashboard/cast-section/components/Tabs/SettingsTab.vue';
 import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/StreamingTab.vue';
 import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
-import { EventBus } from '@/views/dashboard/cast-section/components/EventBus'
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
@@ -379,13 +378,12 @@ export default {
         postPoneCast,
         SettingsTab,
         StreamingTab,
-        SetupCastNew,
+        CreateCastModal,
         SimpleMenu,
         CopyIcon,
         MoreIcon,
     },
     mounted() {
-        EventBus.$on('getList-success', this.getCastList);
         document.getElementById('loading-bg').style.display = 'block';
         this.checkScreenWidth();
         window.addEventListener('resize', this.checkScreenWidth);
@@ -408,9 +406,6 @@ export default {
         window.removeEventListener('click', this.handleClick3);
         // Remove the global click event listener when the component is destroyed
         window.removeEventListener('resize', this.checkScreenWidth);
-    },
-    destroyed() {
-        EventBus.$off('getList-success', this.getCastList);
     },
     computed: {
         totalImagesCount() {

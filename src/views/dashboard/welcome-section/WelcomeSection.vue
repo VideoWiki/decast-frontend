@@ -22,7 +22,6 @@
         </div>
         <div class="desc-text">Something here</div>
         <div class="button-full">
-          <!-- <FullLengthButton :buttonName="forRoom" :click="start" /> -->
           <vs-button @click="start" style="width: 100%;">
             {{ forRoom }}
             <img class="wel-button-arrow" src="@/assets/images/dashboard/Vector.svg" />
@@ -38,7 +37,6 @@
           Start a cast now or schedule one for the future
         </div>
         <div class="button-full">
-          <!-- <FullLengthButton :buttonName="forCast" /> -->
           <vs-button @click="start" style="width: 100%;">
             {{ forRoom }}
             <img class="wel-button-arrow" src="@/assets/images/dashboard/Vector.svg" />
@@ -49,11 +47,9 @@
   </div>
 </template>
 <script>
-import FullLengthButton from './components/fullLengthButton.vue';
 export default {
   name: 'WelcomeSection',
   components: {
-    FullLengthButton,
   },
   data() {
     return {

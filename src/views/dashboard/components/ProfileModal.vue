@@ -1,115 +1,82 @@
 <template>
-  <div class="full-cont">
-    <!-- <div class="head-container">
+  <BaseModal :title="'My profile'" @close="toggleActiveModal('')">
+    <template #modalContent>
+      <div class="full-cont">
+        <!-- <div class="head-container">
       <h3>My Profiles</h3>
       <button @click="closeProfile">
         <img src="@/assets/images/cross.svg" alt="Close Profile" />
       </button>
     </div> -->
 
-    <div class="info-cont">
-      <!-- Profile Image -->
-      <div class="pri-cont">
-        <div class="img-cont">
-          <input
-            type="file"
-            id="display-profile-input"
-            @change="uploadFile"
-            class="hidden"
-            accept="image/*"
-          />
-          <button
-            class="img-up"
-            :disabled="!isEditing || uploadInProgress"
-            @click="openUpload"
-            :style="{ display: !isEditing ? 'none' : 'block' }"
-          >
-            <img src="@/assets/images/camera.svg" alt="Upload Image" />
-          </button>
-          <vs-avatar
-            :text="activeUserInfo.first_name[0]"
-            color="primary"
-            class="m-0 shadow-md"
-            :src="activeUserInfo.profile_pic || null"
-            size="57px"
-          />
-        </div>
+        <div class="info-cont">
+          <!-- Profile Image -->
+          <div class="pri-cont">
+            <div class="img-cont">
+              <input type="file" id="display-profile-input" @change="uploadFile" class="hidden" accept="image/*" />
+              <button class="img-up" :disabled="!isEditing || uploadInProgress" @click="openUpload"
+                :style="{ display: !isEditing ? 'none' : 'block' }">
+                <img src="@/assets/images/camera.svg" alt="Upload Image" />
+              </button>
+              <vs-avatar :text="activeUserInfo.first_name[0]" color="primary" class="m-0 shadow-md"
+                :src="activeUserInfo.profile_pic || null" size="57px" />
+            </div>
 
-        <div class="name-cont">
-          <h3>{{ activeUserInfo.username }}</h3>
-          <p>{{ activeUserInfo.email }}</p>
-        </div>
-      </div>
+            <div class="name-cont">
+              <h3>{{ activeUserInfo.username }}</h3>
+              <p>{{ activeUserInfo.email }}</p>
+            </div>
+          </div>
 
-      <!-- Form Fields -->
-      <div class="form-cont">
-        <div class="child-1">
-          <label class="label">First name</label>
-          <input
-            v-model="firstName"
-            :disabled="!isEditing"
-            :style="{ opacity: isEditing ? 1 : 0.5 }"
-            required
-          />
-          <span class="error" v-if="error.firstName">{{
-            error.firstName
-          }}</span>
+          <!-- Form Fields -->
+          <div class="form-cont">
+            <div class="child-1">
+              <label class="label">First name</label>
+              <input v-model="firstName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" required />
+              <span class="error" v-if="error.firstName">{{
+                error.firstName
+              }}</span>
 
-          <label class="label">Email address</label>
-          <input
-            v-model="email"
-            :disabled="!isEditing"
-            :style="{ opacity: isEditing ? 1 : 0.5 }"
-            type="email"
-            required
-          />
-          <span class="error" v-if="error.email">{{ error.email }}</span>
-        </div>
+              <label class="label">Email address</label>
+              <input v-model="email" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" type="email"
+                required />
+              <span class="error" v-if="error.email">{{ error.email }}</span>
+            </div>
 
-        <div class="child-2">
-          <label class="label">Last name</label>
-          <input
-            v-model="lastName"
-            :disabled="!isEditing"
-            :style="{ opacity: isEditing ? 1 : 0.5 }"
-            required
-          />
-          <span class="error" v-if="error.lastName">{{ error.lastName }}</span>
+            <div class="child-2">
+              <label class="label">Last name</label>
+              <input v-model="lastName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" required />
+              <span class="error" v-if="error.lastName">{{ error.lastName }}</span>
 
-          <label class="label">Add your designation</label>
-          <input
-            v-model="designation"
-            :disabled="!isEditing"
-            :style="{ opacity: isEditing ? 1 : 0.5 }"
-            required
-          />
-          <span class="error" v-if="error.designation">{{
-            error.designation
-          }}</span>
+              <label class="label">Add your designation</label>
+              <input v-model="designation" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" required />
+              <span class="error" v-if="error.designation">{{
+                error.designation
+              }}</span>
+            </div>
+          </div>
+
+          <!-- Edit and Save Buttons -->
+          <div class="edit-cont">
+            <vs-button @click="editProfile" :disabled="isEditing">Edit</vs-button>
+            <vs-button @click="saveProfile" :disabled="!isEditing" :style="{ display: isEditing ? 'block' : 'none' }">
+              Save
+            </vs-button>
+          </div>
         </div>
       </div>
-
-      <!-- Edit and Save Buttons -->
-      <div class="edit-cont">
-        <button @click="editProfile" :disabled="isEditing">Edit</button>
-        <button
-          @click="saveProfile"
-          :disabled="!isEditing"
-          :style="{ display: isEditing ? 'block' : 'none' }"
-        >
-          Save
-        </button>
-      </div>
-    </div>
-  </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script>
 import constants from '../../../../constant';
 import axios from '../../../axios';
+import BaseModal from "@/components/common/BaseModal.vue";
 
 export default {
-  name: 'MyProfile',
+  name: 'ProfileModal',
+  props: ['toggleActiveModal'],
   data() {
     return {
       firstName: '',
@@ -126,6 +93,9 @@ export default {
         designation: '',
       },
     };
+  },
+  components: {
+    BaseModal,
   },
   computed: {
     activeUserInfo() {
@@ -228,7 +198,7 @@ export default {
               text: 'Changes Saved, Please Login again',
               color: 'success',
             });
-           this.logout();
+            this.logout();
           })
           .catch((err) => {
             console.error(err);
@@ -281,7 +251,6 @@ export default {
   display: flex;
   width: fit-content;
   gap: 15px;
-  margin-top: 20px;
 }
 
 .img-cont {
@@ -367,37 +336,28 @@ export default {
 }
 
 .edit-cont button:nth-child(1) {
-  background-color: #1d232b;
-  border: 1px solid #31394e;
+  background-color: #1d232b !important;
+  border: 1px solid #31394e !important;
   width: 113px;
-  height: 40px;
-  border-radius: 6px;
-  color: #a6a6a8;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: Popins, sans-serif;
+  color: #a6a6a8 !important;
 }
 
 .edit-cont button:nth-child(2) {
-  background-color: #d7df23;
-  border: 1px solid #31394e;
   width: 113px;
-  height: 40px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: Popins, sans-serif;
 }
+
 @media (max-width: 500px) {
   .full-cont {
     width: 300px;
     display: flex;
     flex-direction: column;
   }
+
   .info-cont {
     display: flex;
     flex-direction: column;
   }
+
   .form-cont {
     display: flex;
     flex-direction: column;

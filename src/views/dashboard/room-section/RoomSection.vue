@@ -18,7 +18,7 @@
             height: 28px;
             width: 28px;
           "
-          @click="openModal"
+          @click="toggleCreateRoomModal"
         >
           <AddIcon />
         </vs-button>
@@ -163,6 +163,7 @@
         </div>
       </div>
     </div>
+    <CreateRoomModal v-if="createRoomModalActive" :toggleCreateRoomModal="toggleCreateRoomModal"/>
   </div>
 </template>
 <script>
@@ -170,11 +171,13 @@ import axios from '@/axios';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import RoomCard from '@/views/dashboard/room-section/components/RoomCard.vue';
 import AddIcon from '@/assets/svgs/button-icons/add.vue';
+import CreateRoomModal from '@/views/dashboard/room-section/components/CreateRoomModal.vue'
 
 export default {
   name: 'RoomSection',
   data() {
     return {
+      createRoomModalActive: false,
       isMobileView: false,
       expandedRoom: null,
       createPopup: false,
@@ -218,6 +221,7 @@ export default {
     SimpleMenu,
     RoomCard,
     AddIcon,
+    CreateRoomModal,
 },
   computed: {
     roomsList() {
@@ -246,8 +250,8 @@ export default {
     },
   },
   methods: {
-    openModal() {
-      this.$store.commit('modal/SET_MODAL_OPEN', { activeModal: "roomModal", modalTitle: "Create new room" });
+    toggleCreateRoomModal() {
+      this.createRoomModalActive = !this.createRoomModalActive;
     },
     checkScreenWidth() {
       // Define your breakpoint for mobile view (e.g., 768 pixels)

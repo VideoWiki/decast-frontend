@@ -2,33 +2,23 @@
   <div class="center-container-full">
     <div class="flex justify-between">
       <div class="heading-container">
-        <h2
-          class="custom-heading"
-          style="color: #a6a6a8; font-weight: 500; font-size: 24px"
-        >
+        <h2 class="custom-heading" style="color: #a6a6a8; font-weight: 500; font-size: 24px">
           Casts
         </h2>
         <p class="sub-heading pt-2">
           Casts are social spaces for events and wide-range. Ideal for X Y Z.
-          <a
-            target="_blank"
-            href="#"
-            style="color: #31a2f4; text-decoration: underline; cursor: pointer"
-            >Learn more about Casts.</a
-          >
+          <a target="_blank" href="#" style="color: #31a2f4; text-decoration: underline; cursor: pointer">Learn more about
+            Casts.</a>
         </p>
       </div>
       <div class="flex justify-between">
-        <vs-button
-          style="
+        <vs-button style="
             border: 1px solid #a6a6a8 !important;
             background-color: #1f272f !important;
             padding: 0px !important;
             height: 28px;
             width: 28px;
-          "
-          @click="openModal"
-        >
+          " @click="toggleCreateCastModal">
           <AddIcon />
         </vs-button>
         <!-- <button class="header-button border-none">
@@ -53,18 +43,12 @@
 
     <div class="rooms-container">
       <div class="choose-room">
-        <button
-          class="options-button border-none"
-          @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }"
-        >
+        <button class="options-button border-none" @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }">
           Scheduled Casts
         </button>
-        <button
-          class="options-button border-none px-5"
-          @click="handleButtonClick"
-          :class="{ 'focused-button': !focusYourRooms }"
-        >
+        <button class="options-button border-none px-5" @click="handleButtonClick"
+          :class="{ 'focused-button': !focusYourRooms }">
           Cast Recordings
         </button>
       </div>
@@ -73,16 +57,13 @@
 
         <div v-if="focusYourRooms">
           <div v-for="(cast, index) in casts" :key="index">
-            <CastCard :cast="cast" :index="index"/>
+            <CastCard :cast="cast" :index="index" />
           </div>
         </div>
         <div v-else>
           <div v-if="recordingList.length">
-            <div
-              class="recordings flex justify-between items-center mb-4"
-              v-for="(recording, index) in flattenedRecordingList"
-              :key="index"
-            >
+            <div class="recordings flex justify-between items-center mb-4"
+              v-for="(recording, index) in flattenedRecordingList" :key="index">
               <div class="w-3/4 flex justify-between items-center">
                 <p>
                   {{ recording['Start Time (Readable)'].split(' ')[0] }}
@@ -92,33 +73,17 @@
                 </p>
               </div>
 
-              <button
-                class="side-btn border-none"
-                @click="toggleRecordingPopup(index)"
-              >
+              <button class="side-btn border-none" @click="toggleRecordingPopup(index)">
                 <img src="@/assets/images/Vector2.svg" class="h-7 p-2" alt="" />
               </button>
-              <div
-                class="record-popup"
-                v-if="showRecord === index"
-                @click="closePopup(index)"
-              >
+              <div class="record-popup" v-if="showRecord === index" @click="closePopup(index)">
                 <button @click="openRecording(recording)">
-                  <vs-icon
-                    icon-pack="feather"
-                    icon="icon-play"
-                    size="12px"
-                    rounded="true"
-                    style="align-self: center"
-                  >
+                  <vs-icon icon-pack="feather" icon="icon-play" size="12px" rounded="true" style="align-self: center">
                   </vs-icon>
                   Play
                 </button>
-                <button
-                  @mouseover="toggleEditTool(index)"
-                  @mouseleave="toggleEditTool(index)"
-                  @click="editRecord(recording)"
-                >
+                <button @mouseover="toggleEditTool(index)" @mouseleave="toggleEditTool(index)"
+                  @click="editRecord(recording)">
                   <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
                 </button>
                 <div class="tooltip2" v-if="showTooltip === index">
@@ -143,18 +108,9 @@
               </div>
             </div>
           </div>
-          <div
-            v-else
-            class="recording flex flex-col items-center justify-items-center"
-          >
-            <img
-              src="@/assets/images/dashboard/NoRecording.svg"
-              class="w-1/2"
-            />
-            <img
-              src="@/assets/images/dashboard/NoRecordingText1.svg"
-              class="mb-3"
-            />
+          <div v-else class="recording flex flex-col items-center justify-items-center">
+            <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
+            <img src="@/assets/images/dashboard/NoRecordingText1.svg" class="mb-3" />
             <img src="@/assets/images/dashboard/NoRecordingText.svg" />
           </div>
         </div>
@@ -178,15 +134,8 @@
     </div> -->
 
     <div class="popup" @click="closeAllPopups" v-if="stream">
-      <StreamingTab
-        class="stream-co"
-        :closeCreate="() => (stream = false)"
-        :stepFourProps="stepFourProps"
-        :stepThreeProps="stepThreeProps"
-        :stepTwoProps="stepTwoProps"
-        :stepOneProps="stepOneProps"
-        :castId="index"
-      >
+      <StreamingTab class="stream-co" :closeCreate="() => (stream = false)" :stepFourProps="stepFourProps"
+        :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps" :stepOneProps="stepOneProps" :castId="index">
       </StreamingTab>
       <!--<stream-card
         :closeCreate="() => (stream = false)"
@@ -201,76 +150,37 @@
       <div class="edit-settings p-5">
         <div class="flex justify-between">
           <div class="heading">Change Settings</div>
-          <img
-            class="cursor-pointer"
-            src="@/assets/images/create-event/Vector30.svg"
-            @click="closeAllPopups"
-          />
+          <img class="cursor-pointer" src="@/assets/images/create-event/Vector30.svg" @click="closeAllPopups" />
         </div>
-        <settings-tab
-          :stepFourProps="stepFourProps"
-          :stepThreeProps="stepThreeProps"
-          :stepTwoProps="stepTwoProps"
-          :stepOneProps="stepOneProps"
-          :castId="index"
-          :closeCreate="() => (showSettings = false)"
-        />
+        <settings-tab :stepFourProps="stepFourProps" :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps"
+          :stepOneProps="stepOneProps" :castId="index" :closeCreate="() => (showSettings = false)" />
       </div>
     </div>
     <div class="popup" v-if="showPostpone" @click="closeRes">
       <div class="post-time">
-        <postPoneCast
-          :cast_id="index"
-          :cast_name="castsInfo[index].details.event_name"
-          :allow_moderator_to_unmute_user="
-            castsInfo[index].details.allow_moderator_to_unmute_user
-          "
-          :auto_start_recording="castsInfo[index].details.auto_start_recording"
-          :description="castsInfo[index].details.description"
-          :cast_type="castsInfo[index].details.cast_type"
-          :collect_attendee_email="
-            castsInfo[index].details.collect_attendee_email
-          "
-          :private_otp="castsInfo[index].details.otp_private"
-          :timezone="castsInfo[index].details.timezone"
-          :logo="castsInfo[index].details.logo"
-          :cover_image="castsInfo[index].details.cover_image"
-          :primary_color="castsInfo[index].details.primary_color"
-          :welcome_text="castsInfo[index].details.welcome_text"
-          :banner_text="castsInfo[index].details.banner_text"
-          :guest_policy="castsInfo[index].details.guest_policy"
+        <postPoneCast :cast_id="index" :cast_name="castsInfo[index].details.event_name" :allow_moderator_to_unmute_user="castsInfo[index].details.allow_moderator_to_unmute_user
+          " :auto_start_recording="castsInfo[index].details.auto_start_recording"
+          :description="castsInfo[index].details.description" :cast_type="castsInfo[index].details.cast_type"
+          :collect_attendee_email="castsInfo[index].details.collect_attendee_email
+            " :private_otp="castsInfo[index].details.otp_private" :timezone="castsInfo[index].details.timezone"
+          :logo="castsInfo[index].details.logo" :cover_image="castsInfo[index].details.cover_image"
+          :primary_color="castsInfo[index].details.primary_color" :welcome_text="castsInfo[index].details.welcome_text"
+          :banner_text="castsInfo[index].details.banner_text" :guest_policy="castsInfo[index].details.guest_policy"
           :moderator_only_text="castsInfo[index].details.moderator_only_text"
-          :logout_url="castsInfo[index].details.logout_url"
-          :is_streaming="castsInfo[index].details.is_streaming"
+          :logout_url="castsInfo[index].details.logout_url" :is_streaming="castsInfo[index].details.is_streaming"
           :public_stream="castsInfo[index].details.public_stream"
-          :bbb_stream_url="castsInfo[index].details.bbb_stream_url"
-          :record="castsInfo[index].details.record"
-          :password_auth="castsInfo[index].details.password_auth"
-          :end_when_no_moderator="
-            castsInfo[index].details.end_when_no_moderator
-          "
-          :mute_on_start="castsInfo[index].details.mute_on_start"
-          :webcam_only_for_moderator="
-            castsInfo[index].details.webcam_only_for_moderator
-          "
-          :disable_cam="castsInfo[index].details.disable_cam"
-          :disable_mic="castsInfo[index].details.disable_mic"
-          :lock_layout="castsInfo[index].details.lock_layout"
-          :viewer_mode="castsInfo[index].details.viewer_mode"
-          :schedule="castsInfo[index].details.schedule_time"
-          :timeLeft="castsInfo[index].details.duration"
-          :closePostpone="closePostpone"
-          :toPostpone="toPostpone"
-        />
+          :bbb_stream_url="castsInfo[index].details.bbb_stream_url" :record="castsInfo[index].details.record"
+          :password_auth="castsInfo[index].details.password_auth" :end_when_no_moderator="castsInfo[index].details.end_when_no_moderator
+            " :mute_on_start="castsInfo[index].details.mute_on_start" :webcam_only_for_moderator="castsInfo[index].details.webcam_only_for_moderator
+    " :disable_cam="castsInfo[index].details.disable_cam" :disable_mic="castsInfo[index].details.disable_mic"
+          :lock_layout="castsInfo[index].details.lock_layout" :viewer_mode="castsInfo[index].details.viewer_mode"
+          :schedule="castsInfo[index].details.schedule_time" :timeLeft="castsInfo[index].details.duration"
+          :closePostpone="closePostpone" :toPostpone="toPostpone" />
       </div>
     </div>
     <div class="popup" v-if="showEditCast">
-      <SetUpEditCast
-        :cast_id="index"
-        :getCast="getCastList"
-        :showEditCast="showEditCast"
-        @updateShowEditCast="updateShowEditCast"
-      ></SetUpEditCast>
+      <SetUpEditCast :cast_id="index" :getCast="getCastList" :showEditCast="showEditCast"
+        @updateShowEditCast="updateShowEditCast"></SetUpEditCast>
     </div>
 
     <div class="popup" v-if="showDeletePopup" @click="closeAllPopups">
@@ -278,11 +188,7 @@
         <div class="full-wrapper">
           <div class="uppar-part flex justify-between">
             <div class="heading">Delete cast</div>
-            <img
-              class="cursor-pointer"
-              src="@/assets/images/create-event/Vector30.svg"
-              @click="closeDeletePopup"
-            />
+            <img class="cursor-pointer" src="@/assets/images/create-event/Vector30.svg" @click="closeDeletePopup" />
           </div>
           <div class="middle-part">
             <div class="img">
@@ -300,26 +206,23 @@
       </div>
     </div>
     <div class="popup" @click="closeAllPopups" v-if="invite">
-      <invite-card
-        :Id="meetingId"
-        :invites="invites"
-        :isStream="isStream"
-        :viewer="viewer"
-        :closeInvite="() => (invite = false)"
-      ></invite-card>
+      <invite-card :Id="meetingId" :invites="invites" :isStream="isStream" :viewer="viewer"
+        :closeInvite="() => (invite = false)"></invite-card>
     </div>
+
+    <CreateCastModal v-if="createCastModalActive" :getList="getCastList" :toggleCreateCastModal="toggleCreateCastModal">
+    </CreateCastModal>
   </div>
 </template>
 <script>
 import moment from 'moment-timezone';
 import SetupCast from '@/views/dashboard/cast-section/components/SetupCast.vue';
-import SetupCastNew from '@/views/dashboard/cast-section/components/SetupCastNew.vue';
+import CreateCastModal from '@/views/dashboard/cast-section/components/CreateCastModal.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
 import postPoneCast from '@/views/dashboard/postPoneCast.vue';
 import SettingsTab from '@/views/dashboard/cast-section/components/Tabs/SettingsTab.vue';
 import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/StreamingTab.vue';
 import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
-import {EventBus} from '@/views/dashboard/cast-section/components/EventBus'
 import CastCard from './components/CastCard.vue';
 import AddIcon from '@/assets/svgs/button-icons/add.vue'
 
@@ -331,14 +234,14 @@ export default {
     postPoneCast,
     SettingsTab,
     StreamingTab,
-    SetupCastNew,
+    CreateCastModal,
     CastCard,
     AddIcon,
-},
+  },
   name: 'CastSection',
   data() {
     return {
-      showModal: false,
+      createCastModalActive: false,
       isMobileView: false,
       expandedRoom: null,
       showDeletePopup: false,
@@ -377,7 +280,6 @@ export default {
     };
   },
   mounted() {
-    EventBus.$on('getList-success', this.getCastList);
     document.getElementById('loading-bg').style.display = 'block';
     this.checkScreenWidth();
     window.addEventListener('resize', this.checkScreenWidth);
@@ -401,9 +303,6 @@ export default {
     // Remove the global click event listener when the component is destroyed
     window.removeEventListener('resize', this.checkScreenWidth);
   },
-  destroyed() {
-    EventBus.$off('getList-success', this.getCastList);
-  },
   computed: {
     totalImagesCount() {
       return this.casts.map((cast) => cast.images.length);
@@ -419,8 +318,8 @@ export default {
     this.updateRemainingTime();
   },
   methods: {
-    closeModal() {
-      this.showModal = false;
+    toggleCreateCastModal() {
+      this.createCastModalActive = !this.createCastModalActive;
     },
     openModal() {
       this.$store.commit('modal/SET_MODAL_OPEN', {

@@ -37,9 +37,9 @@
           </button>
         </div> -->
         <div class="link-cont">
-          <div class="cursor-pointer" @click="copyCastLink">
+          <!-- <div class="cursor-pointer" @click="copyCastLink">
             <img src="@/assets/images/link.png" />
-          </div>
+          </div> -->
           <div>
             <a target="_blank" :href="getShareUrl('facebook')">
               <img src="@/assets/images/face.svg" />
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <div class="skip cursor-pointer" @click="closeModal">
+    <div class="skip cursor-pointer">
       Skip for now
       <div class="underline"></div>
     </div>
@@ -81,7 +81,7 @@ export default {
       // castList: [],
     };
   },
-  props: ['closeCreate', 'changeStatus', 'closeModal'],
+  props: ['closeCreate', 'changeStatus'],
   mounted() {
     this.getCastList();
     window.addEventListener('click', this.handleGlobalClick);

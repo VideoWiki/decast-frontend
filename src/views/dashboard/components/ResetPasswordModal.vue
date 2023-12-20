@@ -1,43 +1,50 @@
 <template>
-  <div>
-    <!-- <div class="head-cont">
+  <BaseModal :title="'Reset password'" @close="toggleActiveModal('')">
+    <template #modalContent>
+      <div>
+        <!-- <div class="head-cont">
       <h3>Reset Password</h3>
       <button @click="closeProfile">
         <img src="@/assets/images/cross.svg" />
       </button>
     </div> -->
 
-    <div class="desc-cont">
-      <p>Strong password required. Enter 8-14 characters.</p>
-    </div>
+        <div class="desc-cont">
+          <p>Strong password required. Enter 8-14 characters.</p>
+        </div>
 
-    <div class="form">
-      <label for="oldPassword">Old password</label>
-      <input type="password" id="oldPassword" v-model="oldPassword" />
-      <span class="error" v-if="error.oldPassword">{{
-        error.oldPassword
-      }}</span>
+        <div class="form">
+          <label for="oldPassword">Old password</label>
+          <input type="password" id="oldPassword" v-model="oldPassword" />
+          <span class="error" v-if="error.oldPassword">{{
+            error.oldPassword
+          }}</span>
 
-      <label for="newPassword">Create new password</label>
-      <input type="password" id="newPassword" v-model="newPassword" />
-      <span class="error" v-if="error.newPassword">{{
-        error.newPassword
-      }}</span>
+          <label for="newPassword">Create new password</label>
+          <input type="password" id="newPassword" v-model="newPassword" />
+          <span class="error" v-if="error.newPassword">{{
+            error.newPassword
+          }}</span>
 
-      <label for="confirmPassword">Confirm new password</label>
-      <input type="password" id="confirmPassword" v-model="confirmPassword" />
-      <span class="error" v-if="error.confirmPassword">{{
-        error.confirmPassword
-      }}</span>
+          <label for="confirmPassword">Confirm new password</label>
+          <input type="password" id="confirmPassword" v-model="confirmPassword" />
+          <span class="error" v-if="error.confirmPassword">{{
+            error.confirmPassword
+          }}</span>
 
-      <button class="save-btn" @click="savePassword">Save</button>
-    </div>
-  </div>
+          <vs-button class="save-btn" @click="savePassword">Save</vs-button>
+        </div>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script>
+import BaseModal from "@/components/common/BaseModal.vue";
+
 export default {
-  name: 'ResetPassword',
+  name: 'ResetPasswordModal',
+  props: ['toggleActiveModal'],
   data() {
     return {
       oldPassword: '',
@@ -49,6 +56,9 @@ export default {
         confirmPassword: '',
       },
     };
+  },
+  components: {
+    BaseModal,
   },
   mounted() {
     window.addEventListener('click', this.handleGlobalClick);
@@ -189,13 +199,6 @@ label {
 }
 
 .save-btn {
-  background-color: #d7df23;
-  border: 1px solid #31394e;
-  width: 113px;
-  height: 40px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
   margin-top: 20px;
   float: right;
 }
@@ -204,6 +207,7 @@ label {
   .container {
     width: 350px;
   }
+
   .form input {
     width: 100%;
   }

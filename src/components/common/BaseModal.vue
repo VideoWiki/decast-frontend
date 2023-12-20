@@ -1,61 +1,31 @@
 <template >
-    <div class="modal-backdrop" v-if="activeModal !== ''" @click="click">
+    <div class="modal-backdrop" @click="close">
         <div class="modal" @click.stop>
             <header class="modal-header">
-                <h3 class="modal-title">{{ modalTitle }}</h3>
-                <button class="btn-close" @click.stop="closeModal"><img src="@/assets/images/dashboard/Cross.svg" /></button>
+                <h3 class="modal-title">{{ title }}</h3>
+                <button class="btn-close" @click.stop="close"><img src="@/assets/images/dashboard/Cross.svg" /></button>
             </header>
             <section class="modal-body">
-                <CreateRoomModal v-if="activeModal === 'roomModal'" />
-                <profile v-if="activeModal === 'profileModal'" />
-                <reset-password v-if="activeModal === 'resetPasswordModal'" />
-                <SetupCastNew v-if="activeModal === 'createCastModal'" />
+                <slot name="modalContent" />
             </section>
         </div>
     </div>
 </template>
-  
-<script>
-import CreateRoomModal from '@/views/dashboard/room-section/components/CreateRoomModal.vue'
-import Profile from '@/views/dashboard/Popups/Profile.vue';
-import ResetPassword from '@/views/dashboard/Popups/ResetPassword.vue';
-import SetupCastNew from '@/views/dashboard/cast-section/components/SetupCastNew.vue'
 
+<script>
 export default {
-    name: 'SimpleModal',
-    data() {
-        return {
-            showPopup: false, // Initially, the pop-up is hidden
-        };
-    },
-    components: {
-        CreateRoomModal,
-        Profile,
-        ResetPassword,
-        SetupCastNew,
-    },
-    computed: {
-        activeModal() {
-            return this.$store.state.modal.activeModal;
-        },
-        modalTitle() {
-            return this.$store.state.modal.modalTitle;
-        },
-    },
-    mounted() {
-        console.log(this.modalTitle);
-    },
-    methods: {
-        click(e) {
-            console.log(e.currentTarget);
-            if (e.currentTarget === e.target) {
-                this.$store.commit('modal/SET_MODAL_CLOSE');
-            }
-        },
-        closeModal() {
-            this.$store.commit('modal/SET_MODAL_CLOSE');
+    name: 'BaseModal',
+    props: {
+        title: {
+            type: String,
+            required: false
         }
     },
+    methods: {
+        close() {
+            this.$emit('close')
+        }
+    }
 };
 </script>
   
@@ -99,10 +69,10 @@ export default {
 }
 
 @media screen and (max-width: 500px) {
-    .modal {
-        min-width: calc(100vw - 10px);
-        width: calc(100vw - 10px);
-    }
+  .modal {
+    min-width: calc(100vw - 10px);
+    width: calc(100vw - 10px);
+  }
 }
 
 .modal-header {
