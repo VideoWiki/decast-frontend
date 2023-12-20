@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :title="title" @close="toggleConfirmModal('')">
+  <BaseModal :title="title" @close="closeModal">
     <template #modalContent>
       <div class="full-wrapper">
         <div class="middle-part">
@@ -24,7 +24,7 @@ import CrossIcon from "@/assets/svgs/CrossIcon.vue";
 
 export default {
   name: 'ConfirmationModal',
-  props: ['title', 'description', 'onConfirm', 'toggleConfirmModal'],
+  props: ['title', 'description', 'onConfirm', 'closeModal'],
   data() {
     return {
       showDeletePopup: false,

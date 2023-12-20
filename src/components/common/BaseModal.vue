@@ -45,7 +45,7 @@ export default {
 
 .modal {
     position: relative;
-    min-width: 500px;
+    min-width: 400px;
     margin: 0px 10px;
     z-index: 1000;
     background-color: rgb(31, 39, 47);

@@ -56,7 +56,7 @@
       <div class="options-container">
         <div v-if="focusYourRooms">
           <div v-for="(room, index) in rooms" :key="index">
-            <RoomCard :room="room" :index="index"/>
+            <RoomCard :room="room" :index="index" :roomsList="rooms"/>
           </div>
         </div>
         <div v-else>

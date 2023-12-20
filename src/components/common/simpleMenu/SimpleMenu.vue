@@ -22,12 +22,13 @@
 
         <vs-dropdown-menu class="vx-navbar-dropdown">
             <div class="menu-list-wrapper">
-                <div v-for="item in menuList" :key="item.id" class="menu-list-item"
-                    @click="item.onClick">
-                    <div class="menu-list-item-svg">
-                        <component :is="item.icon"></component>
-                    </div>
-                    <p>{{ item.label }}</p>
+                <div v-for="item in menuList" :key="item.id" class="menu-list-item" @click="item.onClick">
+                    <vs-dropdown-item>
+                        <div class="menu-list-item-svg">
+                            <component :is="item.icon"></component>
+                        </div>
+                        <p>{{ item.label }}</p>
+                    </vs-dropdown-item>
                 </div>
             </div>
         </vs-dropdown-menu>
@@ -43,41 +44,42 @@ export default {
             required: true
         },
     },
-    data() {
-        return {
-        }
-    },
-    methods: {
-    }
 };
 </script>
   
 <style>
 .vs-dropdown--menu,
-  .vs-dropdown--menu--after {
+.vs-dropdown--menu--after {
+    --vs-primary: #D7DF23;
     background: #1f272f !important;
     border-color: #31394e !important;
 
     .con-dropdown--group-ul {
-      background: #1f272f !important;
+        background: #1f272f !important;
     }
 
     .vs-dropdown--item {
-      .vs-dropdown--item-link.disabled {
-        color: #1f272f !important;
-      }
+        .vs-dropdown--item-link.disabled {
+            color: #1f272f !important;
+        }
     }
-  }
+}
+
+.vs-dropdown--item {
+    margin: 0px !important;
+}
 
 .vs-tooltip {
     background: #181A20;
     border: 1px solid #31394e;
     color: rgba(255, 255, 255, 0.40);
 }
+
 .vs-tooltip:after {
     border-top: 1px solid #31394e;
     border-left: 1px solid #31394e;
 }
+
 .menu-list {
     position: absolute;
     background-color: #1f272f;
@@ -97,31 +99,38 @@ export default {
 }
 
 .menu-list-item {
+    transition: 0.2s ease !important;
+}
+.menu-list-item a {
     background: none;
     cursor: pointer;
     border: none;
     color: #a6a6a8;
     text-align: left;
-    display: flex;
+    display: flex !important;
     justify-content: flex-start;
     align-content: center;
     padding: 5px 10px;
-    transition: 0.2s ease;
+    text-decoration: none !important;
 
     p {
         white-space: nowrap;
         font-size: 12px;
+        transition: 0.2s ease;
     }
 }
 
 .menu-list-item-svg {
-    width: 20px;
+    min-width: 20px;
     display: flex;
     align-items: center;
+    transition: 0.2s ease;
 }
 
-.menu-list-item:hover {
-    color: #D7DF23;
+.menu-list-item:hover a {
+    p {
+        color: #D7DF23 !important;
+    }
 }
 
 .menu-list-item svg {

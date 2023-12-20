@@ -16,9 +16,9 @@
         </template>
     </BaseModal>
 </template>
+
 <script>
 import BaseModal from "@/components/common/BaseModal.vue";
-
 
 export default {
     name: 'CreateRoomModal',

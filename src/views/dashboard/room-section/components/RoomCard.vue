@@ -1,5 +1,9 @@
 <template>
-    <div v-if="isMobileView" class="child-options flex justify-between items-center mb-4"
+    <div v-if="isLoading" class="child-options flex justify-between items-center mb-4">
+        <!-- Some pretty loader here -->
+        Loading...
+    </div>
+    <div v-else-if="isMobileView" class="child-options flex justify-between items-center mb-4"
         :style="{ borderRight: '0.5rem solid ' + getColor(index) }" @click="expandRoom(index)"
         :class="{ 'expanded-room': expandedRoom }">
         <div>
@@ -116,7 +120,8 @@
         </div>
         <ConfirmationModal v-if="activeModal === 'deleteRoom'" :title="'Delete room'"
             :description="'Do you really want to delete this room?'" :onConfirm="onConfirm"
-            :toggleConfirmModal="toggleConfirmModal" />
+            :closeModal="() => setRoomModal('')" />
+        <ShareRoomModal v-if="activeModal === 'shareRoom'" :room="room" :closeModal="() => setRoomModal('')"/>
     </div>
 </template>
 <script>
@@ -126,12 +131,14 @@ import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 
 import ConfirmationModal from '@/views/dashboard/components/ConfirmationModal.vue';
+import ShareRoomModal from '@/views/dashboard/room-section/components/ShareRoomModal.vue';
 
 export default {
     name: 'RoomSection',
-    props: ['room', 'index'],
+    props: ['room', 'index', 'roomsList'],
     data() {
         return {
+            isLoading: false,
             activeModal: '',
             expandedRoom: false,
             isMobileView: false,
@@ -151,12 +158,12 @@ export default {
                 {
                     label: "Share",
                     icon: () => import("@/assets/svgs/button-icons/share.vue"),
-                    onClick: () => null
+                    onClick: () => this.setRoomModal('shareRoom')
                 },
                 {
                     label: "Delete",
                     icon: () => import("@/assets/svgs/button-icons/delete.vue"),
-                    onClick: () => this.toggleConfirmModal('deleteRoom')
+                    onClick: () => this.setRoomModal('deleteRoom')
                 },
             ],
         };
@@ -166,13 +173,14 @@ export default {
         CopyIcon,
         MoreIcon,
         ConfirmationModal,
+        ShareRoomModal,
     },
     methods: {
-        toggleConfirmModal(setModal) {
+        setRoomModal(setModal) {
             this.activeModal = setModal;
         },
         onConfirm() {
-            //delete logic
+            this.deleteRoom(this.room);
             this.activeModal = '';
         },
         expandRoom() {
@@ -220,6 +228,7 @@ export default {
                 });
         },
         deleteRoom(room) {
+            this.isLoading = true;
             const options = {
                 method: 'DELETE',
                 url: 'https://api.room.video.wiki/api/delete/room/',
@@ -230,17 +239,18 @@ export default {
                 .request(options)
                 .then((response) => {
                     console.log(response.data);
-                    const index = this.rooms.indexOf(room);
+                    const index = this.roomsList.indexOf(room);
                     if (index !== -1) {
-                        var newRooms = this.rooms;
+                        var newRooms = this.roomsList;
                         newRooms.splice(index, 1);
                         this.$store.commit('room/setRooms', newRooms);
                     }
+                    this.isLoading = false;
                 })
                 .catch((error) => {
+                    this.isLoading = false;
                     console.error(error);
                 });
-            console.log('delete');
         },
         checkScreenWidth() {
             // Define your breakpoint for mobile view (e.g., 768 pixels)

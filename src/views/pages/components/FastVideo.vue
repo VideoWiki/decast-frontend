@@ -8,7 +8,7 @@
     <vs-slider v-model="videoRuntime" :max="duration"></vs-slider>
 
     <div class="box">
-      <vs-dropdown vs-custom-content vs-trigger-click flex justify-end>
+      <vs-dropdown vs-custom-content vs-trigger-click vs-collapse flex justify-end>
         <vs-button size="small" class="font-bold">
           Speed : {{ selectedSpeedPosition() }}
         </vs-button>
