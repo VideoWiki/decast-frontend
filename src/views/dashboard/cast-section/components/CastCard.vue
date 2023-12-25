@@ -384,7 +384,7 @@ export default {
         MoreIcon,
     },
     mounted() {
-        document.getElementById('loading-bg').style.display = 'block';
+        // document.getElementById('loading-bg').style.display = 'block';
         this.checkScreenWidth();
         window.addEventListener('resize', this.checkScreenWidth);
         const container = document.querySelectorAll('.options-container')[1];
@@ -394,7 +394,7 @@ export default {
             const mouseY = e.clientY - divRect.top;
             this.mouse = mouseY;
         });
-        this.getCastList();
+        // this.getCastList();
         // this.getRecordings();
         window.addEventListener('click', this.handleGlobalClick);
         window.addEventListener('click', this.handleClick2);
@@ -802,7 +802,7 @@ export default {
             this.castsInfo = castsInfo;
             this.casts = casts;
             console.log(streamInfo, 'streamInfo');
-            document.getElementById('loading-bg').style.display = 'none';
+            // document.getElementById('loading-bg').style.display = 'none';
             // console.log(castsInfo, 'TTTT');
             // console.log(casts, 'pppp');
         },

@@ -1,72 +1,71 @@
 <template>
-    <div v-if="isLoading" class="child-options flex justify-between items-center mb-4">
-        <!-- Some pretty loader here -->
-        Loading...
-    </div>
-    <div v-else-if="isMobileView" class="child-options flex justify-between items-center mb-4"
-        :style="{ borderRight: '0.5rem solid ' + getColor(index) }" @click="expandRoom(index)"
-        :class="{ 'expanded-room': expandedRoom }">
-        <div>
-            <p style="font-size: 14px; font-weight: 500; width: 100%">
-                {{ truncateText(room.room_name, 10) }}
-            </p>
-        </div>
-        <div class="flex justify-between" @click.stop>
-            <div class="mobile-options">
-                <div class="button-container" v-if="expandedRoom" :style="{ backgroundColor: getColor(index) }">
-                    <button class="session-button ml-4" @click.stop="start(room.room_url)">
-                        Start Session
-                    </button>
-                    <button @click.stop class="copy-button ml-4 border-none" @click.stop="copy(room.room_url)"
-                        :style="{ backgroundColor: getColor(index) }">
-                        <img src="@/assets/images/dashboard/copymob.svg" class="p-3 bg-white bg-opacity-50" style="
+    <div>
+        <RoomCardShimmer v-if="isLoading" />
+        <div v-else-if="isMobileView" class="child-options flex justify-between items-center mb-4"
+            :style="{ borderRight: '0.5rem solid ' + getColor(index) }" @click="expandRoom(index)"
+            :class="{ 'expanded-room': expandedRoom }">
+            <div>
+                <p style="font-size: 14px; font-weight: 500; width: 100%">
+                    {{ truncateText(room.room_name, 10) }}
+                </p>
+            </div>
+            <div class="flex justify-between" @click.stop>
+                <div class="mobile-options">
+                    <div class="button-container" v-if="expandedRoom" :style="{ backgroundColor: getColor(index) }">
+                        <button class="session-button ml-4" @click.stop="start(room.room_url)">
+                            Start Session
+                        </button>
+                        <button @click.stop class="copy-button ml-4 border-none" @click.stop="copy(room.room_url)"
+                            :style="{ backgroundColor: getColor(index) }">
+                            <img src="@/assets/images/dashboard/copymob.svg" class="p-3 bg-white bg-opacity-50" style="
                                           border: none;
                                           padding: 10px;
                                           background: rgba(255, 255, 255, 0.5);
                                           border-radius: 5px;
                                         " alt="copy" :style="{ backgroundColor: getColor(index) }" />
-                    </button>
-                    <button @click.stop class="copy-button ml-4 border-none" @click.stop="start(room.room_url)"
-                        :style="{ backgroundColor: getColor(index) }">
-                        <img :style="{ backgroundColor: getColor(index) }" src="@/assets/images/dashboard/record.svg"
-                            class="p-3 bg-white bg-opacity-50" style="
+                        </button>
+                        <button @click.stop class="copy-button ml-4 border-none" @click.stop="start(room.room_url)"
+                            :style="{ backgroundColor: getColor(index) }">
+                            <img :style="{ backgroundColor: getColor(index) }" src="@/assets/images/dashboard/record.svg"
+                                class="p-3 bg-white bg-opacity-50" style="
                                           border: none;
                                           padding: 10px;
                                           background: rgba(255, 255, 255, 0.5);
                                           border-radius: 5px;
                                         " alt="record" />
-                    </button>
-                    <SimpleMenu :menuList="roomCardMenuItems" :style="{ backgroundColor: getColor(index) + ' !important' }">
-                        <template #menuButton>
-                            <vs-button class="custm-more-icon">
-                                <MoreIcon />
-                            </vs-button>
-                        </template>
-                    </SimpleMenu>
-                    <!-- <button @click.stop class="side-btn border-none" @click.stop="togglePopup(index)"
+                        </button>
+                        <SimpleMenu :menuList="roomCardMenuItems"
+                            :style="{ backgroundColor: getColor(index) + ' !important' }">
+                            <template #menuButton>
+                                <vs-button class="custm-more-icon">
+                                    <MoreIcon />
+                                </vs-button>
+                            </template>
+                        </SimpleMenu>
+                        <!-- <button @click.stop class="side-btn border-none" @click.stop="togglePopup(index)"
                         v-if="expandedRoom == index" style="color: white">
                         <img src="@/assets/images/dashboard/dots3.svg" class="h-7 p-3" alt="" />
                     </button> -->
+                    </div>
                 </div>
-            </div>
-            <!-- <div class="tooltip-container" v-if="!expandedRoom">
+                <!-- <div class="tooltip-container" v-if="!expandedRoom">
                 <button class="copy-link tooltip-button" @click.stop="copy(room.room_url)">
                     <img src="@/assets/images/Rooms/copy.svg" alt="" />
                 </button>
             </div> -->
-            <SimpleMenu :menuList="roomCardMenuItems" v-if="!expandedRoom">
-                <template #menuButton>
-                    <vs-button class="custm-more-icon">
-                        <MoreIcon />
-                    </vs-button>
-                </template>
-            </SimpleMenu>
+                <SimpleMenu :menuList="roomCardMenuItems" v-if="!expandedRoom">
+                    <template #menuButton>
+                        <vs-button class="custm-more-icon">
+                            <MoreIcon />
+                        </vs-button>
+                    </template>
+                </SimpleMenu>
 
-            <!-- <button class="side-btn border-none" @click.stop="togglePopup(index)" v-if="!expandedRoom">
+                <!-- <button class="side-btn border-none" @click.stop="togglePopup(index)" v-if="!expandedRoom">
                 <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
             </button> -->
-        </div>
-        <!-- <div @click.stop class="room-popup" v-if="showPopup === index" @click.stop="closePopup(index)">
+            </div>
+            <!-- <div @click.stop class="room-popup" v-if="showPopup === index" @click.stop="closePopup(index)">
             <button @click.stop="openShare(room)">
                 <img src="@/assets/images/share.svg" />
                 Share
@@ -76,52 +75,53 @@
                 Delete
             </button>
         </div> -->
-    </div>
-    <div v-else class="child-options flex justify-between items-center mb-4">
-        <div>
-            <p style="font-size: 14px; font-weight: 500 width: 50%">
-                {{ truncateText(room.room_name, 20) }}
-            </p>
         </div>
-        <!-- vx-tooltip -->
-        <!-- vs-dropdown -->
-        <div class="flex justify-between">
-            <div class="tooltip-container">
-                <!-- <button class="copy-link tooltip-button" @click="copy(room.room_url)" @mouseover="showTooltip[index] = true"
+        <div v-else class="child-options flex justify-between items-center mb-4">
+            <div>
+                <p style="font-size: 14px; font-weight: 500 width: 50%">
+                    {{ truncateText(room.room_name, 20) }}
+                </p>
+            </div>
+            <!-- vx-tooltip -->
+            <!-- vs-dropdown -->
+            <div class="flex justify-between">
+                <div class="tooltip-container">
+                    <!-- <button class="copy-link tooltip-button" @click="copy(room.room_url)" @mouseover="showTooltip[index] = true"
                     @mouseout="showTooltip[index] = false">
                     <img src="@/assets/images/Rooms/copy.svg" alt="" />
                 </button> -->
-                <vx-tooltip text="Copy Link" position="bottom" delay=".3s">
-                    <!-- <button class="copy-link tooltip-button" @click="copy(room.room_url)"
+                    <vx-tooltip text="Copy Link" position="bottom" delay=".3s">
+                        <!-- <button class="copy-link tooltip-button" @click="copy(room.room_url)"
                         @mouseover="showTooltip[index] = true" @mouseout="showTooltip[index] = false">
                         <img src="@/assets/images/Rooms/copy.svg" alt="" />
                     </button> -->
-                    <vs-button class="vs-custm-copy-button" @click="copy(room.room_url)">
-                        <CopyIcon />
-                    </vs-button>
-                </vx-tooltip>
-                <!-- <div class="tooltip" :class="{ 'show-tooltip': showTooltip[index] }">
+                        <vs-button class="vs-custm-copy-button" @click="copy(room.room_url)">
+                            <CopyIcon />
+                        </vs-button>
+                    </vx-tooltip>
+                    <!-- <div class="tooltip" :class="{ 'show-tooltip': showTooltip[index] }">
                     Copy Link
                 </div> -->
 
-                <!-- <span class="tooltip">Tooltip text</span> -->
-            </div>
-            <!-- <button class="session-button ml-4" @click="start(room.room_url)">
+                    <!-- <span class="tooltip">Tooltip text</span> -->
+                </div>
+                <!-- <button class="session-button ml-4" @click="start(room.room_url)">
                 Start Session
             </button> -->
-            <vs-button class="custm-style-vs-button" @click="start(room.room_url)">Start Session</vs-button>
-            <SimpleMenu :menuList="roomCardMenuItems">
-                <template #menuButton>
-                    <vs-button class="custm-more-icon">
-                        <MoreIcon />
-                    </vs-button>
-                </template>
-            </SimpleMenu>
+                <vs-button class="custm-style-vs-button" @click="start(room.room_url)">Start Session</vs-button>
+                <SimpleMenu :menuList="roomCardMenuItems">
+                    <template #menuButton>
+                        <vs-button class="custm-more-icon">
+                            <MoreIcon />
+                        </vs-button>
+                    </template>
+                </SimpleMenu>
+            </div>
         </div>
         <ConfirmationModal v-if="activeModal === 'deleteRoom'" :title="'Delete room'"
             :description="'Do you really want to delete this room?'" :onConfirm="onConfirm"
             :closeModal="() => setRoomModal('')" />
-        <ShareRoomModal v-if="activeModal === 'shareRoom'" :room="room" :closeModal="() => setRoomModal('')"/>
+        <ShareRoomModal v-if="activeModal === 'shareRoom'" :room="room" :closeModal="() => setRoomModal('')" />
     </div>
 </template>
 <script>
@@ -132,9 +132,10 @@ import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 
 import ConfirmationModal from '@/views/dashboard/components/ConfirmationModal.vue';
 import ShareRoomModal from '@/views/dashboard/room-section/components/ShareRoomModal.vue';
+import RoomCardShimmer from './RoomCardShimmer.vue';
 
 export default {
-    name: 'RoomSection',
+    name: 'RoomCard',
     props: ['room', 'index', 'roomsList'],
     data() {
         return {
@@ -169,12 +170,13 @@ export default {
         };
     },
     components: {
-        SimpleMenu,
-        CopyIcon,
-        MoreIcon,
-        ConfirmationModal,
-        ShareRoomModal,
-    },
+    SimpleMenu,
+    CopyIcon,
+    MoreIcon,
+    ConfirmationModal,
+    ShareRoomModal,
+    RoomCardShimmer,
+},
     methods: {
         setRoomModal(setModal) {
             this.activeModal = setModal;

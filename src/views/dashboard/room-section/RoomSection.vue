@@ -10,16 +10,13 @@
         </p>
       </div>
       <div class="flex flex-shrink justify-between">
-        <vs-button
-          style="
+        <vs-button style="
             border: 1px solid #a6a6a8 !important;
             background-color: #1f272f !important;
             padding: 0px !important;
             height: 28px;
             width: 28px;
-          "
-          @click="toggleCreateRoomModal"
-        >
+          " @click="toggleCreateRoomModal">
           <AddIcon />
         </vs-button>
         <!-- <button class="header-button p-2" @click="createPopup = true" style="
@@ -55,56 +52,27 @@
 
       <div class="options-container">
         <div v-if="focusYourRooms">
-          <div v-for="(room, index) in rooms" :key="index">
-            <RoomCard :room="room" :index="index" :roomsList="rooms"/>
+          <div v-if="isRoomsLoading">
+            <RoomCardShimmer />
+            <RoomCardShimmer :style="{opacity: 0.7}" />
+            <RoomCardShimmer :style="{opacity: 0.4}" />
+          </div>
+          <div v-else-if="rooms.length">
+            <div v-for="(room, index) in rooms" :key="index">
+              <RoomCard :room="room" :index="index" :roomsList="rooms" />
+            </div>
           </div>
         </div>
         <div v-else>
           <div v-if="recordingList.length">
-            <div class="recordings flex justify-between items-center mb-4" v-for="(recording, index) in recordings"
-              :key="index">
-              <div class="w-3/4 flex justify-between items-center">
-                <p>
-                  {{ recording.url['Start Time (Readable)'].split(' ')[0] }}
-                </p>
-                <p>{{ recording.room_name }}</p>
-              </div>
-
-              <button class="side-btn border-none" @click="toggleRecordingPopup(index)">
-                <img src="@/assets/images/Rooms/Vector2.svg" class="h-7 p-2" alt="" />
-              </button>
-              <div class="room-popup" v-if="showPopup === index" @click="closePopup(index)">
-                <button @click="openRecording(recording)">
-                  <vs-icon icon-pack="feather" icon="icon-play" size="12px" rounded="true" style="align-self: center">
-                  </vs-icon>
-                  Play
-                </button>
-                <!-- <button @click="downloadRoom(room)">
-                  <img src="@/assets/images/download.svg" />
-                  Download
-                </button> -->
-                <!-- <button @click="copyLink(room)">
-                  <img src="@/assets/images/copy.svg" />
-                  Copy Link
-                </button> -->
-                <button @click="copyRecording(recording, index)">
-                  <img src="@/assets/images/copy.svg" />
-                  Copy Link
-                </button>
-
-                <button @mouseover="toggleEditTool(index)" @mouseleave="toggleEditTool(index)"
-                  @click="editRecord(recording)">
-                  <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
-                </button>
-                <div class="tooltip2" v-if="showTooltip3 === index">
-                  <div>
-                    The recording may require some time for processing. If it
-                    doesn't work, please try again later.
-                  </div>
-                  <div class="triangle"></div>
-                </div>
-              </div>
+            <div v-for="(recording, index) in recordings" :key="index">
+              <RecordingCard :recording="recording" :index="index" />
             </div>
+          </div>
+          <div v-else-if="isRecordingLoading">
+            <RecordingCardShimmer />
+            <RecordingCardShimmer :style="{opacity: 0.7}" />
+            <RecordingCardShimmer :style="{opacity: 0.4}" />
           </div>
           <div v-else class="recording flex flex-col items-center justify-items-center">
             <img src="@/assets/images/dashboard/NoRecording.svg" class="w-1/2" />
@@ -163,7 +131,7 @@
         </div>
       </div>
     </div>
-    <CreateRoomModal v-if="createRoomModalActive" :toggleCreateRoomModal="toggleCreateRoomModal"/>
+    <CreateRoomModal v-if="createRoomModalActive" :closeModal="toggleCreateRoomModal" />
   </div>
 </template>
 <script>
@@ -172,11 +140,16 @@ import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import RoomCard from '@/views/dashboard/room-section/components/RoomCard.vue';
 import AddIcon from '@/assets/svgs/button-icons/add.vue';
 import CreateRoomModal from '@/views/dashboard/room-section/components/CreateRoomModal.vue'
+import RecordingCard from './components/RecordingCard.vue';
+import RoomCardShimmer from './components/RoomCardShimmer.vue';
+import RecordingCardShimmer from './components/RecordingCardShimmer.vue';
 
 export default {
   name: 'RoomSection',
   data() {
     return {
+      isRecordingLoading: false,
+      isRoomsLoading: false,
       createRoomModalActive: false,
       isMobileView: false,
       expandedRoom: null,
@@ -198,23 +171,6 @@ export default {
       email: '',
       roomUrl: '',
       mouse: 0,
-      roomCardMenuItems: [
-        {
-          label: "Share",
-          icon: () => import("@/assets/svgs/button-icons/share.vue"),
-          onClick: () => null
-        },
-        {
-          label: "Delete",
-          icon: () => import("@/assets/svgs/button-icons/delete.vue"),
-          onClick: () => null
-        },
-      ],
-      customStyles: {
-        menuList: {
-          right: '0% !important',
-        },
-      },
     };
   },
   components: {
@@ -222,7 +178,10 @@ export default {
     RoomCard,
     AddIcon,
     CreateRoomModal,
-},
+    RecordingCard,
+    RoomCardShimmer,
+    RecordingCardShimmer,
+  },
   computed: {
     roomsList() {
       return this.$store.state.room.rooms;
@@ -287,33 +246,33 @@ export default {
         this.createPopup = false;
       }
     },
-    openRecording(recording) {
-      // this.$router.push(`/recording/${recording.url['Record ID']}`);
-      console.log(recording, 'mmmmmmm');
-      const playbackURL =
-        recording.url['Playback Data']['Playback URL'] + '/video-0.m4v';
-      window.open(playbackURL, '_blank');
-      // window.location.href = '/recording/' + room.url['Record ID'];
-    },
-    copyRecording(room, index) {
-      navigator.clipboard.writeText(
-        'https://api.room.video.wiki/recording/' + room.url['Record ID']
-      );
-      this.$set(
-        this.recordings[index],
-        'showPopup',
-        !this.recordings[index].showPopup
-      );
-    },
-    editRecord(recording) {
-      // console.log(recording,'pppp');
-      const meetingId = recording.url['Record ID'];
-      console.log(meetingId, 'mid');
-      setTimeout(() => {
-        const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
-        window.open(url, '_blank');
-      }, 2000);
-    },
+    // openRecording(recording) {
+    //   // this.$router.push(`/recording/${recording.url['Record ID']}`);
+    //   console.log(recording, 'mmmmmmm');
+    //   const playbackURL =
+    //     recording.url['Playback Data']['Playback URL'] + '/video-0.m4v';
+    //   window.open(playbackURL, '_blank');
+    //   // window.location.href = '/recording/' + room.url['Record ID'];
+    // },
+    // copyRecording(room, index) {
+    //   navigator.clipboard.writeText(
+    //     'https://api.room.video.wiki/recording/' + room.url['Record ID']
+    //   );
+    //   this.$set(
+    //     this.recordings[index],
+    //     'showPopup',
+    //     !this.recordings[index].showPopup
+    //   );
+    // },
+    // editRecord(recording) {
+    //   // console.log(recording,'pppp');
+    //   const meetingId = recording.url['Record ID'];
+    //   console.log(meetingId, 'mid');
+    //   setTimeout(() => {
+    //     const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
+    //     window.open(url, '_blank');
+    //   }, 2000);
+    // },
     copy(url) {
       let id = url.split('/');
       id = id[id.length - 1];
@@ -348,13 +307,16 @@ export default {
       this.roomUrl = room.room_url;
     },
     getList() {
+      this.isRoomsLoading = true;
       this.$store
         .dispatch('room/getList')
         .then((res) => {
           console.log(res);
+          this.isRoomsLoading = false;
         })
         .catch((e) => {
           console.log(e);
+          this.isRoomsLoading = false;
         });
     },
     start(url) {
@@ -406,30 +368,30 @@ export default {
         console.error('Error getting recordings', e);
       }
     },
-    deleteRoom(room) {
-      const options = {
-        method: 'DELETE',
-        url: 'https://api.room.video.wiki/api/delete/room/',
-        data: { public_meeting_id: room.room_url.split('/').pop() },
-      };
+    // deleteRoom(room) {
+    //   const options = {
+    //     method: 'DELETE',
+    //     url: 'https://api.room.video.wiki/api/delete/room/',
+    //     data: { public_meeting_id: room.room_url.split('/').pop() },
+    //   };
 
-      axios
-        .request(options)
-        .then((response) => {
-          console.log(response.data);
-          const index = this.rooms.indexOf(room);
-          if (index !== -1) {
-            var newRooms = this.rooms;
-            newRooms.splice(index, 1);
-            this.$store.commit('room/setRooms', newRooms);
-            this.showPopup = null;
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      console.log('delete');
-    },
+    //   axios
+    //     .request(options)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       const index = this.rooms.indexOf(room);
+    //       if (index !== -1) {
+    //         var newRooms = this.rooms;
+    //         newRooms.splice(index, 1);
+    //         this.$store.commit('room/setRooms', newRooms);
+    //         this.showPopup = null;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    //   console.log('delete');
+    // },
 
     downloadRoom(room) {
       console.log('download');
@@ -472,9 +434,16 @@ export default {
         this.showPopup = null;
       }
     },
-    handleButtonClick() {
+    async handleButtonClick() {
       this.changeFocus(false);
-      this.getRecordings();
+      this.isRecordingLoading = true;
+      try {
+        await this.getRecordings();
+      } catch (e) {
+        console.error('Error getting recordings', e);
+      } finally {
+        this.isRecordingLoading = false;
+      }
     },
   },
   mounted() {
@@ -620,15 +589,6 @@ export default {
   width: 100%;
   border-radius: 10px;
   height: 63px;
-  font-weight: 600;
-}
-
-.recordings {
-  position: relative;
-  padding: 10px 10px 10px 15px;
-  border-bottom: 1px solid #31394e;
-  width: 96%;
-  height: 62px;
   font-weight: 600;
 }
 
@@ -778,6 +738,7 @@ export default {
   margin-top: 20px;
 }
 </style>
+
 <style scoped>
 *:not(i) {
   font-family: 'Karla', sans-serif;

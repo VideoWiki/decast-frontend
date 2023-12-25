@@ -47,7 +47,7 @@
           :class="{ 'focused-button': focusYourRooms }">
           Scheduled Casts
         </button>
-        <button class="options-button border-none px-5" @click="handleButtonClick"
+        <button class="options-button border-none px-5" @click="changeFocus(false)"
           :class="{ 'focused-button': !focusYourRooms }">
           Cast Recordings
         </button>
@@ -56,12 +56,21 @@
       <div class="options-container">
 
         <div v-if="focusYourRooms">
-          <div v-for="(cast, index) in casts" :key="index">
+          <div v-if="isCastsLoading">
+            <CastCardShimmer />
+            <CastCardShimmer :style="{opacity: 0.6}"/>
+          </div>
+          <div v-else v-for="(cast, index) in casts" :key="index">
             <CastCard :cast="cast" :index="index" />
           </div>
         </div>
         <div v-else>
-          <div v-if="recordingList.length">
+          <div v-if="isRecordingLoading">
+            <RecordingCardCastShimmer />
+            <RecordingCardCastShimmer />
+            <RecordingCardCastShimmer />
+          </div>
+          <div v-else-if="recordingList.length">
             <div class="recordings flex justify-between items-center mb-4"
               v-for="(recording, index) in flattenedRecordingList" :key="index">
               <div class="w-3/4 flex justify-between items-center">
@@ -225,6 +234,8 @@ import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/Streami
 import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
 import CastCard from './components/CastCard.vue';
 import AddIcon from '@/assets/svgs/button-icons/add.vue'
+import CastCardShimmer from './components/CastCardShimmer.vue';
+import RecordingCardCastShimmer from './components/RecordingCardCastShimmer.vue'
 
 export default {
   components: {
@@ -237,10 +248,14 @@ export default {
     CreateCastModal,
     CastCard,
     AddIcon,
-  },
+    CastCardShimmer,
+    RecordingCardCastShimmer,
+},
   name: 'CastSection',
   data() {
     return {
+      isRecordingLoading: false,
+      isCastsLoading: false,
       createCastModalActive: false,
       isMobileView: false,
       expandedRoom: null,
@@ -280,7 +295,7 @@ export default {
     };
   },
   mounted() {
-    document.getElementById('loading-bg').style.display = 'block';
+    // document.getElementById('loading-bg').style.display = 'block';
     this.checkScreenWidth();
     window.addEventListener('resize', this.checkScreenWidth);
     const container = document.querySelectorAll('.options-container')[1];
@@ -291,7 +306,7 @@ export default {
       this.mouse = mouseY;
     });
     this.getCastList();
-    // this.getRecordings();
+    this.getRecordings();
     window.addEventListener('click', this.handleGlobalClick);
     window.addEventListener('click', this.handleClick2);
     window.addEventListener('click', this.handleClick3);
@@ -335,10 +350,6 @@ export default {
         });
       });
       return flattenedList;
-    },
-    handleButtonClick() {
-      this.changeFocus(false);
-      this.getRecordings();
     },
     ShowInvite(id, inviteList, stream, viewer) {
       this.meetingId = id;
@@ -582,12 +593,13 @@ export default {
       }, 0);
     },
     async getRecordings() {
+      this.isRecordingLoading = true;
       try {
         const res = await this.$store.dispatch('cast/recordingList');
         this.recordingList = res.status || [];
-        console.log(this.recordingList, 'lliii');
-        console.log(res, 'records');
+        this.isRecordingLoading = false;
       } catch (e) {
+        this.isRecordingLoading = false;
         console.log(e);
       }
     },
@@ -652,6 +664,7 @@ export default {
       }
     },
     async getCastList() {
+      this.isCastsLoading = true;
       const response = await this.$store.dispatch('cast/getUserCasts');
       const casts = response.data.my_events;
       const castInfoPromises = casts.map(async (cast) => {
@@ -697,8 +710,9 @@ export default {
       this.streamInfo = streamInfo;
       this.castsInfo = castsInfo;
       this.casts = casts;
+      this.isCastsLoading = false;
       console.log(streamInfo, 'streamInfo');
-      document.getElementById('loading-bg').style.display = 'none';
+      // document.getElementById('loading-bg').style.display = 'none';
       // console.log(castsInfo, 'TTTT');
       // console.log(casts, 'pppp');
     },
@@ -1169,6 +1183,7 @@ export default {
   border-radius: 6px;
   border: 1px solid #31394e;
   padding: 8px;
+  height: 54px;
 }
 
 .side-btn {

@@ -23,8 +23,17 @@
         <vs-dropdown-menu class="vx-navbar-dropdown">
             <div class="menu-list-wrapper">
                 <div v-for="item in menuList" :key="item.id" class="menu-list-item" @click="item.onClick">
-                    <vs-dropdown-item>
-                        <div class="menu-list-item-svg">
+                    <vx-tooltip v-if="item.tooltip" :text="item.tooltip" :position="item.tooltipPosition || 'bottom'"
+                        delay=".3s">
+                        <vs-dropdown-item>
+                            <div v-if="item.icon" class="menu-list-item-svg">
+                                <component :is="item.icon"></component>
+                            </div>
+                            <p>{{ item.label }}</p>
+                        </vs-dropdown-item>
+                    </vx-tooltip>
+                    <vs-dropdown-item v-else>
+                        <div v-if="item.icon" class="menu-list-item-svg">
                             <component :is="item.icon"></component>
                         </div>
                         <p>{{ item.label }}</p>
@@ -101,6 +110,7 @@ export default {
 .menu-list-item {
     transition: 0.2s ease !important;
 }
+
 .menu-list-item a {
     background: none;
     cursor: pointer;
