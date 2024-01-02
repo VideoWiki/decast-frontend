@@ -82,7 +82,7 @@
                 <img src="@/assets/images/dashboard/dots3.svg" class="h-7 p-2 text-white" alt="" />
             </button>
 
-            <div class="cast-popup" @click.stop v-if="showPopup === index" @click="closePopup(index)">
+            <!-- <div class="cast-popup" @click.stop v-if="showPopup === index" @click="closePopup(index)">
                 <button @click="invite = true">
                     <img src="@/assets/images/manage.svg" alt="" />Manage
                     attendees
@@ -94,15 +94,12 @@
                     <img src="@/assets/images/stream.svg" alt="" />Stream
                     settings
                 </button>
-                <!-- <button>
-                      <img src="@/assets/images/drops.svg" alt="" />Drops
-                    </button> -->
                 <button @click="togglePostpone(cast.public_meeting_id, index, true)">
                     <img src="@/assets/images/reschedule.svg" alt="" />Reschedule cast
                 </button>
-                <!-- <button>
+                <button>
                       <img src="@/assets/images/clock.svg" alt="" />Set reminder
-                    </button> -->
+                    </button>
                 <button>
                     <img src="@/assets/images/pen.svg" alt="" />Edit
                 </button>
@@ -116,7 +113,7 @@
                     <img src="@/assets/images/delete.svg" />
                     Delete
                 </button>
-            </div>
+            </div> -->
             <!----------------->
             <div class="inner-child3">
                 <div class="inner-child4">
@@ -259,6 +256,9 @@
                 </div>
             </div>
         </div>
+        <ManageAudienceModal v-if="activeModal == 'manageAudienceModal'" :closeModal="() => setCastModal('')"
+            :castId="cast.public_meeting_id" :invites="cast.invitee_list"
+            :isStream="(typeof streamInfo[cast.public_meeting_id] !== 'undefined')" :viewer="cast.viewer_mode" />
     </div>
 </template>
 <script>
@@ -273,12 +273,14 @@ import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
+import ManageAudienceModal from '@/views/dashboard/cast-section/components/ManageAudienceModal.vue'
 
 export default {
     name: 'CastCard',
     props: ['cast', 'index'],
     data() {
         return {
+            activeModal: '',
             showModal: false,
             isMobileView: false,
             expandedRoom: null,
@@ -319,7 +321,7 @@ export default {
                 {
                     label: "Manage attendees",
                     icon: () => import("@/assets/svgs/menu-icons/manage.vue"),
-                    onClick: () => { this.invite = true }
+                    onClick: () => this.setCastModal('manageAudienceModal')
                 },
                 {
                     label: "Call settings",
@@ -382,6 +384,7 @@ export default {
         SimpleMenu,
         CopyIcon,
         MoreIcon,
+        ManageAudienceModal,
     },
     mounted() {
         // document.getElementById('loading-bg').style.display = 'block';
@@ -399,6 +402,7 @@ export default {
         window.addEventListener('click', this.handleGlobalClick);
         window.addEventListener('click', this.handleClick2);
         window.addEventListener('click', this.handleClick3);
+        this.setProps(this.castId);
     },
     beforeDestroy() {
         window.removeEventListener('click', this.handleGlobalClick);
@@ -422,14 +426,11 @@ export default {
         this.updateRemainingTime();
     },
     methods: {
+        setCastModal(setModal) {
+            this.activeModal = setModal;
+        },
         closeModal() {
             this.showModal = false;
-        },
-        openModal() {
-            this.$store.commit('modal/SET_MODAL_OPEN', {
-                activeModal: 'createCastModal',
-                modalTitle: 'Set up your cast',
-            });
         },
         flattenRecordingList(recordingList) {
             const flattenedList = [];
@@ -553,6 +554,7 @@ export default {
             }
         },
         setProps(id) {
+            console.log("setProps", id, this.cast)
             const details = this.castsInfo[id].details;
             this.stepOneProps = {
                 event_name: details.event_name,
@@ -896,13 +898,16 @@ export default {
     background-color: transparent !important;
     border: none !important;
 }
+
 .vs-cast-copy-button {
     border: 1px solid #31394E !important;
     background-color: #1F272F !important;
+
     path {
         stroke: #A6A6A8 !important;
     }
 }
+
 .center-container-full {
     justify-content: center;
     align-items: center;
