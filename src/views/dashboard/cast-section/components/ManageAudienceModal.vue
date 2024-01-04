@@ -266,7 +266,7 @@ export default {
                 .then((res) => {
                     this.invites.splice(inviteIndex, 1);
                     this.$vs.notify({
-                        title: '',
+                        title: 'Success',
                         text: 'User removed successfully !',
                         color: 'success',
                     });

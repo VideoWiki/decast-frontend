@@ -1,5 +1,6 @@
 <template>
-    <div v-if="isMobileView" class="child-options" :style="{ borderRight: '5px solid ' + getColor(index) }"
+    <CastCardShimmer v-if="isLoading" />
+    <div v-else-if="isMobileView" class="child-options" :style="{ borderRight: '5px solid ' + getColor(index) }"
         @click="expandRoom(index)" :class="{ 'expanded-room': expandedRoom === index }">
         <div class="inner-div1">
             <div class="inner-child1">
@@ -259,6 +260,83 @@
         <ManageAudienceModal v-if="activeModal == 'manageAudienceModal'" :closeModal="() => setCastModal('')"
             :castId="cast.public_meeting_id" :invites="cast.invitee_list"
             :isStream="(typeof streamInfo[cast.public_meeting_id] !== 'undefined')" :viewer="cast.viewer_mode" />
+        <CallSettingsModal v-if="activeModal == 'callSettingsModal'" :closeModal="() => setCastModal('')"
+            :stepFourProps="stepFourProps" :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps"
+            :stepOneProps="stepOneProps" :castId="cast.public_meeting_id" />
+        <StreamSettingsModal v-if="activeModal == 'streamingModal'" :closeModal="() => setCastModal('')"
+            :stepFourProps="stepFourProps" :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps"
+            :stepOneProps="stepOneProps" :castId="cast.public_meeting_id" />
+        <ResheduleCastModal v-if="activeModal == 'resheduleCastModal'" :closeModal="() => setCastModal('')"
+            :cast_id="cast.public_meeting_id" :cast_name="castsInfo[cast.public_meeting_id].details.event_name"
+            :allow_moderator_to_unmute_user="castsInfo[cast.public_meeting_id].details.allow_moderator_to_unmute_user"
+            :auto_start_recording="castsInfo[cast.public_meeting_id].details.auto_start_recording"
+            :description="castsInfo[cast.public_meeting_id].details.description"
+            :cast_type="castsInfo[cast.public_meeting_id].details.cast_type"
+            :collect_attendee_email="castsInfo[cast.public_meeting_id].details.collect_attendee_email"
+            :private_otp="castsInfo[cast.public_meeting_id].details.otp_private"
+            :timezone="castsInfo[cast.public_meeting_id].details.timezone"
+            :logo="castsInfo[cast.public_meeting_id].details.logo"
+            :cover_image="castsInfo[cast.public_meeting_id].details.cover_image"
+            :primary_color="castsInfo[cast.public_meeting_id].details.primary_color"
+            :welcome_text="castsInfo[cast.public_meeting_id].details.welcome_text"
+            :banner_text="castsInfo[cast.public_meeting_id].details.banner_text"
+            :guest_policy="castsInfo[cast.public_meeting_id].details.guest_policy"
+            :moderator_only_text="castsInfo[cast.public_meeting_id].details.moderator_only_text"
+            :logout_url="castsInfo[cast.public_meeting_id].details.logout_url"
+            :is_streaming="castsInfo[cast.public_meeting_id].details.is_streaming"
+            :public_stream="castsInfo[cast.public_meeting_id].details.public_stream"
+            :bbb_stream_url="castsInfo[cast.public_meeting_id].details.bbb_stream_url"
+            :record="castsInfo[cast.public_meeting_id].details.record"
+            :password_auth="castsInfo[cast.public_meeting_id].details.password_auth"
+            :end_when_no_moderator="castsInfo[cast.public_meeting_id].details.end_when_no_moderator"
+            :mute_on_start="castsInfo[cast.public_meeting_id].details.mute_on_start"
+            :webcam_only_for_moderator="castsInfo[cast.public_meeting_id].details.webcam_only_for_moderator"
+            :disable_cam="castsInfo[cast.public_meeting_id].details.disable_cam"
+            :disable_mic="castsInfo[cast.public_meeting_id].details.disable_mic"
+            :lock_layout="castsInfo[cast.public_meeting_id].details.lock_layout"
+            :viewer_mode="castsInfo[cast.public_meeting_id].details.viewer_mode"
+            :schedule="castsInfo[cast.public_meeting_id].details.schedule_time"
+            :timeLeft="castsInfo[cast.public_meeting_id].details.duration" :closePostpone="closePostpone"
+            :toPostpone="true" />
+        <!-- Same Component for Reshedule Cast and Postpone Cast -->
+        <ResheduleCastModal v-if="activeModal == 'postponeCastModal'" :closeModal="() => setCastModal('')"
+            :cast_id="cast.public_meeting_id" :cast_name="castsInfo[cast.public_meeting_id].details.event_name"
+            :allow_moderator_to_unmute_user="castsInfo[cast.public_meeting_id].details.allow_moderator_to_unmute_user"
+            :auto_start_recording="castsInfo[cast.public_meeting_id].details.auto_start_recording"
+            :description="castsInfo[cast.public_meeting_id].details.description"
+            :cast_type="castsInfo[cast.public_meeting_id].details.cast_type"
+            :collect_attendee_email="castsInfo[cast.public_meeting_id].details.collect_attendee_email"
+            :private_otp="castsInfo[cast.public_meeting_id].details.otp_private"
+            :timezone="castsInfo[cast.public_meeting_id].details.timezone"
+            :logo="castsInfo[cast.public_meeting_id].details.logo"
+            :cover_image="castsInfo[cast.public_meeting_id].details.cover_image"
+            :primary_color="castsInfo[cast.public_meeting_id].details.primary_color"
+            :welcome_text="castsInfo[cast.public_meeting_id].details.welcome_text"
+            :banner_text="castsInfo[cast.public_meeting_id].details.banner_text"
+            :guest_policy="castsInfo[cast.public_meeting_id].details.guest_policy"
+            :moderator_only_text="castsInfo[cast.public_meeting_id].details.moderator_only_text"
+            :logout_url="castsInfo[cast.public_meeting_id].details.logout_url"
+            :is_streaming="castsInfo[cast.public_meeting_id].details.is_streaming"
+            :public_stream="castsInfo[cast.public_meeting_id].details.public_stream"
+            :bbb_stream_url="castsInfo[cast.public_meeting_id].details.bbb_stream_url"
+            :record="castsInfo[cast.public_meeting_id].details.record"
+            :password_auth="castsInfo[cast.public_meeting_id].details.password_auth"
+            :end_when_no_moderator="castsInfo[cast.public_meeting_id].details.end_when_no_moderator"
+            :mute_on_start="castsInfo[cast.public_meeting_id].details.mute_on_start"
+            :webcam_only_for_moderator="castsInfo[cast.public_meeting_id].details.webcam_only_for_moderator"
+            :disable_cam="castsInfo[cast.public_meeting_id].details.disable_cam"
+            :disable_mic="castsInfo[cast.public_meeting_id].details.disable_mic"
+            :lock_layout="castsInfo[cast.public_meeting_id].details.lock_layout"
+            :viewer_mode="castsInfo[cast.public_meeting_id].details.viewer_mode"
+            :schedule="castsInfo[cast.public_meeting_id].details.schedule_time"
+            :timeLeft="castsInfo[cast.public_meeting_id].details.duration" :closePostpone="closePostpone"
+            :toPostpone="false" />
+        <EditCastModal v-if="activeModal == 'editCastModal'" :closeModal="() => setCastModal('')"
+            :cast_id="cast.public_meeting_id" :getCast="getCastList" />
+
+        <ConfirmationModal v-if="activeModal === 'deleteCastModal'" :title="'Delete cast'"
+            :description="'Do you really want to delete this cast?'" :onConfirm="() => deleteCast(cast.public_meeting_id)"
+            :closeModal="() => setCastModal('')" />
     </div>
 </template>
 <script>
@@ -273,13 +351,21 @@ import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
+import CastCardShimmer from '@/views/dashboard/cast-section/components/CastCardShimmer.vue';
 import ManageAudienceModal from '@/views/dashboard/cast-section/components/ManageAudienceModal.vue'
+import CallSettingsModal from '@/views/dashboard/cast-section/components/CallSettingsModal.vue';
+import StreamSettingsModal from '@/views/dashboard/cast-section/components/StreamSettingsModal.vue';
+import ResheduleCastModal from '@/views/dashboard/cast-section/components/ResheduleCastModal.vue';
+import EditCastModal from '@/views/dashboard/cast-section/components/EditCast/EditCastModal.vue';
+import ConfirmationModal from '@/views/dashboard/components/ConfirmationModal.vue';
 
 export default {
     name: 'CastCard',
-    props: ['cast', 'index'],
+    props: ['castsInfo', 'cast', 'index', 'setProps', 'stepOneProps', 'stepTwoProps', 
+    'stepThreeProps', 'stepFourProps', 'getCastList'],
     data() {
         return {
+            isLoading: false,
             activeModal: '',
             showModal: false,
             isMobileView: false,
@@ -308,12 +394,11 @@ export default {
             showPostpone: false,
             showEditCast: false,
             mouse: 0,
-            index: '',
-            stepFourProps: {},
-            stepOneProps: {},
-            stepTwoProps: {},
-            stepThreeProps: {},
-            castsInfo: [],
+            // stepFourProps: {},
+            // stepOneProps: {},
+            // stepTwoProps: {},
+            // stepThreeProps: {},
+            // castsInfo: [],
             streamInfo: {},
             isStream: false,
             viewer: false,
@@ -321,37 +406,58 @@ export default {
                 {
                     label: "Manage attendees",
                     icon: () => import("@/assets/svgs/menu-icons/manage.vue"),
-                    onClick: () => this.setCastModal('manageAudienceModal')
+                    onClick: () => {
+                        this.setProps(this.cast.public_meeting_id);
+                        this.setCastModal('manageAudienceModal');
+                    }
                 },
                 {
                     label: "Call settings",
                     icon: () => import("@/assets/svgs/menu-icons/call.vue"),
-                    onClick: () => showSettingsPopup(this.cast.public_meeting_id)
+                    onClick: () => {
+                        this.setProps(this.cast.public_meeting_id);
+                        this.setCastModal('callSettingsModal');
+                    }
                 },
                 {
                     label: "Stream settings",
                     icon: () => import("@/assets/svgs/menu-icons/stream.vue"),
-                    onClick: () => showStream(this.cast.public_meeting_id)
+                    onClick: () => {
+                        this.setProps(this.cast.public_meeting_id);
+                        this.setCastModal('streamingModal');
+                    }
                 },
                 {
                     label: "Reschedule cast",
                     icon: () => import("@/assets/svgs/menu-icons/reschedule.vue"),
-                    onClick: () => togglePostpone(this.cast.public_meeting_id, this.index, true)
+                    onClick: () => {
+                        this.setProps(this.cast.public_meeting_id);
+                        this.setCastModal('resheduleCastModal');
+                    }
                 },
                 {
                     label: "Edit",
                     icon: () => import("@/assets/svgs/menu-icons/pen.vue"),
-                    onClick: () => null
+                    onClick: () => {
+                        this.setProps(this.cast.public_meeting_id);
+                        this.setCastModal('editCastModal');
+                    }
                 },
                 {
                     label: "Postpone cast",
                     icon: () => import("@/assets/svgs/menu-icons/prepone.vue"),
-                    onClick: () => togglePostpone(this.cast.public_meeting_id, this.index, false)
+                    onClick: () => {
+                        this.setProps(this.cast.public_meeting_id);
+                        this.setCastModal('postponeCastModal');
+                    }
                 },
                 {
                     label: "Delete",
                     icon: () => import("@/assets/svgs/menu-icons/delete.vue"),
-                    onClick: () => openDeletePopup(this.cast.public_meeting_id)
+                    onClick: () => {
+                        this.setProps(this.cast.public_meeting_id);
+                        this.setCastModal('deleteCastModal');
+                    }
                 },
             ],
             castCopyMenuItems: [
@@ -384,7 +490,13 @@ export default {
         SimpleMenu,
         CopyIcon,
         MoreIcon,
+        CastCardShimmer,
         ManageAudienceModal,
+        CallSettingsModal,
+        StreamSettingsModal,
+        ResheduleCastModal,
+        EditCastModal,
+        ConfirmationModal,
     },
     mounted() {
         // document.getElementById('loading-bg').style.display = 'block';
@@ -402,7 +514,6 @@ export default {
         window.addEventListener('click', this.handleGlobalClick);
         window.addEventListener('click', this.handleClick2);
         window.addEventListener('click', this.handleClick3);
-        this.setProps(this.castId);
     },
     beforeDestroy() {
         window.removeEventListener('click', this.handleGlobalClick);
@@ -553,79 +664,78 @@ export default {
                 this.showPostpone = false;
             }
         },
-        setProps(id) {
-            console.log("setProps", id, this.cast)
-            const details = this.castsInfo[id].details;
-            this.stepOneProps = {
-                event_name: details.event_name,
-                moderator_password: '',
-                attendee_password: '',
-                meeting_type: '',
-                schedule_time: details.schedule_time,
-                description: details.description,
-                startTime: '0:00:00',
-                timezone: details.timezone,
-                startD: moment().format('YYYY-MM-DD'),
-                password_auth: details.password_auth,
-                auth_type: details.cast_type,
-                send_otp: details.otp_private,
-                public_auth: false,
-                public_otp: details.collect_attendee_email,
-            };
-            this.stepTwoProps = {
-                BackImageURL: '',
-                imageURL: '',
-                primary_color: details.primary_color,
-                secondary_color: '',
-                logo: details.logo,
-                back_image: '',
-                cover_image: details.cover_image,
-                cover_image_error: false,
-                back_image_error: false,
-                banner_text: details.banner_text,
-                moderator_only_text:
-                    'You are a Moderator, you can control who presents and participates in the live cast',
-                guest_policy: details.guest_policy,
-                welcome_text: details.welcome_text,
-                showText: true,
-                duration: details.duration,
-                logout_url: details.logout_url,
-            };
-            this.stepThreeProps = {
-                vw_stream: false,
-                vw_stream_url: details.bbb_stream_url,
-                is_streaming: details.is_streaming,
-                public_stream: details.public_stream,
-            };
-            this.stepFourProps = {
-                start_stop_recording: details.record,
-                record: details.record,
-                mute_on_start: details.mute_on_start,
-                end_when_no_moderator: details.end_when_no_moderator,
-                allow_moderator_to_unmute_user: details.allow_moderator_to_unmute_user,
-                webcam_only_for_moderator: details.webcam_only_for_moderator,
-                auto_start_recording: details.auto_start_recording,
-                allow_start_stop_recording: details.record,
-                disable_cam: details.disable_cam,
-                disable_mic: details.disable_mic,
-                lock_layout: details.lock_layout,
-                lock_on_join: false,
-                viewer_mode: details.viewer_mode,
-                viewer_password: false,
-                listen_only_mode: true,
-                webcam_enable: false,
-                screen_sharing: true,
-                restrict_participants: false,
-                meeting_settings: false,
-            };
-        },
+        // setProps() {
+        //     const details = this.castsInfo[this.cast.public_meeting_id].details;
+        //     this.stepOneProps = {
+        //         event_name: details.event_name,
+        //         moderator_password: '',
+        //         attendee_password: '',
+        //         meeting_type: '',
+        //         schedule_time: details.schedule_time,
+        //         description: details.description,
+        //         startTime: '0:00:00',
+        //         timezone: details.timezone,
+        //         startD: moment().format('YYYY-MM-DD'),
+        //         password_auth: details.password_auth,
+        //         auth_type: details.cast_type,
+        //         send_otp: details.otp_private,
+        //         public_auth: false,
+        //         public_otp: details.collect_attendee_email,
+        //     };
+        //     this.stepTwoProps = {
+        //         BackImageURL: '',
+        //         imageURL: '',
+        //         primary_color: details.primary_color,
+        //         secondary_color: '',
+        //         logo: details.logo,
+        //         back_image: '',
+        //         cover_image: details.cover_image,
+        //         cover_image_error: false,
+        //         back_image_error: false,
+        //         banner_text: details.banner_text,
+        //         moderator_only_text:
+        //             'You are a Moderator, you can control who presents and participates in the live cast',
+        //         guest_policy: details.guest_policy,
+        //         welcome_text: details.welcome_text,
+        //         showText: true,
+        //         duration: details.duration,
+        //         logout_url: details.logout_url,
+        //     };
+        //     this.stepThreeProps = {
+        //         vw_stream: false,
+        //         vw_stream_url: details.bbb_stream_url,
+        //         is_streaming: details.is_streaming,
+        //         public_stream: details.public_stream,
+        //     };
+        //     this.stepFourProps = {
+        //         start_stop_recording: details.record,
+        //         record: details.record,
+        //         mute_on_start: details.mute_on_start,
+        //         end_when_no_moderator: details.end_when_no_moderator,
+        //         allow_moderator_to_unmute_user: details.allow_moderator_to_unmute_user,
+        //         webcam_only_for_moderator: details.webcam_only_for_moderator,
+        //         auto_start_recording: details.auto_start_recording,
+        //         allow_start_stop_recording: details.record,
+        //         disable_cam: details.disable_cam,
+        //         disable_mic: details.disable_mic,
+        //         lock_layout: details.lock_layout,
+        //         lock_on_join: false,
+        //         viewer_mode: details.viewer_mode,
+        //         viewer_password: false,
+        //         listen_only_mode: true,
+        //         webcam_enable: false,
+        //         screen_sharing: true,
+        //         restrict_participants: false,
+        //         meeting_settings: false,
+        //     };
+        // },
         showStream(id) {
             this.index = id;
-            this.setProps(id);
+            // this.setProps(id);
             this.stream = true;
         },
         showSettingsPopup(id) {
-            this.setProps(id);
+            // this.setProps(id);
             this.index = id;
 
             this.showSettings = true;
@@ -757,57 +867,57 @@ export default {
                 console.log('error', e);
             }
         },
-        async getCastList() {
-            const response = await this.$store.dispatch('cast/getUserCasts');
-            const casts = response.data.my_events;
-            const castInfoPromises = casts.map(async (cast) => {
-                try {
-                    const castDetails = await this.$store.dispatch(
-                        'cast/editEvent',
-                        cast.public_meeting_id
-                    );
-                    return { castId: cast.public_meeting_id, details: castDetails.data };
-                } catch (error) {
-                    console.error(error);
-                    return null;
-                }
-            });
+        // async getCastList() {
+        //     const response = await this.$store.dispatch('cast/getUserCasts');
+        //     const casts = response.data.my_events;
+        //     const castInfoPromises = casts.map(async (cast) => {
+        //         try {
+        //             const castDetails = await this.$store.dispatch(
+        //                 'cast/editEvent',
+        //                 cast.public_meeting_id
+        //             );
+        //             return { castId: cast.public_meeting_id, details: castDetails.data };
+        //         } catch (error) {
+        //             console.error(error);
+        //             return null;
+        //         }
+        //     });
 
-            const streamInfoPromise = casts.map(async (cast) => {
-                try {
-                    const castDetails = await this.$store.dispatch(
-                        'auth/eventDetail',
-                        cast.public_meeting_id
-                    );
-                    return {
-                        castId: cast.public_meeting_id,
-                        details: castDetails.data.meeting_info,
-                    };
-                } catch (error) {
-                    console.log(error);
-                }
-            });
-            const streamInfoList = await Promise.all(streamInfoPromise);
-            const castInfoList = await Promise.all(castInfoPromises);
-            const validCastInfoList = castInfoList.filter((info) => info !== null);
-            const validStreamInfo = streamInfoList.filter((info) => info !== null);
-            const castsInfo = {};
-            const streamInfo = {};
-            validCastInfoList.forEach((info) => {
-                castsInfo[info.castId] = info.details;
-            });
-            validStreamInfo.forEach((info) => {
-                if (info.details.stream_urls !== null)
-                    streamInfo[info.castId] = info.details;
-            });
-            this.streamInfo = streamInfo;
-            this.castsInfo = castsInfo;
-            this.casts = casts;
-            console.log(streamInfo, 'streamInfo');
-            // document.getElementById('loading-bg').style.display = 'none';
-            // console.log(castsInfo, 'TTTT');
-            // console.log(casts, 'pppp');
-        },
+        //     const streamInfoPromise = casts.map(async (cast) => {
+        //         try {
+        //             const castDetails = await this.$store.dispatch(
+        //                 'auth/eventDetail',
+        //                 cast.public_meeting_id
+        //             );
+        //             return {
+        //                 castId: cast.public_meeting_id,
+        //                 details: castDetails.data.meeting_info,
+        //             };
+        //         } catch (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        //     const streamInfoList = await Promise.all(streamInfoPromise);
+        //     const castInfoList = await Promise.all(castInfoPromises);
+        //     const validCastInfoList = castInfoList.filter((info) => info !== null);
+        //     const validStreamInfo = streamInfoList.filter((info) => info !== null);
+        //     const castsInfo = {};
+        //     const streamInfo = {};
+        //     validCastInfoList.forEach((info) => {
+        //         castsInfo[info.castId] = info.details;
+        //     });
+        //     validStreamInfo.forEach((info) => {
+        //         if (info.details.stream_urls !== null)
+        //             streamInfo[info.castId] = info.details;
+        //     });
+        //     this.streamInfo = streamInfo;
+        //     this.castsInfo = castsInfo;
+        //     this.casts = casts;
+        //     console.log(streamInfo, 'streamInfo');
+        //     // document.getElementById('loading-bg').style.display = 'none';
+        //     // console.log(castsInfo, 'TTTT');
+        //     // console.log(casts, 'pppp');
+        // },
         async updateCastList() {
             // await this.getCastList();
         },
@@ -866,15 +976,16 @@ export default {
         toggleEditTool(index) {
             this.showTooltip = this.showTooltip === index ? null : index;
         },
-        async deleteCast(index) {
-            const res = await this.$store.dispatch('cast/deleteCast', this.index);
-            console.log(res);
+        async deleteCast(meetId) {
+            this.isLoading = true;
+            this.closeModal();
+            const res = await this.$store.dispatch('cast/deleteCast', meetId);
             const newCasts = this.casts.filter((item) => {
-                return item.public_meeting_id !== index;
+                return item.public_meeting_id !== meetId;
             });
             this.casts = newCasts;
+            this.isLoading = false;
             this.getCastList();
-            this.closeDeletePopup();
         },
         openCreate() {
             this.create = true;

@@ -1,111 +1,71 @@
 <template>
-  <div>
-    <!-- <div v-if="castCreated"></div> -->
-    <div class="main-containr">
-      <!-- <popup
+  <BaseModal :title="'Edit cast'" @close="closeModal">
+    <template #modalContent>
+      <div>
+        <!-- <div v-if="castCreated"></div> -->
+        <div>
+          <!-- <popup
         v-if="status === 'success'"
         :changeStatus="changeStatus"
         :closeCreate="closeCreate"
       /> -->
-      <div class="center-container">
-        <div class="heading-part flex">
-          <div class="heading">Set up your cast</div>
-          <img
-            src="@/assets/images/create-event/Vector30.svg"
-            alt=""
-            @click="toggleEditCast"
-          />
-        </div>
-        <div class="buttons flex">
-          <button
-            class="button-1"
-            :style="{
-              backgroundColor: activeTab === 'Set up' ? '#464775' : '#1F272F',
-              color:
-                activeTab === 'Set up'
-                  ? 'rgba(255, 255, 255, 0.8) '
-                  : 'rgba(166, 166, 168, 0.8)',
-            }"
-            ref="stepone"
-            :stepOneProps="stepOneProps"
-            @click="activeTab = 'Set up'"
-          >
-            Set up
-          </button>
-          <button
-            class="button-2"
-            :style="{
-              backgroundColor: activeTab === 'Branding' ? '#464775' : '#1F272F',
-              color:
-                activeTab === 'Branding'
-                  ? 'rgba(255, 255, 255, 0.8)'
-                  : 'rgba(166, 166, 168, 0.8)',
-            }"
-            :before-change="() => validateFormOne()"
-            :stepOneProps="stepOneProps"
-            @click="activeTab = 'Branding'"
-          >
-            Branding
-          </button>
-          <button
-            class="button-3"
-            :style="{
-              backgroundColor: activeTab === 'Settings' ? '#464775' : '#1F272F',
-              color:
-                activeTab === 'Settings'
-                  ? 'rgba(255, 255, 255, 0.8)'
-                  : 'rgba(166, 166, 168, 0.8)',
-            }"
-            @click="activeTab = 'Settings'"
-          >
-            Settings
-          </button>
-          <button
-            class="button-4"
-            :style="{
-              backgroundColor:
-                activeTab === 'Streaming' ? '#464775' : '#1F272F',
-              color:
-                activeTab === 'Streaming'
-                  ? 'rgba(255, 255, 255, 0.8)'
-                  : 'rgba(166, 166, 168, 0.8)',
-            }"
-            @click="activeTab = 'Streaming'"
-          >
-            Streaming
-          </button>
-        </div>
-        <div class="tab-content">
-          <SetUpTab
-            v-if="activeTab === 'Set up'"
-            :changeActiveTab="changeActiveTab"
-            :stepOneProps="stepOneProps"
-          />
-          <BrandingTab
-            v-else-if="activeTab === 'Branding'"
-            :stepTwoProps="stepTwoProps"
-            :changeActiveTab="changeActiveTab"
-          />
-          <SettingsTab
-            v-else-if="activeTab === 'Settings'"
-            :createCast="createCast"
-            :stepFourProps="stepFourProps"
-            :changeActiveTab="changeActiveTab"
-          />
-          <StreamingTab
-            v-else
-            :createCast="createCast"
-            :changeActiveTab="changeActiveTab"
-            :stepFourProps="stepFourProps"
-            :stepThreeProps="stepThreeProps"
-            :stepTwoProps="stepTwoProps"
-            :stepOneProps="stepOneProps"
-            :castId="castId"
-          />
-          <!-- :closeCreate="closeCreate" -->
-        </div>
-      </div>
-      <!-- <div v-else-if="status === 'invite'">
+          <div>
+            <!-- <div class="heading-part flex">
+              <div class="heading">Set up your cast</div>
+              <img src="@/assets/images/create-event/Vector30.svg" alt="" @click="closeModal" />
+            </div> -->
+            <div class="buttons flex">
+              <button class="button-1" :style="{
+                backgroundColor: activeTab === 'Set up' ? '#464775' : '#1F272F',
+                color:
+                  activeTab === 'Set up'
+                    ? 'rgba(255, 255, 255, 0.8) '
+                    : 'rgba(166, 166, 168, 0.8)',
+              }" ref="stepone" :stepOneProps="stepOneProps" @click="activeTab = 'Set up'">
+                Set up
+              </button>
+              <button class="button-2" :style="{
+                backgroundColor: activeTab === 'Branding' ? '#464775' : '#1F272F',
+                color:
+                  activeTab === 'Branding'
+                    ? 'rgba(255, 255, 255, 0.8)'
+                    : 'rgba(166, 166, 168, 0.8)',
+              }" :before-change="() => validateFormOne()" :stepOneProps="stepOneProps" @click="activeTab = 'Branding'">
+                Branding
+              </button>
+              <button class="button-3" :style="{
+                backgroundColor: activeTab === 'Settings' ? '#464775' : '#1F272F',
+                color:
+                  activeTab === 'Settings'
+                    ? 'rgba(255, 255, 255, 0.8)'
+                    : 'rgba(166, 166, 168, 0.8)',
+              }" @click="activeTab = 'Settings'">
+                Settings
+              </button>
+              <button class="button-4" :style="{
+                backgroundColor:
+                  activeTab === 'Streaming' ? '#464775' : '#1F272F',
+                color:
+                  activeTab === 'Streaming'
+                    ? 'rgba(255, 255, 255, 0.8)'
+                    : 'rgba(166, 166, 168, 0.8)',
+              }" @click="activeTab = 'Streaming'">
+                Streaming
+              </button>
+            </div>
+            <div class="tab-content">
+              <SetUpTab v-if="activeTab === 'Set up'" :changeActiveTab="changeActiveTab" :stepOneProps="stepOneProps" />
+              <BrandingTab v-else-if="activeTab === 'Branding'" :stepTwoProps="stepTwoProps"
+                :changeActiveTab="changeActiveTab" />
+              <SettingsTab v-else-if="activeTab === 'Settings'" :createCast="createCast" :stepFourProps="stepFourProps"
+                :changeActiveTab="changeActiveTab" />
+              <StreamingTab v-else :createCast="createCast" :changeActiveTab="changeActiveTab"
+                :stepFourProps="stepFourProps" :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps"
+                :stepOneProps="stepOneProps" :castId="castId" />
+              <!-- :closeCreate="closeCreate" -->
+            </div>
+          </div>
+          <!-- <div v-else-if="status === 'invite'">
         <invite-card
           :isStream="stepThreeProps.is_streaming"
           :viewer="stepFourProps.viewer_mode"
@@ -124,8 +84,10 @@
           :castId="castId"
         />
       </div> -->
-    </div>
-  </div>
+        </div>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 <script>
 import BrandingTab from './Tabs/BrandingTab.vue';
@@ -133,31 +95,20 @@ import SettingsTab from './Tabs/SettingsTab.vue';
 import SetUpTab from './Tabs/SetUpTab.vue';
 import StreamingTab from './Tabs/StreamingTab.vue';
 import moment from 'moment';
+import BaseModal from "@/components/common/BaseModal.vue";
 // import Popup from '../dashboard/Popup.vue';
 // import StreamCard from '../dashboard/StreamCard.vue';
 // import InviteCard from '../dashboard/InviteCard.vue';
 export default {
-  name: 'SetupCast',
+  name: 'EditCastModal',
   components: {
     BrandingTab,
     SettingsTab,
     SetUpTab,
     StreamingTab,
+    BaseModal,
   },
-  props: {
-    getCast: {
-      type: Function, 
-      required: true, 
-    },
-    cast_id: {
-      type: String, // Replace String with the actual type of cast_id
-      required: true, // Adjust this based on your requirements
-    },
-    showEditCast: {
-      type: Boolean,
-      required: true, // Adjust this based on your requirements
-    },
-  },
+  props: ['closeModal', 'cast_id', 'getCast'],
   data() {
     return {
       activeTab: 'Set up',
@@ -666,23 +617,24 @@ export default {
   transition: max-height 0.5s ease-in-out;
   /* padding: 18px; */
 }
+
 .heading-part {
   justify-content: space-between;
 }
+
 .heading-part img {
   width: 12px;
   height: 12px;
   color: #647181;
   cursor: pointer;
 }
+
 .heading {
   color: #a6a6a8;
   font-size: 14px;
   font-weight: 600;
 }
-.buttons {
-  margin-top: 23px;
-}
+
 .buttons button {
   width: 33%;
   height: 40px;
@@ -696,12 +648,15 @@ export default {
   justify-content: center;
   cursor: pointer;
 }
+
 .button-1 {
   border-radius: 6px 0px 0px 6px;
 }
+
 .button-4 {
   border-radius: 0px 6px 6px 0px;
 }
+
 @media (max-width: 500px) {
   .main-containr {
     position: absolute;
@@ -712,6 +667,7 @@ export default {
     overflow-y: scroll;
     max-height: 480px;
   }
+
   .buttons button {
     width: 90px;
   }

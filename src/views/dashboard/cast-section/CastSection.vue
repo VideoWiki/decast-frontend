@@ -61,7 +61,17 @@
             <CastCardShimmer :style="{opacity: 0.6}"/>
           </div>
           <div v-else v-for="(cast, index) in casts" :key="index">
-            <CastCard :cast="cast" :index="index" />
+            <CastCard 
+            :castsInfo="castsInfo"
+            :cast="cast" 
+            :index="index" 
+            :setProps="setProps"
+            :stepOneProps="stepOneProps"
+            :stepTwoProps="stepTwoProps"
+            :stepThreeProps="stepThreeProps" 
+            :stepFourProps="stepFourProps" 
+            :getCastList="getCastList"         
+          />
           </div>
         </div>
         <div v-else>
@@ -179,9 +189,9 @@
           :logout_url="castsInfo[index].details.logout_url" :is_streaming="castsInfo[index].details.is_streaming"
           :public_stream="castsInfo[index].details.public_stream"
           :bbb_stream_url="castsInfo[index].details.bbb_stream_url" :record="castsInfo[index].details.record"
-          :password_auth="castsInfo[index].details.password_auth" :end_when_no_moderator="castsInfo[index].details.end_when_no_moderator
-            " :mute_on_start="castsInfo[index].details.mute_on_start" :webcam_only_for_moderator="castsInfo[index].details.webcam_only_for_moderator
-    " :disable_cam="castsInfo[index].details.disable_cam" :disable_mic="castsInfo[index].details.disable_mic"
+          :password_auth="castsInfo[index].details.password_auth" :end_when_no_moderator="castsInfo[index].details.end_when_no_moderator" 
+          :mute_on_start="castsInfo[index].details.mute_on_start" :webcam_only_for_moderator="castsInfo[index].details.webcam_only_for_moderator"
+          :disable_cam="castsInfo[index].details.disable_cam" :disable_mic="castsInfo[index].details.disable_mic"
           :lock_layout="castsInfo[index].details.lock_layout" :viewer_mode="castsInfo[index].details.viewer_mode"
           :schedule="castsInfo[index].details.schedule_time" :timeLeft="castsInfo[index].details.duration"
           :closePostpone="closePostpone" :toPostpone="toPostpone" />
@@ -461,6 +471,7 @@ export default {
     },
     setProps(id) {
       const details = this.castsInfo[id].details;
+      console.log("details", details)
       this.stepOneProps = {
         event_name: details.event_name,
         moderator_password: '',

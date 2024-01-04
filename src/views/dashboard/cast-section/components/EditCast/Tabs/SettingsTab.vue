@@ -102,7 +102,6 @@ export default {
     'stepThreeProps',
     'stepTwoProps',
     'castId',
-    'closeCreate',
   ],
   data() {
     return {
@@ -199,10 +198,11 @@ export default {
       );
       this.$store.dispatch('cast/formSubmit', data).then((response) => {
         console.log(response);
-        this.closeCreate();
       });
     },
     change(tab) {
+      console.log(this.tab, 'tab');
+
       if (tab === 'BigMeetingPopup') {
         this.stepFourProps.checkBox = 'BigMeetingPopup';
         setTimeout(() => {
@@ -225,6 +225,7 @@ export default {
         this.activeTab = 'CustomPopup';
         this.stepFourProps.checkBox = 'CustomPopup';
       }
+      console.log(this.activeTab, 'activeTab');
     },
   },
 };
@@ -334,7 +335,6 @@ export default {
 .box2 {
   background: #8cd0ff;
   border: 1px solid #8cd0ff;
-  margin-left: 12px;
 }
 .box3 {
   background: #adeb5a;
@@ -343,7 +343,6 @@ export default {
 .box4 {
   background: #33db79;
   border: 1px solid #33db79;
-  margin-left: 12px;
 }
 .box2-left {
   width: 16px;
@@ -386,8 +385,7 @@ export default {
 }
 @media (max-width: 500px) {
   .wrapper {
-    /* width: 360px; */
-    width: calc(100vw - 50px);
+    width: 360px;
     margin: auto;
     justify-content: center;
   }
