@@ -1,5 +1,5 @@
 <template>
-    <BaseModal :title="'Call settings'" @close="closeModal">
+    <BaseModal :title="'Change Settings'" @close="closeModal">
         <template #modalContent>
             <div class="wrapper">
                 <div class="tab-content" v-if="activeTab === 'CustomPopup'">

@@ -152,10 +152,10 @@
       <SetupCastNew :getList="getCastList"></SetupCastNew>
     </div> -->
 
-    <div class="popup" @click="closeAllPopups" v-if="stream">
+    <!-- <div class="popup" @click="closeAllPopups" v-if="stream">
       <StreamingTab class="stream-co" :closeCreate="() => (stream = false)" :stepFourProps="stepFourProps"
         :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps" :stepOneProps="stepOneProps" :castId="index">
-      </StreamingTab>
+      </StreamingTab> -->
       <!--<stream-card
         :closeCreate="() => (stream = false)"
         :stepFourProps="stepFourProps"
@@ -164,8 +164,8 @@
         :stepOneProps="stepOneProps"
         :castId="index"
       ></stream-card>-->
-    </div>
-    <div class="popup" v-if="showSettings" @click="closeAllPopups">
+    <!-- </div> -->
+    <!-- <div class="popup" v-if="showSettings" @click="closeAllPopups">
       <div class="edit-settings p-5">
         <div class="flex justify-between">
           <div class="heading">Change Settings</div>
@@ -174,8 +174,8 @@
         <settings-tab :stepFourProps="stepFourProps" :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps"
           :stepOneProps="stepOneProps" :castId="index" :closeCreate="() => (showSettings = false)" />
       </div>
-    </div>
-    <div class="popup" v-if="showPostpone" @click="closeRes">
+    </div> -->
+    <!-- <div class="popup" v-if="showPostpone" @click="closeRes">
       <div class="post-time">
         <postPoneCast :cast_id="index" :cast_name="castsInfo[index].details.event_name" :allow_moderator_to_unmute_user="castsInfo[index].details.allow_moderator_to_unmute_user
           " :auto_start_recording="castsInfo[index].details.auto_start_recording"
@@ -196,13 +196,13 @@
           :schedule="castsInfo[index].details.schedule_time" :timeLeft="castsInfo[index].details.duration"
           :closePostpone="closePostpone" :toPostpone="toPostpone" />
       </div>
-    </div>
-    <div class="popup" v-if="showEditCast">
+    </div> -->
+    <!-- <div class="popup" v-if="showEditCast">
       <SetUpEditCast :cast_id="index" :getCast="getCastList" :showEditCast="showEditCast"
         @updateShowEditCast="updateShowEditCast"></SetUpEditCast>
-    </div>
+    </div> -->
 
-    <div class="popup" v-if="showDeletePopup" @click="closeAllPopups">
+    <!-- <div class="popup" v-if="showDeletePopup" @click="closeAllPopups">
       <div class="delete-popup">
         <div class="full-wrapper">
           <div class="uppar-part flex justify-between">
@@ -223,11 +223,11 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="popup" @click="closeAllPopups" v-if="invite">
+    </div> -->
+    <!-- <div class="popup" @click="closeAllPopups" v-if="invite">
       <invite-card :Id="meetingId" :invites="invites" :isStream="isStream" :viewer="viewer"
         :closeInvite="() => (invite = false)"></invite-card>
-    </div>
+    </div> -->
 
     <CreateCastModal v-if="createCastModalActive" :getList="getCastList" :toggleCreateCastModal="toggleCreateCastModal">
     </CreateCastModal>

@@ -95,7 +95,7 @@
 
                 <div class="done-btn">
                     <!-- <button @click="changeStatus('success')" class="back-btn">Back</button> -->
-                    <button @click="closeInvite">Done</button>
+                    <button @click="closeModal">Done</button>
                 </div>
             </div>
         </template>
@@ -110,7 +110,7 @@ import BaseModal from "@/components/common/BaseModal.vue";
 
 export default {
     name: 'ManageAudienceModal',
-    props: ['closeModal', 'castId', 'invites', 'closeInvite', 'isStream', 'viewer'],
+    props: ['closeModal', 'castId', 'invites', 'isStream', 'viewer'],
     data() {
         return {
             file: null,
@@ -133,8 +133,6 @@ export default {
     },
     mounted() {
         window.addEventListener('click', this.closeDropDown);
-        console.log(this.isStream);
-        console.log(this.viewer);
         if (this.isStream)
             this.options.push({ value: 'spectator', label: 'Spectator' });
         if (this.viewer) this.options.push({ value: 'viewer', label: 'Viewer' });
@@ -266,7 +264,7 @@ export default {
                 .then((res) => {
                     this.invites.splice(inviteIndex, 1);
                     this.$vs.notify({
-                        title: 'Success',
+                        title: '',
                         text: 'User removed successfully !',
                         color: 'success',
                     });

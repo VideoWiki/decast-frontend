@@ -65,10 +65,10 @@
           <invite-card :isStream="stepThreeProps.is_streaming" :viewer="stepFourProps.viewer_mode"
             :closeInvite="closeCreate" :Id="castId" :invites="[]" :changeStatus="changeStatus" />
         </div>
-        <div v-else>
+        <!-- <div v-else>
           <stream-card :stepFourProps="stepFourProps" :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps"
             :stepOneProps="stepOneProps" :closeCreate="closeCreate" :castId="castId" />
-        </div>
+        </div> -->
       </div>
     </template>
   </BaseModal>
@@ -80,7 +80,7 @@ import SetupTab from './Tabs/SetupTab.vue';
 import StreamingTab from './Tabs/StreamingTab.vue';
 import moment from 'moment';
 // import Popup from '@/views/dashboard/Popup.vue';
-import StreamCard from '@/views/dashboard/StreamCard.vue';
+// import StreamCard from '@/views/dashboard/StreamCard.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
 import Modal from '@/components/common/Modal.vue';
 import ShareCast from './ShareCast.vue';
@@ -95,7 +95,7 @@ export default {
     SetupTab,
     StreamingTab,
     // Popup,
-    StreamCard,
+    // StreamCard,
     InviteCard,
     Modal,
     ShareCast,

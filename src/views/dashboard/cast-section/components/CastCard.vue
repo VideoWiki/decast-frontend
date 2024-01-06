@@ -297,7 +297,7 @@
             :viewer_mode="castsInfo[cast.public_meeting_id].details.viewer_mode"
             :schedule="castsInfo[cast.public_meeting_id].details.schedule_time"
             :timeLeft="castsInfo[cast.public_meeting_id].details.duration" :closePostpone="closePostpone"
-            :toPostpone="true" />
+            :getCastList="getCastList" :toPostpone="true" />
         <!-- Same Component for Reshedule Cast and Postpone Cast -->
         <ResheduleCastModal v-if="activeModal == 'postponeCastModal'" :closeModal="() => setCastModal('')"
             :cast_id="cast.public_meeting_id" :cast_name="castsInfo[cast.public_meeting_id].details.event_name"
@@ -330,7 +330,7 @@
             :viewer_mode="castsInfo[cast.public_meeting_id].details.viewer_mode"
             :schedule="castsInfo[cast.public_meeting_id].details.schedule_time"
             :timeLeft="castsInfo[cast.public_meeting_id].details.duration" :closePostpone="closePostpone"
-            :toPostpone="false" />
+            :getCastList="getCastList" :toPostpone="false" />
         <EditCastModal v-if="activeModal == 'editCastModal'" :closeModal="() => setCastModal('')"
             :cast_id="cast.public_meeting_id" :getCast="getCastList" />
 

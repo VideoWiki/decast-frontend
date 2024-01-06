@@ -1,13 +1,13 @@
 <template>
   <BaseModal :title="'Reset password'" @close="toggleActiveModal('')">
     <template #modalContent>
-      <div>
+      <div class="reset-pass-content">
         <!-- <div class="head-cont">
-      <h3>Reset Password</h3>
-      <button @click="closeProfile">
-        <img src="@/assets/images/cross.svg" />
-      </button>
-    </div> -->
+          <h3>Reset Password</h3>
+          <button @click="closeProfile">
+            <img src="@/assets/images/cross.svg" />
+          </button>
+        </div> -->
 
         <div class="desc-cont">
           <p>Strong password required. Enter 8-14 characters.</p>
@@ -15,19 +15,58 @@
 
         <div class="form">
           <label for="oldPassword">Old password</label>
+          <div class="password-input">
           <input type="password" id="oldPassword" v-model="oldPassword" />
+          <span
+          class="toggle-password"
+          @click="togglePasswordVisibility('oldPassword')"
+        >
+          <EyeVisible v-if="passwordVisible.oldPassword"/>
+          <EyeHide v-else/>
+        </span>
+      </div>
           <span class="error" v-if="error.oldPassword">{{
             error.oldPassword
           }}</span>
 
           <label for="newPassword">Create new password</label>
-          <input type="password" id="newPassword" v-model="newPassword" />
+          <div class="password-input">
+          <!-- <input type="password" id="newPassword" v-model="newPassword" /> -->
+          <input
+          type="password"
+          id="newPassword"
+          v-model="newPassword"
+          @input="validatePassword"
+        />
+          <span
+          class="toggle-password"
+          @click="togglePasswordVisibility('newPassword')"
+        >
+          <EyeVisible v-if="passwordVisible.newPassword"/>
+          <EyeHide v-else/>
+        </span>
+      </div>
           <span class="error" v-if="error.newPassword">{{
             error.newPassword
           }}</span>
 
           <label for="confirmPassword">Confirm new password</label>
-          <input type="password" id="confirmPassword" v-model="confirmPassword" />
+          <div class="password-input">
+            <!-- <input type="password" id="confirmPassword" v-model="confirmPassword" /> -->
+            <input
+              type="password"
+              id="confirmPassword"
+              v-model="confirmPassword"
+              @input="validatePassword"
+            />
+            <span
+              class="toggle-password"
+              @click="togglePasswordVisibility('confirmPassword')"
+            >
+              <EyeVisible v-if="passwordVisible.confirmPassword"/>
+              <EyeHide v-else/>
+            </span>
+          </div>
           <span class="error" v-if="error.confirmPassword">{{
             error.confirmPassword
           }}</span>
@@ -41,6 +80,8 @@
 
 <script>
 import BaseModal from "@/components/common/BaseModal.vue";
+import EyeHide from "../../../assets/svgs/EyeHide.vue";
+import EyeVisible from "../../../assets/svgs/EyeVisible.vue";
 
 export default {
   name: 'ResetPasswordModal',
@@ -50,15 +91,23 @@ export default {
       oldPassword: '',
       newPassword: '',
       confirmPassword: '',
+      passwordVisible: {
+        oldPassword: false,
+        newPassword: false,
+        confirmPassword: false,
+      },
       error: {
         oldPassword: '',
         newPassword: '',
         confirmPassword: '',
       },
+      isPasswordValid: false,
     };
   },
   components: {
     BaseModal,
+    EyeHide,
+    EyeVisible,
   },
   mounted() {
     window.addEventListener('click', this.handleGlobalClick);
@@ -67,6 +116,62 @@ export default {
     window.removeEventListener('click', this.handleGlobalClick);
   },
   methods: {
+    togglePasswordVisibility(field) {
+      this.passwordVisible[field] = !this.passwordVisible[field];
+      const input = document.getElementById(field);
+      if (input) {
+        input.type = this.passwordVisible[field] ? 'text' : 'password';
+      }
+    },
+    validatePassword() {
+      // Password conditions
+      const capitalRegex = /[A-Z]/;
+      const smallRegex = /[a-z]/;
+      const symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
+      const numberRegex = /\d/;
+
+      // Check if the new password meets all conditions
+      const isCapital = capitalRegex.test(this.newPassword);
+      const isSmall = smallRegex.test(this.newPassword);
+      const isSymbol = symbolRegex.test(this.newPassword);
+      const isNumber = numberRegex.test(this.newPassword);
+
+      // Update the error message based on the conditions
+      this.error.newPassword = '';
+      if (!isCapital)
+        this.error.newPassword +=
+          'Password must contain at least one capital letter. ';
+      if (!isSmall)
+        this.error.newPassword +=
+          'Password must contain at least one small letter. ';
+      if (!isSymbol)
+        this.error.newPassword += 'Password must contain at least one symbol. ';
+      if (!isNumber)
+        this.error.newPassword += 'Password must contain at least one number. ';
+
+      // Check if the password length is between 8 and 14 characters
+      if (this.newPassword.length < 8 || this.newPassword.length > 14) {
+        this.error.newPassword +=
+          'Password must be between 8 and 14 characters. ';
+      }
+
+      // Check if the "Confirm new password" field matches the "Create new password" field
+      if (this.confirmPassword !== this.newPassword) {
+        this.error.confirmPassword = 'Passwords do not match.';
+      } else {
+        this.error.confirmPassword = '';
+      }
+
+      // Update the isPasswordValid flag
+      this.isPasswordValid =
+        isCapital &&
+        isSmall &&
+        isSymbol &&
+        isNumber &&
+        this.newPassword.length >= 8 &&
+        this.newPassword.length <= 14 &&
+        this.confirmPassword === this.newPassword;
+    },
     closeProfile() {
       this.$store.commit('room/SET_POPUP', '');
     },
@@ -139,6 +244,9 @@ export default {
 </script>
 
 <style scoped>
+.reset-pass-content {
+  width: 370px;
+}
 .container {
   width: 367px;
   height: auto;
@@ -201,6 +309,22 @@ label {
 .save-btn {
   margin-top: 20px;
   float: right;
+}
+.password-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.toggle-password svg {
+  width: 16px;
+  height: 16px;
 }
 
 @media (max-width: 500px) {
