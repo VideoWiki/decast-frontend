@@ -1,8 +1,6 @@
 <template>
-  <BaseModal
-    :title="status === 'invite' ? 'Invite your attendees' : status === 'success' ? '' : 'Set up your cast'"
-    @close="toggleCreateCastModal"
-    >
+  <BaseModal :title="status === 'invite' ? 'Invite your attendees' : status === 'success' ? '' : 'Set up your cast'"
+    @close="toggleCreateCastModal">
     <template #modalContent>
       <div>
         <!-- <popup
@@ -10,7 +8,12 @@
       :changeStatus="changeStatus"
       :closeCreate="closeCreate"
     /> -->
-        <ShareCast v-if="status === 'success'" :changeStatus="changeStatus" :toggleCreateCastModal="toggleCreateCastModal" />
+        <ShareCast v-if="status === 'success'" :changeStatus="changeStatus"
+          :toggleCreateCastModal="toggleCreateCastModal" />
+
+        <CreateNFT v-else-if="status == 'drops'" :changeStatus="changeStatus" :stepOneProps="stepOneProps"
+          :nft_details_submitted="nft_details_submitted" :valueCheck="valueCheck" :castInfo="castInfo" :castId="castId" />
+
         <div v-else-if="status === 'create'" class="center-container">
           <div class="buttons flex">
             <button class="button-1" :style="{
@@ -85,10 +88,11 @@ import InviteCard from '@/views/dashboard/InviteCard.vue';
 import Modal from '@/components/common/Modal.vue';
 import ShareCast from './ShareCast.vue';
 import BaseModal from "@/components/common/BaseModal.vue";
+import CreateNFT from '@/views/dashboard/nft/CreateNFT';
 
 export default {
   name: 'CreateCastModal',
-  props: ['toggleCreateCastModal'],
+  props: ['getList', 'toggleCreateCastModal'],
   components: {
     BrandingTab,
     SettingsTab,
@@ -100,14 +104,46 @@ export default {
     Modal,
     ShareCast,
     BaseModal,
+    CreateNFT,
   },
   data() {
     return {
       activeTab: 'Set up',
       formData: new FormData(),
       status: 'create',
+      nft_details_submitted: false,
       castId: '',
       stepOneProps: {
+        mint_function_name: '',
+        mintfnc_name_error: false,
+        contract_address: '',
+        contract_address_error: false,
+        aib: '',
+        aib_error: false,
+        parameter: '',
+        parameter_error: false,
+        network: '',
+        audienceAirdrop: true,
+        give_vc: false,
+        airdropType: 'NFTs',
+        price: '',
+        price_error: false,
+        nft_description: '',
+        nft_description_error: false,
+        nft_image: '',
+        data_token: false,
+        nft_image_error: false,
+        password_auth: false,
+        auth_type: 'public',
+        meeting_auth_error: false,
+        send_otp: false,
+        public_auth: false, // Changed from the first object's 'true' to the second object's 'false'
+        public_otp: false,
+        give_nft: false,
+        public_stream_nfts: 'true',
+        public_nft_flow: false,
+        nft_t_ype: 'NFTs', // Appears only in the first object, I'll keep it here
+        nft_type: 'NFTs', // Appears only in the first object, I'll keep it here
         generated_event_title: '',
         event_name: '',
         invalidTimeError: false,
@@ -133,33 +169,7 @@ export default {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         timeZoneList: [],
         event_tag: ['videowiki'],
-        mint_function_name: '',
-        mintfnc_name_error: false,
-        contract_address: '',
-        contract_address_error: false,
-        aib: '',
-        aib_error: false,
-        parameter: '',
-        parameter_error: false,
-        network: '4',
-        audienceAirdrop: false,
-        airdropType: 'NFTs',
-        price: '',
         startD: moment().format('YYYY-MM-DD'),
-        price_error: false,
-        nft_description: '',
-        nft_description_error: false,
-        nft_image: '',
-        nft_image_error: false,
-        password_auth: false,
-        auth_type: 'public',
-        meeting_auth_error: false,
-        send_otp: false,
-        public_auth: false,
-        public_otp: false,
-        give_nft: false,
-        public_stream_nfts: 'true',
-        public_nft_flow: false,
       },
 
       stepTwoProps: {
@@ -211,7 +221,12 @@ export default {
       },
     };
   },
-  mounted() { },
+  mounted() {},
+  computed: {
+    castInfoList() {
+      return this.$store.state.cast.casts;
+    },
+  },
   methods: {
     validateFormOne() {
       if (
@@ -281,17 +296,15 @@ export default {
     },
     changeStatus(newStatus) {
       this.status = newStatus;
-      console.log(this.status, 'status');
     },
     createCast() {
       if (this.validateFormOne) {
-        console.log('success validated');
+        // console.log('success validated');
         this.formSubmitted();
-        // this.status='success';
       }
     },
     setCreateEventData() {
-      console.log('12');
+      // console.log('12');
       this.startNow = this.stepOneProps.start_now;
       for (let [key, value] of Object.entries(this.stepOneProps)) {
         if (value.length === 0) {
@@ -307,7 +320,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      console.log('123');
+      // console.log('123');
       this.stepTwoProps.imageURL = '';
       this.stepTwoProps.BackImageURL = '';
       for (let [key, value] of Object.entries(this.stepTwoProps)) {
@@ -324,7 +337,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      console.log('1234');
+      // console.log('1234');
       for (let [key, value] of Object.entries(this.stepThreeProps)) {
         if (value.length === 0) {
           value = '';
@@ -340,7 +353,7 @@ export default {
         this.formData.append(key, value);
       }
       for (let [key, value] of Object.entries(this.stepFourProps)) {
-        console.log(value);
+        // console.log(value);
 
         if (value.length === 0) {
           value = '';
@@ -386,6 +399,7 @@ export default {
       this.$store
         .dispatch('cast/submitForm', this.formData)
         .then((response) => {
+          this.getList();
           this.status = 'success';
           this.$vs.loading.close();
           this.responsedata = response.data.message;
@@ -415,6 +429,98 @@ export default {
             });
           }
         });
+    },
+    // updateGiveNft(e) {
+    //   if (
+    //     this.stepOneProps.audienceAirdrop &&
+    //     this.stepOneProps.airdropType === 'NFTs' &&
+    //     this.stepOneProps.public_stream_nfts === 'false'
+    //   ) {
+    //     this.stepOneProps.give_nft = true;
+    //   } else {
+    //     this.stepOneProps.give_nft = false;
+    //   }
+    // },
+    getCertificateInfo() {
+      this.$store
+        .dispatch('cast/getCertificateInfo', {
+          session_key: this.session_key,
+        })
+        .then((res) => {
+          console.log('certificate info getting');
+          this.abi = res.data.aib;
+        })
+        .catch((e) => {
+          console.log('certificate info not getting');
+          if (e.response.data.message === 'invalid cast_id') {
+            this.$vs.notify({
+              title: 'Invalid Cast ID',
+              color: 'danger',
+            });
+            this.$router.push('/error/404');
+          }
+          console.log(e);
+        });
+    },
+    castInfo(setRunning) {
+      const castInfoList = this.castInfoList;
+      if (castInfoList && castInfoList.length > 0) {
+        const firstCast = castInfoList[castInfoList.length - 1];
+        const payload = firstCast.public_meeting_id;
+
+        this.$store
+          .dispatch('auth/eventDetail', payload)
+          .then(async (response) => {
+            const response_val = await response.data;
+            this.expired = response_val.meeting_info.expired;
+            this.public_meeting_id =
+              response_val.meeting_info.public_meeting_id;
+            this.vc_details_submitted =
+              response_val.meeting_info.vc_details_submitted;
+            this.coverImage = response_val.meeting_info.cover_image;
+            this.event_nft_enabled =
+              !response_val.meeting_info.pub_nft_flow &&
+              response_val.meeting_info.nft_details_submitted;
+            this.certificate_enabled =
+              response_val.meeting_info.vc_details_submitted;
+            this.public_nft_status =
+              response_val.meeting_info.public_nft_status;
+            this.pub_nft_flow = response_val.meeting_info.pub_nft_flow;
+            this.public_stream = response_val.meeting_info.public_stream;
+            this.viewer_mode = response_val.meeting_info.viewer_mode;
+            this.stream_urls = response_val.meeting_info.stream_urls;
+            this.isAirdrop = response_val.meeting_info.airdrop;
+            this.stream_live_status = response_val.meeting_info.stream_status;
+            this.stepOneProps.public_otp = response_val.meeting_info.public_otp;
+            this.stepOneProps.send_otp = response_val.meeting_info.send_otp;
+            this.stepOneProps.password_auth =
+              response_val.meeting_info.password_auth;
+            this.nft_details_submitted =
+              response_val.meeting_info.nft_details_submitted;
+            this.eventName = response_val.meeting_info.event_name;
+            this.eventDescription = response_val.meeting_info.description;
+            this.running = response_val.meeting_info.running;
+            if (this.certificate_enabled) {
+              this.getCertificateInfo();
+            }
+            if (!setRunning) {
+              setTimeout(() => {
+                this.castInfo(true);
+              }, 5000);
+            }
+            this.isPublic = !response_val.meeting_info.send_otp;
+          })
+          .catch((err) => {
+            // this.$router.push('/error/404');
+            if (err.response.data.message === 'invalid cast id') {
+              this.$vs.notify({
+                title: 'Invalid Cast ID',
+                color: 'danger',
+              });
+              this.$router.push('/mycasts');
+            }
+          });
+      }
     },
   },
 };
