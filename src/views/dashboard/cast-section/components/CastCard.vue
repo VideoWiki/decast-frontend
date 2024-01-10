@@ -257,9 +257,17 @@
                 </div>
             </div>
         </div>
-        <ManageAudienceModal v-if="activeModal == 'manageAudienceModal'" :closeModal="() => setCastModal('')"
-            :castId="cast.public_meeting_id" :invites="cast.invitee_list"
-            :isStream="(typeof streamInfo[cast.public_meeting_id] !== 'undefined')" :viewer="cast.viewer_mode" />
+
+        <BaseModal v-if="activeModal == 'manageAudienceModal'" :title="'Invite your attendees'" @close="setCastModal('')">
+            <template #modalContent>
+                <ManageAudNftModal :showCloseButton="() => setCastModal('')"
+                    :isAirdrop="isAirdrop" :pub_nft_flow="pub_nft_flow" :public_nft_status="public_nft_status"
+                    :changePublicNftStatus="changePublicNftStatus" :nft_details_submitted="nft_details_submitted"
+                    :vc_details_submitted="vc_details_submitted" :event_nft_enabled="event_nft_enabled"
+                    :certificate_enabled="certificate_enabled" :castId="cast.public_meeting_id" :invites="cast.invitee_list"
+                    :isStream="(typeof streamInfo[cast.public_meeting_id] !== 'undefined')" :viewer="cast.viewer_mode" />
+            </template>
+        </BaseModal>
         <CallSettingsModal v-if="activeModal == 'callSettingsModal'" :closeModal="() => setCastModal('')"
             :stepFourProps="stepFourProps" :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps"
             :stepOneProps="stepOneProps" :castId="cast.public_meeting_id" />
@@ -358,11 +366,13 @@ import StreamSettingsModal from '@/views/dashboard/cast-section/components/Strea
 import ResheduleCastModal from '@/views/dashboard/cast-section/components/ResheduleCastModal.vue';
 import EditCastModal from '@/views/dashboard/cast-section/components/EditCast/EditCastModal.vue';
 import ConfirmationModal from '@/views/dashboard/components/ConfirmationModal.vue';
+import ManageAudNftModal from '@/views/dashboard/nft/ManageAudNftModal.vue';
+import BaseModal from "@/components/common/BaseModal.vue";
 
 export default {
     name: 'CastCard',
-    props: ['castsInfo', 'cast', 'index', 'setProps', 'stepOneProps', 'stepTwoProps', 
-    'stepThreeProps', 'stepFourProps', 'getCastList'],
+    props: ['castsInfo', 'cast', 'index', 'setProps', 'stepOneProps', 'stepTwoProps',
+        'stepThreeProps', 'stepFourProps', 'getCastList'],
     data() {
         return {
             isLoading: false,
@@ -408,6 +418,7 @@ export default {
                     icon: () => import("@/assets/svgs/menu-icons/manage.vue"),
                     onClick: () => {
                         this.setProps(this.cast.public_meeting_id);
+                        this.castNftInfo(this.cast.public_meeting_id);
                         this.setCastModal('manageAudienceModal');
                     }
                 },
@@ -476,7 +487,16 @@ export default {
                     icon: () => import("@/assets/svgs/menu-icons/stream.vue"),
                     onClick: () => this.copy(cast.public_meeting_id, undefined),
                 },
-            ]
+            ],
+
+            // NFT specific data
+            isAirdrop: false,
+            pub_nft_flow: false,
+            public_nft_status: false,
+            event_nft_enabled: false,
+            certificate_enabled: false,
+            nft_details_submitted: false,
+            vc_details_submitted: false,
         };
     },
     components: {
@@ -497,6 +517,8 @@ export default {
         ResheduleCastModal,
         EditCastModal,
         ConfirmationModal,
+        ManageAudNftModal,
+        BaseModal,
     },
     mounted() {
         // document.getElementById('loading-bg').style.display = 'block';
@@ -634,13 +656,13 @@ export default {
                 this.$forceUpdate();
             }, 1000);
         },
-        truncateText(text, maxLength) {
-            if (text.length > maxLength) {
-                return text.slice(0, maxLength) + '...';
-            } else {
-                return text;
-            }
-        },
+        // truncateText(text, maxLength) {
+        //     if (text.length > maxLength) {
+        //         return text.slice(0, maxLength) + '...';
+        //     } else {
+        //         return text;
+        //     }
+        // },
         checkScreenWidth() {
             // Define your breakpoint for mobile view (e.g., 768 pixels)
             const mobileBreakpoint = 480;
@@ -659,11 +681,11 @@ export default {
             const colors = ['#FCB92d', '#FB7E84', '#2CC2D3', '#79FC9E', '#D971BC'];
             return colors[index % colors.length];
         },
-        closeRes(e) {
-            if (e.currentTarget === e.target) {
-                this.showPostpone = false;
-            }
-        },
+        // closeRes(e) {
+        //     if (e.currentTarget === e.target) {
+        //         this.showPostpone = false;
+        //     }
+        // },
         // setProps() {
         //     const details = this.castsInfo[this.cast.public_meeting_id].details;
         //     this.stepOneProps = {
@@ -992,6 +1014,85 @@ export default {
         },
         closeCreate() {
             this.create = false;
+        },
+
+        async changePublicNftStatus(castId, curr_status) {
+            try {
+                this.$vs.loading();
+                await this.$store
+                    .dispatch('studio/publicNftActivate', {
+                        cast_id: castId,
+                        nft_activate: curr_status,
+                    })
+                    .then((res) => {
+                        // eslint-disable-next-line camelcase
+                        this.public_nft_status = curr_status === 'True';
+                        this.$vs.loading.close();
+                    });
+            } catch (err) {
+                this.$vs.loading.close();
+                this.$vs.notify({
+                    title: 'Error',
+                    text: 'Try again !',
+                    color: 'Danger',
+                });
+            }
+        },
+        castNftInfo(id) {
+            console.log(id, 'newnft');
+            const payload = id;
+            this.$store
+                .dispatch('auth/eventDetail', payload)
+                .then(async (response) => {
+                    const response_val = await response.data;
+                    // console.log(response_val, 'pinky');
+                    this.expired = response_val.meeting_info.expired;
+                    this.public_meeting_id = response_val.meeting_info.public_meeting_id;
+                    this.vc_details_submitted =
+                        response_val.meeting_info.vc_details_submitted;
+                    this.coverImage = response_val.meeting_info.cover_image;
+                    this.event_nft_enabled =
+                        !response_val.meeting_info.pub_nft_flow &&
+                        response_val.meeting_info.nft_details_submitted;
+                    this.certificate_enabled =
+                        response_val.meeting_info.vc_details_submitted;
+                    this.public_nft_status = response_val.meeting_info.public_nft_status;
+                    this.pub_nft_flow = response_val.meeting_info.pub_nft_flow;
+                    this.public_stream = response_val.meeting_info.public_stream;
+                    this.viewer_mode = response_val.meeting_info.viewer_mode;
+                    this.stream_urls = response_val.meeting_info.stream_urls;
+                    this.isAirdrop = response_val.meeting_info.airdrop;
+                    this.stream_live_status = response_val.meeting_info.stream_status;
+                    this.stepOneProps.public_otp = response_val.meeting_info.public_otp;
+                    this.stepOneProps.send_otp = response_val.meeting_info.send_otp;
+                    this.stepOneProps.password_auth =
+                        response_val.meeting_info.password_auth;
+                    this.nft_details_submitted =
+                        response_val.meeting_info.nft_details_submitted;
+                    this.eventName = response_val.meeting_info.event_name;
+                    this.eventDescription = response_val.meeting_info.description;
+                    this.running = response_val.meeting_info.running;
+                    if (this.certificate_enabled) {
+                        this.getCertificateInfo();
+                    }
+                    // if (!setRunning) {
+                    //     setTimeout(() => {
+                    //         this.castNftInfo(true);
+                    //         console.log('check it otu');
+                    //     }, 5000);
+                    // }
+                    this.isPublic = !response_val.meeting_info.send_otp;
+                })
+                .catch((err) => {
+                    // this.$router.push('/error/404');
+                    if (err.response.data.message === 'invalid cast id') {
+                        this.$vs.notify({
+                            title: 'Invalid Cast ID',
+                            color: 'danger',
+                        });
+                        this.$router.push('/mycasts');
+                    }
+                });
         },
     },
     created() {

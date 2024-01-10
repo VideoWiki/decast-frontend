@@ -1,11 +1,11 @@
 <template>
-    <div class="nft-container rounded-lg">
+    <div class="nft-container">
         <!-- <div class="head-container">
-        <h3>Add drops - NFT</h3>
-        <button @click="closeDrops">
-          <img src="@/assets/images/cross.svg" />
-        </button>
-      </div> -->
+            <h3>Add drops - NFT</h3>
+            <button @click="closeDrops">
+                <img src="@/assets/images/cross.svg" />
+            </button>
+        </div> -->
 
         <!-- <div class="horizontal-line"></div> -->
 
@@ -27,7 +27,7 @@
             <div>
                 <label for="select">Select a network</label>
                 <br />
-                <select name="network-select" id="network-select" v-model="network" @change="updateNetwork">
+                <select name="network-select" id="network-select" v-model="stepOneProps.network" @change="updateNetwork">
                     <option value="41">Telos EVM Testnet</option>
                     <option value="1">Ethereum</option>
                     <option value="5">Goerli Testnet RPC</option>
@@ -95,34 +95,24 @@
                         v-on:change="uploadSampleNft" />
                     <p style="max-width: 100px; overflow: hidden">{{ sampleName }}</p>
                     <!-- <button>
-              <img src="@/assets/images/delete.svg" />
-            </button> -->
+                <img src="@/assets/images/delete.svg" />
+              </button> -->
                 </div>
             </div>
         </div>
 
         <div class="add-cont">
-            <vs-button v-if="showBackButton" class="back-btn" @click="showBackButton">Back</vs-button>
-            <vs-button @click.stop="uploadMetadata">Add NFT</vs-button>
+            <vs-button @click.stop="addNft(true)">Update NFT</vs-button>
         </div>
     </div>
 </template>
   
 <script>
-// import ipfsClient from 'ipfs-http-client';
-import axios from '@/axios';
 import ToggleSwitch from '@/views/dashboard/cast-section/components/Tabs/ToggleSwitch.vue';
 import buttonToggle from '@/views/dashboard/cast-section/components/Tabs/buttonToggle.vue';
 export default {
-    name: 'CreateNFT',
-    props: [
-        'changeStatus',
-        'nft_details_submitted',
-        'stepOneProps',
-        'castInfo',
-        'castId',
-        'showBackButton',
-    ],
+    name: 'NftEdit',
+    props: ['cast_id', 'currStatus', 'ToggleEdit'],
     components: {
         ToggleSwitch,
         buttonToggle,
@@ -136,7 +126,61 @@ export default {
             textColor: 'blue',
             sampleName: 'No File Selected',
             isChecked: true,
-            dummyURI: '',
+            nftDetails: null,
+            localStatus: this.currStatus,
+            stepOneProps: {
+                mint_function_name: '',
+                mintfnc_name_error: false,
+                contract_address: '',
+                contract_address_error: false,
+                aib: '',
+                aib_error: false,
+                parameter: '',
+                parameter_error: false,
+                network: '',
+                audienceAirdrop: true,
+                give_vc: false,
+                airdropType: 'NFTs',
+                price: '',
+                price_error: false,
+                nft_description: '',
+                nft_description_error: false,
+                nft_image: '',
+                data_token: false,
+                nft_image_error: false,
+                password_auth: false,
+                auth_type: 'public',
+                meeting_auth_error: false,
+                send_otp: false,
+                public_auth: false, // Changed from the first object's 'true' to the second object's 'false'
+                public_otp: false,
+                give_nft: false,
+                public_stream_nfts: 'true',
+                public_nft_flow: false,
+                nft_t_ype: 'NFTs', // Appears only in the first object, I'll keep it here
+                nft_type: 'NFTs', // Appears only in the first object, I'll keep it here
+                generated_event_title: '',
+                event_name: '',
+                invalidTimeError: false,
+                moderator_password: '',
+                attendee_password: '',
+                meeting_type: 'public',
+                schedule_time: '',
+                description: '',
+                max_participant: 100,
+                short_description: '',
+                hide_users: false,
+                event_name_error: false,
+                moderator_password_error: false,
+                attendee_password_error: false,
+                viewer_password_error: false,
+                description_error: false,
+                description_length_error: false,
+                schedule_time_error: false,
+                meeting_type_error: false,
+                event_name_length_error: false,
+                start_now: false,
+            },
         };
     },
     computed: {
@@ -159,14 +203,72 @@ export default {
             }
         },
     },
-    mounted() {
+    async mounted() {
+        if (this.cast_id === 'vw.svg') {
+            return;
+        }
+        await this.castInfo();
+        this.getNFTDetails();
         document.getElementById('loading-bg').style.display = 'none';
-        console.log(this.castId, 'castid');
+        console.log(this.cast_id, 'cast_id');
+        // this.togglePrivateSwitch();
     },
     methods: {
-        updateNetwork() {
-            this.stepOneProps.network = this.network;
-            // this.$emit('updateStepOneProps', this.stepOneProps);
+        getNFTDetails() {
+            this.$vs.loading();
+            const payload = this.cast_id;
+            this.$store
+                .dispatch('cast/recieveNFTDetails', payload)
+                .then((res) => {
+                    this.nftDetails = res.data;
+                    if (this.nftDetails && this.nftDetails.pub_nft_flow == false) {
+                        this.publicIsChecked = false;
+                        this.privateIsChecked = true;
+                    }
+                    console.log(this.nftDetails, 'mfjf');
+                    console.log('working receieving');
+                    console.log(res, 'netwrok');
+                    this.stepOneProps.mint_function_name = res.data.mint_function_name;
+                    this.stepOneProps.contract_address = res.data.contract_adress;
+                    this.stepOneProps.nft_description = res.data.description;
+                    this.stepOneProps.network = res.data.network;
+                    this.stepOneProps.parameter = JSON.stringify(res.data.parameter);
+                    this.stepOneProps.public_stream_nfts = JSON.stringify(
+                        res.data.pub_nft_flow
+                    );
+                    this.stepOneProps.aib = JSON.stringify(res.data.aib);
+                    this.stepOneProps.image = res.data.image;
+                    this.stepOneProps.nft_image = res.data.image;
+                    this.stepOneProps.price = res.data.price;
+                    if (this.stepOneProps.public_stream_nfts === 'false') {
+                        this.stepOneProps.give_nft = true;
+                    }
+                    const imageUrl = res.data.image;
+                    const url = new URL(imageUrl);
+                    const imageName = url.pathname.split('/').pop();
+                    this.sampleName = imageName;
+                    console.log(this.stepOneProps);
+                    this.$vs.loading.close();
+                })
+                .catch((e) => {
+                    console.log('error in receibing', e);
+                });
+        },
+        async castInfo() {
+            const payload = this.cast_id;
+            await this.$store
+                .dispatch('auth/eventDetail', payload)
+                .then(async (response) => {
+                    this.stepOneProps.send_otp = response.data.meeting_info.send_otp;
+                    this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
+                })
+                .catch((err) => {
+                    console.log(err.response.status);
+                    console.log(JSON.stringify(err));
+                });
+        },
+        updateNetwork(event) {
+            this.stepOneProps.network = event.target.value;
         },
         toggleTextColor(type) {
             if (type === 'NFTs') {
@@ -183,8 +285,6 @@ export default {
         toggleNftSwitch() {
             this.nftIsChecked = !this.nftIsChecked;
             this.tokenIsChecked = !this.tokenIsChecked;
-            // const type = this.tokenIsChecked ? 'Token' : 'NFTs';
-            // this.updateAirdropType(type)
             this.typeOfNft();
             console.log('NFT switch toggled');
         },
@@ -234,6 +334,21 @@ export default {
                 this.stepOneProps.public_nft_flow = true;
             }
         },
+        updateGiveNft(e) {
+            console.log(e, 'updatenft');
+            if (
+                this.stepOneProps.audienceAirdrop === true &&
+                this.stepOneProps.airdropType === 'NFTs' &&
+                this.stepOneProps.public_stream_nfts === 'false'
+            ) {
+                this.stepOneProps.give_nft = true;
+            } else {
+                this.stepOneProps.give_nft = false;
+            }
+        },
+        openUpload() {
+            document.getElementById('nft_image').click();
+        },
         valueCheck(e) {
             if (
                 this.stepOneProps.audienceAirdrop &&
@@ -251,15 +366,13 @@ export default {
                     this.stepOneProps.nft_image_error = false;
             }
         },
-        openUpload() {
-            document.getElementById('nft_image').click();
-        },
         canSubmitNft() {
             console.log(
                 this.stepOneProps.audienceAirdrop,
                 this.stepOneProps.airdropType,
                 this.stepOneProps.mint_function_name,
                 this.stepOneProps.contract_address,
+                this.stepOneProps.aib,
                 this.stepOneProps.nft_description,
                 this.stepOneProps.nft_image,
                 'stepproo'
@@ -304,21 +417,11 @@ export default {
                 return true;
             }
         },
-        updateGiveNft(e) {
-            console.log(e, 'updatenft');
-            if (
-                (this.stepOneProps.audienceAirdrop &&
-                    this.stepOneProps.airdropType === 'NFTs') ||
-                this.stepOneProps.public_stream_nfts === 'false'
-            ) {
-                this.stepOneProps.give_nft = true;
-            } else {
-                this.stepOneProps.give_nft = false;
-            }
+        closeDrops() {
+            this.ToggleEdit('');
         },
         async addNft(x) {
-            console.log('add call');
-            // this.stepOneProps.give_nft=true;
+            console.log(x, this.stepOneProps, 'hope');
             if (
                 this.publicIsChecked === false &&
                 this.stepOneProps.meeting_type === 'public'
@@ -331,10 +434,7 @@ export default {
                 return;
             } else {
                 if (this.canSubmitNft()) {
-                    if (this.stepOneProps.parameter == '') {
-                        this.stepOneProps.parameter = `{"_tokenURI":"${this.dummyURI}"}`;
-                    }
-                    const id = this.castId;
+                    const id = this.cast_id;
                     var payload = new FormData();
                     for (var [key, value] of Object.entries(this.stepOneProps)) {
                         if (value.length === 0) {
@@ -353,19 +453,17 @@ export default {
                     payload.append('public_meeting_id', id);
                     this.$vs.loading();
                     await this.$store
-                        .dispatch('studio/addNftDetails', payload)
+                        .dispatch('studio/updateNftDetails', payload)
                         .then(async (res) => {
                             if (x) {
                                 this.$vs.notify({
                                     time: 6000,
-                                    title: 'Airdrop Details Submitted',
+                                    title: 'Airdrop Details Updated',
                                     color: 'success',
                                 });
                                 this.closeDrops();
                                 this.$vs.loading.close();
-                                this.castInfo(false);
                                 this.airdrops = false;
-                                this.resetFields();
                             }
                         })
                         .catch((e) => {
@@ -384,65 +482,6 @@ export default {
                 }
             }
         },
-        async uploadMetadata() {
-            const imageFile = this.stepOneProps.nft_image;
-            const description = this.stepOneProps.nft_description;
-            const nftFormData = new FormData();
-            nftFormData.append('file', imageFile);
-            const pinataMetadata = JSON.stringify({
-                name: this.sampleName,
-            });
-            nftFormData.append('pinataMetadata', pinataMetadata);
-
-            try {
-                this.$vs.loading();
-                const response = await axios.post(
-                    'https://api.pinata.cloud/pinning/pinFileToIPFS',
-                    nftFormData,
-                    {
-                        maxBodyLength: 'Infinity',
-                        headers: {
-                            'Content-Type': `multipart/form-data; boundary=${nftFormData._boundary}`,
-                            Authorization:
-                                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4MjY5M2EwZS1jYWY2LTRjNzUtYWZkNC1iNTQ1ZGQ4MDNmNWEiLCJlbWFpbCI6Inp0ZWNoOTE4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiIxNThkMTdiYTRmYTUzODQ0NWFmYSIsInNjb3BlZEtleVNlY3JldCI6ImQ0MTJjOGVhOGJiZGNiZjljYjkwN2U5OWVmNGJkMTVkNGM0OTgyZTQ2YTIyNmE0NmU2MTViNzJmYzg1ZDZjYjQiLCJpYXQiOjE3MDQyNzU5OTV9.Bit4dIaEVZHYTcNOpSBC6tRjK88WbmusoUwIXTmoJKQ',
-                        },
-                    }
-                );
-                console.log(response, 'dkk');
-                const cid = response.data.IpfsHash;
-
-                const data = JSON.stringify({
-                    pinataContent: {
-                        name: this.sampleName,
-                        description: description,
-                        external_url: 'https://pinata.cloud',
-                        image: `ipfs://${cid}`,
-                    },
-                    pinataMetadata: {
-                        name: 'metadata.json',
-                    },
-                });
-
-                const res = await axios.post(
-                    "https://api.pinata.cloud/pinning/pinJSONToIPFS", data,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization:
-                                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4MjY5M2EwZS1jYWY2LTRjNzUtYWZkNC1iNTQ1ZGQ4MDNmNWEiLCJlbWFpbCI6Inp0ZWNoOTE4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiIxNThkMTdiYTRmYTUzODQ0NWFmYSIsInNjb3BlZEtleVNlY3JldCI6ImQ0MTJjOGVhOGJiZGNiZjljYjkwN2U5OWVmNGJkMTVkNGM0OTgyZTQ2YTIyNmE0NmU2MTViNzJmYzg1ZDZjYjQiLCJpYXQiOjE3MDQyNzU5OTV9.Bit4dIaEVZHYTcNOpSBC6tRjK88WbmusoUwIXTmoJKQ',
-                        },
-                    }
-                );
-                this.$vs.loading.close();
-                const ipfsHash = res.data.IpfsHash;
-                this.dummyURI = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
-                await this.addNft(true);
-                console.log('TokenURI:', tokenURI);
-            } catch (error) {
-                console.error('Error uploading metadata to Pinata IPFS:', error);
-            }
-        },
-
         resetFields() {
             this.stepOneProps = {
                 contract_address: '',
@@ -496,23 +535,16 @@ export default {
 </script>
   
 <style scoped>
-.back-btn {
-    background-color: #1F272F !important;
-    color: #A6A6A8 !important;
-    border: 1px solid #31394E !important;
-    margin-right: 10px !important;
-}
 .nft-container {
-    width: 590px;
+    max-width: 590px;
     /* min-height: 575px; */
     height: auto;
-    /* border-radius: 10px; */
-    background-color: #1f272f;
-    /* border: 1px solid #31394e; */
-    /* padding: 15px;
-    padding-bottom: 25px; */
     margin: auto;
     top: 10px;
+    border-radius: 10px;
+    background-color: #1f272f;
+    /* border: 1px solid #31394e; */
+    /* padding: 15px; */
 }
 
 button {
@@ -543,13 +575,12 @@ button {
     width: 588px;
     margin: auto;
     margin-top: 10px;
-    margin-left: -15px;
 }
 
 .mid-1 {
     display: flex;
     justify-content: space-between;
-    margin-top: 0px !important;
+    /* margin-top: 15px; */
 }
 
 .mid-1 div {

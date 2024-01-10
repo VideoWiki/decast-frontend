@@ -2,12 +2,6 @@
     <NftEdit v-if="currStatus === 'edit'" :cast_id="castId" :currStatus="currStatus" :ToggleEdit="ToggleEdit" />
     <ShareNftLink v-else-if="currStatus === 'share'" :cast_id="castId" :ToggleEdit="ToggleEdit" />
     <div v-else class="invite-cont">
-        <div class="head-container">
-            <h3>Invite your attendees</h3>
-            <button @click="closeInvite">
-                <img src="@/assets/images/cross.svg" />
-            </button>
-        </div>
         <div class="invite-section mb-4">
             <div class="invite-wrapper">
                 <div class="invite-wrapper-left">
@@ -73,7 +67,7 @@
                 public_nft_status
                     ? changePublicNftStatus(castId, 'False')
                     : changePublicNftStatus(castId, 'True')
-                " class="text-white text-base mx-2 my-1 airdrop-btn " style="font-size: 12px;">
+                " class="text-white text-base mx-2 my-1 airdrop-btn-1 " style="font-size: 12px;">
                 <span class="btn-custom-theme flex flex-wrap align-bottom">
                     {{ public_nft_status ? 'Disable Claim NFT' : 'Enable Claim NFT' }}
                     <div>
@@ -87,7 +81,7 @@
                 </span>
             </vs-button>
 
-            <vs-button v-if="this.users" @click="inviteeListDownload" class="BTN text-base mx-2 my-1 airdrop-btn"
+            <vs-button v-if="users" @click="inviteeListDownload" class="BTN text-base mx-2 my-1 airdrop-btn-1"
                 content="Download Invitee List" v-tippy="{ placement: 'top', arrow: true }" style="font-size: 12px;">
                 <vs-icon icon-pack="feather" icon="icon-download" size="14px" rounded="true" style="align-self: flex-end">
                 </vs-icon>
@@ -95,25 +89,25 @@
 
             <vs-button v-if="nft_details_submitted && !certificate_enabled" content="Edit NFT" style="font-size: 12px;"
                 @click="ToggleEdit('edit')" v-tippy="{ placement: 'top', arrow: true }"
-                class="BTN text-base mx-2 my-1 airdrop-btn">
+                class="BTN text-base mx-2 my-1 airdrop-btn-1">
                 <vs-icon icon-pack="feather" icon="icon-edit" size="14px" rounded="true" style="align-self: flex-end">
                 </vs-icon>
             </vs-button>
 
-            <vs-button v-if="isAirdrop && pub_nft_flow" class="BTN text-base mx-2 my-1 airdrop-btn" style="font-size: 12px;"
-                @click="ToggleEdit('share')" content="Copy link of NFT to share"
+            <vs-button v-if="isAirdrop && pub_nft_flow" class="BTN text-base mx-2 my-1 airdrop-btn-1"
+                style="font-size: 12px;" @click="ToggleEdit('share')" content="Copy link of NFT to share"
                 v-tippy="{ placement: 'top', arrow: true }">
                 <vs-icon icon-pack="feather" icon="icon-share-2" size="14px" rounded="true" style="align-self: flex-end">
                 </vs-icon>
             </vs-button>
 
-            <vs-button v-if="(nft_enable_count <= 0 || airdrop_done) && event_nft_enabled && this.nft_details_submitted"
-                disabled @click="audienceDropMail" class="text-white text-base mx-2 my-1 airdrop-btn"
+            <vs-button v-if="(nft_enable_count <= 0 || airdrop_done) && event_nft_enabled && nft_details_submitted" disabled
+                @click="audienceDropMail" class="text-white text-base mx-2 my-1 airdrop-btn-1"
                 style="font-size: 12px;">Airdrop
             </vs-button>
 
             <vs-button v-if="nft_enable_count > 0 && !airdrop_done && event_nft_enabled" @click="audienceDropMail"
-                class="text-white text-base mx-2 my-1 airdrop-btn">Airdrop
+                class="text-white text-base mx-2 my-1 airdrop-btn-1">Airdrop
             </vs-button>
         </div>
 
@@ -166,9 +160,8 @@
             <NftUserTable :certificate_enabled="certificate_enabled" :users="users"
                 :vc_details_submitted="vc_details_submitted" :event_nft_enabled="event_nft_enabled"
                 :nft_details_submitted="nft_details_submitted" :removeUser="removeUser" :castId="castId"
-                :isStream="isStream" :viewer="viewer" :stepOneProps="stepOneProps" :inviteeList="inviteeList"
-                :nft_enable_count="nft_enable_count" :increNftEnableCount="increNftEnableCount"
-                :decreNFTEnableCount="decreNFTEnableCount" />
+                :isStream="isStream" :viewer="viewer" :inviteeList="inviteeList" :nft_enable_count="nft_enable_count"
+                :increNftEnableCount="increNftEnableCount" :decreNFTEnableCount="decreNFTEnableCount" />
         </div>
 
         <!-- <div class="parent-img">
@@ -245,24 +238,27 @@
         </div>
       </div> -->
 
-        <div class="done-btn">
-            <button @click="closeInvite">Close</button>
+        <div class="user-manage-bottom-sec" v-if="showBackButton">
+            <vs-button class="back-btn" @click="showBackButton">Back</vs-button>
+        </div>
+        <div class="user-manage-bottom-sec" v-if="showCloseButton">
+            <vs-button @click="showCloseButton">Close</vs-button>
         </div>
     </div>
 </template>
   
 <script>
-// import axios from 'axios';
-import constants from '../../../constant';
-import axios from '../../axios';
-import NftEdit from './NFT/NftEdit.vue';
-import ShareNftLink from './NFT/ShareNftLink.vue';
-import NftUserTable from './NftUserTable.vue'
+import constants from '../../../../constant';
+import axios from '@/axios';
+import NftEdit from './NftEdit.vue';
+import ShareNftLink from './ShareNftLink.vue';
+import NftUserTable from './NftUserTable.vue';
 
 export default {
     name: 'InviteCard',
-    props: ['isAirdrop', 'pub_nft_flow', 'public_nft_status', 'changePublicNftStatus', 'nft_details_submitted', 'stepOneProps',
-        'castId', 'invites', 'closeInvite', 'isStream', 'viewer', 'event_nft_enabled', 'certificate_enabled', 'vc_details_submitted'],
+    props: ['isAirdrop', 'pub_nft_flow', 'public_nft_status', 'changePublicNftStatus', 'nft_details_submitted',
+        'castId', 'invites', 'closeModal', 'isStream', 'viewer', 'event_nft_enabled', 'certificate_enabled', 'vc_details_submitted',
+        'showBackButton', 'showCloseButton'],
     components: {
         NftEdit,
         ShareNftLink,
@@ -715,6 +711,11 @@ export default {
 </script>
   
 <style scoped>
+.user-manage-bottom-sec {
+    display: flex;
+    justify-content: end;
+}
+
 .btn-custom-theme {
     color: #000000;
     font-weight: 500;
@@ -768,7 +769,6 @@ export default {
 
 .invite-wrapper {
     display: flex;
-    margin-top: 20px;
 }
 
 .invite-wrapper-left {
@@ -808,6 +808,27 @@ export default {
     height: 100%;
     width: 115.5px;
     color: #a6a6a8;
+}
+
+.airdrop-btn-1 {
+    border: 1px solid #31394e !important;
+    background: transparent !important;
+    width: fit-content !important;
+    padding: 8px 12px !important;
+    color: #d7df23 !important;
+}
+
+.airdrop-btn-1:hover {
+    background: #d7df23 !important;
+    color: #000000 !important;
+}
+
+.airdrop-btn-1 span {
+    color: #d7df23 !important;
+}
+
+.airdrop-btn-1 span:hover {
+    color: #000000 !important;
 }
 
 .opt-cont {
@@ -886,8 +907,8 @@ export default {
     height: 85vh;
     border-radius: 10px;
     background-color: #1f272f;
-    border: 1px solid #31394e;
-    padding: 15px;
+    /* border: 1px solid #31394e; */
+    /* padding: 15px; */
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -1108,17 +1129,10 @@ button {
     border-radius: 6px;
 }
 
-.done-btn {
-    text-align: right;
-    margin-top: 20px;
-}
-
-.done-btn button {
-    background-color: #d7df23;
-    width: 141px;
-    height: 40px;
-    border: none;
-    border-radius: 6px;
+.back-btn {
+    background-color: #1F272F !important;
+    color: #A6A6A8 !important;
+    border: 1px solid #31394E !important;
 }
 
 .child-1 {
@@ -1311,9 +1325,5 @@ button {
     .btn-cont {
         margin: 10px 0px 10px 0px;
     }
-
-    .done-btn button {
-        width: 100px;
-        height: 40px;
-    }
-}</style>
+}
+</style>

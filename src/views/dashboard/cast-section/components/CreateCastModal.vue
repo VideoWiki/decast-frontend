@@ -8,13 +8,7 @@
       :changeStatus="changeStatus"
       :closeCreate="closeCreate"
     /> -->
-        <ShareCast v-if="status === 'success'" :changeStatus="changeStatus"
-          :toggleCreateCastModal="toggleCreateCastModal" />
-
-        <CreateNFT v-else-if="status == 'drops'" :changeStatus="changeStatus" :stepOneProps="stepOneProps"
-          :nft_details_submitted="nft_details_submitted" :valueCheck="valueCheck" :castInfo="castInfo" :castId="castId" />
-
-        <div v-else-if="status === 'create'" class="center-container">
+        <div v-if="status === 'create'" class="center-container">
           <div class="buttons flex">
             <button class="button-1" :style="{
               backgroundColor: activeTab === 'Set up' ? '#464775' : '#1F272F',
@@ -64,10 +58,21 @@
               :stepOneProps="stepOneProps" :closeCreate="closeCreate" :castId="castId" />
           </div>
         </div>
-        <div v-else-if="status === 'invite'">
+
+        <ManageAudNftModal v-else-if="status === 'invite'" :isStream="stepThreeProps.is_streaming"
+          :viewer="stepFourProps.viewer_mode" :castId="castId" :invites="[]"
+          :showBackButton="() => changeStatus('success')" />
+
+        <ShareCast v-else-if="status === 'success'" :changeStatus="changeStatus"
+          :toggleCreateCastModal="toggleCreateCastModal" />
+
+        <CreateNFT v-else-if="status == 'drops'" :changeStatus="changeStatus" :stepOneProps="stepOneProps"
+          :nft_details_submitted="nft_details_submitted" :valueCheck="valueCheck" :castInfo="castInfo" :castId="castId" 
+          :showBackButton="() => changeStatus('success')" />
+        <!-- <div v-else-if="status === 'invite'">
           <invite-card :isStream="stepThreeProps.is_streaming" :viewer="stepFourProps.viewer_mode"
             :closeInvite="closeCreate" :Id="castId" :invites="[]" :changeStatus="changeStatus" />
-        </div>
+        </div> -->
         <!-- <div v-else>
           <stream-card :stepFourProps="stepFourProps" :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps"
             :stepOneProps="stepOneProps" :closeCreate="closeCreate" :castId="castId" />
@@ -89,6 +94,7 @@ import Modal from '@/components/common/Modal.vue';
 import ShareCast from './ShareCast.vue';
 import BaseModal from "@/components/common/BaseModal.vue";
 import CreateNFT from '@/views/dashboard/nft/CreateNFT';
+import ManageAudNftModal from '../../nft/ManageAudNftModal.vue';
 
 export default {
   name: 'CreateCastModal',
@@ -105,6 +111,7 @@ export default {
     ShareCast,
     BaseModal,
     CreateNFT,
+    ManageAudNftModal,
   },
   data() {
     return {
@@ -221,7 +228,7 @@ export default {
       },
     };
   },
-  mounted() {},
+  mounted() { },
   computed: {
     castInfoList() {
       return this.$store.state.cast.casts;
