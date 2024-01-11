@@ -2,12 +2,14 @@
   <div>
     <div v-if="this.payload">
       <button
-        class="vs-component w-full mt-2 py-6 vs-button text-base font-bold vs-button-primary vs-button-filled"
+        class="vs-component w-full mt-2 vs-button text-base font-bold wallter-button"
         @click="connectWallet"
+        color="#1d2129"
+        text-color="#1d2129"
       >
         Connect Wallet
       </button>
-      <p class="mt-6">
+      <p class="mt-4 mb-2 info-wall">
         Your wallet information is not mapped to your email or name. It is saved
         with encryption and only used for the airdrop configured by the event
         admin.
@@ -17,7 +19,9 @@
     <div v-else>
       <vs-button
         v-if="authenticated"
-        class="text-base font-bold"
+        class="text-base font-bold wallter-button"
+        color="#1d2129"
+        text-color="#1d2129"
         type="filled"
         @click="popup"
         >Connect Wallet
@@ -63,6 +67,7 @@
       </div>
       <vs-popup
         id="nft-popup"
+        class=""
         ref="custom_modal_mine"
         title=""
         :active.sync="popupDisplay"
@@ -74,7 +79,7 @@
           <div class="w-full flex flex-wrap items-center justify-center">
             <img
               class="metamask-logo"
-              src="../../../../assets/images/MetaMask_Fox.png"
+              src="@/assets/images/metmask.png"
             />
           </div>
           <div class="w-full flex items-center justify-center">
@@ -167,24 +172,56 @@ export default {
   max-height:60%;
   max-width: 80%;
 } */
+
+.wallter-button{
+  background: #D7DF23 !important;
+  border: 1px solid #000;
+  color: #000 !important;
+  height: 50px;
+}
+
+.info-wall{
+  color: #637181 !important;
+}
+
 .metamask-logo {
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
 }
 
 p {
-  color: black !important;
+  color: #D7DF23 !important;
+}
+
+.info-wall{
+  color: #a6a6a6;
 }
 .metamask-h3 {
   font-size: 24px;
   font-weight: 700;
   margin-top: 0.5em;
-  color: rgb(12, 12, 13);
+  color: #D7DF23;
 }
 .popup-item {
   cursor: pointer;
+  background: #000 !important;
 }
-.popup-item:hover {
-  background: rgba(195, 195, 195, 0.14);
+
+#nft-popup{
+  /* border: 1px solid red !important; */
+}
+
+</style>
+
+<style>
+.vs-popup{
+  background: #000 !important;
+  border: 1px solid #d7df23 !important;
+}
+
+.vs-popup--close{
+  background: #000 !important;
+  border: 1px solid #d7df23 !important;
+  color: #d7df23 !important;
 }
 </style>

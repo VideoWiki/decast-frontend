@@ -582,15 +582,15 @@ const router = new Router({
     {
       path: '/public/nftdrop',
       name: 'Public NFT Drop',
-      component: () => import('./views/create-event/publicDropNfts.vue'),
+      component: () => import('@/views/dashboard/nft/PublicNftMint'),
       meta: {
         rule: 'isPublic',
       },
     },
     {
       path: '/nftdrop',
-      name: 'NFT Drop',
-      component: () => import('./views/create-event/DropNfts.vue'),
+      name: 'Private NFT Drop',
+      component: () => import('@/views/dashboard/nft/PrivateDropNfts.vue'),
       meta: {
         rule: 'isPublic',
       },

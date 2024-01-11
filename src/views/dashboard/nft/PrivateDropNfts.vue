@@ -1,216 +1,235 @@
 <template>
-  <div class="h-screen no-gutter layout--main">
-    <vertical-nav-menu-drop-nft
-      v-if="windowWidth < 1200"
-      :navMenuItems="navMenuItems"
-      title="VideoWiki"
-      parent=".layout--main"
-    />
-    <!--Responsive Navbar  -->
-    <template v-if="windowWidth >= 1200">
-      <nav-bar-drop-nft class="w-full" />
-    </template>
-    <template v-else>
-      <the-navbar-vertical
-        :navbarColor="navbarColor"
-        :class="[
-          { 'text-white': isNavbarDark && !isThemeDark },
-          { 'text-base': !isNavbarDark && isThemeDark },
-        ]"
+  <div class="idk-co">
+    <div class="h-screen no-gutter layout--main">
+      <vertical-nav-menu-drop-nft
+        v-if="windowWidth < 1200"
+        :navMenuItems="navMenuItems"
+        title="VideoWiki"
+        parent=".layout--main"
       />
-    </template>
-    <!-- Main Card-->
-    <div
-      class="flex flex-wrap w-full vx-row no-gutter items-center justify-center centerx"
-    >
-      <div class="vx-row no-gutter justify-center items-center mt-5 main-card">
-        <div class="vx-row justify-center items-center w-full h-full">
-          <div
-            v-if="hasMint == false && loading == false"
-            class="bottom vx-col md:w-1/3 w-full"
-          >
-            <div style="display: flex; justify-content: center">
-              <img src="../../assets/images/create-event/primary-cube.svg" />
-            </div>
-            <div class="flex flex-wrap justify-center">
-              <h3 style="color: #7448ff">VideoWiki NFT</h3>
-            </div>
-            <p class="px-2 mt-5 small-text">
-              Open the box to view the NFT details!
-            </p>
-            <div style="display: flex; justify-content: center">
-              <vs-button
-                pill
-                @click="mintPopup = true"
-                class="mt-8 mb-4 radius shifted-button"
-                >Open Box</vs-button
-              >
-            </div>
-            <vs-popup
-              ref="mint_popup"
-              title=""
-              :active.sync="mintPopup"
-              id="mint-popup-cover"
+      <!--Responsive Navbar  -->
+      <template v-if="windowWidth >= 1200">
+        <nav-bar-drop-nft class="w-full" />
+      </template>
+      <template v-else>
+        <the-navbar-vertical
+          :navbarColor="navbarColor"
+          :class="[
+            { 'text-white': isNavbarDark && !isThemeDark },
+            { 'text-base': !isNavbarDark && isThemeDark },
+          ]"
+        />
+      </template>
+      <!-- Main Card-->
+      <div
+        class="flex flex-wrap w-full vx-row no-gutter items-center justify-center centerx"
+      >
+        <div
+          class="vx-row no-gutter justify-center items-center mt-5 main-card"
+        >
+          <div class="vx-row justify-center items-center w-full h-full">
+            <div
+              v-if="hasMint == false && loading == false"
+              class="bottom vx-col md:w-1/3 w-full"
             >
-              <div
-                class="vx-row flex flex-wrap justify-center align-center w-full h-full mint-details p-5"
+              <div style="display: flex; justify-content: center">
+                <img src="@/assets/images/nftart.svg" />
+              </div>
+              <div class="flex flex-wrap justify-center">
+                <h3 style="color: #d7df23">Decast NFT</h3>
+              </div>
+              <p class="px-2 mt-5 small-text">
+                Open the box to view the NFT details!
+              </p>
+              <div style="display: flex; justify-content: center">
+                <vs-button
+                  pill
+                  @click="mintPopup = true"
+                  color="#1d2129"
+                  text-color="#1d2129"
+                  class="mt-8 mb-4 radius font-bold text-lg shifted-button"
+                  >Open Box</vs-button
+                >
+              </div>
+              <vs-popup
+                ref="mint_popup"
+                title=""
+                :active.sync="mintPopup"
+                id="mint-popup-cover"
               >
                 <div
-                  class="vx-row w-full flex flex-wrap justify-center align-center no-gutter"
+                  class="vx-row flex flex-wrap justify-center align-center w-full h-full mint-details p-5"
                 >
                   <div
-                    class="vx-col flex flex-wrap lg:w-1/3 justify-center items-center w-full"
+                    class="vx-row w-full flex flex-wrap justify-center align-center no-gutter"
                   >
-                    <div>
-                      <img class="sample-img" v-bind:src="nft_image" />
+                    <div
+                      class="vx-col flex flex-wrap lg:w-1/3 justify-center items-center w-full"
+                    >
+                      <div>
+                        <img class="sample-img" v-bind:src="nft_image" />
+                      </div>
+                    </div>
+                    <div class="vx-col lg:w-2/3 pl-2" style="text-align: left">
+                      <p class="p-2" v-if="!readMore">
+                        NFT Description:
+                        {{ nft_description.slice(0, 181) }}
+                        <span
+                          v-if="nft_description.length > 180"
+                          @click="
+                            () => {
+                              readMore = !readMore;
+                            }
+                          "
+                          style="
+                            color: #7448ff;
+                            cursor: pointer;
+                            font-size: 14px;
+                          "
+                          >... read more</span
+                        >
+                      </p>
+                      <p
+                        class="p-2"
+                        v-if="readMore"
+                        style="max-height: 100px; overflow-y: scroll"
+                      >
+                        NFT Description:
+                        {{ nft_description }}
+                        <span
+                          @click="
+                            () => {
+                              readMore = !readMore;
+                            }
+                          "
+                          style="color: #a6a6a6;
+                            cursor: pointer;
+                            font-size: 14px;
+                          "
+                        >
+                          Read Less</span
+                        >
+                      </p>
+                      <p class="p-2">
+                        Contract: {{ truncate(contractAddress) }}
+                      </p>
                     </div>
                   </div>
-                  <div class="vx-col lg:w-2/3 pl-2" style="text-align: left">
-                    <p class="p-2" v-if="!readMore">
-                      NFT Description:
-                      {{ nft_description.slice(0, 181) }}
-                      <span
-                        v-if="nft_description.length > 180"
-                        @click="
-                          () => {
-                            readMore = !readMore;
-                          }
-                        "
-                        style="color: #7448ff; cursor: pointer; font-size: 14px"
-                        >... read more</span
-                      >
-                    </p>
-                    <p
-                      class="p-2"
-                      v-if="readMore"
-                      style="max-height: 100px; overflow-y: scroll"
+                  <div
+                    class="vx-row mt-20 w-full flex flex-wrap justify-center align-center no-gutter"
+                  >
+                    <div
+                      class="flex flex-wrap vx-col md:w-1/1 p-2 mt-4 justify-center items-center"
                     >
-                      NFT Description:
-                      {{ nft_description }}
-                      <span
-                        @click="
-                          () => {
-                            readMore = !readMore;
-                          }
-                        "
-                        style="color: #7448ff; cursor: pointer; font-size: 14px"
+                      <vs-button
+                        v-if="hasMint == false"
+                        pill
+                        @click="mint"
+                        class="mt-8 mb-4 radius font-bold text-lg shifted-button"
+                        >Mint</vs-button
                       >
-                        Read Less</span
-                      >
-                    </p>
-                    <p class="p-2">Contract: {{ truncate(contractAddress) }}</p>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="vx-row mt-20 w-full flex flex-wrap justify-center align-center no-gutter"
-                >
-                  <div
-                    class="flex flex-wrap vx-col md:w-1/1 p-2 mt-4 justify-center items-center"
-                  >
-                    <vs-button
-                      v-if="hasMint == false"
-                      pill
-                      @click="mint"
-                      class="mt-8 mb-4 radius shifted-button"
-                      >Mint</vs-button
-                    >
-                  </div>
-                </div>
-              </div>
-            </vs-popup>
-          </div>
-          <div
-            v-if="loading == true"
-            class="bottom flex flex-wrap items-center justify-center vx-col md:w-3/4 w-full p-2 loading-container"
-          >
-            <img
-              src="../../assets/images/create-event/loading.png"
-              style="height: 100px; width: 100px"
-              class="loading-img"
-              alt="loading"
-            />
-          </div>
-          <div
-            v-if="hasMint == true && loading == false"
-            class="bottom mt-20 vx-col md:w-3/4 w-full p-2"
-          >
-            <div class="w-full flex flex-wrap justify-center">
-              <div class="hexagon-cover">
-                <div class="hexagon-shadow">
-                  <div
-                    v-if="nft_image && nft_image.endsWith('.svg')"
-                    class="hexagon"
-                    v-bind:style="{
-                      'background-image': 'url(' + nft_image + ')',
-                    }"
-                  ></div>
-                  <img v-else v-bind:src="realImage" class="hexagon-nft-img" />
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap align-items justify-center">
-              <vs-dropdown vs-custom-content class="cursor-pointer">
-                <div class="flex items-center relative">
-                  <vs-chip
-                    style="color: #52c41a"
-                    @click="copyTransaction"
-                    class="my-2 px-4"
-                  >
-                    Minted #{{ truncateSmaller(transactionHash) }}
-                  </vs-chip>
-                </div>
-                <vs-dropdown-menu class="vx-navbar-dropdown">
-                  <ul style="min-width: 9rem">
-                    <li class="flex py-2 px-4 font-bold">
-                      <span class="ml-2">{{ transactionHash }}</span>
-                    </li>
-                  </ul>
-                </vs-dropdown-menu>
-              </vs-dropdown>
+              </vs-popup>
             </div>
             <div
-              class="flex flex-wrap align-center justify-center w-full"
-              style="display: flex; justify-content: center"
+              v-if="loading == true"
+              class="bottom flex flex-wrap items-center justify-center vx-col md:w-3/4 w-full p-2 loading-container"
             >
               <img
-                class="open-box"
-                src="../../assets/images/create-event/box-open.png"
+                src="@/assets/images/create-event/loading.png"
+                style="height: 100px; width: 100px"
+                class="loading-img"
+                alt="loading"
               />
             </div>
-            <div class="flex flex-wrap justify-center">
-              <h3 class="my-2 p-2" style="color: #000000">VideoWiki NFT</h3>
-            </div>
-            <div class="flex flex-wrap justify-center align-center p-2">
-              <p class="px-2 mb-1 small-text" v-if="!readMore">
-                {{ nft_description.slice(0, 181) }}
-                <span
-                  v-if="nft_description.length > 180"
-                  @click="
-                    () => {
-                      readMore = !readMore;
-                    }
-                  "
-                  style="color: #7448ff; cursor: pointer; font-size: 14px"
-                  >... read more</span
-                >
-              </p>
-              <p
-                class="px-2 mb-1 small-text"
-                v-if="readMore"
-                style="max-height: 75px; overflow-y: scroll"
+            <div
+              v-if="hasMint == true && loading == false"
+              class="bottom mt-20 vx-col md:w-3/4 w-full p-2"
+            >
+              <div class="w-full flex flex-wrap justify-center">
+                <div class="hexagon-cover">
+                  <div class="hexagon-shadow">
+                    <div
+                      v-if="nft_image && nft_image.endsWith('.svg')"
+                      class="hexagon"
+                      v-bind:style="{
+                        'background-image': 'url(' + nft_image + ')',
+                      }"
+                    ></div>
+                    <img
+                      v-else
+                      v-bind:src="realImage"
+                      class="hexagon-nft-img"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-wrap align-items justify-center">
+                <vs-dropdown vs-custom-content class="cursor-pointer">
+                  <div class="flex items-center relative">
+                    <vs-chip
+                      style="color: #52c41a"
+                      @click="copyTransaction"
+                      class="my-2 px-4"
+                    >
+                      Minted #{{ truncateSmaller(transactionHash) }}
+                    </vs-chip>
+                  </div>
+                  <vs-dropdown-menu class="vx-navbar-dropdown">
+                    <ul style="min-width: 9rem">
+                      <li class="flex py-2 px-4 font-bold">
+                        <span class="ml-2">{{ transactionHash }}</span>
+                      </li>
+                    </ul>
+                  </vs-dropdown-menu>
+                </vs-dropdown>
+              </div>
+              <div
+                class="flex flex-wrap align-center justify-center w-full"
+                style="display: flex; justify-content: center"
               >
-                {{ nft_description }}
-                <span
-                  @click="
-                    () => {
-                      readMore = !readMore;
-                    }
-                  "
-                  style="color: #7448ff; cursor: pointer; font-size: 14px"
+                <img
+                  class="open-box"
+                  src="@/assets/images/reward.png"
+                />
+              </div>
+              <div class="flex flex-wrap justify-center">
+                <h3 class="my-2 p-2" style="color: #000000">Decast NFT</h3>
+              </div>
+              <div class="flex flex-wrap justify-center align-center p-2">
+                <p class="px-2 mb-1 small-text" v-if="!readMore">
+                  {{ nft_description.slice(0, 181) }}
+                  <span
+                    v-if="nft_description.length > 180"
+                    @click="
+                      () => {
+                        readMore = !readMore;
+                      }
+                    "
+                    style="color: #7448ff; cursor: pointer; font-size: 14px"
+                    >... read more</span
+                  >
+                </p>
+                <p
+                  class="px-2 mb-1 small-text"
+                  v-if="readMore"
+                  style="max-height: 75px; overflow-y: scroll"
                 >
-                  read less</span
-                >
-              </p>
+                  {{ nft_description }}
+                  <span
+                    @click="
+                      () => {
+                        readMore = !readMore;
+                      }
+                    "
+                    style="color: #7448ff; cursor: pointer; font-size: 14px"
+                  >
+                    read less</span
+                  >
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -219,14 +238,14 @@
   </div>
 </template>
 <script>
-import constant from '../../../constant';
+import constant from '../../../../constant';
 import axios from 'axios';
-import NavBarDropNft from '../../layouts/components/navbar/NavBarDropNft.vue';
-import TheNavbarVertical from '../../layouts/components/navbar/VerticalNavbarDropNft.vue';
-import navMenuItems from '../../layouts/components/vertical-nav-menu/navMenuItems';
-import VerticalNavMenuDropNft from '../../layouts/components/vertical-nav-menu/VerticalNavMenuDropNft.vue';
-import themeConfig from '../../../themeConfig';
-import networks from './netwoks';
+import NavBarDropNft from '../../../layouts/components/navbar/NavBarDropNft.vue';
+import TheNavbarVertical from '../../../layouts/components/navbar/VerticalNavbarDropNft.vue';
+import navMenuItems from '../../../layouts/components/vertical-nav-menu/navMenuItems';
+import VerticalNavMenuDropNft from '../../../layouts/components/vertical-nav-menu/VerticalNavMenuDropNft.vue';
+import themeConfig from '../../../../themeConfig';
+  import networks from '../../create-event/netwoks';
 import { ethers } from 'ethers';
 import { MerkleTree } from 'merkletreejs';
 import keccak256 from 'keccak256';
@@ -442,6 +461,8 @@ export default {
         public_address: this.accountAddress,
         nft_type: 'NFTs',
       });
+      console.log(this.$route.query.cast_id, 'icast');
+      console.log(res, 'jfi0eipk');
       return res;
     },
     getMerkleTree() {
@@ -461,46 +482,43 @@ export default {
         });
     },
     async mint() {
-      this.$vs.loading();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
+      console.log(signer, 'sign');
       const abi = this.abi;
+      const functionParameters = this.params;
+      const functionName = this.functionName;
+      console.log(functionName, functionParameters, 'fkfjhhj');
       const contractAddress = this.contractAddress;
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+      console.log(contract, this.contract, 'cont');
+      console.log(contract, contract.tokenURI, 'token');
+      console.log('connected', this.isConnected);
       if (this.isConnected) {
+        console.log('connected', this.isConnected);
+        console.log(window.ethereum.networkVersion, 'mdoom,m');
+        console.log(this.network, 'fjko');
         if (window.ethereum.networkVersion === this.network) {
           try {
-            await this.verifyWallet();
-            const mintIsStatus = await this.getMindId();
-            if (mintIsStatus != null) {
-              this.$vs.notify({
-                title: 'Cannot Add Again',
-                text: 'You have already minted the nft',
-                iconPack: 'feather',
-                icon: 'icon-alert-circle',
-                color: 'warning',
-              });
-              this.transactionHash = mintIsStatus.data.hashed_id;
-              this.hasMint = true;
-            } else {
-              const contract = new ethers.Contract(
-                contractAddress,
-                abi,
-                signer
-              );
+            this.$vs.loading();
+            // await this.addWallet();
+            const verifiedWallet = await this.verifyWallet();
+            if (verifiedWallet) {
               const value = ethers.utils.parseEther(this.price);
-              if (this.hasMerkel) {
-                const mproof = this.merkleTree.getHexProof(
-                  keccak256(this.accountAddress)
-                );
-                var tx = await contract.mint(1, mproof, { value });
-              } else {
-                tx = await contract.mint(1, { value });
-              }
-              this.$vs.loading.close();
+              const transactionOptions = {
+                // value: value,
+                gasLimit: 3000000,
+              };
+              const tx = await contract[functionName](
+                ...Object.values(functionParameters),
+                transactionOptions
+              );
+              console.log(tx, 'ycndu');
               const receipt = await tx.wait();
+              this.$vs.loading.close();
               this.loading = true;
               await this.updateWallet('started', '');
-              await this.getjson();
+              this.getjson();
               this.openNotification(
                 'top-center',
                 'success',
@@ -512,9 +530,32 @@ export default {
               setTimeout(() => {
                 this.loading = false;
               }, 1000);
+            } else {
+              const mintIsStatus = await this.getMindId();
+              if (mintIsStatus != null) {
+                this.$vs.notify({
+                  title: 'Cannot Add Again',
+                  text: 'You have already minted the nft',
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'warning',
+                });
+                this.$vs.loading.close();
+                this.transactionHash = mintIsStatus.data.hashed_id;
+                this.hasMint = true;
+              } else {
+                this.$vs.loading.close();
+                this.$vs.notify({
+                  title: 'Error',
+                  text: 'Invalid Wallet Address',
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'danger',
+                });
+              }
             }
           } catch (e) {
-            this.$vs.loading.close();
+            console.log(e, 'check nft');
             if (e.code === 'INSUFFICIENT_FUNDS')
               this.$vs.notify({
                 time: 3000,
@@ -524,27 +565,30 @@ export default {
                 icon: 'icon-alert-circle',
                 color: 'danger',
               });
-            else if (e.reason === 'execution reverted: Already Claimed !') {
-              this.$vs.notify({
-                time: 3000,
-                title: 'Already Claimed',
-                text: "Can't claim again",
-                color: 'danger',
-              });
-            } else {
-              console.log('message', e.reason);
+            else if (
+              e.data.message === 'The sender address has a zero balance'
+            ) {
+              console.log(e.data, data, 'check nft');
               this.$vs.notify({
                 time: 3000,
                 title: 'Error',
-                text:
-                  e.response != null
-                    ? e.response.data.message
-                    : 'Wallet is not added for this cast. Please join the cast with this wallet to claim your NFT Or an error occured while minting',
+                text: 'Insufficient Balance!',
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger',
+              });
+            } else {
+              console.log(e.response);
+              this.$vs.notify({
+                time: 3000,
+                title: 'Error',
+                text: 'Wallet is not added for this cast. Please join the cast with this wallet to claim your NFT Or an error occurred while minting',
                 iconPack: 'feather',
                 icon: 'icon-alert-circle',
                 color: 'danger',
               });
             }
+            this.$vs.loading.close();
             console.log('Minting Error', e);
           }
         } else {
@@ -558,6 +602,105 @@ export default {
         );
       }
     },
+    // async mint() {
+    //   this.$vs.loading();
+    //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+    //   const signer = provider.getSigner();
+    //   const abi = this.abi;
+    //   const contractAddress = this.contractAddress;
+    //   if (this.isConnected) {
+    //     if (window.ethereum.networkVersion === this.network) {
+    //       try {
+    //         await this.verifyWallet();
+    //         const mintIsStatus = await this.getMindId();
+    //         console.log(mintIsStatus,'lekke');
+    //         if (mintIsStatus != null) {
+    //           this.$vs.notify({
+    //             title: 'Cannot Add Again',
+    //             text: 'You have already minted the nft',
+    //             iconPack: 'feather',
+    //             icon: 'icon-alert-circle',
+    //             color: 'warning',
+    //           });
+    //           this.transactionHash = mintIsStatus.data.hashed_id;
+    //           this.hasMint = true;
+    //         } else {
+    //           const contract = new ethers.Contract(
+    //             contractAddress,
+    //             abi,
+    //             signer
+    //           );
+    //           const value = ethers.utils.parseEther(this.price);
+    //           if (this.hasMerkel) {
+    //             const mproof = this.merkleTree.getHexProof(
+    //               keccak256(this.accountAddress)
+    //             );
+    //             var tx = await contract.mint(1, mproof, { value });
+    //           } else {
+    //             tx = await contract.mint(1, { value });
+    //           }
+    //           this.$vs.loading.close();
+    //           const receipt = await tx.wait();
+    //           this.loading = true;
+    //           await this.updateWallet('started', '');
+    //           await this.getjson();
+    //           this.openNotification(
+    //             'top-center',
+    //             'success',
+    //             'Congratulations! You just minted an NFT'
+    //           );
+    //           this.transactionHash = receipt.transactionHash;
+    //           this.hasMint = true;
+    //           await this.updateWallet('successful', receipt.transactionHash);
+    //           setTimeout(() => {
+    //             this.loading = false;
+    //           }, 1000);
+    //         }
+    //       } catch (e) {
+    //         this.$vs.loading.close();
+    //         if (e.code === 'INSUFFICIENT_FUNDS')
+    //           this.$vs.notify({
+    //             time: 3000,
+    //             title: 'Error',
+    //             text: 'Insufficient Balance!',
+    //             iconPack: 'feather',
+    //             icon: 'icon-alert-circle',
+    //             color: 'danger',
+    //           });
+    //         else if (e.reason === 'execution reverted: Already Claimed !') {
+    //           this.$vs.notify({
+    //             time: 3000,
+    //             title: 'Already Claimed',
+    //             text: "Can't claim again",
+    //             color: 'danger',
+    //           });
+    //         } else {
+    //           console.log('message', e.reason);
+    //           this.$vs.notify({
+    //             time: 3000,
+    //             title: 'Error',
+    //             text:
+    //               e.response != null
+    //                 ? e.response.data.message
+    //                 : 'Wallet is not added for this cast. Please join the cast with this wallet to claim your NFT Or an error occured while minting',
+    //             iconPack: 'feather',
+    //             icon: 'icon-alert-circle',
+    //             color: 'danger',
+    //           });
+    //         }
+    //         console.log('Minting Error', e);
+    //       }
+    //     } else {
+    //       this.switchNetworkRinkeby(this.network);
+    //     }
+    //   } else {
+    //     this.openNotification(
+    //       'top-center',
+    //       'danger',
+    //       'Please Connect to the Wallet'
+    //     );
+    //   }
+    // },
     setNavMenuVisibility(layoutType) {
       if (
         (layoutType === 'horizontal' && this.windowWidth >= 1200) ||
@@ -663,8 +806,7 @@ export default {
         castId: this.$route.query.cast_id,
         nftType: 'NFTs',
       };
-      await this.$store.dispatch('cast/getNFTDetails', payload)
-      .then((res) => {
+      await this.$store.dispatch('cast/getNFTDetails', payload).then((res) => {
         console.log('working');
         this.contractAddress = res.data.contract_adress;
         this.abi = res.data.aib;
@@ -700,14 +842,24 @@ export default {
 };
 </script>
 <style>
+.idk-co {
+  background: #000000;
+  background-image: url('../../../assets/images/back.jpeg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
 #mint-popup-cover .vs-popup {
-  background: linear-gradient(#d7e1ec, #ffffff) !important;
-  background: -o-linear-gradient(#d7e1ec, #ffffff) !important;
-  background: -moz-linear-gradient(#d7e1ec, #ffffff) !important;
-  background: -webkit-linear-gradient(#d7e1ec, #ffffff) !important;
+  background: linear-gradient(#1f272f, #1f272e) !important;
+  background: -o-linear-gradient(#1f272f, #1f272e) !important;
+  background: -moz-linear-gradient(#1f272f, #1f272e) !important;
+  background: -webkit-linear-gradient(#1f272f, #1f272e) !important;
 
-  min-width: 60vw;
-  min-height: 60vh;
+  min-width: 50vw;
+  min-height: 50vh;
   border: none;
 }
 #mint-popup-cover .vs-popup--content {
@@ -722,10 +874,10 @@ export default {
 </style>
 <style scoped>
 .layout--main {
-  background-repeat: no-repeat;
-  background-color: #7448ff;
-  background-image: url('../../assets/images/create-event/background-mask.png');
-  /* linear-gradient(105.14deg, #7448FF 2.88%, #200087 102.78%); */
+  backdrop-filter: brightness(0.2);
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
 }
 .top {
   background: linear-gradient(112.12deg, #7448ff 1.33%, #7247c4 115.24%);
@@ -791,7 +943,8 @@ h3 {
   color: #ffffff;
 }
 .bottom {
-  background: #ffffff;
+  margin-top: 10vh;
+  background: #1f272f;
   height: 75%;
   box-shadow: 0px 30px 40px rgba(160, 142, 215, 0.1);
   border-radius: 12px;
@@ -829,7 +982,8 @@ p {
   color: #909090;
 }
 .shifted-button {
-  background: #7367f0 !important;
+  background: #d7df23 !important;
+  color: #1f272f !important;
   border-radius: 20px;
   padding-left: 5rem;
   padding-right: 5rem;

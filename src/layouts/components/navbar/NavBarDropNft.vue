@@ -5,14 +5,9 @@
         <router-link
           tag="div"
           to="/"
-          class="vx-logo cursor-pointer flex mx-auto w-1/2 items-center"
+          class="vx-logo cursor-pointer flex mx-auto w-1/2 items-center p-0"
         >
-          <img src="@/assets/images/logo/logo.svg" class="mr-2 h-12" />
-          <span
-            class="vx-logo-text text-custom-purple"
-            style="font-size: 20px"
-            >{{ $t('NavbarDashboard.videowiki') }}</span
-          >
+          <img src="@/assets/images/logot.svg" class="h-16 w-16 object-cover p-0 m-0" />
         </router-link>
         <div class="flex justify-end lg:w-1/2 w-full">
           <!-- <vs-button
@@ -21,13 +16,13 @@
             @click="switchNetworkGnosis"
             >Switch to Gnosis</vs-button
           > -->
-          <Wallet />
+          <Wallet ref="walletComponent"/>
         </div>
       </vs-navbar>
     </div>
   </div>
 </template>
-<script setup>
+<script>
 import { mapState } from 'vuex';
 import Wallet from './components/Connect_Wallet.vue';
 export default {
@@ -37,6 +32,9 @@ export default {
     return {};
   },
   methods: {
+    callFunctionInChildComponent() {
+      this.$refs.walletComponent.connectWallet();
+    },
     async switchNetworkGnosis() {
       try {
         await window.ethereum.request({
@@ -76,6 +74,9 @@ export default {
   computed: {
     ...mapState('auth', ['isUserLoggedIn', 'accessToken']),
   },
+  mounted() {
+    this.callFunctionInChildComponent();
+  },
 };
 </script>
 <style scoped>
@@ -84,7 +85,8 @@ export default {
   top: 0;
 }
 .navbar-wrapper {
-  background: #fff;
+  background: #000;
+  border-bottom: 1px solid #D7DF23 !important;
   z-index: 4120;
 }
 </style>
