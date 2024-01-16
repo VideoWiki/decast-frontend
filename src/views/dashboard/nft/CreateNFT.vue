@@ -180,6 +180,7 @@
 import axios from '@/axios';
 import ToggleSwitch from '@/views/dashboard/cast-section/components/Tabs/ToggleSwitch.vue';
 import buttonToggle from '@/views/dashboard/cast-section/components/Tabs/buttonToggle.vue';
+import constants from '../../../../constant';
 export default {
   name: 'CreateNFT',
   props: [
@@ -489,7 +490,7 @@ export default {
             headers: {
               'Content-Type': `multipart/form-data; boundary=${nftFormData._boundary}`,
               Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4MjY5M2EwZS1jYWY2LTRjNzUtYWZkNC1iNTQ1ZGQ4MDNmNWEiLCJlbWFpbCI6Inp0ZWNoOTE4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiIxNThkMTdiYTRmYTUzODQ0NWFmYSIsInNjb3BlZEtleVNlY3JldCI6ImQ0MTJjOGVhOGJiZGNiZjljYjkwN2U5OWVmNGJkMTVkNGM0OTgyZTQ2YTIyNmE0NmU2MTViNzJmYzg1ZDZjYjQiLCJpYXQiOjE3MDQyNzU5OTV9.Bit4dIaEVZHYTcNOpSBC6tRjK88WbmusoUwIXTmoJKQ',
+                `Bearer ${constants.pinataKey}`,
             },
           }
         );
@@ -515,7 +516,7 @@ export default {
             headers: {
               'Content-Type': 'application/json',
               Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4MjY5M2EwZS1jYWY2LTRjNzUtYWZkNC1iNTQ1ZGQ4MDNmNWEiLCJlbWFpbCI6Inp0ZWNoOTE4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiIxNThkMTdiYTRmYTUzODQ0NWFmYSIsInNjb3BlZEtleVNlY3JldCI6ImQ0MTJjOGVhOGJiZGNiZjljYjkwN2U5OWVmNGJkMTVkNGM0OTgyZTQ2YTIyNmE0NmU2MTViNzJmYzg1ZDZjYjQiLCJpYXQiOjE3MDQyNzU5OTV9.Bit4dIaEVZHYTcNOpSBC6tRjK88WbmusoUwIXTmoJKQ',
+              `Bearer ${constants.pinataKey}`,
             },
           }
         );
