@@ -126,7 +126,7 @@ export default {
 
   meetInfo({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      axios
+      axiosma
         .get(
           `${constants.apiCastUrl}/api/event/meeting/get/details/?cast_id=${payload}`
         )

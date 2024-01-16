@@ -181,11 +181,12 @@ export default {
     methods: {
         clickIndex(user, index) {
             if (this.inviteeList[index].nft_enable === false) {
-                this.stepOneProps.sender_addresses = [];
+                //This sender address prop is being used for marcel tree and mainnet
+                // this.stepOneProps.sender_addresses = [];
                 this.increNftEnableCount();
                 this.inviteeList[index].nft_enable = true;
                 this.inviteeList[index].nft_type = 'NFTs';
-                this.stepOneProps.sender_addresses.push(user.wallet_address);
+                // this.stepOneProps.sender_addresses.push(user.wallet_address);
                 user.nft_type = 'NFTs';
                 this.$vs.notify({
                     title: 'Success',
