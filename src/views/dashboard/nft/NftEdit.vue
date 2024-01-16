@@ -208,6 +208,7 @@ export default {
             return;
         }
         await this.castInfo();
+        await this.meetInfo();
         this.getNFTDetails();
         document.getElementById('loading-bg').style.display = 'none';
         console.log(this.cast_id, 'cast_id');
@@ -259,8 +260,25 @@ export default {
             await this.$store
                 .dispatch('auth/eventDetail', payload)
                 .then(async (response) => {
+                    console.log(response,'kfkk')
                     this.stepOneProps.send_otp = response.data.meeting_info.send_otp;
                     this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
+                })
+                .catch((err) => {
+                    console.log(err.response.status);
+                    console.log(JSON.stringify(err));
+                });
+        },
+        async meetInfo(){
+            const payload = this.cast_id;
+            await this.$store
+                .dispatch('cast/meetInfo', payload)
+                .then(async (response) => {
+                    console.log(response,'meet')
+                    this.stepOneProps.meeting_type=response.data.details.cast_type;
+                    console.log(this.stepOneProps.meeting_type);
+                    // this.stepOneProps.send_otp = response.data.meeting_info.send_otp;
+                    // this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
                 })
                 .catch((err) => {
                     console.log(err.response.status);

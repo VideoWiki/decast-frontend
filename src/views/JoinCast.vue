@@ -100,6 +100,51 @@
       </div>
       <div v-else class="right-side">
         <div class="heading">You're joining the cast</div>
+        <div class="step w-full" v-if="this.nft">
+          <div>
+            <div
+              v-if="this.walletAddress"
+              @click="reloadStepTwo"
+              class="title cursor wall-conn"
+            >
+              Wallet Connected
+            </div>
+            <div
+              v-if="this.skippedStep"
+              @click="reloadStepTwo"
+              class="title cursor"
+            >
+              Step Skipped
+            </div>
+
+            <div class="step-content">
+              <span
+                v-if="
+                  ((this.nft && !this.skippedStep && !this.walletAddress) ||
+                    !this.verified) &&
+                  this.otpField &&
+                  this.nft &&
+                  this.verified
+                "
+              >
+                <Private :payload="this.newPay" />
+                <!-- <div class="flex flex-wrap my-5">
+                  <vs-button
+                    class="flex-1 font-bold h-16"
+                    @click.prevent="skipStep"
+                    >Skip Step</vs-button
+                  >
+                </div> -->
+              </span>
+            </div>
+          </div>
+          <div v-if="!this.walletAddress" class="or-cont">
+            <div class="border-line"></div>
+            <h3 class="mx-auto or-wall" v-if="!this.walletAddress">Or skip</h3>
+            <div class="border-line"></div>
+          </div>
+        </div>
+        <br />
         <div class="name">Joining name</div>
         <input
           placeholder="e.g John G. Miguel"
@@ -114,8 +159,10 @@
   </div>
 </template>
 <script>
+import Private from '../layouts/components/navbar/components/Connect_Wallet.vue';
 export default {
   name: 'WaitForJoin',
+  components: { Private },
   data() {
     return {
       joiningName: '',
@@ -134,8 +181,10 @@ export default {
       skippedStep: false,
       otpSent: false,
       payload: {},
+      newPay: {},
       sentOtp: false,
       password: '',
+      nft: false,
     };
   },
   // created() {
@@ -158,7 +207,15 @@ export default {
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'block';
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailParam = urlParams.get('email');
+    if (emailParam) {
+      this.email = decodeURIComponent(emailParam);
+    }
     this.getMeetingDetails();
+    this.castInfo();
+    console.log(this.newPay);
+    console.log(this.nft, 'nft');
   },
   methods: {
     // extractCredentials() {
@@ -178,7 +235,42 @@ export default {
 
     //   return null;
     // },
+    async castInfo() {
+      try {
+        this.$vs.loading();
+        const payload = this.meeting_id;
+        const response = await this.$store.dispatch(
+          'auth/eventDetail',
+          payload
+        );
 
+        this.nft =
+          response.data.meeting_info.give_nft ||
+          response.data.meeting_info.vc_details_submitted;
+        this.otpVerification = response.data.meeting_info.send_otp;
+        this.password_auth = response.data.meeting_info.password_auth;
+        this.public_otp = response.data.meeting_info.public_otp;
+        this.is_public = !this.password_auth && !this.otpVerification;
+        this.event_creator_name = response.data.meeting_info.event_creator_name;
+        this.event_name = response.data.meeting_info.event_name;
+        this.event_date = response.data.meeting_info.date;
+        this.event_time = response.data.meeting_info.time;
+        this.description = response.data.meeting_info.description;
+        this.meeting_running = response.data.meeting_info.running;
+        this.viewer_mode = response.data.meeting_info.viewer_mode;
+        this.isExpired = response.data.meeting_info.expired;
+        this.has_magic = this.$route.query.pass !== undefined;
+        console.log(this.has_magic);
+        this.$vs.loading.close();
+        this.data_loaded = true;
+      } catch (err) {
+        if (err.status === 404) {
+          this.$router.push('/error/404.vue');
+        } else {
+          console.log(err);
+        }
+      }
+    },
     async getMeetingDetails() {
       const res = await this.$store.dispatch(
         'cast/meetingInfo',
@@ -205,7 +297,6 @@ export default {
         avatar_url: '',
         isPublic: !this.sentOtp,
       };
-
       console.log('my payload is this', payload);
       if (this.payload) {
         this.email = this.payload.email;
@@ -254,6 +345,10 @@ export default {
           this.joinCastUtil(payload);
         }
       }
+    },
+    storeData() {
+      sessionStorage.setItem('verified', this.verified);
+      // sessionStorage.setItem('email', this.email);
     },
     joinCastUtil(payload) {
       console.log('----->');
@@ -337,6 +432,7 @@ export default {
         pass: !this.sentOtp ? this.$route.query.pass : '',
         name: this.joiningName,
       });
+      sessionStorage.setItem('name', this.joiningName);
       this.$vs.loading();
       console.log(178);
       this.$store
@@ -365,6 +461,15 @@ export default {
           console.log(e.response);
         });
     },
+    reloadStepOne() {
+      this.verified = false;
+      this.goBack();
+      this.reloadStepTwo();
+    },
+    reloadStepTwo() {
+      this.skippedStep = false;
+      this.$store.dispatch('auth/removeWalletAddress', false);
+    },
     requestOtp() {
       if (this.otpField) {
         this.userVerification();
@@ -373,7 +478,11 @@ export default {
           email: this.email.toLowerCase(),
           meeting_id: this.$route.params.meetingID,
         };
-
+        sessionStorage.setItem('email', this.payload.email);
+        this.newPay = {
+          email: this.email.toLowerCase(),
+          cast_id: this.meeting_id,
+        };
         // Loading
         if (this.email === '') {
           this.$vs.notify({
@@ -463,6 +572,9 @@ export default {
       this.otpSent = false;
       this.otpField = false;
     },
+    skipStep() {
+      this.skippedStep = true;
+    },
   },
 };
 </script>
@@ -487,6 +599,37 @@ export default {
   overflow: hidden;
 }
 
+.caption {
+  color: #a6a6a6;
+  font-size: medium;
+}
+
+.wall-conn {
+  color: #a6a6a6;
+  font-size: medium;
+  font-weight: 500;
+}
+
+.or-cont {
+  display: flex;
+  gap: 3;
+}
+.or-wall {
+  color: #a6a6a6;
+  width: fit-content;
+  text-align: center;
+  margin: auto;
+  font-size: small;
+  /* border: 1px solid red; */
+}
+
+.border-line {
+  /* border-color: #a6a6a6; */
+  border-bottom: 1px solid #a6a6a6;
+  height: 1px;
+  margin: auto;
+  width: 40%;
+}
 .logo {
   width: 91px;
   height: 91px;
@@ -554,7 +697,7 @@ export default {
   margin-left: 14px;
   margin-right: 10rem;
   width: 376px;
-  height: 266px;
+  height: fit-content;
   background-color: #1f272f;
   border: 1px solid #31394e;
   border-radius: 6px;
@@ -564,6 +707,7 @@ export default {
   font-size: 12px;
   font-weight: 600;
   color: #a6a6a8;
+  /* margin-bottom: 15px; */
 }
 .name {
   margin-top: 18px;
@@ -628,7 +772,7 @@ export default {
 
   .right-side {
     /* border: 1px solid yellow; */
-    max-height: 280px !important;
+    /* max-height: 280px !important; */
     max-width: 320px;
     width: auto;
     min-width: 280px;
