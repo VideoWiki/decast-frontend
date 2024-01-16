@@ -123,6 +123,24 @@ export default {
         });
     });
   },
+
+  meetInfo({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axiosma
+        .get(
+          `${constants.apiCastUrl}/api/event/meeting/get/details/?cast_id=${payload}`
+        )
+        .then((res) => {
+          console.log('meeting working');
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log('meeting not working');
+          reject(error);
+        });
+    });
+  },
+
   getCertificateInfo({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios

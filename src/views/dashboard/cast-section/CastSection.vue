@@ -677,7 +677,9 @@ export default {
     async getCastList() {
       this.isCastsLoading = true;
       const response = await this.$store.dispatch('cast/getUserCasts');
-      const casts = response.data.my_events;
+      let casts = response.data.my_events;
+      casts = casts.sort((a, b) => b.event_id - a.event_id);
+      // console.log(casts, casts.event_id, 'cats list');
       const castInfoPromises = casts.map(async (cast) => {
         try {
           const castDetails = await this.$store.dispatch(
