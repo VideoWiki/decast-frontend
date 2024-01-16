@@ -438,6 +438,7 @@ export default {
                 this.dummyURI = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
                 await this.addNft(true);
                 console.log('TokenURI:', tokenURI);
+                this.changeStatus('');
             } catch (error) {
                 console.error('Error uploading metadata to Pinata IPFS:', error);
             }
