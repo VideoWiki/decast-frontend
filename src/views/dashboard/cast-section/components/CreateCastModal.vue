@@ -66,7 +66,7 @@
         <ShareCast v-else-if="status === 'success'" :changeStatus="changeStatus"
           :toggleCreateCastModal="toggleCreateCastModal" />
 
-        <CreateNFT v-else-if="status == 'drops'" :changeStatus="changeStatus" :stepOneProps="stepOneProps"
+        <CreateNFT v-else-if="status == 'drops'" :toggleCreateCastModal="toggleCreateCastModal" :stepOneProps="stepOneProps"
           :nft_details_submitted="nft_details_submitted" :valueCheck="valueCheck" :castInfo="castInfo" :castId="castId" 
           :showBackButton="() => changeStatus('success')" />
         <!-- <div v-else-if="status === 'invite'">

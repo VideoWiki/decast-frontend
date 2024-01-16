@@ -62,56 +62,63 @@
         </div> -->
         </div>
 
-        <div>
-            <vs-button v-if="isAirdrop && pub_nft_flow" @click="
-                public_nft_status
-                    ? changePublicNftStatus(castId, 'False')
-                    : changePublicNftStatus(castId, 'True')
-                " class="text-white text-base mx-2 my-1 airdrop-btn-1 " style="font-size: 12px;">
-                <span class="btn-custom-theme flex flex-wrap align-bottom">
-                    {{ public_nft_status ? 'Disable Claim NFT' : 'Enable Claim NFT' }}
-                    <div>
-                        &nbsp;
-                        <span></span>
-                        <vs-icon content="Allow the Viewers/Attendees to mint the NFT"
-                            v-tippy="{ placement: 'top', arrow: true }" icon-pack="feather" icon="icon-info" size="14px"
-                            rounded="true" style="align-self: flex-end">
+        <div class="ma-actions-btn">
+            <div class="flex">
+                <vx-tooltip text="Download Invitee List" position="bottom">
+                    <vs-button v-if="users" @click="inviteeListDownload" class="airdrop-btn-1" style="font-size: 12px;">
+                        <vs-icon icon-pack="feather" icon="icon-download" size="14px" rounded="true">
                         </vs-icon>
+                    </vs-button>
+                </vx-tooltip>
+
+                <vx-tooltip text="Edit NFT" position="bottom">
+                    <vs-button v-if="nft_details_submitted && !certificate_enabled" style="font-size: 12px;"
+                        @click="ToggleEdit('edit')" class="airdrop-btn-1">
+                        <vs-icon icon-pack="feather" icon="icon-edit" size="14px" rounded="true">
+                        </vs-icon>
+                    </vs-button>
+                </vx-tooltip>
+
+                <vx-tooltip text="Copy NFT link to share" position="bottom">
+                    <vs-button v-if="isAirdrop && pub_nft_flow" class="airdrop-btn-1" style="font-size: 12px;"
+                        @click="ToggleEdit('share')">
+                        <vs-icon icon-pack="feather" icon="icon-share-2" size="14px" rounded="true">
+                        </vs-icon>
+                    </vs-button>
+                </vx-tooltip>
+            </div>
+
+            <div>
+                <vs-button v-if="(nft_enable_count <= 0 || airdrop_done) && event_nft_enabled && nft_details_submitted"
+                    disabled @click="audienceDropMail" style="font-size: 12px;">Airdrop
+                </vs-button>
+
+                <vs-button v-if="nft_enable_count > 0 && !airdrop_done && event_nft_enabled"
+                    @click="audienceDropMail">Airdrop
+                </vs-button>
+
+                <vs-button v-if="isAirdrop && pub_nft_flow" @click="
+                    public_nft_status
+                        ? changePublicNftStatus(castId, 'False')
+                        : changePublicNftStatus(castId, 'True')
+                    " style="font-size: 12px;">
+                    <div class="flex items-center">
+                        {{ public_nft_status ? 'Disable Claim NFT' : 'Enable Claim NFT' }}
+                        <div class="flex items-center ml-2">
+                            &nbsp;
+                            <div></div>
+                            <vx-tooltip text="Allow the Viewers/Attendees to mint the NFT" position="bottom">
+                                <vs-icon icon-pack="feather" icon="icon-info" size="14px" rounded="true"
+                                    style="align-self: flex-end">
+                                </vs-icon>
+                            </vx-tooltip>
+                        </div>
                     </div>
-                </span>
-            </vs-button>
-
-            <vs-button v-if="users" @click="inviteeListDownload" class="BTN text-base mx-2 my-1 airdrop-btn-1"
-                content="Download Invitee List" v-tippy="{ placement: 'top', arrow: true }" style="font-size: 12px;">
-                <vs-icon icon-pack="feather" icon="icon-download" size="14px" rounded="true" style="align-self: flex-end">
-                </vs-icon>
-            </vs-button>
-
-            <vs-button v-if="nft_details_submitted && !certificate_enabled" content="Edit NFT" style="font-size: 12px;"
-                @click="ToggleEdit('edit')" v-tippy="{ placement: 'top', arrow: true }"
-                class="BTN text-base mx-2 my-1 airdrop-btn-1">
-                <vs-icon icon-pack="feather" icon="icon-edit" size="14px" rounded="true" style="align-self: flex-end">
-                </vs-icon>
-            </vs-button>
-
-            <vs-button v-if="isAirdrop && pub_nft_flow" class="BTN text-base mx-2 my-1 airdrop-btn-1"
-                style="font-size: 12px;" @click="ToggleEdit('share')" content="Copy link of NFT to share"
-                v-tippy="{ placement: 'top', arrow: true }">
-                <vs-icon icon-pack="feather" icon="icon-share-2" size="14px" rounded="true" style="align-self: flex-end">
-                </vs-icon>
-            </vs-button>
-
-            <vs-button v-if="(nft_enable_count <= 0 || airdrop_done) && event_nft_enabled && nft_details_submitted" disabled
-                @click="audienceDropMail" class="text-white text-base mx-2 my-1 airdrop-btn-1"
-                style="font-size: 12px;">Airdrop
-            </vs-button>
-
-            <vs-button v-if="nft_enable_count > 0 && !airdrop_done && event_nft_enabled" @click="audienceDropMail"
-                class="text-white text-base mx-2 my-1 airdrop-btn-1">Airdrop
-            </vs-button>
+                </vs-button>
+            </div>
         </div>
 
-        <div v-if="!users" class="w-full">No users added</div>
+        <div v-if="!users" class="w-full full-height-table">No users added</div>
         <!-- Normal table when no nft is enabled -->
         <div v-else-if="!event_nft_enabled && !certificate_enabled" class="user-table-wrapper">
             <div class="table-heading-wrapper">
@@ -132,13 +139,17 @@
                 <div class="table-content-col1" v-if="user.email">
                     <span v-if="user.joined">
                         <span></span>
-                        <vs-icon content="Joined the event" v-tippy="{ placement: 'top', arrow: true }" icon-pack="feather"
-                            icon="icon-user-check" size="18px" color="green" rounded="true"></vs-icon>
+                        <vx-tooltip text="Joined the event" position="bottom">
+                            <vs-icon icon-pack="feather" icon="icon-user-check" size="18px" color="green"
+                                rounded="true"></vs-icon>
+                        </vx-tooltip>
                     </span>
                     <span v-else>
                         <span></span>
-                        <vs-icon content="Didn't joined the event" v-tippy="{ placement: 'top', arrow: true }"
-                            icon-pack="feather" icon="icon-user-x" size="18px" color="red" rounded="true"></vs-icon>
+                        <vx-tooltip text="Didn't joined the event" position="bottom">
+                            <vs-icon icon-pack="feather" icon="icon-user-x" size="18px" color="red"
+                                rounded="true"></vs-icon>
+                        </vx-tooltip>
                     </span>
                 </div>
                 <div class="table-content-col2" v-if="user.email">
@@ -710,192 +721,181 @@ export default {
 };
 </script>
   
-<style scoped>
-.user-manage-bottom-sec {
-    display: flex;
-    justify-content: end;
-}
+<style scoped> .full-height-table {
+     height: inherit;
+ }
 
-.btn-custom-theme {
-    color: #000000;
-    font-weight: 500;
-}
+ .ma-actions-btn {
+     display: flex;
+     justify-content: space-between;
+ }
 
-.table-heading-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #31394e;
-    background-color: #1f272f;
-    border-radius: 6px;
-    /* margin: auto; */
-    margin-top: 10px;
+ .user-manage-bottom-sec {
+     display: flex;
+     justify-content: end;
+ }
 
-    span {
-        font-weight: 700;
-    }
-}
+ .table-heading-wrapper {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border: 2px solid #31394e;
+     background-color: #1f272f;
+     border-radius: 6px;
+     /* margin: auto; */
+     margin-top: 10px;
 
-.table-head-col1,
-.table-head-col2,
-.table-head-col3,
-.table-head-col4 {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    padding: 5px 10px;
-}
+     span {
+         font-weight: 700;
+     }
+ }
 
-.table-content-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #31394e;
-    background-color: #1f272f;
-    border-radius: 6px;
-    /* margin: auto; */
-}
+ .table-head-col1,
+ .table-head-col2,
+ .table-head-col3,
+ .table-head-col4 {
+     display: flex;
+     align-items: center;
+     flex: 1;
+     padding: 5px 10px;
+ }
 
-.table-content-col1,
-.table-content-col2,
-.table-content-col3,
-.table-content-col4 {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    padding: 5px 10px;
-    cursor: pointer;
-}
+ .table-content-row {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border: 1px solid #31394e;
+     background-color: #1f272f;
+     border-radius: 6px;
+     /* margin: auto; */
+ }
 
-.invite-wrapper {
-    display: flex;
-}
+ .table-content-col1,
+ .table-content-col2,
+ .table-content-col3,
+ .table-content-col4 {
+     display: flex;
+     align-items: center;
+     flex: 1;
+     padding: 5px 10px;
+     cursor: pointer;
+ }
 
-.invite-wrapper-left {
-    display: flex;
-    flex: 0.5;
-    margin-right: 10px;
-}
+ .invite-wrapper {
+     display: flex;
+ }
 
-.invite-wrapper-right {
-    display: flex;
-    flex: 0.5;
-    margin-left: 10px;
-}
+ .invite-wrapper-left {
+     display: flex;
+     flex: 0.5;
+     margin-right: 10px;
+ }
 
-.input-separator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+ .invite-wrapper-right {
+     display: flex;
+     flex: 0.5;
+     margin-left: 10px;
+ }
 
-.percent-label {
-    width: 100%;
-    text-align: center;
-}
+ .input-separator {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
 
-.user-table-wrapper {
-    overflow-y: scroll;
-    height: inherit;
-}
+ .percent-label {
+     width: 100%;
+     text-align: center;
+ }
 
-.select-btn {
-    cursor: pointer;
-    background-color: #2d3a48;
-    border-radius: 6px;
-    border: 1px solid #31394e;
-    font-size: 12px;
-    height: 100%;
-    width: 115.5px;
-    color: #a6a6a8;
-}
+ .user-table-wrapper {
+     overflow-y: scroll;
+     height: inherit;
+ }
 
-.airdrop-btn-1 {
-    border: 1px solid #31394e !important;
-    background: transparent !important;
-    width: fit-content !important;
-    padding: 8px 12px !important;
-    color: #d7df23 !important;
-}
+ .select-btn {
+     cursor: pointer;
+     background-color: #2d3a48;
+     border-radius: 6px;
+     border: 1px solid #31394e;
+     font-size: 12px;
+     height: 100%;
+     width: 115.5px;
+     color: #a6a6a8;
+ }
 
-.airdrop-btn-1:hover {
-    background: #d7df23 !important;
-    color: #000000 !important;
-}
+ .airdrop-btn-1 {
+     border: none !important;
+     background: transparent !important;
+     color: #a6a6a8 !important;
+     box-shadow: none !important;
+ }
 
-.airdrop-btn-1 span {
-    color: #d7df23 !important;
-}
+ .opt-cont {
+     width: 109px;
+     height: 40px;
+     background-color: #2d3a48;
+     border: 1px solid #31394e;
+     border-radius: 6px;
+     padding: 8px;
+     text-align: center;
+     font-size: 12px;
+     font-family: sans-serif;
+     position: relative;
+ }
 
-.airdrop-btn-1 span:hover {
-    color: #000000 !important;
-}
+ .opt-cont .custom-selector select {
+     max-width: 95px;
+     min-width: 90px;
+     border-radius: 6px;
+     border: 1px solid #31394e;
+     outline: none;
+     background-color: #2d3a48;
+     color: #a6a6a8;
+     cursor: pointer;
+     appearance: none;
+     -moz-appearance: none;
+     -webkit-appearance: none;
+ }
 
-.opt-cont {
-    width: 109px;
-    height: 40px;
-    background-color: #2d3a48;
-    border: 1px solid #31394e;
-    border-radius: 6px;
-    padding: 8px;
-    text-align: center;
-    font-size: 12px;
-    font-family: sans-serif;
-    position: relative;
-}
+ .opt-cont .custom-selector::after {
+     content: '';
+     border-width: 6px;
+     border-style: solid;
+     border-color: transparent;
+     border-top-color: #fff;
+     display: inline-block;
+     position: absolute;
+     top: 13px;
+     right: 10px;
+ }
 
-.opt-cont .custom-selector select {
-    max-width: 95px;
-    min-width: 90px;
-    border-radius: 6px;
-    border: 1px solid #31394e;
-    outline: none;
-    background-color: #2d3a48;
-    color: #a6a6a8;
-    cursor: pointer;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-}
+ .opt-cont .custom-options {
+     list-style: none;
+     padding: 5px 0;
+     background-color: #2d3a48 !important;
+     z-index: 999 !important;
+     border-bottom-left-radius: 6px;
+     border-bottom-right-radius: 6px;
+     width: 108.8px;
+     position: absolute !important;
+     margin: auto;
+     left: -1px;
+ }
 
-.opt-cont .custom-selector::after {
-    content: '';
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent;
-    border-top-color: #fff;
-    display: inline-block;
-    position: absolute;
-    top: 13px;
-    right: 10px;
-}
+ .opt-cont .custom-options li {
+     height: 28px;
+     display: flex;
+     align-items: center;
+     cursor: pointer;
+     padding-left: 5px;
+     color: #a6a6a8;
+     transition: background 0.3s ease;
+ }
 
-.opt-cont .custom-options {
-    list-style: none;
-    padding: 5px 0;
-    background-color: #2d3a48 !important;
-    z-index: 999 !important;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    width: 108.8px;
-    position: absolute !important;
-    margin: auto;
-    left: -1px;
-}
-
-.opt-cont .custom-options li {
-    height: 28px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding-left: 5px;
-    color: #a6a6a8;
-    transition: background 0.3s ease;
-}
-
-.opt-cont .custom-options li:hover {
-    background-color: #31a2f4;
-}
+ .opt-cont .custom-options li:hover {
+     background-color: #31a2f4;
+ }
 </style>
   
 <style scoped>

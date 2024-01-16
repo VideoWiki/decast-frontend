@@ -20,7 +20,7 @@
           <img src="@/assets/images/create-event/tabler.svg" /> Add drops
         </button> -->
             <button @click="changeStatus('drops')" class="success-btn button flex items-center">
-                <img src="@/assets/images/create-event/tabler-icon.svg" />NFT drop
+                <img src="@/assets/images/create-event/tabler-icon.svg" />Add drops
             </button>
             <button @click="changeStatus('invite')" class="success-btn button flex items-center">
                 <img src="@/assets/images/create-event/tabler-icon.svg" />Invite your

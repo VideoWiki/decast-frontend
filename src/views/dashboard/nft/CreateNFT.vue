@@ -184,7 +184,7 @@ import constants from '../../../../constant';
 export default {
   name: 'CreateNFT',
   props: [
-    'changeStatus',
+    'toggleCreateCastModal',
     'nft_details_submitted',
     'stepOneProps',
     'castInfo',
@@ -447,7 +447,7 @@ export default {
                   title: 'Airdrop Details Submitted',
                   color: 'success',
                 });
-                this.closeDrops();
+                this.toggleCreateCastModal();
                 this.$vs.loading.close();
                 this.castInfo(false);
                 this.airdrops = false;
@@ -524,7 +524,6 @@ export default {
         const ipfsHash = res.data.IpfsHash;
         this.dummyURI = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
         await this.addNft(true);
-        console.log('TokenURI:', tokenURI);
       } catch (error) {
         console.error('Error uploading metadata to Pinata IPFS:', error);
       }

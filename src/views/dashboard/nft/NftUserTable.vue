@@ -33,13 +33,16 @@
             <div class="table-content-col1">
                 <span v-if="user.joined">
                     <span></span>
-                    <vs-icon content="Joined the event" v-tippy="{ placement: 'top', arrow: true }" icon-pack="feather"
-                        icon="icon-user-check" size="18px" color="green" rounded="true"></vs-icon>
+                    <vx-tooltip text="Joined the event" position="top">
+                        <vs-icon icon-pack="feather" icon="icon-user-check" size="18px" color="green"
+                            rounded="true"></vs-icon>
+                    </vx-tooltip>
                 </span>
                 <span v-else>
                     <span></span>
-                    <vs-icon content="Didn't joined the event" v-tippy="{ placement: 'top', arrow: true }"
-                        icon-pack="feather" icon="icon-user-x" size="18px" color="red" rounded="true"></vs-icon>
+                    <vx-tooltip text="Didn't joined the event" position="top">
+                        <vs-icon icon-pack="feather" icon="icon-user-x" size="18px" color="red" rounded="true"></vs-icon>
+                    </vx-tooltip>
                 </span>
             </div>
             <div class="table-content-col2">
@@ -67,36 +70,40 @@
                     user.vc_mint_status &&
                     vc_details_submitted
                     ">
-                    <span content="Not Clicked" v-tippy="{ placement: 'top', arrow: true }" v-if="user.vc_mint_status == 'not started' ||
-                        user.vc_mint_status == null
-                        ">
-                        <div class="ml-1" style="
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    background: #afb7c7;
-                  "></div>
-                        <span></span>
-                    </span>
-                    <span content="clicked" v-tippy="{ placement: 'top', arrow: true }">
-                        <div class="ml-1" style="
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    background: #ffff00;
-                  "></div>
-                        <span></span>
-                    </span>
-                    <span content="Claimed" v-tippy="{ placement: 'top', arrow: true }"
-                        v-if="user.vc_mint_status == 'successful'">
-                        <div class="ml-1" style="
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    background: #01c34e;
-                  "></div>
-                        <span></span>
-                    </span>
+                    <vx-tooltip text="Not Clicked" position="top">
+                        <span v-if="user.vc_mint_status == 'not started' || user.vc_mint_status == null">
+                            <div class="ml-1" style="
+                                width: 20px;
+                                height: 20px;
+                                border-radius: 50%;
+                                background: #afb7c7;
+                            "></div>
+                            <span></span>
+                        </span>
+                    </vx-tooltip>
+
+                    <vx-tooltip text="Clicked" position="top">
+                        <span>
+                            <div class="ml-1" style="
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                            background: #ffff00; "></div>
+                            <span></span>
+                        </span>
+                    </vx-tooltip>
+
+                    <vx-tooltip text="Claimed" position="top">
+                        <span v-if="user.vc_mint_status == 'successful'">
+                            <div class="ml-1" style="
+                                width: 20px;
+                                height: 20px;
+                                border-radius: 50%;
+                                background: #01c34e;
+                            "></div>
+                            <span></span>
+                        </span>
+                    </vx-tooltip>
                 </span>
             </div>
             <div class="table-content-col6" v-if="certificate_enabled && vc_details_submitted">
@@ -112,36 +119,43 @@
                     user.mint_status &&
                     nft_details_submitted
                     ">
-                    <span content="Not Clicked" v-tippy="{ placement: 'top', arrow: true }"
-                        v-if="user.mint_status == 'not started'">
-                        <div class="ml-1" style="
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    background: #afb7c7;
-                  "></div>
-                        <span></span>
-                    </span>
-                    <span content="Clicked" v-tippy="{ placement: 'top', arrow: true }"
-                        v-if="user.mint_status == 'started'">
-                        <div class="ml-1" style="
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    background: #ffff00;
-                  "></div>
-                        <span></span>
-                    </span>
-                    <span content="Claimed" v-tippy="{ placement: 'top', arrow: true }"
-                        v-if="user.mint_status == 'successful'">
-                        <div class="ml-1" style="
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    background: #01c34e;
-                  "></div>
-                        <span></span>
-                    </span>
+                    <vx-tooltip text="Not Claimed" position="top">
+                        <span v-if="user.mint_status == 'not started'">
+                            <div class="ml-1" style="
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                            background: #afb7c7;
+                        "></div>
+                            <span></span>
+                        </span>
+                    </vx-tooltip>
+
+                    <vx-tooltip text="Clicked" position="top">
+                        <span
+                            v-if="user.mint_status == 'started'">
+                            <div class="ml-1" style="
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                            background: #ffff00;
+                        "></div>
+                            <span></span>
+                        </span>
+                    </vx-tooltip>
+
+                    <vx-tooltip text="Claimed" position="top">
+                        <span
+                            v-if="user.mint_status == 'successful'">
+                            <div class="ml-1" style="
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                            background: #01c34e;
+                        "></div>
+                            <span></span>
+                        </span>
+                    </vx-tooltip>
                 </span>
             </div>
             <div class="table-content-col8" v-if="event_nft_enabled && nft_details_submitted">
@@ -200,7 +214,7 @@ export default {
                 this.$vs.notify({
                     title: 'Success',
                     text: 'Drop disabled for the user',
-                    color: 'danger',
+                    color: 'success',
                 });
             }
             const payload = {

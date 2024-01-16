@@ -18,25 +18,11 @@
                 </button>
             </div>
             <div v-if="cast.invitee_list.length === 0" class="inner-child2">
-                <span class="invite-text" href="#" @click="
-                    ShowInvite(
-                        cast.public_meeting_id,
-                        cast.invitee_list,
-                        streamInfo[cast.public_meeting_id],
-                        cast.viewer_mode
-                    )
-                    ">Invite Attendees</span>
+                <span class="invite-text" href="#" @click="openInviteAttendeesModal">Invite Attendees</span>
                 <img src="@/assets/images/user.svg" />
             </div>
             <div v-else class="inner-child2 my-4">
-                <p class="invite-text" @click="
-                    ShowInvite(
-                        cast.public_meeting_id,
-                        cast.invitee_list,
-                        streamInfo[cast.public_meeting_id],
-                        cast.viewer_mode
-                    )
-                    ">
+                <p class="invite-text" @click="openInviteAttendeesModal">
                     {{ cast.invitee_list.length }} attendees invited
                 </p>
                 <div class="flex my-1">
@@ -178,26 +164,12 @@
                     }}
                 </button>
             </div>
-            <div v-if="cast.invitee_list.length === 0" class="inner-child2" @click="
-                ShowInvite(
-                    cast.public_meeting_id,
-                    cast.invitee_list,
-                    streamInfo[cast.public_meeting_id],
-                    cast.viewer_mode
-                )
-                ">
+            <div v-if="cast.invitee_list.length === 0" class="inner-child2" @click="openInviteAttendeesModal">
                 <span class="invite-text" href="#">Invite Attendees</span>
                 <img id="user-img" src="@/assets/images/user.svg" />
             </div>
             <div v-else class="inner-child2 my-4">
-                <p class="invite-text" @click="
-                    ShowInvite(
-                        cast.public_meeting_id,
-                        cast.invitee_list,
-                        streamInfo[cast.public_meeting_id],
-                        cast.viewer_mode
-                    )
-                    ">
+                <p class="invite-text" @click="openInviteAttendeesModal">
                     {{ cast.invitee_list.length }} attendees invited
                 </p>
                 <div class="flex my-1">
@@ -260,8 +232,8 @@
 
         <BaseModal v-if="activeModal == 'manageAudienceModal'" :title="'Invite your attendees'" @close="setCastModal('')">
             <template #modalContent>
-                <ManageAudNftModal :showCloseButton="() => setCastModal('')"
-                    :isAirdrop="isAirdrop" :pub_nft_flow="pub_nft_flow" :public_nft_status="public_nft_status"
+                <ManageAudNftModal :showCloseButton="() => setCastModal('')" :isAirdrop="isAirdrop"
+                    :pub_nft_flow="pub_nft_flow" :public_nft_status="public_nft_status"
                     :changePublicNftStatus="changePublicNftStatus" :nft_details_submitted="nft_details_submitted"
                     :vc_details_submitted="vc_details_submitted" :event_nft_enabled="event_nft_enabled"
                     :certificate_enabled="certificate_enabled" :castId="cast.public_meeting_id" :invites="cast.invitee_list"
@@ -360,7 +332,6 @@ import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 import CastCardShimmer from '@/views/dashboard/cast-section/components/CastCardShimmer.vue';
-import ManageAudienceModal from '@/views/dashboard/cast-section/components/ManageAudienceModal.vue'
 import CallSettingsModal from '@/views/dashboard/cast-section/components/CallSettingsModal.vue';
 import StreamSettingsModal from '@/views/dashboard/cast-section/components/StreamSettingsModal.vue';
 import ResheduleCastModal from '@/views/dashboard/cast-section/components/ResheduleCastModal.vue';
@@ -417,9 +388,7 @@ export default {
                     label: "Manage attendees",
                     icon: () => import("@/assets/svgs/menu-icons/manage.vue"),
                     onClick: () => {
-                        this.setProps(this.cast.public_meeting_id);
-                        this.castNftInfo(this.cast.public_meeting_id);
-                        this.setCastModal('manageAudienceModal');
+                        this.openInviteAttendeesModal();
                     }
                 },
                 {
@@ -511,7 +480,6 @@ export default {
         CopyIcon,
         MoreIcon,
         CastCardShimmer,
-        ManageAudienceModal,
         CallSettingsModal,
         StreamSettingsModal,
         ResheduleCastModal,
@@ -559,6 +527,11 @@ export default {
         this.updateRemainingTime();
     },
     methods: {
+        openInviteAttendeesModal() {
+            this.setProps(this.cast.public_meeting_id);
+            this.castNftInfo(this.cast.public_meeting_id);
+            this.setCastModal('manageAudienceModal');
+        },
         setCastModal(setModal) {
             this.activeModal = setModal;
         },
