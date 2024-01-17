@@ -61,7 +61,8 @@
             <CastCardShimmer :style="{opacity: 0.6}"/>
           </div>
           <div v-else v-for="(cast, index) in casts" :key="index">
-            <CastCard 
+            <CastCard
+            :streamInfo="streamInfo" 
             :castsInfo="castsInfo"
             :cast="cast" 
             :index="index" 

@@ -335,6 +335,7 @@ export default {
 .box2 {
   background: #8cd0ff;
   border: 1px solid #8cd0ff;
+  margin-left: 12px;
 }
 .box3 {
   background: #adeb5a;
@@ -343,6 +344,7 @@ export default {
 .box4 {
   background: #33db79;
   border: 1px solid #33db79;
+  margin-left: 12px;
 }
 .box2-left {
   width: 16px;

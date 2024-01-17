@@ -196,18 +196,18 @@
             <div class="inner-child3">
                 <div class="inner-child4">
                     <div v-if="streamInfo[cast.public_meeting_id]">
-                        <button v-if="streamInfo[cast.public_meeting_id].stream_status" class="stream-btn"
-                            @click="toggleStream(cast.public_meeting_id, 'pause')">
-                            <feather-icon icon="PauseIcon" svgClasses="stroke-current" class="block icon" />
-                        </button>
-                        <!-- <div class="tooltip" v-if="showTooltip===index">Pause Stream</div> -->
-                        <button class="action-btn" id="stream-btn" v-else @mouseover="toggleTool2(index)"
-                            @mouseleave="toggleTool2(index)" @click="toggleStream(cast.public_meeting_id, 'start')">
-                            <img src="@/assets/images/dashboard/Live.svg" alt="" />
-                        </button>
-                        <div class="tooltip" v-if="showTooltip2 === index">
-                            Start Stream
-                        </div>
+                        <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                            <vs-button class="vs-cast-copy-button"
+                                @click="toggleStream(cast.public_meeting_id, 'pause')">
+                                <feather-icon icon="PauseIcon" svgClasses="stroke-current" class="block icon" />
+                            </vs-button>
+                        </vx-tooltip>
+                        <vx-tooltip  v-else text="Start Stream" position="bottom">
+                            <vs-button class="vs-cast-copy-button"
+                                @click="toggleStream(cast.public_meeting_id, 'start')">
+                                <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                            </vs-button>
+                        </vx-tooltip>
                     </div>
 
                     <SimpleMenu :menuList="castCopyMenuItems">
@@ -231,14 +231,14 @@
         </div>
 
         <NftEdit v-if="activeModal === 'editNft'" :closeModal="() => setCastModal('manageAudienceModal')"
-            :cast_id="cast.public_meeting_id"/>
-        <ShareNftLink v-else-if="activeModal === 'shareNft'" :closeModal="() => setCastModal('manageAudienceModal')" 
-            :cast_id="cast.public_meeting_id"/>
+            :cast_id="cast.public_meeting_id" />
+        <ShareNftLink v-else-if="activeModal === 'shareNft'" :closeModal="() => setCastModal('manageAudienceModal')"
+            :cast_id="cast.public_meeting_id" />
 
         <BaseModal v-if="activeModal == 'manageAudienceModal'" :title="'Invite your attendees'" @close="setCastModal('')">
             <template #modalContent>
-                <ManageAudNftModal :showCloseButton="() => setCastModal('')" :isAirdrop="isAirdrop" :setCastModal="setCastModal"
-                    :pub_nft_flow="pub_nft_flow" :public_nft_status="public_nft_status"
+                <ManageAudNftModal :showCloseButton="() => setCastModal('')" :isAirdrop="isAirdrop"
+                    :setCastModal="setCastModal" :pub_nft_flow="pub_nft_flow" :public_nft_status="public_nft_status"
                     :changePublicNftStatus="changePublicNftStatus" :nft_details_submitted="nft_details_submitted"
                     :vc_details_submitted="vc_details_submitted" :event_nft_enabled="event_nft_enabled"
                     :certificate_enabled="certificate_enabled" :castId="cast.public_meeting_id" :invites="cast.invitee_list"
@@ -350,7 +350,7 @@ import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 
 export default {
     name: 'CastCard',
-    props: ['castsInfo', 'cast', 'index', 'setProps', 'stepOneProps', 'stepTwoProps',
+    props: ['streamInfo', 'castsInfo', 'cast', 'index', 'setProps', 'stepOneProps', 'stepTwoProps',
         'stepThreeProps', 'stepFourProps', 'getCastList'],
     data() {
         return {
@@ -388,7 +388,7 @@ export default {
             // stepTwoProps: {},
             // stepThreeProps: {},
             // castsInfo: [],
-            streamInfo: {},
+            // streamInfo: {},
             isStream: false,
             viewer: false,
             castOptionMenuItems: [
@@ -452,17 +452,17 @@ export default {
                 {
                     label: "Copy participant url",
                     icon: () => import("@/assets/svgs/menu-icons/participant.vue"),
-                    onClick: () => this.copy(cast.public_meeting_id, cast.h_ap)
+                    onClick: () => this.copy(this.cast.public_meeting_id, this.cast.h_ap)
                 },
                 {
                     label: "Copy co-host url",
                     icon: () => import("@/assets/svgs/menu-icons/co-host.vue"),
-                    onClick: () => this.copy(cast.public_meeting_id, cast.h_mp)
+                    onClick: () => this.copy(this.cast.public_meeting_id, this.cast.h_mp)
                 },
                 {
                     label: "Copy stream url",
                     icon: () => import("@/assets/svgs/menu-icons/stream.vue"),
-                    onClick: () => this.copy(cast.public_meeting_id, undefined),
+                    onClick: () => this.copy(this.cast.public_meeting_id, undefined),
                 },
             ],
 

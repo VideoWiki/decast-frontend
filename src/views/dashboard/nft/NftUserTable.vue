@@ -33,14 +33,14 @@
             <div class="table-content-col1">
                 <span v-if="user.joined">
                     <span></span>
-                    <vx-tooltip text="Joined the event" position="top">
+                    <vx-tooltip text="Joined the event" position="bottom">
                         <vs-icon icon-pack="feather" icon="icon-user-check" size="18px" color="green"
                             rounded="true"></vs-icon>
                     </vx-tooltip>
                 </span>
                 <span v-else>
                     <span></span>
-                    <vx-tooltip text="Didn't joined the event" position="top">
+                    <vx-tooltip text="Didn't joined the event" position="bottom">
                         <vs-icon icon-pack="feather" icon="icon-user-x" size="18px" color="red" rounded="true"></vs-icon>
                     </vx-tooltip>
                 </span>
@@ -70,7 +70,7 @@
                     user.vc_mint_status &&
                     vc_details_submitted
                     ">
-                    <vx-tooltip text="Not Clicked" position="top">
+                    <vx-tooltip text="Not Clicked" position="bottom">
                         <span v-if="user.vc_mint_status == 'not started' || user.vc_mint_status == null">
                             <div class="ml-1" style="
                                 width: 20px;
@@ -82,7 +82,7 @@
                         </span>
                     </vx-tooltip>
 
-                    <vx-tooltip text="Clicked" position="top">
+                    <vx-tooltip text="Clicked" position="bottom">
                         <span>
                             <div class="ml-1" style="
                             width: 20px;
@@ -93,7 +93,7 @@
                         </span>
                     </vx-tooltip>
 
-                    <vx-tooltip text="Claimed" position="top">
+                    <vx-tooltip text="Claimed" position="bottom">
                         <span v-if="user.vc_mint_status == 'successful'">
                             <div class="ml-1" style="
                                 width: 20px;
@@ -119,7 +119,7 @@
                     user.mint_status &&
                     nft_details_submitted
                     ">
-                    <vx-tooltip text="Not Claimed" position="top">
+                    <vx-tooltip text="Not Claimed" position="bottom">
                         <span v-if="user.mint_status == 'not started'">
                             <div class="ml-1" style="
                             width: 20px;
@@ -131,7 +131,7 @@
                         </span>
                     </vx-tooltip>
 
-                    <vx-tooltip text="Clicked" position="top">
+                    <vx-tooltip text="Clicked" position="bottom">
                         <span
                             v-if="user.mint_status == 'started'">
                             <div class="ml-1" style="
@@ -144,7 +144,7 @@
                         </span>
                     </vx-tooltip>
 
-                    <vx-tooltip text="Claimed" position="top">
+                    <vx-tooltip text="Claimed" position="bottom">
                         <span
                             v-if="user.mint_status == 'successful'">
                             <div class="ml-1" style="
