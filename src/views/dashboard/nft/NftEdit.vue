@@ -292,7 +292,7 @@ export default {
                     // this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
                 })
                 .catch((err) => {
-                    console.log(err.response.status);
+                    console.log(err);
                     console.log(JSON.stringify(err));
                 });
         },

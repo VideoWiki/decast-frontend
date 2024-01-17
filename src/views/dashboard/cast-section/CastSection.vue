@@ -54,25 +54,15 @@
       </div>
 
       <div class="options-container">
-
         <div v-if="focusYourRooms">
           <div v-if="isCastsLoading">
             <CastCardShimmer />
-            <CastCardShimmer :style="{opacity: 0.6}"/>
+            <CastCardShimmer :style="{ opacity: 0.6 }" />
           </div>
           <div v-else v-for="(cast, index) in casts" :key="index">
-            <CastCard
-            :streamInfo="streamInfo" 
-            :castsInfo="castsInfo"
-            :cast="cast" 
-            :index="index" 
-            :setProps="setProps"
-            :stepOneProps="stepOneProps"
-            :stepTwoProps="stepTwoProps"
-            :stepThreeProps="stepThreeProps" 
-            :stepFourProps="stepFourProps" 
-            :getCastList="getCastList"         
-          />
+            <CastCard :streamInfo="streamInfo" :castsInfo="castsInfo" :cast="cast" :index="index" :setProps="setProps"
+              :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps"
+              :stepFourProps="stepFourProps" :getCastList="getCastList" />
           </div>
         </div>
         <div v-else>
@@ -102,9 +92,14 @@
                   </vs-icon>
                   Play
                 </button>
+
                 <button @mouseover="toggleEditTool(index)" @mouseleave="toggleEditTool(index)"
                   @click="editRecord(recording)">
                   <img class="mr-1" src="@/assets/images/pen.svg" alt="" />Edit
+                </button>
+                <button @click="copyRecording(recording)">
+                  <img src="@/assets/images/copy.svg" />
+                  Copy
                 </button>
                 <div class="tooltip2" v-if="showTooltip === index">
                   <div>
@@ -157,7 +152,7 @@
       <StreamingTab class="stream-co" :closeCreate="() => (stream = false)" :stepFourProps="stepFourProps"
         :stepThreeProps="stepThreeProps" :stepTwoProps="stepTwoProps" :stepOneProps="stepOneProps" :castId="index">
       </StreamingTab> -->
-      <!--<stream-card
+    <!--<stream-card
         :closeCreate="() => (stream = false)"
         :stepFourProps="stepFourProps"
         :stepThreeProps="stepThreeProps"
@@ -244,9 +239,9 @@ import SettingsTab from '@/views/dashboard/cast-section/components/Tabs/Settings
 import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/StreamingTab.vue';
 import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
 import CastCard from './components/CastCard.vue';
-import AddIcon from '@/assets/svgs/button-icons/add.vue'
+import AddIcon from '@/assets/svgs/button-icons/add.vue';
 import CastCardShimmer from './components/CastCardShimmer.vue';
-import RecordingCardCastShimmer from './components/RecordingCardCastShimmer.vue'
+import RecordingCardCastShimmer from './components/RecordingCardCastShimmer.vue';
 
 export default {
   components: {
@@ -261,7 +256,7 @@ export default {
     AddIcon,
     CastCardShimmer,
     RecordingCardCastShimmer,
-},
+  },
   name: 'CastSection',
   data() {
     return {
@@ -472,7 +467,7 @@ export default {
     },
     setProps(id) {
       const details = this.castsInfo[id].details;
-      console.log("details", details)
+      console.log('details', details);
       this.stepOneProps = {
         event_name: details.event_name,
         moderator_password: '',
@@ -618,8 +613,19 @@ export default {
     openRecording(recording) {
       // console.log(recording, 'mmmmmmm');
       const playbackURL =
-        recording['Playback Data']['Playback URL'] + '/video-0.m4v';
+        recording['Playback Data']['Playback URL'].replace(
+          '/presentation/2.3',
+          '/video'
+        ) + '/video-0.m4v';
       window.open(playbackURL, '_blank');
+    },
+    copyRecording(recording) {
+      navigator.clipboard.writeText(
+        recording['Playback Data']['Playback URL'].replace(
+          '/presentation/2.3',
+          '/video'
+        ) + '/video-0.m4v'
+      );
     },
     editRecord(recording) {
       // this.$vs.notify({

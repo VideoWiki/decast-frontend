@@ -404,9 +404,8 @@ export default {
     },
     async addNft(x) {
       console.log('add call');
-      // this.stepOneProps.give_nft=true;
       if (
-        this.publicIsChecked === false &&
+        !this.publicIsChecked &&
         this.stepOneProps.meeting_type === 'public'
       ) {
         this.$vs.notify({
@@ -415,61 +414,66 @@ export default {
           color: 'warning',
         });
         return;
-      } else {
-        if (this.canSubmitNft()) {
-          if (this.stepOneProps.parameter == '') {
+      }
+
+      if (this.canSubmitNft()) {
+        try {
+          if (this.stepOneProps.parameter === '') {
             this.stepOneProps.parameter = `{"_tokenURI":"${this.dummyURI}"}`;
           }
+
           const id = this.castId;
-          var payload = new FormData();
-          for (var [key, value] of Object.entries(this.stepOneProps)) {
-            if (value.length === 0) {
-              value = '';
-            } else {
-              if (value === false) {
-                value = 'False';
-              } else if (value === true) {
-                value = 'True';
-              } else if (value === '') {
-                value = '';
-              }
-            }
-            payload.append(key, value);
+          const payload = new FormData();
+
+          for (const [key, value] of Object.entries(this.stepOneProps)) {
+            payload.append(
+              key,
+              value === ''
+                ? ''
+                : value === false
+                ? 'False'
+                : value === true
+                ? 'True'
+                : value
+            );
           }
+
           payload.append('public_meeting_id', id);
+
           this.$vs.loading();
-          await this.$store
-            .dispatch('studio/addNftDetails', payload)
-            .then(async (res) => {
-              if (x) {
-                this.$vs.notify({
-                  time: 6000,
-                  title: 'Airdrop Details Submitted',
-                  color: 'success',
-                });
-                this.toggleCreateCastModal();
-                this.$vs.loading.close();
-                this.castInfo(false);
-                this.airdrops = false;
-                this.resetFields();
-              }
-            })
-            .catch((e) => {
-              console.log(JSON.stringify(e));
-              if (e) {
-                console.log(e);
-                this.$vs.loading.close();
-                this.$vs.notify({
-                  time: 6000,
-                  title: 'Error',
-                  text: e.response.data.message,
-                  color: 'danger',
-                });
-              }
+
+          await this.$store.dispatch('studio/addNftDetails', payload);
+
+          if (x) {
+            this.$vs.notify({
+              time: 6000,
+              title: 'Airdrop Details Submitted',
+              color: 'success',
             });
+
+            this.toggleCreateCastModal();
+            this.$vs.loading.close();
+            this.castInfo(false);
+            this.airdrops = false;
+            this.resetFields();
+          }
+        } catch (error) {
+          console.log(JSON.stringify(error));
+
+          if (error.response) {
+            console.log(error.response);
+            this.$vs.loading.close();
+            this.$vs.notify({
+              time: 6000,
+              title: 'Error',
+              text: error.response.data.message,
+              color: 'danger',
+            });
+          }
         }
       }
     },
+
     async uploadMetadata() {
       const imageFile = this.stepOneProps.nft_image;
       const description = this.stepOneProps.nft_description;
@@ -489,8 +493,7 @@ export default {
             maxBodyLength: 'Infinity',
             headers: {
               'Content-Type': `multipart/form-data; boundary=${nftFormData._boundary}`,
-              Authorization:
-                `Bearer ${constants.pinataKey}`,
+              Authorization: `Bearer ${constants.pinataKey}`,
             },
           }
         );
@@ -515,8 +518,7 @@ export default {
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization:
-              `Bearer ${constants.pinataKey}`,
+              Authorization: `Bearer ${constants.pinataKey}`,
             },
           }
         );

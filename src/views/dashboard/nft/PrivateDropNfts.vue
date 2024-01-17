@@ -138,7 +138,7 @@
               class="bottom flex flex-wrap items-center justify-center vx-col md:w-3/4 w-full p-2 loading-container"
             >
               <img
-                src="@/assets/images/create-event/loading.png"
+                src="@/assets/images/reward.png"
                 style="height: 100px; width: 100px"
                 class="loading-img"
                 alt="loading"
