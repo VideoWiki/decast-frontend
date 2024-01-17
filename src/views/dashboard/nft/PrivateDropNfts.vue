@@ -70,7 +70,7 @@
                         <img class="sample-img" v-bind:src="nft_image" />
                       </div>
                     </div>
-                    <div class="vx-col lg:w-2/3 pl-2" style="text-align: left">
+                    <div class="vx-col lg:w-2/3 pl-2 custom-color" style="text-align: left">
                       <p class="p-2" v-if="!readMore">
                         NFT Description:
                         {{ nft_description.slice(0, 181) }}
@@ -889,6 +889,9 @@ h3 {
 }
 .small-text {
   text-align: center;
+}
+.custom-color p{
+  color: #A6A6A8;
 }
 .main-card {
   /* border-radius: 12px;

@@ -230,9 +230,14 @@
             </div>
         </div>
 
+        <NftEdit v-if="activeModal === 'editNft'" :closeModal="() => setCastModal('manageAudienceModal')"
+            :cast_id="cast.public_meeting_id"/>
+        <ShareNftLink v-else-if="activeModal === 'shareNft'" :closeModal="() => setCastModal('manageAudienceModal')" 
+            :cast_id="cast.public_meeting_id"/>
+
         <BaseModal v-if="activeModal == 'manageAudienceModal'" :title="'Invite your attendees'" @close="setCastModal('')">
             <template #modalContent>
-                <ManageAudNftModal :showCloseButton="() => setCastModal('')" :isAirdrop="isAirdrop"
+                <ManageAudNftModal :showCloseButton="() => setCastModal('')" :isAirdrop="isAirdrop" :setCastModal="setCastModal"
                     :pub_nft_flow="pub_nft_flow" :public_nft_status="public_nft_status"
                     :changePublicNftStatus="changePublicNftStatus" :nft_details_submitted="nft_details_submitted"
                     :vc_details_submitted="vc_details_submitted" :event_nft_enabled="event_nft_enabled"
@@ -339,6 +344,9 @@ import EditCastModal from '@/views/dashboard/cast-section/components/EditCast/Ed
 import ConfirmationModal from '@/views/dashboard/components/ConfirmationModal.vue';
 import ManageAudNftModal from '@/views/dashboard/nft/ManageAudNftModal.vue';
 import BaseModal from "@/components/common/BaseModal.vue";
+
+import NftEdit from '@/views/dashboard/nft/NftEdit.vue';
+import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 
 export default {
     name: 'CastCard',
@@ -487,6 +495,8 @@ export default {
         ConfirmationModal,
         ManageAudNftModal,
         BaseModal,
+        NftEdit,
+        ShareNftLink,
     },
     mounted() {
         // document.getElementById('loading-bg').style.display = 'block';

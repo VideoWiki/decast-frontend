@@ -235,7 +235,7 @@ export default {
       } else {
         this.stepThreeProps.public_stream = true;
       }
-      const isStreaming = this.VWStream || streamUrls[1].urls.length > 0;
+      const isStreaming = this.VWStream && streamUrls[1].urls.length > 0;
 
       this.stepThreeProps.is_streaming = isStreaming;
       this.stepThreeProps.vw_stream = streamUrls[0].vw_stream;

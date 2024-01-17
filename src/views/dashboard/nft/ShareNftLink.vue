@@ -1,56 +1,69 @@
 <template>
-    <div class="basic_parent_nft">
-        <div class="head-container">
-            <h3>Share public NFT link</h3>
-            <button @click="closeDrops">
-                <img src="@/assets/images/cross.svg" />
-            </button>
-        </div>
-        <span class="share_basic">
-            <div title="Public NFT Link">
-                <div class="copy-Link">
-                    <!-- <p class="text-white my-2 text-xl mb-6">Share</p> -->
-                    <div>
-                        <div class="link-container">
-                            <span id="datatoken" class="link-text px-2">
-                                {{ `https://decast.live/public/nftdrop?cast_id=${cast_id}` }}
-                            </span>
-                            <button class="copy-btn rounded-md cursor-pointer" @click="copy">
-                                Copy
-                            </button>
+    <BaseModal :title="'Share public NFT link'" @close="closeModal">
+        <template #modalContent>
+            <div>
+                <!-- <div class="head-container">
+                    <h3>Share public NFT link</h3>
+                    <button @click="closeDrops">
+                        <img src="@/assets/images/cross.svg" />
+                    </button>
+                </div> -->
+                <span class="share_basic">
+                    <div title="Public NFT Link">
+                        <div class="copy-Link">
+                            <!-- <p class="text-white my-2 text-xl mb-6">Share</p> -->
+                            <div>
+                                <div class="link-container">
+                                    <span id="datatoken" class="link-text px-2">
+                                        {{ `https://decast.live/public/nftdrop?cast_id=${cast_id}` }}
+                                    </span>
+                                    <button class="copy-btn rounded-md cursor-pointer" @click="copy">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <!-- <p class="hr-lines">or</p> -->
+                                <div class="social-icons my-5 w-8/12 mx-auto justify-between">
+                                    <button
+                                        class="whatsapp p-5 cursor-pointer rounded-full w-16 h-16 items-center text-center"
+                                        @click="shareOnWhatsApp">
+                                        <i class="fa fa-whatsapp text-3xl m-auto"></i>
+                                    </button>
+                                    <button
+                                        class="twitter p-5 cursor-pointer rounded-full w-16 h-16 items-center text-center"
+                                        @click="shareOnTwitter">
+                                        <i class="fa fa-twitter text-3xl m-auto"></i>
+                                    </button>
+                                    <button
+                                        class="facebook p-5 cursor-pointer rounded-full w-16 h-16 items-center text-center"
+                                        @click="shareOnFacebook">
+                                        <i class="fa fa-facebook text-3xl m-auto"></i>
+                                    </button>
+                                    <button
+                                        class="reddit p-5 cursor-pointer rounded-full w-16 h-16 items-center text-center"
+                                        @click="shareOnReddit">
+                                        <i class="fa fa-reddit text-3xl m-auto"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <!-- <p class="hr-lines">or</p> -->
-                        <div class="social-icons my-5 w-8/12 mx-auto justify-between">
-                            <button class="whatsapp p-5 cursor-pointer rounded-full w-16 h-16 items-center text-center"
-                                @click="shareOnWhatsApp">
-                                <i class="fa fa-whatsapp text-3xl m-auto"></i>
-                            </button>
-                            <button class="twitter p-5 cursor-pointer rounded-full w-16 h-16 items-center text-center"
-                                @click="shareOnTwitter">
-                                <i class="fa fa-twitter text-3xl m-auto"></i>
-                            </button>
-                            <button class="facebook p-5 cursor-pointer rounded-full w-16 h-16 items-center text-center"
-                                @click="shareOnFacebook">
-                                <i class="fa fa-facebook text-3xl m-auto"></i>
-                            </button>
-                            <button class="reddit p-5 cursor-pointer rounded-full w-16 h-16 items-center text-center"
-                                @click="shareOnReddit">
-                                <i class="fa fa-reddit text-3xl m-auto"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                </span>
             </div>
-        </span>
-    </div>
+        </template>
+    </BaseModal>
 </template>
   
 <script>
+import BaseModal from "@/components/common/BaseModal.vue";
+
 export default {
     name: 'ShareNftLink',
-    props: ['cast_id', 'ToggleEdit'],
+    props: ['cast_id', 'closeModal'],
+    components: {
+        BaseModal,
+    },
     data() {
         return {
             showCopyPopup: false,
@@ -128,15 +141,6 @@ export default {
     background-color: #1f272f;
     border: none;
     cursor: pointer;
-}
-
-.basic_parent_nft {
-    width: auto;
-    height: auto;
-    border-radius: 12px;
-    background-color: #1d2129;
-    position: relative;
-    padding: 15px;
 }
 </style>
   

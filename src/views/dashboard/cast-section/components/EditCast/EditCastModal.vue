@@ -412,8 +412,8 @@ export default {
             this.$vs.loading.close();
           }, 5000);
           this.getCast();
-          console.log('100');
-          console.log(this.getCast(), 'this list');
+          // console.log('100');
+          // console.log(this.getCast(), 'this list');
           this.responsedata = response.data.message;
           this.$vs.notify({
             title: 'Success',
@@ -518,9 +518,9 @@ export default {
     },
     createCast() {
       if (this.validateFormOne) {
-        this.getCast();
-        console.log('100');
-        console.log(this.getCast(), 'this list');
+        // this.getCast();
+        // console.log('100');
+        // console.log(this.getCast(), 'this list');
         console.log('success validated');
         this.formSubmitted();
       }

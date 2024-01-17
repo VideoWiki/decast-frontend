@@ -1,121 +1,132 @@
 <template>
-    <div class="nft-container">
-        <!-- <div class="head-container">
+    <BaseModal :title="'Edit NFT'" @close="closeModal">
+        <template #modalContent>
+            <div class="nft-container">
+                <!-- <div class="head-container">
             <h3>Add drops - NFT</h3>
-            <button @click="closeDrops">
+            <button @click="closeModal">
                 <img src="@/assets/images/cross.svg" />
             </button>
         </div> -->
 
-        <!-- <div class="horizontal-line"></div> -->
+                <!-- <div class="horizontal-line"></div> -->
 
-        <div class="mid-1">
-            <div>
-                <span :style="{ color: nftIsChecked ? '#31a2f4' : 'gray' }">NFTs</span>
-                <ToggleSwitch @toggle="toggleNftSwitch()" />
-                <span :style="{ color: tokenIsChecked ? '#31a2f4' : 'gray' }">Token</span>
-            </div>
-            <div>
-                <span>NFT Distribution - </span>
-                <span :style="{ color: publicIsChecked ? '#31a2f4' : 'gray' }">Public</span>
-                <ToggleSwitch @toggle="togglePrivateSwitch()" />
-                <span :style="{ color: privateIsChecked ? '#31a2f4' : 'gray' }">Private</span>
-            </div>
-        </div>
+                <div class="mid-1">
+                    <div>
+                        <span :style="{ color: nftIsChecked ? '#31a2f4' : 'gray' }">NFTs</span>
+                        <ToggleSwitch @toggle="toggleNftSwitch()" />
+                        <span :style="{ color: tokenIsChecked ? '#31a2f4' : 'gray' }">Token</span>
+                    </div>
+                    <div>
+                        <span>NFT Distribution - </span>
+                        <span :style="{ color: publicIsChecked ? '#31a2f4' : 'gray' }">Public</span>
+                        <ToggleSwitch @toggle="togglePrivateSwitch()" />
+                        <span :style="{ color: privateIsChecked ? '#31a2f4' : 'gray' }">Private</span>
+                    </div>
+                </div>
 
-        <div class="mid-2">
-            <div>
-                <label for="select">Select a network</label>
-                <br />
-                <select name="network-select" id="network-select" v-model="stepOneProps.network" @change="updateNetwork">
-                    <option value="41">Telos EVM Testnet</option>
-                    <option value="1">Ethereum</option>
-                    <option value="5">Goerli Testnet RPC</option>
-                    <option value="137">Polygon</option>
-                    <option value="40">Telos EVM Mainnet</option>
-                    <option value="11155111">Sepolia</option>
-                </select>
-            </div>
-            <div>
-                <label for="input2">Contact address <span class="text-danger">*</span></label>
-                <br />
-                <input type="text" id="contract_address" v-model="stepOneProps.contract_address"
-                    placeholder=" Ex: 0x0710A4F91Dfa5c88A81A5b7a767" v-on:change="valueCheck()" @keyup="valueCheck()" />
-                <br />
-                <span class="text-danger text-sm mt-1" v-show="stepOneProps.contract_address_error">Contact Address is
-                    required</span>
-            </div>
-        </div>
+                <div class="mid-2">
+                    <div>
+                        <label for="select">Select a network</label>
+                        <br />
+                        <select name="network-select" id="network-select" v-model="stepOneProps.network"
+                            @change="updateNetwork">
+                            <option value="41">Telos EVM Testnet</option>
+                            <option value="1">Ethereum</option>
+                            <option value="5">Goerli Testnet RPC</option>
+                            <option value="137">Polygon</option>
+                            <option value="40">Telos EVM Mainnet</option>
+                            <option value="11155111">Sepolia</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="input2">Contact address <span class="text-danger">*</span></label>
+                        <br />
+                        <input type="text" id="contract_address" v-model="stepOneProps.contract_address"
+                            placeholder=" Ex: 0x0710A4F91Dfa5c88A81A5b7a767" v-on:change="valueCheck()"
+                            @keyup="valueCheck()" />
+                        <br />
+                        <span class="text-danger text-sm mt-1" v-show="stepOneProps.contract_address_error">Contact Address
+                            is
+                            required</span>
+                    </div>
+                </div>
 
-        <div class="mid-3">
-            <label>ABI <span class="text-danger">*</span></label>
-            <br />
-            <textarea id="aib" v-model="stepOneProps.aib" v-on:change="valueCheck()" @keyup="valueCheck()"
-                placeholder='Ex: [{"internalType": "uint256}]'></textarea>
-            <br />
-            <span class="text-danger text-sm mt-1" v-show="stepOneProps.aib_error">ABI field is required</span>
-        </div>
+                <div class="mid-3">
+                    <label>ABI <span class="text-danger">*</span></label>
+                    <br />
+                    <textarea id="aib" v-model="stepOneProps.aib" v-on:change="valueCheck()" @keyup="valueCheck()"
+                        placeholder='Ex: [{"internalType": "uint256}]'></textarea>
+                    <br />
+                    <span class="text-danger text-sm mt-1" v-show="stepOneProps.aib_error">ABI field is required</span>
+                </div>
 
-        <div class="mid-4">
-            <div>
-                <label for="select">Parameters <span class="text-danger">*</span></label>
-                <br />
-                <input type="text" id="parameter" v-model="stepOneProps.parameter" v-on:change="valueCheck()"
-                    @keyup="valueCheck()" placeholder="Ex: {_count:1}" />
-            </div>
-            <div>
-                <label for="select">Mint Function Name <span class="text-danger">*</span></label>
-                <br />
-                <input type="text" placeholder=" Ex: mintNFTs" id="mint_function_name"
-                    v-model="stepOneProps.mint_function_name" v-on:change="valueCheck()" @keyup="valueCheck()" />
-                <br />
-                <span class="text-danger text-sm mt-1" v-show="stepOneProps.mintfnc_name_error">Mint Function field is
-                    required</span>
-            </div>
-            <div>
-                <label for="input2">Price <span class="text-danger">*</span></label>
-                <br />
-                <input type="text" placeholder=" Ex: 0.0009 (ETH)" id="price" v-model="stepOneProps.price"
-                    v-on:change="valueCheck()" @keyup="valueCheck()" />
-            </div>
-        </div>
+                <div class="mid-4">
+                    <div>
+                        <label for="select">Parameters <span class="text-danger">*</span></label>
+                        <br />
+                        <input type="text" id="parameter" v-model="stepOneProps.parameter" v-on:change="valueCheck()"
+                            @keyup="valueCheck()" placeholder="Ex: {_count:1}" />
+                    </div>
+                    <div>
+                        <label for="select">Mint Function Name <span class="text-danger">*</span></label>
+                        <br />
+                        <input type="text" placeholder=" Ex: mintNFTs" id="mint_function_name"
+                            v-model="stepOneProps.mint_function_name" v-on:change="valueCheck()" @keyup="valueCheck()" />
+                        <br />
+                        <span class="text-danger text-sm mt-1" v-show="stepOneProps.mintfnc_name_error">Mint Function field
+                            is
+                            required</span>
+                    </div>
+                    <div>
+                        <label for="input2">Price <span class="text-danger">*</span></label>
+                        <br />
+                        <input type="text" placeholder=" Ex: 0.0009 (ETH)" id="price" v-model="stepOneProps.price"
+                            v-on:change="valueCheck()" @keyup="valueCheck()" />
+                    </div>
+                </div>
 
-        <div class="mid-5">
-            <div>
-                <label>Description <span class="text-danger">*</span></label>
-                <br />
-                <textarea id="nft_description" v-model="stepOneProps.nft_description" v-on:change="valueCheck()"
-                    @keyup="valueCheck()" placeholder="Explain the utility of the NFT"></textarea>
-            </div>
-            <div id="sample-nft">
-                <label>Sample NFT <span class="text-danger">*</span> -</label>
-                <div>
-                    <button @click="openUpload">Select file</button>
-                    <input type="file" class="hidden" name="Sample nft" id="nft_image" ref="nft_image"
-                        v-on:change="uploadSampleNft" />
-                    <p style="max-width: 100px; overflow: hidden">{{ sampleName }}</p>
-                    <!-- <button>
+                <div class="mid-5">
+                    <div>
+                        <label>Description <span class="text-danger">*</span></label>
+                        <br />
+                        <textarea id="nft_description" v-model="stepOneProps.nft_description" v-on:change="valueCheck()"
+                            @keyup="valueCheck()" placeholder="Explain the utility of the NFT"></textarea>
+                    </div>
+                    <div id="sample-nft">
+                        <label>Sample NFT <span class="text-danger">*</span> -</label>
+                        <div>
+                            <button @click="openUpload">Select file</button>
+                            <input type="file" class="hidden" name="Sample nft" id="nft_image" ref="nft_image"
+                                v-on:change="uploadSampleNft" />
+                            <p style="max-width: 100px; overflow: hidden">{{ sampleName }}</p>
+                            <!-- <button>
                 <img src="@/assets/images/delete.svg" />
               </button> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="add-cont">
+                    <vs-button @click.stop="addNft(true)">Update NFT</vs-button>
                 </div>
             </div>
-        </div>
-
-        <div class="add-cont">
-            <vs-button @click.stop="addNft(true)">Update NFT</vs-button>
-        </div>
-    </div>
+        </template>
+    </BaseModal>
 </template>
   
 <script>
 import ToggleSwitch from '@/views/dashboard/cast-section/components/Tabs/ToggleSwitch.vue';
 import buttonToggle from '@/views/dashboard/cast-section/components/Tabs/buttonToggle.vue';
+import BaseModal from "@/components/common/BaseModal.vue";
+
 export default {
     name: 'NftEdit',
-    props: ['cast_id', 'currStatus', 'ToggleEdit'],
+    props: ['cast_id', 'closeModal'],
     components: {
         ToggleSwitch,
         buttonToggle,
+        BaseModal,
     },
     data() {
         return {
@@ -127,7 +138,7 @@ export default {
             sampleName: 'No File Selected',
             isChecked: true,
             nftDetails: null,
-            localStatus: this.currStatus,
+            // localStatus: this.currStatus, unknown line
             stepOneProps: {
                 mint_function_name: '',
                 mintfnc_name_error: false,
@@ -204,9 +215,9 @@ export default {
         },
     },
     async mounted() {
-        if (this.cast_id === 'vw.svg') {
-            return;
-        }
+        // if (this.cast_id === 'vw.svg') {
+        //     return;
+        // }
         await this.castInfo();
         await this.meetInfo();
         this.getNFTDetails();
@@ -260,7 +271,7 @@ export default {
             await this.$store
                 .dispatch('auth/eventDetail', payload)
                 .then(async (response) => {
-                    console.log(response,'kfkk')
+                    console.log(response, 'kfkk')
                     this.stepOneProps.send_otp = response.data.meeting_info.send_otp;
                     this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
                 })
@@ -269,13 +280,13 @@ export default {
                     console.log(JSON.stringify(err));
                 });
         },
-        async meetInfo(){
+        async meetInfo() {
             const payload = this.cast_id;
             await this.$store
                 .dispatch('cast/meetInfo', payload)
                 .then(async (response) => {
-                    console.log(response,'meet')
-                    this.stepOneProps.meeting_type=response.data.details.cast_type;
+                    console.log(response, 'meet')
+                    this.stepOneProps.meeting_type = response.data.details.cast_type;
                     console.log(this.stepOneProps.meeting_type);
                     // this.stepOneProps.send_otp = response.data.meeting_info.send_otp;
                     // this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
@@ -435,9 +446,6 @@ export default {
                 return true;
             }
         },
-        closeDrops() {
-            this.ToggleEdit('');
-        },
         async addNft(x) {
             console.log(x, this.stepOneProps, 'hope');
             if (
@@ -479,7 +487,7 @@ export default {
                                     title: 'Airdrop Details Updated',
                                     color: 'success',
                                 });
-                                this.closeDrops();
+                                this.closeModal();
                                 this.$vs.loading.close();
                                 this.airdrops = false;
                             }
@@ -736,6 +744,5 @@ option {
     justify-content: flex-end;
 }
 
-@media screen {}
-</style>
+@media screen {}</style>
   

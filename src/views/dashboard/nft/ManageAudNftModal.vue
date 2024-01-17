@@ -1,7 +1,7 @@
 <template>
-    <NftEdit v-if="currStatus === 'edit'" :cast_id="castId" :currStatus="currStatus" :ToggleEdit="ToggleEdit" />
-    <ShareNftLink v-else-if="currStatus === 'share'" :cast_id="castId" :ToggleEdit="ToggleEdit" />
-    <div v-else class="invite-cont">
+    <!-- <NftEdit v-if="currStatus === 'edit'" :cast_id="castId" :currStatus="currStatus" :ToggleEdit="ToggleEdit" />
+    <ShareNftLink v-else-if="currStatus === 'share'" :cast_id="castId" :ToggleEdit="ToggleEdit" /> -->
+    <div class="invite-cont">
         <div class="invite-section mb-4">
             <div class="invite-wrapper">
                 <div class="invite-wrapper-left">
@@ -73,7 +73,7 @@
 
                 <vx-tooltip text="Edit NFT" position="bottom">
                     <vs-button v-if="nft_details_submitted && !certificate_enabled" style="font-size: 12px;"
-                        @click="ToggleEdit('edit')" class="airdrop-btn-1">
+                        @click="setCastModal('editNft')" class="airdrop-btn-1">
                         <vs-icon icon-pack="feather" icon="icon-edit" size="14px" rounded="true">
                         </vs-icon>
                     </vs-button>
@@ -81,7 +81,7 @@
 
                 <vx-tooltip text="Copy NFT link to share" position="bottom">
                     <vs-button v-if="isAirdrop && pub_nft_flow" class="airdrop-btn-1" style="font-size: 12px;"
-                        @click="ToggleEdit('share')">
+                        @click="setCastModal('shareNft')">
                         <vs-icon icon-pack="feather" icon="icon-share-2" size="14px" rounded="true">
                         </vs-icon>
                     </vs-button>
@@ -261,18 +261,18 @@
 <script>
 import constants from '../../../../constant';
 import axios from '@/axios';
-import NftEdit from './NftEdit.vue';
-import ShareNftLink from './ShareNftLink.vue';
+// import NftEdit from './NftEdit.vue';
+// import ShareNftLink from './ShareNftLink.vue';
 import NftUserTable from './NftUserTable.vue';
 
 export default {
     name: 'InviteCard',
-    props: ['isAirdrop', 'pub_nft_flow', 'public_nft_status', 'changePublicNftStatus', 'nft_details_submitted',
+    props: ['isAirdrop', 'setCastModal', 'pub_nft_flow', 'public_nft_status', 'changePublicNftStatus', 'nft_details_submitted',
         'castId', 'invites', 'closeModal', 'isStream', 'viewer', 'event_nft_enabled', 'certificate_enabled', 'vc_details_submitted',
         'showBackButton', 'showCloseButton'],
     components: {
-        NftEdit,
-        ShareNftLink,
+        // NftEdit,
+        // ShareNftLink,
         NftUserTable,
     },
     data() {
