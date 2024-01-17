@@ -307,14 +307,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    // {
-    //   path: '/callback',
-    //   name: 'Callback',
-    //   component: () => import('./views/login/components/Callback.vue'),
-    //   meta: {
-    //     rule: 'isPublic',
-    //   },
-    // },
+    {
+      path: '/callback',
+      name: 'Callback',
+      component: () => import('./views/login/components/Callback.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
     {
       path: '/recording/:id',
       name: 'recording',
@@ -348,14 +348,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    // {
-    //   path: '/consent',
-    //   name: 'Consent',
-    //   component: () => import('./views/login/components/Consent.vue'),
-    //   meta: {
-    //     rule: 'isPublic',
-    //   },
-    // },
+    {
+      path: '/consent',
+      name: 'Consent',
+      component: () => import('./views/login/components/Consent.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
     {
       path: '/login1',
       name: 'Login',

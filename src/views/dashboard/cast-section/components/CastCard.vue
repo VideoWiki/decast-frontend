@@ -43,7 +43,7 @@
       <span v-if="streamInfo[cast.public_meeting_id]">
         <button v-if="streamInfo[cast.public_meeting_id].stream_status" class="stream-btn" @click.stop
           @click="toggleStream(cast.public_meeting_id, 'pause')">
-          <feather-icon icon="PauseIcon" svgClasses="stroke-current" class="block icon" />
+          <img style="width:33px !important; height: 33px !important;" src="@/assets/images/pause.png" alt="" />
         </button>
         <!-- <div class="tooltip" v-if="showTooltip===index">Pause Stream</div> -->
         <button class="action-btn" id="stream-btn" v-else @click.stop
@@ -181,8 +181,8 @@
         <div class="inner-child4">
           <div v-if="streamInfo[cast.public_meeting_id]">
             <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
-              <vs-button class="vs-cast-copy-button" @click="toggleStream(cast.public_meeting_id, 'pause')">
-                <feather-icon icon="PauseIcon" svgClasses="stroke-current" class="block icon" />
+              <vs-button class="vs-cast-copy-button" style="padding:4px !important; width: 36px !important;" @click="toggleStream(cast.public_meeting_id, 'pause')">
+                <img style="width:33px !important; height: 33px !important;" src="@/assets/images/pause.png" alt="" />
               </vs-button>
             </vx-tooltip>
             <vx-tooltip v-else text="Start Stream" position="bottom">
@@ -1402,7 +1402,7 @@ export default {
 }
 
 .inner-div2 {
-  width: 48%;
+  width: 52%;
   justify-content: right;
   text-align: right;
   /* transform: translate(-20px, 0px); */
@@ -1713,10 +1713,6 @@ export default {
     background: rgba(255, 255, 255, 0.5) !important;
     border-radius: 5px;
     border: none !important;
-  }
-
-  .stream-btn {
-    background-color: blue !important;
   }
 
   .action-btn {
