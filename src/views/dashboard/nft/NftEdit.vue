@@ -215,9 +215,9 @@ export default {
         },
     },
     async mounted() {
-        // if (this.cast_id === 'vw.svg') {
-        //     return;
-        // }
+        if (this.cast_id === 'vw.svg') {
+            return;
+        }
         await this.castInfo();
         await this.meetInfo();
         this.getNFTDetails();
