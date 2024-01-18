@@ -28,7 +28,7 @@
             class="vx-row no-gutter justify-center items-center mt-5 main-card"
           >
             <div class="vx-row justify-center items-center w-full h-full">
-              <div
+                <div
                 v-if="hasMint == false && loading == false"
                 class="bottom vx-col md:w-1/3 w-full basic-mint-cont"
               >
@@ -131,6 +131,7 @@
                           v-if="hasMint == false"
                           pill
                           @click="mint"
+                          
                           class="mt-8 mb-4 radius font-semibold text-lg shifted-button"
                           >Mint</vs-button
                         >
@@ -139,6 +140,7 @@
                   </div>
                 </vs-popup>
               </div>
+              
               <div
                 v-if="loading == true"
                 class="bottom flex flex-wrap items-center justify-center vx-col md:w-3/4 w-full p-2 loading-container"
@@ -742,6 +744,8 @@
     min-width: 50vw;
     min-height: 50vh;
     border: none;
+    border-radius: 0px !important;
+    box-shadow: 5px 5px 0px 0px #d7df23, 10px 10px 0px 0px #f2ff00;
   }
   #mint-popup-cover .vs-popup--content {
     /* background: rgba(0, 0, 0, 0.8); */
@@ -751,6 +755,7 @@
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
+    
   }
   </style>
   <style scoped>
@@ -769,7 +774,6 @@
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    border-bottom: 1px solid #D7DF23;
     /* background-color: #7448ff; */
     /* background-image: url('@/assets/images/create-event/background-mask.png'); */
     /* linear-gradient(105.14deg, #7448FF 2.88%, #200087 102.78%); */
@@ -841,14 +845,15 @@
     /* line-height: 70px; */
     color: #ffffff;
   }
+
   .bottom {
-    margin-top: 10vh;
+    margin-top: 15vh;
     padding: 1rem;
     background: #000;
     border: 1px solid #d7df23;
-    height: 80%;
-    box-shadow: 0px 30px 40px rgba(160, 142, 215, 0.1);
-    border-radius: 12px !important;
+    box-shadow: 5px 5px 0px 0px #d7df23, 10px 10px 0px 0px #f2ff00;
+    height: 100%;
+    /* border-radius: 12px !important; */
   }
   .minted-msg {
     padding: 10px;
@@ -884,9 +889,10 @@
   }
   .shifted-button {
     background: #000 !important;
-    border: 1px solid #d7df23;
+    border: 1px solid #d7df23 !important;
     color: #d7df23 !important;
-    border-radius: 20px;
+    border-radius: 0px !important;
+    box-shadow: 3px 3px 0px 0px #d7df23 !important;
     padding-left: 5rem;
     padding-right: 5rem;
   }

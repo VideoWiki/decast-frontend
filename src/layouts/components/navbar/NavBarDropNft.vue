@@ -86,7 +86,7 @@ export default {
 }
 .navbar-wrapper {
   background: #000;
-  border-bottom: 1px solid #D7DF23 !important;
+  border-bottom: 2px solid #D7DF23 !important;
   z-index: 4120;
 }
 </style>

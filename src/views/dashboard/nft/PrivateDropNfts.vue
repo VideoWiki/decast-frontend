@@ -70,7 +70,10 @@
                         <img class="sample-img" v-bind:src="nft_image" />
                       </div>
                     </div>
-                    <div class="vx-col lg:w-2/3 pl-2 custom-color" style="text-align: left">
+                    <div
+                      class="vx-col lg:w-2/3 pl-2 custom-color"
+                      style="text-align: left"
+                    >
                       <p class="p-2" v-if="!readMore">
                         NFT Description:
                         {{ nft_description.slice(0, 181) }}
@@ -102,7 +105,8 @@
                               readMore = !readMore;
                             }
                           "
-                          style="color: #a6a6a6;
+                          style="
+                            color: #a6a6a6;
                             cursor: pointer;
                             font-size: 14px;
                           "
@@ -190,13 +194,10 @@
                 class="flex flex-wrap align-center justify-center w-full"
                 style="display: flex; justify-content: center"
               >
-                <img
-                  class="open-box"
-                  src="@/assets/images/reward.png"
-                />
+                <img class="open-box" src="@/assets/images/reward.png" />
               </div>
               <div class="flex flex-wrap justify-center">
-                <h3 class="my-2 p-2" style="color: #000000">Decast NFT</h3>
+                  <h3 class="my-2 p-2" style="color: #a6a6a6">Decast NFT</h3>
               </div>
               <div class="flex flex-wrap justify-center align-center p-2">
                 <p class="px-2 mb-1 small-text" v-if="!readMore">
@@ -245,7 +246,7 @@ import TheNavbarVertical from '../../../layouts/components/navbar/VerticalNavbar
 import navMenuItems from '../../../layouts/components/vertical-nav-menu/navMenuItems';
 import VerticalNavMenuDropNft from '../../../layouts/components/vertical-nav-menu/VerticalNavMenuDropNft.vue';
 import themeConfig from '../../../../themeConfig';
-  import networks from '../../create-event/netwoks';
+import networks from '../../create-event/netwoks';
 import { ethers } from 'ethers';
 import { MerkleTree } from 'merkletreejs';
 import keccak256 from 'keccak256';
@@ -853,24 +854,24 @@ export default {
   overflow: hidden;
 }
 #mint-popup-cover .vs-popup {
-  background: linear-gradient(#1f272f, #1f272e) !important;
-  background: -o-linear-gradient(#1f272f, #1f272e) !important;
-  background: -moz-linear-gradient(#1f272f, #1f272e) !important;
-  background: -webkit-linear-gradient(#1f272f, #1f272e) !important;
-
-  min-width: 50vw;
-  min-height: 50vh;
-  border: none;
-}
-#mint-popup-cover .vs-popup--content {
-  /* background: rgba(0, 0, 0, 0.8); */
-  border-color: none;
-  min-height: 60vh !important;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
-}
+    background-color: #000 !important;
+    border: 1px solid #d7df23 !important;
+    min-width: 50vw;
+    min-height: 50vh;
+    border: none;
+    border-radius: 0px !important;
+    box-shadow: 5px 5px 0px 0px #d7df23, 10px 10px 0px 0px #f2ff00;
+  }
+  #mint-popup-cover .vs-popup--content {
+    /* background: rgba(0, 0, 0, 0.8); */
+    border-color: none;
+    min-height: 60vh !important;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    
+  }
 </style>
 <style scoped>
 .layout--main {
@@ -890,8 +891,8 @@ h3 {
 .small-text {
   text-align: center;
 }
-.custom-color p{
-  color: #A6A6A8;
+.custom-color p {
+  color: #a6a6a8;
 }
 .main-card {
   /* border-radius: 12px;
@@ -946,11 +947,12 @@ h3 {
   color: #ffffff;
 }
 .bottom {
-  margin-top: 10vh;
-  background: #1f272f;
-  height: 75%;
-  box-shadow: 0px 30px 40px rgba(160, 142, 215, 0.1);
-  border-radius: 12px;
+  margin-top: 15vh;
+  padding: 1rem;
+  background: #000;
+  border: 1px solid #d7df23;
+  box-shadow: 5px 5px 0px 0px #d7df23, 10px 10px 0px 0px #f2ff00;
+  height: 100%;
 }
 .minted-msg {
   padding: 10px;
@@ -985,9 +987,11 @@ p {
   color: #909090;
 }
 .shifted-button {
-  background: #d7df23 !important;
-  color: #1f272f !important;
-  border-radius: 20px;
+  background: #000 !important;
+  border: 1px solid #d7df23 !important;
+  color: #d7df23 !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px 0px #d7df23 !important;
   padding-left: 5rem;
   padding-right: 5rem;
 }
@@ -1038,7 +1042,7 @@ p {
 }
 
 .open-box {
-  width: 150px;
-  height: auto;
-}
+    width: 100px !important;
+    height: auto;
+  }
 </style>
