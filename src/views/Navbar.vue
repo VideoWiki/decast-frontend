@@ -8,26 +8,26 @@
 
       <!-- Desktop Navbar Options -->
       <div class="opt-cont items-center gap-10 md:flex hidden">
-        <div><a class="" href="/features">Features</a></div>
+        <!-- <div><a class="" href="/features">Features</a></div> -->
         <div class="dropbtn flex flex-col items-center relative" @click="dropOpen('Joindrop')">
-          <a class="flex gap-2 items-center cursor-pointer">
+          <a class="flex gap-2 items-center cursor-pointer font-bold text-primary">
             Join
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 14 8" fill="none">
               <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M7.70734 7.70698C7.51981 7.89445 7.26551 7.99976 7.00034 7.99976C6.73518 7.99976 6.48087 7.89445 6.29334 7.70698L0.636343 2.04998C0.540833 1.95773 0.464651 1.84739 0.412242 1.72538C0.359833 1.60338 0.332246 1.47216 0.331092 1.33938C0.329939 1.2066 0.355241 1.07492 0.405521 0.952023C0.455802 0.829127 0.530055 0.717474 0.623948 0.623581C0.717841 0.529689 0.829492 0.455436 0.952389 0.405155C1.07529 0.354874 1.20696 0.329572 1.33974 0.330726C1.47252 0.33188 1.60374 0.359466 1.72575 0.411875C1.84775 0.464284 1.9581 0.540466 2.05034 0.635976L7.00034 5.58598L11.9503 0.635976C12.1389 0.453818 12.3915 0.353024 12.6537 0.355302C12.9159 0.357581 13.1668 0.46275 13.3522 0.648158C13.5376 0.833566 13.6427 1.08438 13.645 1.34658C13.6473 1.60877 13.5465 1.86137 13.3643 2.04998L7.70734 7.70698Z"
-                fill="#a6a6a6" />
+                fill="#d7df23" />
             </svg>
           </a>
           <div id="Joindrop" class="flex-col absolute py-2 px-4 rounded-sm hideNav bg-black items-center"
             style="top: 100%">
             <a class="" href="/creators" style="width: fit-content">Creators</a>
-            <a class="" href="/sponsors" style="width: fit-content">Sponsors</a>
+            <a href="/promoters" style="width: fit-content">Promoters</a>
             <a class="" href="/operators" style="width: fit-content">Operators</a>
           </div>
         </div>
+        <div><a href="/about">What is Decast?</a></div>
         <div><a href="/infrastructure">Infrastructure</a></div>
         <div><a href="/pricing">Pricing</a></div>
-        <div><a href="/about">About</a></div>
         <div><a href="/faq">Faq</a></div>
         <div><a href="/contact">Contact</a></div>
       </div>
@@ -41,17 +41,17 @@
               <a v-if="!isLoggedIn" @click="open">Login</a>
               <a href="/dashboard" v-else>Dashboard</a>
 
-              <a href="/features">Features</a>
+              <!-- <a href="/features">Features</a> -->
 
               <div class="flex w-full flex-col">
 
-                <a class="flex items-center gap-2" @click="dropOpen('Joindropmob')">
+                <a class="flex gap-2 items-center cursor-pointer font-bold text-primary" @click="dropOpen('Joindropmob')">
                   Join
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 14 8" fill="none">
                       <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M7.70734 7.70698C7.51981 7.89445 7.26551 7.99976 7.00034 7.99976C6.73518 7.99976 6.48087 7.89445 6.29334 7.70698L0.636343 2.04998C0.540833 1.95773 0.464651 1.84739 0.412242 1.72538C0.359833 1.60338 0.332246 1.47216 0.331092 1.33938C0.329939 1.2066 0.355241 1.07492 0.405521 0.952023C0.455802 0.829127 0.530055 0.717474 0.623948 0.623581C0.717841 0.529689 0.829492 0.455436 0.952389 0.405155C1.07529 0.354874 1.20696 0.329572 1.33974 0.330726C1.47252 0.33188 1.60374 0.359466 1.72575 0.411875C1.84775 0.464284 1.9581 0.540466 2.05034 0.635976L7.00034 5.58598L11.9503 0.635976C12.1389 0.453818 12.3915 0.353024 12.6537 0.355302C12.9159 0.357581 13.1668 0.46275 13.3522 0.648158C13.5376 0.833566 13.6427 1.08438 13.645 1.34658C13.6473 1.60877 13.5465 1.86137 13.3643 2.04998L7.70734 7.70698Z"
-                        fill="#a6a6a6" />
+                        fill="#d7df23" />
                     </svg>
                   </span>
 
@@ -60,15 +60,14 @@
                 <div id="Joindropmob" class="flex-col py-2 px-4 rounded-sm hideNav bg-black items-start gap-4 mt-2"
                   style="width: fit-content;" @click="dropOpen">
                   <a href="/creators" style="width: fit-content">Creators</a>
-                  <a href="/sponsors" style="width: fit-content">Sponsors</a>
+                  <a href="/promoters" style="width: fit-content">Promoters</a>
                   <a href="/operators" style="width: fit-content">Operators</a>
                 </div>
 
               </div>
-
+              <a href="/about">What is Decast?</a>
               <a href="/infrastructure">Infrastructure</a>
               <a href="/pricing">Pricing</a>
-              <a href="/about">About</a>
               <a href="/faq">Faq</a>
               <a href="/contact">Contact</a>
 

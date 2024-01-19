@@ -62,39 +62,36 @@
                 </div>
             </nav>
         </div> -->
-        <Navbar/>
-        <div class="home-cont mb-16">
-            <div
-                class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
-                <div class=" lg:w-full md:w-8/12 sm:w-10/12 w-full">
-                    <div class="op-1">
-                        <h1 id="head-id" class="sm:text-3xl xl:text-6xl text-4xl text-left">
-                            Revolutionary Decentralized
-                        </h1>
-                        <h1 id="head-id" class="sm:text-3xl xl:text-6xl text-4xl text-left">
-                            Live Casting
-                        </h1>
-                    </div>
-                    <div class="op-2 mt-2">
-                        <p class="text-base text-left">
-                            Groundbreaking technology converges with <br class="xl:block hidden" />the future of live
-                            content creation!
-                        </p>
-                    </div>
-                    <div class="op-3">
-                        <button @click="handleButtonClick"><img src="@/assets/images/meet.svg" />Enter</button>
-                        <!-- <button>
+    <Navbar />
+    <div class="home-cont mb-16">
+      <div
+        class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
+        <div class=" lg:w-full md:w-8/12 sm:w-10/12 w-full">
+          <div class="op-1">
+            <h1 id="head-id" class="sm:text-3xl xl:text-6xl text-4xl text-left">
+              Revolutionary Decentralized
+            </h1>
+            <h1 id="head-id" class="sm:text-3xl xl:text-6xl text-4xl text-left">
+              Live Casting
+            </h1>
+          </div>
+          <div class="op-2 mt-2">
+            <p class="text-base text-left">
+              Groundbreaking technology converges with <br class="xl:block hidden" />the future of live
+              content creation!
+            </p>
+          </div>
+          <div class="op-3">
+            <button @click="handleButtonClick"><img src="@/assets/images/meet.svg" />Enter</button>
+            <!-- <button>
                             <img src="@/assets/images/key.svg" />Enter a code or link
                         </button> -->
           </div>
         </div>
 
-        <div
-          class="cont-3 flex justify-end items-center w-full"
-          @scroll="handleScroll"
-        >
-          <div class="rounded-lg relative p-6 basic__section__img" style="width: 500px;">
-            <img class="rounded-lg object-cover w-full h-full" src="@/assets/images/landing/home__cover.png" />
+        <div class="cont-3 flex justify-end items-center w-full" @scroll="handleScroll">
+          <div class="rounded-lg relative p-6" style="width: 600px;">
+            <img class="rounded-lg object-cover w-full h-full" src="@/assets/images/landing/Intro.svg" />
           </div>
         </div>
       </div>
@@ -135,15 +132,10 @@
       </div>
     </div>
 
-    <div
-      class="basic__section basic__section__1 flex w-full justify-center items-center py-16"
-    >
+    <div class="basic__section basic__section__1 flex w-full justify-center items-center py-16">
       <div
-        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16"
-      >
-        <div
-          class="flex flex-col text-grey gap-4 w-full col-span-1 lg:order-last lg:justify-end lg:items-end"
-        >
+        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
+        <div class="flex flex-col text-grey gap-4 w-full col-span-1 lg:order-last lg:justify-end lg:items-end">
           <div class="flex-col flex md:w-10/12 sm:w-10/12">
             <div class="w-24 h-24 relative mb-4 pr-2">
               <img class="w-full h-full" src="@/assets/images/play.svg" />
@@ -151,10 +143,7 @@
             <h5 class="lg:text-5xl text-4xl text-grey font-semibold">
               Creators - Content - Community
             </h5>
-            <div
-              class="w-64 my-4 h-2 rounded-full"
-              style="background-color: #d7df23"
-            ></div>
+            <div class="w-64 my-4 h-2 rounded-full" style="background-color: #d7df23"></div>
             <p class="text-base text-grey font-normal">
               From live casting to post-production, Decast empowers content
               creators with cutting-edge AI technologies, offering unparalleled
@@ -165,62 +154,39 @@
             </p>
           </div>
         </div>
-        <div
-          class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start"
-        >
-          <img
-            class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/landing/home1.png"
-          />
+        <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
+          <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/home1.png" />
         </div>
       </div>
     </div>
 
-    <div
-      class="basic__section basic__section__2 flex w-full justify-center items-center py-16"
-    >
+    <div class="basic__section basic__section__2 flex w-full justify-center items-center py-16">
       <div
-        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16"
-      >
+        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
         <div class="flex flex-col text-grey gap-4 w-full col-span-1">
           <div class="w-24 h-24 relative mb-4 pr-2">
             <img class="w-full h-full" src="@/assets/images/community.svg" />
           </div>
-          <h5
-            class="lg:text-5xl text-4xl text-grey font-semibold md:w-10/12 sm:w-10/12"
-          >
+          <h5 class="lg:text-5xl text-4xl text-grey font-semibold md:w-10/12 sm:w-10/12">
             Decentralized and Hyperconverged Networked
           </h5>
-          <div
-            class="w-64 my-4 h-2 rounded-full"
-            style="background-color: #d7df23"
-          ></div>
+          <div class="w-64 my-4 h-2 rounded-full" style="background-color: #d7df23"></div>
           <p class="text-base text-grey font-normal md:w-10/12 sm:w-10/12">
             Able to adapt to the growing computing needs of edge computing,
             where processing occurs closer to the data source. Optimal for
             scenarios where Edge computing requires low-latency responses.
           </p>
         </div>
-        <div
-          class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end"
-        >
-          <img
-            class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/landing/home2.png"
-          />
+        <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
+          <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/home2.png" />
         </div>
       </div>
     </div>
 
-    <div
-      class="basic__section basic__section__1 flex w-full justify-center items-center py-16"
-    >
+    <div class="basic__section basic__section__1 flex w-full justify-center items-center py-16">
       <div
-        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16"
-      >
-        <div
-          class="flex flex-col text-grey gap-4 w-full col-span-1 lg:order-last lg:justify-end lg:items-end"
-        >
+        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
+        <div class="flex flex-col text-grey gap-4 w-full col-span-1 lg:order-last lg:justify-end lg:items-end">
           <div class="flex-col flex md:w-10/12 sm:w-10/12">
             <div class="w-24 h-24 relative mb-4 pr-2">
               <img class="w-full h-full" src="@/assets/images/access.svg" />
@@ -228,10 +194,7 @@
             <h5 class="lg:text-5xl text-4xl text-grey font-semibold">
               Democratized Ownership and Access to the Community
             </h5>
-            <div
-              class="w-64 my-4 h-2 rounded-full"
-              style="background-color: #d7df23"
-            ></div>
+            <div class="w-64 my-4 h-2 rounded-full" style="background-color: #d7df23"></div>
             <p class="text-base text-grey font-normal">
               Access to deploy apps on shared infrastructure which cultivates a
               collaborative, dynamic, and innovative ecosystem for diverse
@@ -239,36 +202,23 @@
             </p>
           </div>
         </div>
-        <div
-          class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start"
-        >
-          <img
-            class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/landing/home3.png"
-          />
+        <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
+          <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/home3.png" />
         </div>
       </div>
     </div>
 
-    <div
-      class="basic__section basic__section__2 flex w-full justify-center items-center py-16"
-    >
+    <div class="basic__section basic__section__2 flex w-full justify-center items-center py-16">
       <div
-        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16"
-      >
+        class="max-w-5xl w-full lg:px-16 md:px-6 p-4 flex flex-col lg:grid lg:grid-flow-col grid-cols-2 justify-between items-start lg:gap-4 gap-16">
         <div class="flex flex-col text-grey gap-4 w-full col-span-1">
           <div class="w-24 h-24 relative mb-4 pr-2">
             <img class="w-full h-full" src="@/assets/images/money.svg" />
           </div>
-          <h5
-            class="lg:text-5xl text-4xl text-grey font-semibold md:w-10/12 sm:w-10/12"
-          >
+          <h5 class="lg:text-5xl text-4xl text-grey font-semibold md:w-10/12 sm:w-10/12">
             On-Demand Costs and Revenue Share
           </h5>
-          <div
-            class="w-64 my-4 h-2 rounded-full"
-            style="background-color: #d7df23"
-          ></div>
+          <div class="w-64 my-4 h-2 rounded-full" style="background-color: #d7df23"></div>
           <p class="text-base text-grey font-normal md:w-10/12 sm:w-10/12">
             Creating a sustainable and collaborative ecosystem where platform
             operators are fairly compensated, users have pay-per-use fee, and
@@ -276,13 +226,8 @@
             protocol improvements.
           </p>
         </div>
-        <div
-          class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end"
-        >
-          <img
-            class="rounded-lg object-cover sm:w-10/12 w-full"
-            src="@/assets/images/landing/home4.png"
-          />
+        <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
+          <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/home4.png" />
         </div>
       </div>
     </div>
@@ -298,11 +243,7 @@
           </button>
         </div>
         <div class="testm-cont" ref="container">
-          <div
-            class="rev-cont"
-            v-for="(testimonial, index) in testimonials"
-            :key="index"
-          >
+          <div class="rev-cont" v-for="(testimonial, index) in testimonials" :key="index">
             <div class="testimonial">
               <img :src="testimonial.image" alt="Testimonial Image" />
               <h2>{{ testimonial.comment }}</h2>
@@ -765,12 +706,12 @@ export default {
 
       const colorCategory =
         Object.keys(colorShades)[
-          Math.floor(Math.random() * Object.keys(colorShades).length)
+        Math.floor(Math.random() * Object.keys(colorShades).length)
         ];
 
       const randomShade =
         colorShades[colorCategory][
-          Math.floor(Math.random() * colorShades[colorCategory].length)
+        Math.floor(Math.random() * colorShades[colorCategory].length)
         ];
 
       return randomShade;
@@ -873,27 +814,27 @@ export default {
         const text = this.boxTexts2[textIndex2];
         this.boxTexts2.splice(textIndex2, 1);
 
-                const box2 = {
-                    style: {
-                        left: leftPosition,
-                        top: '0vh',
-                        animationDuration: duration + 's',
-                        animationDelay: delay + 's',
-                        background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
-                        transform: `rotate(${rotation}deg)`,
-                    },
-                    text: text,
-                };
-                this.boxes2.push(box2);
-            }
-        },
-        redirectTo() {
-            window.open('https://video.wiki/contact-us', '_blank');
-        },
-        redirectToLink() {
-            window.open('https://fider.video.wiki/', '_blank');
-        },
+        const box2 = {
+          style: {
+            left: leftPosition,
+            top: '0vh',
+            animationDuration: duration + 's',
+            animationDelay: delay + 's',
+            background: `linear-gradient(45deg, ${this.getRandomColor()}, ${this.getRandomColor()})`,
+            transform: `rotate(${rotation}deg)`,
+          },
+          text: text,
+        };
+        this.boxes2.push(box2);
+      }
     },
+    redirectTo() {
+      window.open('https://video.wiki/contact-us', '_blank');
+    },
+    redirectToLink() {
+      window.open('https://fider.video.wiki/', '_blank');
+    },
+  },
 };
 </script>
 
@@ -1006,7 +947,7 @@ button {
   flex-direction: column;
 }
 
-.fallbox-container > div {
+.fallbox-container>div {
   /* border: 1px solid yellow; */
   display: flex;
   width: 100%;
@@ -1015,12 +956,12 @@ button {
   gap: 1rem;
 }
 
-.fallbox-container > div:nth-child(1) {
+.fallbox-container>div:nth-child(1) {
   justify-content: flex-end;
   width: 90%;
 }
 
-.fall-child1 > div:nth-child(2) {
+.fall-child1>div:nth-child(2) {
   animation: fallbox-fall5 linear both;
   transition: 0.3s ease;
   /* animation-delay: 0.5ms; */
@@ -1049,7 +990,7 @@ button {
   }
 }
 
-.fall-child1 > div:nth-child(3) {
+.fall-child1>div:nth-child(3) {
   animation: fallbox-fall4 linear both;
   animation-delay: 0.3ms;
   /* margin-left: -20px; */
@@ -1071,7 +1012,7 @@ button {
   justify-content: center;
 }
 
-.fall-child3 > div:nth-child(3) {
+.fall-child3>div:nth-child(3) {
   margin-left: 12rem;
 }
 
@@ -1219,7 +1160,7 @@ button {
   margin-bottom: 5rem;
 }
 
-.step-vid-cont > div {
+.step-vid-cont>div {
   position: sticky;
   /* max-width: 600px; */
   padding: 35px;
@@ -1237,7 +1178,7 @@ button {
   transition: opacity 0.3s ease-in-out;
 }
 
-.step-vid-cont > div > img {
+.step-vid-cont>div>img {
   width: auto;
   height: auto;
   max-width: 550px;
@@ -1794,6 +1735,7 @@ button {
   from {
     transform: translateX(0);
   }
+
   from {
     transform: translateX(0);
   }
@@ -2006,7 +1948,7 @@ button {
     margin-top: 6rem;
   }
 
-  .mid-cont > h1 {
+  .mid-cont>h1 {
     width: 100%;
     text-align: center;
   }
@@ -2016,7 +1958,7 @@ button {
     height: fit-content;
   }
 
-  .fallbox-container > div {
+  .fallbox-container>div {
     flex-wrap: wrap;
   }
 
@@ -2096,14 +2038,14 @@ button {
     max-width: 90%;
   }
 
-  .step-vid-cont > div {
+  .step-vid-cont>div {
     padding: 20px;
     padding: 15px;
     width: 98%;
     border-radius: 10px;
   }
 
-  .step-vid-cont > div > img {
+  .step-vid-cont>div>img {
     width: 100%;
     height: auto;
     margin: auto;

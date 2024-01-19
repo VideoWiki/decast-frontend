@@ -7,9 +7,7 @@
         video conferencing goals
       </h1>
     </div>
-    <div
-      class="bod-cont max-w-5xl w-full items-center flex flex-row justify-between gap-5 lg:px-16 md:px-6 px-4 py-6"
-    >
+    <div class="bod-cont max-w-5xl w-full items-center flex flex-row justify-between gap-5 lg:px-16 md:px-6 px-4 py-6">
       <div>
         <img src="@/assets/images/hold.svg" />
         <h3>Free</h3>
@@ -20,19 +18,14 @@
       <div>
         <img src="@/assets/images/bank.svg" />
         <h3>Enterprise</h3>
-        <small
-          >For businesses looking to build a lasting brand and drive
-          growth</small
-        >
+        <small>For businesses looking to build a lasting brand and drive
+          growth</small>
         <p>Custom solutions for teams of 10 or more users</p>
         <button @click="showPopUp()">Contact sales</button>
       </div>
     </div>
     <div v-if="showContactPopUp" class="popup-container">
-      <ContactPopUp
-        :showContactPopUp="showContactPopUp"
-        @updateContactPopUp="updateContactPopUp"
-      />
+      <ContactPopUp :showContactPopUp="showContactPopUp" @updateContactPopUp="updateContactPopUp" />
     </div>
     <FootSec />
   </div>
@@ -137,11 +130,13 @@ export default {
 .bod-cont div:nth-child(2) button {
   background-color: #464775;
 }
+
 @media screen and (max-device-width: 768px) {
   .head-cont {
     width: 85vw;
     margin: auto;
   }
+
   .bod-cont {
     display: flex;
     flex-wrap: wrap;
@@ -149,11 +144,13 @@ export default {
     align-items: center;
     gap: 5rem;
   }
+
   .bod-cont div {
     margin: auto;
     height: auto;
-    gap:2rem;
+    gap: 2rem;
   }
+
   .head-cont h1 {
     font-weight: 500;
     font-size: 2em;

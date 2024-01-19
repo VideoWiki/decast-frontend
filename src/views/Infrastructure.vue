@@ -23,8 +23,7 @@
                     </div>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full"
-                        src="@/assets/images/landing/infra/infra1.png" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/infra/infra1.png" />
                 </div>
             </div>
         </div>
@@ -46,8 +45,7 @@
                     </p>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full"
-                        src="@/assets/images/landing/infra/infra2.png" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/infra/infra2.png" />
                 </div>
             </div>
         </div>
@@ -92,8 +90,7 @@
                     </div>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full"
-                        src="@/assets/images/landing/infra/infra3.png" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/infra/infra3.png" />
                 </div>
             </div>
         </div>
@@ -119,8 +116,7 @@
                     </p>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full"
-                        src="@/assets/images/landing/infra/infra4.png" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/infra/infra4.png" />
                 </div>
             </div>
         </div>
@@ -148,8 +144,7 @@
                     </div>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-start">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full"
-                        src="@/assets/images/landing/infra/infra5.png" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/infra/infra5.png" />
                 </div>
             </div>
         </div>
@@ -176,8 +171,7 @@
                     </p>
                 </div>
                 <div class="basic__section__img w-full md:w-auto relative flex object-cover col-span-1 justify-end">
-                    <img class="rounded-lg object-cover sm:w-10/12 w-full"
-                        src="@/assets/images/landing/infra/infra6.png" />
+                    <img class="rounded-lg object-cover sm:w-10/12 w-full" src="@/assets/images/landing/infra/infra6.png" />
                 </div>
             </div>
         </div>

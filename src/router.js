@@ -469,7 +469,7 @@ const router = new Router({
     {
       path: '/about',
       name: 'About',
-      component: () => import('./views/AboutPage.vue'),
+      component: () => import('./views/About.vue'),
       meta: {
         rule: 'isPublic',
       },

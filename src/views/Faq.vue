@@ -85,6 +85,7 @@ export default {
 .fade-leave-to {
   transition: opacity 0.3s ease;
 }
+
 .parent-1 {
   background-image: linear-gradient(180deg, #000, #111, #222);
   width: 100%;
@@ -170,6 +171,7 @@ export default {
 .div-to-hide p {
   color: #a6a6a6;
 }
+
 @media screen and (max-device-width: 980px) {
   .head-cont h1 {
     font-size: 2em;
@@ -182,13 +184,14 @@ export default {
     font-weight: 500;
     color: black;
   }
+
   .div-to-show h1 {
     font-size: 1em;
     font-weight: 500;
   }
+
   .faq-cont {
     /* border: 1px solid red; */
     padding: 2rem;
   }
-}
-</style>
+}</style>
