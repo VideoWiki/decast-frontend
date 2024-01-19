@@ -32,8 +32,8 @@
             <vs-button
               type="filled"
               class="text-base font-bold pr-4"
-              text-color="#544837"
-              color="#f1f1f1"
+              text-color="#d7df23"
+              color="#000"
             >
               {{ truncate(accountAddress) }}
             </vs-button>
@@ -46,7 +46,7 @@
             />
           </div>
           <vs-dropdown-menu class="vx-navbar-dropdown">
-            <ul style="min-width: 9rem">
+            <ul style="min-width: 9rem" class="acc-cont">
               <li class="flex py-2 px-4 font-bold">
                 <!--feather-icon icon="UserIcon" svgClasses="w-4 h-4" /-->
                 <span class="ml-2">{{ accountAddress }}</span>
@@ -77,10 +77,7 @@
           @click="login"
         >
           <div class="w-full flex flex-wrap items-center justify-center">
-            <img
-              class="metamask-logo"
-              src="@/assets/images/metmask.png"
-            />
+            <img class="metamask-logo" src="@/assets/images/metmask.png" />
           </div>
           <div class="w-full flex items-center justify-center">
             <h3 class="metamask-h3">MetaMask</h3>
@@ -173,14 +170,25 @@ export default {
   max-width: 80%;
 } */
 
-.wallter-button{
-  background: #D7DF23 !important;
-  border: 1px solid #000;
-  color: #000 !important;
+.wallter-button {
+  background: #000 !important;
+  color: #d7df23 !important;
+  border: 1px solid #f2ff00 !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px 0px #d7df23 !important;
   height: 50px;
+  transition: 0.2s ease-in-out;
+  transform-origin: center;
 }
 
-.info-wall{
+.wallter-button:hover {
+  transform: translateY(-3px);
+  transition: 0.2s ease-in-out;
+  transform-origin: center;
+  box-shadow: 3px 3px 0px 0px #d7df23,6px 6px 0px 0px #d7df23 !important;
+}
+
+.info-wall {
   color: #637181 !important;
 }
 
@@ -190,38 +198,46 @@ export default {
 }
 
 p {
-  color: #D7DF23 !important;
+  color: #d7df23 !important;
 }
 
-.info-wall{
+.info-wall {
   color: #a6a6a6;
 }
 .metamask-h3 {
   font-size: 24px;
   font-weight: 700;
   margin-top: 0.5em;
-  color: #D7DF23;
+  color: #d7df23;
 }
 .popup-item {
   cursor: pointer;
   background: #000 !important;
 }
 
-#nft-popup{
-  /* border: 1px solid red !important; */
-}
-
 </style>
 
 <style>
-.vs-popup{
+.vs-popup {
   background: #000 !important;
-  border: 1px solid #d7df23 !important;
+  border: 1px solid #f2ff00 !important;
+  border-radius: 0px !important;
+  box-shadow: 5px 5px 0px 0px #d7df23, 10px 10px 0px 0px #f2ff00 !important;
 }
 
-.vs-popup--close{
+.vs-popup--close {
   background: #000 !important;
-  border: 1px solid #d7df23 !important;
+  border: 1px solid #f2ff00 !important;
   color: #d7df23 !important;
+  border-radius: 0px !important;
+  box-shadow: 5px 5px 0px 0px #d7df23 !important;
+}
+
+.vs-dropdown--custom{
+  background: #000 !important;
+  border: 1px solid #f2ff00 !important;
+  color: #d7df23 !important;
+  border-radius: 0px !important;
+  box-shadow: 5px 5px 0px 0px #d7df23 !important;
 }
 </style>

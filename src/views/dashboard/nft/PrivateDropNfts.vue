@@ -197,7 +197,7 @@
                 <img class="open-box" src="@/assets/images/reward.png" />
               </div>
               <div class="flex flex-wrap justify-center">
-                  <h3 class="my-2 p-2" style="color: #a6a6a6">Decast NFT</h3>
+                <h3 class="my-2 p-2" style="color: #a6a6a6">Decast NFT</h3>
               </div>
               <div class="flex flex-wrap justify-center align-center p-2">
                 <p class="px-2 mb-1 small-text" v-if="!readMore">
@@ -414,6 +414,7 @@ export default {
     },
 
     async getMindId() {
+      console.log('mint id call');
       try {
         const res = await this.getMintIdUtil({
           cast_id: this.$route.query.cast_id,
@@ -457,20 +458,26 @@ export default {
         });
     },
     async verifyWallet() {
+      try {
+        await this.verifyWalletUtil();
+        return true;
+      } catch (err) {
+        return false;
+      }
+    },
+    async verifyWalletUtil() {
       const res = await this.$store.dispatch('studio/verifyMintDetails', {
         cast_id: this.$route.query.cast_id,
         public_address: this.accountAddress,
         nft_type: 'NFTs',
       });
-      console.log(this.$route.query.cast_id, 'icast');
-      console.log(res, 'jfi0eipk');
       return res;
     },
     getMerkleTree() {
       this.$store
         .dispatch('studio/getMerkleTree', this.$route.query.cast_id)
         .then((res) => {
-          console.log('merkel tree getting');
+          // console.log('merkel tree getting');
           var leafs = res.data.map((item) => {
             return Uint8Array.from(item.data);
           });
@@ -479,32 +486,24 @@ export default {
           });
         })
         .catch((e) => {
-          console.log('Merkel Tree Not Getting', e);
+          // console.log('Merkel Tree Not Getting', e);
         });
     },
     async mint() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = await provider.getSigner();
-      console.log(signer, 'sign');
       const abi = this.abi;
       const functionParameters = this.params;
       const functionName = this.functionName;
-      console.log(functionName, functionParameters, 'fkfjhhj');
       const contractAddress = this.contractAddress;
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      console.log(contract, this.contract, 'cont');
-      console.log(contract, contract.tokenURI, 'token');
-      console.log('connected', this.isConnected);
       if (this.isConnected) {
-        console.log('connected', this.isConnected);
-        console.log(window.ethereum.networkVersion, 'mdoom,m');
-        console.log(this.network, 'fjko');
         if (window.ethereum.networkVersion === this.network) {
           try {
+            console.log('inside block');
             this.$vs.loading();
-            // await this.addWallet();
             const verifiedWallet = await this.verifyWallet();
-            if (verifiedWallet) {
+            if (verifiedWallet) { 
               const value = ethers.utils.parseEther(this.price);
               const transactionOptions = {
                 // value: value,
@@ -514,12 +513,11 @@ export default {
                 ...Object.values(functionParameters),
                 transactionOptions
               );
-              console.log(tx, 'ycndu');
               const receipt = await tx.wait();
               this.$vs.loading.close();
               this.loading = true;
               await this.updateWallet('started', '');
-              this.getjson();
+              await this.getjson();
               this.openNotification(
                 'top-center',
                 'success',
@@ -532,8 +530,10 @@ export default {
                 this.loading = false;
               }, 1000);
             } else {
+              console.log('mint');
               const mintIsStatus = await this.getMindId();
-              if (mintIsStatus != null) {
+              console.log(mintIsStatus, 'min');
+              if (mintIsStatus !== null) {
                 this.$vs.notify({
                   title: 'Cannot Add Again',
                   text: 'You have already minted the nft',
@@ -556,6 +556,7 @@ export default {
               }
             }
           } catch (e) {
+            this.$vs.loading.close();
             console.log(e, 'check nft');
             if (e.code === 'INSUFFICIENT_FUNDS')
               this.$vs.notify({
@@ -579,6 +580,7 @@ export default {
                 color: 'danger',
               });
             } else {
+              this.$vs.loading.close();
               console.log(e.response);
               this.$vs.notify({
                 time: 3000,
@@ -593,9 +595,11 @@ export default {
             console.log('Minting Error', e);
           }
         } else {
+          this.$vs.loading.close();
           this.switchNetworkRinkeby(this.network);
         }
       } else {
+        this.$vs.loading.close();
         this.openNotification(
           'top-center',
           'danger',
@@ -843,6 +847,14 @@ export default {
 };
 </script>
 <style>
+.vs-dropdown--custom {
+  background: #000 !important;
+  border: 1px solid #f2ff00 !important;
+  color: #d7df23 !important;
+  border-radius: 0px !important;
+  box-shadow: 5px 5px 0px 0px #d7df23 !important;
+}
+
 .idk-co {
   background: #000000;
   background-image: url('../../../assets/images/back.jpeg');
@@ -854,24 +866,23 @@ export default {
   overflow: hidden;
 }
 #mint-popup-cover .vs-popup {
-    background-color: #000 !important;
-    border: 1px solid #d7df23 !important;
-    min-width: 50vw;
-    min-height: 50vh;
-    border: none;
-    border-radius: 0px !important;
-    box-shadow: 5px 5px 0px 0px #d7df23, 10px 10px 0px 0px #f2ff00;
-  }
-  #mint-popup-cover .vs-popup--content {
-    /* background: rgba(0, 0, 0, 0.8); */
-    border-color: none;
-    min-height: 60vh !important;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-    
-  }
+  background-color: #000 !important;
+  border: 1px solid #d7df23 !important;
+  min-width: 50vw;
+  min-height: 50vh;
+  border: none;
+  border-radius: 0px !important;
+  box-shadow: 5px 5px 0px 0px #d7df23, 10px 10px 0px 0px #f2ff00;
+}
+#mint-popup-cover .vs-popup--content {
+  /* background: rgba(0, 0, 0, 0.8); */
+  border-color: none;
+  min-height: 60vh !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
 </style>
 <style scoped>
 .layout--main {
@@ -1042,7 +1053,7 @@ p {
 }
 
 .open-box {
-    width: 100px !important;
-    height: auto;
-  }
+  width: 100px !important;
+  height: auto;
+}
 </style>
