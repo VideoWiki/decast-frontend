@@ -22,7 +22,7 @@
         <span :style="{ color: publicIsChecked ? '#31a2f4' : 'gray' }"
           >Public</span
         >
-        <ToggleSwitch @toggle="togglePrivateSwitch()" />
+        <ToggleSwitch :isNewCheck="isNewCheck" @toggle="togglePrivateSwitch()" />
         <span :style="{ color: privateIsChecked ? '#31a2f4' : 'gray' }"
           >Private</span
         >
@@ -205,6 +205,7 @@ export default {
       sampleName: 'No File Selected',
       isChecked: true,
       dummyURI: '',
+      isNewCheck:null,
     };
   },
   computed: {

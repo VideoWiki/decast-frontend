@@ -102,7 +102,7 @@ export default {
 }
 
 .switch input:checked ~ .slider::before {
-  -webkit-transform: translateX(0px);
-  transform: translateX(0px);
+  -webkit-transform: translateX(24px);
+  transform: translateX(24px);
 }
 </style>
