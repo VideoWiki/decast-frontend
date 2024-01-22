@@ -14,13 +14,13 @@
                 <div class="mid-1">
                     <div>
                         <span :style="{ color: nftIsChecked ? '#31a2f4' : 'gray' }">NFTs</span>
-                        <ToggleSwitch @toggle="toggleNftSwitch()" />
+                        <ToggleSwitch  @toggle="toggleNftSwitch()" />
                         <span :style="{ color: tokenIsChecked ? '#31a2f4' : 'gray' }">Token</span>
                     </div>
-                    <div>
+                    <div v-if="isNewCheck !== null">
                         <span>NFT Distribution - </span>
                         <span :style="{ color: publicIsChecked ? '#31a2f4' : 'gray' }">Public</span>
-                        <ToggleSwitch @toggle="togglePrivateSwitch()" />
+                        <ToggleSwitch :isNewCheck="isNewCheck" @toggle="togglePrivateSwitch()" />
                         <span :style="{ color: privateIsChecked ? '#31a2f4' : 'gray' }">Private</span>
                     </div>
                 </div>
@@ -138,6 +138,7 @@ export default {
             sampleName: 'No File Selected',
             isChecked: true,
             nftDetails: null,
+            isNewCheck:null,
             // localStatus: this.currStatus, unknown line
             stepOneProps: {
                 mint_function_name: '',
@@ -222,7 +223,7 @@ export default {
         await this.meetInfo();
         this.getNFTDetails();
         document.getElementById('loading-bg').style.display = 'none';
-        console.log(this.cast_id, 'cast_id');
+        // console.log(this.cast_id, 'cast_id');
         // this.togglePrivateSwitch();
     },
     methods: {
@@ -236,10 +237,16 @@ export default {
                     if (this.nftDetails && this.nftDetails.pub_nft_flow == false) {
                         this.publicIsChecked = false;
                         this.privateIsChecked = true;
+                        this.isNewCheck=true;
+                        console.log(this.isNewCheck,'dkjdll');
+                    }else{
+                        this.publicIsChecked = true;
+                        this.privateIsChecked = false;
+                        this.isNewCheck=false;
                     }
-                    console.log(this.nftDetails, 'mfjf');
-                    console.log('working receieving');
-                    console.log(res, 'netwrok');
+                    // console.log(this.nftDetails, 'mfjf');
+                    // console.log('working receieving');
+                    // console.log(res, 'netwrok');
                     this.stepOneProps.mint_function_name = res.data.mint_function_name;
                     this.stepOneProps.contract_address = res.data.contract_adress;
                     this.stepOneProps.nft_description = res.data.description;
@@ -259,7 +266,7 @@ export default {
                     const url = new URL(imageUrl);
                     const imageName = url.pathname.split('/').pop();
                     this.sampleName = imageName;
-                    console.log(this.stepOneProps);
+                    // console.log(this.stepOneProps);
                     this.$vs.loading.close();
                 })
                 .catch((e) => {
@@ -271,7 +278,7 @@ export default {
             await this.$store
                 .dispatch('auth/eventDetail', payload)
                 .then(async (response) => {
-                    console.log(response, 'kfkk')
+                    // console.log(response, 'kfkk')
                     this.stepOneProps.send_otp = response.data.meeting_info.send_otp;
                     this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
                 })
@@ -285,9 +292,9 @@ export default {
             await this.$store
                 .dispatch('cast/meetInfo', payload)
                 .then(async (response) => {
-                    console.log(response, 'meet')
+                    // console.log(response, 'meet')
                     this.stepOneProps.meeting_type = response.data.details.cast_type;
-                    console.log(this.stepOneProps.meeting_type);
+                    // console.log(this.stepOneProps.meeting_type);
                     // this.stepOneProps.send_otp = response.data.meeting_info.send_otp;
                     // this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
                 })
@@ -315,16 +322,16 @@ export default {
             this.nftIsChecked = !this.nftIsChecked;
             this.tokenIsChecked = !this.tokenIsChecked;
             this.typeOfNft();
-            console.log('NFT switch toggled');
+            // console.log('NFT switch toggled');
         },
         togglePrivateSwitch() {
             this.publicIsChecked = !this.publicIsChecked;
             this.privateIsChecked = !this.privateIsChecked;
-            console.log(this.privateIsChecked, 'toggle');
+            // console.log(this.privateIsChecked, 'toggle');
             const type = this.privateIsChecked ? 'private' : 'public';
             this.typeOfNft();
             this.updateGiveNft();
-            console.log(this.stepOneProps);
+            // console.log(this.stepOneProps);
             this.updateDistributionType(type);
         },
         updateAirdropType(type) {
@@ -342,7 +349,7 @@ export default {
             }
         },
         updateDistributionType(type) {
-            console.log('update called with type:', type);
+            // console.log('update called with type:', type);
             if (type === 'private') {
                 this.toggleTextColor('private');
                 this.privateIsChecked = true;
@@ -364,7 +371,7 @@ export default {
             }
         },
         updateGiveNft(e) {
-            console.log(e, 'updatenft');
+            // console.log(e, 'updatenft');
             if (
                 this.stepOneProps.audienceAirdrop === true &&
                 this.stepOneProps.airdropType === 'NFTs' &&
@@ -396,16 +403,6 @@ export default {
             }
         },
         canSubmitNft() {
-            console.log(
-                this.stepOneProps.audienceAirdrop,
-                this.stepOneProps.airdropType,
-                this.stepOneProps.mint_function_name,
-                this.stepOneProps.contract_address,
-                this.stepOneProps.aib,
-                this.stepOneProps.nft_description,
-                this.stepOneProps.nft_image,
-                'stepproo'
-            );
             if (
                 this.stepOneProps.audienceAirdrop &&
                 this.stepOneProps.airdropType === 'NFTs' &&
@@ -447,7 +444,7 @@ export default {
             }
         },
         async addNft(x) {
-            console.log(x, this.stepOneProps, 'hope');
+            // console.log(x, this.stepOneProps, 'hope');
             if (
                 this.publicIsChecked === false &&
                 this.stepOneProps.meeting_type === 'public'
@@ -525,7 +522,7 @@ export default {
             this.$refs.nft_image.value = '';
         },
         typeOfNft(e) {
-            console.log(e, 'typeNFT');
+            // console.log(e, 'typeNFT');
             if (this.stepOneProps.public_stream_nfts === 'true') {
                 this.stepOneProps.give_nft = false;
             } else if (this.stepOneProps.public_stream_nfts === 'false') {

@@ -5,6 +5,7 @@ import FullPage from '@/layouts/full-page/FullPage.vue';
 import Landing from '@/views/NewLanding__2.vue';
 import Creators from '@/views/Creators.vue';
 import Sponsors from '@/views/Sponsors.vue';
+import Promoters from '@/views/Promoters.vue';
 import Operators from '@/views/Operators.vue';
 import Infrastructure from '@/views/Infrastructure.vue';
 
@@ -93,6 +94,14 @@ const router = new Router({
           },
         },
         {
+          path: '/promoters',
+          name: 'Welcome to Decast | Promoters',
+          component: Promoters,
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
           path: '/sponsors',
           name: 'Welcome to Decast | Sponsors',
           component: Sponsors,
@@ -120,6 +129,30 @@ const router = new Router({
           path: '/achievements',
           name: 'Awards',
           component: () => import('./views/NewAwards.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/privacy',
+          name: 'Privacy Policy',
+          component: () => import('./views/PrivacyNew.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/terms',
+          name: 'Terms and Conditions',
+          component: () => import('./views/TermsConditions.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/workwithus',
+          name: 'WorkWithUs',
+          component: () => import('./views/WorkWithUs.vue'),
           meta: {
             rule: 'isPublic',
           },
