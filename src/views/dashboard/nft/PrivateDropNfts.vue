@@ -307,7 +307,8 @@ export default {
       const abi = this.abi;
       const contractAddress = this.contractAddress;
       const contract = new ethers.Contract(contractAddress, abi, provider);
-      const iuri = await contract.walletOfOwner(this.accountAddress);
+      const iuri = await contract.balanceOf(this.accountAddress);
+      console.log(iuri, 'iuri');
       return iuri;
     },
     async fetchWallet() {

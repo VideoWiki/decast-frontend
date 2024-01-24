@@ -849,7 +849,7 @@ export default {
       };
       try {
         const res = await this.$store.dispatch('cast/joinNow', data);
-        window.location.href = res.url;
+        window.open(res.url, '_blank');
       } catch (e) {
         console.log('error', e);
       }

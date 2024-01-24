@@ -1,33 +1,49 @@
 <template>
-  <div class="flex flex-col justify-center items-center w-full h-full min-h-screen p-4" style="min-width: 100vw;">
-
+  <div
+    class="flex flex-col justify-center items-center w-full h-full min-h-screen p-4"
+    style="min-width: 100vw"
+  >
     <div
-    class="flex flex-col absolute bg-black bg-opacity-50 min-h-screen z-50"
-    style="min-width: 100vw; backdrop-filter: blur(5px);"
-    @click="closePopUp"
+      class="flex flex-col absolute bg-black bg-opacity-50 min-h-screen z-50"
+      style="min-width: 100vw; backdrop-filter: blur(5px)"
+      @click="closePopUp"
     ></div>
 
-      <div class="wrapper flex flex-col justify-center items-center gap-6 w-full lg:w-7/12 max-w-md px-4 py-8 lg:px-6 lg:py-8" >
+    <div
+      class="wrapper flex flex-col justify-center items-center gap-6 w-full lg:w-7/12 max-w-md px-4 py-8 lg:px-6 lg:py-8"
+    >
       <div class="heading-part w-full flex justify-between">
         <h3>Contact Us</h3>
-        <img class="cursor-pointer" src="@/assets/images/create-event/Vector.svg" @click="closePopUp" />
+        <img
+          class="cursor-pointer"
+          src="@/assets/images/create-event/Vector.svg"
+          @click="closePopUp"
+        />
       </div>
-      <div class="input-part flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full">
-        <input placeholder="Your Name" type="text" class="input-box w-full" />
-        <input placeholder="Your Email" type="email" class="input-box w-full" />
+      <div
+        class="input-part flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full"
+      >
+        <input placeholder="Your Name" type="text" class="input-box w-full" v-model="formData.name"/>
+        <input placeholder="Your Email" type="email" class="input-box w-full" v-model="formData.email"/>
       </div>
-      <div class="input-part flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full">
-        <input placeholder="Your Phone No." class="input-box w-full" />
-        <input placeholder="Other Phone" class="input-box w-full" />
+      <div
+        class="input-part flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full"
+      >
+        <input placeholder="Your Phone No." class="input-box w-full" type="tel" pattern="[0-9]*" v-model="formData.phone"/>
+        <input placeholder="Other Phone" class="input-box w-full" type="tel" pattern="[0-9]*" v-model="formData.otherphone"/>
       </div>
-      <div class="input-msg flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full">
-        <textarea class="msg w-full" placeholder="Your Message"></textarea>
+      <div
+        class="input-msg flex flex-col lg:flex-row gap-4 justify-center lg:justify-between w-full"
+      >
+        <textarea class="msg w-full" placeholder="Your Message" v-model="formData.message"></textarea>
       </div>
-      <button>Send</button>
+      <button @click="sendMessage">Send</button>
     </div>
   </div>
 </template>
 <script>
+import constants from '../../constant';
+import axios from '../axios';
 export default {
   name: 'ContactPopUp',
   props: {
@@ -36,9 +52,81 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      formData: {
+        name: '',
+        email: '',
+        message: '',
+        phone: '',
+        otherphone: '',
+      },
+    };
+  },
   methods: {
     closePopUp() {
       this.$emit('updateContactPopUp', false);
+    },
+    async sendMessage() {
+      if (
+        !this.formData.name ||
+        !this.formData.email ||
+        !this.formData.message
+      ) {
+        this.$vs.notify({
+            title: 'Error',
+            text: 'Basic fields are mandatory',
+            color: 'danger',
+          });
+        return;
+      }
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(this.formData.email)) {
+        this.$vs.notify({
+            title: 'Error',
+            text: 'Incorrect email',
+            color: 'danger',
+          });
+        return;
+      }
+
+      const phonePattern = /^\d+$/;
+      if (this.formData.phone && !phonePattern.test(this.formData.phone)  || this.formData.phone.length !== 10) {
+        this.$vs.notify({
+            title: 'Error',
+            text: 'Mention a valid number',
+            color: 'danger',
+          });
+        return;
+      }
+
+      try {
+        const response = await axios.post(
+          constants.apiCastUrl+"/api/contact_us/",
+          this.formData
+        );
+        this.$vs.notify({
+            title: 'Successful',
+            text: 'Response recieved',
+            color: 'success',
+          });
+        this.resetForm();
+      } catch (error) {
+        this.$vs.notify({
+            title: 'Error',
+            text: 'Try again',
+            color: 'danger',
+          });
+        console.error('Error sending message:', error);
+      }
+    },
+    resetForm() {
+      this.formData.name = '';
+      this.formData.email = '';
+      this.formData.message = '';
+      this.formData.phone = '';
+      this.formData.otherphone = '';
     },
   },
 };
@@ -95,5 +183,4 @@ button {
   font-size: 14px;
   font-weight: 600;
 }
-
 </style>

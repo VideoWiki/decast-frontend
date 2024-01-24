@@ -109,7 +109,7 @@
           :style="{ color: publicIsChecked ? '#31a2f4' : 'gray' }"
           >Public</span
         >
-        <ToggleSwitch @toggle="toggleSwitch()" />
+        <ToggleSwitch :isNewCheck="isNewCheck" @toggle="toggleSwitch()" />
         <span
           class="private-text"
           @click="toggleTextColor('private')"
@@ -165,6 +165,7 @@ export default {
       ],
       allTimeZone,
       timezone: null,
+      isNewCheck:false,
     };
   },
   mounted() {

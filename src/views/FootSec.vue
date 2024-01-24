@@ -6,9 +6,10 @@
       <div class="log-co">
         <img src="@/assets/images/mono-logo.svg" />
         <p class="cursor-default">
-          Headquarters 463 Avenue,Lalonde State-Québec City-
-          Sainte-Bernadette, Post Code-D0W7D1,Phone +185 254 698,Email -
-          support@cast.com
+          Headquarters LEREN LEREN , UNIPESSOAL LDA, Parque de Ciéncia e
+          Inovacáo - Vía do Conhecimento s/n 3830-352 Ílhavo, Portugal,
+          <br/>
+          +351 912159105,Email - support@video.wiki
         </p>
       </div>
       <div class="log-co2">
@@ -48,7 +49,8 @@
             >
               Contact Us
             </h5>
-            <h5 class="cursor-pointer mt-4" style="color: #ffffff">
+            <h5 class="cursor-pointer mt-4" style="color: #ffffff"
+            @click="workRed">
               Work With Us
             </h5>
             <h5
@@ -72,7 +74,7 @@
 
         <div class="mt-12">
           <p class="cursor-default">Policy</p>
-          <h5 class="cursor-pointer mt-8" style="color: #ffffff">Report</h5>
+          <!-- <h5 class="cursor-pointer mt-8" style="color: #ffffff">Report</h5> -->
           <h5
             class="cursor-pointer mt-5"
             style="color: #ffffff"
@@ -80,6 +82,7 @@
           >
             Privacy
           </h5>
+          <h5 class="cursor-pointer mt-5" style="color: #ffffff" @click="termsRedirect">Terms & Conditions</h5>
         </div>
       </div>
     </div>
@@ -109,7 +112,13 @@ export default {
       window.open('https://fider.video.wiki/', '_blank');
     },
     redirect() {
-      window.open('https://video.wiki/privacy-policy', '_blank');
+      this.$router.push('/privacy');
+    },
+    termsRedirect(){
+      this.$router.push('/terms');
+    },
+    workRed(){
+      this.$router.push('/workwithus');
     },
     reTweet() {
       window.open('https://twitter.com/VideoWiki_PT', '_blank');
