@@ -868,6 +868,7 @@ module.exports = {
       '3xl': '80rem',
       '4xl': '90rem',
       '5xl': '100rem',
+      '6xl': '110rem',
       'full': '100%',
     },
 

@@ -1,4 +1,9 @@
-<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M7.75 6H8.5C9.0523 6 9.5 5.5523 9.5 5V1.5C9.5 0.947715 9.0523 0.5 8.5 0.5H5C4.4477 0.5 4 0.947715 4 1.5V2.25" stroke="#647181" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M5 4H1.5C0.947715 4 0.5 4.4477 0.5 5V8.5C0.5 9.0523 0.947715 9.5 1.5 9.5H5C5.5523 9.5 6 9.0523 6 8.5V5C6 4.4477 5.5523 4 5 4Z" stroke="#647181" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="24" height="23" viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.2087 1.53345H8.40866V10.635L2.27533 10.7334V21.4668H13.0087V15.3334H22.2087V1.53345Z" fill="black"/>
+<path d="M0.741943 21.4667H2.27528V10.7333H0.741943V21.4667Z" fill="white"/>
+<path d="M8.40861 1.53333H6.87528V9.2H2.27528V10.7333H6.87528V15.3333H8.40861V1.53333Z" fill="white"/>
+<path d="M13.0086 21.4667H14.5419V16.8667H22.2086V15.3333H8.40861V16.8667H13.0086V21.4667Z" fill="white"/>
+<path d="M2.27528 21.4667V23H13.0086V21.4667H2.27528Z" fill="white"/>
+<path d="M23.7419 1.53333H22.2086V15.3333H23.7419V1.53333Z" fill="white"/>
+<path d="M8.40861 0V1.53333H22.2086V0H8.40861Z" fill="white"/>
 </svg>

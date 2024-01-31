@@ -8,6 +8,7 @@ import Sponsors from '@/views/Sponsors.vue';
 import Promoters from '@/views/Promoters.vue';
 import Operators from '@/views/Operators.vue';
 import Infrastructure from '@/views/Infrastructure.vue';
+import Dashboard from '@/views/NewDashboard/Dashboard.vue';
 
 
 Vue.use(Router);
@@ -124,6 +125,14 @@ const router = new Router({
           meta: {
             rule: 'isPublic',
           },
+        },
+        {
+          path:'/main',
+          name:'Welcome to Dashbord',
+          component: Dashboard,
+          meta:{
+            rule: 'isLogged',
+          }
         },
         {
           path: '/achievements',
