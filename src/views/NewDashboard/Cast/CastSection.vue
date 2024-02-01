@@ -14,7 +14,7 @@
     </div>
 
     <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
-      :createCast="createCast" :stepOneProps="stepOneProps"/>
+      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps"/>
 
     <div class="flex flex-row gap-12 w-full">
       <div class="flex flex-col gap-6 w-1/2">
@@ -150,7 +150,7 @@ export default {
         guest_policy: '',
         welcome_text: '',
         showText: true,
-        duration: '480',
+        duration: '60',
         logout_url: 'https://decast.live/dashboard',
       },
       stepThreeProps: {

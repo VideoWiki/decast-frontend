@@ -163,6 +163,7 @@ body {
   padding: 2px 7px !important;
 }
 .vs-button-primary {
+  width: fit-content !important;
   background-color: #000000 !important;
   color: #D7DF23 !important;
   font-weight: 500 !important;

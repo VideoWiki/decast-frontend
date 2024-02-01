@@ -13,8 +13,29 @@
                     </div>
 
                     <div class="flex flex-col mt-8">
-                        <span>cast.startAt</span>
-                        <StartTimeMenu :menuList="timeOptions" :stepOneProps="stepOneProps" class="menu-button">
+                        <span>cast.duration</span>
+                        <HoursFrameMenu :menuList="hoursFrame" :stepTwoProps="stepTwoProps" class="menu-button">
+                            <template #menuButton>
+                                <div class="text-left">
+                                    {{ stepTwoProps.duration/60 }} Hours
+                                </div>
+                            </template>
+                        </HoursFrameMenu>
+                        <!-- <div><input class="w-1/4 p-2 mt-2" placeholder="1 Hours" /></div> -->
+                    </div>
+                    <div class="flex flex-col mt-8">
+                        <span>cast.timeZone</span>
+                        <TimeZoneMenu :menuList="allTimeZone" :stepOneProps="stepOneProps" class="menu-button">
+                            <template #menuButton>
+                                <div class="text-left">
+                                    {{ stepOneProps.timezone }}
+                                </div>
+                            </template>
+                        </TimeZoneMenu>
+                    </div>
+                    <div class="flex flex-col mt-8">
+                        <span>cast.startTime</span>
+                        <StartTimeMenu :menuList="timeFrames" :stepOneProps="stepOneProps" class="menu-button">
                             <template #menuButton>
                                 <div class="text-left">
                                     {{ convertTo12(stepOneProps.startTime) }}
@@ -22,14 +43,6 @@
                             </template>
                         </StartTimeMenu>
                         <!-- <div><input class="w-1/4 p-2 mt-2" placeholder="1 Hours" /></div> -->
-                    </div>
-                    <div class="flex flex-col mt-8">
-                        <span>cast.timeZone</span>
-                        <div><input class="w-1/4 p-2 mt-2" placeholder="India/Kolkata" /></div>
-                    </div>
-                    <div class="flex flex-col mt-8">
-                        <span>cast.startTime</span>
-                        <div><input class="w-1/4 p-2 mt-2" placeholder="12:00" /></div>
                     </div>
                     <vs-button class="mt-8" type="border" @click="handleConfirmSchedule">>>confirm</vs-button>
                 </div>
@@ -45,20 +58,28 @@
 import BaseModal from "@/components/common/BaseModal.vue";
 import Calendar from '@/views/NewDashboard/components/Calendar.vue';
 import StartTimeMenu from '@/views/NewDashboard/components/StartTimeMenu.vue'
-import { timeFrames } from './timeFrames';
+import TimeZoneMenu from '@/views/NewDashboard/components/TimeZoneMenu.vue'
+import HoursFrameMenu from '@/views/NewDashboard/components/HoursFrameMenu.vue'
+import { timeFrames } from '../data/timeFrames';
+import { allTimeZone } from '../data/allTimeZone';
+import { hoursFrame } from '../data/hoursFrame';
 import moment from 'moment-timezone';
 
 export default {
     name: 'CastScheduleModal',
-    props: ['closeModal', 'setActiveModal', 'stepOneProps'],
+    props: ['closeModal', 'setActiveModal', 'stepOneProps', 'stepTwoProps'],
     components: {
         BaseModal,
         Calendar,
         StartTimeMenu,
+        TimeZoneMenu,
+        HoursFrameMenu,
     },
     data() {
         return {
-            timeOptions: timeFrames,
+            timeFrames: timeFrames,
+            allTimeZone: allTimeZone,
+            hoursFrame: hoursFrame,
         };
     },
     methods: {
@@ -73,6 +94,16 @@ export default {
 </script>
 
 <style scoped>
+.menu-button {
+    width: 196px;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+</style>
+
+<style>
 .modal-content-wrapper * {
     font-family: 'JetBrains Mono' !important;
 }
@@ -94,12 +125,5 @@ export default {
     font-size: 18px;
     color: #FFFFFF;
     line-height: unset;
-}
-.menu-button {
-    width: 196px;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-    background-color: #FFFFFF;
-    color: #000000;
 }
 </style>

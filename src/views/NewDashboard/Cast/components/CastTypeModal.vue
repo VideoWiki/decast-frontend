@@ -72,7 +72,7 @@ export default {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 40px 0px;
+    margin: 20px 0px;
 }
 .cast-box-wrapper h3 {
     font-size: 18px;
