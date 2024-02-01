@@ -1,20 +1,14 @@
 <template>
   <div>
     <div class="calendar-container">
-      <date-pick
-        v-model="stepOneProps.startD"
-        :hasInputElement="true"
-        :startWeekOnSunday="true"
-        :isDateDisabled="isFutureDate"
-        :inputAttributes="{ readonly: true }"
-        :selectableYearRange="{ from: new Date().getFullYear(), to: 2099 }"
-        class="custom-date-pick"
-        @input="emitSelectedDate"
-      ></date-pick>
+      <date-pick v-model="stepOneProps.startD" :hasInputElement="true" :startWeekOnSunday="true"
+        :isDateDisabled="isFutureDate" :inputAttributes="{ readonly: true }"
+        :selectableYearRange="{ from: new Date().getFullYear(), to: 2099 }" class="custom-date-pick"
+        @input="emitSelectedDate" ></date-pick>
     </div>
   </div>
 </template>
-
+  
 <script>
 import DatePick from 'vue-date-pick';
 import 'vue-date-pick/dist/vueDatePick.css';
@@ -39,18 +33,18 @@ export default {
   },
 };
 </script>
-
-<style scoped>
+  
+<style>
 .custom-date-pick input {
-  border: 1px solid #31394e;
-  background-color: #1f272f;
-  padding: 10px;
-  font-size: 12px;
-  font-weight: 500;
+  font-family: 'JetBrains Mono';
+  border: 0px;
+  background-color: #FFFFFF;
   width: 196px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
   /* height: 40px; */
-  border-radius: 6px;
-  color: #a6a6a8;
+  border-radius: 0px;
+  color: #000000;
 }
 
 .calendar-container {
@@ -67,39 +61,42 @@ export default {
 .vdpInnerWrap {
   width: 280px;
   height: 337px;
-  border-radius: 10px;
-  border: 1px solid #31394e;
-  background-color: #1f272f;
-  color: #647181;
+  border-radius: 0px;
+  border-top: 1px solid #FFFFFF;
+  border-bottom: 2px solid #FFFFFF;
+  border-left: 1px solid #FFFFFF;
+  border-right: 2px solid #FFFFFF;
+  background-color: #000000;
+  color: #FFFFFF;
   margin: auto;
-  margin-top: 3rem;
 }
 
 .vdpHeader {
-  background-color: #1f272f;
+  background-color: #000000;
   color: #a6a6a8;
 }
+
 .vdpFloating.vdpPositionBottom {
   bottom: 80% !important;
 }
 
 /* .vdpArrowPrev {
-  background-color: #1f272f;
-  border: 1px solid #31394e;
-  border-radius: 50%;
-  width: 27px;
-  height: 27px;
-  margin: 10px;
-}
-
-.vdpArrowNext {
-  background-color: #181a20;
-  border: 1px solid #31394e;
-  border-radius: 50%;
-  width: 27px;
-  height: 27px;
-  margin: 10px;
-} */
+    background-color: #1f272f;
+    border: 1px solid #31394e;
+    border-radius: 50%;
+    width: 27px;
+    height: 27px;
+    margin: 10px;
+  }
+  
+  .vdpArrowNext {
+    background-color: #181a20;
+    border: 1px solid #31394e;
+    border-radius: 50%;
+    width: 27px;
+    height: 27px;
+    margin: 10px;
+  } */
 
 .vdpHeadCellContent {
   color: #a6a6a8;
@@ -113,11 +110,11 @@ export default {
   color: #a6a6a8;
 }
 
-.vdpPeriodControls .vdpPeriodControl > button {
+.vdpPeriodControls .vdpPeriodControl>button {
   color: #a6a6a8;
 }
 
-.vdpPeriodControls .vdpPeriodControl > select {
+.vdpPeriodControls .vdpPeriodControl>select {
   color: #a6a6a8;
   background-color: #1f272f;
   border-radius: 5px;
@@ -126,22 +123,23 @@ export default {
   padding: 2px;
 }
 
-.vdpPeriodControls .vdpPeriodControl > select::-webkit-scrollbar {
+.vdpPeriodControls .vdpPeriodControl>select::-webkit-scrollbar {
   width: 6px;
 }
 
-.vdpPeriodControls .vdpPeriodControl > select::-webkit-scrollbar-thumb {
+.vdpPeriodControls .vdpPeriodControl>select::-webkit-scrollbar-thumb {
   background-color: #31394e;
   border-radius: 10px;
 }
 
-.vdpPeriodControls .vdpPeriodControl > select::-webkit-scrollbar-track {
+.vdpPeriodControls .vdpPeriodControl>select::-webkit-scrollbar-track {
   background-color: #1f272f;
 }
 
 .vdpCell.selectable:hover .vdpCellContent,
 .vdpCell.selected .vdpCellContent {
-  background: #31a2f4;
+  background: #FFFFFF;
+  color: #000000;
   height: 22px;
   width: 22px;
   border-radius: 6px;
@@ -152,10 +150,11 @@ export default {
   color: #31a2f4;
 }
 
-.vdpTimeUnit > input:hover,
-.vdpTimeUnit > input:focus {
+.vdpTimeUnit>input:hover,
+.vdpTimeUnit>input:focus {
   border-bottom-color: #cc99cd;
 }
+
 @media (max-width: 499px) {
   .vdpInnerWrap {
     position: absolute;
@@ -164,8 +163,10 @@ export default {
     z-index: 999;
     border: 1px solid #31394e;
   }
+
   .calendar-container .vdpOuterWrap {
     background: transparent;
   }
 }
 </style>
+  

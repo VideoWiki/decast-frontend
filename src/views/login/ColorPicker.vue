@@ -171,9 +171,9 @@ body {
   z-index: 8;
 }
 
-span {
+/* span {
   color: #a6a6a8;
-}
+} */
 
 .vc-input__input {
   background-color: #1d232b;

@@ -124,6 +124,7 @@
 <script>
 import RoomSection from './Room/RoomSection.vue';
 import CastSection from './Cast/CastSection.vue';
+
 export default {
   name: 'Dashboard',
   components:{

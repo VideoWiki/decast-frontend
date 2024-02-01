@@ -90,7 +90,6 @@ import moment from 'moment';
 // import Popup from '@/views/dashboard/Popup.vue';
 // import StreamCard from '@/views/dashboard/StreamCard.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
-import Modal from '@/components/common/Modal.vue';
 import ShareCast from './ShareCast.vue';
 import BaseModal from "@/components/common/BaseModal.vue";
 import CreateNFT from '@/views/dashboard/nft/CreateNFT';
@@ -107,7 +106,6 @@ export default {
     // Popup,
     // StreamCard,
     InviteCard,
-    Modal,
     ShareCast,
     BaseModal,
     CreateNFT,

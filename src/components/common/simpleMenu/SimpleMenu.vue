@@ -79,14 +79,12 @@ export default {
 }
 
 .vs-tooltip {
-    background: #181A20;
-    border: 1px solid #31394e;
-    color: rgba(255, 255, 255, 0.40);
-}
-
-.vs-tooltip:after {
-    border-top: 1px solid #31394e;
-    border-left: 1px solid #31394e;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    color: #000000;
+    border-radius: 0px;
+    font-weight: 500;
+    padding: 2px 7px !important;
 }
 
 .menu-list {

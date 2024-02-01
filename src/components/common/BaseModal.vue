@@ -1,9 +1,10 @@
 <template >
     <div class="modal-backdrop" @click="close">
         <div class="modal" @click.stop>
-            <header class="modal-header">
+            <header class="bg-white w-full flex flex-row justify-between items-center px-4 h-12">
                 <h3 class="modal-title">{{ title }}</h3>
-                <button class="btn-close" @click.stop="close"><img src="@/assets/images/dashboard/Cross.svg" /></button>
+                <!-- <button class="btn-close" @click.stop="close"><img src="@/assets/images/dashboard/Cross.svg" /></button> -->
+                <div class="cursor-pointer flex justify-between items-center" @click.stop="close"><CloseIcon/></div>
             </header>
             <section class="modal-body">
                 <slot name="modalContent" />
@@ -13,6 +14,8 @@
 </template>
 
 <script>
+import CloseIcon from '@/assets/svgs/CloseIcon.vue';
+
 export default {
     name: 'BaseModal',
     props: {
@@ -20,6 +23,9 @@ export default {
             type: String,
             required: false
         }
+    },
+    components: {
+        CloseIcon,
     },
     methods: {
         close() {
@@ -37,10 +43,11 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: none rgba(0, 0, 0, 0.5);
+    background: none rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+    padding-top: 50px;
 }
 
 .modal {
@@ -48,10 +55,9 @@ export default {
     min-width: 400px;
     margin: 0px 10px;
     z-index: 1000;
-    background-color: rgb(31, 39, 47);
+    background-color: #000000;
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
 
     &__title {
         font-weight: 600;
@@ -77,14 +83,15 @@ export default {
 
 .modal-header {
     padding: 20px;
+    background-color: #FFFFFF;
 }
 
 .modal-title {
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
     line-height: normal;
-    color: rgba(255, 255, 255, 0.75);
+    color: #000000;
     margin: 0px;
     padding: 0px;
 }
@@ -107,7 +114,9 @@ export default {
 }
 
 .modal-body {
-    padding: 0px 20px 20px 20px;
+    padding: 0px 1rem 1rem 1rem;
+    border: 1px solid #FFFFFF;
+    margin-top: 10px;
 }
 
 .btn-close {
