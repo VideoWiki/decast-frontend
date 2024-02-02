@@ -16,7 +16,7 @@
                             <div class="grid-item" @click="setActiveModal('')">Branding <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('')">Advanced <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('')">Postpone <br>Cast</div>
-                            <div class="grid-item danger-button" @click="setActiveModal('')">Delete <br>Cast</div>
+                            <div class="grid-item danger-button" @click="setActiveModal('deleteCastModal')">Delete <br>Cast</div>
                         </div>
                     </div>
                 </div>

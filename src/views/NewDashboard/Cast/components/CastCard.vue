@@ -8,13 +8,6 @@
               class="basic_live_dot_ rounded-full"></span>LIVE</span>
         </p>
         <div class="inner-div2 flex justify-between items-center">
-          <!-- <SimpleMenu :menuList="castOptionMenuItems">
-            <template #menuButton>
-              <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
-                <img src="@/assets/images/menu.svg" />
-              </vs-button>
-            </template>
-          </SimpleMenu> -->
           <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
             <img src="@/assets/images/menu.svg" />
           </vs-button>
@@ -33,7 +26,6 @@
             <img v-if="cast.is_running === 'true'" src="@/assets/images/end.svg" />
           </vs-button>
         </div>
-        <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')" :setActiveModal="setActiveModal"/>
       </div>
 
       <div class="text-left w-full">
@@ -134,6 +126,10 @@
         </div>
       </div>
     </div>
+    <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
+      :setActiveModal="setActiveModal" />
+    <DeleteCastModal v-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
+      :castName="cast.event_name" :confirmDelete="() => deleteCast(cast.public_meeting_id)" />
   </div>
 </template>
 <script>
@@ -148,7 +144,6 @@ import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
-import CastCardShimmer from '@/views/dashboard/cast-section/components/CastCardShimmer.vue';
 import CallSettingsModal from '@/views/dashboard/cast-section/components/CallSettingsModal.vue';
 import StreamSettingsModal from '@/views/dashboard/cast-section/components/StreamSettingsModal.vue';
 import ResheduleCastModal from '@/views/dashboard/cast-section/components/ResheduleCastModal.vue';
@@ -160,6 +155,9 @@ import BaseModal from '@/components/common/BaseModal.vue';
 import NftEdit from '@/views/dashboard/nft/NftEdit.vue';
 import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 import CastOptionsModal from './CastOptionsModal.vue';
+import CastCardShimmer from '@/views/NewDashboard/Cast/components/CastCardShimmer.vue';
+import DeleteCastModal from './options-components/DeleteCastModal.vue';
+
 export default {
   name: 'CastCard',
   props: [
@@ -177,7 +175,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      activeModal: '',
+      activeModal: '', //castOptionsModal, deleteCastModal, nftDropModal, manageAudienceModal, editCastSetupModal, editCastDetailModal, editCastBrandingModal, editCastAdvanceModal, 
       showModal: false,
       isMobileView: false,
       expandedRoom: null,
@@ -207,57 +205,6 @@ export default {
       showEditCast: false,
       isStream: false,
       viewer: false,
-      castOptionMenuItems: [
-        {
-          label: 'Manage attendees',
-          icon: () => import('@/assets/svgs/menu-icons/manage.vue'),
-          onClick: () => {
-            this.openInviteAttendeesModal();
-          },
-        },
-        {
-          label: 'Call settings',
-          icon: () => import('@/assets/svgs/menu-icons/call.vue'),
-          onClick: () => {
-            this.setCastModal('callSettingsModal');
-          },
-        },
-        {
-          label: 'Stream settings',
-          icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
-          onClick: () => {
-            this.setCastModal('streamingModal');
-          },
-        },
-        {
-          label: 'Reschedule cast',
-          icon: () => import('@/assets/svgs/menu-icons/reschedule.vue'),
-          onClick: () => {
-            this.setCastModal('resheduleCastModal');
-          },
-        },
-        {
-          label: 'Edit',
-          icon: () => import('@/assets/svgs/menu-icons/pen.vue'),
-          onClick: () => {
-            this.setCastModal('editCastModal');
-          },
-        },
-        {
-          label: 'Postpone cast',
-          icon: () => import('@/assets/svgs/menu-icons/prepone.vue'),
-          onClick: () => {
-            this.setCastModal('postponeCastModal');
-          },
-        },
-        {
-          label: 'Delete',
-          icon: () => import('@/assets/svgs/menu-icons/delete.vue'),
-          onClick: () => {
-            this.setCastModal('deleteCastModal');
-          },
-        },
-      ],
       castCopyMenuItems: [
         {
           label: 'Copy participant url',
@@ -368,7 +315,8 @@ export default {
     BaseModal,
     NftEdit,
     ShareNftLink,
-    CastOptionsModal
+    CastOptionsModal,
+    DeleteCastModal
   },
   mounted() {
     this.setProps();
@@ -394,10 +342,10 @@ export default {
   methods: {
     handleCardClick() {
       this.$emit('card-click', {
-        castLs:this.cast,
-        id:this.cast.public_meeting_id,
-        attendee:this.cast.invitee_list.length,
-        isLive:this.cast.is_running,
+        castLs: this.cast,
+        id: this.cast.public_meeting_id,
+        attendee: this.cast.invitee_list.length,
+        isLive: this.cast.is_running,
       });
     },
     setActiveModal(modalName) {
@@ -540,6 +488,17 @@ export default {
       } catch (e) {
         console.log('error', e);
       }
+    },
+    async deleteCast(deleteCastId) {
+      this.isLoading = true;
+      this.setActiveModal('');
+      await this.$store.dispatch('cast/deleteCast', deleteCastId);
+      // const newCasts = this.casts.filter((item) => {
+      //   return item.public_meeting_id !== deleteCastId;
+      // });
+      // this.casts = newCasts;
+      this.isLoading = false;
+      this.getCastList();
     },
   },
 };
