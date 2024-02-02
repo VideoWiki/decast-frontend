@@ -1,87 +1,72 @@
 <template>
   <BaseModal :title="'Reset password'" @close="toggleActiveModal('')">
     <template #modalContent>
-      <div class="reset-pass-content">
-        <!-- <div class="head-cont">
-          <h3>Reset Password</h3>
-          <button @click="closeProfile">
-            <img src="@/assets/images/cross.svg" />
-          </button>
-        </div> -->
-
-        <div class="desc-cont">
-          <p>Strong password required. Enter 8-14 characters.</p>
-        </div>
-
-        <div class="form">
-          <label for="oldPassword">Old password</label>
-          <div class="password-input">
-          <input type="password" id="oldPassword" v-model="oldPassword" />
-          <span
-          class="toggle-password"
-          @click="togglePasswordVisibility('oldPassword')"
-        >
-          <EyeVisible v-if="passwordVisible.oldPassword"/>
-          <EyeHide v-else/>
-        </span>
-      </div>
-          <span class="error" v-if="error.oldPassword">{{
-            error.oldPassword
-          }}</span>
-
-          <label for="newPassword">Create new password</label>
-          <div class="password-input">
-          <!-- <input type="password" id="newPassword" v-model="newPassword" /> -->
-          <input
-          type="password"
-          id="newPassword"
-          v-model="newPassword"
-          @input="validatePassword"
-        />
-          <span
-          class="toggle-password"
-          @click="togglePasswordVisibility('newPassword')"
-        >
-          <EyeVisible v-if="passwordVisible.newPassword"/>
-          <EyeHide v-else/>
-        </span>
-      </div>
-          <span class="error" v-if="error.newPassword">{{
-            error.newPassword
-          }}</span>
-
-          <label for="confirmPassword">Confirm new password</label>
-          <div class="password-input">
-            <!-- <input type="password" id="confirmPassword" v-model="confirmPassword" /> -->
-            <input
-              type="password"
-              id="confirmPassword"
-              v-model="confirmPassword"
-              @input="validatePassword"
-            />
-            <span
-              class="toggle-password"
-              @click="togglePasswordVisibility('confirmPassword')"
-            >
-              <EyeVisible v-if="passwordVisible.confirmPassword"/>
-              <EyeHide v-else/>
-            </span>
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <div class="modal-heading">
+            <h3>Reset</h3>
           </div>
-          <span class="error" v-if="error.confirmPassword">{{
-            error.confirmPassword
-          }}</span>
+          <div class="reset-pass-content flex flex-col gap-4 mt-8">
 
-          <vs-button class="save-btn" @click="savePassword">Save</vs-button>
+            <div class="desc-cont">
+              <p>Strong password required. Enter 8-14 characters.</p>
+            </div>
+
+            <div class="form flex flex-col pb-12">
+              <label class="mt-4" for="oldPassword">Old password</label>
+              <div class="password-input flex flex-row w-2/5 p-2 mt-2 items-center justify-between ">
+                <input type="password" id="oldPassword" v-model="oldPassword" />
+                <span class="toggle-password" @click="togglePasswordVisibility('oldPassword')">
+                  <EyeVisible v-if="passwordVisible.oldPassword" />
+                  <EyeHide v-else />
+                </span>
+              </div>
+              <span class="error text-red-500" v-if="error.oldPassword">{{
+                error.oldPassword
+              }}</span>
+
+              <label class="mt-4" for="newPassword">Create new password</label>
+              <div class="password-input flex flex-row w-2/5 p-2 mt-2 items-center justify-between ">
+                <!-- <input type="password" id="newPassword" v-model="newPassword" /> -->
+                <input type="password" id="newPassword" v-model="newPassword"
+                  @input="validatePassword" />
+                <span class="toggle-password" @click="togglePasswordVisibility('newPassword')">
+                  <EyeVisible class="icon_eye" v-if="passwordVisible.newPassword" />
+                  <EyeHide class="icon_eye" v-else />
+                </span>
+              </div>
+              <span class="error text-red-500" v-if="error.newPassword">{{
+                error.newPassword
+              }}</span>
+
+              <label class="mt-4" for="confirmPassword">Confirm new password</label>
+              <div class="password-input flex flex-row w-2/5 p-2 mt-2 items-center justify-between ">
+                <!-- <input type="password" id="confirmPassword" v-model="confirmPassword" /> -->
+                <input type="password" id="confirmPassword" v-model="confirmPassword"
+                  @input="validatePassword" />
+                <span class="toggle-password" @click="togglePasswordVisibility('confirmPassword')">
+                  <EyeVisible v-if="passwordVisible.confirmPassword" />
+                  <EyeHide v-else />
+                </span>
+              </div>
+              <span class="error text-red-500" v-if="error.confirmPassword">{{
+                error.confirmPassword
+              }}</span>
+
+              <vs-button class="save-btn mt-8" type="border" @click="savePassword"> >> Confirm</vs-button>
+            </div>
+          </div>
         </div>
       </div>
+
     </template>
   </BaseModal>
 </template>
 
 <script>
 import BaseModal from "@/components/common/BaseModal.vue";
-import EyeHide from "../../../assets/svgs/EyeHide.vue";
-import EyeVisible from "../../../assets/svgs/EyeVisible.vue";
+import EyeHide from "@/assets/svgs/EyeHide.vue";
+import EyeVisible from "@/assets/svgs/EyeVisible.vue";
 
 export default {
   name: 'ResetPasswordModal',
@@ -244,96 +229,18 @@ export default {
 </script>
 
 <style scoped>
-.reset-pass-content {
-  width: 370px;
-}
+
 .container {
-  width: 367px;
-  height: auto;
-  border-radius: 10px;
-  background-color: #1f272f;
-  border: 1px solid #31394e;
-  padding: 15px;
   z-index: 10000;
 }
 
-.head-cont {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  color: #a6a6a8;
+.password-input{
+  background: #fff;
 }
 
-.head-cont h3 {
-  font-size: 14px;
-  font-weight: 600px;
-  color: #a6a6a8;
-}
-
-.head-cont button {
-  background-color: #1f272f;
+.password-input input{
+  outline: none;
   border: none;
-  cursor: pointer;
 }
 
-.form input {
-  background-color: #1d232b;
-  border: 1px solid #31394e;
-  border-radius: 6px;
-  color: #a6a6a8;
-  width: 100%;
-  height: 34px;
-  font-size: 13px;
-  padding: 10px;
-}
-
-.form span {
-  display: block;
-  color: red;
-  font-size: 12px;
-}
-
-label {
-  display: block;
-  font-size: 12px;
-  color: #647181;
-  margin-top: 20px;
-}
-
-.desc-cont P {
-  font-size: 12px;
-  color: #647181;
-  text-align: left;
-}
-
-.save-btn {
-  margin-top: 20px;
-  float: right;
-}
-.password-input {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-.toggle-password {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-.toggle-password svg {
-  width: 16px;
-  height: 16px;
-}
-
-@media (max-width: 500px) {
-  .container {
-    width: 350px;
-  }
-
-  .form input {
-    width: 100%;
-  }
-}
 </style>
