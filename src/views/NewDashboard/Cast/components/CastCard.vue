@@ -1,84 +1,133 @@
 <template>
   <div>
     <CastCardShimmer v-if="isLoading" />
-    <div
-      class="cast_list flex justify-between items-center mb-4 w-full py-2 px-6"
-    >
-      <div class="inner-div1">
-        <div class="inner-child1">
-          <p>{{ cast.event_name }}</p>
-          <button>
-            {{
-              moment(cast.event_date).format('ll').split(',')[0] +
-              ' ' +
-              NewTime(cast.event_date, cast.event_time)
-            }}
-          </button>
+    <div class="cast_list flex flex-col justify-between items-center mb-4 w-full py-1 px-4 pb-3">
+      <div class="inner-child1 flex flex-row justify-between items-center pl-2">
+        <p class="font-semibold text-lg flex items-center gap-4">{{ cast.event_name }}
+          <span class="text-red-500 text-sm flex items-center gap-2" v-if="cast.is_running === 'true'"><span
+              class="basic_live_dot_ rounded-full"></span>LIVE</span>
+        </p>
+        <div class="inner-div2 flex justify-between items-center">
+          <SimpleMenu :menuList="castOptionMenuItems">
+            <template #menuButton>
+              <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
+                <img src="@/assets/images/menu.svg" />
+              </vs-button>
+            </template>
+          </SimpleMenu>
+
+          <SimpleMenu :menuList="castCopyMenuItems">
+            <template #menuButton>
+              <vs-button class="custm-style">
+                <img src="@/assets/images/copy.svg" />
+              </vs-button>
+            </template>
+          </SimpleMenu>
+          <vs-button class="custm-style">
+            <img v-if="isCastStart" src="@/assets/images/end.svg" />
+            <img v-if="cast.is_running === 'false' && !isCastStart" @click="joinNow(cast.public_meeting_id)"
+              src="@/assets/images/start.svg" />
+            <img v-if="cast.is_running === 'true'" src="@/assets/images/end.svg" />
+          </vs-button>
         </div>
-      </div>
-
-      <div class="inner-div2">
-        <!-- <SimpleMenu :menuList="castOptionMenuItems">
-          <template #menuButton>
-            <vs-button class="custm-style">
-              <img src="@/assets/images/menu.svg" />
-            </vs-button>
-          </template>
-        </SimpleMenu> -->
-        <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
-          <img src="@/assets/images/menu.svg" />
-        </vs-button>
-
         <CastOptionsModal v-if="activeModal==='castOptionsModal'" :closeModal="() => setActiveModal('')"/>
 
-        <div class="inner-child3">
-          <div class="inner-child4">
-            <div v-if="streamInfo[cast.public_meeting_id]">
-              <vx-tooltip
-                v-if="streamInfo[cast.public_meeting_id].stream_status"
-                text="Pause Stream"
-                position="bottom"
-              >
-                <vs-button
-                  class="vs-cast-copy-button"
-                  style="padding: 4px !important; width: 36px !important"
-                  @click="toggleStream(cast.public_meeting_id, 'pause')"
-                >
-                  <img
-                    style="width: 33px !important; height: 33px !important"
-                    src="@/assets/images/pause.png"
-                    alt=""
-                  />
+      </div>
+
+      <div class="text-left w-full">
+        <span class="basic_date_btn_ text-white text-md">
+          {{
+            moment(cast.event_date).format('DD MMM') +
+            ' ' +
+            NewTime(cast.event_date, cast.event_time)
+          }}
+        </span>
+      </div>
+
+      <div v-if="streamInfo[cast.public_meeting_id]" class="mt-6 flex flex-col justify-between gap-4 w-full">
+        <p class="text-left font-semibold">Live Casting Config :</p>
+        <div v-if="hasDecastStream"
+          class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
+          <div>https://decast.live/live</div>
+          <div class="flex gap-2 justify-center items-center">
+            <vs-button class="custm-style">
+              <img src="@/assets/images/copy.svg" />
+            </vs-button>
+            <div class="basic_stream_btn_cont_">
+              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
+                  <img src="@/assets/images/pause_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
               <vx-tooltip v-else text="Start Stream" position="bottom">
-                <vs-button
-                  class="vs-cast-copy-button"
-                  @click="toggleStream(cast.public_meeting_id, 'start')"
-                >
-                  <img src="@/assets/images/dashboard/Live.svg" alt="" />
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
+                  <img src="@/assets/images/start_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
             </div>
-
-            <SimpleMenu :menuList="castCopyMenuItems">
-              <template #menuButton>
-                <vs-button class="custm-style">
-                  <img src="@/assets/images/copy.svg" />
-                </vs-button>
-              </template>
-            </SimpleMenu>
+          </div>
+        </div>
+        <div v-if="hasTwitchStream"
+          class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
+          <div>www.twitch.tv</div>
+          <div class="flex gap-2 justify-center items-center">
             <vs-button class="custm-style">
-              <img
-                v-if="cast.is_running === 'false'"
-                @click="joinNow(cast.public_meeting_id)"
-                src="@/assets/images/start.svg"
-              />
-              <img
-                v-if="cast.is_running === 'true'"
-                src="@/assets/images/end.svg"
-              />
+              <img src="@/assets/images/copy.svg" />
             </vs-button>
+            <div class="basic_stream_btn_cont_">
+              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
+                  <img src="@/assets/images/pause_stream.svg" alt="" />
+                </vs-button>
+              </vx-tooltip>
+              <vx-tooltip v-else text="Start Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
+                  <img src="@/assets/images/start_stream.svg" alt="" />
+                </vs-button>
+              </vx-tooltip>
+            </div>
+          </div>
+        </div>
+        <div v-if="hasYoutubeStream"
+          class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
+          <div>www.youtube.com</div>
+          <div class="flex gap-2 justify-center items-center">
+            <vs-button class="custm-style">
+              <img src="@/assets/images/copy.svg" />
+            </vs-button>
+            <div class="basic_stream_btn_cont_">
+              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
+                  <img src="@/assets/images/pause_stream.svg" alt="" />
+                </vs-button>
+              </vx-tooltip>
+              <vx-tooltip v-else text="Start Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
+                  <img src="@/assets/images/start_stream.svg" alt="" />
+                </vs-button>
+              </vx-tooltip>
+            </div>
+          </div>
+        </div>
+        <div v-if="hasFacebookStream"
+          class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
+          <div>www.facebook.com</div>
+          <div class="flex gap-2 justify-center items-center">
+            <vs-button class="custm-style">
+              <img src="@/assets/images/copy.svg" />
+            </vs-button>
+            <div class="basic_stream_btn_cont_">
+              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
+                  <img src="@/assets/images/pause_stream.svg" alt="" />
+                </vs-button>
+              </vx-tooltip>
+              <vx-tooltip v-else text="Start Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
+                  <img src="@/assets/images/start_stream.svg" alt="" />
+                </vs-button>
+              </vx-tooltip>
+            </div>
           </div>
         </div>
       </div>
@@ -109,7 +158,6 @@ import BaseModal from '@/components/common/BaseModal.vue';
 import NftEdit from '@/views/dashboard/nft/NftEdit.vue';
 import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 import CastOptionsModal from './CastOptionsModal.vue';
-
 export default {
   name: 'CastCard',
   props: [
@@ -117,6 +165,11 @@ export default {
     'castsInfo',
     'cast',
     'index',
+    // 'setProps',
+    // 'stepOneProps',
+    // 'stepTwoProps',
+    // 'stepThreeProps',
+    // 'stepFourProps',
     'getCastList',
   ],
   data() {
@@ -126,6 +179,7 @@ export default {
       showModal: false,
       isMobileView: false,
       expandedRoom: null,
+      isCastStart: false,
       showDeletePopup: false,
       focusYourRooms: true,
       toShow: false,
@@ -313,13 +367,26 @@ export default {
     NftEdit,
     ShareNftLink,
     CastOptionsModal
-},
+  },
   mounted() {
     this.setProps();
   },
   computed: {
-    totalImagesCount() {
-      return this.casts.map((cast) => cast.images.length);
+    hasYoutubeStream() {
+      const streamInfo = this.streamInfo[this.cast.public_meeting_id];
+      return streamInfo && streamInfo.stream_urls.includes('youtube.com');
+    },
+    hasTwitchStream() {
+      const streamInfo = this.streamInfo[this.cast.public_meeting_id];
+      return streamInfo && streamInfo.stream_urls.includes('twitch.tv');
+    },
+    hasFacebookStream() {
+      const streamInfo = this.streamInfo[this.cast.public_meeting_id];
+      return streamInfo && streamInfo.stream_urls.includes('facebook.com');
+    },
+    hasDecastStream() {
+      const streamInfo = this.streamInfo[this.cast.public_meeting_id];
+      return streamInfo && streamInfo.stream_urls.includes('video.wiki');
     },
   },
   methods: {
@@ -327,7 +394,7 @@ export default {
       this.activeModal = modalName;
     },
     async toggleStream(id, action) {
-      this.resetShowTooltip2();
+      // this.resetShowTooltip2();
       console.log(action);
       try {
         this.$vs.loading();
@@ -351,7 +418,7 @@ export default {
             text: 'Stream Ended',
             color: 'success',
           });
-          this.resetShowTooltip2();
+          // this.resetShowTooltip2();
           this.streamInfo[id].stream_status =
             !this.streamInfo[id].stream_status;
         }
@@ -459,6 +526,7 @@ export default {
       };
       try {
         const res = await this.$store.dispatch('cast/joinNow', data);
+        this.isCastStart = true;
         window.open(res.url, '_blank');
       } catch (e) {
         console.log('error', e);
@@ -485,6 +553,7 @@ export default {
 }
 
 .cast_list {
+  max-width: 495px;
   border-top: 1px solid white;
   border-left: 1px solid white;
   border-right: 2px solid white;
@@ -499,4 +568,34 @@ export default {
   border-bottom: 2px solid #d7df23;
   box-shadow: 3px 3px 0px 0px #d7df23;
 }
-</style>
+
+.inner-div1 {
+  border: 1px solid yellow;
+
+}
+
+.basic_stream_btn_cont_ {
+  /* width: 33px;
+  height: 33px; */
+}
+
+.inner-child1 {
+  /* border: 1px solid red; */
+  width: 35vw;
+  max-width: 480px;
+}
+
+.basic_live_dot_ {
+  background-color: red !important;
+  height: 8px;
+  width: 8px;
+}
+
+.basic_stream_div_ {
+  border: 1px solid #fff;
+}
+
+.basic_stream_div_:hover {
+  border: 1px solid #d7df23 !important;
+  cursor: pointer;
+}</style>
