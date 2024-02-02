@@ -130,13 +130,6 @@ export default {
 </script>
 
 <style scoped>
-.cast-sc-detail {
-    margin-bottom: 1rem;
-}
-
-.cast-sc-detail span {
-    color: #22C55E;
-}
 .logo-img {
     border: 1px dashed #FFFFFF;
     height: 90px;

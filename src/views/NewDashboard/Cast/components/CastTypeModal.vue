@@ -48,11 +48,11 @@ export default {
         };
     },
     methods: {
-        handleConfirmType(){
+        async handleConfirmType(){
             if(this.castType==='quick-cast'){
-                this.stepOneProps.event_name = 'Guest_Room';
-                this.stepOneProps.description = 'Guest_Room';
-                this.createCast();
+                this.stepOneProps.event_name = 'Decast_Quick_Room';
+                this.stepOneProps.description = 'Decast_Quick_Room';
+                await this.createCast();
                 this.setActiveModal('castInviteModal');
             }else {
                 this.setActiveModal('castScheduleModal')
@@ -63,11 +63,6 @@ export default {
 </script>
 
 <style scoped>
-.modal-content-wrapper {
-    height: 75vh;
-    width: 60vw;
-    overflow-y: scroll;
-}
 .cast-box-wrapper {
     display: flex;
     align-items: center;
@@ -95,14 +90,5 @@ export default {
     justify-content: space-between;
     padding: 10px 14px;
     cursor: pointer;
-}
-</style>
-
-<style>
-.cast-modal-bottom {
-    margin-top: 20px;
-}
-.cast-modal-bottom span {
-    color: #22C55E;
 }
 </style>

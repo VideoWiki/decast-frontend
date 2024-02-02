@@ -6,8 +6,16 @@
                     <div class="modal-heading">
                         <h3>Cast Created Successfully</h3>
                     </div>
-                    <p @click="copyCastLink">Share Cast</p>
-                    <p id="cast-link">Loading</p>
+                    <div class="flex invite-action-button">
+                        <div>
+                            <p>Add NFT Drops</p>
+                        </div>
+                        <div>
+                            <p>Invite Audience</p>
+                        </div>
+                    </div>
+                    <p class="copy-cast-button mt-4" @click="copyCastLink">Share Cast<CopyIcon class="ml-2"/></p>
+                    <p class="mt-2 mb-4">{{ castUrl }}</p>
                     <vs-button class="mt-8" type="border">>>skip</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
@@ -20,24 +28,22 @@
 
 <script>
 import BaseModal from "@/components/common/BaseModal.vue";
+import CopyIcon from "@/assets/svgs/button-icons/CopyIcon.vue"
 
 export default {
     name: 'CastInviteModal',
     props: ['closeModal'],
     components: {
         BaseModal,
+        CopyIcon,
     },
     data() {
         return {
+            castUrl: 'loading...',
         };
     },
     mounted() {
-        // var element = document.getElementById("cast-link");
-        // if (element) {
-        //     element.textContent = this.getCastLink();
-        // } else {
-        //     console.log("Element not found.");
-        // }
+        this.getCastList();
     },
     computed: {
         castInfoList() {
@@ -67,13 +73,35 @@ export default {
                     console.error('Copy failed:', error);
                 });
         },
+        getCastList() {
+            this.$store
+                .dispatch('cast/getCastList')
+                .then((response) => {
+                    this.castUrl = this.getCastLink();
+                })
+                .catch((error) => {
+                    // Handle API request error here
+                    console.error(error);
+                });
+        },
     },
 }
 </script>
 
 <style scoped>
-.modal-content-wrapper {
-    height: 70vh;
-    width: 60vw;
+.invite-action-button > * {
+    height: 100px;
+    width: 100px;
+    margin-top: 24px;
+    margin-right: 10px;
+    border: 1px solid #FFFFFF;
+    padding: 4px 5px;
+    cursor: pointer;
+}
+.copy-cast-button {
+    color: #D7DF23;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 </style>

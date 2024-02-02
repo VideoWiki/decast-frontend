@@ -14,7 +14,7 @@
     </div>
 
     <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
-      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps"/>
+      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :getCastList="getCastList"/>
 
     <div class="flex flex-row gap-12 w-full">
       <div class="flex flex-col gap-6 w-1/2">
@@ -352,10 +352,10 @@ export default {
       }
       this.setCreateEventData();
       this.$vs.loading();
-      this.$store
+      return this.$store
         .dispatch('cast/submitForm', this.formData)
-        .then((response) => {
-          this.getList();
+        .then(async (response) => {
+          await this.getCastList();
           this.status = 'success';
           this.$vs.loading.close();
           this.responsedata = response.data.message;
@@ -366,6 +366,7 @@ export default {
           });
           this.status = 'success';
           this.castId = response.data.meeting_id;
+          return
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -388,8 +389,7 @@ export default {
     },
     createCast() {
       if (this.validateFormOne) {
-        // console.log('success validated');
-        this.formSubmitted();
+        return this.formSubmitted();
       }
     },
     setActiveModal(modalName) {

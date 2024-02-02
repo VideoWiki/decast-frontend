@@ -65,7 +65,7 @@ export default {
         };
     },
     methods: {
-        handleConfirmDetails() {
+        async handleConfirmDetails() {
             if (this.stepOneProps.event_name === '') {
                 this.nameError = true;
                 return;
@@ -74,7 +74,7 @@ export default {
                 return;
             }
             if (this.castType === 'basic-cast') {
-                this.createCast();
+                await this.createCast();
                 this.setActiveModal('castInviteModal');
             } else {
                 this.setActiveModal('castBrandingModal')
@@ -182,12 +182,6 @@ export default {
 </script>
 
 <style scoped>
-.cast-sc-detail {
-    margin-bottom: 1rem;
-}
-.cast-sc-detail span {
-    color: #22C55E;
-}
 .txt-desc {
     background-color: #FFFFFF !important;
     border: none !important;

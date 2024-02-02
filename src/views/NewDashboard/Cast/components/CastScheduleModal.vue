@@ -1,7 +1,7 @@
 <template>
     <BaseModal :title="'Cast schedule'" @close="closeModal">
         <template #modalContent>
-            <div class="modal-content-wrapper flex flex-col justify-between">
+            <div class="modal-content-wrapper">
                 <div class="modal-content">
                     <div class="modal-heading">
                         <h3>1.Setup</h3>
@@ -98,30 +98,5 @@ export default {
     margin-top: 0.5rem;
     background-color: #FFFFFF;
     color: #000000;
-}
-</style>
-
-<style>
-.modal-content-wrapper * {
-    font-family: 'JetBrains Mono' !important;
-}
-.modal-content-wrapper {
-    height: 75vh;
-    width: 60vw;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-top: 1rem;
-}
-.modal-heading {
-    border-top: 1px dashed #FFFFFF;
-    border-bottom: 1px dashed #FFFFFF;
-    padding: 5px 0px;
-}
-.modal-heading h3 {
-    font-size: 18px;
-    color: #FFFFFF;
-    line-height: unset;
 }
 </style>

@@ -55,12 +55,6 @@ export default {
 </script>
 
 <style scoped>
-.cast-sc-detail {
-    margin-bottom: 1rem;
-}
-.cast-sc-detail span {
-    color: #22C55E;
-}
 .custm-toggle {
     padding: 0.30rem 0.75rem !important;
     border: 1px solid #FFFFFF;
