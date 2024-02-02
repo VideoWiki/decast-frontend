@@ -1,7 +1,7 @@
 <template>
   <div>
     <CastCardShimmer v-if="isLoading" />
-    <div class="cast_list flex flex-col justify-between items-center mb-4 w-full py-1 px-4 pb-3">
+    <div class="cast_list flex flex-col justify-between items-center mb-4 w-full py-1 px-4 pb-3" @click="handleCardClick">
       <div class="inner-child1 flex flex-row justify-between items-center pl-2">
         <p class="font-semibold text-lg flex items-center gap-4">{{ cast.event_name }}
           <span class="text-red-500 text-sm flex items-center gap-2" v-if="cast.is_running === 'true'"><span
@@ -45,7 +45,7 @@
       </div>
 
       <div v-if="streamInfo[cast.public_meeting_id]" class="mt-6 flex flex-col justify-between gap-4 w-full">
-        <p class="text-left font-semibold">Live Casting Config :</p>
+        <p class="text-left font-semibold">Live Casting :</p>
         <div v-if="hasDecastStream"
           class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
           <div>https://decast.live/live</div>
@@ -390,6 +390,14 @@ export default {
     },
   },
   methods: {
+    handleCardClick() {
+      this.$emit('card-click', {
+        castLs:this.cast,
+        id:this.cast.public_meeting_id,
+        attendee:this.cast.invitee_list.length,
+        isLive:this.cast.is_running,
+      });
+    },
     setActiveModal(modalName) {
       this.activeModal = modalName;
     },
@@ -443,7 +451,7 @@ export default {
       return newTime;
     },
     setProps() {
-        console.log("castsInfoDismiss", this.castsInfo, this.cast)
+        // console.log("castsInfoDismiss", this.castsInfo, this.cast)
         const details = this.castsInfo[this.cast.public_meeting_id].details;
         this.stepOneProps.event_name= details.event_name;
         this.stepOneProps.moderator_password= '';

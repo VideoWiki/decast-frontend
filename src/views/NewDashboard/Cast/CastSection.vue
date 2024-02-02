@@ -37,18 +37,13 @@
             </div>
             <div v-else v-for="(cast, index) in casts" :key="index">
               <CastCard :streamInfo="streamInfo" :castsInfo="castsInfo" :cast="cast" :index="index"
-                :getCastList="getCastList" />
+                :getCastList="getCastList" @card-click="handleCardClick"/>
             </div>
           </div>
         </div>
       </div>
       <div class="cast_details w-1/2 p-5">
-        <div class="cast_header flex justify-between items-center w-full h-16 px-4 py-2">
-          <p class="text-xl font-bold">/cast.details</p>
-          <p class="text-red font-bold">
-            <span class="font-bold text-4xl">.</span> LIVE
-          </p>
-        </div>
+        <CastDetails :selectedCastId="selectedCastId"/>
       </div>
     </div>
   </div>
@@ -59,6 +54,7 @@ import moment from 'moment-timezone';
 import CastCard from './components/CastCard.vue';
 import CastCardShimmer from './components/CastCardShimmer.vue';
 import CreateCastModal from './components/CreateCastModal.vue';
+import CastDetails from './components/CastDetails.vue';
 export default {
   name: 'CastSection',
   data() {
@@ -75,7 +71,7 @@ export default {
       streamInfo: {},
       isStream: false,
       viewer: false,
-
+      selectedCastId: null,
       formData: new FormData(),
       stepOneProps: {
         mint_function_name: '',
@@ -186,7 +182,8 @@ export default {
   components: {
     CastCard,
     CastCardShimmer,
-    CreateCastModal
+    CreateCastModal,
+    CastDetails,
   },
   mounted() {
     this.getCastList();
@@ -197,6 +194,10 @@ export default {
     },
   },
   methods: {
+    handleCardClick(details) {
+      this.selectedCastId = details;
+      console.log(this.selectedCastId,'fkflllldijji');
+    },
     validateFormOne() {
       if (
         this.stepOneProps.event_name === '' ||
@@ -542,7 +543,7 @@ export default {
       const validStreamInfo = streamInfoList.filter((info) => info !== null);
       const castsInfo = {};
       const streamInfo = {};
-      console.log("castInfoPromises", casts, streamInfoList, castInfoList)
+      // console.log("castInfoPromises", casts, streamInfoList, castInfoList)
       validCastInfoList.forEach((info) => {
         castsInfo[info.castId] = info.details;
       });
