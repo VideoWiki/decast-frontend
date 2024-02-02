@@ -4,9 +4,10 @@
   <CastScheduleModal v-else-if="activeModal === 'castScheduleModal'" :closeModal="closeModal"
     :setActiveModal="setActiveModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" />
   <CastDetailModal v-else-if="activeModal === 'castDetailModal'" :closeModal="closeModal" :castType="castType"
-  :setActiveModal="setActiveModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :createCast="createCast" />
-  <CastBrandingModal v-else-if="activeModal === 'castBrandingModal'" :closeModal="closeModal" />
-  <CastAdvancedModal v-else-if="activeModal === 'castAdvancedModal'" :closeModal="closeModal" />
+    :setActiveModal="setActiveModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :createCast="createCast" />
+  <CastBrandingModal v-else-if="activeModal === 'castBrandingModal'" :closeModal="closeModal" :stepOneProps="stepOneProps"
+    :stepTwoProps="stepTwoProps" :createCast="createCast" :setActiveModal="setActiveModal" :castType="castType"/>
+  <CastAdvancedModal v-else-if="activeModal === 'castAdvancedModal'" :closeModal="closeModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps"/>
   <CastInviteModal v-else="activeModal==='castInviteModal'" :closeModal="closeModal" />
 </template>
 

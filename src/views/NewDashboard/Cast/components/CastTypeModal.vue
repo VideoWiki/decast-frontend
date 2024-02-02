@@ -24,7 +24,8 @@
                         </div>
                     </div>
                 </div>
-                <vs-button type="border" @click="handleConfirmType">>>confirm</vs-button>
+                <vs-button v-if="castType==='quick-cast'" type="border" @click="handleConfirmType">>>create</vs-button>
+                <vs-button v-else type="border" @click="handleConfirmType">>>confirm</vs-button>
                 <div class="cast-modal-bottom">
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
                 </div>

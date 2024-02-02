@@ -21,7 +21,6 @@
                                 </div>
                             </template>
                         </HoursFrameMenu>
-                        <!-- <div><input class="w-1/4 p-2 mt-2" placeholder="1 Hours" /></div> -->
                     </div>
                     <div class="flex flex-col mt-8">
                         <span>cast.timeZone</span>
@@ -42,7 +41,6 @@
                                 </div>
                             </template>
                         </StartTimeMenu>
-                        <!-- <div><input class="w-1/4 p-2 mt-2" placeholder="1 Hours" /></div> -->
                     </div>
                     <vs-button class="mt-8" type="border" @click="handleConfirmSchedule">>>confirm</vs-button>
                 </div>

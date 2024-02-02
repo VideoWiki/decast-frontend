@@ -1,5 +1,5 @@
 <template>
-    <BaseModal :title="'Cast details'" @close="closeModal">
+    <BaseModal :title="'Basic Details'" @close="closeModal">
         <template #modalContent>
             <div class="modal-content-wrapper">
                 <div class="modal-content">
@@ -17,6 +17,7 @@
                         <div>
                             <input class="w-2/5 p-2 mt-2" placeholder="e.g my friend hang out" id="eventName" type="text"
                                 v-model="stepOneProps.event_name" @keyup="nameError = stepOneProps.event_name === ''" />
+                            <p v-if="nameError" class="text-danger my-2 p-0">>> Name is required</p>
                         </div>
                     </div>
                     <div class="flex flex-col mt-8">
@@ -25,6 +26,7 @@
                             <vs-textarea class="w-2/5 mt-2 txt-desc" id="description" v-model="stepOneProps.description"
                                 placeholder="//Cast description" height="70px"
                                 @keyup="descriptionError = stepOneProps.description === ''" />
+                            <p v-if="descriptionError" class="text-danger my-2 p-0">>> Description is required</p>
                         </div>
                     </div>
                     <div class="flex flex-col mt-8">
@@ -36,11 +38,10 @@
                                 v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">access.private</button>
                         </div>
                     </div>
-                    <vs-button class="mt-8" type="border" @click="handleConfirmDetails">>>confirm</vs-button>
+                    <vs-button v-if="castType === 'basic-cast'" class="mt-8" type="border" @click="handleConfirmDetails">>>create</vs-button>
+                    <vs-button v-else class="mt-8" type="border" @click="handleConfirmDetails">>>confirm</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
-                    <p v-if="nameError" class="text-danger my-2 p-0">>> Name is required</p>
-                    <p v-if="descriptionError" class="text-danger my-2 p-0">>> Description is required</p>
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
                 </div>
             </div>
@@ -184,11 +185,9 @@ export default {
 .cast-sc-detail {
     margin-bottom: 1rem;
 }
-
 .cast-sc-detail span {
     color: #22C55E;
 }
-
 .txt-desc {
     background-color: #FFFFFF !important;
     border: none !important;
@@ -203,7 +202,6 @@ export default {
     margin-bottom: 0px !important;
     padding: 0px;
 }
-
 .custm-toggle {
     padding: 0.30rem 0.75rem !important;
     border: 1px solid #FFFFFF;
