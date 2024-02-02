@@ -8,13 +8,16 @@
               class="basic_live_dot_ rounded-full"></span>LIVE</span>
         </p>
         <div class="inner-div2 flex justify-between items-center">
-          <SimpleMenu :menuList="castOptionMenuItems">
+          <!-- <SimpleMenu :menuList="castOptionMenuItems">
             <template #menuButton>
               <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
                 <img src="@/assets/images/menu.svg" />
               </vs-button>
             </template>
-          </SimpleMenu>
+          </SimpleMenu> -->
+          <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
+            <img src="@/assets/images/menu.svg" />
+          </vs-button>
 
           <SimpleMenu :menuList="castCopyMenuItems">
             <template #menuButton>
@@ -30,8 +33,7 @@
             <img v-if="cast.is_running === 'true'" src="@/assets/images/end.svg" />
           </vs-button>
         </div>
-        <CastOptionsModal v-if="activeModal==='castOptionsModal'" :closeModal="() => setActiveModal('')"/>
-
+        <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')" :setActiveModal="setActiveModal"/>
       </div>
 
       <div class="text-left w-full">
@@ -443,64 +445,64 @@ export default {
       return newTime;
     },
     setProps() {
-        console.log("castsInfoDismiss", this.castsInfo, this.cast)
-        const details = this.castsInfo[this.cast.public_meeting_id].details;
-        this.stepOneProps.event_name= details.event_name;
-        this.stepOneProps.moderator_password= '';
-        this.stepOneProps.attendee_password= '';
-        this.stepOneProps.meeting_type= '';
-        this.stepOneProps.schedule_time= details.schedule_time;
-        this.stepOneProps.description= details.description;
-        this.stepOneProps.startTime= '0:00:00';
-        this.stepOneProps.timezone= details.timezone;
-        this.stepOneProps.startD= moment().format('YYYY-MM-DD');
-        this.stepOneProps.password_auth= details.password_auth;
-        this.stepOneProps.auth_type= details.cast_type;
-        this.stepOneProps.send_otp= details.otp_private;
-        this.stepOneProps.public_auth= false;
-        this.stepOneProps.public_otp= details.collect_attendee_email;
+      console.log("castsInfoDismiss", this.castsInfo, this.cast)
+      const details = this.castsInfo[this.cast.public_meeting_id].details;
+      this.stepOneProps.event_name = details.event_name;
+      this.stepOneProps.moderator_password = '';
+      this.stepOneProps.attendee_password = '';
+      this.stepOneProps.meeting_type = '';
+      this.stepOneProps.schedule_time = details.schedule_time;
+      this.stepOneProps.description = details.description;
+      this.stepOneProps.startTime = '0:00:00';
+      this.stepOneProps.timezone = details.timezone;
+      this.stepOneProps.startD = moment().format('YYYY-MM-DD');
+      this.stepOneProps.password_auth = details.password_auth;
+      this.stepOneProps.auth_type = details.cast_type;
+      this.stepOneProps.send_otp = details.otp_private;
+      this.stepOneProps.public_auth = false;
+      this.stepOneProps.public_otp = details.collect_attendee_email;
 
-        this.stepTwoProps.BackImageURL= '';
-        this.stepTwoProps.imageURL= '';
-        this.stepTwoProps.primary_color= details.primary_color;
-        this.stepTwoProps.secondary_color= '';
-        this.stepTwoProps.logo= details.logo;
-        this.stepTwoProps.back_image= '';
-        this.stepTwoProps.cover_image= details.cover_image;
-        this.stepTwoProps.cover_image_error= false;
-        this.stepTwoProps.back_image_error= false;
-        this.stepTwoProps.banner_text= details.banner_text;
-        this.stepTwoProps.moderator_only_text='You are a Moderator, you can control who presents and participates in the live cast';
-        this.stepTwoProps.guest_policy= details.guest_policy;
-        this.stepTwoProps.welcome_text= details.welcome_text;
-        this.stepTwoProps.showText= true;
-        this.stepTwoProps.duration= details.duration;
-        this.stepTwoProps.logout_url= details.logout_url;
-      
-        this.stepThreeProps.vw_stream= false;
-        this.stepThreeProps.vw_stream_url= details.bbb_stream_url;
-        this.stepThreeProps.is_streaming= details.is_streaming;
-        this.stepThreeProps.public_stream= details.public_stream;
-      
-        this.stepFourProps.start_stop_recording= details.record;
-        this.stepFourProps.record= details.record;
-        this.stepFourProps.mute_on_start= details.mute_on_start;
-        this.stepFourProps.end_when_no_moderator= details.end_when_no_moderator;
-        this.stepFourProps.allow_moderator_to_unmute_user= details.allow_moderator_to_unmute_user;
-        this.stepFourProps.webcam_only_for_moderator= details.webcam_only_for_moderator;
-        this.stepFourProps.auto_start_recording= details.auto_start_recording;
-        this.stepFourProps.allow_start_stop_recording= details.record;
-        this.stepFourProps.disable_cam= details.disable_cam;
-        this.stepFourProps.disable_mic= details.disable_mic;
-        this.stepFourProps.lock_layout= details.lock_layout;
-        this.stepFourProps.lock_on_join= false;
-        this.stepFourProps.viewer_mode= details.viewer_mode;
-        this.stepFourProps.viewer_password= false;
-        this.stepFourProps.listen_only_mode= true;
-        this.stepFourProps.webcam_enable= false;
-        this.stepFourProps.screen_sharing= true;
-        this.stepFourProps.restrict_participants= false;
-        this.stepFourProps.meeting_settings= false;
+      this.stepTwoProps.BackImageURL = '';
+      this.stepTwoProps.imageURL = '';
+      this.stepTwoProps.primary_color = details.primary_color;
+      this.stepTwoProps.secondary_color = '';
+      this.stepTwoProps.logo = details.logo;
+      this.stepTwoProps.back_image = '';
+      this.stepTwoProps.cover_image = details.cover_image;
+      this.stepTwoProps.cover_image_error = false;
+      this.stepTwoProps.back_image_error = false;
+      this.stepTwoProps.banner_text = details.banner_text;
+      this.stepTwoProps.moderator_only_text = 'You are a Moderator, you can control who presents and participates in the live cast';
+      this.stepTwoProps.guest_policy = details.guest_policy;
+      this.stepTwoProps.welcome_text = details.welcome_text;
+      this.stepTwoProps.showText = true;
+      this.stepTwoProps.duration = details.duration;
+      this.stepTwoProps.logout_url = details.logout_url;
+
+      this.stepThreeProps.vw_stream = false;
+      this.stepThreeProps.vw_stream_url = details.bbb_stream_url;
+      this.stepThreeProps.is_streaming = details.is_streaming;
+      this.stepThreeProps.public_stream = details.public_stream;
+
+      this.stepFourProps.start_stop_recording = details.record;
+      this.stepFourProps.record = details.record;
+      this.stepFourProps.mute_on_start = details.mute_on_start;
+      this.stepFourProps.end_when_no_moderator = details.end_when_no_moderator;
+      this.stepFourProps.allow_moderator_to_unmute_user = details.allow_moderator_to_unmute_user;
+      this.stepFourProps.webcam_only_for_moderator = details.webcam_only_for_moderator;
+      this.stepFourProps.auto_start_recording = details.auto_start_recording;
+      this.stepFourProps.allow_start_stop_recording = details.record;
+      this.stepFourProps.disable_cam = details.disable_cam;
+      this.stepFourProps.disable_mic = details.disable_mic;
+      this.stepFourProps.lock_layout = details.lock_layout;
+      this.stepFourProps.lock_on_join = false;
+      this.stepFourProps.viewer_mode = details.viewer_mode;
+      this.stepFourProps.viewer_password = false;
+      this.stepFourProps.listen_only_mode = true;
+      this.stepFourProps.webcam_enable = false;
+      this.stepFourProps.screen_sharing = true;
+      this.stepFourProps.restrict_participants = false;
+      this.stepFourProps.meeting_settings = false;
     },
     copy(id, pass) {
       if (pass === undefined) {
@@ -598,4 +600,5 @@ export default {
 .basic_stream_div_:hover {
   border: 1px solid #d7df23 !important;
   cursor: pointer;
-}</style>
+}
+</style>
