@@ -10,7 +10,7 @@
         <div class="inner-div2 flex justify-between items-center">
           <SimpleMenu :menuList="castOptionMenuItems">
             <template #menuButton>
-              <vs-button class="custm-style">
+              <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
                 <img src="@/assets/images/menu.svg" />
               </vs-button>
             </template>
@@ -30,7 +30,7 @@
             <img v-if="cast.is_running === 'true'" src="@/assets/images/end.svg" />
           </vs-button>
         </div>
-
+        <CastOptionsModal v-if="activeModal==='castOptionsModal'" :closeModal="() => setActiveModal('')"/>
 
       </div>
 
@@ -157,7 +157,7 @@ import BaseModal from '@/components/common/BaseModal.vue';
 
 import NftEdit from '@/views/dashboard/nft/NftEdit.vue';
 import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
-
+import CastOptionsModal from './CastOptionsModal.vue';
 export default {
   name: 'CastCard',
   props: [
@@ -165,11 +165,11 @@ export default {
     'castsInfo',
     'cast',
     'index',
-    'setProps',
-    'stepOneProps',
-    'stepTwoProps',
-    'stepThreeProps',
-    'stepFourProps',
+    // 'setProps',
+    // 'stepOneProps',
+    // 'stepTwoProps',
+    // 'stepThreeProps',
+    // 'stepFourProps',
     'getCastList',
   ],
   data() {
@@ -217,7 +217,6 @@ export default {
           label: 'Call settings',
           icon: () => import('@/assets/svgs/menu-icons/call.vue'),
           onClick: () => {
-            this.setProps(this.cast.public_meeting_id);
             this.setCastModal('callSettingsModal');
           },
         },
@@ -225,7 +224,6 @@ export default {
           label: 'Stream settings',
           icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
           onClick: () => {
-            this.setProps(this.cast.public_meeting_id);
             this.setCastModal('streamingModal');
           },
         },
@@ -233,7 +231,6 @@ export default {
           label: 'Reschedule cast',
           icon: () => import('@/assets/svgs/menu-icons/reschedule.vue'),
           onClick: () => {
-            this.setProps(this.cast.public_meeting_id);
             this.setCastModal('resheduleCastModal');
           },
         },
@@ -241,7 +238,6 @@ export default {
           label: 'Edit',
           icon: () => import('@/assets/svgs/menu-icons/pen.vue'),
           onClick: () => {
-            this.setProps(this.cast.public_meeting_id);
             this.setCastModal('editCastModal');
           },
         },
@@ -249,7 +245,6 @@ export default {
           label: 'Postpone cast',
           icon: () => import('@/assets/svgs/menu-icons/prepone.vue'),
           onClick: () => {
-            this.setProps(this.cast.public_meeting_id);
             this.setCastModal('postponeCastModal');
           },
         },
@@ -257,7 +252,6 @@ export default {
           label: 'Delete',
           icon: () => import('@/assets/svgs/menu-icons/delete.vue'),
           onClick: () => {
-            this.setProps(this.cast.public_meeting_id);
             this.setCastModal('deleteCastModal');
           },
         },
@@ -287,6 +281,68 @@ export default {
       certificate_enabled: false,
       nft_details_submitted: false,
       vc_details_submitted: false,
+
+      stepOneProps: {
+        event_name: '',
+        moderator_password: '',
+        attendee_password: '',
+        meeting_type: '',
+        schedule_time: '',
+        description: '',
+        startTime: '0:00:00',
+        timezone: '',
+        startD: moment().format('YYYY-MM-DD'),
+        password_auth: '',
+        auth_type: '',
+        send_otp: '',
+        public_auth: false,
+        public_otp: '',
+      },
+      stepTwoProps: {
+        BackImageURL: '',
+        imageURL: '',
+        primary_color: '',
+        secondary_color: '',
+        logo: '',
+        back_image: '',
+        cover_image: '',
+        cover_image_error: false,
+        back_image_error: false,
+        banner_text: '',
+        moderator_only_text: 'You are a Moderator, you can control who presents and participates in the live cast',
+        guest_policy: '',
+        welcome_text: '',
+        showText: true,
+        duration: '',
+        logout_url: '',
+      },
+      stepThreeProps: {
+        vw_stream: false,
+        vw_stream_url: '',
+        is_streaming: '',
+        public_stream: '',
+      },
+      stepFourProps: {
+        start_stop_recording: '',
+        record: '',
+        mute_on_start: '',
+        end_when_no_moderator: '',
+        allow_moderator_to_unmute_user: '',
+        webcam_only_for_moderator: '',
+        auto_start_recording: '',
+        allow_start_stop_recording: '',
+        disable_cam: '',
+        disable_mic: '',
+        lock_layout: '',
+        lock_on_join: false,
+        viewer_mode: '',
+        viewer_password: false,
+        listen_only_mode: true,
+        webcam_enable: false,
+        screen_sharing: true,
+        restrict_participants: false,
+        meeting_settings: false,
+      },
     };
   },
   components: {
@@ -310,8 +366,10 @@ export default {
     BaseModal,
     NftEdit,
     ShareNftLink,
+    CastOptionsModal
   },
   mounted() {
+    this.setProps();
   },
   computed: {
     hasYoutubeStream() {
@@ -332,6 +390,9 @@ export default {
     },
   },
   methods: {
+    setActiveModal(modalName) {
+      this.activeModal = modalName;
+    },
     async toggleStream(id, action) {
       // this.resetShowTooltip2();
       console.log(action);
@@ -380,6 +441,66 @@ export default {
       // var timeAbbr = moment().tz(timezone).zoneAbbr();
       var newTime = moment(a._d).tz(timezone).format('h:mm A');
       return newTime;
+    },
+    setProps() {
+        console.log("castsInfoDismiss", this.castsInfo, this.cast)
+        const details = this.castsInfo[this.cast.public_meeting_id].details;
+        this.stepOneProps.event_name= details.event_name;
+        this.stepOneProps.moderator_password= '';
+        this.stepOneProps.attendee_password= '';
+        this.stepOneProps.meeting_type= '';
+        this.stepOneProps.schedule_time= details.schedule_time;
+        this.stepOneProps.description= details.description;
+        this.stepOneProps.startTime= '0:00:00';
+        this.stepOneProps.timezone= details.timezone;
+        this.stepOneProps.startD= moment().format('YYYY-MM-DD');
+        this.stepOneProps.password_auth= details.password_auth;
+        this.stepOneProps.auth_type= details.cast_type;
+        this.stepOneProps.send_otp= details.otp_private;
+        this.stepOneProps.public_auth= false;
+        this.stepOneProps.public_otp= details.collect_attendee_email;
+
+        this.stepTwoProps.BackImageURL= '';
+        this.stepTwoProps.imageURL= '';
+        this.stepTwoProps.primary_color= details.primary_color;
+        this.stepTwoProps.secondary_color= '';
+        this.stepTwoProps.logo= details.logo;
+        this.stepTwoProps.back_image= '';
+        this.stepTwoProps.cover_image= details.cover_image;
+        this.stepTwoProps.cover_image_error= false;
+        this.stepTwoProps.back_image_error= false;
+        this.stepTwoProps.banner_text= details.banner_text;
+        this.stepTwoProps.moderator_only_text='You are a Moderator, you can control who presents and participates in the live cast';
+        this.stepTwoProps.guest_policy= details.guest_policy;
+        this.stepTwoProps.welcome_text= details.welcome_text;
+        this.stepTwoProps.showText= true;
+        this.stepTwoProps.duration= details.duration;
+        this.stepTwoProps.logout_url= details.logout_url;
+      
+        this.stepThreeProps.vw_stream= false;
+        this.stepThreeProps.vw_stream_url= details.bbb_stream_url;
+        this.stepThreeProps.is_streaming= details.is_streaming;
+        this.stepThreeProps.public_stream= details.public_stream;
+      
+        this.stepFourProps.start_stop_recording= details.record;
+        this.stepFourProps.record= details.record;
+        this.stepFourProps.mute_on_start= details.mute_on_start;
+        this.stepFourProps.end_when_no_moderator= details.end_when_no_moderator;
+        this.stepFourProps.allow_moderator_to_unmute_user= details.allow_moderator_to_unmute_user;
+        this.stepFourProps.webcam_only_for_moderator= details.webcam_only_for_moderator;
+        this.stepFourProps.auto_start_recording= details.auto_start_recording;
+        this.stepFourProps.allow_start_stop_recording= details.record;
+        this.stepFourProps.disable_cam= details.disable_cam;
+        this.stepFourProps.disable_mic= details.disable_mic;
+        this.stepFourProps.lock_layout= details.lock_layout;
+        this.stepFourProps.lock_on_join= false;
+        this.stepFourProps.viewer_mode= details.viewer_mode;
+        this.stepFourProps.viewer_password= false;
+        this.stepFourProps.listen_only_mode= true;
+        this.stepFourProps.webcam_enable= false;
+        this.stepFourProps.screen_sharing= true;
+        this.stepFourProps.restrict_participants= false;
+        this.stepFourProps.meeting_settings= false;
     },
     copy(id, pass) {
       if (pass === undefined) {

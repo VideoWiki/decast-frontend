@@ -154,14 +154,37 @@ input {
 body {
   background: none transparent;
 }
+.vs-tooltip {
+  background: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  color: #000000;
+  border-radius: 0px;
+  font-weight: 500;
+  padding: 2px 7px !important;
+}
 .vs-button-primary {
-  background-color: #D7DF23 !important;
-  color: #000000 !important;
-  font-weight: 700 !important;
-  font-size: 12px !important;
-  border: 1px solid #31394E !important;
+  background-color: #000000 !important;
+  color: #D7DF23 !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  border-top: 1px solid #FFFFFF !important;
+  border-bottom: 2px solid #FFFFFF !important;
+  border-right: 2px solid #FFFFFF !important;
+  border-left: 1px solid #FFFFFF !important;
   padding: 0.75rem !important;
-  border-radius: 6px !important;
+  border-radius: 0px !important;
+  font-family: 'JetBrains Mono' !important;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.vs-button-backgroundx {
+  background: #000000 !important;
+}
+.vs-button-border.isActive .vs-button--text{
+  color: #D7DF23 !important;
 }
 .vs-button-primary.vs-button-filled {
   background: #D7DF23 !important;
@@ -175,6 +198,7 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  color: #D7DF23 !important;
 }
 </style>
 <style lang="scss" scoped>

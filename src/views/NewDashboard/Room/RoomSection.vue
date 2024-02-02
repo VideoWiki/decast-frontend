@@ -10,7 +10,7 @@
 
       <div class="cursor-pointer">
         <vx-tooltip text="/ Create Room" position="left">
-          <img src="@/assets/images/pixel_create.svg" />
+          <img @click="setActiveModal('createRoom')" src="@/assets/images/pixel_create.svg" />
         </vx-tooltip>
       </div>
     </div>
@@ -73,6 +73,13 @@
       </div>
     </div>
     </div>
+    <BaseModal v-if="activeModal==='createRoom'" :title="'Profile'" @close="setActiveModal('')">
+      <template #modalContent>
+        <div>
+          <h1>Hey, It's Profile here</h1>
+        </div>
+      </template>
+    </BaseModal>
   </div>
 </template>
 
@@ -81,6 +88,8 @@ import RoomCard from './components/RoomCard.vue';
 import RoomCardShimmer from './components/RoomCardShimmer.vue';
 import RecordingCard from './components/RecordingCard.vue';
 import RecordingCardShimmer from './components/RecordingCardShimmer.vue';
+import BaseModal from "@/components/common/BaseModal.vue";
+
 export default {
   name: 'RoomSection',
   components: {
@@ -88,9 +97,11 @@ export default {
     RoomCardShimmer,
     RecordingCard,
     RecordingCardShimmer,
+    BaseModal,
   },
   data() {
     return {
+      activeModal: '',
       isRecordingLoading: false,
       focusYourRooms: true,
       rooms: [],
@@ -127,6 +138,9 @@ export default {
   methods: {
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
+    },
+    setActiveModal(modalName) {
+      this.activeModal = modalName;
     },
     getList() {
       this.isRoomsLoading = true;
