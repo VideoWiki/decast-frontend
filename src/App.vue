@@ -147,6 +147,8 @@ export default {
   },
 };
 </script>
+
+<!-- common design css -->
 <style>
 input {
   font-family: Montserrat;
@@ -163,6 +165,7 @@ body {
   padding: 2px 7px !important;
 }
 .vs-button-primary {
+  width: fit-content !important;
   background-color: #000000 !important;
   color: #D7DF23 !important;
   font-weight: 500 !important;
@@ -200,12 +203,49 @@ body {
   justify-content: center !important;
   color: #D7DF23 !important;
 }
+
+/* Modal common css for terminal modal */
+.modal-content-wrapper * {
+  font-family: 'JetBrains Mono' !important;
+}
+.modal-content-wrapper {
+  height: 75vh;
+  width: 60vw;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+.modal-heading {
+  border-top: 1px dashed #FFFFFF;
+  border-bottom: 1px dashed #FFFFFF;
+  padding: 5px 0px;
+}
+.modal-heading h3 {
+  font-size: 18px;
+  color: #FFFFFF;
+  line-height: unset;
+}
+.cast-modal-bottom {
+  margin-top: 20px;
+}
+.cast-modal-bottom span {
+  color: #22C55E;
+}
+.cast-sc-detail {
+  margin-bottom: 1rem;
+}
+.cast-sc-detail span {
+  color: #22C55E;
+}
 </style>
+
+
 <style lang="scss" scoped>
 iframe {
   overflow: hidden;
 }
-
 .vs-popup--content {
   margin: 0;
   padding: 0;

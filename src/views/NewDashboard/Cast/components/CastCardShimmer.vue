@@ -1,12 +1,12 @@
 <template>
-    <div class="child-options">
+    <div class="cast_list flex flex-col justify-between items-center mb-4 w-full py-3 px-4 pb-3">
         <div class="cast-shimmer-upper">
             <div class="csu-loader-1 animate-custom-pulse"></div>
             <div class="csu-loader-2 animate-custom-pulse"></div>
         </div>
         <div class="cast-shimmer-lower">
             <div class="csu-loader-3 animate-custom-pulse"></div>
-            <div class="csu-loader-4 animate-custom-pulse"></div>
+            <!-- <div class="csu-loader-4 animate-custom-pulse"></div> -->
         </div>
     </div>
 </template>
@@ -21,42 +21,36 @@ export default {
 *:not(i) {
     font-family: 'Karla', sans-serif;
 }
-
-.child-options {
-    max-width: 480px;
-    width: 97%;
-    height: 140px;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #31394e;
-    background-color: #1f272f;
-    color: #a6a6a8;
-    border-radius: 6px;
-    padding: 10px;
-    margin-bottom: 20px;
-    position: relative;
+.cast_list {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  box-shadow: 3px 3px 0px 0px white;
+  height: 90px;
 }
 .cast-shimmer-lower, .cast-shimmer-upper {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .csu-loader-1, .csu-loader-2, .csu-loader-3, .csu-loader-4 {
-    background-color: #31394e85;
-    border-radius: 5px;
+    background-color: #e1e1e1;
+    border-radius: 0px;
 }
 .csu-loader-1 {
     width: 40%;
-    height: 45px;
+    height: 22px;
 }
 .csu-loader-2 {
-    width: 4%;
-    height: 45px;
+    width: 35%;
+    height: 22px;
 }
 
 .csu-loader-3 {
     flex: 0.35;
-    height: 28px;
+    height: 20px;
 }
 
 .csu-loader-4 {

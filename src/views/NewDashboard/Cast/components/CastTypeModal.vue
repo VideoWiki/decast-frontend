@@ -24,7 +24,8 @@
                         </div>
                     </div>
                 </div>
-                <vs-button type="border" @click="handleConfirmType">>>confirm</vs-button>
+                <vs-button v-if="castType==='quick-cast'" type="border" @click="handleConfirmType">>>create</vs-button>
+                <vs-button v-else type="border" @click="handleConfirmType">>>confirm</vs-button>
                 <div class="cast-modal-bottom">
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
                 </div>
@@ -47,11 +48,11 @@ export default {
         };
     },
     methods: {
-        handleConfirmType(){
+        async handleConfirmType(){
             if(this.castType==='quick-cast'){
-                this.stepOneProps.event_name = 'Guest_Room';
-                this.stepOneProps.description = 'Guest_Room';
-                this.createCast();
+                this.stepOneProps.event_name = 'Decast_Quick_Room';
+                this.stepOneProps.description = 'Decast_Quick_Room';
+                await this.createCast();
                 this.setActiveModal('castInviteModal');
             }else {
                 this.setActiveModal('castScheduleModal')
@@ -62,17 +63,12 @@ export default {
 </script>
 
 <style scoped>
-.modal-content-wrapper {
-    height: 75vh;
-    width: 60vw;
-    overflow-y: scroll;
-}
 .cast-box-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: 40px 0px;
+    margin: 20px 0px;
 }
 .cast-box-wrapper h3 {
     font-size: 18px;
@@ -94,14 +90,5 @@ export default {
     justify-content: space-between;
     padding: 10px 14px;
     cursor: pointer;
-}
-</style>
-
-<style>
-.cast-modal-bottom {
-    margin-top: 20px;
-}
-.cast-modal-bottom span {
-    color: #22C55E;
 }
 </style>

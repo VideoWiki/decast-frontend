@@ -73,13 +73,7 @@
       </div>
     </div>
     </div>
-    <BaseModal v-if="activeModal==='createRoom'" :title="'Profile'" @close="setActiveModal('')">
-      <template #modalContent>
-        <div>
-          <h1>Hey, It's Profile here</h1>
-        </div>
-      </template>
-    </BaseModal>
+    <CreateRoomModal v-if="activeModal==='createRoom'" :closeModal="() => setActiveModal('')"/>
   </div>
 </template>
 
@@ -88,7 +82,7 @@ import RoomCard from './components/RoomCard.vue';
 import RoomCardShimmer from './components/RoomCardShimmer.vue';
 import RecordingCard from './components/RecordingCard.vue';
 import RecordingCardShimmer from './components/RecordingCardShimmer.vue';
-import BaseModal from "@/components/common/BaseModal.vue";
+import CreateRoomModal from '@/views/NewDashboard/Room/components/CreateRoomModal.vue';
 
 export default {
   name: 'RoomSection',
@@ -97,8 +91,8 @@ export default {
     RoomCardShimmer,
     RecordingCard,
     RecordingCardShimmer,
-    BaseModal,
-  },
+    CreateRoomModal
+},
   data() {
     return {
       activeModal: '',

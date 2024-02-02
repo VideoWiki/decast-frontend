@@ -24,8 +24,4 @@ export default {
 </script>
 
 <style scoped>
-.modal-content-wrapper {
-    height: 70vh;
-    width: 60vw;
-}
 </style>
