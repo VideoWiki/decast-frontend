@@ -1,17 +1,13 @@
 <template>
   <BaseModal :title="'My profile'" @close="toggleActiveModal('')">
     <template #modalContent>
-      <div class="full-cont">
-        <!-- <div class="head-container">
-      <h3>My Profiles</h3>
-      <button @click="closeProfile">
-        <img src="@/assets/images/cross.svg" alt="Close Profile" />
-      </button>
-    </div> -->
-
-        <div class="info-cont">
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <div class="modal-heading">
+            <h3>Profile</h3>
+          </div>
           <!-- Profile Image -->
-          <div class="pri-cont">
+          <div class="pri-cont pt-8">
             <div class="img-cont">
               <input type="file" id="display-profile-input" @change="uploadFile" class="hidden" accept="image/*" />
               <button class="img-up" :disabled="!isEditing || uploadInProgress" @click="openUpload"
@@ -29,42 +25,37 @@
           </div>
 
           <!-- Form Fields -->
-          <div class="form-cont">
-            <div class="child-1">
+          <div class="form-cont w-full flex flex-col">
               <label class="label">First name</label>
-              <input v-model="firstName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" required />
-              <span class="error" v-if="error.firstName">{{
+              <input class="w-2/5 p-3 mt-2" v-model="firstName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.7 }" required />
+              <span class="error text-red-500 mt-1" v-if="error.firstName">{{
                 error.firstName
               }}</span>
 
-              <label class="label">Email address</label>
-              <input v-model="email" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" type="email"
-                required />
-              <span class="error" v-if="error.email">{{ error.email }}</span>
-            </div>
-
-            <div class="child-2">
               <label class="label">Last name</label>
-              <input v-model="lastName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" required />
-              <span class="error" v-if="error.lastName">{{ error.lastName }}</span>
+              <input class="w-2/5 p-3 mt-2" v-model="lastName" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.7 }" required />
+              <span class="error text-red-500 mt-1" v-if="error.lastName">{{ error.lastName }}</span>
 
+              <label class="label">Email address</label>
+              <input class="w-2/5 p-3 mt-2" v-model="email" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.7 }" type="email"
+                required />
+              <span class="error text-red-500 mt-1" v-if="error.email">{{ error.email }}</span>
               <label class="label">Add your designation</label>
-              <input v-model="designation" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.5 }" required />
-              <span class="error" v-if="error.designation">{{
+              <input class="w-2/5 p-3 mt-2" v-model="designation" :disabled="!isEditing" :style="{ opacity: isEditing ? 1 : 0.7 }" required />
+              <span class="error text-red-500 mt-1" v-if="error.designation">{{
                 error.designation
               }}</span>
             </div>
           </div>
 
           <!-- Edit and Save Buttons -->
-          <div class="edit-cont">
-            <vs-button @click="editProfile" :disabled="isEditing">Edit</vs-button>
-            <vs-button @click="saveProfile" :disabled="!isEditing" :style="{ display: isEditing ? 'block' : 'none' }">
-              Save
+          <div class="edit-cont flex mt-4">
+            <vs-button @click="editProfile" :disabled="isEditing" type="border" :style="{ display: isEditing ? 'none' : 'block' }"> >> Edit</vs-button>
+            <vs-button @click="saveProfile" :disabled="!isEditing" type="border" :style="{ display: isEditing ? 'block' : 'none' }">
+             >> Confirm
             </vs-button>
           </div>
         </div>
-      </div>
     </template>
   </BaseModal>
 </template>
@@ -222,7 +213,7 @@ export default {
   width: 541px;
   height: auto;
   border-radius: 10px;
-  background-color: #1f272f;
+  background-color: #000;
   /* border: 1px solid #31394e;
   padding: 15px; */
   z-index: 10000;
@@ -232,13 +223,13 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  color: #a6a6a8;
+  color: #fff;
 }
 
 .head-container h3 {
   font-size: 14px;
   font-weight: 600px;
-  color: #a6a6a8;
+  color: #fff;
 }
 
 .head-container button {
@@ -284,31 +275,14 @@ export default {
   height: 18px;
 }
 
-.form-cont {
-  display: flex;
-  gap: 20px;
-  text-align: left;
-  justify-content: space-between;
-  color: #647181;
-  /* font-family: Popins,sans-serif; */
-  /* border: 1px solid red; */
-}
-
 .form-cont input {
-  background-color: #1d232b;
-  border: 1px solid #31394e;
-  border-radius: 6px;
-  color: #a6a6a8;
-  width: 242px;
-  height: 34px;
-  font-size: 13px;
-  padding: 10px;
-}
-
-.form-cont span {
-  display: block;
-  color: red;
-  font-size: 12px;
+  font-family: 'JetBrains Mono';
+  border: 0px;
+  background-color: #FFFFFF;
+  outline: none;
+  border-radius: 0px;
+  color: #000000;
+  font: bold !important;
 }
 
 .name-cont p {
@@ -316,30 +290,19 @@ export default {
 }
 
 .name-cont h3 {
-  color: #a6a6a8;
+  color: #fff;
 }
 
 .label {
   display: block;
   font-size: 12px;
-  color: #647181;
+  color: #fff;
   margin-top: 20px;
   margin-bottom: 5px;
 }
 
-.edit-cont {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-  gap: 20px;
-}
-
 .edit-cont button:nth-child(1) {
-  background-color: #1d232b !important;
-  border: 1px solid #31394e !important;
   width: 113px;
-  color: #a6a6a8 !important;
 }
 
 .edit-cont button:nth-child(2) {
@@ -358,17 +321,12 @@ export default {
     flex-direction: column;
   }
 
-  .form-cont {
-    display: flex;
-    flex-direction: column;
-  }
-
   .child-2 {
     margin-top: -20px;
   }
 
   .name-cont h3 {
-    color: #a6a6a8;
+    color: #fff;
     font-size: 16px;
   }
 }

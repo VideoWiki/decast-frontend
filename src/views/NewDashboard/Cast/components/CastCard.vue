@@ -2,7 +2,7 @@
   <div>
     <CastCardShimmer v-if="isLoading" />
     <div class="cast_list flex flex-col justify-between items-center mb-4 w-full py-1 px-4 pb-3" @click="handleCardClick">
-      <div class="inner-child1 flex flex-row justify-between items-center pl-2">
+      <div class="inner-child1 flex flex-row w-full justify-between items-center">
         <p class="font-semibold text-lg flex items-center gap-4">{{ cast.event_name }}
           <span class="text-red-500 text-sm flex items-center gap-2" v-if="cast.is_running === 'true'"><span
               class="basic_live_dot_ rounded-full"></span>LIVE</span>
@@ -561,7 +561,6 @@ export default {
 }
 
 .cast_list {
-  max-width: 495px;
   border-top: 1px solid white;
   border-left: 1px solid white;
   border-right: 2px solid white;
@@ -587,11 +586,10 @@ export default {
   height: 33px; */
 }
 
-.inner-child1 {
-  /* border: 1px solid red; */
+/* .inner-child1 {
+  /* border: 1px solid red; 
   width: 35vw;
-  max-width: 480px;
-}
+} */
 
 .basic_live_dot_ {
   background-color: red !important;
