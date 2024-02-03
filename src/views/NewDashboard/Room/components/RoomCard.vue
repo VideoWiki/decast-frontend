@@ -1,7 +1,7 @@
 <template>
   <div>
     <RoomCardShimmer v-if="isLoading" />
-    <div class="room_list flex justify-between items-center mb-4 w-full py-2 px-6">
+    <div class="room_list flex justify-between items-center mb-4 w-full py-2 px-6" @click="handleRoomClick">
       <div>
         <p style="font-size: 16px; font-weight: 600 width: 50%">
           {{ truncateText(room.room_name, 20) }}
@@ -12,16 +12,13 @@
         <SimpleMenu :menuList="roomCardMenuItems">
           <template #menuButton>
             <vs-button class="custm-style">
-                <img src="@/assets/images/menu.svg" />
+              <img src="@/assets/images/menu.svg" />
             </vs-button>
           </template>
         </SimpleMenu>
         <div class="copy-btn-cont">
           <vx-tooltip text="Copy Link" position="bottom">
-            <vs-button
-              class="custm-style"
-              @click="copy(room.room_url)"
-            >
+            <vs-button class="custm-style" @click="copy(room.room_url)">
               <img src="@/assets/images/copy.svg" />
             </vs-button>
           </vx-tooltip>
@@ -33,18 +30,10 @@
         </vs-button>
       </div>
     </div>
-    <ConfirmationModal
-      v-if="activeModal === 'deleteRoom'"
-      :title="'Delete room'"
-      :description="'Do you really want to delete this room?'"
-      :onConfirm="onConfirm"
-      :closeModal="() => setRoomModal('')"
-    />
-    <ShareRoomModal
-      v-if="activeModal === 'shareRoom'"
-      :room="room"
-      :closeModal="() => setRoomModal('')"
-    />
+    <ConfirmationModal v-if="activeModal === 'deleteRoom'" :title="'Delete room'"
+      :description="'Do you really want to delete this room?'" :onConfirm="onConfirm"
+      :closeModal="() => setRoomModal('')" />
+    <ShareRoomModal v-if="activeModal === 'shareRoom'" :room="room" :closeModal="() => setRoomModal('')" />
   </div>
 </template>
 <script>
@@ -66,7 +55,7 @@ export default {
       rooms: [],
       sharePopup: false,
       recordings: [],
-      isRoomStart:false,
+      isRoomStart: false,
       roomCardMenuItems: [
         {
           label: 'Share',
@@ -89,6 +78,15 @@ export default {
     RoomCardShimmer,
   },
   methods: {
+    handleRoomClick() {
+      let newId = this.room.room_url.split('/');
+      this.$emit('room-click', {
+        id: newId[newId.length - 1],
+        roomLs: this.roomsList,
+        roo: this.room,
+        roomName: this.room.room_name,
+      });
+    },
     setRoomModal(setModal) {
       this.activeModal = setModal;
     },
@@ -124,9 +122,9 @@ export default {
       this.$store
         .dispatch('room/start', id)
         .then((res) => {
-          this.isRoomStart=true;
+          this.isRoomStart = true;
           console.log(res.data);
-          window.open(res.data.room_url,'_blank');
+          window.open(res.data.room_url, '_blank');
         })
         .catch((e) => {
           console.log(e);
@@ -166,33 +164,31 @@ export default {
   font-family: 'JetBrains Mono', monospace !important;
 }
 
-.custm-style{
-    background: none !important;
-    outline: none !important;
-    border: none !important;
-    background-color: transparent !important;
+.custm-style {
+  background: none !important;
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
 }
 
-.custm-style:hover{
-    box-shadow: none !important;
+.custm-style:hover {
+  box-shadow: none !important;
 }
 
 .room_list {
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 2px solid white;
-    border-bottom: 2px solid white;
-    box-shadow: 3px 3px 0px 0px white;
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  box-shadow: 3px 3px 0px 0px white;
 }
 
-.room_list:hover{
-    border-top: 1px solid #D7DF23;
-    border-left: 1px solid #D7DF23;
-    border-right: 2px solid #D7DF23;
-    border-bottom: 2px solid #D7DF23;
-    box-shadow: 3px 3px 0px 0px #D7DF23;
+.room_list:hover {
+  border-top: 1px solid #D7DF23;
+  border-left: 1px solid #D7DF23;
+  border-right: 2px solid #D7DF23;
+  border-bottom: 2px solid #D7DF23;
+  box-shadow: 3px 3px 0px 0px #D7DF23;
 }
-
-
 </style>
 

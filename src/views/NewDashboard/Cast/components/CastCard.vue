@@ -8,13 +8,9 @@
               class="basic_live_dot_ rounded-full"></span>LIVE</span>
         </p>
         <div class="inner-div2 flex justify-between items-center">
-          <SimpleMenu :menuList="castOptionMenuItems">
-            <template #menuButton>
-              <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
-                <img src="@/assets/images/menu.svg" />
-              </vs-button>
-            </template>
-          </SimpleMenu>
+          <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
+            <img src="@/assets/images/menu.svg" />
+          </vs-button>
 
           <SimpleMenu :menuList="castCopyMenuItems">
             <template #menuButton>
@@ -47,7 +43,7 @@
       <div v-if="streamInfo[cast.public_meeting_id]" class="mt-6 flex flex-col justify-between gap-4 w-full">
         <p class="text-left font-semibold">Live Casting :</p>
         <div v-if="hasDecastStream"
-          class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
+          class="basic_stream_div_ flex flex-row flex-wrap justify-between items-center w-full py-1 px-2">
           <div>https://decast.live/live</div>
           <div class="flex gap-2 justify-center items-center">
             <vs-button class="custm-style">
@@ -120,6 +116,10 @@
         </div>
       </div>
     </div>
+    <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
+      :setActiveModal="setActiveModal" />
+    <DeleteCastModal v-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
+      :castName="cast.event_name" :confirmDelete="() => deleteCast(cast.public_meeting_id)" />
   </div>
 </template>
 <script>
@@ -134,7 +134,6 @@ import SetUpEditCast from '@/views/EditCast/SetUpEditCast.vue';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import CopyIcon from '@/assets/svgs/button-icons/copy.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
-import CastCardShimmer from '@/views/dashboard/cast-section/components/CastCardShimmer.vue';
 import CallSettingsModal from '@/views/dashboard/cast-section/components/CallSettingsModal.vue';
 import StreamSettingsModal from '@/views/dashboard/cast-section/components/StreamSettingsModal.vue';
 import ResheduleCastModal from '@/views/dashboard/cast-section/components/ResheduleCastModal.vue';
@@ -146,6 +145,9 @@ import BaseModal from '@/components/common/BaseModal.vue';
 import NftEdit from '@/views/dashboard/nft/NftEdit.vue';
 import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 import CastOptionsModal from './CastOptionsModal.vue';
+import CastCardShimmer from '@/views/NewDashboard/Cast/components/CastCardShimmer.vue';
+import DeleteCastModal from './options-components/DeleteCastModal.vue';
+
 export default {
   name: 'CastCard',
   props: [
@@ -163,7 +165,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      activeModal: '',
+      activeModal: '', //castOptionsModal, deleteCastModal, nftDropModal, manageAudienceModal, editCastSetupModal, editCastDetailModal, editCastBrandingModal, editCastAdvanceModal, 
       showModal: false,
       isMobileView: false,
       expandedRoom: null,
@@ -193,57 +195,6 @@ export default {
       showEditCast: false,
       isStream: false,
       viewer: false,
-      castOptionMenuItems: [
-        {
-          label: 'Manage attendees',
-          icon: () => import('@/assets/svgs/menu-icons/manage.vue'),
-          onClick: () => {
-            this.openInviteAttendeesModal();
-          },
-        },
-        {
-          label: 'Call settings',
-          icon: () => import('@/assets/svgs/menu-icons/call.vue'),
-          onClick: () => {
-            this.setCastModal('callSettingsModal');
-          },
-        },
-        {
-          label: 'Stream settings',
-          icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
-          onClick: () => {
-            this.setCastModal('streamingModal');
-          },
-        },
-        {
-          label: 'Reschedule cast',
-          icon: () => import('@/assets/svgs/menu-icons/reschedule.vue'),
-          onClick: () => {
-            this.setCastModal('resheduleCastModal');
-          },
-        },
-        {
-          label: 'Edit',
-          icon: () => import('@/assets/svgs/menu-icons/pen.vue'),
-          onClick: () => {
-            this.setCastModal('editCastModal');
-          },
-        },
-        {
-          label: 'Postpone cast',
-          icon: () => import('@/assets/svgs/menu-icons/prepone.vue'),
-          onClick: () => {
-            this.setCastModal('postponeCastModal');
-          },
-        },
-        {
-          label: 'Delete',
-          icon: () => import('@/assets/svgs/menu-icons/delete.vue'),
-          onClick: () => {
-            this.setCastModal('deleteCastModal');
-          },
-        },
-      ],
       castCopyMenuItems: [
         {
           label: 'Copy participant url',
@@ -354,7 +305,8 @@ export default {
     BaseModal,
     NftEdit,
     ShareNftLink,
-    CastOptionsModal
+    CastOptionsModal,
+    DeleteCastModal
   },
   mounted() {
     this.setProps();
@@ -501,6 +453,47 @@ export default {
       this.stepFourProps.screen_sharing = true;
       this.stepFourProps.restrict_participants = false;
       this.stepFourProps.meeting_settings = false;
+      this.stepTwoProps.BackImageURL = '';
+      this.stepTwoProps.imageURL = '';
+      this.stepTwoProps.primary_color = details.primary_color;
+      this.stepTwoProps.secondary_color = '';
+      this.stepTwoProps.logo = details.logo;
+      this.stepTwoProps.back_image = '';
+      this.stepTwoProps.cover_image = details.cover_image;
+      this.stepTwoProps.cover_image_error = false;
+      this.stepTwoProps.back_image_error = false;
+      this.stepTwoProps.banner_text = details.banner_text;
+      this.stepTwoProps.moderator_only_text = 'You are a Moderator, you can control who presents and participates in the live cast';
+      this.stepTwoProps.guest_policy = details.guest_policy;
+      this.stepTwoProps.welcome_text = details.welcome_text;
+      this.stepTwoProps.showText = true;
+      this.stepTwoProps.duration = details.duration;
+      this.stepTwoProps.logout_url = details.logout_url;
+
+      this.stepThreeProps.vw_stream = false;
+      this.stepThreeProps.vw_stream_url = details.bbb_stream_url;
+      this.stepThreeProps.is_streaming = details.is_streaming;
+      this.stepThreeProps.public_stream = details.public_stream;
+
+      this.stepFourProps.start_stop_recording = details.record;
+      this.stepFourProps.record = details.record;
+      this.stepFourProps.mute_on_start = details.mute_on_start;
+      this.stepFourProps.end_when_no_moderator = details.end_when_no_moderator;
+      this.stepFourProps.allow_moderator_to_unmute_user = details.allow_moderator_to_unmute_user;
+      this.stepFourProps.webcam_only_for_moderator = details.webcam_only_for_moderator;
+      this.stepFourProps.auto_start_recording = details.auto_start_recording;
+      this.stepFourProps.allow_start_stop_recording = details.record;
+      this.stepFourProps.disable_cam = details.disable_cam;
+      this.stepFourProps.disable_mic = details.disable_mic;
+      this.stepFourProps.lock_layout = details.lock_layout;
+      this.stepFourProps.lock_on_join = false;
+      this.stepFourProps.viewer_mode = details.viewer_mode;
+      this.stepFourProps.viewer_password = false;
+      this.stepFourProps.listen_only_mode = true;
+      this.stepFourProps.webcam_enable = false;
+      this.stepFourProps.screen_sharing = true;
+      this.stepFourProps.restrict_participants = false;
+      this.stepFourProps.meeting_settings = false;
     },
     copy(id, pass) {
       if (pass === undefined) {
@@ -531,6 +524,17 @@ export default {
       } catch (e) {
         console.log('error', e);
       }
+    },
+    async deleteCast(deleteCastId) {
+      this.isLoading = true;
+      this.setActiveModal('');
+      await this.$store.dispatch('cast/deleteCast', deleteCastId);
+      // const newCasts = this.casts.filter((item) => {
+      //   return item.public_meeting_id !== deleteCastId;
+      // });
+      // this.casts = newCasts;
+      this.isLoading = false;
+      this.getCastList();
     },
   },
 };
@@ -596,5 +600,7 @@ export default {
 .basic_stream_div_:hover {
   border: 1px solid #d7df23 !important;
   cursor: pointer;
+}
+</style>
 }
 </style>
