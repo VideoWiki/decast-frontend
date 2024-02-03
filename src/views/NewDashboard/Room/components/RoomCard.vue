@@ -1,7 +1,7 @@
 <template>
   <div>
     <RoomCardShimmer v-if="isLoading" />
-    <div class="room_list flex justify-between items-center mb-4 w-full py-2 px-6" @click="handleRoomClick">
+    <div v-else class="room_list flex justify-between items-center mb-4 w-full py-2 px-6">
       <div>
         <p style="font-size: 16px; font-weight: 600 width: 50%">
           {{ truncateText(room.room_name, 20) }}
@@ -9,13 +9,16 @@
       </div>
 
       <div class="flex justify-between items-center">
-        <SimpleMenu :menuList="roomCardMenuItems">
+        <!-- <SimpleMenu :menuList="roomCardMenuItems">
           <template #menuButton>
             <vs-button class="custm-style">
               <img src="@/assets/images/menu.svg" />
             </vs-button>
           </template>
-        </SimpleMenu>
+        </SimpleMenu> -->
+        <vs-button class="custm-style" @click="setActiveModal('roomOptionsModal')">
+          <img src="@/assets/images/menu.svg" />
+        </vs-button>
         <div class="copy-btn-cont">
           <vx-tooltip text="Copy Link" position="bottom">
             <vs-button class="custm-style" @click="copy(room.room_url)">
@@ -30,19 +33,21 @@
         </vs-button>
       </div>
     </div>
-    <ConfirmationModal v-if="activeModal === 'deleteRoom'" :title="'Delete room'"
-      :description="'Do you really want to delete this room?'" :onConfirm="onConfirm"
-      :closeModal="() => setRoomModal('')" />
-    <ShareRoomModal v-if="activeModal === 'shareRoom'" :room="room" :closeModal="() => setRoomModal('')" />
+    <ShareRoomModal v-if="activeModal === 'shareRoomModal'" :room="room" :closeModal="() => setRoomModal('')" />
+    <RoomOptionsModal v-if="activeModal === 'roomOptionsModal'" :closeModal="() => setActiveModal('')"
+      :setActiveModal="setActiveModal" />
+    <DeleteRoomModal v-if="activeModal === 'deleteRoomModal'" :closeModal="() => setActiveModal('')"
+      :roomName="room.room_name" :confirmDelete="() => deleteRoom(room)" />
   </div>
 </template>
 <script>
 import axios from '@/axios';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
-import ConfirmationModal from '@/views/dashboard/components/ConfirmationModal.vue';
-import ShareRoomModal from '@/views/dashboard/room-section/components/ShareRoomModal.vue';
+import ShareRoomModal from './options-components/ShareRoomModal.vue';
 import RoomCardShimmer from './RoomCardShimmer.vue';
+import RoomOptionsModal from './RoomOptionsModal.vue';
+import DeleteRoomModal from './options-components/DeleteRoomModal.vue';
 
 export default {
   name: 'RoomCard',
@@ -50,32 +55,33 @@ export default {
   data() {
     return {
       isLoading: false,
-      activeModal: '',
+      activeModal: '', //roomOptionsModal
       text: '',
       rooms: [],
       sharePopup: false,
       recordings: [],
       isRoomStart: false,
-      roomCardMenuItems: [
-        {
-          label: 'Share',
-          icon: () => import('@/assets/svgs/button-icons/share.vue'),
-          onClick: () => this.setRoomModal('shareRoom'),
-        },
-        {
-          label: 'Delete',
-          icon: () => import('@/assets/svgs/button-icons/delete.vue'),
-          onClick: () => this.setRoomModal('deleteRoom'),
-        },
-      ],
+      // roomCardMenuItems: [
+      //   {
+      //     label: 'Share',
+      //     icon: () => import('@/assets/svgs/button-icons/share.vue'),
+      //     onClick: () => this.setRoomModal('shareRoom'),
+      //   },
+      //   {
+      //     label: 'Delete',
+      //     icon: () => import('@/assets/svgs/button-icons/delete.vue'),
+      //     onClick: () => this.setRoomModal('deleteRoom'),
+      //   },
+      // ],
     };
   },
   components: {
     SimpleMenu,
     MoreIcon,
-    ConfirmationModal,
     ShareRoomModal,
     RoomCardShimmer,
+    RoomOptionsModal,
+    DeleteRoomModal,
   },
   methods: {
     handleRoomClick() {
@@ -87,12 +93,11 @@ export default {
         roomName: this.room.room_name,
       });
     },
+    setActiveModal(modalName) {
+      this.activeModal = modalName;
+    },
     setRoomModal(setModal) {
       this.activeModal = setModal;
-    },
-    onConfirm() {
-      this.deleteRoom(this.room);
-      this.activeModal = '';
     },
     truncateText(text, maxLength) {
       if (text.length > maxLength) {
@@ -123,7 +128,9 @@ export default {
         .dispatch('room/start', id)
         .then((res) => {
           this.isRoomStart = true;
+          this.isRoomStart = true;
           console.log(res.data);
+          window.open(res.data.room_url, '_blank');
           window.open(res.data.room_url, '_blank');
         })
         .catch((e) => {
@@ -132,6 +139,7 @@ export default {
     },
     deleteRoom(room) {
       this.isLoading = true;
+      this.setActiveModal('');
       const options = {
         method: 'DELETE',
         url: 'https://api.room.video.wiki/api/delete/room/',
@@ -174,7 +182,6 @@ export default {
 .custm-style:hover {
   box-shadow: none !important;
 }
-
 .room_list {
   border-top: 1px solid white;
   border-left: 1px solid white;

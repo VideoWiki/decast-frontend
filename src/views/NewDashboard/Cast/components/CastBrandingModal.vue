@@ -117,9 +117,9 @@ export default {
             };
             fileInput.click();
         },
-        handleConfirmBranding(){
+        async handleConfirmBranding(){
             if (this.castType === 'branded-cast') {
-                this.createCast();
+                await this.createCast();
                 this.setActiveModal('castInviteModal');
             } else {
                 this.setActiveModal('castAdvancedModal')

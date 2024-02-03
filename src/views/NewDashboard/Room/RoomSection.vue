@@ -10,7 +10,7 @@
 
       <div class="cursor-pointer">
         <vx-tooltip text="/ Create Room" position="left">
-          <img @click="setActiveModal('createRoom')" src="@/assets/images/pixel_create.svg" />
+          <img @click="setActiveModal('createRoomModal')" src="@/assets/images/pixel_create.svg" />
         </vx-tooltip>
       </div>
     </div>
@@ -73,7 +73,7 @@
       </div>
     </div>
     </div>
-    <CreateRoomModal v-if="activeModal==='createRoom'" :closeModal="() => setActiveModal('')"/>
+    <CreateRoomModal v-if="activeModal==='createRoomModal'" :closeModal="() => setActiveModal('')"/>
   </div>
 </template>
 
@@ -91,11 +91,11 @@ export default {
     RoomCardShimmer,
     RecordingCard,
     RecordingCardShimmer,
-    CreateRoomModal
+    CreateRoomModal,
 },
   data() {
     return {
-      activeModal: '',
+      activeModal: '', //createRoomModal
       isRecordingLoading: false,
       focusYourRooms: true,
       rooms: [],

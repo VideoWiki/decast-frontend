@@ -50,8 +50,8 @@ export default {
     methods: {
         async handleConfirmType(){
             if(this.castType==='quick-cast'){
-                this.stepOneProps.event_name = 'Decast_Quick_Room';
-                this.stepOneProps.description = 'Decast_Quick_Room';
+                this.stepOneProps.event_name = 'Decast_Quick_Cast';
+                this.stepOneProps.description = 'Decast_Quick_Cast';
                 await this.createCast();
                 this.setActiveModal('castInviteModal');
             }else {
