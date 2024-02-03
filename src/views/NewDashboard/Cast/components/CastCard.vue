@@ -144,7 +144,7 @@
         :setActiveModal="setActiveModal" />
       <DeleteCastModal v-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
         :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
-      <CreateNftModal v-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" />
+      <CreateNftModal v-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" :castId="castDetails.public_meeting_id" :castDetails="castDetails"/>
     </div>
   </div>
 </template>
@@ -359,10 +359,11 @@ export default {
         attendee: this.castDetails.invitee_list.length,
         isLive: this.castDetails.is_running,
         date: this.castDetails.event_date,
-        type: this.castDetails.type,
+        type: this.castDetails.cast_type,
         recording: this.castDetails.recording_available,
         name: this.castDetails.event_name,
-
+        nftEnable:this.castDetails.nft_details_submitted,
+        time:this.castDetails.event_time,
       });
     },
     setActiveModal(modalName) {

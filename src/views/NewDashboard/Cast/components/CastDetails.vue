@@ -13,8 +13,8 @@
             <p class="basic_detail_cont_">>> Total Attendees > <span class="text-white">{{ selectedCastId.attendee }}</span>
             </p>
             <p class="basic_detail_cont_">>> Scheduled Date > <span class="text-white">{{ selectedCastId.date }}</span></p>
-            <p class="basic_detail_cont_">>> Scheduled Time > <span class="text-white">9:00 PM</span></p>
-            <p class="basic_detail_cont_">>> NFT Drop > <span class="text-white">false</span></p>
+            <p class="basic_detail_cont_">>> Scheduled Time > <span class="text-white">{{ selectedCastId.time }}</span></p>
+            <p class="basic_detail_cont_">>> NFT Drop > <span class="text-white">{{selectedCastId.nftEnable }}</span></p>
             <p class="basic_detail_cont_">>> Live Casting > <span class="text-white">{{ selectedCastId.isLive }}</span></p>
             <p class="basic_detail_cont_">>> Recording available > <span class="text-white">{{ selectedCastId.recording
             }}</span></p>
