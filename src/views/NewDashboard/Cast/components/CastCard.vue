@@ -30,7 +30,7 @@
             <img v-if="cast.is_running === 'true'" src="@/assets/images/end.svg" />
           </vs-button>
         </div>
-        <CastOptionsModal v-if="activeModal==='castOptionsModal'" :closeModal="() => setActiveModal('')"/>
+        <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')" />
 
       </div>
 
@@ -67,68 +67,56 @@
             </div>
           </div>
         </div>
-        <div v-if="hasTwitchStream"
-          class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
-          <div>www.twitch.tv</div>
-          <div class="flex gap-2 justify-center items-center">
-            <vs-button class="custm-style">
-              <img src="@/assets/images/copy.svg" />
-            </vs-button>
-            <div class="basic_stream_btn_cont_">
-              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
-                  <img src="@/assets/images/pause_stream.svg" alt="" />
-                </vs-button>
-              </vx-tooltip>
-              <vx-tooltip v-else text="Start Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
-                  <img src="@/assets/images/start_stream.svg" alt="" />
-                </vs-button>
-              </vx-tooltip>
-            </div>
+        <div v-if="hasTwitchStream || hasYoutubeStream || hasFacebookStream" class="basic_stream_div_ flex flex-row justify-start items-center gap-5 w-full py-1 px-2">
+          <div v-if="hasTwitchStream"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35" viewBox="0,0,256,256"
+              style="fill:#000000;">
+              <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                <g transform="scale(5.12,5.12)">
+                  <path
+                    d="M5.3125,1l-0.25,0.65625l-3,8l-0.0625,0.15625v33.1875h11v6h7.40625l0.3125,-0.28125l5.71875,-5.71875h8.96875l0.3125,-0.28125l12.28125,-12.28125v-29.4375zM6.6875,3h39.3125v26.59375l-11.40625,11.40625h-9l-6,6h-4.59375v-6h-11v-30.8125zM10,5v30h8v7.40625l1.71875,-1.6875l5.71875,-5.71875h11.96875l0.3125,-0.28125l6,-6l0.28125,-0.3125v-23.40625zM12,7h30v20.5625l-5.4375,5.4375h-11.96875l-0.3125,0.28125l-4.28125,4.28125v-4.5625h-8zM20,13v14h6v-14zM30,13v14h6v-14zM22,15h2v10h-2zM32,15h2v10h-2z">
+                  </path>
+                </g>
+              </g>
+            </svg></div>
+
+          <div v-if="hasYoutubeStream">
+            <svg fill="#ffffff" height="35px" width="35px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <g>
+                  <g>
+                    <path
+                      d="M435.574,59.858H76.426C34.285,59.858,0,94.143,0,136.284v171.023c0,4.427,3.589,8.017,8.017,8.017 c4.427,0,8.017-3.589,8.017-8.017V136.284c0-33.3,27.092-60.393,60.393-60.393h359.148c33.3,0,60.393,27.092,60.393,60.393 v239.432c0,33.3-27.092,60.393-60.393,60.393H76.426c-33.3,0-60.393-27.092-60.393-60.393v-34.205 c0-4.427-3.589-8.017-8.017-8.017c-4.427,0-8.017,3.589-8.017,8.017v34.205c0,42.141,34.285,76.426,76.426,76.426h359.148 c42.141,0,76.426-34.285,76.426-76.426V136.284C512,94.143,477.715,59.858,435.574,59.858z">
+                    </path>
+                  </g>
+                </g>
+                <g>
+                  <g>
+                    <path
+                      d="M362.982,249.278l-34.205-22.233c-3.712-2.412-8.677-1.359-11.091,2.353c-2.412,3.712-1.36,8.677,2.353,11.091 l23.864,15.511l-148.296,96.394V159.607l98.779,64.206c3.711,2.411,8.678,1.359,11.09-2.353c2.414-3.712,1.36-8.677-2.353-11.091 l-111.165-72.256c-5.24-3.407-12.384,0.491-12.384,6.721v222.33c0,6.226,7.142,10.131,12.385,6.721l171.023-111.165 C367.761,259.615,367.76,252.385,362.982,249.278z">
+                    </path>
+                  </g>
+                </g>
+              </g>
+            </svg>
           </div>
-        </div>
-        <div v-if="hasYoutubeStream"
-          class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
-          <div>www.youtube.com</div>
-          <div class="flex gap-2 justify-center items-center">
-            <vs-button class="custm-style">
-              <img src="@/assets/images/copy.svg" />
-            </vs-button>
-            <div class="basic_stream_btn_cont_">
-              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
-                  <img src="@/assets/images/pause_stream.svg" alt="" />
-                </vs-button>
-              </vx-tooltip>
-              <vx-tooltip v-else text="Start Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
-                  <img src="@/assets/images/start_stream.svg" alt="" />
-                </vs-button>
-              </vx-tooltip>
-            </div>
-          </div>
-        </div>
-        <div v-if="hasFacebookStream"
-          class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
-          <div>www.facebook.com</div>
-          <div class="flex gap-2 justify-center items-center">
-            <vs-button class="custm-style">
-              <img src="@/assets/images/copy.svg" />
-            </vs-button>
-            <div class="basic_stream_btn_cont_">
-              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
-                  <img src="@/assets/images/pause_stream.svg" alt="" />
-                </vs-button>
-              </vx-tooltip>
-              <vx-tooltip v-else text="Start Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
-                  <img src="@/assets/images/start_stream.svg" alt="" />
-                </vs-button>
-              </vx-tooltip>
-            </div>
-          </div>
+
+          <div v-if="hasFacebookStream"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35" viewBox="0,0,256,256"
+              style="fill:#000000;">
+              <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                <g transform="scale(5.12,5.12)">
+                  <path
+                    d="M9,4c-2.74952,0 -5,2.25048 -5,5v32c0,2.74952 2.25048,5 5,5h16.83203c0.10799,0.01785 0.21818,0.01785 0.32617,0h5.67383c0.10799,0.01785 0.21818,0.01785 0.32617,0h8.8418c2.74952,0 5,-2.25048 5,-5v-32c0,-2.74952 -2.25048,-5 -5,-5zM9,6h32c1.66848,0 3,1.33152 3,3v32c0,1.66848 -1.33152,3 -3,3h-8v-14h3.82031l1.40039,-7h-5.2207v-2c0,-0.55749 0.05305,-0.60107 0.24023,-0.72266c0.18718,-0.12159 0.76559,-0.27734 1.75977,-0.27734h3v-5.63086l-0.57031,-0.27149c0,0 -2.29704,-1.09766 -5.42969,-1.09766c-2.25,0 -4.09841,0.89645 -5.28125,2.375c-1.18284,1.47855 -1.71875,3.45833 -1.71875,5.625v2h-3v7h3v14h-16c-1.66848,0 -3,-1.33152 -3,-3v-32c0,-1.66848 1.33152,-3 3,-3zM32,15c2.07906,0 3.38736,0.45846 4,0.70117v2.29883h-1c-1.15082,0 -2.07304,0.0952 -2.84961,0.59961c-0.77656,0.50441 -1.15039,1.46188 -1.15039,2.40039v4h4.7793l-0.59961,3h-4.17969v16h-4v-16h-3v-3h3v-4c0,-1.83333 0.46409,-3.35355 1.28125,-4.375c0.81716,-1.02145 1.96875,-1.625 3.71875,-1.625z">
+                  </path>
+                </g>
+              </g>
+            </svg></div>
         </div>
       </div>
     </div>
@@ -392,10 +380,14 @@ export default {
   methods: {
     handleCardClick() {
       this.$emit('card-click', {
-        castLs:this.cast,
-        id:this.cast.public_meeting_id,
-        attendee:this.cast.invitee_list.length,
-        isLive:this.cast.is_running,
+        castLs: this.cast,
+        id: this.cast.public_meeting_id,
+        attendee: this.cast.invitee_list.length,
+        isLive: this.cast.is_running,
+        date:this.cast.event_date,
+        type:this.cast.type,
+        recording:this.cast.recording_available,
+        name:this.cast.event_name,
       });
     },
     setActiveModal(modalName) {
@@ -451,64 +443,64 @@ export default {
       return newTime;
     },
     setProps() {
-        // console.log("castsInfoDismiss", this.castsInfo, this.cast)
-        const details = this.castsInfo[this.cast.public_meeting_id].details;
-        this.stepOneProps.event_name= details.event_name;
-        this.stepOneProps.moderator_password= '';
-        this.stepOneProps.attendee_password= '';
-        this.stepOneProps.meeting_type= '';
-        this.stepOneProps.schedule_time= details.schedule_time;
-        this.stepOneProps.description= details.description;
-        this.stepOneProps.startTime= '0:00:00';
-        this.stepOneProps.timezone= details.timezone;
-        this.stepOneProps.startD= moment().format('YYYY-MM-DD');
-        this.stepOneProps.password_auth= details.password_auth;
-        this.stepOneProps.auth_type= details.cast_type;
-        this.stepOneProps.send_otp= details.otp_private;
-        this.stepOneProps.public_auth= false;
-        this.stepOneProps.public_otp= details.collect_attendee_email;
+      // console.log("castsInfoDismiss", this.castsInfo, this.cast)
+      const details = this.castsInfo[this.cast.public_meeting_id].details;
+      this.stepOneProps.event_name = details.event_name;
+      this.stepOneProps.moderator_password = '';
+      this.stepOneProps.attendee_password = '';
+      this.stepOneProps.meeting_type = '';
+      this.stepOneProps.schedule_time = details.schedule_time;
+      this.stepOneProps.description = details.description;
+      this.stepOneProps.startTime = '0:00:00';
+      this.stepOneProps.timezone = details.timezone;
+      this.stepOneProps.startD = moment().format('YYYY-MM-DD');
+      this.stepOneProps.password_auth = details.password_auth;
+      this.stepOneProps.auth_type = details.cast_type;
+      this.stepOneProps.send_otp = details.otp_private;
+      this.stepOneProps.public_auth = false;
+      this.stepOneProps.public_otp = details.collect_attendee_email;
 
-        this.stepTwoProps.BackImageURL= '';
-        this.stepTwoProps.imageURL= '';
-        this.stepTwoProps.primary_color= details.primary_color;
-        this.stepTwoProps.secondary_color= '';
-        this.stepTwoProps.logo= details.logo;
-        this.stepTwoProps.back_image= '';
-        this.stepTwoProps.cover_image= details.cover_image;
-        this.stepTwoProps.cover_image_error= false;
-        this.stepTwoProps.back_image_error= false;
-        this.stepTwoProps.banner_text= details.banner_text;
-        this.stepTwoProps.moderator_only_text='You are a Moderator, you can control who presents and participates in the live cast';
-        this.stepTwoProps.guest_policy= details.guest_policy;
-        this.stepTwoProps.welcome_text= details.welcome_text;
-        this.stepTwoProps.showText= true;
-        this.stepTwoProps.duration= details.duration;
-        this.stepTwoProps.logout_url= details.logout_url;
-      
-        this.stepThreeProps.vw_stream= false;
-        this.stepThreeProps.vw_stream_url= details.bbb_stream_url;
-        this.stepThreeProps.is_streaming= details.is_streaming;
-        this.stepThreeProps.public_stream= details.public_stream;
-      
-        this.stepFourProps.start_stop_recording= details.record;
-        this.stepFourProps.record= details.record;
-        this.stepFourProps.mute_on_start= details.mute_on_start;
-        this.stepFourProps.end_when_no_moderator= details.end_when_no_moderator;
-        this.stepFourProps.allow_moderator_to_unmute_user= details.allow_moderator_to_unmute_user;
-        this.stepFourProps.webcam_only_for_moderator= details.webcam_only_for_moderator;
-        this.stepFourProps.auto_start_recording= details.auto_start_recording;
-        this.stepFourProps.allow_start_stop_recording= details.record;
-        this.stepFourProps.disable_cam= details.disable_cam;
-        this.stepFourProps.disable_mic= details.disable_mic;
-        this.stepFourProps.lock_layout= details.lock_layout;
-        this.stepFourProps.lock_on_join= false;
-        this.stepFourProps.viewer_mode= details.viewer_mode;
-        this.stepFourProps.viewer_password= false;
-        this.stepFourProps.listen_only_mode= true;
-        this.stepFourProps.webcam_enable= false;
-        this.stepFourProps.screen_sharing= true;
-        this.stepFourProps.restrict_participants= false;
-        this.stepFourProps.meeting_settings= false;
+      this.stepTwoProps.BackImageURL = '';
+      this.stepTwoProps.imageURL = '';
+      this.stepTwoProps.primary_color = details.primary_color;
+      this.stepTwoProps.secondary_color = '';
+      this.stepTwoProps.logo = details.logo;
+      this.stepTwoProps.back_image = '';
+      this.stepTwoProps.cover_image = details.cover_image;
+      this.stepTwoProps.cover_image_error = false;
+      this.stepTwoProps.back_image_error = false;
+      this.stepTwoProps.banner_text = details.banner_text;
+      this.stepTwoProps.moderator_only_text = 'You are a Moderator, you can control who presents and participates in the live cast';
+      this.stepTwoProps.guest_policy = details.guest_policy;
+      this.stepTwoProps.welcome_text = details.welcome_text;
+      this.stepTwoProps.showText = true;
+      this.stepTwoProps.duration = details.duration;
+      this.stepTwoProps.logout_url = details.logout_url;
+
+      this.stepThreeProps.vw_stream = false;
+      this.stepThreeProps.vw_stream_url = details.bbb_stream_url;
+      this.stepThreeProps.is_streaming = details.is_streaming;
+      this.stepThreeProps.public_stream = details.public_stream;
+
+      this.stepFourProps.start_stop_recording = details.record;
+      this.stepFourProps.record = details.record;
+      this.stepFourProps.mute_on_start = details.mute_on_start;
+      this.stepFourProps.end_when_no_moderator = details.end_when_no_moderator;
+      this.stepFourProps.allow_moderator_to_unmute_user = details.allow_moderator_to_unmute_user;
+      this.stepFourProps.webcam_only_for_moderator = details.webcam_only_for_moderator;
+      this.stepFourProps.auto_start_recording = details.auto_start_recording;
+      this.stepFourProps.allow_start_stop_recording = details.record;
+      this.stepFourProps.disable_cam = details.disable_cam;
+      this.stepFourProps.disable_mic = details.disable_mic;
+      this.stepFourProps.lock_layout = details.lock_layout;
+      this.stepFourProps.lock_on_join = false;
+      this.stepFourProps.viewer_mode = details.viewer_mode;
+      this.stepFourProps.viewer_password = false;
+      this.stepFourProps.listen_only_mode = true;
+      this.stepFourProps.webcam_enable = false;
+      this.stepFourProps.screen_sharing = true;
+      this.stepFourProps.restrict_participants = false;
+      this.stepFourProps.meeting_settings = false;
     },
     copy(id, pass) {
       if (pass === undefined) {
@@ -604,4 +596,5 @@ export default {
 .basic_stream_div_:hover {
   border: 1px solid #d7df23 !important;
   cursor: pointer;
-}</style>
+}
+</style>

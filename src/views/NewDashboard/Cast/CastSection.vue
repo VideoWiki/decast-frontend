@@ -586,6 +586,11 @@ export default {
   border: 2px solid #272727;
   box-shadow: 3px 3px 0px 0px #272727;
   height: 53vh;
+  overflow: scroll !important;
+}
+
+.cast_details::-webkit-scrollbar {
+  display: none;
 }
 
 .cast_header {
