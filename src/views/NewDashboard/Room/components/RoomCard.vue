@@ -1,7 +1,7 @@
 <template>
   <div>
     <RoomCardShimmer v-if="isLoading" />
-    <div class="room_list flex justify-between items-center mb-4 w-full py-2 px-6">
+    <div v-else class="room_list flex justify-between items-center mb-4 w-full py-2 px-6">
       <div>
         <p style="font-size: 16px; font-weight: 600 width: 50%">
           {{ truncateText(room.room_name, 20) }}
@@ -9,19 +9,19 @@
       </div>
 
       <div class="flex justify-between items-center">
-        <SimpleMenu :menuList="roomCardMenuItems">
+        <!-- <SimpleMenu :menuList="roomCardMenuItems">
           <template #menuButton>
             <vs-button class="custm-style">
                 <img src="@/assets/images/menu.svg" />
             </vs-button>
           </template>
-        </SimpleMenu>
+        </SimpleMenu> -->
+        <vs-button class="custm-style" @click="setActiveModal('roomOptionsModal')">
+          <img src="@/assets/images/menu.svg" />
+        </vs-button>
         <div class="copy-btn-cont">
           <vx-tooltip text="Copy Link" position="bottom">
-            <vs-button
-              class="custm-style"
-              @click="copy(room.room_url)"
-            >
+            <vs-button class="custm-style" @click="copy(room.room_url)">
               <img src="@/assets/images/copy.svg" />
             </vs-button>
           </vx-tooltip>
@@ -33,27 +33,21 @@
         </vs-button>
       </div>
     </div>
-    <ConfirmationModal
-      v-if="activeModal === 'deleteRoom'"
-      :title="'Delete room'"
-      :description="'Do you really want to delete this room?'"
-      :onConfirm="onConfirm"
-      :closeModal="() => setRoomModal('')"
-    />
-    <ShareRoomModal
-      v-if="activeModal === 'shareRoom'"
-      :room="room"
-      :closeModal="() => setRoomModal('')"
-    />
+    <ShareRoomModal v-if="activeModal === 'shareRoomModal'" :room="room" :closeModal="() => setRoomModal('')" />
+    <RoomOptionsModal v-if="activeModal === 'roomOptionsModal'" :closeModal="() => setActiveModal('')"
+      :setActiveModal="setActiveModal" />
+    <DeleteRoomModal v-if="activeModal === 'deleteRoomModal'" :closeModal="() => setActiveModal('')"
+      :roomName="room.room_name" :confirmDelete="() => deleteRoom(room)" />
   </div>
 </template>
 <script>
 import axios from '@/axios';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
-import ConfirmationModal from '@/views/dashboard/components/ConfirmationModal.vue';
-import ShareRoomModal from '@/views/dashboard/room-section/components/ShareRoomModal.vue';
+import ShareRoomModal from './options-components/ShareRoomModal.vue';
 import RoomCardShimmer from './RoomCardShimmer.vue';
+import RoomOptionsModal from './RoomOptionsModal.vue';
+import DeleteRoomModal from './options-components/DeleteRoomModal.vue';
 
 export default {
   name: 'RoomCard',
@@ -61,40 +55,40 @@ export default {
   data() {
     return {
       isLoading: false,
-      activeModal: '',
+      activeModal: '', //roomOptionsModal
       text: '',
       rooms: [],
       sharePopup: false,
       recordings: [],
-      isRoomStart:false,
-      roomCardMenuItems: [
-        {
-          label: 'Share',
-          icon: () => import('@/assets/svgs/button-icons/share.vue'),
-          onClick: () => this.setRoomModal('shareRoom'),
-        },
-        {
-          label: 'Delete',
-          icon: () => import('@/assets/svgs/button-icons/delete.vue'),
-          onClick: () => this.setRoomModal('deleteRoom'),
-        },
-      ],
+      isRoomStart: false,
+      // roomCardMenuItems: [
+      //   {
+      //     label: 'Share',
+      //     icon: () => import('@/assets/svgs/button-icons/share.vue'),
+      //     onClick: () => this.setRoomModal('shareRoom'),
+      //   },
+      //   {
+      //     label: 'Delete',
+      //     icon: () => import('@/assets/svgs/button-icons/delete.vue'),
+      //     onClick: () => this.setRoomModal('deleteRoom'),
+      //   },
+      // ],
     };
   },
   components: {
     SimpleMenu,
     MoreIcon,
-    ConfirmationModal,
     ShareRoomModal,
     RoomCardShimmer,
+    RoomOptionsModal,
+    DeleteRoomModal,
   },
   methods: {
+    setActiveModal(modalName) {
+      this.activeModal = modalName;
+    },
     setRoomModal(setModal) {
       this.activeModal = setModal;
-    },
-    onConfirm() {
-      this.deleteRoom(this.room);
-      this.activeModal = '';
     },
     truncateText(text, maxLength) {
       if (text.length > maxLength) {
@@ -124,9 +118,9 @@ export default {
       this.$store
         .dispatch('room/start', id)
         .then((res) => {
-          this.isRoomStart=true;
+          this.isRoomStart = true;
           console.log(res.data);
-          window.open(res.data.room_url,'_blank');
+          window.open(res.data.room_url, '_blank');
         })
         .catch((e) => {
           console.log(e);
@@ -134,6 +128,7 @@ export default {
     },
     deleteRoom(room) {
       this.isLoading = true;
+      this.setActiveModal('');
       const options = {
         method: 'DELETE',
         url: 'https://api.room.video.wiki/api/delete/room/',
@@ -166,33 +161,31 @@ export default {
   font-family: 'JetBrains Mono', monospace !important;
 }
 
-.custm-style{
-    background: none !important;
-    outline: none !important;
-    border: none !important;
-    background-color: transparent !important;
+.custm-style {
+  background: none !important;
+  outline: none !important;
+  border: none !important;
+  background-color: transparent !important;
 }
 
-.custm-style:hover{
-    box-shadow: none !important;
+.custm-style:hover {
+  box-shadow: none !important;
 }
 
 .room_list {
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 2px solid white;
-    border-bottom: 2px solid white;
-    box-shadow: 3px 3px 0px 0px white;
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  box-shadow: 3px 3px 0px 0px white;
 }
 
-.room_list:hover{
-    border-top: 1px solid #D7DF23;
-    border-left: 1px solid #D7DF23;
-    border-right: 2px solid #D7DF23;
-    border-bottom: 2px solid #D7DF23;
-    box-shadow: 3px 3px 0px 0px #D7DF23;
+.room_list:hover {
+  border-top: 1px solid #D7DF23;
+  border-left: 1px solid #D7DF23;
+  border-right: 2px solid #D7DF23;
+  border-bottom: 2px solid #D7DF23;
+  box-shadow: 3px 3px 0px 0px #D7DF23;
 }
-
-
 </style>
 

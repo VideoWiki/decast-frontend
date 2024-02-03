@@ -14,7 +14,7 @@
     </div>
 
     <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
-      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :getCastList="getCastList" :inviteData="inviteData"/>
+      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :getCastList="getCastList"/>
 
     <div class="flex flex-row gap-12 w-full">
       <div class="flex flex-col gap-6 w-1/2">
@@ -35,17 +35,15 @@
               <CastCardShimmer />
               <CastCardShimmer :style="{ opacity: 0.6 }" />
             </div>
-            <div v-else v-for="(cast, index) in castList" :key="index">
-              <CastCard  
-                :castDetails="cast" :index="index"
-                :getCastList="getCastList" 
-                @card-click="handleCardClick" />
+            <div v-else v-for="(cast, index) in casts" :key="index">
+              <CastCard :streamInfo="streamInfo" :castsInfo="castsInfo" :cast="cast" :index="index"
+                :getCastList="getCastList" @card-click="handleCardClick"/>
             </div>
           </div>
         </div>
       </div>
       <div class="cast_details w-1/2 p-5">
-        <CastDetails :selectedCastId="selectedCastId" />
+        <CastDetails :selectedCastId="selectedCastId"/>
       </div>
     </div>
   </div>
@@ -62,17 +60,15 @@ export default {
   data() {
     return {
       activeModal: '',
-      castList: [],
       focusYourRooms: true,
       isCastsLoading: false,
       showCastIsLive: false,
       index: '',
       moment,
       casts: [],
-      // castsInfo: [], unused
-      // castInfo: {},
-      // streamInfo: {},
-      inviteData: null,
+      castsInfo: [],
+      castInfo: {},
+      streamInfo: {},
       isStream: false,
       viewer: false,
       selectedCastId: null,
@@ -200,7 +196,7 @@ export default {
   methods: {
     handleCardClick(details) {
       this.selectedCastId = details;
-      console.log(this.selectedCastId, 'fkflllldijji');
+      console.log(this.selectedCastId,'fkflllldijji');
     },
     validateFormOne() {
       if (
@@ -360,7 +356,7 @@ export default {
       return this.$store
         .dispatch('cast/submitForm', this.formData)
         .then(async (response) => {
-          this.getCastList();
+          await this.getCastList();
           this.status = 'success';
           this.$vs.loading.close();
           this.responsedata = response.data.message;
@@ -371,8 +367,7 @@ export default {
           });
           this.status = 'success';
           this.castId = response.data.meeting_id;
-          this.inviteData = response.data;
-          return;
+          return
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -443,19 +438,124 @@ export default {
         return text;
       }
     },
+    // setProps(id) {
+    //   const details = this.castsInfo[id].details;
+    //   console.log('details', details);
+    //   this.stepOneProps = {
+    //     event_name: details.event_name,
+    //     moderator_password: '',
+    //     attendee_password: '',
+    //     meeting_type: '',
+    //     schedule_time: details.schedule_time,
+    //     description: details.description,
+    //     startTime: '0:00:00',
+    //     timezone: details.timezone,
+    //     startD: moment().format('YYYY-MM-DD'),
+    //     password_auth: details.password_auth,
+    //     auth_type: details.cast_type,
+    //     send_otp: details.otp_private,
+    //     public_auth: false,
+    //     public_otp: details.collect_attendee_email,
+    //   };
+    //   this.stepTwoProps = {
+    //     BackImageURL: '',
+    //     imageURL: '',
+    //     primary_color: details.primary_color,
+    //     secondary_color: '',
+    //     logo: details.logo,
+    //     back_image: '',
+    //     cover_image: details.cover_image,
+    //     cover_image_error: false,
+    //     back_image_error: false,
+    //     banner_text: details.banner_text,
+    //     moderator_only_text:
+    //       'You are a Moderator, you can control who presents and participates in the live cast',
+    //     guest_policy: details.guest_policy,
+    //     welcome_text: details.welcome_text,
+    //     showText: true,
+    //     duration: details.duration,
+    //     logout_url: details.logout_url,
+    //   };
+    //   this.stepThreeProps = {
+    //     vw_stream: false,
+    //     vw_stream_url: details.bbb_stream_url,
+    //     is_streaming: details.is_streaming,
+    //     public_stream: details.public_stream,
+    //   };
+    //   this.stepFourProps = {
+    //     start_stop_recording: details.record,
+    //     record: details.record,
+    //     mute_on_start: details.mute_on_start,
+    //     end_when_no_moderator: details.end_when_no_moderator,
+    //     allow_moderator_to_unmute_user: details.allow_moderator_to_unmute_user,
+    //     webcam_only_for_moderator: details.webcam_only_for_moderator,
+    //     auto_start_recording: details.auto_start_recording,
+    //     allow_start_stop_recording: details.record,
+    //     disable_cam: details.disable_cam,
+    //     disable_mic: details.disable_mic,
+    //     lock_layout: details.lock_layout,
+    //     lock_on_join: false,
+    //     viewer_mode: details.viewer_mode,
+    //     viewer_password: false,
+    //     listen_only_mode: true,
+    //     webcam_enable: false,
+    //     screen_sharing: true,
+    //     restrict_participants: false,
+    //     meeting_settings: false,
+    //   };
+    // },
     async getCastList() {
       this.isCastsLoading = true;
-      try {
-        const response = await this.$store.dispatch('cast/getAllCasts');
-        if (response.data.my_events) {
-          const allEvents = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
-          this.castList = allEvents;
-          this.isCastsLoading = false;
+      const response = await this.$store.dispatch('cast/getUserCasts');
+      let casts = response.data.my_events;
+      casts = casts.sort((a, b) => b.event_id - a.event_id);
+      const castInfoPromises = casts.map(async (cast) => {
+        try {
+          const castDetails = await this.$store.dispatch(
+            'cast/editEvent',
+            cast.public_meeting_id
+          );
+          return { castId: cast.public_meeting_id, details: castDetails.data };
+        } catch (error) {
+          console.error(error);
+          return null;
         }
-      } catch (error) {
-        this.isCastsLoading = false;
-        console.log("Error in fetching cast detail");
-      }
+      });
+
+      const streamInfoPromise = casts.map(async (cast) => {
+        try {
+          const castDetails = await this.$store.dispatch(
+            'auth/eventDetail',
+            cast.public_meeting_id
+          );
+          return {
+            castId: cast.public_meeting_id,
+            details: castDetails.data.meeting_info,
+          };
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      const streamInfoList = await Promise.all(streamInfoPromise);
+      const castInfoList = await Promise.all(castInfoPromises);
+      const validCastInfoList = castInfoList.filter((info) => info !== null);
+      const validStreamInfo = streamInfoList.filter((info) => info !== null);
+      const castsInfo = {};
+      const streamInfo = {};
+      // console.log("castInfoPromises", casts, streamInfoList, castInfoList)
+      validCastInfoList.forEach((info) => {
+        castsInfo[info.castId] = info.details;
+      });
+      validStreamInfo.forEach((info) => {
+        if (info.details.stream_urls !== null)
+          streamInfo[info.castId] = info.details;
+      });
+      this.streamInfo = streamInfo;
+      this.castsInfo = castsInfo;
+      this.casts = casts;
+      this.isCastsLoading = false;
+      console.log(streamInfo, 'streamInfo');
     },
     toggleCopy(index) {
       this.showCopy = this.showCopy === index ? null : index;

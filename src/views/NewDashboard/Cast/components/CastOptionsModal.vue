@@ -8,7 +8,7 @@
                     </div>
                     <div class="flex justify-center items-center mt-16">
                         <div class="grid-container">
-                            <div class="grid-item" @click="setActiveModal('')">Token/NFT <br>Drop</div>
+                            <div class="grid-item" @click="setActiveModal('nftDropModal')">Token/NFT <br>Drop</div>
                             <div class="grid-item" @click="setActiveModal('')">Manage <br>Audience</div>
                             <div class="grid-item" @click="setActiveModal('')">Live <br>Streaming</div>
                             <div class="grid-item" @click="setActiveModal('')">Setup <br>Details</div>

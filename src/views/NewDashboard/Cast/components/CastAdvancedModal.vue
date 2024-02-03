@@ -18,6 +18,7 @@
                     <div class="modal-heading">
                         <h3>4.Advanced Settings (Optional)</h3>
                     </div>
+
                     <div class="flex flex-col mt-8">
                         <p class="collect-em-label">//Collect all attendees emails</p>
                         <span>collectEmails()</span>
@@ -28,6 +29,77 @@
                                 v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
                         </div>
                     </div>
+
+                    <div class="flex flex-col mt-8">
+                        <p class="collect-em-label">//Allow the recording of the session. Recording can be paused and restarted multiple times.</p>
+                        <span>recording()</span>
+                        <div class="flex flex-col mt-2">
+                            <button class="custm-toggle mb-1" 
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                            <button class="custm-toggle"
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mt-8">
+                        <p class="collect-em-label">//The event will automatically be recorded when it starts.</p>
+                        <span>autoRecording()</span>
+                        <div class="flex flex-col mt-2">
+                            <button class="custm-toggle mb-1" 
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                            <button class="custm-toggle"
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mt-8">
+                        <p class="collect-em-label">//Moderators will be able to unmute users.</p>
+                        <span>allowModUmute()</span>
+                        <div class="flex flex-col mt-2">
+                            <button class="custm-toggle mb-1" 
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                            <button class="custm-toggle"
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mt-8">
+                        <p class="collect-em-label">//Cast will end when all moderators leave.</p>
+                        <span>noModEnd()</span>
+                        <div class="flex flex-col mt-2">
+                            <button class="custm-toggle mb-1" 
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                            <button class="custm-toggle"
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mt-8">
+                        <p class="collect-em-label">//Layout of the Cast is locked and cannot be changed.</p>
+                        <span>lockLayout()</span>
+                        <div class="flex flex-col mt-2">
+                            <button class="custm-toggle mb-1" 
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                            <button class="custm-toggle"
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col mt-8">
+                        <p class="collect-em-label">//Collect all attendees emails</p>
+                        <span>collectEmails()</span>
+                        <div class="flex flex-col mt-2">
+                            <button class="custm-toggle mb-1" 
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                            <button class="custm-toggle"
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                        </div>
+                    </div>
+
+                    <div class="modal-heading mt-8">
+                        <h3>Participant Settings (Optional)</h3>
+                    </div>
+
                     <vs-button class="mt-8" type="border">>>create</vs-button>
                 </div>
                 <div class="cast-modal-bottom">

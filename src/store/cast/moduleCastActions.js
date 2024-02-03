@@ -2,6 +2,9 @@
 import axios from '../../axios';
 import constants from '../../../constant';
 export default {
+  async getAllCasts(){
+    return axios.get(constants.apiCastUrl + '/api/event/get/all/info/');
+  },
   async getCastList({ commit }) {
     try {
       const response = await axios.get(

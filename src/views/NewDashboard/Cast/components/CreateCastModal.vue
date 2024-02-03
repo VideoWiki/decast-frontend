@@ -8,7 +8,7 @@
   <CastBrandingModal v-else-if="activeModal === 'castBrandingModal'" :closeModal="closeModal" :stepOneProps="stepOneProps"
     :stepTwoProps="stepTwoProps" :createCast="createCast" :setActiveModal="setActiveModal" :castType="castType"/>
   <CastAdvancedModal v-else-if="activeModal === 'castAdvancedModal'" :closeModal="closeModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps"/>
-  <CastInviteModal v-else="activeModal==='castInviteModal'" :closeModal="closeModal" />
+  <CastInviteModal v-else="activeModal==='castInviteModal'" :closeModal="closeModal" :inviteData="inviteData"/>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ import CastTypeModal from './CastTypeModal.vue';
 
 export default {
   name: 'CreateCastModal',
-  props: ['closeModal', 'createCast', 'stepOneProps', 'stepTwoProps'],
+  props: ['closeModal', 'createCast', 'stepOneProps', 'stepTwoProps', 'inviteData'],
   components: {
     CastTypeModal,
     CastScheduleModal,

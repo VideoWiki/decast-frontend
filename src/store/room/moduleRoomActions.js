@@ -2,6 +2,13 @@
 import axios from '../../axios';
 import constant from '../../../constant';
 export default {
+  async checkUserExist({ commit }, payload){
+    try {
+      return await axios.get(`https://api.room.video.wiki/api/share/room/?email=${payload.email}&cast_id=${payload.cast_id}`);
+    }catch(e) {
+      console.log("Error: User not found")
+    }
+  },
   async getList({ commit }, payload) {
     const res = await axios.get('https://api.room.video.wiki/api/list/');
     console.log(res,'roomlkis');

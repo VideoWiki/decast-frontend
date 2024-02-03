@@ -1,10 +1,10 @@
 <template>
   <div>
     <CastCardShimmer v-if="isLoading" />
-    <div v-else class="cast_list flex flex-col justify-between items-center mb-4 w-full py-1 px-4 pb-3" @click="handleCardClick">
+    <div class="cast_list flex flex-col justify-between items-center mb-4 w-full py-1 px-4 pb-3" @click="handleCardClick">
       <div class="inner-child1 flex flex-row w-full justify-between items-center">
-        <p class="font-semibold text-lg flex items-center gap-4">{{ castDetails.event_name }}
-          <span class="text-red-500 text-sm flex items-center gap-2" v-if="castDetails.is_running === 'true'"><span
+        <p class="font-semibold text-lg flex items-center gap-4">{{ cast.event_name }}
+          <span class="text-red-500 text-sm flex items-center gap-2" v-if="cast.is_running === 'true'"><span
               class="basic_live_dot_ rounded-full"></span>LIVE</span>
         </p>
         <div class="inner-div2 flex justify-between items-center">
@@ -21,9 +21,9 @@
           </SimpleMenu>
           <vs-button class="custm-style">
             <img v-if="isCastStart" src="@/assets/images/end.svg" />
-            <img v-if="castDetails.is_running === 'false' && !isCastStart" @click="joinNow(castDetails.public_meeting_id)"
+            <img v-if="cast.is_running === 'false' && !isCastStart" @click="joinNow(cast.public_meeting_id)"
               src="@/assets/images/start.svg" />
-            <img v-if="castDetails.is_running === 'true'" src="@/assets/images/end.svg" />
+            <img v-if="cast.is_running === 'true'" src="@/assets/images/end.svg" />
           </vs-button>
         </div>
       </div>
@@ -31,14 +31,14 @@
       <div class="text-left w-full">
         <span class="basic_date_btn_ text-white text-md">
           {{
-            moment(castDetails.event_date).format('DD MMM') +
+            moment(cast.event_date).format('DD MMM') +
             ' ' +
-            NewTime(castDetails.event_date, castDetails.event_time)
+            NewTime(cast.event_date, cast.event_time)
           }}
         </span>
       </div>
 
-      <div v-if="castDetails.stream_urls" class="mt-6 flex flex-col justify-between gap-4 w-full">
+      <div v-if="streamInfo[cast.public_meeting_id]" class="mt-6 flex flex-col justify-between gap-4 w-full">
         <p class="text-left font-semibold">Live Casting :</p>
         <div v-if="hasDecastStream"
           class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
@@ -48,13 +48,13 @@
               <img src="@/assets/images/copy.svg" />
             </vs-button>
             <div class="basic_stream_btn_cont_">
-              <vx-tooltip v-if="castDetails.stream_status" text="Pause Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'pause')">
+              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
                   <img src="@/assets/images/pause_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
               <vx-tooltip v-else text="Start Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'start')">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
                   <img src="@/assets/images/start_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
@@ -69,13 +69,13 @@
               <img src="@/assets/images/copy.svg" />
             </vs-button>
             <div class="basic_stream_btn_cont_">
-              <vx-tooltip v-if="castDetails.stream_status" text="Pause Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'pause')">
+              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
                   <img src="@/assets/images/pause_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
               <vx-tooltip v-else text="Start Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'start')">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
                   <img src="@/assets/images/start_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
@@ -90,13 +90,13 @@
               <img src="@/assets/images/copy.svg" />
             </vs-button>
             <div class="basic_stream_btn_cont_">
-              <vx-tooltip v-if="castDetails.stream_status" text="Pause Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'pause')">
+              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
                   <img src="@/assets/images/pause_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
               <vx-tooltip v-else text="Start Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'start')">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
                   <img src="@/assets/images/start_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
@@ -111,13 +111,13 @@
               <img src="@/assets/images/copy.svg" />
             </vs-button>
             <div class="basic_stream_btn_cont_">
-              <vx-tooltip v-if="castDetails.stream_status" text="Pause Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'pause')">
+              <vx-tooltip v-if="streamInfo[cast.public_meeting_id].stream_status" text="Pause Stream" position="bottom">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'pause')">
                   <img src="@/assets/images/pause_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
               <vx-tooltip v-else text="Start Stream" position="bottom">
-                <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'start')">
+                <vs-button class="custm-style" @click="toggleStream(cast.public_meeting_id, 'start')">
                   <img src="@/assets/images/start_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
@@ -129,8 +129,7 @@
     <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
       :setActiveModal="setActiveModal" />
     <DeleteCastModal v-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
-      :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
-    <CreateNftModal v-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')"/>
+      :castName="cast.event_name" :confirmDelete="() => deleteCast(cast.public_meeting_id)" />
   </div>
 </template>
 <script>
@@ -158,12 +157,13 @@ import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 import CastOptionsModal from './CastOptionsModal.vue';
 import CastCardShimmer from '@/views/NewDashboard/Cast/components/CastCardShimmer.vue';
 import DeleteCastModal from './options-components/DeleteCastModal.vue';
-import CreateNftModal from '../../nft/CreateNftModal.vue';
 
 export default {
   name: 'CastCard',
   props: [
-    'castDetails',
+    'streamInfo',
+    'castsInfo',
+    'cast',
     'index',
     // 'setProps',
     // 'stepOneProps',
@@ -209,17 +209,17 @@ export default {
         {
           label: 'Copy participant url',
           icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_ap),
+          onClick: () => this.copy(this.cast.public_meeting_id, this.cast.h_ap),
         },
         {
           label: 'Copy co-host url',
           icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_mp),
+          onClick: () => this.copy(this.cast.public_meeting_id, this.cast.h_mp),
         },
         {
           label: 'Copy stream url',
           icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, undefined),
+          onClick: () => this.copy(this.cast.public_meeting_id, undefined),
         },
       ],
 
@@ -316,33 +316,36 @@ export default {
     NftEdit,
     ShareNftLink,
     CastOptionsModal,
-    DeleteCastModal,
-    CreateNftModal
-},
+    DeleteCastModal
+  },
   mounted() {
     this.setProps();
   },
   computed: {
     hasYoutubeStream() {
-      return this.castDetails.stream_urls && this.castDetails.stream_urls.includes('youtube.com');
+      const streamInfo = this.streamInfo[this.cast.public_meeting_id];
+      return streamInfo && streamInfo.stream_urls.includes('youtube.com');
     },
     hasTwitchStream() {
-      return this.castDetails.stream_urls && this.castDetails.stream_urls.includes('twitch.tv');
+      const streamInfo = this.streamInfo[this.cast.public_meeting_id];
+      return streamInfo && streamInfo.stream_urls.includes('twitch.tv');
     },
     hasFacebookStream() {
-      return this.castDetails.stream_urls && this.castDetails.stream_urls.includes('facebook.com');
+      const streamInfo = this.streamInfo[this.cast.public_meeting_id];
+      return streamInfo && streamInfo.stream_urls.includes('facebook.com');
     },
     hasDecastStream() {
-      return this.castDetails.stream_urls && this.castDetails.stream_urls.includes('video.wiki');
+      const streamInfo = this.streamInfo[this.cast.public_meeting_id];
+      return streamInfo && streamInfo.stream_urls.includes('video.wiki');
     },
   },
   methods: {
     handleCardClick() {
       this.$emit('card-click', {
-        castLs: this.castDetails,
-        id: this.castDetails.public_meeting_id,
-        attendee: this.castDetails.invitee_list.length,
-        isLive: this.castDetails.is_running,
+        castLs: this.cast,
+        id: this.cast.public_meeting_id,
+        attendee: this.cast.invitee_list.length,
+        isLive: this.cast.is_running,
       });
     },
     setActiveModal(modalName) {
@@ -362,7 +365,8 @@ export default {
             text: 'Stream Started',
             color: 'success',
           });
-          this.castDetails.stream_status = !this.castDetails.stream_status;
+          this.streamInfo[id].stream_status =
+            !this.streamInfo[id].stream_status;
         } else {
           await this.$store.dispatch('studio/endStream', {
             cast_id: id,
@@ -373,7 +377,8 @@ export default {
             color: 'success',
           });
           // this.resetShowTooltip2();
-          this.castDetails.stream_status = !this.castDetails.stream_status;
+          this.streamInfo[id].stream_status =
+            !this.streamInfo[id].stream_status;
         }
       } catch (err) {
         this.$vs.notify({
@@ -396,56 +401,57 @@ export default {
       return newTime;
     },
     setProps() {
-      this.stepOneProps.event_name = this.castDetails.event_name;
+      const details = this.castsInfo[this.cast.public_meeting_id].details;
+      this.stepOneProps.event_name = details.event_name;
       this.stepOneProps.moderator_password = '';
       this.stepOneProps.attendee_password = '';
       this.stepOneProps.meeting_type = '';
-      this.stepOneProps.schedule_time = this.castDetails.schedule_time;
-      this.stepOneProps.description = this.castDetails.description;
+      this.stepOneProps.schedule_time = details.schedule_time;
+      this.stepOneProps.description = details.description;
       this.stepOneProps.startTime = '0:00:00';
-      this.stepOneProps.timezone = this.castDetails.timezone;
+      this.stepOneProps.timezone = details.timezone;
       this.stepOneProps.startD = moment().format('YYYY-MM-DD');
-      this.stepOneProps.password_auth = this.castDetails.password_auth;
-      this.stepOneProps.auth_type = this.castDetails.cast_type;
-      this.stepOneProps.send_otp = this.castDetails.otp_private;
+      this.stepOneProps.password_auth = details.password_auth;
+      this.stepOneProps.auth_type = details.cast_type;
+      this.stepOneProps.send_otp = details.otp_private;
       this.stepOneProps.public_auth = false;
-      this.stepOneProps.public_otp = this.castDetails.collect_attendee_email;
+      this.stepOneProps.public_otp = details.collect_attendee_email;
 
       this.stepTwoProps.BackImageURL = '';
       this.stepTwoProps.imageURL = '';
-      this.stepTwoProps.primary_color = this.castDetails.primary_color;
+      this.stepTwoProps.primary_color = details.primary_color;
       this.stepTwoProps.secondary_color = '';
-      this.stepTwoProps.logo = this.castDetails.logo;
+      this.stepTwoProps.logo = details.logo;
       this.stepTwoProps.back_image = '';
-      this.stepTwoProps.cover_image = this.castDetails.cover_image;
+      this.stepTwoProps.cover_image = details.cover_image;
       this.stepTwoProps.cover_image_error = false;
       this.stepTwoProps.back_image_error = false;
-      this.stepTwoProps.banner_text = this.castDetails.banner_text;
+      this.stepTwoProps.banner_text = details.banner_text;
       this.stepTwoProps.moderator_only_text = 'You are a Moderator, you can control who presents and participates in the live cast';
-      this.stepTwoProps.guest_policy = this.castDetails.guest_policy;
-      this.stepTwoProps.welcome_text = this.castDetails.welcome_text;
+      this.stepTwoProps.guest_policy = details.guest_policy;
+      this.stepTwoProps.welcome_text = details.welcome_text;
       this.stepTwoProps.showText = true;
-      this.stepTwoProps.duration = this.castDetails.duration;
-      this.stepTwoProps.logout_url = this.castDetails.logout_url;
+      this.stepTwoProps.duration = details.duration;
+      this.stepTwoProps.logout_url = details.logout_url;
 
       this.stepThreeProps.vw_stream = false;
-      this.stepThreeProps.vw_stream_url = this.castDetails.bbb_stream_url;
-      this.stepThreeProps.is_streaming = this.castDetails.is_streaming;
-      this.stepThreeProps.public_stream = this.castDetails.public_stream;
+      this.stepThreeProps.vw_stream_url = details.bbb_stream_url;
+      this.stepThreeProps.is_streaming = details.is_streaming;
+      this.stepThreeProps.public_stream = details.public_stream;
 
-      this.stepFourProps.start_stop_recording = this.castDetails.record;
-      this.stepFourProps.record = this.castDetails.record;
-      this.stepFourProps.mute_on_start = this.castDetails.mute_on_start;
-      this.stepFourProps.end_when_no_moderator = this.castDetails.end_when_no_moderator;
-      this.stepFourProps.allow_moderator_to_unmute_user = this.castDetails.allow_moderator_to_unmute_user;
-      this.stepFourProps.webcam_only_for_moderator = this.castDetails.webcam_only_for_moderator;
-      this.stepFourProps.auto_start_recording = this.castDetails.auto_start_recording;
-      this.stepFourProps.allow_start_stop_recording = this.castDetails.record;
-      this.stepFourProps.disable_cam = this.castDetails.disable_cam;
-      this.stepFourProps.disable_mic = this.castDetails.disable_mic;
-      this.stepFourProps.lock_layout = this.castDetails.lock_layout;
+      this.stepFourProps.start_stop_recording = details.record;
+      this.stepFourProps.record = details.record;
+      this.stepFourProps.mute_on_start = details.mute_on_start;
+      this.stepFourProps.end_when_no_moderator = details.end_when_no_moderator;
+      this.stepFourProps.allow_moderator_to_unmute_user = details.allow_moderator_to_unmute_user;
+      this.stepFourProps.webcam_only_for_moderator = details.webcam_only_for_moderator;
+      this.stepFourProps.auto_start_recording = details.auto_start_recording;
+      this.stepFourProps.allow_start_stop_recording = details.record;
+      this.stepFourProps.disable_cam = details.disable_cam;
+      this.stepFourProps.disable_mic = details.disable_mic;
+      this.stepFourProps.lock_layout = details.lock_layout;
       this.stepFourProps.lock_on_join = false;
-      this.stepFourProps.viewer_mode = this.castDetails.viewer_mode;
+      this.stepFourProps.viewer_mode = details.viewer_mode;
       this.stepFourProps.viewer_password = false;
       this.stepFourProps.listen_only_mode = true;
       this.stepFourProps.webcam_enable = false;
