@@ -12,7 +12,7 @@
         <!-- <SimpleMenu :menuList="roomCardMenuItems">
           <template #menuButton>
             <vs-button class="custm-style">
-                <img src="@/assets/images/menu.svg" />
+              <img src="@/assets/images/menu.svg" />
             </vs-button>
           </template>
         </SimpleMenu> -->
@@ -84,6 +84,15 @@ export default {
     DeleteRoomModal,
   },
   methods: {
+    handleRoomClick() {
+      let newId = this.room.room_url.split('/');
+      this.$emit('room-click', {
+        id: newId[newId.length - 1],
+        roomLs: this.roomsList,
+        roo: this.room,
+        roomName: this.room.room_name,
+      });
+    },
     setActiveModal(modalName) {
       this.activeModal = modalName;
     },
@@ -119,7 +128,9 @@ export default {
         .dispatch('room/start', id)
         .then((res) => {
           this.isRoomStart = true;
+          this.isRoomStart = true;
           console.log(res.data);
+          window.open(res.data.room_url, '_blank');
           window.open(res.data.room_url, '_blank');
         })
         .catch((e) => {
@@ -171,7 +182,6 @@ export default {
 .custm-style:hover {
   box-shadow: none !important;
 }
-
 .room_list {
   border-top: 1px solid white;
   border-left: 1px solid white;

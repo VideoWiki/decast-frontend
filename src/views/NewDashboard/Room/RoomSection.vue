@@ -43,7 +43,7 @@
           </div>
           <div v-else-if="rooms.length">
             <div v-for="(room, index) in rooms" :key="index">
-              <RoomCard :room="room" :index="index" :roomsList="rooms"/>
+              <RoomCard :room="room" :index="index" :roomsList="rooms" @room-click="handleRoomClick"/>
             </div>
           </div>
         </div>
@@ -103,6 +103,7 @@ export default {
       recordings: [],
       email: '',
       roomUrl: '',
+      selectedRoomDetails:null,
     };
   },
   computed: {
@@ -130,6 +131,10 @@ export default {
     this.getList();
   },
   methods: {
+    handleRoomClick(details) {
+      this.selectedRoomDetails = details;
+      console.log(this.selectedRoomDetails,'jfkll')
+    },
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
     },
