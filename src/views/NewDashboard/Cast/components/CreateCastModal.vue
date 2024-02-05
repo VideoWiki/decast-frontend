@@ -6,9 +6,10 @@
   <CastDetailModal v-else-if="activeModal === 'castDetailModal'" :closeModal="closeModal" :castType="castType"
     :setActiveModal="setActiveModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :createCast="createCast" />
   <CastBrandingModal v-else-if="activeModal === 'castBrandingModal'" :closeModal="closeModal" :stepOneProps="stepOneProps"
-    :stepTwoProps="stepTwoProps" :createCast="createCast" :setActiveModal="setActiveModal" :castType="castType"/>
-  <CastAdvancedModal v-else-if="activeModal === 'castAdvancedModal'" :closeModal="closeModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps"/>
-  <CastInviteModal v-else="activeModal==='castInviteModal'" :closeModal="closeModal" :inviteData="inviteData"/>
+    :stepTwoProps="stepTwoProps" :createCast="createCast" :setActiveModal="setActiveModal" :castType="castType" />
+  <CastAdvancedModal v-else-if="activeModal === 'castAdvancedModal'" :closeModal="closeModal" :stepOneProps="stepOneProps"
+    :stepTwoProps="stepTwoProps" :stepFourProps="stepFourProps" :createCast="createCast" :setActiveModal="setActiveModal"/>
+  <CastInviteModal v-else="activeModal==='castInviteModal'" :closeModal="closeModal" :inviteData="inviteData" />
 </template>
 
 <script>
@@ -21,7 +22,7 @@ import CastTypeModal from './CastTypeModal.vue';
 
 export default {
   name: 'CreateCastModal',
-  props: ['closeModal', 'createCast', 'stepOneProps', 'stepTwoProps', 'inviteData'],
+  props: ['closeModal', 'createCast', 'stepOneProps', 'stepTwoProps', 'stepThreeProps', 'stepFourProps', 'inviteData'],
   components: {
     CastTypeModal,
     CastScheduleModal,

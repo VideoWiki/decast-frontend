@@ -1,7 +1,8 @@
 <template>
   <div>
     <CastCardShimmer v-if="isLoading" />
-    <div v-else class="cast_list flex flex-col justify-between items-center mb-4 w-full py-1 px-4 pb-3" @click="handleCardClick">
+    <div v-else class="cast_list flex flex-col justify-between items-center mb-4 w-full py-1 px-4 pb-3"
+      @click="handleCardClick">
       <div class="inner-child1 flex flex-row w-full justify-between items-center">
         <p class="font-semibold text-lg flex items-center gap-4">{{ castDetails.event_name }}
           <span class="text-red-500 text-sm flex items-center gap-2" v-if="castDetails.is_running === 'true'"><span
@@ -126,11 +127,16 @@
         </div>
       </div>
     </div>
-    <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
+    <EditCastSchedule v-if="activeModal === 'editCastSchedule'" :closeModal="() => setActiveModal('')"
+      :setActiveModal="setActiveModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" />
+    <EditCastDetail v-else-if="activeModal === 'editCastDetail'" :closeModal="() => setActiveModal('')"
+      :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :createCast="createCast" />
+
+    <CastOptionsModal v-else-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
       :setActiveModal="setActiveModal" />
-    <DeleteCastModal v-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
+    <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
       :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
-    <CreateNftModal v-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')"/>
+    <CreateNftModal v-else-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" />
   </div>
 </template>
 <script>
@@ -159,6 +165,8 @@ import CastOptionsModal from './CastOptionsModal.vue';
 import CastCardShimmer from '@/views/NewDashboard/Cast/components/CastCardShimmer.vue';
 import DeleteCastModal from './options-components/DeleteCastModal.vue';
 import CreateNftModal from '../../nft/CreateNftModal.vue';
+import EditCastSchedule from './options-components/EditCastSchedule.vue';
+import EditCastDetail from './options-components/EditCastDetail.vue';
 
 export default {
   name: 'CastCard',
@@ -317,8 +325,10 @@ export default {
     ShareNftLink,
     CastOptionsModal,
     DeleteCastModal,
-    CreateNftModal
-},
+    CreateNftModal,
+    EditCastSchedule,
+    EditCastDetail
+  },
   mounted() {
     this.setProps();
   },

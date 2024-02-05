@@ -11,7 +11,7 @@
                             <div class="grid-item" @click="setActiveModal('nftDropModal')">Token/NFT <br>Drop</div>
                             <div class="grid-item" @click="setActiveModal('')">Manage <br>Audience</div>
                             <div class="grid-item" @click="setActiveModal('')">Live <br>Streaming</div>
-                            <div class="grid-item" @click="setActiveModal('')">Setup <br>Details</div>
+                            <div class="grid-item" @click="setActiveModal('editCastSchedule')">Setup <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('')">Basic <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('')">Branding <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('')">Advanced <br>Details</div>

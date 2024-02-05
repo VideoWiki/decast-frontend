@@ -14,7 +14,7 @@
     </div>
 
     <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
-      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :getCastList="getCastList" :inviteData="inviteData"/>
+      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps" :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData"/>
 
     <div class="flex flex-row gap-12 w-full">
       <div class="flex flex-col gap-6 w-1/2">

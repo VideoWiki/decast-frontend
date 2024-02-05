@@ -64,7 +64,7 @@ import { hoursFrame } from '@/views/NewDashboard/Cast/data/hoursFrame';
 import moment from 'moment-timezone';
 
 export default {
-    name: 'CastScheduleModal',
+    name: 'EditCastSchedule',
     props: ['closeModal', 'setActiveModal', 'stepOneProps', 'stepTwoProps'],
     components: {
         BaseModal,
@@ -82,7 +82,7 @@ export default {
     },
     methods: {
         handleConfirmSchedule() {
-            this.setActiveModal('castDetailModal');
+            this.setActiveModal('editCastDetail');
         },
         convertTo12(time) {
             return moment(time, 'HH:mm:ss').format('h:mm A');
