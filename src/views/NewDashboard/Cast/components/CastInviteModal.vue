@@ -7,7 +7,7 @@
                         <h3>Cast Created Successfully</h3>
                     </div>
                     <div class="flex invite-action-button">
-                        <div>
+                        <div @click="setActiveModal('nftDropModal')">
                             <p>Add NFT Drops</p>
                         </div>
                         <div>
@@ -49,7 +49,7 @@ import CopyIcon from "@/assets/svgs/button-icons/CopyIcon.vue"
 
 export default {
     name: 'CastInviteModal',
-    props: ['closeModal', 'inviteData'],
+    props: ['closeModal', 'inviteData', 'setActiveModal'],
     components: {
         BaseModal,
         CopyIcon,

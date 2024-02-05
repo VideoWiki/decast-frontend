@@ -1,10 +1,10 @@
 <template>
-    <BaseModal :title="'NFT/Token'" @close="closeModal">
+    <BaseModal :title="'Nft/Token'" @close="closeModal">
         <template #modalContent>
             <div class="modal-content-wrapper">
                 <div class="modal-content">
                     <div class="modal-heading">
-                        <h3>Create NFT/Token</h3>
+                        <h3>Edit NFT/Token</h3>
                     </div>
                     <div class="flex flex-col w-full items-start justify-start gap-6 mb-16">
                         <div class="flex flex-col gap-2 w-full pt-6">
@@ -124,7 +124,7 @@ import constants from '../../../../constant';
 import BaseModal from "@/components/common/BaseModal.vue";
 
 export default {
-    name: 'CreateNftModal',
+    name: 'EditNftModal',
     props: ['closeModal', 'castDetails', 'getCastList'],
     components: {
         BaseModal,

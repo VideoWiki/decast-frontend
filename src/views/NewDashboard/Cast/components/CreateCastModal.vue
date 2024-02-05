@@ -9,10 +9,12 @@
     :stepTwoProps="stepTwoProps" :createCast="createCast" :setActiveModal="setActiveModal" :castType="castType" />
   <CastAdvancedModal v-else-if="activeModal === 'castAdvancedModal'" :closeModal="closeModal" :stepOneProps="stepOneProps"
     :stepTwoProps="stepTwoProps" :stepFourProps="stepFourProps" :createCast="createCast" :setActiveModal="setActiveModal"/>
-  <CastInviteModal v-else="activeModal==='castInviteModal'" :closeModal="closeModal" :inviteData="inviteData" />
+  <CastInviteModal v-else-if="activeModal==='castInviteModal'" :closeModal="closeModal" :inviteData="inviteData" :setActiveModal="setActiveModal"/>
+  <CreateNftModal v-else="activeModal==='nftDropModal'" :closeModal="closeModal" :castDetails="inviteData" :getCastList="getCastList"/>
 </template>
 
 <script>
+import CreateNftModal from '../../nft/CreateNftModal.vue';
 import CastAdvancedModal from './CastAdvancedModal.vue';
 import CastBrandingModal from './CastBrandingModal.vue';
 import CastDetailModal from './CastDetailModal.vue';
@@ -22,19 +24,20 @@ import CastTypeModal from './CastTypeModal.vue';
 
 export default {
   name: 'CreateCastModal',
-  props: ['closeModal', 'createCast', 'stepOneProps', 'stepTwoProps', 'stepThreeProps', 'stepFourProps', 'inviteData'],
+  props: ['closeModal', 'createCast', 'stepOneProps', 'stepTwoProps', 'stepThreeProps', 'stepFourProps', 'inviteData', 'getCastList'],
   components: {
     CastTypeModal,
     CastScheduleModal,
     CastDetailModal,
     CastBrandingModal,
     CastAdvancedModal,
-    CastInviteModal
-  },
+    CastInviteModal,
+    CreateNftModal
+},
   data() {
     return {
       castType: 'quick-cast', //quick-cast, basic-cast, branded-cast, advanced-cast
-      activeModal: 'castTypeModal', //castTypeModal, castScheduleModal, castDetailModal, castBrandingModal, castAdvancedModal, castInviteModal
+      activeModal: 'castTypeModal', //castTypeModal, castScheduleModal, castDetailModal, castBrandingModal, castAdvancedModal, castInviteModal, nftDropModal
       formData: new FormData(),
       status: 'create',
       nft_details_submitted: false,

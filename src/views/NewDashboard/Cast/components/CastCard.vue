@@ -140,22 +140,22 @@
           </div>
         </div>
       </div>
-      <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
+      <!-- <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
         :setActiveModal="setActiveModal" />
       <DeleteCastModal v-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
         :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
-      <CreateNftModal v-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" :castId="castDetails.public_meeting_id" :castDetails="castDetails"/>
+      <CreateNftModal v-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" :castId="castDetails.public_meeting_id" :castDetails="castDetails"/> -->
     </div>
     <EditCastSchedule v-if="activeModal === 'editCastSchedule'" :closeModal="() => setActiveModal('')"
       :setActiveModal="setActiveModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" />
     <EditCastDetail v-else-if="activeModal === 'editCastDetail'" :closeModal="() => setActiveModal('')"
       :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :createCast="createCast" />
-
     <CastOptionsModal v-else-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
-      :setActiveModal="setActiveModal" />
+      :setActiveModal="setActiveModal" :castDetails="castDetails"/>
     <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
       :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
-    <CreateNftModal v-else-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" />
+    <CreateNftModal v-else-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" :castDetails="castDetails" :getCastList="getCastList"/>
+    <EditNftModal  v-else-if="activeModal === 'editNftDropModal'" :closeModal="() => setActiveModal('')" :castDetails="castDetails" :getCastList="getCastList"/>
   </div>
 </template>
 <script>
@@ -183,9 +183,10 @@ import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 import CastOptionsModal from './CastOptionsModal.vue';
 import CastCardShimmer from '@/views/NewDashboard/Cast/components/CastCardShimmer.vue';
 import DeleteCastModal from './options-components/DeleteCastModal.vue';
-import CreateNftModal from '../../nft/CreateNftModal.vue';
+import CreateNftModal from '@/views/NewDashboard/nft/CreateNftModal.vue';
 import EditCastSchedule from './options-components/EditCastSchedule.vue';
 import EditCastDetail from './options-components/EditCastDetail.vue';
+import EditNftModal from '@/views/NewDashboard/nft/EditNftModal.vue';
 
 export default {
   name: 'CastCard',
@@ -346,8 +347,9 @@ export default {
     DeleteCastModal,
     CreateNftModal,
     EditCastSchedule,
-    EditCastDetail
-  },
+    EditCastDetail,
+    EditNftModal
+},
   mounted() {
     this.setProps();
   },

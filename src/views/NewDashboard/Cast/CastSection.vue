@@ -13,9 +13,6 @@
       </div>
     </div>
 
-    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
-      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps" :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData"/>
-
     <div class="flex flex-row gap-12 w-full">
       <div class="flex flex-col gap-6 w-1/2">
         <div class="choose-room">
@@ -36,10 +33,7 @@
               <CastCardShimmer :style="{ opacity: 0.6 }" />
             </div>
             <div v-else v-for="(cast, index) in castList" :key="index">
-              <CastCard  
-                :castDetails="cast" :index="index"
-                :getCastList="getCastList" 
-                @card-click="handleCardClick" />
+              <CastCard :castDetails="cast" :index="index" :getCastList="getCastList" @card-click="handleCardClick" />
             </div>
           </div>
         </div>
@@ -48,6 +42,9 @@
         <CastDetails :selectedCastId="selectedCastId" />
       </div>
     </div>
+    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
+      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps"
+      :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData" />
   </div>
 </template>
 
@@ -486,11 +483,6 @@ export default {
   border: 2px solid #272727;
   box-shadow: 3px 3px 0px 0px #272727;
   height: 53vh;
-  overflow: scroll !important;
-}
-
-.cast_details::-webkit-scrollbar {
-  display: none;
 }
 
 .cast_header {

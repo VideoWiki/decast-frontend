@@ -8,7 +8,9 @@
                     </div>
                     <div class="flex justify-center items-center mt-16">
                         <div class="grid-container">
-                            <div class="grid-item" @click="setActiveModal('nftDropModal')">NFT/Token <br>Drop</div>
+                            <div class="grid-item" v-if="!castDetails.nft_details_submitted" @click="setActiveModal('nftDropModal')">NFT/Token <br>Drop</div>
+                            <div class="grid-item" v-else @click="setActiveModal('editNftDropModal')">Edit NFT/Token <br>Drop</div>
+
                             <div class="grid-item" @click="setActiveModal('')">Manage <br>Audience</div>
                             <div class="grid-item" @click="setActiveModal('')">Live <br>Streaming</div>
                             <div class="grid-item" @click="setActiveModal('editCastSchedule')">Setup <br>Details</div>
@@ -33,7 +35,7 @@ import BaseModal from "@/components/common/BaseModal.vue";
 
 export default {
     name: 'CastOptionsModal',
-    props: ['closeModal', 'setActiveModal'],
+    props: ['closeModal', 'setActiveModal', 'castDetails'],
     components: {
         BaseModal,
     },
