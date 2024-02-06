@@ -12,7 +12,7 @@
                             <div class="grid-item" v-else @click="setActiveModal('nftDropModal')">NFT/Token <br>Drop</div>
 
                             <div class="grid-item" @click="setActiveModal('manageAudienceModal')">Manage <br>Audience</div>
-                            <div class="grid-item" @click="setActiveModal('')">Live <br>Streaming</div>
+                            <div class="grid-item" @click="setActiveModal('liveStreamModal')">Live <br>Streaming</div>
                             <div class="grid-item" @click="setActiveModal('editSetupDetail')">Edit Setup <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('editBasicDetail')">Edit Basic <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('editBrandingDetail')">Edit Branding <br>Details</div>

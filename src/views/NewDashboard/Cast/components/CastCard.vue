@@ -146,9 +146,19 @@
       :setActiveModal="setActiveModal" :pub_nft_flow="castDetails.pub_nft_flow"
       :public_nft_status="castDetails.public_nft_status" :changePublicNftStatus="changePublicNftStatus"
       :nft_details_submitted="castDetails.nft_details_submitted" :vc_details_submitted="castDetails.vc_details_submitted"
-      :event_nft_enabled="!castDetails.pub_nft_flow && castDetails.nft_details_submitted" :certificate_enabled="castDetails.vc_details_submitted"
-      :castId="castDetails.public_meeting_id" :invites="castDetails.invitee_list"
-      :isStream="castDetails.stream_urls !== null" :viewer="castDetails.viewer_mode" />
+      :event_nft_enabled="!castDetails.pub_nft_flow && castDetails.nft_details_submitted"
+      :certificate_enabled="castDetails.vc_details_submitted" :castId="castDetails.public_meeting_id"
+      :invites="castDetails.invitee_list" :isStream="castDetails.stream_urls !== null"
+      :viewer="castDetails.viewer_mode" />
+    <LiveStreamModal v-else-if="activeModal === 'liveStreamModal'" :closeModal="() => setActiveModal('')"
+      :setActiveModal="setActiveModal" :castDetails="castDetails" :stepThreeProps="stepThreeProps"
+      :handleEditCast="handleEditCast" />
+    <YoutubeStreamModal v-else-if="activeModal === 'youtubeStreamModal'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast"/>
+    <FacebookStreamModal v-else-if="activeModal === 'facebookStreamModal'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast"/>
+    <TwitchStreamModal v-else-if="activeModal === 'twitchStreamModal'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast"/>
 
     <EditSetupDetail v-else-if="activeModal === 'editSetupDetail'" :closeModal="() => setActiveModal('')"
       :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :handleEditCast="handleEditCast" />
@@ -200,6 +210,10 @@ import EditBrandingDetail from './options-components/EditBrandingDetail.vue';
 import ManageAudModal from './options-components/ManageAudModal.vue'
 import EditNftModal from '@/views/NewDashboard/nft/EditNftModal.vue';
 import EditAdvanceDetail from './options-components/EditAdvanceDetail.vue';
+import LiveStreamModal from './options-components/LiveStreamModal.vue';
+import YoutubeStreamModal from './options-components/YoutubeStreamModal.vue';
+import TwitchStreamModal from './options-components/TwitchStreamModal.vue';
+import FacebookStreamModal from './options-components/FacebookStreamModal.vue';
 
 export default {
   name: 'CastCard',
@@ -364,7 +378,11 @@ export default {
     EditBasicDetail,
     EditBrandingDetail,
     EditNftModal,
-    EditAdvanceDetail
+    EditAdvanceDetail,
+    LiveStreamModal,
+    YoutubeStreamModal,
+    TwitchStreamModal,
+    FacebookStreamModal,
   },
   mounted() {
     this.setProps();
@@ -394,8 +412,8 @@ export default {
         cast_type: this.castDetails.cast_type,
         recording_available: this.castDetails.recording_available,
         event_name: this.castDetails.event_name,
-        nft_details_submitted:this.castDetails.nft_details_submitted,
-        event_time:this.castDetails.event_time,
+        nft_details_submitted: this.castDetails.nft_details_submitted,
+        event_time: this.castDetails.event_time,
       });
     },
     setActiveModal(modalName) {
