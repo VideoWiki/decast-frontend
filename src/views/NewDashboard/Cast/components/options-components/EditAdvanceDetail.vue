@@ -3,20 +3,8 @@
         <template #modalContent>
             <div class="modal-content-wrapper">
                 <div class="modal-content">
-                    <div class="cast-sc-detail">
-                        <p>>> Date > <span>{{ stepOneProps.startD }}</span></p>
-                        <p>>> Duration > <span>{{ stepTwoProps.duration / 60 }} Hours</span></p>
-                        <p>>> Time Zone > <span>{{ stepOneProps.timezone }}</span></p>
-                        <p>>> Start Time > <span>{{ stepOneProps.startTime }}</span></p>
-                        <p>>> Name > <span>{{ stepOneProps.event_name }}</span></p>
-                        <p>>> Description > <span>'{{ stepOneProps.description }}'</span></p>
-                        <p>>> Access Restriction > <span>{{ stepOneProps.auth_type }}</span></p>
-                        <p>>> Logo > <span>{{ stepTwoProps.logo }}</span></p>
-                        <p>>> Cover Image > <span>{{ stepTwoProps.cover_image }}</span></p>
-                        <p>>> Brand Colors > <span>{{ stepTwoProps.primary_color }}</span></p>
-                    </div>
                     <div class="modal-heading">
-                        <h3>4.Advanced Settings (Optional)</h3>
+                        <h3>Edit Advanced Details</h3>
                     </div>
 
                     <div class="flex flex-col mt-8 w-3/4">
@@ -136,10 +124,10 @@
                         </div>
                     </div>
 
-                    <vs-button class="mt-8" type="border" @click="handleConfirmSettings">>>create</vs-button>
+                    <vs-button class="mt-8" type="border" @click="handleEditCast">>>save</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
-                    <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
+                    <p>>> Edit advanced details > <span></span></p>
                 </div>
             </div>
         </template>
@@ -150,8 +138,8 @@
 import BaseModal from "@/components/common/BaseModal.vue";
 
 export default {
-    name: 'CastAdvancedModal',
-    props: ['closeModal', 'stepOneProps', 'stepTwoProps', 'stepFourProps', 'createCast', 'setActiveModal'],
+    name: 'EditAdvanceDetail',
+    props: ['closeModal', 'stepOneProps', 'stepFourProps', 'handleEditCast'],
     components: {
         BaseModal,
     },
@@ -160,10 +148,6 @@ export default {
         };
     },
     methods: {
-        async handleConfirmSettings() {
-            await this.createCast();
-            this.setActiveModal('castInviteModal');
-        },
     }
 }
 </script>

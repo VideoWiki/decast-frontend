@@ -8,15 +8,15 @@
                     </div>
                     <div class="flex justify-center items-center mt-16">
                         <div class="grid-container">
-                            <div class="grid-item" v-if="!castDetails.nft_details_submitted" @click="setActiveModal('nftDropModal')">NFT/Token <br>Drop</div>
-                            <div class="grid-item" v-else @click="setActiveModal('editNftDropModal')">Edit NFT/Token <br>Drop</div>
+                            <div class="grid-item" v-if="castDetails.nft_details_submitted" @click="setActiveModal('editNftDropModal')">Edit NFT/Token <br>Drop</div>
+                            <div class="grid-item" v-else @click="setActiveModal('nftDropModal')">NFT/Token <br>Drop</div>
 
-                            <div class="grid-item" @click="setActiveModal('')">Manage <br>Audience</div>
+                            <div class="grid-item" @click="setActiveModal('manageAudienceModal')">Manage <br>Audience</div>
                             <div class="grid-item" @click="setActiveModal('')">Live <br>Streaming</div>
-                            <div class="grid-item" @click="setActiveModal('editCastSchedule')">Setup <br>Details</div>
-                            <div class="grid-item" @click="setActiveModal('')">Basic <br>Details</div>
-                            <div class="grid-item" @click="setActiveModal('')">Branding <br>Details</div>
-                            <div class="grid-item" @click="setActiveModal('')">Advanced <br>Details</div>
+                            <div class="grid-item" @click="setActiveModal('editSetupDetail')">Edit Setup <br>Details</div>
+                            <div class="grid-item" @click="setActiveModal('editBasicDetail')">Edit Basic <br>Details</div>
+                            <div class="grid-item" @click="setActiveModal('editBrandingDetail')">Edit Branding <br>Details</div>
+                            <div class="grid-item" @click="setActiveModal('editAdvanceDetail')">Edit Advanced <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('')">Postpone <br>Cast</div>
                             <div class="grid-item danger-button" @click="setActiveModal('deleteCastModal')">Delete <br>Cast</div>
                         </div>

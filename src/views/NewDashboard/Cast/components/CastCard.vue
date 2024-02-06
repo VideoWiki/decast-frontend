@@ -140,22 +140,32 @@
           </div>
         </div>
       </div>
-      <!-- <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
-        :setActiveModal="setActiveModal" />
-      <DeleteCastModal v-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
-        :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
-      <CreateNftModal v-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" :castId="castDetails.public_meeting_id" :castDetails="castDetails"/> -->
     </div>
-    <EditCastSchedule v-if="activeModal === 'editCastSchedule'" :closeModal="() => setActiveModal('')"
-      :setActiveModal="setActiveModal" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" />
-    <EditCastDetail v-else-if="activeModal === 'editCastDetail'" :closeModal="() => setActiveModal('')"
-      :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :createCast="createCast" />
+    <ManageAudModal v-if="activeModal === 'manageAudienceModal'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails" :handleEditCast="handleEditCast" :isAirdrop="castDetails.airdrop"
+      :setActiveModal="setActiveModal" :pub_nft_flow="castDetails.pub_nft_flow"
+      :public_nft_status="castDetails.public_nft_status" :changePublicNftStatus="changePublicNftStatus"
+      :nft_details_submitted="castDetails.nft_details_submitted" :vc_details_submitted="castDetails.vc_details_submitted"
+      :event_nft_enabled="!castDetails.pub_nft_flow && castDetails.nft_details_submitted" :certificate_enabled="castDetails.vc_details_submitted"
+      :castId="castDetails.public_meeting_id" :invites="castDetails.invitee_list"
+      :isStream="castDetails.stream_urls !== null" :viewer="castDetails.viewer_mode" />
+
+    <EditSetupDetail v-else-if="activeModal === 'editSetupDetail'" :closeModal="() => setActiveModal('')"
+      :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :handleEditCast="handleEditCast" />
+    <EditBasicDetail v-else-if="activeModal === 'editBasicDetail'" :closeModal="() => setActiveModal('')"
+      :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :handleEditCast="handleEditCast" />
+    <EditBrandingDetail v-else-if="activeModal === 'editBrandingDetail'" :closeModal="() => setActiveModal('')"
+      :stepTwoProps="stepTwoProps" :handleEditCast="handleEditCast" />
+    <EditAdvanceDetail v-else-if="activeModal === 'editAdvanceDetail'" :closeModal="() => setActiveModal('')"
+      :stepOneProps="stepOneProps" :stepFourProps="stepFourProps" :handleEditCast="handleEditCast" />
     <CastOptionsModal v-else-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')"
-      :setActiveModal="setActiveModal" :castDetails="castDetails"/>
+      :setActiveModal="setActiveModal" :castDetails="castDetails" />
+    <CreateNftModal v-else-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails" :getCastList="getCastList" />
+    <EditNftModal v-else-if="activeModal === 'editNftDropModal'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails" :getCastList="getCastList" />
     <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
       :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
-    <CreateNftModal v-else-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')" :castDetails="castDetails" :getCastList="getCastList"/>
-    <EditNftModal  v-else-if="activeModal === 'editNftDropModal'" :closeModal="() => setActiveModal('')" :castDetails="castDetails" :getCastList="getCastList"/>
   </div>
 </template>
 <script>
@@ -184,9 +194,12 @@ import CastOptionsModal from './CastOptionsModal.vue';
 import CastCardShimmer from '@/views/NewDashboard/Cast/components/CastCardShimmer.vue';
 import DeleteCastModal from './options-components/DeleteCastModal.vue';
 import CreateNftModal from '@/views/NewDashboard/nft/CreateNftModal.vue';
-import EditCastSchedule from './options-components/EditCastSchedule.vue';
-import EditCastDetail from './options-components/EditCastDetail.vue';
+import EditSetupDetail from './options-components/EditSetupDetail.vue';
+import EditBasicDetail from './options-components/EditBasicDetail.vue';
+import EditBrandingDetail from './options-components/EditBrandingDetail.vue';
+import ManageAudModal from './options-components/ManageAudModal.vue'
 import EditNftModal from '@/views/NewDashboard/nft/EditNftModal.vue';
+import EditAdvanceDetail from './options-components/EditAdvanceDetail.vue';
 
 export default {
   name: 'CastCard',
@@ -346,10 +359,13 @@ export default {
     CastOptionsModal,
     DeleteCastModal,
     CreateNftModal,
-    EditCastSchedule,
-    EditCastDetail,
-    EditNftModal
-},
+    ManageAudModal,
+    EditSetupDetail,
+    EditBasicDetail,
+    EditBrandingDetail,
+    EditNftModal,
+    EditAdvanceDetail
+  },
   mounted() {
     this.setProps();
   },
@@ -378,8 +394,8 @@ export default {
         type: this.castDetails.cast_type,
         recording: this.castDetails.recording_available,
         name: this.castDetails.event_name,
-        nftEnable:this.castDetails.nft_details_submitted,
-        time:this.castDetails.event_time,
+        nftEnable: this.castDetails.nft_details_submitted,
+        time: this.castDetails.event_time,
       });
     },
     setActiveModal(modalName) {
@@ -433,18 +449,15 @@ export default {
       return newTime;
     },
     setProps() {
-      // console.log("castsInfoDismiss", this.castsInfo, this.cast)
-      const details = this.castsInfo[this.cast.public_meeting_id].details;
-      this.stepOneProps.event_name = details.event_name;
       this.stepOneProps.event_name = this.castDetails.event_name;
       this.stepOneProps.moderator_password = '';
       this.stepOneProps.attendee_password = '';
       this.stepOneProps.meeting_type = '';
       this.stepOneProps.schedule_time = this.castDetails.schedule_time;
       this.stepOneProps.description = this.castDetails.description;
-      this.stepOneProps.startTime = '0:00:00';
+      this.stepOneProps.startTime = this.castDetails.schedule_time.split(" ")[1];
       this.stepOneProps.timezone = this.castDetails.timezone;
-      this.stepOneProps.startD = moment().format('YYYY-MM-DD');
+      this.stepOneProps.startD = this.castDetails.schedule_time.split(" ")[0];
       this.stepOneProps.password_auth = this.castDetails.password_auth;
       this.stepOneProps.auth_type = this.castDetails.cast_type;
       this.stepOneProps.send_otp = this.castDetails.otp_private;
@@ -465,49 +478,6 @@ export default {
       this.stepTwoProps.guest_policy = this.castDetails.guest_policy;
       this.stepTwoProps.welcome_text = this.castDetails.welcome_text;
       this.stepTwoProps.showText = true;
-      this.stepTwoProps.duration = details.duration;
-      this.stepTwoProps.logout_url = details.logout_url;
-
-      this.stepThreeProps.vw_stream = false;
-      this.stepThreeProps.vw_stream_url = details.bbb_stream_url;
-      this.stepThreeProps.is_streaming = details.is_streaming;
-      this.stepThreeProps.public_stream = details.public_stream;
-
-      this.stepFourProps.start_stop_recording = details.record;
-      this.stepFourProps.record = details.record;
-      this.stepFourProps.mute_on_start = details.mute_on_start;
-      this.stepFourProps.end_when_no_moderator = details.end_when_no_moderator;
-      this.stepFourProps.allow_moderator_to_unmute_user = details.allow_moderator_to_unmute_user;
-      this.stepFourProps.webcam_only_for_moderator = details.webcam_only_for_moderator;
-      this.stepFourProps.auto_start_recording = details.auto_start_recording;
-      this.stepFourProps.allow_start_stop_recording = details.record;
-      this.stepFourProps.disable_cam = details.disable_cam;
-      this.stepFourProps.disable_mic = details.disable_mic;
-      this.stepFourProps.lock_layout = details.lock_layout;
-      this.stepFourProps.lock_on_join = false;
-      this.stepFourProps.viewer_mode = details.viewer_mode;
-      this.stepFourProps.viewer_password = false;
-      this.stepFourProps.listen_only_mode = true;
-      this.stepFourProps.webcam_enable = false;
-      this.stepFourProps.screen_sharing = true;
-      this.stepFourProps.restrict_participants = false;
-      this.stepFourProps.meeting_settings = false;
-      this.stepTwoProps.BackImageURL = '';
-      this.stepTwoProps.imageURL = '';
-      this.stepTwoProps.primary_color = details.primary_color;
-      this.stepTwoProps.secondary_color = '';
-      this.stepTwoProps.logo = details.logo;
-      this.stepTwoProps.back_image = '';
-      this.stepTwoProps.cover_image = details.cover_image;
-      this.stepTwoProps.cover_image_error = false;
-      this.stepTwoProps.back_image_error = false;
-      this.stepTwoProps.banner_text = details.banner_text;
-      this.stepTwoProps.moderator_only_text = 'You are a Moderator, you can control who presents and participates in the live cast';
-      this.stepTwoProps.guest_policy = details.guest_policy;
-      this.stepTwoProps.welcome_text = details.welcome_text;
-      this.stepTwoProps.showText = true;
-      this.stepTwoProps.duration = details.duration;
-      this.stepTwoProps.logout_url = details.logout_url;
       this.stepTwoProps.duration = this.castDetails.duration;
       this.stepTwoProps.logout_url = this.castDetails.logout_url;
 
@@ -576,6 +546,190 @@ export default {
       // this.casts = newCasts;
       this.isLoading = false;
       this.getCastList();
+    },
+    validateFormOne() {
+      if (
+        this.stepOneProps.event_name === '' ||
+        this.stepOneProps.description === '' ||
+        (this.stepOneProps.audienceAirdrop &&
+          this.stepOneProps.airdropType === 'NFTs' &&
+          (this.stepOneProps.mint_function_name === '' ||
+            this.stepOneProps.contract_address === '' ||
+            this.stepOneProps.aib === '' ||
+            this.stepOneProps.nft_description === '' ||
+            this.stepOneProps.nft_image === '')) ||
+        (this.stepOneProps.auth_type === 'private' &&
+          this.stepOneProps.send_otp === false &&
+          this.stepOneProps.password_auth === false) ||
+        (!this.stepOneProps.start_now &&
+          this.stepOneProps.schedule_time_error) ||
+        this.stepOneProps.invalidTimeError
+      ) {
+        this.stepOneProps.event_name_error =
+          this.stepOneProps.event_name === '';
+        this.stepOneProps.description_error =
+          this.stepOneProps.description === '';
+
+        if (
+          this.stepOneProps.audienceAirdrop &&
+          this.stepOneProps.airdropType === 'NFTs'
+        ) {
+          this.stepOneProps.mintfnc_name_error =
+            this.stepOneProps.mint_function_name === '';
+          this.stepOneProps.contract_address_error =
+            this.stepOneProps.contract_address === '';
+          this.stepOneProps.aib_error = this.stepOneProps.aib === '';
+          this.stepOneProps.nft_image_error =
+            this.stepOneProps.nft_image === '';
+          this.stepOneProps.nft_description_error =
+            this.stepOneProps.nft_description === '';
+        }
+
+        if (
+          this.stepOneProps.auth_type === 'private' &&
+          this.stepOneProps.send_otp === false &&
+          this.stepOneProps.password_auth === false
+        ) {
+          this.stepOneProps.meeting_auth_error = true;
+          // Here, adjust stepOneProps based on the 'private' auth_type
+          this.stepOneProps.moderator_password = '';
+          // Add more properties to reset as necessary
+        }
+
+        this.stepOneProps.public_nft_flow =
+          this.stepOneProps.public_stream_nfts === 'true';
+        this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
+        return false;
+      } else {
+        this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
+        this.stepOneProps.public_nft_flow =
+          this.stepOneProps.public_stream_nfts === 'true';
+        window.scroll(0, 0);
+        localStorage.setItem('Step1', JSON.stringify(this.stepOneProps));
+        return true;
+      }
+    },
+    formSubmitted() {
+      if (moment().isAfter(this.stepOneProps.schedule_time)) {
+        const fiveMin = moment().add(5, 'minutes');
+        this.stepOneProps.schedule_time =
+          `${fiveMin._d.getFullYear()}-${String(
+            fiveMin._d.getMonth() + 1
+          ).padStart(2, '0')}-${String(fiveMin._d.getDate()).padStart(
+            2,
+            '0'
+          )}` +
+          ' ' +
+          fiveMin._d.getHours() +
+          ':' +
+          fiveMin._d.getMinutes() +
+          ':00';
+      }
+      this.$vs.loading();
+      var data = new FormData();
+      data.append('cast_id', this.castDetails.public_meeting_id);
+      data.append('cast_name', this.stepOneProps.event_name);
+      data.append('logo', this.stepTwoProps.logo);
+      data.append('cover_image', this.stepTwoProps.cover_image);
+      data.append('back_image', this.stepTwoProps.back_image);
+      data.append('description', this.stepOneProps.description);
+      data.append('cast_type', this.stepOneProps.auth_type);
+      data.append('collect_attendee_email', this.stepOneProps.public_otp ? 'True' : 'False');
+      data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
+      data.append('timezone', this.stepOneProps.timezone);
+      data.append('primary_color', this.stepTwoProps.primary_color);
+      data.append('welcome_text', this.stepTwoProps.welcome_text);
+      data.append('banner_text', this.stepTwoProps.banner_text);
+      data.append('guest_policy', this.stepTwoProps.guest_policy);
+      data.append('moderator_only_text', this.stepTwoProps.moderator_only_text);
+      data.append('duration', this.stepTwoProps.duration);
+      data.append('logout_url', this.stepTwoProps.logout_url);
+      data.append('is_streaming', this.stepThreeProps.is_streaming ? 'True' : 'False');
+      data.append('public_stream', this.stepThreeProps.public_stream ? 'True' : 'False');
+      data.append('bbb_stream_url', this.stepThreeProps.vw_stream_url);
+      data.append('record', this.stepFourProps.record ? 'True' : 'False');
+      data.append('end_when_no_moderator', this.stepFourProps.end_when_no_moderator ? 'True' : 'False');
+      data.append('allow_moderator_to_unmute_user', this.stepFourProps.allow_moderator_to_unmute_user ? 'True' : 'False');
+      data.append('auto_start_recording', this.stepFourProps.auto_start_recording ? 'True' : 'False');
+      data.append('mute_on_start', this.stepFourProps.mute_on_start ? 'True' : 'False');
+      data.append('webcam_only_for_moderator', this.stepFourProps.webcam_only_for_moderator ? 'True' : 'False');
+      data.append('disable_cam', this.stepFourProps.disable_cam ? 'True' : 'False');
+      data.append('disable_mic', this.stepFourProps.disable_mic ? 'True' : 'False');
+      data.append('lock_layout', this.stepFourProps.lock_layout ? 'True' : 'False');
+      data.append('viewer_mode', this.stepFourProps.viewer_mode ? 'True' : 'False');
+      data.append('private_otp', this.stepOneProps.send_otp ? 'True' : 'False');
+      data.append('password_auth', this.stepOneProps.password_auth ? 'True' : 'False');
+      this.$store
+        .dispatch('cast/formSubmit', data)
+        .then((response) => {
+          setTimeout(() => {
+            this.$vs.loading.close();
+          }, 5000);
+          this.getCastList();
+          this.responsedata = response.data.message;
+          this.$vs.notify({
+            title: 'Success',
+            text: response.data.message,
+            color: 'success',
+          });
+          this.closeModal();
+          // if (
+          //   this.startNow ||
+          //   (this.startNow === 'True' &&
+          //     response.data &&
+          //     response.data.url !== '')
+          // ) {
+          //   window.open(`/user_details/${response.data.meeting_id}`, '_blank');
+          //   window.location.href = response.data.url;
+          // } else this.$router.push('/dashboard');
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.formData = new FormData();
+          console.log(JSON.stringify(error));
+          if (error) {
+            this.$vs.notify({
+              title: 'Error!',
+              text: error.response.data.message,
+              color: 'danger',
+            });
+          } else {
+            this.$vs.notify({
+              title: 'Fields Missing!',
+              text: 'Some Fields are Missing',
+              color: 'danger',
+            });
+          }
+        });
+      // this.$emit('updateShowEditCast', false);
+    },
+    handleEditCast() {
+      if (this.validateFormOne) {
+        console.log('success validated');
+        this.formSubmitted();
+      }
+    },
+    async changePublicNftStatus(castId, curr_status) {
+      try {
+        this.$vs.loading();
+        await this.$store
+          .dispatch('studio/publicNftActivate', {
+            cast_id: castId,
+            nft_activate: curr_status,
+          })
+          .then((res) => {
+            // eslint-disable-next-line camelcase
+            this.castDetails.public_nft_status = curr_status === 'True';
+            this.$vs.loading.close();
+          });
+      } catch (err) {
+        this.$vs.loading.close();
+        this.$vs.notify({
+          title: 'Error',
+          text: 'Try again !',
+          color: 'Danger',
+        });
+      }
     },
   },
 };
