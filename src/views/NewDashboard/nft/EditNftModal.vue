@@ -103,12 +103,10 @@
                                 <p style="max-width: 120px; overflow: hidden">{{ sampleName }}</p>
                             </div>
                         </div>
-
                         <div>
                             <vs-button @click.stop="addNft(true)" class="mt-8" type="border"> >>Update NFT</vs-button>
                         </div>
                     </div>
-
                 </div>
                 <div class="cast-modal-bottom">
                     <p>>> Update Drops</p>

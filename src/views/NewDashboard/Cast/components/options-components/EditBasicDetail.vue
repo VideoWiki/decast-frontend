@@ -52,8 +52,8 @@
 import BaseModal from "@/components/common/BaseModal.vue";
 
 export default {
-    name: 'EditCastDetail',
-    props: ['closeModal', 'stepOneProps', 'stepTwoProps', 'createCast'],
+    name: 'EditBasicDetail',
+    props: ['closeModal', 'stepOneProps', 'stepTwoProps', 'handleEditCast'],
     components: {
         BaseModal,
     },
@@ -72,8 +72,7 @@ export default {
                 this.descriptionError = true;
                 return;
             }
-            await this.createCast();
-            this.closeModal();
+            this.handleEditCast();
         },
         toggleSwitch() {
             if (this.stepOneProps.auth_type === 'public') {
