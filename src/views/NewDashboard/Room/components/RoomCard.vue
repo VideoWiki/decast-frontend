@@ -1,7 +1,7 @@
 <template>
   <div>
     <RoomCardShimmer v-if="isLoading" />
-    <div v-else class="room_list flex justify-between items-center mb-4 w-full py-2 px-6">
+    <div v-else class="room_list flex justify-between items-center mb-4 w-full py-2 px-6" @click="handleRoomClick">
       <div>
         <p style="font-size: 16px; font-weight: 600 width: 50%">
           {{ truncateText(room.room_name, 20) }}
@@ -89,8 +89,9 @@ export default {
       this.$emit('room-click', {
         id: newId[newId.length - 1],
         roomLs: this.roomsList,
-        roo: this.room,
-        roomName: this.room.room_name,
+        room:this.room,
+        type: this.room.type,
+        room_name: this.room.room_name,
       });
     },
     setActiveModal(modalName) {

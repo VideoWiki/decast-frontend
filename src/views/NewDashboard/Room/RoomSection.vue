@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="basic_details_cont w-full p-4 px-6 flex flex-col gap-6 justify-start"
-  >
+  <div class="basic_details_cont w-full p-4 px-6 flex flex-col gap-6 justify-start">
     <div class="flex justify-between">
       <div class="text-white">
         <p class="font-bold text-2xl">//Calls</p>
@@ -17,63 +15,54 @@
 
     <div class="flex flex-row gap-12 w-full">
       <div class="flex flex-col gap-6 w-1/2">
-      <div class="choose-room">
-        <button
-          class="options-button border-none"
-          @click="changeFocus(true)"
-          :class="{ 'focused-button': focusYourRooms }"
-        >
-          /rooms
-        </button>
-        <button
-          class="options-button border-none px-5"
-          @click="handleButtonClick"
-          :class="{ 'focused-button': !focusYourRooms }"
-        >
-          /recordings
-        </button>
-      </div>
+        <div class="choose-room">
+          <button class="options-button border-none" @click="changeFocus(true)"
+            :class="{ 'focused-button': focusYourRooms }">
+            /rooms
+          </button>
+          <button class="options-button border-none px-5" @click="handleButtonClick"
+            :class="{ 'focused-button': !focusYourRooms }">
+            /recordings
+          </button>
+        </div>
 
-      <div class="flex flex-col gap-4">
-        <div class="room_list_cont" v-if="focusYourRooms">
-          <div v-if="isRoomsLoading">
-            <RoomCardShimmer />
-            <RoomCardShimmer :style="{ opacity: 0.7 }" />
-            <RoomCardShimmer :style="{ opacity: 0.4 }" />
+        <div class="flex flex-col gap-4">
+          <div class="room_list_cont" v-if="focusYourRooms">
+            <div v-if="isRoomsLoading">
+              <RoomCardShimmer />
+              <RoomCardShimmer :style="{ opacity: 0.7 }" />
+              <RoomCardShimmer :style="{ opacity: 0.4 }" />
+            </div>
+            <div v-else-if="rooms.length">
+              <div v-for="(room, index) in rooms" :key="index">
+                <RoomCard :room="room" :index="index" :roomsList="rooms" @room-click="handleRoomClick" />
+              </div>
+            </div>
           </div>
-          <div v-else-if="rooms.length">
-            <div v-for="(room, index) in rooms" :key="index">
-              <RoomCard :room="room" :index="index" :roomsList="rooms" @room-click="handleRoomClick"/>
+
+          <div v-else>
+            <div v-if="recordingList.length">
+              <div v-for="(recording, index) in recordings" :key="index">
+                <RecordingCard :recording="recording" :index="index" />
+              </div>
+            </div>
+            <div v-else-if="isRecordingLoading">
+              <RecordingCardShimmer />
+              <RecordingCardShimmer :style="{ opacity: 0.7 }" />
+              <RecordingCardShimmer :style="{ opacity: 0.4 }" />
+            </div>
+            <div v-else class="recording flex flex-col items-center justify-items-center">
+              <h1 class="text-4xl text-white font-bold">Oops! No Recordings Found. :(</h1>
             </div>
           </div>
         </div>
+      </div>
 
-        <div v-else>
-          <div v-if="recordingList.length">
-            <div v-for="(recording, index) in recordings" :key="index">
-              <RecordingCard :recording="recording" :index="index" />
-            </div>
-          </div>
-          <div v-else-if="isRecordingLoading">
-            <RecordingCardShimmer />
-            <RecordingCardShimmer :style="{opacity: 0.7}" />
-            <RecordingCardShimmer :style="{opacity: 0.4}" />
-          </div>
-          <div v-else class="recording flex flex-col items-center justify-items-center">
-            <h1 class="text-4xl text-white font-bold">Oops! No Recordings Found. :(</h1>
-          </div>
-        </div>
+      <div v-if="firstRoomId !== null" class="room_details w-1/2 p-5">
+        <RoomDetails :selectedRoomDetails="selectedRoomDetails" :firstRoomId="firstRoomId" />
       </div>
     </div>
-
-    <div class="room_details w-1/2 p-5">
-      <div class="room_header flex justify-between items-center w-full h-16 px-4 py-2">
-        <p class="text-xl font-bold">/room.details</p>
-        <p class="text-red font-bold"><span class="font-bold text-red text-5xl">.</span> LIVE</p>
-      </div>
-    </div>
-    </div>
-    <CreateRoomModal v-if="activeModal==='createRoomModal'" :closeModal="() => setActiveModal('')"/>
+    <CreateRoomModal v-if="activeModal === 'createRoomModal'" :closeModal="() => setActiveModal('')" />
   </div>
 </template>
 
@@ -83,7 +72,7 @@ import RoomCardShimmer from './components/RoomCardShimmer.vue';
 import RecordingCard from './components/RecordingCard.vue';
 import RecordingCardShimmer from './components/RecordingCardShimmer.vue';
 import CreateRoomModal from '@/views/NewDashboard/Room/components/CreateRoomModal.vue';
-
+import RoomDetails from '@/views/NewDashboard/Room/components/RoomDetails.vue';
 export default {
   name: 'RoomSection',
   components: {
@@ -92,7 +81,8 @@ export default {
     RecordingCard,
     RecordingCardShimmer,
     CreateRoomModal,
-},
+    RoomDetails,
+  },
   data() {
     return {
       activeModal: '', //createRoomModal
@@ -103,7 +93,8 @@ export default {
       recordings: [],
       email: '',
       roomUrl: '',
-      selectedRoomDetails:null,
+      selectedRoomDetails: null,
+      firstRoomId: null,
     };
   },
   computed: {
@@ -119,6 +110,8 @@ export default {
     roomsList(newList) {
       console.log(newList);
       this.rooms = [...newList];
+      this.firstRoomId = newList.length > 0 ? newList[0] : null;
+      console.log(this.firstRoomId, 'firstRoomId');
       console.log(this.rooms);
     },
     recordingList(newList) {
@@ -133,7 +126,7 @@ export default {
   methods: {
     handleRoomClick(details) {
       this.selectedRoomDetails = details;
-      console.log(this.selectedRoomDetails,'jfkll')
+      console.log(this.selectedRoomDetails, 'jfkll')
     },
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
@@ -178,10 +171,10 @@ export default {
 </script>
 
 <style scoped>
-
 * {
   font-family: 'JetBrains Mono', monospace !important;
 }
+
 .options-button {
   background: none;
   color: #fff;
@@ -194,22 +187,22 @@ export default {
   color: #d7df23;
 }
 
-.room_details{
+.room_details {
   border: 2px solid #272727;
   box-shadow: 3px 3px 0px 0px #272727;
   height: 53vh;
 }
 
-.room_header{
-    background-color: #272727;
+.room_header {
+  background-color: #272727;
 }
 
-.room_list_cont{
+.room_list_cont {
   overflow: scroll !important;
   height: 45vh;
 }
 
-.room_list_cont::-webkit-scrollbar{
+.room_list_cont::-webkit-scrollbar {
   display: none;
 }
 </style>
