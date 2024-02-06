@@ -146,7 +146,7 @@ export default {
                 aib_error: false,
                 parameter: '',
                 parameter_error: false,
-                network: '4',
+                network: '41',
                 audienceAirdrop: true,
                 give_vc: false,
                 airdropType: 'NFTs',
@@ -245,6 +245,9 @@ export default {
     mounted() {
         console.log("castDetails", this.castDetails)
         this.stepOneProps.meeting_type = this.castDetails.cast_type ? this.castDetails.cast_type : this.castDetails.type;
+    },
+    created() {
+        this.network = "41";
     },
     methods: {
         toggleDistributionType(type) {

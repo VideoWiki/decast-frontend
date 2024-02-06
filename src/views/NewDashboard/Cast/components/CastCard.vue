@@ -371,15 +371,15 @@ export default {
     handleCardClick() {
       this.$emit('card-click', {
         castLs: this.castDetails,
-        id: this.castDetails.public_meeting_id,
-        attendee: this.castDetails.invitee_list.length,
-        isLive: this.castDetails.is_running,
-        date: this.castDetails.event_date,
-        type: this.castDetails.cast_type,
-        recording: this.castDetails.recording_available,
-        name: this.castDetails.event_name,
-        nftEnable:this.castDetails.nft_details_submitted,
-        time:this.castDetails.event_time,
+        public_meeting_id: this.castDetails.public_meeting_id,
+        invitee_list: this.castDetails.invitee_list,
+        is_running: this.castDetails.is_running,
+        event_date: this.castDetails.event_date,
+        cast_type: this.castDetails.cast_type,
+        recording_available: this.castDetails.recording_available,
+        event_name: this.castDetails.event_name,
+        nft_details_submitted:this.castDetails.nft_details_submitted,
+        event_time:this.castDetails.event_time,
       });
     },
     setActiveModal(modalName) {
