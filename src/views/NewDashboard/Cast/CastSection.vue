@@ -18,11 +18,11 @@
         <div class="choose-room">
           <button class="options-button border-none" @click="changeFocus(true)"
             :class="{ 'focused-button': focusYourRooms }">
-            /upcoming casts
+            /casts
           </button>
           <button class="options-button border-none px-5" @click="handleButtonClick"
             :class="{ 'focused-button': !focusYourRooms }">
-            /past casts
+            /recordings
           </button>
         </div>
 
@@ -31,15 +31,32 @@
             <div v-if="isCastsLoading">
               <CastCardShimmer />
               <CastCardShimmer :style="{ opacity: 0.6 }" />
+              <CastCardShimmer :style="{ opacity: 0.5 }" />
             </div>
             <div v-else v-for="(cast, index) in castList" :key="index">
               <CastCard :castDetails="cast" :index="index" :getCastList="getCastList" @card-click="handleCardClick" />
             </div>
           </div>
+          <div v-else>
+            <div v-if="isRecordingLoading">
+              <RecordingCardCastShimmer />
+              <RecordingCardCastShimmer :style="{ opacity: 0.7 }" />
+              <RecordingCardCastShimmer :style="{ opacity: 0.6 }" />
+            </div>
+            <div v-else-if="recordingList.length">
+              <div class="recordings flex justify-between items-center mb-4"
+                v-for="(recording, index) in flattenedRecordingList" :key="index">
+                <RecordingCard :recording="recording" :index="index" />
+              </div>
+            </div>
+            <div v-else class="recording flex flex-col items-center justify-items-center">
+              <h1 class="text-4xl text-white font-bold">Oops! No Recordings Found. :(</h1>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="cast_details w-1/2 p-5">
-        <CastDetails :selectedCastId="selectedCastId" />
+      <div v-if="firstCastId !== null" class="cast_details w-1/2 p-5">
+        <CastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId"/>
       </div>
     </div>
     <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
@@ -54,18 +71,31 @@ import CastCard from './components/CastCard.vue';
 import CastCardShimmer from './components/CastCardShimmer.vue';
 import CreateCastModal from './components/CreateCastModal.vue';
 import CastDetails from './components/CastDetails.vue';
+import RecordingCard from './components/RecordingCard.vue';
+import RecordingCardCastShimmer from './components/RecordingCardCastShimmer.vue';
 export default {
   name: 'CastSection',
+  components: {
+    CastCard,
+    CastCardShimmer,
+    CreateCastModal,
+    CastDetails,
+    RecordingCard,
+    RecordingCardCastShimmer,
+  },
   data() {
     return {
       activeModal: '',
       castList: [],
       focusYourRooms: true,
+      firstCastId:null,
       isCastsLoading: false,
+      isRecordingLoading: false,
       showCastIsLive: false,
       index: '',
       moment,
       casts: [],
+      recordingList: [],
       // castsInfo: [], unused
       // castInfo: {},
       // streamInfo: {},
@@ -180,24 +210,41 @@ export default {
       },
     };
   },
-  components: {
-    CastCard,
-    CastCardShimmer,
-    CreateCastModal,
-    CastDetails,
-  },
   mounted() {
     this.getCastList();
   },
   computed: {
-    totalImagesCount() {
-      return this.casts.map((cast) => cast.images.length);
+    // totalImagesCount() {
+    //   return this.casts.map((cast) => cast.images.length);
+    // },
+    flattenedRecordingList() {
+      return this.flattenRecordingList(this.recordingList);
     },
   },
   methods: {
     handleCardClick(details) {
       this.selectedCastId = details;
       console.log(this.selectedCastId, 'fkflllldijji');
+    },
+    flattenRecordingList(recordingList) {
+      const flattenedList = [];
+      recordingList.forEach((meetings) => {
+        meetings.forEach((recording) => {
+          flattenedList.push(recording);
+        });
+      });
+      return flattenedList;
+    },
+    async getRecordings() {
+      this.isRecordingLoading = true;
+      try {
+        const res = await this.$store.dispatch('cast/recordingList');
+        this.recordingList = res.status || [];
+        this.isRecordingLoading = false;
+      } catch (e) {
+        this.isRecordingLoading = false;
+        console.log(e);
+      }
     },
     validateFormOne() {
       if (
@@ -402,6 +449,7 @@ export default {
       this.focusYourRooms = toYourRooms;
     },
     async handleButtonClick() {
+      this.getRecordings();
       this.changeFocus(false);
     },
     NewTime(date, time) {
@@ -447,6 +495,8 @@ export default {
         if (response.data.my_events) {
           const allEvents = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
           this.castList = allEvents;
+          this.firstCastId=this.castList[0];
+          console.log(this.firstCastId,'lets see');
           this.isCastsLoading = false;
         }
       } catch (error) {
@@ -483,6 +533,7 @@ export default {
   border: 2px solid #272727;
   box-shadow: 3px 3px 0px 0px #272727;
   height: 53vh;
+  overflow: scroll !important;
 }
 
 .cast_header {
@@ -495,6 +546,10 @@ export default {
 }
 
 .cast_list_cont::-webkit-scrollbar {
+  display: none;
+}
+
+.cast_details::-webkit-scrollbar {
   display: none;
 }
 </style>
