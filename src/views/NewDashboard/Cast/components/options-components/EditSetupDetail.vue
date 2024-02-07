@@ -42,7 +42,7 @@
                             </template>
                         </StartTimeMenu>
                     </div>
-                    <vs-button class="mt-8" type="border" @click="handleEditCast">>>save</vs-button>
+                    <vs-button class="mt-8" type="border" @click="handleEditCast(true)">>>save</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>

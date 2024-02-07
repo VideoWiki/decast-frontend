@@ -627,7 +627,7 @@ export default {
         return true;
       }
     },
-    formSubmitted() {
+    formSubmitted(isReshedule) {
       if (moment().isAfter(this.stepOneProps.schedule_time)) {
         const fiveMin = moment().add(5, 'minutes');
         this.stepOneProps.schedule_time =
@@ -653,7 +653,9 @@ export default {
       data.append('description', this.stepOneProps.description);
       data.append('cast_type', this.stepOneProps.auth_type);
       data.append('collect_attendee_email', this.stepOneProps.public_otp ? 'True' : 'False');
-      data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
+      if(isReshedule){
+        data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
+      }
       data.append('timezone', this.stepOneProps.timezone);
       data.append('primary_color', this.stepTwoProps.primary_color);
       data.append('welcome_text', this.stepTwoProps.welcome_text);
@@ -721,10 +723,10 @@ export default {
         });
       // this.$emit('updateShowEditCast', false);
     },
-    handleEditCast() {
+    handleEditCast(isReshedule) {
       if (this.validateFormOne) {
         console.log('success validated');
-        this.formSubmitted();
+        this.formSubmitted(isReshedule);
       }
     },
     async changePublicNftStatus(castId, curr_status) {
