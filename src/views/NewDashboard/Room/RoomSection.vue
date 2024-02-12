@@ -50,7 +50,7 @@
             </div>
           </div>
 
-          <div v-else>
+          <div v-else class="room_list_cont">
             <div v-if="recordingList.length">
               <div v-for="(recording, index) in recordings" :key="index">
                 <RecordingCard :recording="recording" :index="index" />

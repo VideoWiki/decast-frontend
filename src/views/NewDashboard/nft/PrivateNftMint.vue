@@ -53,7 +53,7 @@
             </div>
 
             <button v-else :disabled="!isConnected" class="mint-custm-button mt-8"
-              @click="toggleNftView">/airdrop.open</button>
+              @click="mintPopup = true">/airdrop.open</button>
 
           </div>
           <div class="join-body-lb">
@@ -75,8 +75,8 @@
               </div>
             </div>
             <div class="join-body1">
-              <div v-if="mintPopup">
-                <img class="sample-img" v-bind:src="nft_image" />
+              <div v-if="mintPopup" class="h-full">
+                <img class="sample-img w-full h-full object-contain" v-bind:src="nft_image" />
               </div>
               <svg v-else width="292" height="273" viewBox="0 0 292 273" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M273.75 127.4H255.5V109.2H273.75V127.4Z" fill="#2D2D2D" />
@@ -111,247 +111,8 @@
     </div>
   </div>
 </template>
-<!-- <template>
-  <div class="idk-co">
-    <div class="h-screen no-gutter layout--main">
-      <vertical-nav-menu-drop-nft
-        v-if="windowWidth < 1200"
-        :navMenuItems="navMenuItems"
-        title="VideoWiki"
-        parent=".layout--main"
-      />
-      <template v-if="windowWidth >= 1200">
-        <nav-bar-drop-nft class="w-full" />
-      </template>
-      <template v-else>
-        <the-navbar-vertical
-          :navbarColor="navbarColor"
-          :class="[
-            { 'text-white': isNavbarDark && !isThemeDark },
-            { 'text-base': !isNavbarDark && isThemeDark },
-          ]"
-        />
-      </template>
-      <div
-        class="flex flex-wrap w-full vx-row no-gutter items-center justify-center centerx"
-      >
-        <div
-          class="vx-row no-gutter justify-center items-center mt-5 main-card"
-        >
-          <div class="vx-row justify-center items-center w-full h-full">
-            <div
-              v-if="hasMint == false && loading == false"
-              class="bottom vx-col md:w-1/3 w-full"
-            >
-              <div style="display: flex; justify-content: center">
-                <img src="@/assets/images/nftart.svg" />
-              </div>
-              <div class="flex flex-wrap justify-center">
-                <h3 style="color: #d7df23">Decast NFT</h3>
-              </div>
-              <p class="px-2 mt-5 small-text">
-                Open the box to view the NFT details!
-              </p>
-              <div style="display: flex; justify-content: center">
-                <vs-button
-                  pill
-                  @click="mintPopup = true"
-                  color="#1d2129"
-                  text-color="#1d2129"
-                  class="mt-8 mb-4 radius font-bold text-lg shifted-button"
-                  >Open Box</vs-button
-                >
-              </div>
-              <vs-popup
-                ref="mint_popup"
-                title=""
-                :active.sync="mintPopup"
-                id="mint-popup-cover"
-              >
-                <div
-                  class="vx-row flex flex-wrap justify-center align-center w-full h-full mint-details p-5"
-                >
-                  <div
-                    class="vx-row w-full flex flex-wrap justify-center align-center no-gutter"
-                  >
-                    <div
-                      class="vx-col flex flex-wrap lg:w-1/3 justify-center items-center w-full"
-                    >
-                      <div>
-                        <img class="sample-img" v-bind:src="nft_image" />
-                      </div>
-                    </div>
-                    <div
-                      class="vx-col lg:w-2/3 pl-2 custom-color"
-                      style="text-align: left"
-                    >
-                      <p class="p-2" v-if="!readMore">
-                        NFT Description:
-                        {{ nft_description.slice(0, 181) }}
-                        <span
-                          v-if="nft_description.length > 180"
-                          @click="
-                            () => {
-                              readMore = !readMore;
-                            }
-                          "
-                          style="
-                            color: #7448ff;
-                            cursor: pointer;
-                            font-size: 14px;
-                          "
-                          >... read more</span
-                        >
-                      </p>
-                      <p
-                        class="p-2"
-                        v-if="readMore"
-                        style="max-height: 100px; overflow-y: scroll"
-                      >
-                        NFT Description:
-                        {{ nft_description }}
-                        <span
-                          @click="
-                            () => {
-                              readMore = !readMore;
-                            }
-                          "
-                          style="
-                            color: #a6a6a6;
-                            cursor: pointer;
-                            font-size: 14px;
-                          "
-                        >
-                          Read Less</span
-                        >
-                      </p>
-                      <p class="p-2">
-                        Contract: {{ truncate(contractAddress) }}
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="vx-row mt-20 w-full flex flex-wrap justify-center align-center no-gutter"
-                  >
-                    <div
-                      class="flex flex-wrap vx-col md:w-1/1 p-2 mt-4 justify-center items-center"
-                    >
-                      <vs-button
-                        v-if="hasMint == false"
-                        pill
-                        @click="mint"
-                        class="mt-8 mb-4 radius font-bold text-lg shifted-button"
-                        >Mint</vs-button
-                      >
-                    </div>
-                  </div>
-                </div>
-              </vs-popup>
-            </div>
-            <div
-              v-if="loading == true"
-              class="bottom flex flex-wrap items-center justify-center vx-col md:w-3/4 w-full p-2 loading-container"
-            >
-              <img
-                src="@/assets/images/reward.png"
-                style="height: 100px; width: 100px"
-                class="loading-img"
-                alt="loading"
-              />
-            </div>
-            <div
-              v-if="hasMint == true && loading == false"
-              class="bottom mt-20 vx-col md:w-3/4 w-full p-2"
-            >
-              <div class="w-full flex flex-wrap justify-center">
-                <div class="hexagon-cover">
-                  <div class="hexagon-shadow">
-                    <div
-                      v-if="nft_image && nft_image.endsWith('.svg')"
-                      class="hexagon"
-                      v-bind:style="{
-                        'background-image': 'url(' + nft_image + ')',
-                      }"
-                    ></div>
-                    <img
-                      v-else
-                      v-bind:src="realImage"
-                      class="hexagon-nft-img"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-wrap align-items justify-center">
-                <vs-dropdown vs-custom-content class="cursor-pointer">
-                  <div class="flex items-center relative">
-                    <vs-chip
-                      style="color: #52c41a"
-                      @click="copyTransaction"
-                      class="my-2 px-4"
-                    >
-                      Minted #{{ truncateSmaller(transactionHash) }}
-                    </vs-chip>
-                  </div>
-                  <vs-dropdown-menu class="vx-navbar-dropdown">
-                    <ul style="min-width: 9rem">
-                      <li class="flex py-2 px-4 font-bold">
-                        <span class="ml-2">{{ transactionHash }}</span>
-                      </li>
-                    </ul>
-                  </vs-dropdown-menu>
-                </vs-dropdown>
-              </div>
-              <div
-                class="flex flex-wrap align-center justify-center w-full"
-                style="display: flex; justify-content: center"
-              >
-                <img class="open-box" src="@/assets/images/reward.png" />
-              </div>
-              <div class="flex flex-wrap justify-center">
-                <h3 class="my-2 p-2" style="color: #a6a6a6">Decast NFT</h3>
-              </div>
-              <div class="flex flex-wrap justify-center align-center p-2">
-                <p class="px-2 mb-1 small-text" v-if="!readMore">
-                  {{ nft_description.slice(0, 181) }}
-                  <span
-                    v-if="nft_description.length > 180"
-                    @click="
-                      () => {
-                        readMore = !readMore;
-                      }
-                    "
-                    style="color: #7448ff; cursor: pointer; font-size: 14px"
-                    >... read more</span
-                  >
-                </p>
-                <p
-                  class="px-2 mb-1 small-text"
-                  v-if="readMore"
-                  style="max-height: 75px; overflow-y: scroll"
-                >
-                  {{ nft_description }}
-                  <span
-                    @click="
-                      () => {
-                        readMore = !readMore;
-                      }
-                    "
-                    style="color: #7448ff; cursor: pointer; font-size: 14px"
-                  >
-                    read less</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template> -->
 
 <script>
-import constant from '../../../../constant';
 import axios from 'axios';
 import NavBarDropNft from '@/layouts/components/navbar/NavBarDropNft.vue';
 import TheNavbarVertical from '@/layouts/components/navbar/VerticalNavbarDropNft.vue';
@@ -725,105 +486,6 @@ export default {
         );
       }
     },
-    // async mint() {
-    //   this.$vs.loading();
-    //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //   const signer = provider.getSigner();
-    //   const abi = this.abi;
-    //   const contractAddress = this.contractAddress;
-    //   if (this.isConnected) {
-    //     if (window.ethereum.networkVersion === this.network) {
-    //       try {
-    //         await this.verifyWallet();
-    //         const mintIsStatus = await this.getMindId();
-    //         console.log(mintIsStatus,'lekke');
-    //         if (mintIsStatus != null) {
-    //           this.$vs.notify({
-    //             title: 'Cannot Add Again',
-    //             text: 'You have already minted the nft',
-    //             iconPack: 'feather',
-    //             icon: 'icon-alert-circle',
-    //             color: 'warning',
-    //           });
-    //           this.transactionHash = mintIsStatus.data.hashed_id;
-    //           this.hasMint = true;
-    //         } else {
-    //           const contract = new ethers.Contract(
-    //             contractAddress,
-    //             abi,
-    //             signer
-    //           );
-    //           const value = ethers.utils.parseEther(this.price);
-    //           if (this.hasMerkel) {
-    //             const mproof = this.merkleTree.getHexProof(
-    //               keccak256(this.accountAddress)
-    //             );
-    //             var tx = await contract.mint(1, mproof, { value });
-    //           } else {
-    //             tx = await contract.mint(1, { value });
-    //           }
-    //           this.$vs.loading.close();
-    //           const receipt = await tx.wait();
-    //           this.loading = true;
-    //           await this.updateWallet('started', '');
-    //           await this.getjson();
-    //           this.openNotification(
-    //             'top-center',
-    //             'success',
-    //             'Congratulations! You just minted an NFT'
-    //           );
-    //           this.transactionHash = receipt.transactionHash;
-    //           this.hasMint = true;
-    //           await this.updateWallet('successful', receipt.transactionHash);
-    //           setTimeout(() => {
-    //             this.loading = false;
-    //           }, 1000);
-    //         }
-    //       } catch (e) {
-    //         this.$vs.loading.close();
-    //         if (e.code === 'INSUFFICIENT_FUNDS')
-    //           this.$vs.notify({
-    //             time: 3000,
-    //             title: 'Error',
-    //             text: 'Insufficient Balance!',
-    //             iconPack: 'feather',
-    //             icon: 'icon-alert-circle',
-    //             color: 'danger',
-    //           });
-    //         else if (e.reason === 'execution reverted: Already Claimed !') {
-    //           this.$vs.notify({
-    //             time: 3000,
-    //             title: 'Already Claimed',
-    //             text: "Can't claim again",
-    //             color: 'danger',
-    //           });
-    //         } else {
-    //           console.log('message', e.reason);
-    //           this.$vs.notify({
-    //             time: 3000,
-    //             title: 'Error',
-    //             text:
-    //               e.response != null
-    //                 ? e.response.data.message
-    //                 : 'Wallet is not added for this cast. Please join the cast with this wallet to claim your NFT Or an error occured while minting',
-    //             iconPack: 'feather',
-    //             icon: 'icon-alert-circle',
-    //             color: 'danger',
-    //           });
-    //         }
-    //         console.log('Minting Error', e);
-    //       }
-    //     } else {
-    //       this.switchNetworkRinkeby(this.network);
-    //     }
-    //   } else {
-    //     this.openNotification(
-    //       'top-center',
-    //       'danger',
-    //       'Please Connect to the Wallet'
-    //     );
-    //   }
-    // },
     setNavMenuVisibility(layoutType) {
       if (
         (layoutType === 'horizontal' && this.windowWidth >= 1200) ||
@@ -904,10 +566,6 @@ export default {
     },
   },
   created() {
-    // if (this.$store.state.AppActiveUser.email.length > 0) {
-    // } else {
-    //   this.$router.push('/login');
-    // }
     const color =
       this.navbarColor === '#fff' && this.isThemeDark
         ? '#10163a'
@@ -922,16 +580,11 @@ export default {
         return;
       }
       this.getMerkleTree();
-      if (this.$refs.mint_popup)
-        this.$refs.mint_popup.$el.childNodes[1].childNodes[0].style.display =
-          'none';
-      this.$refs.mint_popup.$el.childNodes[1].style.minWidth = '500px';
       const payload = {
         castId: this.$route.query.cast_id,
         nftType: 'NFTs',
       };
       await this.$store.dispatch('cast/getNFTDetails', payload).then((res) => {
-        console.log('working');
         this.contractAddress = res.data.contract_adress;
         this.abi = res.data.aib;
         this.functionName = res.data.mint_function_name;
@@ -1036,6 +689,7 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100%;
+  margin-top: 10px;
 }
 
 .join-body-left {

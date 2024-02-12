@@ -47,7 +47,7 @@
               <CastCard :castDetails="cast" :index="index" :getCastList="getCastList" @card-click="handleCardClick" />
             </div>
           </div>
-          <div v-else>
+          <div v-else class="cast_list_cont">
             <div v-if="isRecordingLoading">
               <RecordingCardCastShimmer />
               <RecordingCardCastShimmer :style="{ opacity: 0.7 }" />
