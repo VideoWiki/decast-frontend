@@ -2,7 +2,7 @@
   <div class="full-screen-div flex flex-col justify-start items-center">
     <div class="dashboard_navbar max-w-6xl w-full items-center flex flex-row justify-between lg:px-12 md:px-4 px-3 py-4">
       <div class="flex justify-start gap-4 w-1/3">
-        <img src="@/assets/images/logot.svg" class="w-24 h-24 cursor-pointer" @click="redirectHome" />
+        <img src="@/assets/images/logot.svg" class="w-24 h-24 cursor-pointer mr-10" @click="redirectHome" />
         <div class="text-white flex flex-col justify-center h-24">
           <p class="welcome_msg text-2xl font-bold">
             //Welcome
@@ -39,7 +39,7 @@
     </div>
 
     <div class="dashboard_content max-w-6xl w-full flex flex-row gap-3 justify-start lg:px-12 md:px-4 px-3 py-4">
-      <div class="flex flex-col justify-start gap-4 w-1/6">
+      <div class="flex flex-col justify-start gap-4 mr-10">
         <div class="w-24 h-24">
           <vx-tooltip text="/ Rooms" position="right">
             <img src="@/assets/images/pixel_call.svg" class="w-24 h-24 cursor-pointer object-contain"
@@ -63,13 +63,13 @@
       </div>
 
       <div class="w-full flex flex-col justify-start gap-2">
-        <div class="bg-white w-full flex flex-row justify-between items-center px-4 h-12">
+        <!-- <div class="bg-white w-full flex flex-row justify-between items-center px-4 h-12">
           <div class="bg-black w-4 h-4"></div>
           <div class="flex flex-row gap-2">
             <div class="bg-black w-4 h-4"></div>
             <div class="bg-black w-4 h-4"></div>
           </div>
-        </div>
+        </div> -->
 
         <div class="" v-if="showRoomSection">
           <RoomSection />
@@ -256,8 +256,8 @@ export default {
 }
 
 .basic_details_cont {
-  border: 1px solid white;
-  height: 70vh;
+  /* border: 1px solid white;
+  height: 70vh; */
 }
 
 .options-button {

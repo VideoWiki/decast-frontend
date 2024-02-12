@@ -1,5 +1,5 @@
 <template>
-  <div class="basic_details_cont w-full p-4 px-6 flex flex-col gap-6 justify-start">
+  <div class="w-full flex flex-col gap-6 justify-start">
     <div class="flex justify-between">
       <div class="text-white">
         <p class="font-bold text-2xl">//Casts</p>
@@ -13,9 +13,19 @@
       </div>
     </div>
 
+    <div class="choose-room">
+      <button class="options-button border-none" @click="changeFocus(true)" :class="{ 'focused-button': focusYourRooms }">
+        /casts
+      </button>
+      <button class="options-button border-none px-5" @click="handleButtonClick"
+        :class="{ 'focused-button': !focusYourRooms }">
+        /recordings
+      </button>
+    </div>
+
     <div class="flex flex-row gap-12 w-full">
       <div class="flex flex-col gap-6 w-1/2">
-        <div class="choose-room">
+        <!-- <div class="choose-room">
           <button class="options-button border-none" @click="changeFocus(true)"
             :class="{ 'focused-button': focusYourRooms }">
             /casts
@@ -24,7 +34,7 @@
             :class="{ 'focused-button': !focusYourRooms }">
             /recordings
           </button>
-        </div>
+        </div> -->
 
         <div class="flex flex-col gap-4">
           <div class="cast_list_cont" v-if="focusYourRooms">
@@ -56,7 +66,7 @@
         </div>
       </div>
       <div v-if="firstCastId !== null" class="cast_details w-1/2 p-5">
-        <CastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId"/>
+        <CastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId" />
       </div>
     </div>
     <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
@@ -88,7 +98,7 @@ export default {
       activeModal: '',
       castList: [],
       focusYourRooms: true,
-      firstCastId:null,
+      firstCastId: null,
       isCastsLoading: false,
       isRecordingLoading: false,
       showCastIsLive: false,
@@ -495,8 +505,8 @@ export default {
         if (response.data.my_events) {
           const allEvents = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
           this.castList = allEvents;
-          this.firstCastId=this.castList[0];
-          console.log(this.firstCastId,'lets see');
+          this.firstCastId = this.castList[0];
+          console.log(this.firstCastId, 'lets see');
           this.isCastsLoading = false;
         }
       } catch (error) {
@@ -532,7 +542,7 @@ export default {
 .cast_details {
   border: 2px solid #272727;
   box-shadow: 3px 3px 0px 0px #272727;
-  height: 53vh;
+  /* height: 53vh; */
   overflow: scroll !important;
 }
 
@@ -542,7 +552,7 @@ export default {
 
 .cast_list_cont {
   overflow: scroll !important;
-  height: 45vh;
+  height: 64vh;
 }
 
 .cast_list_cont::-webkit-scrollbar {

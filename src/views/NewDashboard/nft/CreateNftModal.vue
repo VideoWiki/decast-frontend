@@ -451,6 +451,8 @@ export default {
                     }
                     const castId = this.castDetails.public_meeting_id ? this.castDetails.public_meeting_id : this.castDetails.meeting_id;
                     payload.append('public_meeting_id', castId);
+                    payload.append('token_address', false);
+                    payload.append('is_token_gated', '');
                     this.$vs.loading();
                     await this.$store.dispatch('studio/addNftDetails', payload);
                     if (x) {

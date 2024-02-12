@@ -311,7 +311,7 @@ const router = new Router({
     {
       path: '/joining/:meetingID?',
       name: 'Waiting Room',
-      component: () => import('./views/JoinCast.vue'),
+      component: () => import('./views/JoinCastNew.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -369,7 +369,8 @@ const router = new Router({
     {
       path: '/join-room/:meeting_id?',
       name: 'Joining Room',
-      component: () => import('./views/joiningPage.vue'),
+      // component: () => import('./views/joiningPage.vue'),
+      component: () => import('./views/JoiningPageNew.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -377,7 +378,7 @@ const router = new Router({
     {
       path: '/join-cast/:meetingID?',
       name: 'Joining Cast',
-      component: () => import('./views/JoinCast.vue'),
+      component: () => import('./views/JoinCastNew.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -624,7 +625,7 @@ const router = new Router({
     {
       path: '/public/nftdrop',
       name: 'Public NFT Drop',
-      component: () => import('@/views/dashboard/nft/PublicNftMint'),
+      component: () => import('@/views/NewDashboard/nft/PublicNftMint.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -632,7 +633,7 @@ const router = new Router({
     {
       path: '/nftdrop',
       name: 'Private NFT Drop',
-      component: () => import('@/views/dashboard/nft/PrivateDropNfts.vue'),
+      component: () => import('@/views/NewDashboard/nft/PrivateNftMint.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -757,7 +758,7 @@ const router = new Router({
     {
       path: '/e/:meetingID?',
       name: 'Join Cast',
-      component: () => import('./views/JoinCast.vue'),
+      component: () => import('./views/JoinCastNew.vue'),
       meta: {
         rule: 'isPublic',
       },

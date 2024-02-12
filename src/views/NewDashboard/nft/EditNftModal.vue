@@ -452,6 +452,7 @@ export default {
                                     title: 'Airdrop Details Updated',
                                     color: 'success',
                                 });
+                                this.getCastList();
                                 this.closeModal();
                                 this.$vs.loading.close();
                                 this.airdrops = false;

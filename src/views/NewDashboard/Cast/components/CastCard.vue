@@ -154,11 +154,11 @@
       :setActiveModal="setActiveModal" :castDetails="castDetails" :stepThreeProps="stepThreeProps"
       :handleEditCast="handleEditCast" />
     <YoutubeStreamModal v-else-if="activeModal === 'youtubeStreamModal'" :closeModal="() => setActiveModal('')"
-      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast"/>
+      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
     <FacebookStreamModal v-else-if="activeModal === 'facebookStreamModal'" :closeModal="() => setActiveModal('')"
-      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast"/>
+      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
     <TwitchStreamModal v-else-if="activeModal === 'twitchStreamModal'" :closeModal="() => setActiveModal('')"
-      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast"/>
+      :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
 
     <EditSetupDetail v-else-if="activeModal === 'editSetupDetail'" :closeModal="() => setActiveModal('')"
       :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :handleEditCast="handleEditCast" />
@@ -176,6 +176,9 @@
       :castDetails="castDetails" :getCastList="getCastList" />
     <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
       :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
+
+    <CopyNFTModal v-else-if="activeModal === 'copyNftModal'" :closeModal="() => setActiveModal('')"
+      :castId="castDetails.public_meeting_id" />
   </div>
 </template>
 <script>
@@ -214,6 +217,7 @@ import LiveStreamModal from './options-components/LiveStreamModal.vue';
 import YoutubeStreamModal from './options-components/YoutubeStreamModal.vue';
 import TwitchStreamModal from './options-components/TwitchStreamModal.vue';
 import FacebookStreamModal from './options-components/FacebookStreamModal.vue';
+import CopyNFTModal from './options-components/CopyNFTModal.vue';
 
 export default {
   name: 'CastCard',
@@ -383,6 +387,7 @@ export default {
     YoutubeStreamModal,
     TwitchStreamModal,
     FacebookStreamModal,
+    CopyNFTModal
   },
   mounted() {
     this.setProps();
@@ -653,7 +658,7 @@ export default {
       data.append('description', this.stepOneProps.description);
       data.append('cast_type', this.stepOneProps.auth_type);
       data.append('collect_attendee_email', this.stepOneProps.public_otp ? 'True' : 'False');
-      if(isReshedule){
+      if (isReshedule) {
         data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
       }
       data.append('timezone', this.stepOneProps.timezone);
@@ -667,6 +672,7 @@ export default {
       data.append('is_streaming', this.stepThreeProps.is_streaming ? 'True' : 'False');
       data.append('public_stream', this.stepThreeProps.public_stream ? 'True' : 'False');
       data.append('bbb_stream_url', this.stepThreeProps.vw_stream_url);
+      data.append('vw_stream_url', this.stepThreeProps.vw_stream_url);
       data.append('record', this.stepFourProps.record ? 'True' : 'False');
       data.append('end_when_no_moderator', this.stepFourProps.end_when_no_moderator ? 'True' : 'False');
       data.append('allow_moderator_to_unmute_user', this.stepFourProps.allow_moderator_to_unmute_user ? 'True' : 'False');

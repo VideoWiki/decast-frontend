@@ -1,5 +1,5 @@
 <template>
-  <div class="basic_details_cont w-full p-4 px-6 flex flex-col gap-6 justify-start">
+  <div class="w-full flex flex-col gap-6 justify-start">
     <div class="flex justify-between">
       <div class="text-white">
         <p class="font-bold text-2xl">//Calls</p>
@@ -13,9 +13,19 @@
       </div>
     </div>
 
+    <div class="choose-room">
+      <button class="options-button border-none" @click="changeFocus(true)" :class="{ 'focused-button': focusYourRooms }">
+        /rooms
+      </button>
+      <button class="options-button border-none px-5" @click="handleButtonClick"
+        :class="{ 'focused-button': !focusYourRooms }">
+        /recordings
+      </button>
+    </div>
+
     <div class="flex flex-row gap-12 w-full">
       <div class="flex flex-col gap-6 w-1/2">
-        <div class="choose-room">
+        <!-- <div class="choose-room">
           <button class="options-button border-none" @click="changeFocus(true)"
             :class="{ 'focused-button': focusYourRooms }">
             /rooms
@@ -24,7 +34,7 @@
             :class="{ 'focused-button': !focusYourRooms }">
             /recordings
           </button>
-        </div>
+        </div> -->
 
         <div class="flex flex-col gap-4">
           <div class="room_list_cont" v-if="focusYourRooms">
@@ -190,7 +200,7 @@ export default {
 .room_details {
   border: 2px solid #272727;
   box-shadow: 3px 3px 0px 0px #272727;
-  height: 53vh;
+  /* height: 53vh; */
 }
 
 .room_header {
@@ -199,7 +209,7 @@ export default {
 
 .room_list_cont {
   overflow: scroll !important;
-  height: 45vh;
+  height: 64vh;
 }
 
 .room_list_cont::-webkit-scrollbar {

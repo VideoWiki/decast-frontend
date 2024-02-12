@@ -1,49 +1,32 @@
 <template>
   <div>
     <div v-if="this.payload">
-      <button
-        class="vs-component w-full mt-2 vs-button text-base font-bold wallter-button"
-        @click="connectWallet"
-        color="#1d2129"
-        text-color="#1d2129"
-      >
-        Connect Wallet
+      <button v-if="!accountAddress" class="vs-component w-full my-2 vs-button text-base font-bold wallter-button"
+        @click="connectWallet" color="#1d2129" text-color="#1d2129">
+        /connect.wallet
       </button>
-      <p class="mt-4 mb-2 info-wall">
+      <button v-else class="vs-component w-full mt-2 vs-button text-base font-bold wallter-button"
+        color="#1d2129" text-color="#1d2129">
+        {{ truncate(accountAddress) }}
+      </button>
+      <!-- <p class="mt-4 mb-2 info-wall">
         Your wallet information is not mapped to your email or name. It is saved
         with encryption and only used for the airdrop configured by the event
         admin.
-      </p>
+      </p> -->
     </div>
 
     <div v-else>
-      <vs-button
-        v-if="authenticated"
-        class="text-base font-bold wallter-button"
-        color="#1d2129"
-        text-color="#1d2129"
-        type="filled"
-        @click="popup"
-        >Connect Wallet
+      <vs-button v-if="authenticated" class="text-base font-bold wallter-button" color="#1d2129" text-color="#1d2129"
+        type="filled" @click="popup">Connect Wallet
       </vs-button>
       <div v-else-if="!authenticated">
         <vs-dropdown vs-custom-content class="cursor-pointer">
           <div class="flex items-center relative">
-            <vs-button
-              type="filled"
-              class="text-base font-bold pr-4"
-              text-color="#d7df23"
-              color="#000"
-            >
+            <vs-button type="filled" class="text-base font-bold pr-4" text-color="#d7df23" color="#000">
               {{ truncate(accountAddress) }}
             </vs-button>
-            <vs-icon
-              icon="radio_button_checked"
-              color="success"
-              size="18px"
-              class="absolute"
-              style="left: 3%"
-            />
+            <vs-icon icon="radio_button_checked" color="success" size="18px" class="absolute" style="left: 3%" />
           </div>
           <vs-dropdown-menu class="vx-navbar-dropdown">
             <ul style="min-width: 9rem" class="acc-cont">
@@ -54,10 +37,7 @@
 
               <vs-divider class="m-1" />
 
-              <li
-                class="flex py-2 px-4 cursor-pointer hover:bg-danger hover:text-white"
-                @click="logout"
-              >
+              <li class="flex py-2 px-4 cursor-pointer hover:bg-danger hover:text-white" @click="logout">
                 <!--feather-icon icon="HomeIcon" svgClasses="w-4 h-4" /-->
                 <span class="ml-2">Disconnect</span>
               </li>
@@ -65,17 +45,8 @@
           </vs-dropdown-menu>
         </vs-dropdown>
       </div>
-      <vs-popup
-        id="nft-popup"
-        class=""
-        ref="custom_modal_mine"
-        title=""
-        :active.sync="popupDisplay"
-      >
-        <div
-          class="popup-item flex flex-wrap items-center w-full justify-center p-5"
-          @click="login"
-        >
+      <vs-popup id="nft-popup" class="" ref="custom_modal_mine" title="" :active.sync="popupDisplay">
+        <div class="popup-item flex flex-wrap items-center w-full justify-center p-5" @click="login">
           <div class="w-full flex flex-wrap items-center justify-center">
             <img class="metamask-logo" src="@/assets/images/metmask.png" />
           </div>
@@ -83,13 +54,11 @@
             <h3 class="metamask-h3">MetaMask</h3>
           </div>
           <div>
-            <p
-              style="
+            <p style="
                 font-size: 18px;
                 margin: 0.333em 0px;
                 color: rgb(169, 169, 188);
-              "
-            >
+              ">
               Connect to your MetaMask account
             </p>
           </div>
@@ -185,7 +154,7 @@ export default {
   transform: translateY(-3px);
   transition: 0.2s ease-in-out;
   transform-origin: center;
-  box-shadow: 3px 3px 0px 0px #d7df23,6px 6px 0px 0px #d7df23 !important;
+  box-shadow: 3px 3px 0px 0px #d7df23, 6px 6px 0px 0px #d7df23 !important;
 }
 
 .info-wall {
@@ -204,17 +173,18 @@ p {
 .info-wall {
   color: #a6a6a6;
 }
+
 .metamask-h3 {
   font-size: 24px;
   font-weight: 700;
   margin-top: 0.5em;
   color: #d7df23;
 }
+
 .popup-item {
   cursor: pointer;
   background: #000 !important;
 }
-
 </style>
 
 <style>
@@ -233,7 +203,7 @@ p {
   box-shadow: 5px 5px 0px 0px #d7df23 !important;
 }
 
-.vs-dropdown--custom{
+.vs-dropdown--custom {
   background: #000 !important;
   border: 1px solid #f2ff00 !important;
   color: #d7df23 !important;

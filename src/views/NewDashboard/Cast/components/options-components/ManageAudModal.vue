@@ -67,7 +67,7 @@
                         <div class="ma-actions-btn">
                             <div class="flex items-center">
                                 <h2>Audience</h2>
-                                <vx-tooltip text="Download Invitee List" position="bottom">
+                                <!-- <vx-tooltip text="Download Invitee List" position="bottom">
                                     <vs-button v-if="users" @click="inviteeListDownload" class="airdrop-btn-1"
                                         style="font-size: 12px;">
                                         <vs-icon icon-pack="feather" icon="icon-download" size="14px" rounded="true">
@@ -81,13 +81,42 @@
                                         <vs-icon icon-pack="feather" icon="icon-edit" size="14px" rounded="true">
                                         </vs-icon>
                                     </vs-button>
-                                </vx-tooltip>
+                                </vx-tooltip> -->
 
                                 <vx-tooltip text="Copy NFT link to share" position="bottom">
                                     <vs-button type="border" v-if="isAirdrop && pub_nft_flow" class="airdrop-btn-1"
-                                        style="font-size: 12px;" @click="setActiveModal('shareNft')">
-                                        <vs-icon icon-pack="feather" icon="icon-share-2" size="14px" rounded="true">
-                                        </vs-icon>
+                                        style="font-size: 12px;" @click="setActiveModal('copyNftModal')">
+                                        <svg width="19" height="16" viewBox="0 0 19 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0.490967 7.3846H1.77668V8.61537H0.490967V7.3846Z" fill="white" />
+                                            <path d="M12.0624 14.7692H13.3481V16H12.0624V14.7692Z" fill="white" />
+                                            <path d="M10.7767 13.5384H12.0624V14.7692H10.7767V13.5384Z" fill="white" />
+                                            <path d="M8.20525 8.61537H9.49097V9.84614H8.20525V8.61537Z" fill="white" />
+                                            <path d="M9.49097 7.3846H10.7767V8.61537H9.49097V7.3846Z" fill="white" />
+                                            <path d="M10.7767 6.15383H12.0624V7.3846H10.7767V6.15383Z" fill="white" />
+                                            <path d="M12.0624 4.92306H13.3481V6.15383H12.0624V4.92306Z" fill="white" />
+                                            <path d="M13.3481 3.69229H14.6338V4.92306H13.3481V3.69229Z" fill="white" />
+                                            <path d="M14.6338 2.46152H15.9195V3.69229H14.6338V2.46152Z" fill="white" />
+                                            <path d="M1.77668 6.15383V7.3846H4.34811V6.15383H1.77668Z" fill="white" />
+                                            <path d="M4.34811 9.84614V8.61537H1.77668V9.84614H4.34811Z" fill="white" />
+                                            <path
+                                                d="M8.20525 13.5384H6.91954V11.0769H8.20525V9.84614H4.34811V11.0769H5.63382V16H6.91954V14.7692H8.20525V13.5384Z"
+                                                fill="white" />
+                                            <path d="M10.7767 12.3077H9.49097V11.0769H8.20525V13.5384H10.7767V12.3077Z"
+                                                fill="white" />
+                                            <path d="M14.6338 11.0769H13.3481V14.7692H14.6338V11.0769Z" fill="white" />
+                                            <path d="M15.9195 7.3846H14.6338V11.0769H15.9195V7.3846Z" fill="white" />
+                                            <path d="M4.34811 4.92306V6.15383H6.91954V4.92306H4.34811Z" fill="white" />
+                                            <path d="M6.91954 3.69229V4.92306H9.49097V3.69229H6.91954Z" fill="white" />
+                                            <path d="M9.49097 2.46152V3.69229H12.0624V2.46152H9.49097Z" fill="white" />
+                                            <path d="M14.6338 2.46152V1.23075H12.0624V2.46152H14.6338Z" fill="white" />
+                                            <path d="M14.6338 -1.52588e-05V1.23075H17.2053V-1.52588e-05H14.6338Z"
+                                                fill="white" />
+                                            <path d="M18.491 1.23075H17.2053V3.69229H18.491V1.23075Z" fill="white" />
+                                            <path d="M17.2053 3.69229H15.9195V7.3846H17.2053V3.69229Z" fill="white" />
+                                        </svg>
+                                        <!-- <vs-icon icon-pack="feather" icon="icon-share-2" size="14px" rounded="true">
+                                        </vs-icon> -->
                                     </vs-button>
                                 </vx-tooltip>
                             </div>
@@ -1174,5 +1203,4 @@ button {
     .btn-cont {
         margin: 10px 0px 10px 0px;
     }
-}
-</style>
+}</style>

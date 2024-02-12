@@ -18,14 +18,16 @@
                         </div>
                     </div>
                     <div class="flex flex-col mt-8 w-3/4">
-                        <p class="collect-em-label">//For streaming the event on VideoWiki, choose this option and you will
+                        <p class="collect-em-label">//For streaming the event on Decast, choose this option and you will
                             receive the stream page address in your email.</p>
-                        <span>videowikiStreaming()</span>
+                        <p class="collect-em-label">//Disabling the stream on decast will disable all the above streaming
+                            i.e Youtube, Facebook & Twitch.</p>
+                        <span>decastStreaming()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => VWStream = true"
-                                v-bind:style="VWStream ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="VWStream ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">enable</button>
                             <button class="custm-toggle" @click="() => VWStream = false"
-                                v-bind:style="VWStream ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="VWStream ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">disable</button>
                         </div>
                     </div>
                     <vs-button class="mt-8" type="border" @click="updateCastWithStream">>>confirm</vs-button>
@@ -73,13 +75,13 @@ export default {
                             this.stepThreeProps.record_youtube = true;
                         }
                         if (item.match(/video.wiki/)) {
-                            this.stepThreeProps.vw_stream = true; 
+                            this.stepThreeProps.vw_stream = true;
                         }
                         if (item.match(/facebook/)) {
                             this.stepThreeProps.facebook_secret_key = x.pop();
                             this.stepThreeProps.facebook_rtmp_url = x.join('/');
                             this.stepThreeProps.facebook_stream_url = item;
-                            this.stepThreeProps.record_facebook = true;  
+                            this.stepThreeProps.record_facebook = true;
                         }
                         if (item.match(/twitch/)) {
                             this.stepThreeProps.twitch_secret_key = x.pop();
@@ -103,10 +105,12 @@ export default {
     },
     methods: {
         updateCastWithStream() {
-            const streamUrls = [{ vw_stream: true }, { urls: [] }];
+            const streamUrls = [{ vw_stream: 'True' }, { urls: [] }];
 
             if (this.VWStream === true) {
                 streamUrls[0].vw_stream = 'True';
+            } else {
+                streamUrls[0].vw_stream = 'False';
             }
 
             if (this.youtube !== '' && this.youtubeSecret !== '') {

@@ -3,7 +3,7 @@
         <template #modalContent>
             <div class="modal-content-wrapper">
                 <div class="modal-content">
-                    <div class="modal-heading">
+                    <!-- <div class="modal-heading">
                         <h3>Youtube Streaming Options</h3>
                     </div>
                     <div class="flex flex-col mt-6 w-3/4">
@@ -15,7 +15,7 @@
                             <button class="custm-toggle" @click="() => {}"
                                 v-bind:style="true ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="modal-heading mt-8">
                         <h3>Youtube Streaming Details</h3>
@@ -119,6 +119,8 @@ export default {
 
             if (this.VWStream === true) {
                 streamUrls[0].vw_stream = 'True';
+            }else {
+                streamUrls[0].vw_stream = 'False';
             }
 
             if (this.youtube !== '' && this.youtubeSecret !== '') {
