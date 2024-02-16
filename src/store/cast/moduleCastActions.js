@@ -2,8 +2,48 @@
 import axios from '../../axios';
 import constants from '../../../constant';
 export default {
-  async getAllCasts(){
+  async getAllCasts() {
     return axios.get(constants.apiCastUrl + '/api/event/get/all/info/');
+  },
+  async renameRecording({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .patch(constants.apiCastUrl + '/api/event/update/recording/', payload, {
+          'Content-Type': 'application/json',
+        })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
+  },
+  async changeShortCode({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .patch(constants.apiCastUrl + '/api/url/update/', payload, {
+          'Content-Type': 'application/json',
+        })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
+  },
+  async getOriginalUrl({ commit }, shortCode) {
+    try {
+      const res = await axios.get(`${constants.apiCastUrl}/api/url/retrieve/${shortCode}/`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      return res;
+    } catch (error) {
+      return null;
+    }
   },
   async getCastList({ commit }) {
     try {
@@ -101,7 +141,7 @@ export default {
           if (
             e.response.status === 400 &&
             e.response.data.message ===
-              'please check the scheduled cast start time'
+            'please check the scheduled cast start time'
           ) {
             location.href = '/joining/' + this.$route.params.cast_Id;
           }
@@ -220,14 +260,14 @@ export default {
         .then((res) => {
           resolve(res);
           // console.log(res,"res..")
-         
+
         })
         .catch((error) => {
           reject(error);
           console.log('not Editing');
           console.log(error);
         });
-        
+
     });
   },
   formSubmit({ commit }, payload) {
@@ -237,7 +277,7 @@ export default {
         .then((res) => {
           console.log('form submitting');
           resolve(res);
-          
+
         })
         .catch((error) => {
           console.log('not submitting');
@@ -387,7 +427,7 @@ export default {
     });
   },
   async recordingList({ commit }) {
-    const res=await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
+    const res = await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
     commit('SET_RECORDINGLIST', res.data);
     return res.data;
   },

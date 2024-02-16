@@ -15,22 +15,27 @@
                 </vs-button>
             </template>
         </SimpleMenu>
+        <RenameModal v-if="activeModal === 'renameRecording'" :closeModal="() => activeModal=''"
+            :recording="recording" :getRecordings="getRecordings"/>
     </div>
 </template>
 
 <script>
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
+import RenameModal from './recording-options/RenameModal.vue';
 
 export default {
     name: 'RecordingCard',
-    props: ['recording', 'index'],
+    props: ['recording', 'index', 'getRecordings'],
     components: {
-        SimpleMenu,
-        MoreIcon,
-    },
+    SimpleMenu,
+    MoreIcon,
+    RenameModal
+},
     data() {
         return {
+            activeModal: '',
             recordingCardMenuItems: [
                 {
                     label: "Play",
@@ -48,6 +53,11 @@ export default {
                     onClick: () => this.editRecord(),
                     tooltip: "The recording may require some time for processing. If it doesn't work, please try again later.",
                     tooltipPosition: "left",
+                },
+                {
+                    label: "Rename",
+                    icon: () => import("@/assets/svgs/menu-icons/pen.vue"),
+                    onClick: () => this.activeModal = 'renameRecording',
                 },
             ]
         }

@@ -384,6 +384,14 @@ const router = new Router({
       },
     },
     {
+      path: '/join/:shortCode?',
+      name: 'Join Event',
+      component: () => import('./views/NewDashboard/JoinRedirect.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/live/:eventId?',
       name: 'Stream View',
       component: () => import('./views/dashboard/StreamView.vue'),

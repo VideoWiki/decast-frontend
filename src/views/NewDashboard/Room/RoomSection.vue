@@ -45,21 +45,21 @@
             </div>
             <div v-else-if="rooms.length">
               <div v-for="(room, index) in rooms" :key="index">
-                <RoomCard :room="room" :index="index" :roomsList="rooms" @room-click="handleRoomClick" />
+                <RoomCard :getRoomList="getList" :room="room" :index="index" :roomsList="rooms" @room-click="handleRoomClick" />
               </div>
             </div>
           </div>
 
           <div v-else class="room_list_cont">
-            <div v-if="recordingList.length">
-              <div v-for="(recording, index) in recordings" :key="index">
-                <RecordingCard :recording="recording" :index="index" />
-              </div>
-            </div>
-            <div v-else-if="isRecordingLoading">
+            <div v-if="isRecordingLoading">
               <RecordingCardShimmer />
               <RecordingCardShimmer :style="{ opacity: 0.7 }" />
               <RecordingCardShimmer :style="{ opacity: 0.4 }" />
+            </div>
+            <div v-else-if="recordingList.length">
+              <div v-for="(recording, index) in recordings" :key="index">
+                <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings" />
+              </div>
             </div>
             <div v-else class="recording flex flex-col items-center justify-items-center">
               <h1 class="text-4xl text-white font-bold">Oops! No Recordings Found. :(</h1>
@@ -158,10 +158,13 @@ export default {
         });
     },
     async getRecordings() {
+      this.isRecordingLoading = true;
       try {
         const res = await this.$store.dispatch('room/getRecordings');
+        this.isRecordingLoading = false;
         console.log(res);
       } catch (e) {
+        this.isRecordingLoading = false;
         console.error('Error getting recordings', e);
       }
     },
@@ -172,9 +175,8 @@ export default {
         await this.getRecordings();
       } catch (e) {
         console.error('Error getting recordings', e);
-      } finally {
-        this.isRecordingLoading = false;
       }
+      this.isRecordingLoading = false;
     },
   },
 };

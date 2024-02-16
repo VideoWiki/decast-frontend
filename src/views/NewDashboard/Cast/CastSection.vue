@@ -56,7 +56,7 @@
             <div v-else-if="recordingList.length">
               <div class="recordings flex justify-between items-center mb-4"
                 v-for="(recording, index) in flattenedRecordingList" :key="index">
-                <RecordingCard :recording="recording" :index="index" />
+                <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings"/>
               </div>
             </div>
             <div v-else class="recording flex flex-col items-center justify-items-center">

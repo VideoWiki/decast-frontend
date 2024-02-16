@@ -21,7 +21,7 @@
         </vs-button>
         <div class="copy-btn-cont">
           <vx-tooltip text="Copy Link" position="bottom">
-            <vs-button class="custm-style" @click="copy(room.room_url)">
+            <vs-button class="custm-style" @click="copy(room.short_code)">
               <img src="@/assets/images/copy.svg" />
             </vs-button>
           </vx-tooltip>
@@ -36,6 +36,7 @@
     <ShareRoomModal v-if="activeModal === 'shareRoomModal'" :room="room" :closeModal="() => setRoomModal('')" />
     <RoomOptionsModal v-if="activeModal === 'roomOptionsModal'" :closeModal="() => setActiveModal('')"
       :setActiveModal="setActiveModal" />
+    <CustomRoomUrl v-if="activeModal === 'customRoomUrl'" :closeModal="() => setActiveModal('')" :room="room" :getRoomList="getRoomList"/>
     <DeleteRoomModal v-if="activeModal === 'deleteRoomModal'" :closeModal="() => setActiveModal('')"
       :roomName="room.room_name" :confirmDelete="() => deleteRoom(room)" />
   </div>
@@ -48,10 +49,11 @@ import ShareRoomModal from './options-components/ShareRoomModal.vue';
 import RoomCardShimmer from './RoomCardShimmer.vue';
 import RoomOptionsModal from './RoomOptionsModal.vue';
 import DeleteRoomModal from './options-components/DeleteRoomModal.vue';
+import CustomRoomUrl from './options-components/CustomRoomUrl.vue';
 
 export default {
   name: 'RoomCard',
-  props: ['room', 'index', 'roomsList'],
+  props: ['room', 'index', 'roomsList', 'getRoomList'],
   data() {
     return {
       isLoading: false,
@@ -82,7 +84,8 @@ export default {
     RoomCardShimmer,
     RoomOptionsModal,
     DeleteRoomModal,
-  },
+    CustomRoomUrl
+},
   methods: {
     handleRoomClick() {
       let newId = this.room.room_url.split('/');
@@ -107,10 +110,8 @@ export default {
         return text;
       }
     },
-    copy(url) {
-      let id = url.split('/');
-      id = id[id.length - 1];
-      navigator.clipboard.writeText('https://decast.live/join-room/' + id);
+    copy(shortCode) {
+      navigator.clipboard.writeText('https://decast.live/join/' + shortCode);
     },
     getList() {
       this.$store

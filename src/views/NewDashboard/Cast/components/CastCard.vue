@@ -160,7 +160,11 @@
     <TwitchStreamModal v-else-if="activeModal === 'twitchStreamModal'" :closeModal="() => setActiveModal('')"
       :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
 
+    <CustomCastUrl v-else-if="activeModal === 'customCastUrl'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails" :getCastList="getCastList" />
     <EditSetupDetail v-else-if="activeModal === 'editSetupDetail'" :closeModal="() => setActiveModal('')"
+      :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :handleEditCast="handleEditCast" />
+    <EditPostponeDetail v-else-if="activeModal === 'editPostponeDetail'" :closeModal="() => setActiveModal('')"
       :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :handleEditCast="handleEditCast" />
     <EditBasicDetail v-else-if="activeModal === 'editBasicDetail'" :closeModal="() => setActiveModal('')"
       :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :handleEditCast="handleEditCast" />
@@ -218,6 +222,8 @@ import YoutubeStreamModal from './options-components/YoutubeStreamModal.vue';
 import TwitchStreamModal from './options-components/TwitchStreamModal.vue';
 import FacebookStreamModal from './options-components/FacebookStreamModal.vue';
 import CopyNFTModal from './options-components/CopyNFTModal.vue';
+import EditPostponeDetail from './options-components/EditPostponeDetail.vue';
+import CustomCastUrl from './options-components/CustomCastUrl.vue';
 
 export default {
   name: 'CastCard',
@@ -268,19 +274,36 @@ export default {
         {
           label: 'Copy participant url',
           icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_ap),
+          onClick: () => this.copyCastUrl("attendee"),
         },
         {
           label: 'Copy co-host url',
           icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_mp),
+          onClick: () => this.copyCastUrl("moderator"),
         },
         {
           label: 'Copy stream url',
           icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, undefined),
+          onClick: () => this.copyCastUrl("livestream"),
         },
       ],
+      // castCopyMenuItems: [
+      //   {
+      //     label: 'Copy participant url',
+      //     icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
+      //     onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_ap),
+      //   },
+      //   {
+      //     label: 'Copy co-host url',
+      //     icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
+      //     onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_mp),
+      //   },
+      //   {
+      //     label: 'Copy stream url',
+      //     icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
+      //     onClick: () => this.copy(this.castDetails.public_meeting_id, undefined),
+      //   },
+      // ],
 
       isAirdrop: false,
       pub_nft_flow: false,
@@ -387,7 +410,9 @@ export default {
     YoutubeStreamModal,
     TwitchStreamModal,
     FacebookStreamModal,
-    CopyNFTModal
+    CopyNFTModal,
+    EditPostponeDetail,
+    CustomCastUrl
   },
   mounted() {
     this.setProps();
@@ -538,6 +563,15 @@ export default {
         'https://decast.live/join-cast/' + id + '/?pass=' + pass
       );
     },
+    copyCastUrl(joinType) {
+      for (let i = 0; i < this.castDetails.short_codes.length; i++) {
+        if (this.castDetails.short_codes[i].type === joinType) {
+          navigator.clipboard.writeText(
+            'https://decast.live/join/' + this.castDetails.short_codes[i].short_code
+          );
+        }
+      }
+    },
     async joinNow(id) {
       const data = {
         email: '',
@@ -632,7 +666,7 @@ export default {
         return true;
       }
     },
-    formSubmitted(isReshedule) {
+    formSubmitted(isReshedule, postponeMessage) {
       if (moment().isAfter(this.stepOneProps.schedule_time)) {
         const fiveMin = moment().add(5, 'minutes');
         this.stepOneProps.schedule_time =
@@ -660,6 +694,10 @@ export default {
       data.append('collect_attendee_email', this.stepOneProps.public_otp ? 'True' : 'False');
       if (isReshedule) {
         data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
+      }
+      if (postponeMessage) {
+        data.append('cast_postponed', true);
+        data.append('cast_postponed_message', postponeMessage);
       }
       data.append('timezone', this.stepOneProps.timezone);
       data.append('primary_color', this.stepTwoProps.primary_color);
@@ -729,10 +767,10 @@ export default {
         });
       // this.$emit('updateShowEditCast', false);
     },
-    handleEditCast(isReshedule) {
+    handleEditCast(isReshedule, postponeMessage) {
       if (this.validateFormOne) {
         console.log('success validated');
-        this.formSubmitted(isReshedule);
+        this.formSubmitted(isReshedule, postponeMessage);
       }
     },
     async changePublicNftStatus(castId, curr_status) {

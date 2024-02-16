@@ -11,13 +11,14 @@
                             <div class="grid-item" v-if="castDetails.nft_details_submitted" @click="setActiveModal('editNftDropModal')">Edit NFT/Token <br>Drop</div>
                             <div class="grid-item" v-else @click="setActiveModal('nftDropModal')">NFT/Token <br>Drop</div>
 
+                            <div class="grid-item" @click="setActiveModal('customCastUrl')">Custom <br>Cast Url</div>
                             <div class="grid-item" @click="setActiveModal('manageAudienceModal')">Manage <br>Audience</div>
                             <div class="grid-item" @click="setActiveModal('liveStreamModal')">Live <br>Streaming</div>
                             <div class="grid-item" @click="setActiveModal('editSetupDetail')">Edit Setup <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('editBasicDetail')">Edit Basic <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('editBrandingDetail')">Edit Branding <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('editAdvanceDetail')">Edit Advanced <br>Details</div>
-                            <div class="grid-item" @click="setActiveModal('')">Postpone <br>Cast</div>
+                            <div class="grid-item" @click="setActiveModal('editPostponeDetail')">Postpone <br>Cast</div>
                             <div class="grid-item danger-button" @click="setActiveModal('deleteCastModal')">Delete <br>Cast</div>
                         </div>
                     </div>
