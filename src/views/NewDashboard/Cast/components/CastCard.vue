@@ -666,7 +666,7 @@ export default {
         return true;
       }
     },
-    formSubmitted(isReshedule, postponeMessage) {
+    formSubmitted(args) {
       if (moment().isAfter(this.stepOneProps.schedule_time)) {
         const fiveMin = moment().add(5, 'minutes');
         this.stepOneProps.schedule_time =
@@ -692,12 +692,18 @@ export default {
       data.append('description', this.stepOneProps.description);
       data.append('cast_type', this.stepOneProps.auth_type);
       data.append('collect_attendee_email', this.stepOneProps.public_otp ? 'True' : 'False');
-      if (isReshedule) {
+      if (args && args.isReshedule) {
         data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
       }
-      if (postponeMessage) {
+      if (args && args.postponeMessage) {
         data.append('cast_postponed', true);
         data.append('cast_postponed_message', postponeMessage);
+      }
+      if (args && args.updateStream) {
+        data.append('is_streaming', this.stepThreeProps.is_streaming ? 'True' : 'False');
+        data.append('public_stream', this.stepThreeProps.public_stream ? 'True' : 'False');
+        data.append('bbb_stream_url', this.stepThreeProps.vw_stream_url);
+        data.append('vw_stream_url', this.stepThreeProps.vw_stream_url);
       }
       data.append('timezone', this.stepOneProps.timezone);
       data.append('primary_color', this.stepTwoProps.primary_color);
@@ -707,10 +713,6 @@ export default {
       data.append('moderator_only_text', this.stepTwoProps.moderator_only_text);
       data.append('duration', this.stepTwoProps.duration);
       data.append('logout_url', this.stepTwoProps.logout_url);
-      data.append('is_streaming', this.stepThreeProps.is_streaming ? 'True' : 'False');
-      data.append('public_stream', this.stepThreeProps.public_stream ? 'True' : 'False');
-      data.append('bbb_stream_url', this.stepThreeProps.vw_stream_url);
-      data.append('vw_stream_url', this.stepThreeProps.vw_stream_url);
       data.append('record', this.stepFourProps.record ? 'True' : 'False');
       data.append('end_when_no_moderator', this.stepFourProps.end_when_no_moderator ? 'True' : 'False');
       data.append('allow_moderator_to_unmute_user', this.stepFourProps.allow_moderator_to_unmute_user ? 'True' : 'False');
@@ -767,10 +769,10 @@ export default {
         });
       // this.$emit('updateShowEditCast', false);
     },
-    handleEditCast(isReshedule, postponeMessage) {
+    handleEditCast(args) {
       if (this.validateFormOne) {
         console.log('success validated');
-        this.formSubmitted(isReshedule, postponeMessage);
+        this.formSubmitted(args);
       }
     },
     async changePublicNftStatus(castId, curr_status) {

@@ -367,7 +367,7 @@ const router = new Router({
       },
     },
     {
-      path: '/join-room/:meeting_id?',
+      path: '/r/:meeting_id?',
       name: 'Joining Room',
       // component: () => import('./views/joiningPage.vue'),
       component: () => import('./views/JoiningPageNew.vue'),
@@ -376,7 +376,7 @@ const router = new Router({
       },
     },
     {
-      path: '/join-cast/:meetingID?',
+      path: '/c/:meetingID?',
       name: 'Joining Cast',
       component: () => import('./views/JoinCastNew.vue'),
       meta: {
