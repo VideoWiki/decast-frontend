@@ -70,7 +70,6 @@ export default {
                         new_custom_code: this.newShortCodes[key],
                         cast_id: this.castDetails.public_meeting_id,
                     }));
-                    dispatchPerformed = true;
                 }
             });
             Promise.all(dispatchPromises)

@@ -100,7 +100,7 @@ export default {
                 this.postponeMessageError = true;
                 return;
             }
-            this.handleEditCast(true, this.postponeMessage);
+            this.handleEditCast({postponeMessage: this.postponeMessage});
         }
         // handleEditSetup() {
         //     this.$vs.loading();

@@ -129,7 +129,7 @@ export default {
             this.stepThreeProps.is_streaming = isStreaming;
             this.stepThreeProps.vw_stream = streamUrls[0].vw_stream;
             this.stepThreeProps.vw_stream_url = JSON.stringify(streamUrls);
-            this.handleEditCast();
+            this.handleEditCast({updateStream: true});
         },
     },
 }
