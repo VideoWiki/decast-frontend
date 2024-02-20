@@ -542,7 +542,7 @@ export default {
 .cast_details {
   border: 2px solid #272727;
   box-shadow: 3px 3px 0px 0px #272727;
-  /* height: 53vh; */
+  height: 60vh;
   overflow: scroll !important;
 }
 

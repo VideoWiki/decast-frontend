@@ -270,40 +270,40 @@ export default {
       showEditCast: false,
       isStream: false,
       viewer: false,
-      // castCopyMenuItems: [
-      //   {
-      //     label: 'Copy participant url',
-      //     icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
-      //     onClick: () => this.copy("attendee"),
-      //   },
-      //   {
-      //     label: 'Copy co-host url',
-      //     icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
-      //     onClick: () => this.copy("moderator"),
-      //   },
-      //   {
-      //     label: 'Copy stream url',
-      //     icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
-      //     onClick: () => this.copy("livestream"),
-      //   },
-      // ],
       castCopyMenuItems: [
         {
           label: 'Copy participant url',
           icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_ap),
+          onClick: () => this.copyCastUrl("attendee"),
         },
         {
           label: 'Copy co-host url',
           icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_mp),
+          onClick: () => this.copyCastUrl("moderator"),
         },
         {
           label: 'Copy stream url',
           icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
-          onClick: () => this.copy(this.castDetails.public_meeting_id, undefined),
+          onClick: () => this.copyCastUrl("livestream"),
         },
       ],
+      // castCopyMenuItems: [
+      //   {
+      //     label: 'Copy participant url',
+      //     icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
+      //     onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_ap),
+      //   },
+      //   {
+      //     label: 'Copy co-host url',
+      //     icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
+      //     onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_mp),
+      //   },
+      //   {
+      //     label: 'Copy stream url',
+      //     icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
+      //     onClick: () => this.copy(this.castDetails.public_meeting_id, undefined),
+      //   },
+      // ],
 
       isAirdrop: false,
       pub_nft_flow: false,

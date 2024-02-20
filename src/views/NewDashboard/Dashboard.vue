@@ -1,22 +1,29 @@
 <template>
   <div class="full-screen-div flex flex-col justify-start items-center">
     <div class="dashboard_navbar max-w-6xl w-full items-center flex flex-row justify-between lg:px-12 md:px-4 px-3 py-4">
-      <div class="flex justify-start gap-4 w-1/3">
+      <div class="flex justify-start gap-4 w-2/5">
         <img src="@/assets/images/logot.svg" class="w-24 h-24 cursor-pointer mr-10" @click="redirectHome" />
         <div class="text-white flex flex-col justify-center h-24">
           <p class="welcome_msg text-2xl font-bold">
             //Welcome
             <span class="text-primary">{{ activeUserInfo.first_name }}</span>!
           </p>
-          <p class="text-lg" style="color: #22c55e">
+          <p class="text-lg" style="color: #22c55e; flex-wrap: nowrap;">
             /* what are we starting today? */
           </p>
         </div>
       </div>
 
-      <div class="w-2/3 flex flex-row gap-6 justify-end h-24 items-center">
-        <p class="text-lg">30x...TMTkV8LK4ZnX71</p>
-        <img src="@/assets/images/pixel_wallet.svg" class="w-10 h-8 cursor-pointer" />
+      <div class="w-3/5 flex flex-row gap-6 justify-end h-24 items-center">
+        <div v-if="(accessToken || loggedIn) && activeUserInfo.email== ''" class="flex gap-6">
+          <p class="text-lg">{{ activeUserInfo.username }}</p>
+          <img src="@/assets/images/pixel_wallet.svg" class="w-10 h-8 cursor-pointer" />
+        </div>
+
+        <div v-else class="flex gap-6">
+          <p class="text-lg">{{ activeUserInfo.email }}</p>
+          <img src="@/assets/images/pixel_email.svg" class="w-10 h-8 cursor-pointer" />
+        </div>
         <!-- <img src="@/assets/images/pixel_smile.svg" class="w-12 h-12 cursor-pointer" /> -->
         <div class="">
           <div v-if="accessToken || loggedIn">
@@ -180,6 +187,9 @@ export default {
     getFirstLetter() {
       return this.activeUserInfo.first_name[0];
     },
+  },
+  mounted() {
+    console.log(this.activeUserInfo, 'this is active');
   },
   methods: {
     toggleActiveModal(setModal) {

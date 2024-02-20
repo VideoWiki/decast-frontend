@@ -2,9 +2,9 @@
     <div class="parent_cast_cont_">
         <div class="room_header flex justify-between items-center w-full h-16 px-4 py-2 z-5 sticky top-0">
             <p class="text-xl font-bold">/room.details</p>
-            <p class="text-red font-bold">
+            <!-- <p class="text-red font-bold">
                 <span class="font-bold text-4xl">.</span> LIVE
-            </p>
+            </p> -->
         </div>
 
         <div class="flex flex-col gap-4 text-lg pt-6">
