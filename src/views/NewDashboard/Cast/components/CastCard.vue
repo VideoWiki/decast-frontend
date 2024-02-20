@@ -13,7 +13,7 @@
             <img src="@/assets/images/menu.svg" />
           </vs-button>
 
-          <SimpleMenu :menuList="castCopyMenuItems">
+          <SimpleMenu v-if="castDetails.cast_type === 'public'" :menuList="castCopyMenuItems">
             <template #menuButton>
               <vs-button class="custm-style">
                 <img src="@/assets/images/copy.svg" />
@@ -48,17 +48,17 @@
           <div>https://decast.live/live</div>
           <div class="flex gap-2 justify-center items-center">
             <vs-button class="custm-style">
-              <img src="@/assets/images/copy.svg" />
+              <img @click="copy(castDetails.public_meeting_id,undefined)" src="@/assets/images/copy.svg" />
             </vs-button>
             <div class="basic_stream_btn_cont_">
               <vx-tooltip v-if="castDetails.stream_status" text="Pause Stream" position="bottom">
                 <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'pause')">
-                  <img src="@/assets/images/pause_stream.svg" alt="" />
+                  <img src="@/assets/images/start_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
               <vx-tooltip v-else text="Start Stream" position="bottom">
                 <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'start')">
-                  <img src="@/assets/images/start_stream.svg" alt="" />
+                  <img src="@/assets/images/pause_stream.svg" alt="" />
                 </vs-button>
               </vx-tooltip>
             </div>
@@ -270,40 +270,40 @@ export default {
       showEditCast: false,
       isStream: false,
       viewer: false,
-      castCopyMenuItems: [
-        {
-          label: 'Copy participant url',
-          icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
-          onClick: () => this.copyCastUrl("attendee"),
-        },
-        {
-          label: 'Copy co-host url',
-          icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
-          onClick: () => this.copyCastUrl("moderator"),
-        },
-        {
-          label: 'Copy stream url',
-          icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
-          onClick: () => this.copyCastUrl("livestream"),
-        },
-      ],
       // castCopyMenuItems: [
       //   {
       //     label: 'Copy participant url',
       //     icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
-      //     onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_ap),
+      //     onClick: () => this.copy("attendee"),
       //   },
       //   {
       //     label: 'Copy co-host url',
       //     icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
-      //     onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_mp),
+      //     onClick: () => this.copy("moderator"),
       //   },
       //   {
       //     label: 'Copy stream url',
       //     icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
-      //     onClick: () => this.copy(this.castDetails.public_meeting_id, undefined),
+      //     onClick: () => this.copy("livestream"),
       //   },
       // ],
+      castCopyMenuItems: [
+        {
+          label: 'Copy participant url',
+          icon: () => import('@/assets/svgs/menu-icons/participant.vue'),
+          onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_ap),
+        },
+        {
+          label: 'Copy co-host url',
+          icon: () => import('@/assets/svgs/menu-icons/co-host.vue'),
+          onClick: () => this.copy(this.castDetails.public_meeting_id, this.castDetails.h_mp),
+        },
+        {
+          label: 'Copy stream url',
+          icon: () => import('@/assets/svgs/menu-icons/stream.vue'),
+          onClick: () => this.copy(this.castDetails.public_meeting_id, undefined),
+        },
+      ],
 
       isAirdrop: false,
       pub_nft_flow: false,
