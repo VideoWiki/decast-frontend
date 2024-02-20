@@ -23,8 +23,8 @@
                     <div class="flex flex-col mt-6">
                         <span>//Youtube RTMP Url</span>
                         <div>
-                            <input class="w-2/5 p-2 mt-2" placeholder="//RTMP URL" type="text"
-                                v-model="youtube" @keyup="urlError = youtube === ''" />
+                            <input class="w-2/5 p-2 mt-2" placeholder="//RTMP URL" type="text" v-model="youtube"
+                                @keyup="urlError = youtube === ''" />
                             <p v-if="urlError" class="text-danger my-2 p-0">>> RTMP URL is required</p>
                         </div>
                     </div>
@@ -32,8 +32,8 @@
                     <div class="flex flex-col mt-6">
                         <span>//Youtube Secret Key</span>
                         <div>
-                            <input class="w-2/5 p-2 mt-2" placeholder="//Secret Key" type="text"
-                                v-model="youtubeSecret" @keyup="secretKeyError = youtubeSecret === ''" />
+                            <input class="w-2/5 p-2 mt-2" placeholder="//Secret Key" type="text" v-model="youtubeSecret"
+                                @keyup="secretKeyError = youtubeSecret === ''" />
                             <p v-if="secretKeyError" class="text-danger my-2 p-0">>> Secret Key is required</p>
                         </div>
                     </div>
@@ -83,31 +83,31 @@ export default {
                             this.stepThreeProps.youtube_rtmp_url = x.join('/');
                             this.stepThreeProps.youtube_stream_url = item;
                             this.stepThreeProps.record_youtube = true;
+                            this.youtubeSecret = this.stepThreeProps.youtube_secret_key;
+                            this.youtube = this.stepThreeProps.youtube_rtmp_url;
                         }
                         if (item.match(/video.wiki/)) {
-                            this.stepThreeProps.vw_stream = true; 
+                            this.stepThreeProps.vw_stream = true;
+                            this.VWStream = this.stepThreeProps.vw_stream;
                         }
                         if (item.match(/facebook/)) {
                             this.stepThreeProps.facebook_secret_key = x.pop();
                             this.stepThreeProps.facebook_rtmp_url = x.join('/');
                             this.stepThreeProps.facebook_stream_url = item;
-                            this.stepThreeProps.record_facebook = true;  
+                            this.stepThreeProps.record_facebook = true;
+                            this.facebookSecret = this.stepThreeProps.facebook_secret_key;
+                            this.facebook = this.stepThreeProps.facebook_rtmp_url;
                         }
                         if (item.match(/twitch/)) {
                             this.stepThreeProps.twitch_secret_key = x.pop();
                             this.stepThreeProps.twitch_rtmp_url = x.join('/');
                             this.stepThreeProps.twitch_stream_url = item;
                             this.stepThreeProps.record_twich = true;
+                            this.twitch = this.stepThreeProps.twitch_rtmp_url;
+                            this.twitchSecret = this.stepThreeProps.twitch_secret_key;
                         }
                     });
                 }
-                this.youtubeSecret = this.stepThreeProps.youtube_secret_key;
-                this.youtube = this.stepThreeProps.youtube_rtmp_url;
-                this.VWStream = this.stepThreeProps.vw_stream;
-                this.facebookSecret = this.stepThreeProps.facebook_secret_key;
-                this.facebook = this.stepThreeProps.facebook_rtmp_url;
-                this.twitch = this.stepThreeProps.twitch_rtmp_url;
-                this.twitchSecret = this.stepThreeProps.twitch_secret_key;
             })
             .catch((e) => {
                 console.log('Error editing', e);
@@ -119,7 +119,7 @@ export default {
 
             if (this.VWStream === true) {
                 streamUrls[0].vw_stream = 'True';
-            }else {
+            } else {
                 streamUrls[0].vw_stream = 'False';
             }
 
@@ -139,7 +139,7 @@ export default {
             this.stepThreeProps.is_streaming = isStreaming;
             this.stepThreeProps.vw_stream = streamUrls[0].vw_stream;
             this.stepThreeProps.vw_stream_url = JSON.stringify(streamUrls);
-            this.handleEditCast();
+            this.handleEditCast({ updateStream: true });
         },
     },
 }
@@ -153,9 +153,11 @@ export default {
     cursor: pointer;
     width: fit-content;
 }
+
 .collect-em-label {
     color: #5B96EB !important;
 }
+
 .strm-button {
     height: 70px;
     width: 135px;
