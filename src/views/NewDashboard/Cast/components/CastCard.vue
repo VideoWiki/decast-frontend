@@ -701,7 +701,7 @@ export default {
       }
       if (args && args.updateStream) {
         data.append('is_streaming', this.stepThreeProps.is_streaming ? 'True' : 'False');
-        data.append('public_stream', this.stepThreeProps.public_stream ? 'True' : 'False');
+        data.append('public_stream', this.castDetails.cast_type === 'public' ? 'True' : 'False');
         data.append('bbb_stream_url', this.stepThreeProps.vw_stream_url);
         data.append('vw_stream_url', this.stepThreeProps.vw_stream_url);
       }
