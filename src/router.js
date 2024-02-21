@@ -394,7 +394,7 @@ const router = new Router({
     {
       path: '/live/:eventId?',
       name: 'Stream View',
-      component: () => import('./views/dashboard/StreamView.vue'),
+      component: () => import('./views/NewDashboard/stream-page/StreamPage.vue'),
       meta: {
         rule: 'isPublic',
       },

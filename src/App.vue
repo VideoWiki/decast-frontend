@@ -10,23 +10,14 @@
 <template>
   <div id="app" :class="vueAppClasses">
     <router-view @setAppClasses="setAppClasses" />
-    <vs-popup
-      title="Login/Register"
-      id="login-popup"
-      ref="login-popup"
-      :active.sync="authPopup"
-    >
+    <vs-popup title="Login/Register" id="login-popup" ref="login-popup" :active.sync="authPopup">
       <!-- <iframe
         src="/signup"
         style="width: 500px; height: 77vh"
         allowtransparency="true"
       ></iframe> -->
-      <SignUp
-        v-if="authPopup === 12"
-        :popup="true"
-        @loggedIn="$store.commit('TOGGLE_LOGIN_POPUP', false)"
-        @toRegister="login = false"
-      />
+      <SignUp v-if="authPopup === 12" :popup="true" @loggedIn="$store.commit('TOGGLE_LOGIN_POPUP', false)"
+        @toRegister="login = false" />
       <PasswordReset v-else-if="authPopup === 11" />
       <Login v-else />
     </vs-popup>
@@ -153,9 +144,11 @@ export default {
 input {
   font-family: Montserrat;
 }
+
 body {
   background: none transparent;
 }
+
 .vs-tooltip {
   background: #FFFFFF;
   border: 1px solid #FFFFFF;
@@ -164,6 +157,7 @@ body {
   font-weight: 500;
   padding: 2px 7px !important;
 }
+
 .vs-button-primary {
   width: fit-content !important;
   background-color: #000000 !important;
@@ -183,20 +177,25 @@ body {
   letter-spacing: 0em;
   text-align: left;
 }
+
 .vs-button-backgroundx {
   background: #000000 !important;
 }
-.vs-button-border.isActive .vs-button--text{
+
+.vs-button-border.isActive .vs-button--text {
   color: #D7DF23 !important;
 }
+
 .vs-button-primary.vs-button-filled {
   background: #D7DF23 !important;
 }
+
 .vs-button-primary:hover {
   -webkit-box-shadow: 0px 3px 17px -10px #D7DF23 !important;
   -moz-box-shadow: 0px 3px 17px -10px #D7DF23 !important;
   box-shadow: 0px 3px 17px -10px #D7DF23 !important;
 }
+
 .vs-button--text {
   display: flex !important;
   align-items: center !important;
@@ -208,6 +207,7 @@ body {
 .modal-content-wrapper * {
   font-family: 'JetBrains Mono' !important;
 }
+
 .modal-content-wrapper {
   height: 75vh;
   width: 60vw;
@@ -217,27 +217,47 @@ body {
   justify-content: space-between;
   padding-top: 1rem;
 }
+
 .modal-heading {
   border-top: 1px dashed #FFFFFF;
   border-bottom: 1px dashed #FFFFFF;
   padding: 5px 0px;
 }
+
 .modal-heading h3 {
   font-size: 18px;
   color: #FFFFFF;
   line-height: unset;
 }
+
 .cast-modal-bottom {
   margin-top: 20px;
 }
+
 .cast-modal-bottom span {
   color: #22C55E;
 }
+
 .cast-sc-detail {
   margin-bottom: 1rem;
 }
+
 .cast-sc-detail span {
   color: #22C55E;
+}
+
+.mint-custm-button {
+  background-color: #D7DF23;
+  color: #000000;
+  border: 2px solid #000000;
+  outline: none;
+  padding: 10px;
+  width: fit-content;
+  cursor: pointer;
+  font-weight: 600;
+  -webkit-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+  -moz-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+  box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
 }
 </style>
 
@@ -246,10 +266,10 @@ body {
 iframe {
   overflow: hidden;
 }
+
 .vs-popup--content {
   margin: 0;
   padding: 0;
   border-radius: 10px;
   background: #1f272f;
-}
-</style>
+}</style>
