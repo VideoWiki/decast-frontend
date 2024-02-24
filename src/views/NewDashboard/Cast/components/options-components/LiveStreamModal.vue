@@ -8,22 +8,68 @@
                     </div>
                     <div class="flex mt-8">
                         <div class="strm-button" @click="setActiveModal('youtubeStreamModal')">
-                            <p>Youtube</p>
+                            <p class="flex items-center justify-between">Youtube
+                                <svg v-if="youtubeSecret !== ''" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.4615 1.53846V0H1.53846V1.53846L18.4615 1.53846Z" fill="#22C55E" />
+                                    <path d="M0 18.4615H1.53846V1.53846H0V18.4615Z" fill="#22C55E" />
+                                    <path d="M18.4615 20V18.4615H1.53846V20H18.4615Z" fill="#22C55E" />
+                                    <path d="M20 1.53846L18.4615 1.53846V18.4615H20V1.53846Z" fill="#22C55E" />
+                                    <path d="M14.7999 6.85714H13V8.71429H14.7999V6.85714Z" fill="#22C55E" />
+                                    <path d="M13 8.71429H11.2V10.5714H13V8.71429Z" fill="#22C55E" />
+                                    <path d="M16.6 5H14.7999V6.85714H16.6V5Z" fill="#22C55E" />
+                                    <path d="M9.39995 12.4286H7.59995V14.2857H9.39995V12.4286Z" fill="#22C55E" />
+                                    <path d="M11.2 10.5714H9.39995V12.4286H11.2V10.5714Z" fill="#22C55E" />
+                                    <path d="M7.6 10.5714H5.8V12.4286L7.59995 12.4286L7.6 10.5714Z" fill="#22C55E" />
+                                    <path d="M5.8 8.71428H4V10.5714H5.8V8.71428Z" fill="#22C55E" />
+                                    <path d="M9.39995 12.4286H7.59995V14.2857H9.39995V12.4286Z" fill="#22C55E" />
+                                </svg>
+                            </p>
                         </div>
                         <div class="strm-button" @click="setActiveModal('facebookStreamModal')">
-                            <p>Facebook</p>
+                            <p class="flex items-center justify-between">Facebook
+                                <svg v-if="facebookSecret !== ''" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.4615 1.53846V0H1.53846V1.53846L18.4615 1.53846Z" fill="#22C55E" />
+                                    <path d="M0 18.4615H1.53846V1.53846H0V18.4615Z" fill="#22C55E" />
+                                    <path d="M18.4615 20V18.4615H1.53846V20H18.4615Z" fill="#22C55E" />
+                                    <path d="M20 1.53846L18.4615 1.53846V18.4615H20V1.53846Z" fill="#22C55E" />
+                                    <path d="M14.7999 6.85714H13V8.71429H14.7999V6.85714Z" fill="#22C55E" />
+                                    <path d="M13 8.71429H11.2V10.5714H13V8.71429Z" fill="#22C55E" />
+                                    <path d="M16.6 5H14.7999V6.85714H16.6V5Z" fill="#22C55E" />
+                                    <path d="M9.39995 12.4286H7.59995V14.2857H9.39995V12.4286Z" fill="#22C55E" />
+                                    <path d="M11.2 10.5714H9.39995V12.4286H11.2V10.5714Z" fill="#22C55E" />
+                                    <path d="M7.6 10.5714H5.8V12.4286L7.59995 12.4286L7.6 10.5714Z" fill="#22C55E" />
+                                    <path d="M5.8 8.71428H4V10.5714H5.8V8.71428Z" fill="#22C55E" />
+                                    <path d="M9.39995 12.4286H7.59995V14.2857H9.39995V12.4286Z" fill="#22C55E" />
+                                </svg>
+                            </p>
                         </div>
                         <div class="strm-button" @click="setActiveModal('twitchStreamModal')">
-                            <p>Twitch</p>
+                            <p class="flex items-center justify-between">Twitch
+                                <svg v-if="twitchSecret !== ''" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.4615 1.53846V0H1.53846V1.53846L18.4615 1.53846Z" fill="#22C55E" />
+                                    <path d="M0 18.4615H1.53846V1.53846H0V18.4615Z" fill="#22C55E" />
+                                    <path d="M18.4615 20V18.4615H1.53846V20H18.4615Z" fill="#22C55E" />
+                                    <path d="M20 1.53846L18.4615 1.53846V18.4615H20V1.53846Z" fill="#22C55E" />
+                                    <path d="M14.7999 6.85714H13V8.71429H14.7999V6.85714Z" fill="#22C55E" />
+                                    <path d="M13 8.71429H11.2V10.5714H13V8.71429Z" fill="#22C55E" />
+                                    <path d="M16.6 5H14.7999V6.85714H16.6V5Z" fill="#22C55E" />
+                                    <path d="M9.39995 12.4286H7.59995V14.2857H9.39995V12.4286Z" fill="#22C55E" />
+                                    <path d="M11.2 10.5714H9.39995V12.4286H11.2V10.5714Z" fill="#22C55E" />
+                                    <path d="M7.6 10.5714H5.8V12.4286L7.59995 12.4286L7.6 10.5714Z" fill="#22C55E" />
+                                    <path d="M5.8 8.71428H4V10.5714H5.8V8.71428Z" fill="#22C55E" />
+                                    <path d="M9.39995 12.4286H7.59995V14.2857H9.39995V12.4286Z" fill="#22C55E" />
+                                </svg>
+                            </p>
                         </div>
                     </div>
                     <div class="flex flex-col mt-8 w-3/4">
                         <p class="collect-em-label">//For streaming the event on Decast, choose this option and you will
                             receive the stream page address in your email.</p>
-                        <p class="collect-em-label">//Disabling the stream on decast will disable all the above streaming
-                            i.e Youtube, Facebook & Twitch.</p>
                         <span>decastStreaming()</span>
-                        <div class="flex flex-col mt-2">
+                        <div class="flex flex-col mt-2" v-if="!isLoading">
                             <button class="custm-toggle mb-1" @click="() => VWStream = true"
                                 v-bind:style="VWStream ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">enable</button>
                             <button class="custm-toggle" @click="() => VWStream = false"
@@ -33,7 +79,8 @@
                     <vs-button class="mt-8" type="border" @click="updateCastWithStream">>>confirm</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
-                    <p>>> Live Streaming Settings > <span></span></p>
+                    <p v-if="isLoading">>> Initiating cast > <span>loading...</span></p>
+                    <p v-else>>> Live Streaming Settings > <span></span></p>
                 </div>
             </div>
         </template>
@@ -51,6 +98,7 @@ export default {
     },
     data() {
         return {
+            isLoading: false,
             VWStream: false,
             youtube: '',
             youtubeSecret: '',
@@ -61,6 +109,7 @@ export default {
         };
     },
     mounted() {
+        this.isLoading = true;
         this.$store
             .dispatch('cast/editEvent', this.castDetails.public_meeting_id)
             .then((res) => {
@@ -98,8 +147,10 @@ export default {
                         }
                     });
                 }
+                this.isLoading = false;
             })
             .catch((e) => {
+                this.isLoading = false;
                 console.log('Error editing', e);
             });
     },

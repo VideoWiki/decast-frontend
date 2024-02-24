@@ -33,10 +33,15 @@
       </h3>
       <h3 v-else-if="expired">Cast has expired</h3>
       <h3 v-else>Cast is not live</h3>
+      <div>
+        <h2 class="mt-4">Join Stream</h2>
+        <p class="join-type mt-4">/* Your information is not mapped to your email or name. It is saved with encryption and
+          only used for the airdrop configured by the cast host. */</p>
+      </div>
       <form :class="[this.public && !this.public_auth ? 'join-box' : 'lets-see']">
         <div>
           <!-- New UI -->
-          <div class="flex flex-col mt-8">
+          <div class="flex flex-col mt-4">
             <span class="text-white">user.name</span>
             <div>
               <input class="w-4/5 p-2 mt-2" v-validate="'required'" placeholder="e.g John G. Miguel" name="Name"
@@ -51,9 +56,19 @@
       </form>
     </div>
     <div v-else-if="formLevel === '2'">
-      <h2>
-        <h2>Enjoy your Live stream!</h2>
-      </h2>
+      <div class="detail-heading">
+        <h3>/cast.details</h3>
+        <span v-if="running" class="label-live">•Live</span>
+        <span v-else class="label-off">•Offline</span>
+      </div>
+      <div class="detail-content">
+        <p>>> Stream Name > <span class="event-name">{{ e_title }}</span></p>
+        <p>>> Host Name > <span>{{ e_creator_name }}</span></p>
+        <p>>> Scheduled Time > <span>{{ e_time }}</span></p>
+        <p>>> Scheduled Date > <span>{{ e_date }}</span></p>
+        <p v-if="publicStream">>> Stream Access > <span>Public</span></p>
+        <p v-else>>> Stream Access > <span>Private</span></p>
+      </div>
     </div>
   </div>
 </template>
@@ -251,6 +266,47 @@ export default {
   box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
 }
 
+.join-type {
+  color: #5B96EB;
+}
+
+.detail-heading {
+  background-color: #272727;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail-heading h3 {
+  color: #FFFFFF;
+}
+
+.detail-heading .label-off {
+  color: #5B96EB;
+}
+
+.detail-heading .label-live {
+  color: #EF4444;
+}
+
+.detail-content {
+  padding: 10px;
+}
+
+.detail-content p {
+  color: #545454;
+  line-height: 2;
+}
+
+.detail-content span {
+  color: #FFFFFF;
+}
+
+.detail-content .event-name {
+  color: #22C55E !important;
+}
+
 .mint-custm-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -268,13 +324,11 @@ export default {
 
 .mm-cont {
   width: auto !important;
-  max-width: 400px !important;
+  /* max-width: 400px !important; */
 }
 
 .mm-cont h2 {
-  word-spacing: 5px;
-  /* letter-spacing: 5px; */
-  /* 00:00:00 */
+  color: #FFFFFF;
 }
 
 .number {
@@ -298,7 +352,6 @@ export default {
   color: #d7df23;
   font-size: 12px;
   font-weight: 600;
-  margin-top: 15px;
   justify-content: flex-start;
   gap: 5px;
 }
@@ -315,16 +368,6 @@ export default {
   color: #647181;
   font-size: 16px;
   font-weight: 500;
-  margin-top: 10px;
-}
-
-.mm-cont p {
-  font-size: 12px;
-  color: #a6a6a8;
-  max-width: 380px;
-  padding-top: 10px;
-  text-overflow: ellipsis;
-  word-wrap: normal;
   margin-top: 10px;
 }
 
@@ -436,5 +479,4 @@ export default {
     width: auto;
     min-width: 200px;
   }
-}
-</style>
+}</style>

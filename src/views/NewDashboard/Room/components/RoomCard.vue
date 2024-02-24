@@ -20,7 +20,7 @@
           <img src="@/assets/images/menu.svg" />
         </vs-button>
         <div class="copy-btn-cont">
-          <vx-tooltip text="Copy Link" position="bottom">
+          <vx-tooltip :text="'https://decast.live/'+room.short_code" position="bottom">
             <vs-button class="custm-style" @click="copy(room.short_code)">
               <img src="@/assets/images/copy.svg" />
             </vs-button>
@@ -28,7 +28,7 @@
         </div>
 
         <vs-button class="custm-style">
-          <img v-if="!isRoomStart" @click="start(room.room_url)" src="@/assets/images/start.svg" />
+          <img v-if="!isRoomStart" @click.prevent="start(room.room_url)" src="@/assets/images/start.svg" />
           <img v-if="isRoomStart" src="@/assets/images/end.svg" />
         </vs-button>
       </div>
@@ -37,6 +37,7 @@
     <RoomOptionsModal v-if="activeModal === 'roomOptionsModal'" :closeModal="() => setActiveModal('')"
       :setActiveModal="setActiveModal" />
     <CustomRoomUrl v-if="activeModal === 'customRoomUrl'" :closeModal="() => setActiveModal('')" :room="room" :getRoomList="getRoomList"/>
+    <RenameRoomModal v-if="activeModal === 'renameRoomModal'" :closeModal="() => setActiveModal('')" :roomDetails="room" :getRoomList="getRoomList"/>
     <DeleteRoomModal v-if="activeModal === 'deleteRoomModal'" :closeModal="() => setActiveModal('')"
       :roomName="room.room_name" :confirmDelete="() => deleteRoom(room)" />
   </div>
@@ -50,6 +51,7 @@ import RoomCardShimmer from './RoomCardShimmer.vue';
 import RoomOptionsModal from './RoomOptionsModal.vue';
 import DeleteRoomModal from './options-components/DeleteRoomModal.vue';
 import CustomRoomUrl from './options-components/CustomRoomUrl.vue';
+import RenameRoomModal from './options-components/RenameRoomModal.vue';
 
 export default {
   name: 'RoomCard',
@@ -84,7 +86,8 @@ export default {
     RoomCardShimmer,
     RoomOptionsModal,
     DeleteRoomModal,
-    CustomRoomUrl
+    CustomRoomUrl,
+    RenameRoomModal
 },
   methods: {
     handleRoomClick() {
@@ -111,7 +114,7 @@ export default {
       }
     },
     copy(shortCode) {
-      navigator.clipboard.writeText('https://decast.live/join/' + shortCode);
+      navigator.clipboard.writeText('https://decast.live/' + shortCode);
     },
     getList() {
       this.$store
@@ -130,9 +133,6 @@ export default {
         .dispatch('room/start', id)
         .then((res) => {
           this.isRoomStart = true;
-          this.isRoomStart = true;
-          console.log(res.data);
-          window.open(res.data.room_url, '_blank');
           window.open(res.data.room_url, '_blank');
         })
         .catch((e) => {

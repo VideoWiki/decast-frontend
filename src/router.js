@@ -328,7 +328,7 @@ const router = new Router({
     {
       path: '/resetPassword',
       name: 'PasswordReset',
-      component: () => import('./views/passwordReset/PasswordReset.vue'),
+      component: () => import('./views/passwordReset/PasswordResetModal.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -336,7 +336,7 @@ const router = new Router({
     {
       path: '/login',
       name: 'LoginNew',
-      component: () => import('./views/login/LoginNew.vue'),
+      component: () => import('./views/login/LoginModal.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -344,7 +344,7 @@ const router = new Router({
     {
       path: '/signUp',
       name: 'SignUp',
-      component: () => import('./views/register/SignUp.vue'),
+      component: () => import('./views/register/SignUpModal.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -384,7 +384,7 @@ const router = new Router({
       },
     },
     {
-      path: '/join/:shortCode?',
+      path: '/:shortCode?',
       name: 'Join Event',
       component: () => import('./views/NewDashboard/JoinRedirect.vue'),
       meta: {

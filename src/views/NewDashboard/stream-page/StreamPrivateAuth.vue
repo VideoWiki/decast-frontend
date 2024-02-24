@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <div>
+  <div class="h-full">
+    <div class="h-full flex flex-col justify-between">
+      <div v-if="formLevel !== '3'">
+        <p class="join-type">/* Private Straming */</p>
+        <h2 class="mt-4 text-white">Join Stream</h2>
+        <p class="join-type mt-4">/* Your information is not mapped to your email or name. It is saved with encryption and only used for the airdrop configured by the cast host. */</p>
+      </div>
       <form>
         <div v-if="formLevel === '1'">
           <div class="flex flex-col">
@@ -40,7 +45,19 @@
             <Private :payload="this.payload" />
           </span>
           <div v-else>
-            <h2>Enjoy your Live stream!</h2>
+            <div class="detail-heading">
+              <h3>/cast.details</h3>
+              <span v-if="streamDetails.running" class="label-live">•Live</span>
+              <span v-else class="label-off">•Offline</span>
+            </div>
+            <div class="detail-content">
+              <p>>> Stream Name > <span class="event-name">{{ streamDetails.event_name }}</span></p>
+              <p>>> Host Name > <span>{{ streamDetails.event_creator_name }}</span></p>
+              <p>>> Scheduled Time > <span>{{ streamDetails.time }}</span></p>
+              <p>>> Scheduled Date > <span>{{ streamDetails.date }}</span></p>
+              <p v-if="public_stream">>> Stream Access > <span>Public</span></p>
+              <p v-else>>> Stream Access > <span>Private</span></p>
+            </div>
           </div>
         </div>
       </form>
@@ -201,7 +218,7 @@ export default {
       formLevel: '1',
     };
   },
-  props: ['public_stream', 'give_nft', 'setSessionVerified'],
+  props: ['streamDetails', 'public_stream', 'give_nft', 'setSessionVerified'],
   computed: {
     validateEmail() {
       return !this.errors.any() && this.email !== '';
@@ -289,6 +306,38 @@ export default {
 
 .intro-text {
   color: #5B96EB;
+}
+.join-type {
+  color: #5B96EB;
+}
+.detail-heading {
+  background-color: #272727;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.detail-heading h3{
+  color: #FFFFFF;
+}
+.detail-heading .label-off{
+  color: #5B96EB;
+}
+.detail-heading .label-live {
+  color: #EF4444;
+}
+.detail-content {
+  padding: 10px;
+}
+.detail-content p{
+  color: #545454;
+  line-height: 2;
+}
+.detail-content span{
+  color: #FFFFFF;
+}
+.detail-content .event-name{
+  color: #22C55E !important;
 }
 
 .background-container {

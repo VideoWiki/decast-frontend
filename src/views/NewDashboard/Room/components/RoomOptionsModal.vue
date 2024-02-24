@@ -10,6 +10,7 @@
                         <div class="grid-container">
                             <div class="grid-item" @click="setActiveModal('shareRoomModal')">Share <br>Room</div>
                             <div class="grid-item" @click="setActiveModal('customRoomUrl')">Custom <br>Room URL</div>
+                            <div class="grid-item" @click="setActiveModal('renameRoomModal')">Rename <br>room</div>
                             <div class="grid-item danger-button" @click="setActiveModal('deleteRoomModal')">Delete <br>Room</div>
                         </div>
                     </div>

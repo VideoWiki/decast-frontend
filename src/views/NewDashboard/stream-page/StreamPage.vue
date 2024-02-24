@@ -14,11 +14,14 @@
       <div class="join-body">
         <div class="join-body-left">
           <div class="flex flex-col video-container">
-            <div v-if="running && verified">
+            <div v-if="!verified">
+              <img src="@/assets/images/stream-placeholder.svg" alt="Event will start soon" class="w-full" />
+            </div>
+            <div v-else-if="running">
               <HlsPlayer :videoSrc="stream_url" :poster="e_cover_image" />
             </div>
             <div v-else>
-              <img src="@/assets/images/not-start.svg" alt="Event will start soon" class="w-full" />
+              <img src="@/assets/images/stream-offline.svg" alt="Event will start soon" class="w-full" />
             </div>
             <div class="mt-4">
               <p class="join-by">Hosted by "{{ e_creator_name }}"</p>
@@ -33,7 +36,7 @@
         <div class="join-body-right">
           <!-- <StreamPublicAuth v-if="this.skippedStep || this.walletAddress || publicStream" /> -->
           <StreamPublicAuth v-if="publicStream" :setSessionVerified="setSessionVerified" />
-          <StreamPrivateAuth v-else :public_stream="publicStream" :give_nft="give_nft"
+          <StreamPrivateAuth v-else :streamDetails="streamDetails" :public_stream="publicStream" :give_nft="give_nft"
             :setSessionVerified="setSessionVerified" />
         </div>
       </div>
@@ -144,6 +147,7 @@ export default {
       give_nft: false,
       airdrop: false,
       interval: '',
+      streamDetails: {},
     };
   },
 
@@ -178,6 +182,7 @@ export default {
         .then((res) => res.json())
         .then((res) => {
           const details = res.meeting_info;
+          this.streamDetails = details;
           this.e_title = details.event_name;
           this.e_cover_image = details.cover_image;
           this.e_description = details.description;
@@ -252,27 +257,25 @@ export default {
   background-position: left center, right top;
   background-size: 30% 70%, contain;
   background-repeat: no-repeat, no-repeat;
-  /* height: 100vh; */
+  height: 100vh;
   width: 100%;
   padding-left: 67px;
   padding-right: 67px;
   display: flex;
   flex-direction: column;
-}
-
-.join-wrapper {
-  height: calc(100vh - 100px);
+  overflow-y: scroll;
 }
 
 .join-body {
   width: 100%;
   margin-top: 10px;
+  margin-bottom: 40px;
   display: flex;
   /* height: 70vh; */
 }
 
 .join-body-left {
-  flex: 55;
+  flex: 60;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -282,7 +285,7 @@ export default {
 }
 
 .join-body-right {
-  flex: 45;
+  flex: 40;
   padding: 20px;
   border: 1px solid #FFFFFF;
 }

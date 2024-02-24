@@ -9,7 +9,7 @@
                     <div class="flex flex-col mt-8">
                         <span>room.url</span>
                         <div class="flex items-center">
-                            <p>https://decast.live/join/</p>
+                            <p>https://decast.live/</p>
                             <input class="py-2 pr-4 mt" placeholder="custom_room_code" type="text" v-model="shortCode"
                                 @keyup="fieldsError = shortCode === ''" />
                             <!-- <p v-if="nameError" class="text-danger my-2 p-0">>> Name is required</p> -->
@@ -43,7 +43,7 @@ export default {
         BaseModal,
     },
     methods: {
-        async handleSaveUrl() {
+        handleSaveUrl() {
             if (this.fieldsError) {
                 this.$vs.notify({
                     title: '😕',
@@ -52,12 +52,11 @@ export default {
                 });
                 return;
             }
-            const res = await this.$store.dispatch('room/changeShortCode', {
+            this.$store.dispatch('room/changeShortCode', {
                 short_code: this.room.short_code,
                 new_custom_code: this.shortCode,
                 cast_id: this.room.room_id,
-            });
-            if (res) {
+            }).then(() => {
                 this.$vs.notify({
                     title: 'Successful',
                     text: 'Room Url updated',
@@ -65,7 +64,13 @@ export default {
                 });
                 this.getRoomList();
                 this.closeModal();
-            }
+            }).catch(error => {
+                this.$vs.notify({
+                    title: 'Error',
+                    text: 'Shortcode is already in use, Please try different shortcode',
+                    color: 'danger',
+                });
+            });
         }
     },
     mounted() {

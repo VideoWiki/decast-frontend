@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-9/10">
+    <div class="w-full">
       <video ref="video" controls crossorigin playsinline :data-poster="poster">
         <source ref="source" type="application/x-mpegURL" :src="videoSrc" />
       </video>

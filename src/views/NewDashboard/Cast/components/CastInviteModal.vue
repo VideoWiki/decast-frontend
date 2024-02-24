@@ -18,21 +18,21 @@
                         to Co-Host
                         <CopyIcon class="ml-2" />
                     </p>
-                    <p v-if="inviteData.type !== 'private'" class="mt-2 mb-4">https://decast.live/join-cast/{{ inviteData.meeting_id }}/?pass={{ inviteData.h_mp
-                    }}</p>
-                    <p v-if="inviteData.type !== 'private'" class="copy-cast-button mt-4" @click="copyParticipantLink">Share Cast to Participant
+                    <p v-if="inviteData.type !== 'private' && cohostLink!== null" class="mt-2 mb-4">{{ cohostLink }}</p>
+                    <p v-if="inviteData.type !== 'private'" class="copy-cast-button mt-4" @click="copyParticipantLink">Share
+                        Cast to Participant
                         <CopyIcon class="ml-2" />
                     </p>
-                    <p v-if="inviteData.type !== 'private'" class="mt-2 mb-4">https://decast.live/join-cast/{{ inviteData.meeting_id }}/?pass={{ inviteData.h_ap
-                    }}</p>
-                    <p v-if="inviteData.type !== 'private' && inviteData.viewer_mode" class="copy-cast-button mt-4" @click="copyViewerLink">Share Cast to
-                        Viewer
-                        <CopyIcon class="ml-2" />
-                    </p>
-                    <p v-if="inviteData.type !== 'private' && inviteData.viewer_mode" class="mt-2 mb-4">https://decast.live/join-cast/{{
-                        inviteData.meeting_id }}/?pass={{ inviteData.h_vp }}</p>
+                    <p v-if="inviteData.type !== 'private' && participantLink !== null" class="mt-2 mb-4">{{ participantLink }}</p>
 
-                    <p v-if="inviteData.type === 'private'" class="copy-cast-button mt-4">Great! Now you can invite the other audience from the above action...</p>
+                    <p v-if="inviteData.type !== 'private' && inviteData.viewer_mode" class="copy-cast-button mt-4"
+                        @click="copyViewerLink">Share Cast to Viewer
+                        <CopyIcon class="ml-2" />
+                    </p>
+                    <p v-if="inviteData.type !== 'private' && inviteData.viewer_mode && viewerLink !== null" class="mt-2 mb-4">{{ viewerLink }}</p>
+
+                    <p v-if="inviteData.type === 'private'" class="copy-cast-button mt-4">Great! Now you can invite the
+                        other audience from the above action...</p>
                     <vs-button class="mt-8" type="border" @click="closeModal">>>skip</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
@@ -56,12 +56,15 @@ export default {
     },
     data() {
         return {
+            cohostLink: null,
+            participantLink: null,
+            viewerLink: null,
         };
     },
     methods: {
         copyCoHostLink() {
             navigator.clipboard
-                .writeText(`https://decast.live/join-cast/${this.inviteData.meeting_id}/?pass=${this.inviteData.h_mp}`)
+                .writeText(this.cohostLink)
                 .then(() => {
                     console.log('Link copied');
                 })
@@ -71,7 +74,7 @@ export default {
         },
         copyParticipantLink() {
             navigator.clipboard
-                .writeText(`https://decast.live/join-cast/${this.inviteData.meeting_id}/?pass=${this.inviteData.h_ap}`)
+                .writeText(this.participantLink)
                 .then(() => {
                     console.log('Link copied');
                 })
@@ -81,7 +84,7 @@ export default {
         },
         copyViewerLink() {
             navigator.clipboard
-                .writeText(`https://decast.live/join-cast/${this.inviteData.meeting_id}/?pass=${this.inviteData.h_vp}`)
+                .writeText(this.viewerLink)
                 .then(() => {
                     console.log('Link copied');
                 })
@@ -123,6 +126,21 @@ export default {
         //         });
         // },
     },
+    mounted() {
+        if (this.inviteData.short_code_list) {
+            for (let obj of this.inviteData.short_code_list) {
+                if (obj.type === 'attendee') {
+                    this.participantLink = `https://decast.live/${obj.short_code}`
+                }
+                if (obj.type === 'moderator') {
+                    this.cohostLink = `https://decast.live/${obj.short_code}`
+                }
+                if (obj.type === 'viewer') {
+                    this.viewerLink = `https://decast.live/${obj.short_code}`
+                }
+            }
+        }
+    }
 }
 </script>
 
