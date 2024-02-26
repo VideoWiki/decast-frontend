@@ -59,7 +59,7 @@
                 <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings"/>
               </div>
             </div>
-            <div v-else class="recording flex flex-col items-center justify-center">
+            <div v-else class="recording flex flex-col items-center justify-items-center">
               <h1 class="text-4xl text-white font-bold">Oops! No Recordings Found. :(</h1>
             </div>
           </div>

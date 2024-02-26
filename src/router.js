@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import FullPage from '@/layouts/full-page/FullPage.vue';
 // import Landing from '@/views/Landing.vue';
-import Landing from '@/views/NewLanding__2.vue';
+import Landing from '@/views/NewLanding__3.vue';
 import Creators from '@/views/Creators.vue';
 import Sponsors from '@/views/Sponsors.vue';
 import Promoters from '@/views/Promoters.vue';

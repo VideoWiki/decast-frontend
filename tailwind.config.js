@@ -73,6 +73,7 @@ module.exports = {
       'primary': '#d7df23',
       'transparent': 'transparent',
       'black': '#22292f',
+      'new-black':'#141318',
       'white': '#ffffff',
       'grey': '#b8c2cc',
       'custom-purple': '#7247C4',
