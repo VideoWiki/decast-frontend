@@ -47,9 +47,13 @@
           class="basic_stream_div_ flex flex-row flex-wrap justify-between items-center w-full py-1 px-2">
           <div>https://decast.live/live</div>
           <div class="flex gap-2 justify-center items-center">
-            <vs-button class="custm-style">
-              <img @click="copy(castDetails.public_meeting_id, undefined)" src="@/assets/images/copy.svg" />
-            </vs-button>
+
+            <vx-tooltip :text="'https://decast.live...'+castDetails.public_meeting_id.slice(castDetails.public_meeting_id.length-7, castDetails.public_meeting_id.length)" position="bottom">
+              <vs-button class="custm-style">
+                <img @click="copy(castDetails.public_meeting_id, undefined)" src="@/assets/images/copy.svg" />
+              </vs-button>
+            </vx-tooltip>
+
             <div class="basic_stream_btn_cont_">
               <vx-tooltip v-if="castDetails.stream_status" text="Pause Stream" position="bottom">
                 <vs-button class="custm-style" @click="toggleStream(castDetails.public_meeting_id, 'pause')">
@@ -705,7 +709,7 @@ export default {
       }
       if (args && args.postponeMessage) {
         data.append('cast_postponed', true);
-        data.append('cast_postponed_message', postponeMessage);
+        data.append('cast_postponed_message', args.postponeMessage);
       }
       if (args && args.updateStream) {
         data.append('is_streaming', this.stepThreeProps.is_streaming ? 'True' : 'False');

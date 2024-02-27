@@ -65,7 +65,7 @@ export default {
             this.imageSelected = true;
         }
         if (this.stepTwoProps.logo === '') {
-            img = require('@/assets/images/editor/Cast-Draft-Logo-02.svg');
+            img = require('@/assets/images/logot.svg');
             this.img1Src = img;
             this.logoImg = img;
         } else {
