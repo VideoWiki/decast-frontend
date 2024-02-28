@@ -268,27 +268,6 @@ export default {
                 this.url = '';
             }
         });
-        this.handleLogin();
-        this.setupIntersectionObserver();
-        this.generatedGradient = this.generateRandomGradient();
-        this.generatedCol = this.generatedColor();
-        // this.createFallingBoxes();
-        // this.createFallingBoxes1();
-        // this.createFallingBoxes2();
-        window.addEventListener('scroll', this.handleScroll2);
-        const options = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.8,
-        };
-        const observer = new IntersectionObserver(this.handleIntersection, options);
-        const childIds = ['#idk-child1', '#idk-child2', '#idk-child3'];
-        childIds.forEach((id) => {
-            const target = document.querySelector(id);
-            if (target) {
-                observer.observe(target);
-            }
-        });
     },
     methods: {
         open() {
