@@ -39,7 +39,7 @@
             <div class="mob-con flex flex-col gap-6 justify-center items-start w-full ml-8">
 
               <a v-if="!isLoggedIn" @click="open">Login</a>
-              <a href="/dashboard" v-else>Dashboard</a>
+              <a class="font-semibold text-lg" href="/dashboard" v-else >Dashboard</a>
 
               <!-- <a href="/features">Features</a> -->
 

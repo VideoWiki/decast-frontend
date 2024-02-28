@@ -21,8 +21,8 @@
                     </div>
                     <div class="op-3 mt-6">
                         <button
-                            class="cast_start_btn_ flex justify-center items-center text-lg font-semibold gap-8 p-2 px-4 cursor-pointer bg-primary"
-                            @click="handleButtonClick">/cast.start <span>
+                            class="cast_start_btn_ flex justify-center items-center text-lg font-semibold gap-6 p-2 px-4 cursor-pointer bg-primary"
+                            @click="handleButtonClick">/Cast.enter <span class="pt-2">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M17.9678 1.49731H1.49731V17.9678H17.9678V1.49731Z" fill="white" />
@@ -95,20 +95,19 @@
 
 
                 <div class="basic_future_2 lg:w-1/3 w-full flex flex-col items-start gap-4 justify-start">
-                    <p class="text-custom-grey">//Creators - Content - Community</p>
-                    <p class="text-4xl font-extrabold text-new-black">The Future of Casting is HERE!</p>
-                    <p class="font-semibold text-lg text-new-black">Groundbreaking technology converges with the future of
-                        live content
-                        creation!</p>
+                    <p class="text-custom-grey">//Fast - Efficient - Decentralized</p>
+                    <p class="text-4xl font-extrabold text-new-black">Peer-to-Peer (P2P) <br /> Torrent Technology </p>
+                    <p class="font-semibold text-lg text-new-black">In a P2P torrent network, each peer can upload and
+                        download data simultaneously.</p>
                     <p class="flex gap-4 justify-start items-center text-new-black text-lg font-semibold"><span><img
                                 src="@/assets/images/sett.svg" />
-                        </span>Creators - Content - Community</p>
+                        </span>Distribution of Data </p>
                     <p class="flex gap-4 justify-start items-center text-new-black text-lg font-semibold"><span><img
                                 src="@/assets/images/sett.svg" />
                         </span>Decentralized Network</p>
                     <p class="flex gap-4 justify-start items-center text-new-black text-lg font-semibold"><span><img
                                 src="@/assets/images/sett.svg" />
-                        </span>Hyperconverged Networked</p>
+                        </span>Piece-by-Piece Download</p>
                 </div>
 
             </div>
@@ -116,21 +115,21 @@
             <div
                 class="max-w-5xl w-full md:px-16 px-4 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
 
-                <div class="basic_future_2 lg:w-1/3 w-full lg:order-1 order-2 flex flex-col items-start gap-4 justify-start">
+                <div
+                    class="basic_future_2 lg:w-1/3 w-full lg:order-1 order-2 flex flex-col items-start gap-4 justify-start">
                     <p class="text-custom-grey">//Creators - Content - Community</p>
-                    <p class="text-4xl font-extrabold text-new-black">The Future of Casting is HERE!</p>
-                    <p class="font-semibold text-lg text-new-black">Groundbreaking technology converges with the future of
-                        live content
-                        creation!</p>
+                    <p class="text-4xl font-extrabold text-new-black">Decentralized network <br /> for Video Casting</p>
+                    <p class="font-semibold text-lg text-new-black">Decast essentially reverses the P2P torrent concept to
+                        enable decentralized video streaming.</p>
                     <p class="flex gap-4 justify-start items-center text-new-black text-lg font-semibold"><span><img
                                 src="@/assets/images/sett.svg" />
-                        </span>Creators - Content - Community</p>
+                        </span>Decentralized Video Streaming</p>
                     <p class="flex gap-4 justify-start items-center text-new-black text-lg font-semibold"><span><img
                                 src="@/assets/images/sett.svg" />
-                        </span>Decentralized Network</p>
+                        </span>Distribution of Live Video </p>
                     <p class="flex gap-4 justify-start items-center text-new-black text-lg font-semibold"><span><img
                                 src="@/assets/images/sett.svg" />
-                        </span>Hyperconverged Networked</p>
+                        </span>Dynamic Content Delivery</p>
                 </div>
                 <div class="lg:w-2/5 w-full flex flex-col gap-4 lg:order-2 order-1 mt-12">
                     <div class="bg-new-black w-full flex flex-row justify-between items-center px-4 h-12">
@@ -142,7 +141,7 @@
                     </div>
 
                     <div class="w-full">
-                        <img class="w-full h-full object-contain" src="@/assets/images/calls-ss.svg" />
+                        <img class="w-full h-full object-contain" src="@/assets/images/calls-ss2.svg" />
                     </div>
                 </div>
             </div>
@@ -150,7 +149,7 @@
 
         <div class="basic_folder_cont__ py-16">
             <div class="max-w-4xl w-full flex flex-col gap-16 justify-start items-center m-auto py-24">
-                <div class='mt-16 flex flex-col gap-4 items-center justify-start w-full'>
+                <!-- <div class='mt-16 flex flex-col gap-4 items-center justify-start w-full'>
                     <div class="bg-white w-full flex flex-row justify-between items-center px-4 h-12">
                         <div class="bg-black w-4 h-4"></div>
                         <div class="flex flex-row gap-2">
@@ -170,14 +169,14 @@
                         </div>
 
                         <div class="lg:w-2/5 w-full flex flex-col justify-end pb-12">
-                            <div class="text-white font-bold text-4xl">Take a deeper dive into
+                            <div class="text-white font-bold text-4xl mt-16 pt-8">Take a deeper dive into
                                 <br /> the <span class="text-primary">Decast</span> Ecosystem
                             </div>
                             <p class="text-white text-lg mt-4">Groundbreaking technology converges with <br /> the future of
                                 live content creation!</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="flex lg:flex-row flex-col items-center justify-between gap-16 w-full mt-12">
                     <div class="lg:w-2/5 w-4/5">
@@ -195,13 +194,13 @@
 
                         <div class="basic_event_cont_ flex flex-col gap-4 p-8 py-16">
                             <h1 class="text-white font-bold text-4xl">Looking to host <br /> a massive event?</h1>
-                            <p class="text-white text-lg mt-4" style="color:#22c55e;">/*Groundbreaking technology converges
+                            <p class="text-lg mt-4" style="color:#22c55e;">/*Groundbreaking technology converges
                                 with <br /> the future of live content creation!*/</p>
                             <div class="flex justify-between items-center gap-4 mt-4">
                                 <input class="outline-none border-none bg-white p-2 w-3/4 font-semibold text-lg"
-                                    type="email" placeholder="//Email" />
-                                <button
-                                    class="cast_start_btn_ w-1/4 bg-primary p-2 font-semibold text-lg flex justify-between gap-4 items-center">/Send
+                                    type="email" placeholder="//Email" v-model="formData.email" />
+                                <button @click="sendMessage"
+                                    class="cast_start_btn_ w-1/4 bg-primary p-2 font-semibold text-lg flex justify-between gap-4 items-center cursor-pointer">/Send
                                     <span><svg width="14" height="13" viewBox="0 0 14 13" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path d="M0 6H1V7H0V6Z" fill="black" />
@@ -235,16 +234,86 @@
                 </div>
             </div>
         </div>
+        <Footer />
     </div>
 </template>
 
 <script>
+import Footer from './Footer.vue';
 import Navbar from './Navbar.vue';
+import axios from '../axios';
+import constants from '../../constant';
 export default {
     name: 'New Landing',
     components: {
         Navbar,
-    }
+        Footer
+    },
+    data() {
+        return {
+            formData: {
+                email: '',
+            },
+        };
+    },
+    methods: {
+        open() {
+            window.open(constants.challengeUri, '_blank', 'width=600,height=600');
+        },
+        handleButtonClick() {
+            const userInfo = localStorage.getItem('userInfo');
+            const accessToken = localStorage.getItem('accessToken');
+            if (userInfo && accessToken) {
+                this.$router.push('/dashboard');
+            } else {
+                this.open();
+            }
+        },
+        async sendMessage() {
+            if (
+                !this.formData.email
+            ) {
+                this.$vs.notify({
+                    title: 'Error',
+                    text: 'Basic fields are mandatory',
+                    color: 'danger',
+                });
+                return;
+            }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(this.formData.email)) {
+                this.$vs.notify({
+                    title: 'Error',
+                    text: 'Incorrect email',
+                    color: 'danger',
+                });
+                return;
+            }
+
+            try {
+                const response = await axios.post(
+                    constants.apiCastUrl + "/api/contact_us/",
+                    this.formData
+                );
+                this.$vs.notify({
+                    title: 'Successful',
+                    text: 'Response recieved',
+                    color: 'success',
+                });
+                this.resetForm();
+            } catch (error) {
+                this.$vs.notify({
+                    title: 'Error',
+                    text: 'Try again',
+                    color: 'danger',
+                });
+                console.error('Error sending message:', error);
+            }
+        },
+        resetForm() {
+            this.formData.email = '';
+        },
+    },
 }
 </script>
 
@@ -281,7 +350,7 @@ export default {
 }
 
 .basic_future_div {
-    margin-top: -3px;
+    margin-top: -5px;
 }
 
 .basic_folder_cont__ {
@@ -289,6 +358,7 @@ export default {
     background-position: top;
     background-size: contain;
     background-repeat: no-repeat;
+    margin: -2px;
 }
 
 .basic_child_folder_ {
@@ -304,4 +374,5 @@ export default {
 
 .basic_event_cont_ {
     border: 1px solid white;
-}</style>
+}
+</style>
