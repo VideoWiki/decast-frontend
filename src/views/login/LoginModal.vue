@@ -208,8 +208,8 @@ export default {
           console.log(response,'This is login re')
           this.$vs.loading();
           window.location.replace(response.data.redirect_to);
-          this.$store.commit('reload/setReloadFlag', true);
           this.$acl.change(this.activeUserInfo.userRole);
+          window.opener.postMessage('loginSuccess', '*');
           this.$vs.loading.close();
           this.$vs.notify({
             title: 'Success',

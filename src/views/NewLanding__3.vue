@@ -257,21 +257,15 @@ export default {
             },
         };
     },
-    computed: {
-        shouldReload() {
-            return this.$store.state.reload.shouldReload;
-        },
-    },
-    watch: {
-        shouldReload(newVal) {
-            if (newVal) {
-                window.location.reload();
-            }
-        },
-    },
     methods: {
         open() {
             window.open(constants.challengeUri, '_blank', 'width=600,height=600');
+            window.addEventListener('message', this.handleMessage, false);
+        },
+        handleMessage(event) {
+            if (event.data === 'loginSuccess') {
+                window.location.reload();
+            }
         },
         handleButtonClick() {
             const userInfo = localStorage.getItem('userInfo');

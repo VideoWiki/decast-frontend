@@ -20,7 +20,6 @@ import moduleStudio from './studio/moduleStudio.js';
 import moduleSearch from './search/moduleSearch.js';
 import moduleCast from './cast/moduleCast';
 import moduleRoom from './room/moduleRoom';
-import moduleReload from './moduleReload';
 
 Vue.use(Vuex);
 
@@ -35,7 +34,6 @@ export default new Vuex.Store({
     search: moduleSearch,
     cast: moduleCast,
     room: moduleRoom,
-    reload: moduleReload,
   },
   strict: process.env.NODE_ENV !== 'production',
 });
