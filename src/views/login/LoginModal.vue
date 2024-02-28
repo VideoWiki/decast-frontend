@@ -78,8 +78,7 @@
             " :disabled="!validateForm">
               <h3><b class="text-lg">Sign In</b></h3>
             </button> -->
-            <button class="custm-button mt-2" :disabled="!validateForm"
-              @click.prevent="userVerification">/user.login</button>
+            <button class="custm-button mt-2" :disabled="!validateForm">/user.login</button>
           </div>
           <input type="submit" value="" class="text-xs" style="display: none" />
         </form>

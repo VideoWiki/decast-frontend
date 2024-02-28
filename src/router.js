@@ -127,7 +127,7 @@ const router = new Router({
           },
         },
         {
-          path:'/main',
+          path:'/dashboard',
           name:'Welcome to Dashbord',
           component: Dashboard,
           meta:{
@@ -335,7 +335,7 @@ const router = new Router({
     },
     {
       path: '/login',
-      name: 'LoginNew',
+      name: 'Login',
       component: () => import('./views/login/LoginModal.vue'),
       meta: {
         rule: 'isPublic',
@@ -384,7 +384,7 @@ const router = new Router({
       },
     },
     {
-      path: '/:shortCode?',
+      path: '/j/:shortCode?',
       name: 'Join Event',
       component: () => import('./views/NewDashboard/JoinRedirect.vue'),
       meta: {
@@ -541,14 +541,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/dashboard',
-      name: 'Decast dashBoard',
-      component: () => import('@/views/dashboard/DashboardContainer.vue'),
-      meta: {
-        rule: 'isLogged',
-      },
-    },
+    // {
+    //   path: '/dashboard',
+    //   name: 'Decast dashBoard',
+    //   component: () => import('@/views/dashboard/DashboardContainer.vue'),
+    //   meta: {
+    //     rule: 'isLogged',
+    //   },
+    // },
     {
       path: '/streamcard',
       name: 'StreamCard',
