@@ -207,9 +207,8 @@ export default {
         .then((response) => {
           console.log(response,'This is login re')
           this.$vs.loading();
-          window.location.replace('https://decast.live/');
+          window.location.replace(response.data.redirect_to);
           this.$acl.change(this.activeUserInfo.userRole);
-          // window.opener.postMessage('loginSuccess', '*');
           this.$vs.loading.close();
           this.$vs.notify({
             title: 'Success',

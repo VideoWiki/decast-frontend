@@ -257,6 +257,39 @@ export default {
             },
         };
     },
+    mounted() {
+        window.addEventListener('message', (event) => {
+            if (event.data === 'loginSuccess') {
+                console.log(this.$store.state.auth.loggedIn, 'loggedIn');
+                this.$store.dispatch('auth/fetched');
+                this.$acl.change('user');
+                this.$store.commit('auth/SET_LOGGEDIN', true);
+                this.$router.push('/dashboard');
+                this.url = '';
+            }
+        });
+        this.handleLogin();
+        this.setupIntersectionObserver();
+        this.generatedGradient = this.generateRandomGradient();
+        this.generatedCol = this.generatedColor();
+        // this.createFallingBoxes();
+        // this.createFallingBoxes1();
+        // this.createFallingBoxes2();
+        window.addEventListener('scroll', this.handleScroll2);
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.8,
+        };
+        const observer = new IntersectionObserver(this.handleIntersection, options);
+        const childIds = ['#idk-child1', '#idk-child2', '#idk-child3'];
+        childIds.forEach((id) => {
+            const target = document.querySelector(id);
+            if (target) {
+                observer.observe(target);
+            }
+        });
+    },
     methods: {
         open() {
             window.open(constants.challengeUri, '_blank', 'width=600,height=600');
