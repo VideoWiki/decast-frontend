@@ -128,7 +128,7 @@ import Web3 from 'web3';
 import GAuth from 'vue-google-oauth2';
 import Vue from 'vue';
 import { detectIncognito } from 'detectincognitojs';
-import { EventBus } from './EventBus/EventBus';
+
 export default {
   data() {
     return {
@@ -209,7 +209,6 @@ export default {
           this.$vs.loading();
           window.location.replace(response.data.redirect_to);
           this.$store.commit('reload/setReloadFlag', true);
-          EventBus.$emit('setReload');
           this.$acl.change(this.activeUserInfo.userRole);
           this.$vs.loading.close();
           this.$vs.notify({

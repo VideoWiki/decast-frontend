@@ -243,7 +243,7 @@ import Footer from './Footer.vue';
 import Navbar from './Navbar.vue';
 import axios from '../axios';
 import constants from '../../constant';
-import {EventBus} from './login/EventBus/EventBus'
+
 export default {
     name: 'New Landing',
     components: {
@@ -257,12 +257,15 @@ export default {
             },
         };
     },
-    mounted() {
-        EventBus.$on('setReload', () => {
-            if (this.$store.state.reload.shouldReload) {
-                this.$router.go();
+    shouldReload() {
+        return this.$store.state.reload.shouldReload;
+    },
+    watch: {
+        shouldReload(newVal) {
+            if (newVal) {
+                this.$router.go(); // Reload the current route
             }
-        });
+        },
     },
     methods: {
         open() {
