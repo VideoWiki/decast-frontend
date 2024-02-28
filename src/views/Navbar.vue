@@ -3,7 +3,7 @@
     <nav class="max-w-5xl w-full items-center flex flex-row justify-between lg:px-16 md:px-6 px-4 py-6">
       <a href="/" class="w-16 h-16">
         <img :style="{ display: showMobileMenu ? 'none' : 'block' }" class="w-full h-full object-contain"
-          src="@/assets/images/logo square.svg" />
+          src="@/assets/images/new-dc.svg" />
       </a>
 
       <!-- Desktop Navbar Options -->
