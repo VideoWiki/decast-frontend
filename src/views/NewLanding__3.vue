@@ -117,7 +117,7 @@
 
                 <div
                     class="basic_future_2 lg:w-1/3 w-full lg:order-1 order-2 flex flex-col items-start gap-4 justify-start">
-                    <p class="text-custom-grey">//Creators - Content - Community</p>
+                    <p class="text-custom-grey">//Content - Streaming - Casting</p>
                     <p class="text-4xl font-extrabold text-new-black">Decentralized network <br /> for Video Casting</p>
                     <p class="font-semibold text-lg text-new-black">Decast essentially reverses the P2P torrent concept to
                         enable decentralized video streaming.</p>
