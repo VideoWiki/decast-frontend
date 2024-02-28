@@ -260,13 +260,13 @@ export default {
     methods: {
         open() {
             window.open(constants.challengeUri, '_blank', 'width=600,height=600');
-            window.addEventListener('message', this.handleMessage, false);
+            // window.addEventListener('message', this.handleMessage, false);
         },
-        handleMessage(event) {
-            if (event.data === 'loginSuccess') {
-                window.location.reload();
-            }
-        },
+        // handleMessage(event) {
+        //     if (event.data === 'loginSuccess') {
+        //         window.location.reload();
+        //     }
+        // },
         handleButtonClick() {
             const userInfo = localStorage.getItem('userInfo');
             const accessToken = localStorage.getItem('accessToken');
