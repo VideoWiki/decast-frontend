@@ -9,7 +9,7 @@
                     <!-- <div class="flex flex-col mt-8">
                         <span>cast.Attendee.Url</span>
                         <div class="flex items-center">
-                            <p>https://decast.live/join/</p>
+                            <p>https://decast.live/</p>
                             <input class="py-2 pr-4 mt" placeholder="custom_room_code" type="text"
                                 v-model="newShortCodes.attendee" />
                         </div>
@@ -17,7 +17,7 @@
                     <div v-for="(shortcode, type) in newShortCodes" class="flex flex-col mt-8">
                         <span>cast.{{ type }}.url</span>
                         <div class="flex items-center">
-                            <p>https://decast.live/join/</p>
+                            <p>https://decast.live/</p>
                             <input class="py-2 pr-4 mt" placeholder="custom_room_code" type="text"
                                 v-model="newShortCodes[type]" @keyup="fieldsError = newShortCodes[type] === ''"/>
                             <!-- <p v-if="nameError" class="text-danger my-2 p-0">>> Name is required</p> -->
@@ -83,6 +83,11 @@ export default {
                     this.closeModal();
                 })
                 .catch(error => {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: 'Shortcode is already in use, Please try different shortcode',
+                        color: 'danger',
+                    });
                     console.error('Error in dispatch:', error);
                 });
         }

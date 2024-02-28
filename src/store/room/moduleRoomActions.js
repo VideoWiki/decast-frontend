@@ -23,6 +23,20 @@ export default {
         });
     });
   },
+  async renameRoom({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios
+        .patch('https://api.room.video.wiki/api/update/name/', payload, {
+          'Content-Type': 'application/json',
+        })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
+  },
   async changeShortCode({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios
