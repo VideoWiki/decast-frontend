@@ -3,7 +3,7 @@
         <Navbar />
         <div class="home-cont">
             <div
-                class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
+                class="max-w-5xl w-full md:px-16 px-4 lg:py-24 py-10 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start mx-auto">
                 <div class="lg:w-6/12 md:w-8/12 sm:w-10/12 w-full">
                     <div class="op-1">
                         <h1 id="head-id" class="sm:text-3xl xl:text-6xl text-5xl text-left font-extrabold text-white">
@@ -78,7 +78,7 @@
 
         <div class="basic_future_div bg-white py-16">
             <div
-                class="max-w-5xl w-full md:px-16 px-4 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
+                class="max-w-5xl w-full md:px-16 px-4 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start mx-auto">
                 <div class="lg:w-2/5 w-full flex flex-col gap-4">
                     <div class="bg-new-black w-full flex flex-row justify-between items-center px-4 h-12">
                         <div class="bg-primary w-4 h-4"></div>
@@ -113,7 +113,7 @@
             </div>
 
             <div
-                class="max-w-5xl w-full md:px-16 px-4 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
+                class="max-w-5xl w-full md:px-16 px-4 lg:gap-2 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start mx-auto">
 
                 <div
                     class="basic_future_2 lg:w-1/3 w-full lg:order-1 order-2 flex flex-col items-start gap-4 justify-start">
@@ -243,7 +243,7 @@ import Footer from './Footer.vue';
 import Navbar from './Navbar.vue';
 import axios from '../axios';
 import constants from '../../constant';
-
+import {EventBus} from './login/EventBus/EventBus'
 export default {
     name: 'New Landing',
     components: {
@@ -256,6 +256,13 @@ export default {
                 email: '',
             },
         };
+    },
+    mounted() {
+        EventBus.$on('setReload', () => {
+            if (this.$store.state.reload.shouldReload) {
+                this.$router.go();
+            }
+        });
     },
     methods: {
         open() {

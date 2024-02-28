@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white">
         <div
-            class="max-w-5xl w-full md:px-16 px-4 lg:py-16 py-10 lg:gap-8 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start">
+            class="max-w-5xl w-full md:px-16 px-4 lg:py-16 py-10 lg:gap-8 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start lg:items-center items-start mx-auto">
             <!-- first section -->
             <div class="lg:w-2/5 w-full flex flex-col gap-6 text-left items-start">
                 <div class="logo-cont"><svg width="150" height="150" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
