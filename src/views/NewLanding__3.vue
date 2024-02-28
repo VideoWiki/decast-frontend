@@ -243,7 +243,7 @@ import Footer from './Footer.vue';
 import Navbar from './Navbar.vue';
 import axios from '../axios';
 import constants from '../../constant';
-import {EventBus} from './login/eventBus/EventBus';
+
 export default {
     name: 'New Landing',
     components: {

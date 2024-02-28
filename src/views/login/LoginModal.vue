@@ -204,6 +204,7 @@ export default {
       this.$store
         .dispatch('auth/login', payload)
         .then((response) => {
+          console.log(response,'This is login re')
           this.$vs.loading();
           window.location.replace(response.data.redirect_to);
           this.$acl.change(this.activeUserInfo.userRole);
