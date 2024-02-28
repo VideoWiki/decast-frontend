@@ -128,6 +128,7 @@ import Web3 from 'web3';
 import GAuth from 'vue-google-oauth2';
 import Vue from 'vue';
 import { detectIncognito } from 'detectincognitojs';
+import { EventBus } from './eventBus/EventBus'
 export default {
   data() {
     return {
@@ -208,6 +209,7 @@ export default {
           window.location.replace(response.data.redirect_to);
           this.$acl.change(this.activeUserInfo.userRole);
           this.$vs.loading.close();
+          EventBus.$emit('reload');
           this.$vs.notify({
             title: 'Success',
             text: 'Login Successfull',
