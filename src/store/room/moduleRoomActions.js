@@ -100,7 +100,8 @@ export default {
       room_name: payload,
       room_url:
         'https://api.room.video.wiki/join-room/' + res.data.public_cast_id,
-    };
+        short_code: res.data.short_code
+      };
     commit('ADD_ROOM', room);
     return res;
   },

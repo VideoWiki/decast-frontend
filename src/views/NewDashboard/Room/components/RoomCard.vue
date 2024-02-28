@@ -20,7 +20,7 @@
           <img src="@/assets/images/menu.svg" />
         </vs-button>
         <div class="copy-btn-cont">
-          <vx-tooltip :text="'https://decast.live/'+room.short_code" position="bottom">
+          <vx-tooltip :text="'https://decast.live/j/'+room.short_code" position="bottom">
             <vs-button class="custm-style" @click="copy(room.short_code)">
               <img src="@/assets/images/copy.svg" />
             </vs-button>
@@ -114,7 +114,7 @@ export default {
       }
     },
     copy(shortCode) {
-      navigator.clipboard.writeText('https://decast.live/' + shortCode);
+      navigator.clipboard.writeText('https://decast.live/j/' + shortCode);
     },
     getList() {
       this.$store

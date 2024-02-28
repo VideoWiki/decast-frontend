@@ -578,7 +578,7 @@ export default {
         for (let i = 0; i < this.castDetails.short_codes.length; i++) {
           if (this.castDetails.short_codes[i].type === joinType) {
             navigator.clipboard.writeText(
-              'https://decast.live/' + this.castDetails.short_codes[i].short_code
+              'https://decast.live/j/' + this.castDetails.short_codes[i].short_code
             );
           }
         }

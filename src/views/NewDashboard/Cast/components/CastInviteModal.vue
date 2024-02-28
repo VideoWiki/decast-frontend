@@ -99,7 +99,7 @@ export default {
         //         const firstCast = castInfoList[0];
         //         const id = firstCast.public_meeting_id;
         //         const pass = firstCast.h_ap;
-        //         const link = `https://decast.live/join-cast/${id}/?pass=${pass}`;
+        //         const link = `https://decast.live/j/join-cast/${id}/?pass=${pass}`;
         //         return link;
         //     }
         // },
@@ -130,13 +130,13 @@ export default {
         if (this.inviteData.short_code_list) {
             for (let obj of this.inviteData.short_code_list) {
                 if (obj.type === 'attendee') {
-                    this.participantLink = `https://decast.live/${obj.short_code}`
+                    this.participantLink = `https://decast.live/j/${obj.short_code}`
                 }
                 if (obj.type === 'moderator') {
-                    this.cohostLink = `https://decast.live/${obj.short_code}`
+                    this.cohostLink = `https://decast.live/j/${obj.short_code}`
                 }
                 if (obj.type === 'viewer') {
-                    this.viewerLink = `https://decast.live/${obj.short_code}`
+                    this.viewerLink = `https://decast.live/j/${obj.short_code}`
                 }
             }
         }
