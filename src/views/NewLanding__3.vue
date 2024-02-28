@@ -257,13 +257,15 @@ export default {
             },
         };
     },
-    shouldReload() {
-        return this.$store.state.reload.shouldReload;
+    computed: {
+        shouldReload() {
+            return this.$store.state.reload.shouldReload;
+        },
     },
     watch: {
         shouldReload(newVal) {
             if (newVal) {
-                this.$router.go(); // Reload the current route
+                window.location.reload();
             }
         },
     },
