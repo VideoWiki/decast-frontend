@@ -257,11 +257,6 @@ export default {
             },
         };
     },
-    mounted(){
-        EventBus.$on('reload',()=>{
-            this.$router.go();
-        })
-    },
     methods: {
         open() {
             window.open(constants.challengeUri, '_blank', 'width=600,height=600');
