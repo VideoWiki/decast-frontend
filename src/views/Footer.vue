@@ -106,7 +106,7 @@ export default {
         commingSoon() {
             this.$vs.notify({
                 title: 'coming soon',
-                text: 'we are coming!',
+                text: 'Please hold tight!',
                 color: 'warning',
             });
         },
