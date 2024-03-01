@@ -4,7 +4,8 @@
       <div v-if="formLevel !== '3'">
         <p class="join-type">/* Private Straming */</p>
         <h2 class="mt-4 text-white">Join Stream</h2>
-        <p class="join-type mt-4">/* Your information is not mapped to your email or name. It is saved with encryption and only used for the airdrop configured by the cast host. */</p>
+        <p class="join-type mt-4">/* Your information is not mapped to your email or name. It is saved with encryption and
+          only used for the airdrop configured by the cast host. */</p>
       </div>
       <form>
         <div v-if="formLevel === '1'">
@@ -44,8 +45,8 @@
           <span v-if="give_nft">
             <Private :payload="this.payload" />
           </span>
-          <div v-else>
-            <div class="detail-heading">
+          <div>
+            <div class="detail-heading mt-8">
               <h3>/cast.details</h3>
               <span v-if="streamDetails.running" class="label-live">•Live</span>
               <span v-else class="label-off">•Offline</span>
@@ -230,11 +231,17 @@ export default {
       return this.$store.state.auth.isGetWalletAddress;
     },
   },
+  mounted() {
+    if (sessionStorage.getItem('username') !== null) {
+      this.formLevel = '3';
+      // this.callFunctionInChildComponent();
+    }
+  },
   methods: {
     requestOtp() {
       this.payload = {
         email: this.email.toLowerCase(),
-        cast_id: this.$route.params.eventId,
+        cast_id: this.streamDetails.public_meeting_id,
       };
       // Loading
       this.$vs.loading();
@@ -266,21 +273,21 @@ export default {
         });
     },
     userVerification() {
+      console.log(this.streamDetails,'stream details');
       const payload = {
         email: this.email,
-        cast_id: this.$route.params.eventId,
+        cast_id: this.streamDetails.public_meeting_id,
         otp: this.otp,
       };
-
       // Loading
       this.$vs.loading();
-
       this.$store
         .dispatch('auth/verifyOtp', payload)
         .then((res) => {
           this.$vs.loading.close();
           if (res.data.status === true) {
-            this.setSessionVerified(true)
+            sessionStorage.setItem('username', this.email);
+            this.setSessionVerified(true);
             this.formLevel = '3';
           }
         })
@@ -307,9 +314,11 @@ export default {
 .intro-text {
   color: #5B96EB;
 }
+
 .join-type {
   color: #5B96EB;
 }
+
 .detail-heading {
   background-color: #272727;
   padding: 10px;
@@ -317,26 +326,33 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-.detail-heading h3{
+
+.detail-heading h3 {
   color: #FFFFFF;
 }
-.detail-heading .label-off{
+
+.detail-heading .label-off {
   color: #5B96EB;
 }
+
 .detail-heading .label-live {
   color: #EF4444;
 }
+
 .detail-content {
   padding: 10px;
 }
-.detail-content p{
+
+.detail-content p {
   color: #545454;
   line-height: 2;
 }
-.detail-content span{
+
+.detail-content span {
   color: #FFFFFF;
 }
-.detail-content .event-name{
+
+.detail-content .event-name {
   color: #22C55E !important;
 }
 

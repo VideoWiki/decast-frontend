@@ -5,8 +5,8 @@
         @click="connectWallet" color="#1d2129" text-color="#1d2129">
         /connect.wallet
       </button>
-      <button v-else class="vs-component w-full mt-2 vs-button text-base font-bold wallter-button"
-        color="#1d2129" text-color="#1d2129">
+      <button v-else class="vs-component w-full mt-2 vs-button text-base font-bold wallter-button" color="#1d2129"
+        text-color="#1d2129">
         {{ truncate(accountAddress) }}
       </button>
       <!-- <p class="mt-4 mb-2 info-wall">
@@ -88,29 +88,49 @@ export default {
       return this.$store.state.accountAddress;
     },
   },
+  mounted() {
+    this.connectWallet();
+  },
   methods: {
     async connectWallet() {
       await this.login();
-      const payload = {
-        cast_id: this.payload.cast_id,
-        email: this.payload.email,
-        public_address: this.accountAddress.toLowerCase(),
-      };
-      this.$store
-        .dispatch('auth/saveWalletAddress', payload)
-        .then((res) => null)
-        .catch((err) => {
-          this.$vs.notify({
-            title: this.$t('Login.notify.title'),
-            text:
-              err.response != null
-                ? err.response.data.message
-                : this.$t('Metamasklogin.notconnected'),
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger',
-          });
+      // console.log(this.accountAddress, 'this.$store.state.isWalletConnected');
+      if (this.$store.state.isWalletConnected==true) {
+        // console.log(this.accountAddress, 'this.$store.state.isWalletConnected222222');
+        this.$vs.notify({
+          title: 'Wallet Connected',
+          text: 'Your wallet is connected.',
+          iconPack: 'feather',
+          icon: 'icon-info',
+          color: 'info',
         });
+        return;
+      } else {
+        // console.log(this.accountAddress, 'this.$store.state.isWalletConnected345555555555555');
+        const payload = {
+          cast_id: this.payload.cast_id,
+          email: this.payload.email,
+          public_address: this.accountAddress.toLowerCase(),
+        };
+        console.log(payload, 'this pay')
+        this.$store
+          .dispatch('auth/saveWalletAddress', payload)
+          .then((res) => null)
+          .catch((err) => {
+            console.log(err, 'met err');
+            this.$vs.notify({
+              title: this.$t('Login.notify.title'),
+              text:
+                err.response != null
+                  ? err.response.data.message
+                  : this.$t('Metamasklogin.notconnected'),
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger',
+            });
+          });
+      }
+
     },
     async login() {
       this.popupDisplay = false;
@@ -123,7 +143,7 @@ export default {
       this.$store.dispatch('disconnectWallet');
     },
     truncate(addressString) {
-      return addressString.slice(0, 6) + '...' + addressString.slice(38);
+      return addressString.slice(0, 12) + '...' + addressString.slice(38);
     },
     popup() {
       this.popupDisplay = true;
@@ -140,11 +160,12 @@ export default {
 } */
 
 .wallter-button {
-  background: #000 !important;
-  color: #d7df23 !important;
-  border: 1px solid #f2ff00 !important;
+  background: #d7df23 !important;
+  color: #000 !important;
+  border: 2px solid #000 !important;
   border-radius: 0px !important;
-  box-shadow: 3px 3px 0px 0px #d7df23 !important;
+  box-sizing: border-box;
+  box-shadow: 5px 5px 0px -1px #fff !important;
   height: 50px;
   transition: 0.2s ease-in-out;
   transform-origin: center;
@@ -154,7 +175,7 @@ export default {
   transform: translateY(-3px);
   transition: 0.2s ease-in-out;
   transform-origin: center;
-  box-shadow: 3px 3px 0px 0px #d7df23, 6px 6px 0px 0px #d7df23 !important;
+  box-shadow: 5px 5px 0px 0px #fff!important;
 }
 
 .info-wall {

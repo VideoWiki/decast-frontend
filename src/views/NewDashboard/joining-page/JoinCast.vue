@@ -330,8 +330,8 @@ export default {
     }
     this.getMeetingDetails();
     this.castInfo();
-    console.log(this.newPay);
-    console.log(this.nft, 'nft');
+    // console.log(this.newPay);
+    // console.log(this.nft, 'nft');
   },
   methods: {
     // extractCredentials() {
