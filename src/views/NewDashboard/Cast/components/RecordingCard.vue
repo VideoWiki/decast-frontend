@@ -1,8 +1,8 @@
 <template>
     <div class="recordings flex justify-between items-center mb-4 w-full py-2 px-6">
         <div class="w-full flex justify-between items-center">
-            <div>
-                <p>{{ recording.Name }}</p>
+            <div class="flex">
+                <p><span class="font-bold">{{ recording.cast_name }} :</span> {{ recording.Name }} </p>
             </div>
             <div class="flex items-center">
                 <p class="mr-2">
