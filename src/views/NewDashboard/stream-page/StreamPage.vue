@@ -1,7 +1,7 @@
 <template>
   <div class="full-container">
     <div class="logo">
-      <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
+      <img class="py-4" src="@/assets/images/logot.svg" alt="" />
     </div>
     <div class="w-full flex flex-col items-center join-wrapper">
       <div class="bg-white w-full flex flex-row justify-between items-center px-4 h-8">
@@ -243,7 +243,6 @@ export default {
   height: 100px;
   display: flex;
   align-items: center;
-  padding: 10px;
 }
 
 .logo img {

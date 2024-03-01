@@ -1,7 +1,7 @@
 <template>
   <div class="full-container">
     <div class="logo">
-      <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
+      <img class="py-4" src="@/assets/images/logot.svg" alt="" />
     </div>
     <div class="w-full flex flex-col items-center join-wrapper">
       <div class="bg-white w-full flex flex-row justify-between items-center px-4 h-8">
@@ -83,9 +83,9 @@
   </div>
 </template>
 <script>
-import axios from '../axios';
+import axios from '../../../axios';
 export default {
-  name: 'joiningPage',
+  name: 'JoinRoom',
   data() {
     return {
       loggedOut: false,
@@ -178,8 +178,8 @@ export default {
   height: 100px;
   display: flex;
   align-items: center;
-  padding: 10px;
 }
+
 .logo img {
   height: inherit;
 }
@@ -237,7 +237,7 @@ export default {
   outline: none;
   padding: 10px;
   margin: 5px 0px 10px 0px;
-  width: 350px;
+  max-width: 350px;
 }
 
 .join-input-content button {
@@ -253,9 +253,11 @@ export default {
   -moz-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
   box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
 }
+
 .join-input-content button:disabled {
   opacity: 0.5;
 }
+
 .join-input-content button span {
   margin-right: 30px;
 }
@@ -281,10 +283,12 @@ export default {
   background-color: #EF4444;
   margin-right: 5px;
 }
+
 .join-body-bottom {
   margin-top: 5px;
   color: #FFFFFF;
 }
+
 .join-body-bottom span {
   color: #22C55E;
 }
@@ -403,6 +407,15 @@ export default {
 }
 
 @media (max-width: 499px) {
+  .full-container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* .join-input-content input {
+    width: unset !important;
+  } */
+
   .idgf {
     flex-direction: column;
     justify-content: center;

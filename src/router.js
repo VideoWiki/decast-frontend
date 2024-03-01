@@ -311,7 +311,7 @@ const router = new Router({
     {
       path: '/joining/:meetingID?',
       name: 'Waiting Room',
-      component: () => import('./views/JoinCastNew.vue'),
+      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -370,7 +370,7 @@ const router = new Router({
       path: '/r/:meeting_id?',
       name: 'Joining Room',
       // component: () => import('./views/joiningPage.vue'),
-      component: () => import('./views/JoiningPageNew.vue'),
+      component: () => import('./views/NewDashboard/joining-page/JoinRoom.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -378,7 +378,7 @@ const router = new Router({
     {
       path: '/c/:meetingID?',
       name: 'Joining Cast',
-      component: () => import('./views/JoinCastNew.vue'),
+      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -766,7 +766,7 @@ const router = new Router({
     {
       path: '/e/:meetingID?',
       name: 'Join Cast',
-      component: () => import('./views/JoinCastNew.vue'),
+      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },

@@ -1,7 +1,7 @@
 <template>
   <div class="full-container">
     <div class="logo">
-      <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
+      <img class="py-4" src="@/assets/images/logot.svg" alt="" />
     </div>
     <div class="w-full flex flex-col items-center join-wrapper">
       <div class="bg-white w-full flex flex-row justify-between items-center px-4 h-8">
@@ -275,9 +275,9 @@
 </template>
 
 <script>
-import Private from '../layouts/components/navbar/components/Connect_Wallet.vue';
+import Private from '@/layouts/components/navbar/components/Connect_Wallet.vue';
 export default {
-  name: 'JoinCastNew',
+  name: 'JoinCast',
   components: { Private },
   data() {
     return {
@@ -703,7 +703,6 @@ export default {
   height: 100px;
   display: flex;
   align-items: center;
-  padding: 10px;
 }
 
 .logo img {
@@ -779,7 +778,7 @@ export default {
   outline: none;
   padding: 10px;
   margin: 5px 0px 10px 0px;
-  width: 350px;
+  max-width: 350px;
 }
 
 .join-input-content button {
@@ -837,7 +836,6 @@ export default {
 
 @media (max-width: 499px) {
   .full-container {
-    background-color: #181a20;
     /* background-image: url('../assets/images/joiningPage/right.png'); */
     background-image: none;
     background-position: right center;
@@ -847,13 +845,8 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0;
-  }
-
-  .logo {
-    width: 91px;
-    height: 91px;
-    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 </style>
