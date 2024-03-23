@@ -10,6 +10,13 @@
 import navbarSearchAndPinList from '@/layouts/components/navbar/navbarSearchAndPinList';
 import themeConfig from '@/../themeConfig.js';
 import colors from '@/../themeConfig.js';
+import axios from '../axios';
+import store from '@/store/store';
+import Vue from 'vue';
+import VueCookies from 'vue-cookies';
+import router from '@/router.js'
+// Use VueCookies plugin
+Vue.use(VueCookies);
 
 // /////////////////////////////////////////////
 // Helper
@@ -29,12 +36,43 @@ const userDefaults = {
 
 // const userInfoLocalStorage = JSON.parse(localStorage.getItem('userInfo')) || {};
 
+const getUserDetails = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `https://api.room.video.wiki/api/get/user/details/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        }
+      )
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject(error);
+        console.log(error);
+      });
+  });
+}
+const getUpdatedUserData = async () => {
+  const userData = await getUserDetails();
+  if(userData) {
+    return userData.data;
+  }
+  VueCookies.remove('userId');
+  VueCookies.remove('Token');
+  router.push('/');
+  return store.dispatch('auth/logOut');
+}
 // Set default values for active-user
 // More data can be added by auth provider or other plugins/packages
 const getUserInfo = () => {
   const userInfo = {};
   const userInfoLocalStorage =
     JSON.parse(localStorage.getItem('userInfo')) || {};
+  const userData = getUpdatedUserData();
   // Update property in user
   Object.keys(userDefaults).forEach((key) => {
     // If property is defined in localStorage => Use that
@@ -42,7 +80,13 @@ const getUserInfo = () => {
       ? userInfoLocalStorage[key]
       : userDefaults[key];
   });
-
+  // Object.keys(userDefaults).forEach((key) => {
+  //   // If property is defined in localStorage => Use that
+  //   userInfo[key] = userData && userData[key]
+  //     ? userData[key]
+  //     : userDefaults[key];
+  // });
+  
   // Include properties from localStorage
   Object.keys(userInfoLocalStorage).forEach((key) => {
     if (userInfo[key] === undefined && userInfoLocalStorage[key] !== null)

@@ -139,5 +139,14 @@ new Vue({
   store,
   i18n,
   acl,
+  mounted() {
+    const ifrm = document.getElementById("extFrame")
+    if(!ifrm){
+      return;
+    }
+    const wind = ifrm.contentWindow
+    const message = localStorage.getItem("accessToken")
+    wind.postMessage(message, 'https://qa.room.video.wiki');
+  },
   render: (h) => h(App),
 }).$mount('#app');
