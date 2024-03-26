@@ -145,8 +145,8 @@ new Vue({
       return;
     }
     const wind = ifrm.contentWindow
-    const message = localStorage.getItem("accessToken")
-    wind.postMessage(message, 'https://qa.room.video.wiki');
+    const message = JSON.stringify(localStorage.getItem("accessToken"))
+    wind.postMessage(message, 'https://live1.decast.live');
   },
   render: (h) => h(App),
 }).$mount('#app');
