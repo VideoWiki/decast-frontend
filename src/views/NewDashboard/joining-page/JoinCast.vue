@@ -48,7 +48,7 @@
           <div v-else>
             <div class="join-input-content">
               <label>user.name</label>
-              <input placeholder="e.g John G. Miguel" @keydown.enter="joinCast" v-model="joiningName" />
+              <input placeholder="e.g John G. Miguel" @keydown.enter="joinCast" v-model="joiningName" autocomplete="off"/>
               <button @click="joinCast"><span>/cast.join</span></button>
             </div>
             <p v-if="sentOtp" class="join-type">/* Please enter the OTP sent on the email below */</p>
@@ -323,6 +323,7 @@ export default {
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'block';
+    this.joiningName = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')).first_name : '';
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');
     if (emailParam) {

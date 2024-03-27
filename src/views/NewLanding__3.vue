@@ -264,7 +264,8 @@ export default {
                 this.$store.dispatch('auth/fetched');
                 this.$acl.change('user');
                 this.$store.commit('auth/SET_LOGGEDIN', true);
-                this.$router.push('/dashboard');
+                // this.$router.push('/dashboard');
+                window.location.href='dashboard';
                 this.url = '';
             }
         });
