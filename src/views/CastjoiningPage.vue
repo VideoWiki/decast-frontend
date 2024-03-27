@@ -1,7 +1,7 @@
 <template>
   <div class="full-container">
     <div class="logo">
-      <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
+      <img src="@/assets/images/logot.svg" alt="" />
     </div>
     <div class="h-full w-full flex justify-center items-center">
       <div class="flex">

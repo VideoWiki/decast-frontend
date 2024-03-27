@@ -4,7 +4,7 @@
       :style="{ 'background-image': 'url(' + require('@/assets/images/awards/backgroundimg.svg') + ')' }">
       <div class="awards-main-left">
         <div class="awards-ml-wrapper">
-          <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" />
+          <img src="@/assets/images/logot.svg" />
           <h1>Cast your Content <br>from the Future!</h1>
           <h4>Cast is a Video Conferencing Software <br>For Virtual Communication And <br>Collaboration.</h4>
         </div>

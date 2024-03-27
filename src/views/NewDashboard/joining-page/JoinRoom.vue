@@ -20,7 +20,7 @@
 
         <div class="join-input-content">
           <label>user.name</label>
-          <input v-model="name" type="text" @keydown.enter="joinRoom" placeholder="e.g John G. Miguel" />
+          <input v-model="name" type="text" @keydown.enter="joinRoom" autocomplete="off" placeholder="e.g John G. Miguel" />
           <button :disabled="isJoining" v-if="isJoining"><span>/Joining...</span></button>
           <button :disabled="isJoining" @click="joinRoom" v-else><span>/Join.room</span></button>
         </div>
@@ -101,6 +101,7 @@ export default {
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'block';
+    this.name = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')).first_name : '';
     this.getUserDetails();
   },
   methods: {
