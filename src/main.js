@@ -140,13 +140,12 @@ new Vue({
   i18n,
   acl,
   mounted() {
-    const ifrm = document.getElementById("extFrame")
-    if(!ifrm){
-      return;
-    }
-    const wind = ifrm.contentWindow
-    const message = JSON.stringify(localStorage.getItem("accessToken"))
-    wind.postMessage(message, 'https://live1.decast.live');
+    const ifram = document.getElementById('extFrame');
+    ifram.onload = function () {
+      const wind = ifram.contentWindow;
+      const message = JSON.stringify(localStorage.getItem("accessToken"));
+      wind.postMessage(message, 'https://live1.decast.live');
+    };
   },
   render: (h) => h(App),
 }).$mount('#app');
