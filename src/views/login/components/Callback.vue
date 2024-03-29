@@ -50,7 +50,6 @@ export default {
           })
           .then((res) => {
             console.log(res);
-            this.setRoomAccessToken(response.data.data.token_data.access_token);
             localStorage.setItem(
               'accessToken',
               response.data.data.token_data.access_token
@@ -93,17 +92,6 @@ export default {
         window.location.href = constant.challengeUri;
         console.log(JSON.stringify(e));
       });
-  },
-  methods: {
-    setRoomAccessToken(access_token) {
-      const ifram = document.getElementById('extFrame');
-      ifram.onload = function () {
-        const wind = ifram.contentWindow
-        const message = JSON.stringify(access_token)
-        console.log("access_token4", access_token)
-        wind.postMessage(message, 'https://live1.decast.live');
-      };
-    }
   }
 };
 </script>
