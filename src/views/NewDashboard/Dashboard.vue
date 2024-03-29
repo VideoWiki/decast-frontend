@@ -197,6 +197,14 @@ export default {
       const message = JSON.stringify(localStorage.getItem("accessToken"));
       wind.postMessage(message, 'https://live1.decast.live');
     };
+    setTimeout(function () {
+      const ifram = document.getElementById('extFrame');
+      ifram.onload = function () {
+        const wind = ifram.contentWindow;
+        const message = JSON.stringify(localStorage.getItem("accessToken"));
+        wind.postMessage(message, 'https://live1.decast.live');
+      };
+    }, 2000);
     console.log(this.activeUserInfo);
   },
   methods: {
