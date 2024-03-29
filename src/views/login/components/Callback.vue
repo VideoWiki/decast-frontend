@@ -1,7 +1,7 @@
 <template>
   <div class="loader-container" id="loading-bg">
     <div class="svg-container">
-        <img src="@/assets/images/logot.svg" alt="Logo" />
+      <img src="@/assets/images/logot.svg" alt="Logo" />
     </div>
   </div>
 </template>
@@ -50,6 +50,7 @@ export default {
           })
           .then((res) => {
             console.log(res);
+            this.setRoomAccessToken(response.data.data.token_data.access_token);
             localStorage.setItem(
               'accessToken',
               response.data.data.token_data.access_token
@@ -58,6 +59,7 @@ export default {
             window.opener.postMessage('loginSuccess', '*');
             window.close();
             location.href = '/dashboard';
+
             // location.href =
             //   'https://dev.stream.video.wiki/saveInfo/?name=' +
             //   response.data.data.user_info.first_name +
@@ -92,6 +94,17 @@ export default {
         console.log(JSON.stringify(e));
       });
   },
+  methods: {
+    setRoomAccessToken(access_token) {
+      const ifram = document.getElementById('extFrame');
+      ifram.onload = function () {
+        const wind = ifram.contentWindow
+        const message = JSON.stringify(access_token)
+        console.log("access_token4", access_token)
+        wind.postMessage(message, 'https://live1.decast.live');
+      };
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
