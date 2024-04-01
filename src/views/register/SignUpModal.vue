@@ -12,7 +12,7 @@
       <div class="container">
         <div class="flex flex-col justify-between cc-label">
           <h6 class="custom-heading mb-2">//Sign Up</h6>
-          <p @click="navigateToLogin">/* Already have an account? Login */</p>
+          <p class="cursor-pointer" @click="navigateToLogin">/* Already have an account? Login */</p>
         </div>
         <div class="flex">
           <div class="flex flex-col mt-8 flex-1 mr-4">

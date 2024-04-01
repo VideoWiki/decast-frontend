@@ -1,14 +1,14 @@
 <template>
-  <div class="w-full pt-8">
+  <div class="w-full">
     <div class="">
-      <div class="p-5 reset">
-        <div class="mb-2 pl-3">
-          <p class="my-5 text-lg">
+      <div class="reset">
+        <div class="mb-2">
+          <p class="my-5 text-lg" style="color:#5B96EB">
             Your new password must be different from previously used password
           </p>
         </div>
-        <div class="vx-col m-2 relative">
-          <h6 class="my-4 font-black">
+        <div class="vx-col relative">
+          <h6 class="my-4 text-white">
             New Password<span class="text-danger"> *</span>
           </h6>
           <div class="flex relative">
@@ -19,7 +19,7 @@
               @change="validateForm"
               v-model="password"
               name="New Password"
-              placeholder="Enter Password"
+              placeholder="//Enter Password"
               class="w-full"
               autocomplete="off"
             />
@@ -35,8 +35,8 @@
         <span class="text-danger m-2" v-if="passwordError"
           >Password is required</span
         >
-        <div class="vx-col m-2 relative">
-          <h6 class="my-4 font-black">
+        <div class="vx-col relative">
+          <h6 class="my-4 text-white">
             Confirm Password<span class="text-danger"> *</span>
           </h6>
           <div class="flex relative">
@@ -47,10 +47,10 @@
               name="Confirm Password"
               @change="validateForm"
               v-model="confirmPassword"
-              placeholder="Confirm Password"
+              placeholder="//Confirm Password"
               class="w-full"
               autocomplete="off"
-            />
+              />
             <vs-icon
               color="#7d33ff"
               :icon="showConfirmPassword ? 'visibility_off' : 'visibility'"
@@ -67,11 +67,10 @@
         <span class="text-danger m-2" v-if="passwordMatchError"
           >Passwords do not match</span
         >
-        <vs-button
-          type="filled"
+        <button
           @click="RestPassword"
-          class="font-semibold mt-3"
-          >Save</vs-button
+          class="custm-button"
+          >//Save</button
         >
       </div>
     </div>
@@ -155,16 +154,12 @@ export default {
 };
 </script>
 <style scoped>
-.modified-input {
-  height: 60px;
-  border: none;
-  /* border-radius: 16px; */
-  background: #f3f3f3;
-  font-family: Montserrat;
-  border-radius: 4px;
-  padding: 2rem;
-  width: 100%;
+*:not(i) {
+  /* font-family: 'Karla', sans-serif !important; */
+  font-family: 'JetBrains Mono' !important;
 }
+
+
 .input-icon {
   position: absolute;
   right: 5%;
@@ -176,5 +171,23 @@ export default {
 .reset {
   display: flex;
   flex-direction: column;
+}
+
+.custm-button {
+  background-color: #D7DF23;
+  color: #000000;
+  border: 2px solid #000000;
+  outline: none;
+  padding: 10px;
+  width: fit-content;
+  cursor: pointer;
+  font-weight: 600;
+  -webkit-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+  -moz-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+  box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+}
+.custm-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>

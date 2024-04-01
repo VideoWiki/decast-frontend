@@ -12,7 +12,7 @@
         <div class="flex flex-col justify-between cc-label">
           <!-- <h6 class="custom-heading" style="color: #a6a6a8">Welcome back!</h6> uncomment after design fix and remove the below line -->
           <h6 class="custom-heading mb-2">//Login</h6>
-          <p @click="navigateToSignUp">/* Don't have an account? <span>Sign Up</span> */</p>
+          <p class="cursor-pointer" @click="navigateToSignUp">/* Don't have an account? <span>Sign Up</span> */</p>
           <!-- <div class="flex justify-center">
             <p class="route cursor-pointer text-sm font-semibold" style="color: #a6a6a8; text-decoration: underline"
               @click="navigateToSignUp">

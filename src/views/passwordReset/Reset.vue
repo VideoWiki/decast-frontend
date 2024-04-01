@@ -1,30 +1,37 @@
 <template>
    <div
-    class="lg:h-screen flex w-full bg-img vx-row no-gutter items-center justify-center"
-    id="page-login" style="background: linear-gradient(135deg, #F0ECFF 0%, #E5E1FF 52.6%, #FFFDEA 100%);"
+    class="lg:h-screen flex w-full bg-dark-black vx-row no-gutter items-center justify-center"
+    id="page-login"
   >
     <div class="vx-col sm:w-1/2 md:w-1/2 lg:w-2/4 xl:w-1/3 sm:m-0 m-4">
-      <vs-card>
-        <div class="p-5">
-          <div class="text-center m-2">
+      <div class="bg-white w-full flex flex-row justify-between items-center px-4 h-8">
+        <div class="bg-black w-4 h-4"></div>
+        <div class="flex flex-row gap-2">
+          <div class="bg-black w-4 h-4"></div>
+          <div class="bg-black w-4 h-4"></div>
+        </div>
+      </div>
+      <div class="div--content bg-dark-black mt-2">
+        <div class="p-4">
+          <div class="text-center">
             <img
-              src="@/assets/images/logo/logo.svg"
+              src="@/assets/images/logot.svg"
               @click="navigateTohome"
               class="mr-2 mt- h-16"
             />
             <h1
               v-if="$route.name === 'Reset Password'"
-              class="font-black text-4xl"
+              class="text-white font-bold text-3xl text-left"
             >
-              Change Password
+              //Change Password
             </h1>
-            <h1 class="font-black text-4xl" v-else>Forgot Password</h1>
+            <h1 class="text-white font-bold text-3xl text-left" v-else>//Forgot Password</h1>
           </div>
           <ResetPassword v-if="$route.name === 'Reset Password'" />
           <password-email v-else />
         </div>
-      </vs-card>
-      <h4 class="w-full justify-center items-center text-center">
+      </div>
+      <h5 class="w-full justify-center text-sm items-center text-center text-white mt-4">
         Data policies aligned with
         <a
           href="https://principles.fairdatasociety.org/"
@@ -32,7 +39,7 @@
           target="_blank"
           >Fair Data Society Principles</a
         >
-      </h4>
+      </h5>
     </div>
   </div>
 </template>
@@ -54,9 +61,13 @@ export default {
 </script>
 
 <style lang="scss">
+*:not(i) {
+  /* font-family: 'Karla', sans-serif !important; */
+  font-family: 'JetBrains Mono' !important;
+}
 .login-tabs-container {
   min-height: 505px;
-  padding-top: 5.5rem;
+  padding-top: 2rem;
   margin-right: 60px;
 
   .con-tab {
@@ -67,10 +78,12 @@ export default {
     margin-top: 1rem;
   }
 }
-.svg-white {
-  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(130deg)
-    brightness(106%) contrast(103%);
+
+.div--content{
+  border-radius: none;
+  border: 1px solid #ffffff !important;
 }
+
 .company-logo {
   top: 5%;
   left: 10%;

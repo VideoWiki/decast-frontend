@@ -2,20 +2,19 @@
   <div class="w-full">
     <form @submit.prevent="emailDisplay">
       <div>
-        <div class="p-5 reset">
-          <div class="mb-2 pl-3">
-            <p class="my-5 text-lg">
-              Enter the email address you used when you joined and we’ll sent
+        <div class="reset">
+          <div class="mb-2">
+            <p class="my-5 text-sm" style="color:#5B96EB">
+              Enter the email address you used when you joined and we’ll send
               you instructions to reset your password.
               <br />
-              <br />
               For security reasons, we do NOT store your password. So rest
-              assured that we will never send your password via email
+              assured that we will never send your password via email.
             </p>
           </div>
-          <div class="vx-col m-2 relative">
-            <h6 class="my-4 font-black">
-              Email Address <span class="text-danger"> *<br /></span>
+          <div class="vx-col relative">
+            <h6 class="my-4 text-white">
+              user.email <span class="text-danger"> *<br /></span>
             </h6>
             <vs-input
               type="text"
@@ -23,7 +22,7 @@
               v-validate="'required'"
               @submit="validateEmail"
               name="Email"
-              placeholder="Enter your email address"
+              placeholder="//example@email.com"
               class="w-full"
               autocomplete="off"
               v-model="emailReset"
@@ -34,16 +33,15 @@
               </p>
             </span>
           </div>
-          <vs-button
+          <button
             @click="emailDisplay"
-            type="filled"
-            class="font-semibold mt-3 mx-1"
-            >Send Email</vs-button
+            class="custm-button mt-2"
+            >//Send Email</button
           >
         </div>
       </div>
     </form>
-    <div class="flex flex-wrap mb-3 justify-center">
+    <div class="flex flex-wrap mb-3 justify-center mt-4" style="color:#22c55e">
       Do you already have an account?
       <span class="ml-1 text-primary cursor-pointer" @click="navigateToLogin"
         >Login</span
@@ -138,16 +136,35 @@ export default {
   justify-content: right;
   align-items: right;
 }*/
-.modified-input {
+
+.custm-button {
+  background-color: #D7DF23;
+  color: #000000;
+  border: 2px solid #000000;
+  outline: none;
+  padding: 10px;
+  width: fit-content;
+  cursor: pointer;
+  font-weight: 600;
+  -webkit-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+  -moz-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+  box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+}
+.custm-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* .modified-input {
   height: 60px;
   border: none;
-  /* border-radius: 16px; */
+  border-radius: 16px; 
   background: #e3e2e2;
   font-family: Montserrat;
   border-radius: 4px;
   padding: 2rem;
   width: 100%;
-}
+} */
 .company-logo {
   top: 5%;
   left: 10%;
