@@ -1,6 +1,7 @@
 <template>
   <div class="full-screen-div flex flex-col justify-start items-center">
-    <div class="dashboard_navbar max-w-6xl w-full items-center flex flex-row justify-between lg:px-12 md:px-4 px-3 py-4">
+    <div
+      class="dashboard_navbar max-w-6xl w-full items-center flex flex-row justify-between lg:px-12 md:px-4 px-3 py-4">
       <div class="flex justify-start gap-4 w-2/5">
         <img src="@/assets/images/logot.svg" class="w-24 h-24 cursor-pointer mr-10" @click="redirectHome" />
         <div class="text-white flex flex-col justify-center h-24">
@@ -15,7 +16,8 @@
       </div>
 
       <div class="w-3/5 flex flex-row gap-6 justify-end h-24 items-center">
-        <div v-if="(accessToken || loggedIn) && activeUserInfo.email== ''" class="flex gap-6">
+        <div v-if="(accessToken || loggedIn) && activeUserInfo.email == ''" class="flex gap-6">
+          <p class="text-lg">{{ activeUserInfo.username }}</p>
           <img src="@/assets/images/pixel_wallet.svg" class="w-10 h-8 cursor-pointer" />
           <p class="text-lg">{{ activeUserInfo.username }}</p>
         </div>
@@ -31,9 +33,9 @@
               <template #menuButton>
                 <div class="pfp">
                   <vs-avatar :text="getFirstLetter" color="primary" class="m-0 shadow-md" :src="activeUserInfo.profile_pic
-                    ? activeUserInfo.profile_pic
-                    : ''
-                    " size="40px" />
+          ? activeUserInfo.profile_pic
+          : ''
+          " size="40px" />
                 </div>
               </template>
             </SimpleMenu>
@@ -189,9 +191,19 @@ export default {
     },
   },
   mounted() {
-    console.log(this.activeUserInfo, 'this is active');
+    this.verifyAuthToken();
+    setTimeout(function () {
+      const ifram = document.getElementById('extFrame');
+      const wind = ifram.contentWindow;
+      const message = JSON.stringify(localStorage.getItem("accessToken"));
+      wind.postMessage(message, 'https://live1.decast.live');
+    }, 2000);
+    console.log(this.activeUserInfo);
   },
   methods: {
+    verifyAuthToken() {
+      this.$store.dispatch('auth/verifyAuthToken');
+    },
     toggleActiveModal(setModal) {
       this.activeModal = setModal;
     },

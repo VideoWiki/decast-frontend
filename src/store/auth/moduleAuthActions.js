@@ -129,14 +129,39 @@ export default {
         });
     });
   },
-
+  verifyAuthToken({ commit }) {
+    if(!localStorage.getItem('accessToken')){
+      return;
+    }
+    axios.get(`${constants.apiCastUrl}/api/token/status/?token=${localStorage.getItem('accessToken')}`)
+      .then((res) => {
+        if(!res.data.active){
+          localStorage.removeItem('userInfo');
+          localStorage.removeItem('accessToken');
+          window.location.reload();
+          // find a way to logout without refresh
+          commit('LOGOUT', null, { root: true });
+        }
+      })
+      .catch((error) => {
+        console.log("Error while verifying token");
+      });
+  },
   logOut({ commit }) {
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('accessToken');
-
-    window.location.reload();
-    // find a way to logout without refresh
-    commit('LOGOUT', null, { root: true });
+    const formData = new FormData();
+    formData.append('token', localStorage.getItem("accessToken"));
+    axios
+      .post(`${constants.apiCastUrl}/api/revoke-token/`, formData)
+      .then((res) => {
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('accessToken');
+        window.location.reload();
+        // find a way to logout without refresh
+        commit('LOGOUT', null, { root: true });
+      })
+      .catch((error) => {
+        console.log("Error while logging out");
+      });
   },
   updateUserDetails({ commit }, payload) {
     return new Promise((resolve, reject) => {

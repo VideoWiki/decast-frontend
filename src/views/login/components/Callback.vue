@@ -1,7 +1,7 @@
 <template>
   <div class="loader-container" id="loading-bg">
     <div class="svg-container">
-        <img src="@/assets/images/logot.svg" alt="Logo" />
+      <img src="@/assets/images/logot.svg" alt="Logo" />
     </div>
   </div>
 </template>
@@ -58,6 +58,7 @@ export default {
             window.opener.postMessage('loginSuccess', '*');
             window.close();
             location.href = '/dashboard';
+
             // location.href =
             //   'https://dev.stream.video.wiki/saveInfo/?name=' +
             //   response.data.data.user_info.first_name +
@@ -91,7 +92,7 @@ export default {
         window.location.href = constant.challengeUri;
         console.log(JSON.stringify(e));
       });
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
