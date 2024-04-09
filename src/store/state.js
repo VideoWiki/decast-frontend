@@ -19,10 +19,10 @@ import colors from '@/../themeConfig.js';
 const userDefaults = {
   uid: 0, // From Auth
   displayName: 'John Doe', // From Auth
-  about:
-    'Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.',
+  // about:
+  //   'Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.',
   email: '',
-  profile_image: null, // require('@/assets/images/user-icon-placeholder.png'), // From Auth
+ //  profile_image: null, require('@/assets/images/user-icon-placeholder.png'), // From Auth
   status: 'online',
   userRole: 'user',
 };
