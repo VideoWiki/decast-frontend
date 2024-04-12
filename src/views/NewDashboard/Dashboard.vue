@@ -17,12 +17,12 @@
 
       <div class="w-3/5 flex flex-row gap-6 justify-end h-24 items-center">
         <div v-if="(accessToken || loggedIn) && activeUserInfo.email== ''" class="flex gap-6">
-          <img src="@/assets/images/pixel_wallet.svg" class="w-10 h-8 cursor-pointer" />
+          <img src="@/assets/images/pixel_wallet.svg" class="w-8 h-6 cursor-pointer" />
           <p class="text-lg">{{ activeUserInfo.username }}</p>
         </div>
 
         <div v-else class="flex gap-6">
-          <img src="@/assets/images/pixel_email.svg" class="w-10 h-8 cursor-pointer" />
+          <img src="@/assets/images/pixel_email.svg" class="w-8 h-6 cursor-pointer" />
           <p class="text-lg">{{ activeUserInfo.email }}</p>
         </div>
         <!-- <img src="@/assets/images/pixel_smile.svg" class="w-12 h-12 cursor-pointer" /> -->
