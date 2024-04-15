@@ -95,24 +95,24 @@ export default {
     async connectWallet() {
       await this.login();
       // console.log(this.accountAddress, 'this.$store.state.isWalletConnected');
-      if (this.$store.state.isWalletConnected==true) {
-        // console.log(this.accountAddress, 'this.$store.state.isWalletConnected222222');
-        this.$vs.notify({
-          title: 'Wallet Connected',
-          text: 'Your wallet is connected.',
-          iconPack: 'feather',
-          icon: 'icon-info',
-          color: 'info',
-        });
-        return;
-      } else {
-        // console.log(this.accountAddress, 'this.$store.state.isWalletConnected345555555555555');
-        const payload = {
+      const payload = {
           cast_id: this.payload.cast_id,
           email: this.payload.email,
           public_address: this.accountAddress.toLowerCase(),
         };
-        console.log(payload, 'this pay')
+      console.log(payload,this.payload, 'this pay');
+      // if (this.$store.state.isWalletConnected==true) {
+        // console.log(this.accountAddress, 'this.$store.state.isWalletConnected222222');
+      //   this.$vs.notify({
+      //     title: 'Wallet Connected',
+      //     text: 'Your wallet is connected.',
+      //     iconPack: 'feather',
+      //     icon: 'icon-info',
+      //     color: 'info',
+      //   });
+      //   return;
+      // } else {
+        // console.log(this.accountAddress, 'this.$store.state.isWalletConnected345555555555555');
         this.$store
           .dispatch('auth/saveWalletAddress', payload)
           .then((res) => null)
@@ -129,7 +129,7 @@ export default {
               color: 'danger',
             });
           });
-      }
+      // }
 
     },
     async login() {

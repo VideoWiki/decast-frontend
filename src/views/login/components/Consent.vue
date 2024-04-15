@@ -45,7 +45,7 @@ export default {
         this.$store
           .dispatch('auth/fetchUser', {
             access_token: undefined,
-            fist_name: response.data.first_name,
+            first_name: response.data.first_name,
             profile_pic: response.data.profile_pic,
             username: response.data.username,
           })

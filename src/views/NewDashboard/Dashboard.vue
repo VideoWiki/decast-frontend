@@ -191,6 +191,8 @@ export default {
   },
   mounted() {
     this.verifyAuthToken();
+    // this.userInfo = { ...this.$store.state.AppActiveUser };
+    // this.$store.commit('UPDATE_USER_INFO', this.userInfo);
     setTimeout(function () {
       const ifram = document.getElementById('extFrame');
       const wind = ifram.contentWindow;

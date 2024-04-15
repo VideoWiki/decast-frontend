@@ -67,7 +67,7 @@
                 <Private :payload="newPay" />
               </span> -->
               <Private :payload="newPay" />
-              <p v-if="walletAddress" class="join-by">/* Wallet Connected */</p>
+              <p v-if="walletAddress" class="join-by mt-4">/* Wallet Connected */</p>
             </div>
           </div>
 
@@ -318,6 +318,7 @@ export default {
       return !this.errors.any() && this.email !== '' && this.otp !== '';
     },
     walletAddress() {
+      console.log(this.$store.state.auth.isGetWalletAddress, 'getting wallet');
       return this.$store.state.auth.isGetWalletAddress;
     },
   },
