@@ -161,11 +161,8 @@ const mutations = {
             console.error('Failed to fetch ENS name:', error);
           });
       } else {
-        if (userInfo[property] !== undefined) {
-          userInfo[property] = userInfo[property];
-        } else {
-          userInfo[property] = state.AppActiveUser[property];
-        }
+        state.AppActiveUser[property] = payload[property];
+        userInfo[property] = payload[property];
       }
     }
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
