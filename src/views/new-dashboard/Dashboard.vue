@@ -51,21 +51,21 @@
         <div class="w-24 h-24">
           <vx-tooltip text="/ Rooms" position="right">
             <img src="@/assets/images/pixel_call.svg" class="w-24 h-24 cursor-pointer object-contain"
-              @click="handleShowRoom" />
+              @click="$router.push('/dashboard/rooms')" />
           </vx-tooltip>
         </div>
 
         <div class="w-24 h-24">
           <vx-tooltip text="/ Casts" position="right">
             <img src="@/assets/images/pixel_cast.svg" class="w-24 h-24 cursor-pointer object-contain"
-              @click="handleShowCast" />
+              @click="$router.push('/dashboard/casts')" />
           </vx-tooltip>
         </div>
 
         <div class="w-24 h-24">
           <vx-tooltip text="/ Communities" position="right">
             <img src="@/assets/images/pixel_com.svg" class="w-24 h-24 cursor-pointer object-contain"
-              @click="handleShowCommunity" />
+              @click="$router.push('/dashboard/communities')" />
           </vx-tooltip>
         </div>
       </div>
@@ -79,7 +79,11 @@
           </div>
         </div> -->
 
-        <div class="" v-if="showRoomSection">
+        <div>
+          <router-view />
+        </div>
+
+        <!-- <div class="" v-if="showRoomSection">
           <RoomSection />
         </div>
 
@@ -104,7 +108,7 @@
           <div class="w-full h-full flex items-center justify-center text-white">
             <h1 class="text-4xl text-white">Coming Soon</h1>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <ResetPasswordModal v-if="activeModal === 'resetPassModal'" :toggleActiveModal="toggleActiveModal" />
@@ -113,8 +117,8 @@
 </template>
 
 <script>
-import RoomSection from './Room/RoomSection.vue';
-import CastSection from './Cast/CastSection.vue';
+import RoomSection from './rooms/RoomSection.vue';
+import CastSection from './casts/CastSection.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
@@ -190,6 +194,10 @@ export default {
     },
   },
   mounted() {
+    console.log("this.$route.params", this.$route.params)
+    if(this.$route.params === ''){
+      this.$router.push('/dashboard/rooms');
+    }
     this.verifyAuthToken();
     // this.userInfo = { ...this.$store.state.AppActiveUser };
     // this.$store.commit('UPDATE_USER_INFO', this.userInfo);

@@ -42,7 +42,16 @@
                             </template>
                         </StartTimeMenu>
                     </div>
-                    <vs-button class="mt-8" type="border" @click="handleEditCast({isReshedule: true})">>>save</vs-button>
+                    <div class="flex flex-col mt-8">
+                        <span>cast.postpone</span>
+                        <div>
+                            <vs-textarea class="w-2/5 mt-2 txt-desc" id="postpone" v-model="postponeMessage"
+                                placeholder="//Postpone Message" height="70px"
+                                @keyup="postponeMessageError = postponeMessage === ''" />
+                            <p v-if="postponeMessageError" class="text-danger my-2 p-0">>> Postpone message is required</p>
+                        </div>
+                    </div>
+                    <vs-button class="mt-8" type="border" @click="validateMessage">>>save</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
@@ -54,17 +63,17 @@
 
 <script>
 import BaseModal from "@/components/common/BaseModal.vue";
-import Calendar from '@/views/NewDashboard/components/Calendar.vue';
-import StartTimeMenu from '@/views/NewDashboard/components/StartTimeMenu.vue'
-import TimeZoneMenu from '@/views/NewDashboard/components/TimeZoneMenu.vue'
-import HoursFrameMenu from '@/views/NewDashboard/components/HoursFrameMenu.vue'
-import { timeFrames } from '@/views/NewDashboard/Cast/data/timeFrames';
-import { allTimeZone } from '@/views/NewDashboard/Cast/data/allTimeZone';
-import { hoursFrame } from '@/views/NewDashboard/Cast/data/hoursFrame';
+import Calendar from '@/views/new-dashboard/components/Calendar.vue';
+import StartTimeMenu from '@/views/new-dashboard/components/StartTimeMenu.vue'
+import TimeZoneMenu from '@/views/new-dashboard/components/TimeZoneMenu.vue'
+import HoursFrameMenu from '@/views/new-dashboard/components/HoursFrameMenu.vue'
+import { timeFrames } from '@/views/new-dashboard/casts/data/timeFrames';
+import { allTimeZone } from '@/views/new-dashboard/casts/data/allTimeZone';
+import { hoursFrame } from '@/views/new-dashboard/casts/data/hoursFrame';
 import moment from 'moment-timezone';
 
 export default {
-    name: 'EditSetupDetail',
+    name: 'EditPostponeDetail',
     props: ['closeModal', 'stepOneProps', 'stepTwoProps', 'handleEditCast'],
     components: {
         BaseModal,
@@ -78,12 +87,21 @@ export default {
             timeFrames: timeFrames,
             allTimeZone: allTimeZone,
             hoursFrame: hoursFrame,
+            postponeMessageError: false,
+            postponeMessage: '',
         };
     },
     methods: {
         convertTo12(time) {
             return moment(time, 'HH:mm:ss').format('h:mm A');
         },
+        validateMessage(){
+            if(this.postponeMessage === ''){
+                this.postponeMessageError = true;
+                return;
+            }
+            this.handleEditCast({postponeMessage: this.postponeMessage});
+        }
         // handleEditSetup() {
         //     this.$vs.loading();
         //     var data = new FormData();
@@ -131,5 +149,19 @@ export default {
     margin-top: 0.5rem;
     background-color: #FFFFFF;
     color: #000000;
+}
+.txt-desc {
+    background-color: #FFFFFF !important;
+    border: none !important;
+    width: 100%;
+    height: 100px;
+    border: 1px solid #FFFFFF !important;
+    background-color: #FFFFFF !important;
+    border-radius: 0px !important;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0px !important;
+    padding: 0px;
 }
 </style>

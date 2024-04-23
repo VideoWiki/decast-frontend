@@ -7,8 +7,11 @@
       </div>
 
       <div class="cursor-pointer">
-        <vx-tooltip text="/ Create Room" position="left">
+        <!-- <vx-tooltip text="/ Create Room" position="left">
           <img @click="setActiveModal('createRoomModal')" src="@/assets/images/pixel_create.svg" />
+        </vx-tooltip> -->
+        <vx-tooltip text="/ Create Room" position="left">
+          <img @click="$router.push('/dashboard/rooms/create')" src="@/assets/images/pixel_create.svg" />
         </vx-tooltip>
       </div>
     </div>
@@ -72,7 +75,7 @@
         <RoomDetails :selectedRoomDetails="selectedRoomDetails" :firstRoomId="firstRoomId" />
       </div>
     </div>
-    <CreateRoomModal v-if="activeModal === 'createRoomModal'" :closeModal="() => setActiveModal('')" />
+    <CreateRoomModal v-if="activeModal === 'createRoomModal'" :closeModal="() => {setActiveModal(''); $router.push('/dashboard/rooms')}" />
   </div>
 </template>
 
@@ -81,8 +84,8 @@ import RoomCard from './components/RoomCard.vue';
 import RoomCardShimmer from './components/RoomCardShimmer.vue';
 import RecordingCard from './components/RecordingCard.vue';
 import RecordingCardShimmer from './components/RecordingCardShimmer.vue';
-import CreateRoomModal from '@/views/NewDashboard/Room/components/CreateRoomModal.vue';
-import RoomDetails from '@/views/NewDashboard/Room/components/RoomDetails.vue';
+import CreateRoomModal from '@/views/new-dashboard/rooms/components/CreateRoomModal.vue';
+import RoomDetails from '@/views/new-dashboard/rooms/components/RoomDetails.vue';
 export default {
   name: 'RoomSection',
   components: {
@@ -129,8 +132,16 @@ export default {
       this.recordings = [...newList];
       console.log(this.recordings);
     },
+    '$route'(to, from) {
+      if (to.params.action === 'create') {
+        this.setActiveModal('createRoomModal');
+      }
+    }
   },
   mounted() {
+    if(this.$route.params.action === 'create'){
+      this.setActiveModal('createRoomModal')
+    }
     this.getList();
   },
   methods: {

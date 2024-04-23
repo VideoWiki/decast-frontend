@@ -212,14 +212,14 @@ import BaseModal from '@/components/common/BaseModal.vue';
 import NftEdit from '@/views/dashboard/nft/NftEdit.vue';
 import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 import CastOptionsModal from './CastOptionsModal.vue';
-import CastCardShimmer from '@/views/NewDashboard/Cast/components/CastCardShimmer.vue';
+import CastCardShimmer from '@/views/new-dashboard/casts/components/CastCardShimmer.vue';
 import DeleteCastModal from './options-components/DeleteCastModal.vue';
-import CreateNftModal from '@/views/NewDashboard/nft/CreateNftModal.vue';
+import CreateNftModal from '@/views/new-dashboard/nft/CreateNftModal.vue';
 import EditSetupDetail from './options-components/EditSetupDetail.vue';
 import EditBasicDetail from './options-components/EditBasicDetail.vue';
 import EditBrandingDetail from './options-components/EditBrandingDetail.vue';
 import ManageAudModal from './options-components/ManageAudModal.vue'
-import EditNftModal from '@/views/NewDashboard/nft/EditNftModal.vue';
+import EditNftModal from '@/views/new-dashboard/nft/EditNftModal.vue';
 import EditAdvanceDetail from './options-components/EditAdvanceDetail.vue';
 import LiveStreamModal from './options-components/LiveStreamModal.vue';
 import YoutubeStreamModal from './options-components/YoutubeStreamModal.vue';

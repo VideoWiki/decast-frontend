@@ -8,7 +8,7 @@ import Sponsors from '@/views/Sponsors.vue';
 import Promoters from '@/views/Promoters.vue';
 import Operators from '@/views/Operators.vue';
 import Infrastructure from '@/views/Infrastructure.vue';
-import Dashboard from '@/views/NewDashboard/Dashboard.vue';
+import Dashboard from '@/views/new-dashboard/Dashboard.vue';
 
 
 Vue.use(Router);
@@ -127,12 +127,38 @@ const router = new Router({
           },
         },
         {
-          path:'/dashboard',
-          name:'Welcome to Dashbord',
+          path: '/dashboard',
+          name: 'Welcome to Dashbord',
           component: Dashboard,
-          meta:{
+          meta: {
             rule: 'isLogged',
-          }
+          },
+          children: [
+            {
+              path: 'rooms/:action?',
+              name: 'Welcome to Rooms',
+              component: () => import('./views/new-dashboard/rooms/RoomSection.vue'),
+              meta: {
+                rule: 'isLogged',
+              },
+            },
+            {
+              path: 'casts/:action?',
+              name: 'Welcome to Casts',
+              component: () => import('./views/new-dashboard/casts/CastSection.vue'),
+              meta: {
+                rule: 'isLogged',
+              },
+            },
+            {
+              path: 'communities',
+              name: 'Welcome to Rooms',
+              component: () => import('./views/new-dashboard/rooms/RoomSection.vue'),
+              meta: {
+                rule: 'isLogged',
+              },
+            },
+          ],
         },
         {
           path: '/achievements',
@@ -311,7 +337,7 @@ const router = new Router({
     {
       path: '/joining/:meetingID?',
       name: 'Waiting Room',
-      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
+      component: () => import('./views/new-dashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -370,7 +396,7 @@ const router = new Router({
       path: '/r/:meeting_id?',
       name: 'Joining Room',
       // component: () => import('./views/joiningPage.vue'),
-      component: () => import('./views/NewDashboard/joining-page/JoinRoom.vue'),
+      component: () => import('./views/new-dashboard/joining-page/JoinRoom.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -378,7 +404,7 @@ const router = new Router({
     {
       path: '/c/:meetingID?',
       name: 'Joining Cast',
-      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
+      component: () => import('./views/new-dashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -386,7 +412,7 @@ const router = new Router({
     {
       path: '/j/:shortCode?',
       name: 'Join Event',
-      component: () => import('./views/NewDashboard/JoinRedirect.vue'),
+      component: () => import('./views/new-dashboard/JoinRedirect.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -394,7 +420,7 @@ const router = new Router({
     {
       path: '/live/:eventId?',
       name: 'Stream View',
-      component: () => import('./views/NewDashboard/stream-page/StreamPage.vue'),
+      component: () => import('./views/new-dashboard/stream-page/StreamPage.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -633,7 +659,7 @@ const router = new Router({
     {
       path: '/public/nftdrop',
       name: 'Public NFT Drop',
-      component: () => import('@/views/NewDashboard/nft/PublicNftMint.vue'),
+      component: () => import('@/views/new-dashboard/nft/PublicNftMint.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -641,7 +667,7 @@ const router = new Router({
     {
       path: '/nftdrop',
       name: 'Private NFT Drop',
-      component: () => import('@/views/NewDashboard/nft/PrivateNftMint.vue'),
+      component: () => import('@/views/new-dashboard/nft/PrivateNftMint.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -766,7 +792,7 @@ const router = new Router({
     {
       path: '/e/:meetingID?',
       name: 'Join Cast',
-      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
+      component: () => import('./views/new-dashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
