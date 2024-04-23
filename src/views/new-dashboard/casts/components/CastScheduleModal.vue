@@ -54,13 +54,13 @@
 
 <script>
 import BaseModal from "@/components/common/BaseModal.vue";
-import Calendar from '@/views/NewDashboard/components/Calendar.vue';
-import StartTimeMenu from '@/views/NewDashboard/components/StartTimeMenu.vue'
-import TimeZoneMenu from '@/views/NewDashboard/components/TimeZoneMenu.vue'
-import HoursFrameMenu from '@/views/NewDashboard/components/HoursFrameMenu.vue'
-import { timeFrames } from '@/views/NewDashboard/Cast/data/timeFrames';
-import { allTimeZone } from '@/views/NewDashboard/Cast/data/allTimeZone';
-import { hoursFrame } from '@/views/NewDashboard/Cast/data/hoursFrame';
+import Calendar from '@/views/new-dashboard/components/Calendar.vue';
+import StartTimeMenu from '@/views/new-dashboard/components/StartTimeMenu.vue'
+import TimeZoneMenu from '@/views/new-dashboard/components/TimeZoneMenu.vue'
+import HoursFrameMenu from '@/views/new-dashboard/components/HoursFrameMenu.vue'
+import { timeFrames } from '@/views/new-dashboard/casts/data/timeFrames';
+import { allTimeZone } from '@/views/new-dashboard/casts/data/allTimeZone';
+import { hoursFrame } from '@/views/new-dashboard/casts/data/hoursFrame';
 import moment from 'moment-timezone';
 
 export default {

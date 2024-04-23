@@ -155,7 +155,7 @@ import BaseModal from '@/components/common/BaseModal.vue';
 import NftEdit from '@/views/dashboard/nft/NftEdit.vue';
 import ShareNftLink from '@/views/dashboard/nft/ShareNftLink.vue';
 import CastOptionsModal from './CastOptionsModal.vue';
-import CastCardShimmer from '@/views/NewDashboard/Cast/components/CastCardShimmer.vue';
+import CastCardShimmer from '@/views/new-dashboard/casts/components/CastCardShimmer.vue';
 import DeleteCastModal from './options-components/DeleteCastModal.vue';
 
 export default {

@@ -39,7 +39,7 @@
             <div class="mob-con flex flex-col gap-6 justify-center items-start w-full ml-8">
 
               <a v-if="!isLoggedIn" @click="open">Login</a>
-              <a class="font-semibold text-lg" href="/dashboard" v-else >Dashboard</a>
+              <a class="font-semibold text-lg" href="/dashboard/rooms" v-else >Dashboard</a>
 
               <!-- <a href="/features">Features</a> -->
 
@@ -111,7 +111,7 @@
       <div class="nam-con" v-else>
         <p>Hi, {{ username }}!</p>
         <button>
-          <router-link to="/dashboard" style="font-size: small; font-weight: 500; color: #000">
+          <router-link to="/dashboard/rooms" style="font-size: small; font-weight: 500; color: #000">
             Dashboard
           </router-link>
         </button>
