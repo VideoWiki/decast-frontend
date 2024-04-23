@@ -8,8 +8,8 @@
 
       <div class="cursor-pointer">
         <vx-tooltip text="/ Create Cast" position="left">
-          <img src="@/assets/images/pixel_create.svg" @click="setActiveModal('createCastModal')" />
-        </vx-tooltip>
+          <img src="@/assets/images/pixel_create.svg" @click="$router.push('/dashboard/casts/create')" />
+        </vx-tooltip> 
       </div>
     </div>
 
@@ -69,7 +69,7 @@
         <CastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId" />
       </div>
     </div>
-    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => setActiveModal('')"
+    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => {setActiveModal(''); $router.push('/dashboard/casts')}"
       :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps"
       :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData" />
   </div>
@@ -221,6 +221,9 @@ export default {
     };
   },
   mounted() {
+    if(this.$route.params.action === 'create'){
+      this.setActiveModal('createCastModal')
+    }
     this.getCastList();
   },
   computed: {
@@ -230,6 +233,13 @@ export default {
     flattenedRecordingList() {
       return this.flattenRecordingList(this.recordingList);
     },
+  },
+  watch: {
+    '$route'(to, from) {
+      if (to.params.action === 'create') {
+        this.setActiveModal('createCastModal');
+      }
+    }
   },
   methods: {
     handleCardClick(details) {

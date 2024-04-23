@@ -41,7 +41,7 @@
 
 <script>
 import BaseModal from "@/components/common/BaseModal.vue";
-import ColorPicker from '@/views/NewDashboard/components/ColorPicker.vue';
+import ColorPicker from '@/views/new-dashboard/components/ColorPicker.vue';
 
 export default {
     name: 'EditBrandingDetail',
