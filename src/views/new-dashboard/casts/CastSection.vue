@@ -105,7 +105,7 @@ export default {
       index: '',
       moment,
       casts: [],
-      recordingList: [],
+      recordings: [],
       // castsInfo: [], unused
       // castInfo: {},
       // streamInfo: {},
@@ -231,10 +231,16 @@ export default {
     //   return this.casts.map((cast) => cast.images.length);
     // },
     flattenedRecordingList() {
-      return this.flattenRecordingList(this.recordingList);
+      return this.flattenRecordingList(this.recordings);
+    },
+    recordingList() {
+      return this.$store.state.cast.recordings;
     },
   },
   watch: {
+    recordingList(newList) {
+      this.recordings = [...newList];
+    },
     '$route'(to, from) {
       if (to.params.action === 'create') {
         this.setActiveModal('createCastModal');
@@ -246,9 +252,9 @@ export default {
       this.selectedCastId = details;
       console.log(this.selectedCastId, 'fkflllldijji');
     },
-    flattenRecordingList(recordingList) {
+    flattenRecordingList(recordings) {
       const flattenedList = [];
-      recordingList.forEach((meetings) => {
+      recordings.forEach((meetings) => {
         meetings.forEach((recording) => {
           flattenedList.push(recording);
         });
@@ -258,9 +264,9 @@ export default {
     async getRecordings() {
       this.isRecordingLoading = true;
       try {
-        const res = await this.$store.dispatch('cast/recordingList');
-        this.recordingList = res.status || [];
+        const res = await this.$store.dispatch('cast/recordings');
         this.isRecordingLoading = false;
+        console.log(res);
       } catch (e) {
         this.isRecordingLoading = false;
         console.log(e);

@@ -82,6 +82,8 @@
 
         <RenameModal v-if="activeModal === 'renameRecording'" :closeModal="() => activeModal = ''"
             :recording="recording" :getRecordings="getRecordings" />
+        <DeleteModal v-if="activeModal === 'deleteRecording'" :closeModal="() => activeModal = ''"
+            :recording="recording" :getRecordings="getRecordings" />
     </div>
 </template>
 
@@ -89,6 +91,7 @@
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 import RenameModal from './recording-options/RenameModal.vue';
+import DeleteModal from './recording-options/DeleteModal.vue';
 
 export default {
     name: 'RecordingCard',
@@ -96,7 +99,8 @@ export default {
     components: {
         SimpleMenu,
         MoreIcon,
-        RenameModal
+        RenameModal,
+        DeleteModal,
     },
     data() {
         return {
@@ -116,6 +120,12 @@ export default {
                     label: "Rename",
                     icon: () => import("@/assets/svgs/menu-icons/pen.vue"),
                     onClick: () => this.activeModal = 'renameRecording',
+                },
+                {
+                    label: "Delete",
+                    icon: () => import("@/assets/svgs/menu-icons/bin.vue"),
+                    onClick: () => this.activeModal = 'deleteRecording',
+                    isDanger: true,
                 },
                 // {
                 //     label: "Editor",

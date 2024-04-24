@@ -80,6 +80,8 @@
         </div>
         <RenameModal v-if="activeModal === 'renameRecording'" :closeModal="() => activeModal = ''"
             :recording="recording" :getRecordings="getRecordings" />
+        <DeleteModal v-if="activeModal === 'deleteRecording'" :closeModal="() => activeModal = ''"
+            :recording="recording" :getRecordings="getRecordings" />
     </div>
 </template>
 
@@ -88,6 +90,7 @@ import axios from '@/axios';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 import RenameModal from './recording-options/RenameModal.vue';
+import DeleteModal from './recording-options/DeleteModal.vue';
 
 export default {
     name: 'RecordingCard',
@@ -96,6 +99,7 @@ export default {
         SimpleMenu,
         MoreIcon,
         RenameModal,
+        DeleteModal,
     },
     data() {
         return {
@@ -116,12 +120,19 @@ export default {
                     icon: () => import("@/assets/svgs/menu-icons/pen.vue"),
                     onClick: () => this.activeModal = 'renameRecording',
                 },
+                {
+                    label: "Delete",
+                    icon: () => import("@/assets/svgs/menu-icons/bin.vue"),
+                    onClick: () => this.activeModal = 'deleteRecording',
+                    isDanger: true,
+                },
                 // {
                 //     label: "Editor",
                 //     icon: () => import("@/assets/svgs/menu-icons/editor.vue"),
                 //     onClick: () => this.editRecord(),
                 //     tooltip: "The recording may require some time for processing. If it doesn't work, please try again later.",
                 //     tooltipPosition: "left",
+                //     isDanger: true,
                 // },
             ]
         }
