@@ -128,6 +128,7 @@ const router = new Router({
         },
         {
           path: '/dashboard',
+          redirect: '/dashboard/rooms',
           name: 'Welcome to Dashbord',
           component: Dashboard,
           meta: {
