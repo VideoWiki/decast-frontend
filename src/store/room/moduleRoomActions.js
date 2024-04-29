@@ -86,18 +86,22 @@ export default {
   },
 
   async addRoom({ commit }, payload) {
+    const data = {
+      event_name: payload.room_name,
+      room_code: '',
+      join_now: 'False',
+      logout_url: 'https://decast.live/dashboard',
+    }
+    if(payload.board_id){
+      data["board_id"] = payload.board_id;
+    }
     const res = await axios({
       method: 'POST',
       url: 'https://api.room.video.wiki/api/create/',
-      data: {
-        event_name: payload,
-        room_code: '',
-        join_now: 'False',
-        logout_url: 'https://decast.live/dashboard',
-      },
+      data: data,
     });
     var room = {
-      room_name: payload,
+      room_name: payload.room_name,
       room_url:
         'https://api.room.video.wiki/join-room/' + res.data.public_cast_id,
         short_code: res.data.short_code

@@ -127,6 +127,14 @@ const router = new Router({
           },
         },
         {
+          path: '/oauth-callback',
+          name: 'OAuthCallback',
+          component: () => import('./views/new-dashboard/redirects/Redirects.vue'),
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
           path: '/dashboard',
           redirect: '/dashboard/rooms',
           name: 'Welcome to Dashbord',

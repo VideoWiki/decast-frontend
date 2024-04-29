@@ -69,7 +69,7 @@
         <CastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId" />
       </div>
     </div>
-    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => {setActiveModal(''); $router.push('/dashboard/casts')}"
+    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="closeCreateModal"
       :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps"
       :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData" />
   </div>
@@ -242,6 +242,11 @@ export default {
     }
   },
   methods: {
+    closeCreateModal(){
+      this.setActiveModal(''); 
+      this.$router.push('/dashboard/casts'); 
+      localStorage.removeItem("LOG_BOARDID");
+    },
     handleCardClick(details) {
       this.selectedCastId = details;
       console.log(this.selectedCastId, 'fkflllldijji');
@@ -330,6 +335,10 @@ export default {
     },
     setCreateEventData() {
       // console.log('12');
+      const board_id = localStorage.getItem("LOG_BOARDID");
+      if(board_id){
+        this.formData.append("board_id", board_id);
+      }
       this.startNow = this.stepOneProps.start_now;
       for (let [key, value] of Object.entries(this.stepOneProps)) {
         if (value.length === 0) {

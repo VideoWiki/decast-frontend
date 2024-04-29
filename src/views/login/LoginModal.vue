@@ -150,7 +150,27 @@ export default {
     },
   },
   mounted() {
-    document.getElementById('loading-bg').style.display = 'none';
+    document.getElementById('loading-bg').style.display = 'block';
+    const token = localStorage.getItem("LOG_TOKEN");
+    const boardId = localStorage.getItem("LOG_BOARDID");
+    const redirectTo = localStorage.getItem("LOG_REDIRECT");
+    if (token && boardId && redirectTo) {
+      fetch('https://openid.video.wiki/api/auto/registration/gb/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: token,
+          loginChallenge: this.$route.query.login_challenge,
+        }),
+      })
+        .then(response => response.json())
+        .then(data => window.location.href = data.redirect_to)
+        .catch(error => console.error('Error:', error));
+    } else {
+      document.getElementById('loading-bg').style.display = 'none';
+    }
     this.initilizeGAuth();
   },
   created() {
@@ -205,7 +225,7 @@ export default {
       this.$store
         .dispatch('auth/login', payload)
         .then((response) => {
-          console.log(response,'This is login re')
+          console.log(response, 'This is login re')
           this.$vs.loading();
           window.location.replace(response.data.redirect_to);
           this.$acl.change(this.activeUserInfo.userRole);
@@ -455,6 +475,7 @@ export default {
   -moz-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
   box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
 }
+
 .custm-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
