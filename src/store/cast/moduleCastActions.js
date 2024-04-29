@@ -19,6 +19,13 @@ export default {
         });
     });
   },
+  async deleteRecording({ commit, state }, recordingId) {
+    const recordings = state.recordings;
+    const newRecordings = recordings.map(subList =>
+      subList.filter(item => item["Record ID"] !== recordingId)
+    );
+    commit('SET_RECORDINGLIST', newRecordings);
+  },
   async changeShortCode({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios
@@ -426,9 +433,9 @@ export default {
       public_meeting_id: payload,
     });
   },
-  async recordingList({ commit }) {
+  async recordings({ commit }) {
     const res = await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
-    commit('SET_RECORDINGLIST', res.data);
-    return res.data;
+    commit('SET_RECORDINGLIST', res.data.status);
+    return res.data.status;
   },
 };
