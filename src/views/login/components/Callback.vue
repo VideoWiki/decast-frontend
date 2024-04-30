@@ -57,14 +57,7 @@ export default {
             this.$store.commit('auth/SET_LOGGEDIN', true);
             window.opener.postMessage('loginSuccess', '*');
             window.close();
-            const redirectTo = localStorage.getItem("LOG_REDIRECT");
-            if(redirectTo){
-              localStorage.removeItem("LOG_TOKEN");
-              localStorage.removeItem("LOG_REDIRECT");
-              window.location.href = redirectTo;
-            }else {
-              location.href = '/dashboard';
-            }
+            location.href = '/dashboard';
 
             // location.href =
             //   'https://dev.stream.video.wiki/saveInfo/?name=' +

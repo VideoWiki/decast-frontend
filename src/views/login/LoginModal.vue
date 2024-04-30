@@ -166,7 +166,10 @@ export default {
         }),
       })
         .then(response => response.json())
-        .then(data => window.location.href = data.redirect_to)
+        .then(data => {
+          localStorage.removeItem("LOG_TOKEN");
+          window.location.href = data.redirect_to
+        })
         .catch(error => console.error('Error:', error));
     } else {
       document.getElementById('loading-bg').style.display = 'none';
