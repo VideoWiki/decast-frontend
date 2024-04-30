@@ -134,7 +134,7 @@ import SetupTab from '@/views/dashboard/cast-section/components/Tabs/SetupTab.vu
 import StreamingTab from '@/views/dashboard/cast-section/components/Tabs/StreamingTab.vue';
 import moment from 'moment';
 // import Popup from '@/views/dashboard/Popup.vue';
-import StreamCard from '@/views/dashboard/StreamCard.vue';
+// import StreamCard from '@/views/dashboard/StreamCard.vue';
 import InviteCard from '@/views/dashboard/InviteCard.vue';
 export default {
   name: 'SetupCast',
@@ -144,7 +144,7 @@ export default {
     SetupTab,
     StreamingTab,
     // Popup,
-    StreamCard,
+    // StreamCard,
     InviteCard,
   },
   props: ['closeCreate', 'getList'],

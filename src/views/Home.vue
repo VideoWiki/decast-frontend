@@ -1,6 +1,6 @@
 <template>
   <div class="items-center">
-    <MsTeams />
+    <!-- <MsTeams /> -->
     <div class="w-full lg:w-2/3 md:w-4/5">
       <EditScript v-if="$store.state.studio.panel.text" />
       <SelectVideos v-else-if="$store.state.studio.panel.library" />
@@ -17,7 +17,7 @@ import SelectVideos from './pages/SelectMedia';
 import PublishVideo from './pages/PublishVideo';
 import EditScenes from './pages/EditScenes';
 import AddMusic from './pages/AddMusic';
-import MsTeams from './Integrations/MsTeams/Main';
+// import MsTeams from './Integrations/MsTeams/Main';
 
 export default {
   data() {
@@ -30,7 +30,7 @@ export default {
     PublishVideo,
     SelectVideos,
     EditScript,
-    MsTeams,
+    // MsTeams,
   },
   created() {
     if (this.$route.params.videoId) {

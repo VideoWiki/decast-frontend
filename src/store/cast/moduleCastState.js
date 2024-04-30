@@ -2,7 +2,7 @@ const getDefaultState = () => {
   return {
     casts: [],
     castsInfo: {},
-    recordings:[],
+    recordingList:[],
     activePopup: '',
   };
 };

@@ -139,11 +139,5 @@ new Vue({
   store,
   i18n,
   acl,
-  mounted() {
-    const ifram = document.getElementById('extFrame');
-    const wind = ifram.contentWindow;
-    const message = JSON.stringify(localStorage.getItem("accessToken"));
-    wind.postMessage(message, 'https://live1.decast.live');
-  },
   render: (h) => h(App),
 }).$mount('#app');

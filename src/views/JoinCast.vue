@@ -2,7 +2,7 @@
   <div class="idk-co">
     <div class="container-full flex">
       <div class="logo">
-        <img src="@/assets/images/logot.svg" alt="" />
+        <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" alt="" />
       </div>
       <div class="left-side">
         <!-- <div class="time flex">

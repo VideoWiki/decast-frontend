@@ -22,7 +22,7 @@ import MusicPanel from '../locales/en/MusicPanel.json';
 import PublishPanel from '../locales/en/PublishPanel.json';
 import Goals from '../locales/en/Goals.json';
 import Privacy from '../locales/en/Privacy.json';
-import VideoConference from '../locales/en/VideoConference.json';
+// import VideoConference from '../locales/en/VideoConference.json';
 import ClassLanding from '../locales/en/ClassLanding.json';
 import studio from '../locales/en/Studio.json';
 import grammer from '../locales/en/Grammer.json';
@@ -56,7 +56,7 @@ export default {
   PublishPanel,
   Goals,
   Privacy,
-  VideoConference,
+  // VideoConference,
   ClassLanding,
   studio,
   grammer,

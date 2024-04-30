@@ -23,11 +23,6 @@ export default {
         });
     });
   },
-  async deleteRecording({ commit, state}, recordingId) {
-    const recordings = state.recordings;
-    const newRecordings = recordings.filter(item => item.url["Record ID"] !== recordingId); 
-    commit('SET_RECORDINGS', newRecordings);
-  },
   async renameRoom({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios

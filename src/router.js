@@ -8,8 +8,7 @@ import Sponsors from '@/views/Sponsors.vue';
 import Promoters from '@/views/Promoters.vue';
 import Operators from '@/views/Operators.vue';
 import Infrastructure from '@/views/Infrastructure.vue';
-import Dashboard from '@/views/new-dashboard/Dashboard.vue';
-
+import Dashboard from '@/views/NewDashboard/Dashboard.vue';
 
 Vue.use(Router);
 
@@ -38,46 +37,6 @@ const router = new Router({
         //     rule: 'isPublic',
         //   },
         // },
-        {
-          path: '/welcome',
-          name: 'Welcome',
-          component: () => import('./views/Index.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        // {
-        //   path: '/about',
-        //   name: 'About Us',
-        //   component: () => import('./views/AboutUs.vue'),
-        //   meta: {
-        //     rule: 'isPublic',
-        //   },
-        // },
-        {
-          path: '/test',
-          name: 'Testing',
-          component: () => import('./views/Playground.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/EditNFT/:cast_Id',
-          name: 'Edit NFT',
-          component: () => import('./views/create-event/EditNFT.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/EditCertificate/:cast_Id',
-          name: 'Edit Certificate',
-          component: () => import('./views/create-event/EditCertificate.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
         {
           path: '/',
           name: 'Welcome to Decast',
@@ -128,38 +87,11 @@ const router = new Router({
         },
         {
           path: '/dashboard',
-          redirect: '/dashboard/rooms',
           name: 'Welcome to Dashbord',
           component: Dashboard,
           meta: {
             rule: 'isLogged',
           },
-          children: [
-            {
-              path: 'rooms/:action?',
-              name: 'Welcome to Rooms',
-              component: () => import('./views/new-dashboard/rooms/RoomSection.vue'),
-              meta: {
-                rule: 'isLogged',
-              },
-            },
-            {
-              path: 'casts/:action?',
-              name: 'Welcome to Casts',
-              component: () => import('./views/new-dashboard/casts/CastSection.vue'),
-              meta: {
-                rule: 'isLogged',
-              },
-            },
-            {
-              path: 'communities',
-              name: 'Welcome to Rooms',
-              component: () => import('./views/new-dashboard/rooms/RoomSection.vue'),
-              meta: {
-                rule: 'isLogged',
-              },
-            },
-          ],
         },
         {
           path: '/achievements',
@@ -193,14 +125,55 @@ const router = new Router({
             rule: 'isPublic',
           },
         },
-        {
-          path: '/room',
-          name: 'Room',
-          component: () => import('./views/classroom/Classroom.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
+        // {
+        //   path: '/welcome',
+        //   name: 'Welcome',
+        //   component: () => import('./views/Index.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/about',
+        //   name: 'About Us',
+        //   component: () => import('./views/AboutUs.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/test',
+        //   name: 'Testing',
+        //   component: () => import('./views/Playground.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/EditNFT/:cast_Id',
+        //   name: 'Edit NFT',
+        //   component: () => import('./views/create-event/EditNFT.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/EditCertificate/:cast_Id',
+        //   name: 'Edit Certificate',
+        //   component: () => import('./views/create-event/EditCertificate.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+
+        // {
+        //   path: '/room',
+        //   name: 'Room',
+        //   component: () => import('./views/classroom/Classroom.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
         // {
         //   path: '/e/:session_key?',
         //   name: 'meetingid',
@@ -209,115 +182,116 @@ const router = new Router({
         //     rule: 'isPublic',
         //   },
         // },
-        {
-          path: '/team',
-          name: 'Teams',
-          component: () => import('./views/Teams.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/goals',
-          name: 'Goals',
-          component: () => import('./views/Goals.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/vc',
-          name: 'Video Conference',
-          component: () => import('./views/VideoConference.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/awards',
-          name: 'Awards',
-          component: () => import('./views/Awards.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
+        // {
+        //   path: '/team',
+        //   name: 'Teams',
+        //   component: () => import('./views/Teams.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/goals',
+        //   name: 'Goals',
+        //   component: () => import('./views/Goals.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/vc',
+        //   name: 'Video Conference',
+        //   component: () => import('./views/VideoConference.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/awards',
+        //   name: 'Awards',
+        //   component: () => import('./views/Awards.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
 
-        {
-          path: '/search',
-          name: 'Search',
-          component: () => import('./views/search/Index.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/video/:slug',
-          name: 'Video View',
-          component: () => import('./views/videos/NewDetailViewVideo.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/privacy-policy',
-          name: 'Privacy Policy',
-          component: () => import('./views/Privacy.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/terms-of-use',
-          name: 'Terms of Use',
-          component: () => import('./views/Terms.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/integration/ms-teams',
-          name: 'MsTeams',
-          component: () => import('./views/Integrations/MsTeams/MsTeams.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/integration/ocean-protocol',
-          name: 'OceanProtocol',
-          component: () =>
-            import('./views/Integrations/OceanProtocol/OceanProtocol.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/creators',
-          name: 'Creators',
-          component: () => import('./views/creators/Creators.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-        {
-          path: '/feedback',
-          name: 'Feedback',
-          component: () => import('./views/cannio/Feedback.vue'),
-          meta: {
-            rule: 'isLogged',
-          },
-        },
-        {
-          path: '/user_details/:session_key?',
-          name: 'User Details',
-          component: () => import('./views/UserDetails/UserDetails.vue'),
-          meta: {
-            rule: 'isLogged',
-          },
-        },
+        // {
+        //   path: '/search',
+        //   name: 'Search',
+        //   component: () => import('./views/search/Index.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/video/:slug',
+        //   name: 'Video View',
+        //   component: () => import('./views/videos/NewDetailViewVideo.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/privacy-policy',
+        //   name: 'Privacy Policy',
+        //   component: () => import('./views/Privacy.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/terms-of-use',
+        //   name: 'Terms of Use',
+        //   component: () => import('./views/Terms.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/integration/ms-teams',
+        //   name: 'MsTeams',
+        //   component: () => import('./views/Integrations/MsTeams/MsTeams.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/integration/ocean-protocol',
+        //   name: 'OceanProtocol',
+        //   component: () =>
+        //     import('./views/Integrations/OceanProtocol/OceanProtocol.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/creators',
+        //   name: 'Creators',
+        //   component: () => import('./views/creators/Creators.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
+        // {
+        //   path: '/feedback',
+        //   name: 'Feedback',
+        //   component: () => import('./views/cannio/Feedback.vue'),
+        //   meta: {
+        //     rule: 'isLogged',
+        //   },
+        // },
+        // {
+        //   path: '/user_details/:session_key?',
+        //   name: 'User Details',
+        //   component: () => import('./views/UserDetails/UserDetails.vue'),
+        //   meta: {
+        //     rule: 'isLogged',
+        //   },
+        // },
       ],
     },
     // event-registration
+
     {
       path: '/event-registration/:cast_Id?',
       name: 'Event Register',
@@ -327,18 +301,18 @@ const router = new Router({
       },
     },
     // http://localhost:8080/e/creator/join/
-    {
-      path: '/e/creator/join/:cast_Id?',
-      name: 'Joining',
-      component: () => import('./views/Verification/CreatorJoin.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/e/creator/join/:cast_Id?',
+    //   name: 'Joining',
+    //   component: () => import('./views/Verification/CreatorJoin.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/joining/:meetingID?',
       name: 'Waiting Room',
-      component: () => import('./views/new-dashboard/joining-page/JoinCast.vue'),
+      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -397,7 +371,7 @@ const router = new Router({
       path: '/r/:meeting_id?',
       name: 'Joining Room',
       // component: () => import('./views/joiningPage.vue'),
-      component: () => import('./views/new-dashboard/joining-page/JoinRoom.vue'),
+      component: () => import('./views/NewDashboard/joining-page/JoinRoom.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -405,7 +379,7 @@ const router = new Router({
     {
       path: '/c/:meetingID?',
       name: 'Joining Cast',
-      component: () => import('./views/new-dashboard/joining-page/JoinCast.vue'),
+      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -413,7 +387,7 @@ const router = new Router({
     {
       path: '/j/:shortCode?',
       name: 'Join Event',
-      component: () => import('./views/new-dashboard/JoinRedirect.vue'),
+      component: () => import('./views/NewDashboard/JoinRedirect.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -421,7 +395,8 @@ const router = new Router({
     {
       path: '/live/:eventId?',
       name: 'Stream View',
-      component: () => import('./views/new-dashboard/stream-page/StreamPage.vue'),
+      component: () =>
+        import('./views/NewDashboard/stream-page/StreamPage.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -434,14 +409,13 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/login1',
-      name: 'Login',
-      component: () => import('./views/login/Login.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-
+    // {
+      // path: '/login1',
+      // name: 'Login',
+      // component: () => import('./views/login/Login.vue'),
+      // meta: {
+      //   rule: 'isPublic',
+      // },
       // children: [
       //   {
       //     path: '/login/',
@@ -454,31 +428,31 @@ const router = new Router({
       //     },
       //   },
       // ],
-    },
-    {
-      path: '/calendar',
-      name: 'Calendar',
-      component: () => import('./views/login/Calendar.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/color',
-      name: 'ColorPicker',
-      component: () => import('./views/login/ColorPicker.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/color',
-      name: 'ColorPicker',
-      component: () => import('./views/login/ColorPicker.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // },
+    // {
+    //   path: '/calendar',
+    //   name: 'Calendar',
+    //   component: () => import('./views/login/Calendar.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/color',
+    //   name: 'ColorPicker',
+    //   component: () => import('./views/login/ColorPicker.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/color',
+    //   name: 'ColorPicker',
+    //   component: () => import('./views/login/ColorPicker.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/password/reset/:token',
       name: 'Reset Password',
@@ -487,14 +461,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/middlepart',
-      name: 'middlepart',
-      component: () => import('@/views/HomePage/MiddlePart.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/middlepart',
+    //   name: 'middlepart',
+    //   component: () => import('@/views/HomePage/MiddlePart.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/privatecast',
       name: 'JoinPrivateCast',
@@ -519,14 +493,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/postCast',
-      name: 'Post Cast',
-      component: () => import('./views/postCast.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/postCast',
+    //   name: 'Post Cast',
+    //   component: () => import('./views/postCast.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
 
     {
       path: '/manage',
@@ -536,14 +510,14 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/middlePart',
-      name: 'RoomSection',
-      component: () => import('@/views/dashboard/room-section/RoomSection.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/middlePart',
+    //   name: 'RoomSection',
+    //   component: () => import('@/views/dashboard/room-section/RoomSection.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/about',
       name: 'About',
@@ -552,22 +526,22 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/navbar',
-      name: 'Navbar',
-      component: () => import('./views/Navbar.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/rightpart',
-      name: 'CastSection',
-      component: () => import('./views/dashboard/cast-section/CastSection.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/navbar',
+    //   name: 'Navbar',
+    //   component: () => import('./views/Navbar.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/rightpart',
+    //   name: 'CastSection',
+    //   component: () => import('./views/dashboard/cast-section/CastSection.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     // {
     //   path: '/dashboard',
     //   name: 'Decast dashBoard',
@@ -576,38 +550,38 @@ const router = new Router({
     //     rule: 'isLogged',
     //   },
     // },
-    {
-      path: '/streamcard',
-      name: 'StreamCard',
-      component: () => import('./views/dashboard/StreamCard.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/invite',
-      name: 'InviteCard',
-      component: () => import('./views/dashboard/InviteCard.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/aboutUs',
-      name: 'About',
-      component: () => import('./views/dashboard/AboutPage.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/contactUs',
-      name: 'Contact Us',
-      component: () => import('./views/dashboard/ContactUs.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/streamcard',
+    //   name: 'StreamCard',
+    //   component: () => import('./views/dashboard/StreamCard.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/invite',
+    //   name: 'InviteCard',
+    //   component: () => import('./views/dashboard/InviteCard.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/aboutUs',
+    //   name: 'About',
+    //   component: () => import('./views/dashboard/AboutPage.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/contactUs',
+    //   name: 'Contact Us',
+    //   component: () => import('./views/dashboard/ContactUs.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     // {
     //   path: '/fall',
     //   name: 'FallBox',
@@ -616,39 +590,39 @@ const router = new Router({
     //     rule: 'isPublic',
     //   },
     // },
-    {
-      path: '/nftw',
-      name: 'NftWallet',
-      component: () => import('./views/dashboard/NftWallet.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/postpone',
-      name: 'postPoneCast',
-      component: () => import('./views/dashboard/postPoneCast.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/nftw',
+    //   name: 'NftWallet',
+    //   component: () => import('./views/dashboard/NftWallet.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/postpone',
+    //   name: 'postPoneCast',
+    //   component: () => import('./views/dashboard/postPoneCast.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     // -->>>>>>>>>
-    {
-      path: '/eventdetails/:eventId',
-      name: 'Event Details',
-      component: () => import('./views/eventdetails.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/events',
-      name: 'Events',
-      component: () => import('./views/events/Events.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/eventdetails/:eventId',
+    //   name: 'Event Details',
+    //   component: () => import('./views/eventdetails.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/events',
+    //   name: 'Events',
+    //   component: () => import('./views/events/Events.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     // {
     //   path: '/live/:eventId',
     //   name: 'Stream Page',
@@ -660,7 +634,7 @@ const router = new Router({
     {
       path: '/public/nftdrop',
       name: 'Public NFT Drop',
-      component: () => import('@/views/new-dashboard/nft/PublicNftMint.vue'),
+      component: () => import('@/views/NewDashboard/nft/PublicNftMint.vue'),
       meta: {
         rule: 'isPublic',
       },
@@ -668,35 +642,35 @@ const router = new Router({
     {
       path: '/nftdrop',
       name: 'Private NFT Drop',
-      component: () => import('@/views/new-dashboard/nft/PrivateNftMint.vue'),
+      component: () => import('@/views/NewDashboard/nft/PrivateNftMint.vue'),
       meta: {
         rule: 'isPublic',
       },
     },
-    {
-      path: '/VC/:cast_id',
-      name: 'Certificate',
-      component: () => import('./views/create-event/GalaCertificate.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
-    {
-      path: '/profile',
-      name: 'My Profile',
-      component: () => import('./views/Profile.vue'),
-      meta: {
-        rule: 'isLogged',
-      },
-    },
-    {
-      path: '/contact-us',
-      name: 'Contact Us',
-      component: () => import('./views/ContactUs.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/VC/:cast_id',
+    //   name: 'Certificate',
+    //   component: () => import('./views/create-event/GalaCertificate.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
+    // {
+    //   path: '/profile',
+    //   name: 'My Profile',
+    //   component: () => import('./views/Profile.vue'),
+    //   meta: {
+    //     rule: 'isLogged',
+    //   },
+    // },
+    // {
+    //   path: '/contact-us',
+    //   name: 'Contact Us',
+    //   component: () => import('./views/ContactUs.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       path: '/features',
       name: 'Features',
@@ -729,15 +703,15 @@ const router = new Router({
         rule: 'isPublic',
       },
     },
-    {
-      path: '/loader',
-      name: 'Loading',
-      component: () =>
-        import('../src/components/animatedloader/animatedLoader.vue'),
-      meta: {
-        rule: 'isPublic',
-      },
-    },
+    // {
+    //   path: '/loader',
+    //   name: 'Loading',
+    //   component: () =>
+    //     import('../src/components/animatedloader/animatedLoader.vue'),
+    //   meta: {
+    //     rule: 'isPublic',
+    //   },
+    // },
     {
       // =============================================================================
       // MAIN LAYOUT ROUTES
@@ -758,27 +732,6 @@ const router = new Router({
         },
       ],
     },
-
-    {
-      // =============================================================================
-      // VideoWiki Class LAYOUT ROUTES
-      // =============================================================================
-      path: '',
-      component: () => import('./layouts/videowiki-class/Index.vue'),
-      children: [
-        // =============================================================================
-        // Theme Routes
-        // =============================================================================
-        {
-          path: '/integrations/Room',
-          name: 'Video Wiki Class Landing',
-          component: () => import('./views/videowiki-class/Landing.vue'),
-          meta: {
-            rule: 'isPublic',
-          },
-        },
-      ],
-    },
     {
       path: '/error/not-authorized',
       component: () => import('./views/NotAuthorized.vue'),
@@ -793,7 +746,7 @@ const router = new Router({
     {
       path: '/e/:meetingID?',
       name: 'Join Cast',
-      component: () => import('./views/new-dashboard/joining-page/JoinCast.vue'),
+      component: () => import('./views/NewDashboard/joining-page/JoinCast.vue'),
       meta: {
         rule: 'isPublic',
       },

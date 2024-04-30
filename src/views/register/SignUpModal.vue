@@ -96,6 +96,8 @@ import Web3 from 'web3';
 import Vue from 'vue';
 import { detectIncognito } from 'detectincognitojs';
 import constants from '../../../constant';
+// import { IExecDataProtector } from "@iexec/dataprotector";
+
 export default {
   name: 'SignUpModal',
   props: {

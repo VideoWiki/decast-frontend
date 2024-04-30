@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="loader">
-      <img src="@/assets/images/logot.svg" />
+      <img src="@/assets/images/dashboard/Cast-Draft-Logo-02.svg" />
     </div>
   </div>
 </template>

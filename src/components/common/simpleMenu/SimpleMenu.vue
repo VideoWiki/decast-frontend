@@ -22,7 +22,7 @@
 
         <vs-dropdown-menu class="vx-navbar-dropdown">
             <div class="menu-list-wrapper">
-                <div v-for="item in menuList" :key="item.id" class="menu-list-item" :class="{ 'danger-item': item.isDanger }" @click="item.onClick">
+                <div v-for="item in menuList" :key="item.id" class="menu-list-item" @click="item.onClick">
                     <vx-tooltip v-if="item.tooltip" :text="item.tooltip" :position="item.tooltipPosition || 'bottom'"
                         delay=".3s">
                         <vs-dropdown-item>
@@ -148,15 +148,6 @@ export default {
 
 .menu-list-item:hover path {
     stroke: #D7DF23;
-}
-
-.danger-item a {
-    p {
-        color: red !important;
-    }
-}
-.danger-item path {
-    stroke: red !important;
 }
 
 @media screen and (max-width: 500px) {}

@@ -88,12 +88,12 @@
 
 <script>
 import constants from '../../../constant';
-import AudioRecorder from '../components/audioRecorder';
+// import AudioRecorder from '../components/audioRecorder';
 import { utils } from '@/mixins/index.js';
 export default {
   name: 'AddMusic',
   mixins: [utils],
-  components: { AudioRecorder },
+  // components: { AudioRecorder },
   data() {
     return {
       constants

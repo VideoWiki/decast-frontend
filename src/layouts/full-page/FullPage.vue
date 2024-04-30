@@ -35,16 +35,16 @@
 <script>
 import themeConfig from '../../../themeConfig';
 import BackToTop from 'vue-backtotop';
-import NavbarHorizontal from '@/layouts/components/navbar/NavbarHorizontal2.vue';
+// import NavbarHorizontal from '@/layouts/components/navbar/NavbarHorizontal2.vue';
 import navMenuItems from '@/layouts/components/vertical-nav-menu/navMenuItems.js';
 import VNavMenu from '@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue';
-import TheFooter from '@/layouts/components/footer/TheFooter';
+// import TheFooter from '@/layouts/components/footer/TheFooter';
 
 export default {
   components: {
-    NavbarHorizontal,
+    // NavbarHorizontal,
     VNavMenu,
-    TheFooter,
+    // TheFooter,
     BackToTop,
   },
   data() {

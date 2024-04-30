@@ -6,19 +6,31 @@
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== */
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-//  .BundleAnalyzerPlugin;
-const CompressionPlugin = require('compression-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   publicPath: '/',
   transpileDependencies: ['vue-echarts', 'resize-detector'],
   configureWebpack: {
-    plugins: [new CompressionPlugin()],
+    module:{
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        },
+        {
+          test: /plyr\.min\.js$/,
+          use: 'raw-loader',
+        },
+      ],
+    },
+    // plugins: [new BundleAnalyzerPlugin()],
     optimization: {
       splitChunks: {
         chunks: 'all'
       }
     }
-  },
+  }
 };
