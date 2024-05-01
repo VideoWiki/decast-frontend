@@ -16,7 +16,8 @@ export default {
 
     this.setData(token, boardId, redirectTo)
       .then(response => {
-        window.location.href = constants.challengeUri;
+        window.open(constants.challengeUri, '_blank', 'width=600,height=600');
+        // window.location.href = constants.challengeUri;
         document.getElementById('loading-bg').style.display = 'none';
       })
       .catch(error => {
