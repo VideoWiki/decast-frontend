@@ -58,14 +58,6 @@ export default {
             window.opener.postMessage('loginSuccess', '*');
             window.close();
             location.href = '/dashboard';
-            // const redirectTo = localStorage.getItem("LOG_REDIRECT");
-            // if(redirectTo){
-            //   localStorage.removeItem("LOG_TOKEN");
-            //   localStorage.removeItem("LOG_REDIRECT");
-            //   location.href = redirectTo;
-            // }else {
-            //   location.href = '/dashboard';
-            // }
 
             // location.href =
             //   'https://dev.stream.video.wiki/saveInfo/?name=' +

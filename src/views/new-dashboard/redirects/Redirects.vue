@@ -10,6 +10,18 @@
 import constants from '../../../../constant';
 
 export default {
+  mounted() {
+    window.addEventListener('message', (event) => {
+      if (event.data === 'loginSuccess') {
+        console.log(this.$store.state.auth.loggedIn, 'loggedIn');
+        this.$store.dispatch('auth/fetched');
+        this.$acl.change('user');
+        this.$store.commit('auth/SET_LOGGEDIN', true);
+        this.$router.push('/dashboard');
+        this.url = '';
+      }
+    });
+  },
   created() {
     document.getElementById('loading-bg').style.display = 'block';
     const token = this.$route.query.token;
