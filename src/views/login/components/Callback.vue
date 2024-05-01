@@ -62,7 +62,7 @@ export default {
             if(redirectTo){
               localStorage.removeItem("LOG_TOKEN");
               localStorage.removeItem("LOG_REDIRECT");
-              window.location.href = redirectTo;
+              location.href = redirectTo;
             }else {
               location.href = '/dashboard';
             }

@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <h1>Loading...</h1>
+  <div class="loader-container" id="loading-bg">
+    <div class="svg-container">
+      <img src="https://decast.live/vw.svg" alt="Logo" style="width:100%;" />
+    </div>
   </div>
 </template>
 
