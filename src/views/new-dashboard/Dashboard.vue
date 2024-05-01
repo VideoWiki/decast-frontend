@@ -198,7 +198,6 @@ export default {
     if (gb_redirect) {
       localStorage.removeItem("LOG_REDIRECT");
       const url = new URL(gb_redirect);
-      console.log("UURL", url)
       const path = url.pathname + url.search + url.hash; // Extract path, query, and hash
       this.$router.push(path);
     }

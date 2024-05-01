@@ -252,6 +252,8 @@ export default {
       this.setActiveModal(''); 
       this.$router.push('/dashboard/casts'); 
       localStorage.removeItem("LOG_BOARDID");
+      localStorage.removeItem("LOG_REDIRECT");
+      localStorage.removeItem("LOG_TOKEN");
     },
     handleCardClick(details) {
       this.selectedCastId = details;

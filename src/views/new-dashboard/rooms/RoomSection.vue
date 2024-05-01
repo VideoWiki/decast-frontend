@@ -149,6 +149,8 @@ export default {
       this.setActiveModal(''); 
       this.$router.push('/dashboard/rooms');
       localStorage.removeItem("LOG_BOARDID");
+      localStorage.removeItem("LOG_REDIRECT");
+      localStorage.removeItem("LOG_TOKEN");
     },
     handleRoomClick(details) {
       this.selectedRoomDetails = details;

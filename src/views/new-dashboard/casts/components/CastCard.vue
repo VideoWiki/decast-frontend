@@ -9,10 +9,6 @@
               class="basic_live_dot_ rounded-full"></span>LIVE</span>
         </p>
         <div class="inner-div2 flex justify-between items-center">
-          <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
-            <img src="@/assets/images/menu.svg" />
-          </vs-button>
-
           <SimpleMenu v-if="castDetails.cast_type === 'public'" :menuList="castCopyMenuItems">
             <template #menuButton>
               <vs-button class="custm-style">
@@ -25,6 +21,9 @@
             <img v-if="castDetails.is_running === 'false' && !isCastStart" @click="joinNow(castDetails.public_meeting_id)"
               src="@/assets/images/start.svg" />
             <img v-if="castDetails.is_running === 'true'" src="@/assets/images/end.svg" />
+          </vs-button>
+          <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
+            <img src="@/assets/images/menu.svg" />
           </vs-button>
         </div>
         <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')" />

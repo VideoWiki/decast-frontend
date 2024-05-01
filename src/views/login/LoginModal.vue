@@ -45,9 +45,14 @@
           </div> -->
           <div class="flex flex-col mt-4">
             <span>user.password</span>
-            <div>
-              <input class="w-4/5 p-2 mt-2" v-model="password" type="password" name="password" placeholder="//password"
+            <div class="password-input flex flex-row mt-2 w-4/5 items-center justify-between">
+              <input id="loginPassword" class="w-full p-2" v-model="password" type="password" name="password" placeholder="//password"
                 autocomplete="off" />
+              <span class="toggle-password flex items-center justify-between px-2"
+                @click="togglePasswordVisibility('loginPassword')">
+                <EyeVisible v-if="isPasswordVisible" />
+                <EyeHide v-else />
+              </span>
             </div>
           </div>
 
@@ -128,6 +133,8 @@ import Web3 from 'web3';
 import GAuth from 'vue-google-oauth2';
 import Vue from 'vue';
 import { detectIncognito } from 'detectincognitojs';
+import EyeHide from "@/assets/svgs/EyeHide.vue";
+import EyeVisible from "@/assets/svgs/EyeVisible.vue";
 
 export default {
   data() {
@@ -140,7 +147,12 @@ export default {
       isIncognito: false,
       gAccessToken: '',
       required: false,
+      isPasswordVisible: false,
     };
+  },
+  components: {
+    EyeHide,
+    EyeVisible,
   },
   props: {
     popup: {
@@ -205,6 +217,13 @@ export default {
     },
   },
   methods: {
+    togglePasswordVisibility(field) {
+      this.isPasswordVisible = !this.isPasswordVisible;
+      const input = document.getElementById(field);
+      if (input) {
+        input.type = this.isPasswordVisible ? 'text' : 'password';
+      }
+    },
     navigateToPassword() {
       this.$router.push('/resetPassword');
     },
@@ -458,6 +477,15 @@ export default {
 
 #google-login {
   font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
+}
+
+.password-input{
+  background: #fff;
+}
+
+.password-input input{
+  outline: none;
+  border: none;
 }
 
 .top-panel {

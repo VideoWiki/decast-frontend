@@ -20,7 +20,8 @@
 
         <div class="join-input-content">
           <label>user.name</label>
-          <input v-model="name" type="text" @keydown.enter="joinRoom" autocomplete="off" placeholder="e.g John G. Miguel" />
+          <input v-model="name" type="text" @keydown.enter="joinRoom" autocomplete="off"
+            placeholder="e.g John G. Miguel" />
           <button :disabled="isJoining" v-if="isJoining"><span>/Joining...</span></button>
           <button :disabled="isJoining" @click="joinRoom" v-else><span>/Join.room</span></button>
         </div>
@@ -120,29 +121,40 @@ export default {
         });
         return;
       }
-      axios
-        .post('https://api.room.video.wiki/api/join/', {
+      fetch('https://api.room.video.wiki/api/join/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           name: this.name,
           public_meeting_id: this.roomId,
           password: this.code,
+        }),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
         })
-        .then((response) => {
-          console.log('Join API response:', response.data);
-          const roomUrl = response.data.room_url;
+        .then(data => {
+          console.log('Join API response:', data);
+          const roomUrl = data.room_url;
           window.location.href = roomUrl;
           this.isJoining = false;
           this.$vs.notify({
             title: 'Success',
-            text: response.data.message,
+            text: data.message,
             color: 'success',
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Join API error:', error);
           this.isJoining = false;
           this.$vs.notify({
             title: 'OOPS',
-            text: error.response.data.message,
+            text: error.message,
             color: 'danger',
           });
         });
@@ -452,4 +464,5 @@ export default {
   .dynamic-part {
     margin-top: 15px;
   }
-}</style>
+}
+</style>

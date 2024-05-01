@@ -44,7 +44,15 @@ export default {
       castId: '',
     };
   },
-  mounted() { },
+  mounted() { 
+    const castTypes = ['quick-cast', 'basic-cast', 'branded-cast', 'advanced-cast'];
+    const castHash = this.$route.hash.substring(1);
+    if (castHash && castTypes.includes(castHash)) {
+      this.setCastType(castHash);
+    }else {
+      this.setCastType('quick-cast');
+    }
+  },
   computed: {
     castInfoList() {
       return this.$store.state.cast.casts;
@@ -56,6 +64,7 @@ export default {
     },
     setCastType(castType) {
       this.castType = castType;
+      this.$router.push({ hash: castType });
     }
   },
 };
