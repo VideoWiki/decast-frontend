@@ -26,7 +26,7 @@ export default {
     document.getElementById('loading-bg').style.display = 'block';
     const token = this.$route.query.token;
     const boardId = this.$route.query.board_id;
-    const redirectTo = this.$route.query.redirect_to;
+    const redirectTo = this.$route.query.redirect_to + (this.$route.hash ? '#' + this.$route.hash : '');
 
     this.setData(token, boardId, redirectTo)
       .then(response => {
