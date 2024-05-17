@@ -15,4 +15,4 @@ VideoWiki, an [EIC recognized Start-up project](https://eic.eismea.eu/challenges
 1. Fork the repository
 2. Clone the repository
 3. Download the modules with the commmand `npm install`
-4. After the modules are downloaded start the surver with `npm run serve`
+4. After the modules are downloaded start the server with `npm run serve`
