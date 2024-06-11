@@ -13,9 +13,9 @@
       </div>
       <div class="join-body">
         <div class="join-body-left join-body-left-half">
-          <p class="join-by">/* Hosted by {{ creator }} */</p>
-          <h2 class="room-name">{{ eventName }}</h2>
-          <p v-if="running" class="room-status"><span></span> LIVE</p>
+          <p class="join-by">/* Hosted by {{ castDetails.event_creator_name }} */</p>
+          <h2 class="room-name">{{ castDetails.event_name }}</h2>
+          <p v-if="castDetails.running" class="room-status"><span></span> LIVE</p>
           <p v-else class="room-status"><span></span> Cast Offline</p>
 
           <div>
@@ -36,18 +36,18 @@
 
               <!-- joining button -->
               <button v-if="!accessToken">Please login to join</button>
-              <button v-if="address === ''">Please connect wallet</button>
+              <button v-else-if="address === ''">Please connect wallet</button>
               <div v-else-if="!hasPurchased">
                 <p class="reg-msg">You haven't purchased any ticket yet, </br> please visit the event page to register
                   yourself for the event</p>
-                <button>/Go to Event Page</button>
+                <button @click="goToEventPage">/Go to Event Page</button>
               </div>
               <button v-else @click="joinCast" :disabled="isLoading"><span>/cast.join</span></button>
               <!--  -->
             </div>
             <div class="join-body-bottom">
               <p>>> user.email > <span>{{ activeUserInfo.email }}</span></p>
-              <p v-if="address!==''">>> wallet.status > <span>connected</span></p>
+              <p v-if="address !== ''">>> wallet.status > <span>connected</span></p>
               <p v-else>>> wallet.status > <span>not connected</span></p>
             </div>
           </div>
@@ -57,8 +57,9 @@
             <p class="join-type w-full">/* Connect your Wallet */</p>
             <div class="step-content">
               <button v-if="address === ''" @click="connectWallet">Connect wallet</button>
-              <button v-else>{{ address.slice(0, 8) }}...{{ address.slice(address.length - 5, address.length) }}</button>
-              <p v-if="walletAddress" class="join-by mt-4">/* Wallet Connected */</p>
+              <button v-else>{{ address.slice(0, 8) }}...{{ address.slice(address.length - 5, address.length)
+                }}</button>
+              <p v-if="address !== ''" class="join-by mt-4">/* Wallet Connected */</p>
             </div>
           </div>
           <div>
@@ -125,7 +126,8 @@
                 </g>
               </svg>
             </div>
-            <p class="join-type w-full">/* Your wallet information is not mapped to your email or name. It will be used to fetch your purchased ticket */</p>
+            <p class="join-type w-full">/* Your wallet information is not mapped to your email or name. It will be used
+              to fetch your purchased ticket */</p>
           </div>
         </div>
       </div>
@@ -141,31 +143,15 @@ import { tokenContractWithSigner } from "../nft-gating/Constants"
 export default {
   name: 'JoinNftGatedCast',
   components: { Private },
+  props: ["castDetailsProps"],
   data() {
     return {
       joiningName: '',
-      meeting_id: this.$route.params.meetingID,
-      eventName: '',
-      eventDescription: '',
-      creator: '',
-      disabled: false,
-      running: false,
-      activeSection: 'Verification',
       email: '',
-      name: '',
-      verified: false,
-      otpField: false,
-      otp: '',
-      skippedStep: false,
-      otpSent: false,
-      payload: {},
-      newPay: {},
-      sentOtp: false,
-      password: '',
-      nft: false,
-
+      meeting_id: this.$route.params.meetingID,
 
       // nft gating data
+      castDetails: this.castDetailsProps,
       address: '',
       currencyBalance: '',
       hasPurchased: true,
@@ -182,16 +168,6 @@ export default {
     },
     activeUserInfo() {
       return this.$store.state.AppActiveUser;
-    },
-    validateEmail() {
-      return !this.errors.any() && this.email !== '';
-    },
-    validateOtp() {
-      return !this.errors.any() && this.email !== '' && this.otp !== '';
-    },
-    walletAddress() {
-      console.log(this.$store.state.auth.isGetWalletAddress, 'getting wallet');
-      return this.$store.state.auth.isGetWalletAddress;
     },
     joiningRole: {
       get() {
@@ -210,8 +186,12 @@ export default {
     if (emailParam) {
       this.email = decodeURIComponent(emailParam);
     }
-    this.getMeetingDetails();
-    this.castInfo();
+    if (this.castDetailsProps && this.castDetailsProps.public_meeting_id) {
+      // No need fetch meeting detail again
+      document.getElementById('loading-bg').style.display = 'none';
+    } else {
+      this.getMeetingDetails();
+    }
     this.connectWallet();
   },
   methods: {
@@ -284,54 +264,13 @@ export default {
         console.error("Error calling contract function:", error);
       }
     },
-    async castInfo() {
-      try {
-        //this.$vs.loading();
-        const payload = this.meeting_id;
-        const response = await this.$store.dispatch(
-          'auth/eventDetail',
-          payload
-        );
-
-        this.nft =
-          response.data.meeting_info.give_nft ||
-          response.data.meeting_info.vc_details_submitted;
-        this.otpVerification = response.data.meeting_info.send_otp;
-        this.password_auth = response.data.meeting_info.password_auth;
-        this.public_otp = response.data.meeting_info.public_otp;
-        this.is_public = !this.password_auth && !this.otpVerification;
-        this.event_creator_name = response.data.meeting_info.event_creator_name;
-        this.event_name = response.data.meeting_info.event_name;
-        this.event_date = response.data.meeting_info.date;
-        this.event_time = response.data.meeting_info.time;
-        this.description = response.data.meeting_info.description;
-        this.meeting_running = response.data.meeting_info.running;
-        this.viewer_mode = response.data.meeting_info.viewer_mode;
-        this.isExpired = response.data.meeting_info.expired;
-        this.has_magic = this.$route.query.pass !== undefined;
-        console.log(this.has_magic);
-        //this.$vs.loading.close();
-        this.data_loaded = true;
-      } catch (err) {
-        if (err.status === 404) {
-          this.$router.push('/error/404.vue');
-        } else {
-          console.log(err);
-        }
-      }
-    },
     async getMeetingDetails() {
       const res = await this.$store.dispatch(
         'cast/meetingInfo',
         this.meeting_id
       );
       const details = res.data.meeting_info;
-      console.log(details);
-      this.sentOtp = details.send_otp;
-      this.eventName = details.event_name;
-      this.eventDescription = details.description;
-      this.creator = details.event_creator_name;
-      this.running = details.running;
+      this.castDetails = details;
       document.getElementById('loading-bg').style.display = 'none';
     },
     async joinCast() {
@@ -426,235 +365,10 @@ export default {
       //   }
       // }
     },
-    storeData() {
-      sessionStorage.setItem('verified', this.verified);
-      // sessionStorage.setItem('email', this.email);
-    },
-    joinCastUtil(payload) {
-      console.log('----->');
-      this.$store
-        .dispatch('studio/joinEvent', payload)
-        .then((response) => {
-          this.responsedata = response.data.url;
-          window.location.href = response.data.url;
-          this.$vs.notify({
-            title: 'Success',
-            text: response.data.message,
-            color: 'success',
-          });
-        })
-        .catch((e) => {
-          console.log(e.response);
-          this.$vs.loading.close();
-          this.disabled = false;
-          this.$vs.notify({
-            title: 'Error Occurred',
-            text:
-              e.response != null
-                ? e.response.data.message
-                : 'Check either your password or the cast timing',
-            color: 'danger',
-          });
-        });
-    },
-    async magicJoin(payload) {
-      console.log(payload);
-      var data = JSON.stringify({
-        id: this.meeting_id,
-        pass: this.$route.query.pass,
-        name: this.joiningName,
-      });
-      console.log(178);
-      await this.$store
-        .dispatch('studio/magicJoin', data)
-        .then((res) => {
-          console.log(res.data.url, 181);
-          if (res.data.url) {
-            console.log(184);
-            this.$vs.notify({
-              title: 'Success',
-              color: 'success',
-            });
-            location.href = res.data.url;
-          } else {
-            this.$vs.loading.close();
-            this.disabled = false;
-            this.$vs.notify({
-              title: 'Wrong Link',
-              text: 'You have the wrong link to join',
-              color: 'danger',
-            });
-          }
-        })
-        .catch((e) => {
-          this.$vs.loading.close();
-          this.disabled = false;
-          console.log(e.response);
-        });
-    },
-    accessCast() {
-      if (this.disabled) {
-        return;
-      }
-      this.disabled = true;
-      setTimeout(() => {
-        this.disabled = false;
-      }, 1000);
-      if (this.joiningName.length === 0) {
-        this.$vs.notify({
-          title: 'Name require',
-          color: 'danger',
-        });
-        return;
-      }
-      var data = JSON.stringify({
-        id: this.meeting_id,
-        pass: !this.sentOtp ? this.$route.query.pass : '',
-        name: this.joiningName,
-      });
-      sessionStorage.setItem('name', this.joiningName);
-      this.$vs.loading();
-      console.log(178);
-      this.$store
-        .dispatch('studio/magicJoin', data)
-        .then((res) => {
-          console.log(res.data.url, 181);
-          if (res.data.url) {
-            console.log(184);
-            this.$vs.notify({
-              title: 'Success',
-              color: 'success',
-            });
-            location.href = res.data.url;
-          } else {
-            this.$vs.loading.close();
-            this.disabled = false;
-            this.$vs.notify({
-              title: 'Wrong Link',
-              text: 'You have the wrong link to join',
-              color: 'danger',
-            });
-          }
-        })
-        .catch((e) => {
-          this.$vs.loading.close();
-          console.log(e.response);
-        });
-    },
-    reloadStepOne() {
-      this.verified = false;
-      this.goBack();
-      this.reloadStepTwo();
-    },
-    reloadStepTwo() {
-      this.skippedStep = false;
-      this.$store.dispatch('auth/removeWalletAddress', false);
-    },
-    requestOtp() {
-      if (this.otpField) {
-        this.userVerification();
-      } else {
-        this.payload = {
-          email: this.email.toLowerCase(),
-          meeting_id: this.$route.params.meetingID,
-        };
-        sessionStorage.setItem('email', this.payload.email);
-        this.newPay = {
-          email: this.email.toLowerCase(),
-          cast_id: this.meeting_id,
-        };
-        // Loading
-        if (this.email === '') {
-          this.$vs.notify({
-            title: 'Email Require',
-            text: 'Enter Email to Proceed Further',
-            color: 'danger',
-          });
-          return;
-        }
-        this.$vs.loading();
-        this.$store
-          .dispatch('auth/sendingOtp', this.payload)
-          .then((res) => {
-            console.log(res.data);
-            this.$vs.loading.close();
-
-            if (res.data.status) {
-              this.otpField = true;
-              this.otpSent = true;
-              this.$vs.notify({
-                // title: 'Error',
-                text: this.$t('Verification.otpsent'),
-                iconPack: 'feather',
-                icon: 'icon-alert-circle',
-                color: 'success',
-              });
-            }
-          })
-          .catch((e) => {
-            console.log(e.response.data);
-            this.$vs.loading.close();
-            if (e.response.data.message === 'invalid email')
-              this.$vs.notify({
-                title: 'Unauthorized',
-                text: 'Invalid Email',
-                iconPack: 'feather',
-                icon: 'icon-alert-circle',
-                color: 'danger',
-              });
-            else {
-              this.$vs.notify({
-                title: 'Error Occurred',
-                text: 'Try Again',
-                color: 'danger',
-              });
-            }
-          });
-      }
-    },
-    userVerification() {
-      const payload = {
-        email: this.email,
-        meeting_id: this.$route.params.meetingID,
-        otp: this.otp,
-      };
-      // Loading
-      this.$vs.loading();
-
-      this.$store
-        .dispatch('auth/verifyingOtp', payload)
-        .then((res) => {
-          this.$vs.loading.close();
-          if (res.data.status) {
-            this.verified = true;
-          }
-          this.$vs.notify({
-            title: 'Congrats',
-            text: 'Verified',
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'success',
-          });
-          this.activeSection = 'Join';
-        })
-        .catch(() => {
-          this.$vs.loading.close();
-          this.$vs.notify({
-            title: 'Error',
-            text: this.$t('Verification.correctotp'),
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger',
-          });
-        });
-    },
-    goBack() {
-      this.otpSent = false;
-      this.otpField = false;
-    },
-    skipStep() {
-      this.skippedStep = true;
-    },
+    goToEventPage() {
+      const url = `https://decast.live/cast/nft-gated/${this.castDetails.public_meeting_id}`;
+      window.open(url, '_blank');
+    }
   },
   watch: {
     activeRoles(newRoles) {
@@ -778,6 +492,7 @@ export default {
   -moz-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
   box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
 }
+
 .step-content button {
   margin: 14px 0px;
   background-color: #D7DF23;
