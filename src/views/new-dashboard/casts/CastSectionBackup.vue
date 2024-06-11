@@ -196,7 +196,6 @@ export default {
   methods: {
     handleCardClick(details) {
       this.selectedCastId = details;
-      console.log(this.selectedCastId,'fkflllldijji');
     },
     validateFormOne() {
       if (

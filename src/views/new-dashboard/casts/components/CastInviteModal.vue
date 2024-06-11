@@ -13,6 +13,9 @@
                         <div>
                             <p>Invite Audience</p>
                         </div>
+                        <div  @click="setActiveModal('createNFTGating')">
+                            <p>Enable Nft Gating</p>
+                        </div>
                     </div>
                     <p v-if="inviteData.type !== 'private'" class="copy-cast-button mt-4" @click="copyCoHostLink">Share Cast
                         to Co-Host

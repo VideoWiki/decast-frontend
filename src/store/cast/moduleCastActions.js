@@ -282,7 +282,6 @@ export default {
       axios
         .patch(constants.apiCastUrl + '/api/event/meeting/update/', payload)
         .then((res) => {
-          console.log('form submitting');
           resolve(res);
 
         })

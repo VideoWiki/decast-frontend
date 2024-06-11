@@ -402,6 +402,14 @@ const router = new Router({
       },
     },
     {
+      path: '/cast/nft-gated/:castId?',
+      name: 'Event page',
+      component: () => import('./views/new-dashboard/nft-gating/GatedEventPage.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/r/:meeting_id?',
       name: 'Joining Room',
       // component: () => import('./views/joiningPage.vue'),
@@ -414,6 +422,14 @@ const router = new Router({
       path: '/c/:meetingID?',
       name: 'Joining Cast',
       component: () => import('./views/new-dashboard/joining-page/JoinCast.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
+      path: '/n/:meetingID?',
+      name: 'Joining Cast',
+      component: () => import('./views/new-dashboard/joining-page/JoinNftGatedCast.vue'),
       meta: {
         rule: 'isPublic',
       },

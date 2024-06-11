@@ -44,7 +44,7 @@
               <CastCardShimmer :style="{ opacity: 0.5 }" />
             </div>
             <div v-else v-for="(cast, index) in castList" :key="index">
-              <CastCard :castDetails="cast" :index="index" :getCastList="getCastList" @card-click="handleCardClick" />
+              <CastCard :castDetails="cast" :index="index" :getCastList="getCastList" :updateCastListElement="updateCastListElement" @card-click="handleCardClick" />
             </div>
           </div>
           <div v-else class="cast_list_cont">
@@ -71,7 +71,7 @@
     </div>
     <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="closeCreateModal"
       :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps"
-      :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData" />
+      :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData" :updateCastListElement="updateCastListElement" />
   </div>
 </template>
 
@@ -257,7 +257,6 @@ export default {
     },
     handleCardClick(details) {
       this.selectedCastId = details;
-      console.log(this.selectedCastId, 'fkflllldijji');
     },
     flattenRecordingList(recordings) {
       const flattenedList = [];
@@ -533,12 +532,22 @@ export default {
           const allEvents = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
           this.castList = allEvents;
           this.firstCastId = this.castList[0];
-          console.log(this.firstCastId, 'lets see');
+          this.selectedCastId = this.castList[0];
           this.isCastsLoading = false;
         }
       } catch (error) {
         this.isCastsLoading = false;
         console.log("Error in fetching cast detail");
+      }
+    },
+    updateCastListElement(eventId, newData) {
+      // Find the index of the element with the matching public_meeting_id
+      const index = this.castList.findIndex(item => item.public_meeting_id === eventId);
+      // If an element is found, update it
+      if (index !== -1) {
+        this.$set(this.castList, index, { ...this.castList[index], ...newData });
+        this.firstCastId = this.castList[index];
+        this.selectedCastId = this.castList[index];
       }
     },
     toggleCopy(index) {

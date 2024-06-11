@@ -48,12 +48,21 @@
       <img src="<%= BASE_URL %>vw.svg" alt="Logo" style="width:100%;" />
     </div>
   </div>
+  <div id="loading-bg-transparent">
+    <div class="loading-wrapper">
+      <img class="blink-animation" src="<%= BASE_URL %>vw.svg" alt="Logo" />
+      <div class="loading-wrapper-title">
+        <p id="loading-bg-transparent-title">Loading</p>
+        <div id="btn-loader"></div>
+      </div>
+    </div>
+  </div>
   <iframe id="extFrame" src="https://live1.decast.live" style="display: none; width: 0; height: 0;"></iframe>
   <script>
     const ifram = document.getElementById('extFrame');
     ifram.onload = function () {
       const wind = ifram.contentWindow
-      setTimeout(function() {
+      setTimeout(function () {
         const message = JSON.stringify(localStorage.getItem("accessToken"));
         wind.postMessage(message, 'https://live1.decast.live');
       }, 2000);
