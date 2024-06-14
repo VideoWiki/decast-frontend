@@ -44,7 +44,7 @@
                         </div>
                         <div v-for="(req, index) in acceptedRequest" :key="index" v-if="isAdmin && req.isReqAccepted"
                             class="flex items-center">
-                            <img src="https://www.w3schools.com/csSref/img_mountains.jpg" class="instr-3-ulogo" />
+                            <img :src="req.profile_image" class="instr-3-ulogo" />
                             <div class="instr-3-udetail">
                                 <p>{{ req.name }}</p>
                                 <span :style="{ color: dynamicColor }">{{ req.role }}</span>
