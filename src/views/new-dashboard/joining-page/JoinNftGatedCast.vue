@@ -20,18 +20,28 @@
 
           <div>
             <div class="join-input-content">
+              <div class="tc-section">
+                <h3>🎉Congrats! you have unlocked {{ activeRoles.length }} tickets</h3>
+                <p>Select the ticket below which you want to join</p>
+                <div class="flex">
+                  <!-- <div class="px-4 py-4" v-for="(role, index) in activeRoles" :key="role" :value="index"><img src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" :alt="role"/></div> -->
+                  <div class="px-4 py-4"><img class="ticketImage" :class="{'selectedTicket': selectedIndex === 0}" @click="() => selectedIndex=0" src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" alt="Co-host ticket"/></div>
+                  <div class="px-4 py-4"><img class="ticketImage" :class="{'selectedTicket': selectedIndex === 1}" @click="() => selectedIndex=1" src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" alt="Co-host ticket"/></div>
+                  <div class="px-4 py-4"><img class="ticketImage" :class="{'selectedTicket': selectedIndex === 2}" @click="() => selectedIndex=2" src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" alt="Co-host ticket"/></div>
+                </div>
+              </div>
               <!-- joining label -->
               <label v-if="hasPurchased && accessToken && address !== ''">user.name</label>
               <input v-if="hasPurchased && accessToken && address !== ''" placeholder="e.g John G. Miguel"
                 @keydown.enter="joinCast" v-model="joiningName" autocomplete="off" :disabled="isLoading" />
               <br />
-              <label v-if="hasPurchased && accessToken && address !== ''">select.role</label>
+              <!-- <label v-if="hasPurchased && accessToken && address !== ''">select.role</label>
               <select v-if="hasPurchased && accessToken && address !== ''" v-model="selectedIndex"
                 :class="{ disabled: activeRoles.length < 1 || isLoading }" class="fixed-height w-max w-fit w-2/5 mb-10">
                 <option v-for="(role, index) in activeRoles" :key="role" :value="index">
                   {{ role }}
                 </option>
-              </select>
+              </select> -->
               <!--  -->
 
               <!-- joining button -->
@@ -180,6 +190,7 @@ export default {
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'block';
+    document.getElementById('loading-bg-transparent').style.display = 'none';
     this.joiningName = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')).first_name : '';
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');
@@ -203,7 +214,7 @@ export default {
           const ethereum = windowWithEthereum.ethereum;
           await ethereum.request({ method: 'eth_requestAccounts' });
 
-          const provider = new ethers.providers.Web3Provider(ethereum);
+          const provider = new ethers.providers.Web3Provider(ethereum, 'any');
           // Get current network
           const network = await provider.getNetwork();
           const isOpSepNetwork = network.chainId === 11155420;
@@ -213,7 +224,30 @@ export default {
             try {
               await provider.send('wallet_switchEthereumChain', [{ chainId: '0xaa37dc' }]);
             } catch (error) {
-              console.error('Failed to switch to optimism sepolia network:', error);
+              if (error.code === 4902) {
+                try {
+                  await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [
+                      {
+                        chainId: '0xaa37dc',
+                        chainName: 'Optimism Sepolia',
+                        rpcUrls: ['https://sepolia.optimism.io'],
+                        nativeCurrency: {
+                          name: 'ether',
+                          symbol: 'ETH',
+                          decimals: 18,
+                        },
+                        blockExplorerUrls: ['https://optimism-sepolia.blockscout.com'],
+                      },
+                    ],
+                  });
+                } catch (error) {
+                  console.error('Failed to add optimism sepolia network');
+                }
+              } else {
+                console.error('Failed to switch to optimism sepolia network');
+              }
             }
           }
 
@@ -233,6 +267,8 @@ export default {
       }
     },
     async fetchTokenDetails() {
+      document.getElementById('loading-bg-transparent-title').innerText = 'Collecting your tickets';
+      document.getElementById('loading-bg-transparent').style.display = 'flex';
       this.isLoading = true;
       let hasPurchased = false;
       this.activeRoles = [];
@@ -246,6 +282,7 @@ export default {
           tokenContractWithSigner.getWhitelistBooleanFromTokenId(tokenId._hex)
         );
         const isWhiteListed = await Promise.all(whiteListPromises);
+        document.getElementById('loading-bg-transparent-title').innerText = 'Verifying all tickets';
         for (let i = 0; i < tokenIds.length; i++) {
           const address = ethers.utils.getAddress(this.address);
           const isPurchased = await tokenContractWithSigner.balanceOf(address, tokenIds[i]);
@@ -260,8 +297,10 @@ export default {
         if (!hasPurchased) {
           this.hasPurchased = false;
         }
+        document.getElementById('loading-bg-transparent').style.display = 'none';
       } catch (error) {
-        console.error("Error calling contract function:", error);
+        document.getElementById('loading-bg-transparent').style.display = 'none';
+        console.error("Error calling contract function");
       }
     },
     async getMeetingDetails() {
@@ -392,6 +431,24 @@ export default {
   font-family: 'JetBrains Mono' !important;
 }
 
+.tc-section h3{
+  color: #22C55E;
+}
+.tc-section p{
+  color: #5B96EB;
+}
+.tc-section img {
+  height: 150px;
+  width: 150px;
+}
+.ticketImage {
+  border: 2px solid transparent;
+  transition: border-color 0.5s, box-shadow 0.5s;
+}
+.selectedTicket {
+  border-color: yellow;
+  box-shadow: 0 0 6px 4px yellow;
+}
 .fixed-height {
   height: 38px;
   padding-left: 8px;
@@ -420,6 +477,8 @@ export default {
   padding-right: 67px;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  padding-bottom: 50px;
 }
 
 .join-wrapper {
@@ -439,13 +498,13 @@ export default {
 }
 
 .join-body-left-half {
-  flex: 0.55 !important;
+  flex: 0.65 !important;
 }
 
 .join-body-right {
   padding: 20px;
   border: 1px solid #FFFFFF;
-  flex: 0.45;
+  flex: 0.35;
   margin-left: 10px;
 }
 
@@ -565,6 +624,8 @@ export default {
     flex-direction: column;
     padding-left: 10px;
     padding-right: 10px;
+    overflow-y: scroll;
+    padding-bottom: 50px;
   }
 }
 </style>

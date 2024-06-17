@@ -2,8 +2,8 @@
   <div>
     <div v-if="isNftGated">
       <JoinNftGatedCast :castDetailsProps="castDetails"/>
-    </div v-else>
-    <div class="full-container">
+    </div>
+    <div v-else class="full-container">
       <div class="logo">
         <img class="py-4" src="@/assets/images/logot.svg" alt="" />
       </div>
@@ -740,6 +740,8 @@ export default {
   padding-right: 67px;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  padding-bottom: 50px;
 }
 
 .join-wrapper {
@@ -865,6 +867,8 @@ export default {
     flex-direction: column;
     padding-left: 10px;
     padding-right: 10px;
+    overflow-y: scroll;
+    padding-bottom: 50px;
   }
 }
 </style>

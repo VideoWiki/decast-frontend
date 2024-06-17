@@ -107,10 +107,11 @@
                             afterward.<br /></p>
                         <p class="collect-em-label">Do you wish to continue?</p>
                         <div v-if="address && address.length > 0">
-                            <p>Account: {{ address }}</p>
-                            <p>Balance: {{ currencyBalance }} MATIC</p>
+                            <p>Account: {{ address.slice(0, 8) }}...{{ address.slice(address.length - 5, address.length)
+                                }}</p>
+                            <p>Balance: {{ currencyBalance }} Eth</p>
                         </div>
-                        <button v-else @click="connectWallet" class="bg-blue-500 text-white py-2 px-4 rounded">
+                        <button v-else @click="connectWallet" class="custom-button">
                             Connect Wallet
                         </button>
                         <div>
@@ -376,7 +377,7 @@ export default {
             data.append('cast_id', this.castDetails.public_meeting_id);
             this.$store.dispatch('cast/formSubmit', data)
                 .then((response) => {
-                    this.updateCastListElement(this.castDetails.public_meeting_id, { isNftGated: true});
+                    this.updateCastListElement(this.castDetails.public_meeting_id, { isNftGated: true });
                 })
                 .catch((error) => {
                     console.log("Error updating cast")
@@ -390,7 +391,7 @@ export default {
                     const ethereum = windowWithEthereum.ethereum;
                     await ethereum.request({ method: 'eth_requestAccounts' });
 
-                    const provider = new ethers.providers.Web3Provider(ethereum);
+                    const provider = new ethers.providers.Web3Provider(ethereum, 'any');
                     // Get current network
                     const network = await provider.getNetwork();
                     const isOpSepNetwork = network.chainId === 11155420;
@@ -400,7 +401,30 @@ export default {
                         try {
                             await provider.send('wallet_switchEthereumChain', [{ chainId: '0xaa37dc' }]);
                         } catch (error) {
-                            console.error('Failed to switch to optimism sepolia network:', error);
+                            if (error.code === 4902) {
+                                try {
+                                    await window.ethereum.request({
+                                        method: 'wallet_addEthereumChain',
+                                        params: [
+                                            {
+                                                chainId: '0xaa37dc',
+                                                chainName: 'Optimism Sepolia',
+                                                rpcUrls: ['https://sepolia.optimism.io'],
+                                                nativeCurrency: {
+                                                    name: 'ether',
+                                                    symbol: 'ETH',
+                                                    decimals: 18,
+                                                },
+                                                blockExplorerUrls: ['https://optimism-sepolia.blockscout.com'],
+                                            },
+                                        ],
+                                    });
+                                } catch (error) {
+                                    console.error('Failed to add optimism sepolia network');
+                                }
+                            } else {
+                                console.error('Failed to switch to optimism sepolia network');
+                            }
                         }
                     }
 
@@ -560,6 +584,31 @@ input {
     background: radial-gradient(circle closest-side, #D7DF23 90%, #0000) 0/calc(100%/3) 100% space;
     clip-path: inset(0 100% 0 0);
     animation: l1 0.8s steps(4) infinite;
+}
+
+.custom-button {
+    border: 1px solid black;
+    background-color: #D7DF23;
+    box-shadow: 3px 3px 0px 0px #fff;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 185px;
+    padding: 0.6rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.custom-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.custom-button:hover {
+    transition: 0.2s ease-in-out;
+    box-shadow: 5px 5px 0px 0px #fff !important;
 }
 
 @keyframes l1 {

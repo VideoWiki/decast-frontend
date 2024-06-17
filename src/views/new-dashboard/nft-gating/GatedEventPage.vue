@@ -7,7 +7,7 @@
             <div class="flex-1 flex items-center justify-end">
                 <p v-if="wallet_address" class="text-lg mr-4 text-white">{{ wallet_address.slice(0, 8) }}...{{
                     wallet_address.slice(wallet_address.length - 5, wallet_address.length) }}</p>
-                <button v-else @click="connectWallet" class="custom-btn mr-4">
+                <button v-else @click="connectWallet" class="custom-button mr-4">
                     Connect Wallet
                 </button>
                 <img src="@/assets/images/pixel_wallet.svg" class="w-8 h-6 cursor-pointer" />
@@ -290,7 +290,7 @@
                         <div>
                             <p class="join-type w-full">/* Connect your Wallet */</p>
                             <div class="step-content">
-                                <button @click="connectWallet" class="custom-btn">
+                                <button @click="connectWallet" class="custom-button">
                                     Connect Wallet
                                 </button>
                             </div>
@@ -426,7 +426,7 @@ export default {
         async handleMintTicket(roleName, ticketPrice, tokenId) {
             if (this.wallet_address === '') {
                 this.connectWallet();
-            } else if (!this.activeUserInfo || !this.activeUserInfo.email) {
+            } else if (!this.activeUserInfo || (this.activeUserInfo.email==='' && this.activeUserInfo.username==='')) {
                 window.open(constants.challengeUri, '_blank', 'width=600,height=600');
             } else {
                 try {
@@ -495,8 +495,9 @@ export default {
             }
         },
         getRequestStatus() {
-            if (this.activeUserInfo && this.activeUserInfo.email) {
-                return fetch(`https://api.cast.decast.live/api/nft/gating/user/status/?cast_id=${this.$route.params.castId}&email=${this.activeUserInfo.email}`, {
+            if (this.activeUserInfo && (this.activeUserInfo.email!=='' || this.activeUserInfo.username!=='')) {
+                const endPoint = this.activeUserInfo.email === '' ? `https://api.cast.decast.live/api/nft/gating/user/status/?cast_id=${this.$route.params.castId}&email=${this.activeUserInfo.username}` : `https://api.cast.decast.live/api/nft/gating/user/status/?cast_id=${this.$route.params.castId}&email=${this.activeUserInfo.email}`
+                return fetch(endPoint, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -566,14 +567,40 @@ export default {
                     const ethereum = windowWithEthereum.ethereum;
                     await ethereum.request({ method: 'eth_requestAccounts' });
 
-                    const provider = new ethers.providers.Web3Provider(ethereum);
+                    const provider = new ethers.providers.Web3Provider(ethereum, 'any');
+                    // Get current network
                     const network = await provider.getNetwork();
                     const isOpSepNetwork = network.chainId === 11155420;
+
+                    // // Switch to Mumbai network if not already on it
                     if (!isOpSepNetwork) {
                         try {
                             await provider.send('wallet_switchEthereumChain', [{ chainId: '0xaa37dc' }]);
                         } catch (error) {
-                            console.error('Failed to switch to optimism sepolia network:', error);
+                            if (error.code === 4902) {
+                                try {
+                                    await window.ethereum.request({
+                                        method: 'wallet_addEthereumChain',
+                                        params: [
+                                            {
+                                                chainId: '0xaa37dc',
+                                                chainName: 'Optimism Sepolia',
+                                                rpcUrls: ['https://sepolia.optimism.io'],
+                                                nativeCurrency: {
+                                                    name: 'ether',
+                                                    symbol: 'ETH',
+                                                    decimals: 18,
+                                                },
+                                                blockExplorerUrls: ['https://optimism-sepolia.blockscout.com'],
+                                            },
+                                        ],
+                                    });
+                                } catch (error) {
+                                    console.error('Failed to add optimism sepolia network');
+                                }
+                            } else {
+                                console.error('Failed to switch to optimism sepolia network');
+                            }
                         }
                     }
 
@@ -760,19 +787,29 @@ export default {
     cursor: pointer;
 }
 
-.custom-btn {
-    margin: 14px 0px;
+.custom-button {
+    border: 1px solid black;
     background-color: #D7DF23;
+    box-shadow: 3px 3px 0px 0px #fff;
     color: #000000;
-    border: 2px solid #000000;
-    outline: none;
-    padding: 10px;
-    width: fit-content;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 185px;
+    padding: 0.6rem;
     font-weight: 600;
-    -webkit-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
-    -moz-box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
-    box-shadow: 5px 5px 0px -1px rgba(255, 255, 255, 1);
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.custom-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.custom-button:hover {
+    transition: 0.2s ease-in-out;
+    box-shadow: 5px 5px 0px 0px #fff !important;
 }
 
 .custm-style-btn {

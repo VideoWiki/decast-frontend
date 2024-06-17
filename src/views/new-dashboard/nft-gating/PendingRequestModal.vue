@@ -13,7 +13,10 @@
                                     <span>sender.name</span>
                                 </div>
                                 <div class="table-head-col2">
-                                    <span>sender.email</span>
+                                    <span>sender.account</span>
+                                </div>
+                                <div class="table-head-col2">
+                                    <span>sender.wallet</span>
                                 </div>
                                 <div class="table-head-col3">
                                     <span>requested.role</span>
@@ -26,13 +29,30 @@
                                 <div class="table-content-row" v-for="(request, index) in pendingRequest"
                                     v-if="request.email !== activeUserInfo.email" :key="index">
                                     <div class="table-content-col1">
-                                        <span>
+                                        <span v-if="request.name===''">
+                                            -
+                                        </span>
+                                        <span v-else>
                                             {{ request.name }}
                                         </span>
                                     </div>
                                     <div class="table-content-col2">
-                                        <span>
+                                        <vx-tooltip v-if="request.email.length > 17" :text="request.wallet_address" position="top">
+                                            <span>
+                                                {{ request.wallet_address.slice(0, 8) }}...{{
+        request.wallet_address.slice(request.wallet_address.length - 5,
+            request.wallet_address.length) }}
+                                            </span>
+                                        </vx-tooltip>
+                                        <span v-else>
                                             {{ request.email }}
+                                        </span>
+                                    </div>
+                                    <div class="table-content-col2">
+                                        <span>
+                                            {{ request.wallet_address.slice(0, 8) }}...{{
+        request.wallet_address.slice(request.wallet_address.length - 5,
+            request.wallet_address.length) }}
                                         </span>
                                     </div>
                                     <div class="table-content-col3">

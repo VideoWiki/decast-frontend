@@ -8,8 +8,9 @@
                     </div>
                     <div class="flex flex-col w-full items-start justify-start gap-6 mb-16">
                         <div class="cast-modal-bottom">
-                            <p>email: <span class="collect-em-label">{{ activeUserInfo.email }}</span></p>
-                            <p>name: <span class="collect-em-label">{{ activeUserInfo.first_name }}</span></p>
+                            <p v-if="activeUserInfo.email===''">Account: <span class="collect-em-label">{{ activeUserInfo.username }}</span></p>
+                            <p v-else>Account: <span class="collect-em-label">{{ activeUserInfo.email }}</span></p>
+                            <p>Name: <span class="collect-em-label">{{ activeUserInfo.first_name }}</span></p>
                         </div>
                         <div>
                             <vs-button class="mt-8" type="border" @click="handleSendRequest">
@@ -68,7 +69,7 @@ export default {
             const url = 'https://api.cast.decast.live/api/nft/gating/request/';
             const payload = {
                 cast_id: this.castDetails.public_meeting_id,
-                email: this.activeUserInfo.email,
+                email: this.activeUserInfo.email===''? this.activeUserInfo.username : this.activeUserInfo.email,
                 name: this.activeUserInfo.first_name,
                 wallet_address: this.wallet_address,
                 profile_image: this.activeUserInfo.profile_pic,

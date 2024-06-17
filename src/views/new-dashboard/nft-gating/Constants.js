@@ -17,7 +17,7 @@ export const initializeProvider = () => {
     const windowWithEthereum = window;
 
     if (windowWithEthereum.ethereum) {
-        return new ethers.providers.Web3Provider(windowWithEthereum.ethereum);
+        return new ethers.providers.Web3Provider(windowWithEthereum.ethereum, 'any');
     } else {
         console.warn("initializeProvider: Web3Provider not available.");
         return null;
