@@ -141,11 +141,13 @@ const mutations = {
             ) {
               console.log('ENS Name:', ensName);
               userInfo['first_name'] = ensName;
-              userInfo['username'] = payload[property]; // Keep username as wallet address
+              userInfo['username'] = payload[property]; 
+              console.log(userInfo, 'this is userinfo ens')
               localStorage.setItem('userInfo', JSON.stringify(userInfo));
             } else {
               state.AppActiveUser[property] = payload[property];
               userInfo[property] = payload[property];
+              console.log(userInfo, 'this is userinfo no ens')
               console.log('No ENS name found for the address.');
               this.$vs.notify({
                 title: 'No ENS found',
@@ -165,6 +167,7 @@ const mutations = {
       } else {
         state.AppActiveUser[property] = payload[property];
         userInfo[property] = payload[property];
+        console.log(userInfo, 'this is userinfo final')
       }
     }
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
