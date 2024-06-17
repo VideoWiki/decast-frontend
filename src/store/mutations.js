@@ -124,7 +124,7 @@ const mutations = {
 
     for (const property of Object.keys(payload)) {
       if (property === 'username' && payload[property].startsWith('0x')) {
-        console.log(property, payload[property], 'fuk u');
+        console.log(property, payload[property], 'formula u');
         const walletAddress = payload[property];
 
         // Connect to the Ethereum network
@@ -144,12 +144,14 @@ const mutations = {
               userInfo['username'] = payload[property]; // Keep username as wallet address
               localStorage.setItem('userInfo', JSON.stringify(userInfo));
             } else {
+              state.AppActiveUser[property] = payload[property];
+              userInfo[property] = payload[property];
               console.log('No ENS name found for the address.');
               this.$vs.notify({
                 title: 'No ENS found',
                 text: 'Please make sure ens is associated with the wallet address!',
                 color: 'warning',
-            });
+              });
             }
           })
           .catch((error) => {
@@ -157,7 +159,7 @@ const mutations = {
               title: 'ENS fetch failed',
               text: 'Please try again later!',
               color: 'warning',
-          });
+            });
             console.error('Failed to fetch ENS name:', error);
           });
       } else {
