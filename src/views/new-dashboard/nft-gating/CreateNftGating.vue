@@ -115,9 +115,7 @@
                             Connect Wallet
                         </button>
                         <div>
-                            <vs-button v-if="isLoading" :disabled="address === ''" class="mt-8" type="border">
-                                >>processing <div class="btn-loader"></div></vs-button>
-                            <vs-button v-else-if="castDetails.isNftGated"
+                            <vs-button v-if="castDetails.isNftGated"
                                 :disabled="address === '' || roles.length <= rolesDefLength"
                                 @click.stop="updateNFTGating" class="mt-8" type="border"> >>update</vs-button>
                             <vs-button v-else :disabled="address === ''" @click.stop="createNFTGating" class="mt-8"
@@ -149,7 +147,6 @@ export default {
     data() {
         return {
             rolesEnum: ['Co-host', 'Participant', 'Viewer'],
-            isLoading: false,
             address: '',
             currencyBalance: '',
             isNftGateEnabled: true,
@@ -231,40 +228,77 @@ export default {
                 this.isLoading = false;
                 return;
             }
-            document.getElementById('loading-bg-transparent-title').innerText = 'Waiting for transaction';
+            document.getElementById('loading-bg-transparent-title').innerText = 'Initializing Nft Gating';
             document.getElementById('loading-bg-transparent').style.display = 'flex';
-            const eventId = this.castDetails.public_meeting_id;
-            const accessLevels = [];
-            const ticketPrices = [];
-            const whitelist = [];
+            const payload = {
+                adminWallet: this.address,
+                castId: this.castDetails.public_meeting_id,
+                ticketsData: [],
+            }
+            // const eventId = this.castDetails.public_meeting_id;
+            // const accessLevels = [];
+            // const ticketPrices = [];
+            // const whitelist = [];
             const roles = this.roles;
             for (let i = 0; i < roles.length; i++) {
                 if (this.rolesEnum.includes(roles[i].name)) {
-                    accessLevels.push(roles[i].name);
-                    ticketPrices.push(ethers.utils.parseEther(roles[i].price));
-                    whitelist.push(roles[i].isWhiteListed);
+                    payload.ticketsData.push({
+                        name: roles[i].name,
+                        price: roles[i].price,
+                        description: '',
+                        isWhiteListed: roles[i].isWhiteListed ? 'True': 'False',
+                    })
+                    // accessLevels.push(roles[i].name);
+                    // ticketPrices.push(ethers.utils.parseEther(roles[i].price));
+                    // whitelist.push(roles[i].isWhiteListed);
                 }
             }
             try {
-                const result = await tokenContractWithSigner.registerEvent(eventId, accessLevels, ticketPrices, whitelist);
-                // Wait for the transaction to be mined
-                document.getElementById('loading-bg-transparent-title').innerText = 'Processing transaction';
-                await result.wait();
-                // get all token with corresponding roles
-                document.getElementById('loading-bg-transparent-title').innerText = 'Transaction confirmed✔️ finishing up';
-                const tokenIds = await tokenContractWithSigner.getTokenIdsFromEventId(eventId);
-                const roles = await tokenContractWithSigner.getAccessLevelsFromEventId(eventId);
-                await this.saveTokensToBackend(roles, tokenIds);
-                //
-                this.isLoading = false;
-                document.getElementById('loading-bg-transparent').style.display = 'none';
-                this.$vs.notify({
-                    title: 'NFT Gating Enabled!',
-                    text: 'Your cast is now enabled with nft gating',
-                    color: 'success',
+                console.log("payload", payload)
+                fetch("https://api.cast.decast.live/api/event/nft-gating/register/", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                    },
+                    body: JSON.stringify(payload),
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                }).then(async result => {
+                    this.isLoading = false;
+                    document.getElementById('loading-bg-transparent').style.display = 'none';
+                    this.$vs.notify({
+                        title: 'NFT Gating Enabled!',
+                        text: 'Your cast is now enabled with nft gating',
+                        color: 'success',
+                    });
+                    await this.updateCastDetails();
+                    this.setActiveModal("createSuccessModal")
+                    return result;
+                }).catch(error => {
+                    this.isLoading = false;
+                    document.getElementById('loading-bg-transparent').style.display = 'none';
+                    console.error("Error while enabling nft gating")
                 });
-                await this.updateCastDetails();
-                this.setActiveModal("createSuccessModal")
+                // const result = await tokenContractWithSigner.registerEvent(eventId, accessLevels, ticketPrices, whitelist);
+                // document.getElementById('loading-bg-transparent-title').innerText = 'Processing transaction';
+                // await result.wait();
+                // document.getElementById('loading-bg-transparent-title').innerText = 'Transaction confirmed✔️ finishing up';
+                // const tokenIds = await tokenContractWithSigner.getTokenIdsFromEventId(eventId);
+                // const roles = await tokenContractWithSigner.getAccessLevelsFromEventId(eventId);
+                // await this.saveTokensToBackend(roles, tokenIds);
+                // this.isLoading = false;
+                // document.getElementById('loading-bg-transparent').style.display = 'none';
+                // this.$vs.notify({
+                //     title: 'NFT Gating Enabled!',
+                //     text: 'Your cast is now enabled with nft gating',
+                //     color: 'success',
+                // });
+                // await this.updateCastDetails();
+                // this.setActiveModal("createSuccessModal")
             } catch (error) {
                 this.isLoading = false;
                 document.getElementById('loading-bg-transparent').style.display = 'none';

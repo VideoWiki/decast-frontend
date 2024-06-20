@@ -540,6 +540,13 @@ export default {
           }
         })
         .catch((e) => {
+          if(!this.running && e.response.status === 400){
+            this.$vs.notify({
+              title: 'Cast not started yet!',
+              text: 'The cast you are trying to join has either ended or yet to begin',
+              color: 'danger',
+            });
+          }
           this.$vs.loading.close();
           this.disabled = false;
           console.log(e.response);

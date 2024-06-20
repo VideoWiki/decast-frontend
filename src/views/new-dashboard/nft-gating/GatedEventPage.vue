@@ -63,11 +63,15 @@
             </div>
             <div class="content-right">
                 <div class="cr-head">
-                    <h2 :style="{ color: dynamicColor }">Event Tickets</h2>
+                    <div class="flex align-center justify-between">
+                        <h2 :style="{ color: dynamicColor }">Event Tickets</h2>
+                        <span v-if="isAdmin" @click="setActiveModal('redeemAmountModal')">Collected Amount: {{collectedAmount}} Eth</span>
+                        <span v-else></span>
+                    </div>
                     <p>/* Each user can mint only one NFT Ticket per Wallet. Multiple NFT minting is not permissible for
                         fair ticket distributions */</p>
                 </div>
-                <div v-if="wallet_address !== ''" class="cr-content">
+                <div v-if="wallet_address !== '' && rolesList.length>0" class="cr-content">
                     <div v-if="rolesList" v-for="(role, index) in rolesList" :key="index" class="crc-section mb-4 mt-4">
                         <h4 class="text-white">{{ role.roleName }}</h4>
                         <div>
@@ -343,7 +347,7 @@
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <svg class="mr-5 mb-5" width="31" height="35" viewBox="0 0 31 35" fill="none"
+                                <!-- <svg class="mr-5 mb-5" width="31" height="35" viewBox="0 0 31 35" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g opacity="0.4">
                                         <path
@@ -358,7 +362,7 @@
                                             d="M24.2845 20.2042L28.2329 24.1497L17.5512 34.8314L6.86949 24.1512L10.8165 20.2042L17.5512 26.9738L24.2845 20.2042ZM31.0207 13.4694L34.9996 17.415L31.0555 21.3605L27.1085 17.415L31.0207 13.4694ZM17.5512 13.4694L21.4967 17.3801L17.5498 21.3271L13.6042 17.415L17.5512 13.4694ZM4.0803 13.4694L7.99388 17.415L4.08321 21.3257L0.134766 17.415L4.0803 13.4694ZM17.5527 0L28.23 10.6454L24.283 14.5895L17.5527 7.85621L10.8179 14.6258L6.87094 10.6803L17.5527 0Z"
                                             fill="#EBB52C" />
                                     </g>
-                                </svg>
+                                </svg> -->
                             </div>
                             <p class="join-type w-full">/* Your wallet information is not mapped to your email or name.
                                 It will be used to fetch your purchased ticket */</p>
@@ -374,6 +378,8 @@
             :castDetails="castDetails" :pendingRequest="pendingRequest" :getAllRequests="getAllRequests" />
         <EditBrandingModal v-if="activeModal === 'editBrandingModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :getMeetingDetails="getMeetingDetails" />
+        <RedeemAmountModal v-if="activeModal === 'redeemAmountModal'" :closeModal="() => setActiveModal('')"
+            :castDetails="castDetails" :collectedAmount="collectedAmount" :getCollectedAmount="getCollectedAmount"/>
     </div>
 </template>
 
@@ -383,6 +389,7 @@ import { tokenContractWithSigner } from "./Constants"
 import RequestAccessModal from './RequestAccessModal';
 import PendingRequestModal from './PendingRequestModal';
 import EditBrandingModal from './EditBrandingModal';
+import RedeemAmountModal from './RedeemAmountModal';
 import constants from '../../../../constant';
 
 export default {
@@ -400,19 +407,30 @@ export default {
             acceptedRequest: [],
             pendingRequest: [],
             dynamicColor: '#FFFFFF',
+            collectedAmount: '-',
         };
     },
     components: {
         RequestAccessModal,
         PendingRequestModal,
         EditBrandingModal,
+        RedeemAmountModal,
     },
     async mounted() {
         document.getElementById('loading-bg-transparent').style.display = 'none';
         this.getMeetingDetails();
         await this.connectWallet();
+        this.getCollectedAmount();
     },
     methods: {
+        async getCollectedAmount(){
+            if (this.wallet_address === '') {
+                this.connectWallet();
+            } else {
+                const amount = await tokenContractWithSigner.getCollectedAmountForEventId(this.castDetails.public_meeting_id)
+                this.collectedAmount = ethers.utils.formatEther(amount._hex).toString();
+            }
+        },
         gotoJoiningPage() {
             const url = `https://decast.live/n/${this.castDetails.public_meeting_id}`;
             window.open(url, '_blank');
@@ -1036,6 +1054,10 @@ export default {
     color: #5B96EB;
     margin-bottom: 14px;
     line-height: 1.4;
+}
+.cr-head span {
+    color: #FFFFFF;
+    cursor: pointer;
 }
 
 .editBrandingDiv {

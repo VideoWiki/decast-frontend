@@ -20,14 +20,16 @@
 
           <div>
             <div class="join-input-content">
-              <div class="tc-section">
-                <h3>🎉Congrats! you have unlocked {{ activeRoles.length }} tickets</h3>
+              <div class="tc-section" v-if="tokenUri.length > 0">
+                <h3>🎉Congrats! you have unlocked {{ tokenUri.length }} tickets</h3>
                 <p>Select the ticket below which you want to join</p>
                 <div class="flex">
-                  <!-- <div class="px-4 py-4" v-for="(role, index) in activeRoles" :key="role" :value="index"><img src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" :alt="role"/></div> -->
-                  <div class="px-4 py-4"><img class="ticketImage" :class="{'selectedTicket': selectedIndex === 0}" @click="() => selectedIndex=0" src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" alt="Co-host ticket"/></div>
+                  <div class="px-4 py-8" v-for="(ticket, index) in tokenUri" :key="role" :value="index"><img
+                      class="ticketImage" :class="{ 'selectedTicket': selectedIndex === index }"
+                      @click="() => selectedIndex = index" :src="ticket.tokenImage" :alt="ticket.name" /></div>
+                  <!-- <div class="px-4 py-4"><img class="ticketImage" :class="{'selectedTicket': selectedIndex === 0}" @click="() => selectedIndex=0" src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" alt="Co-host ticket"/></div>
                   <div class="px-4 py-4"><img class="ticketImage" :class="{'selectedTicket': selectedIndex === 1}" @click="() => selectedIndex=1" src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" alt="Co-host ticket"/></div>
-                  <div class="px-4 py-4"><img class="ticketImage" :class="{'selectedTicket': selectedIndex === 2}" @click="() => selectedIndex=2" src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" alt="Co-host ticket"/></div>
+                  <div class="px-4 py-4"><img class="ticketImage" :class="{'selectedTicket': selectedIndex === 2}" @click="() => selectedIndex=2" src="https://i.pinimg.com/564x/b6/36/a6/b636a6b19a75b142dc28f63baca76a40.jpg" alt="Co-host ticket"/></div> -->
                 </div>
               </div>
               <!-- joining label -->
@@ -52,11 +54,19 @@
                   yourself for the event</p>
                 <button @click="goToEventPage">/Go to Event Page</button>
               </div>
-              <button v-else @click="joinCast" :disabled="isLoading"><span>/cast.join</span></button>
+              <button v-else @click="joinCast" :disabled="isLoading"><span>/Join as {{ tokenUri[selectedIndex].name
+                  }}</span></button>
               <!--  -->
             </div>
             <div class="join-body-bottom">
-              <p>>> user.email > <span>{{ activeUserInfo.email }}</span></p>
+              <p v-if="accessToken">>> user.account >
+                <span v-if="activeUserInfo.email === ''">
+                  {{ activeUserInfo.username.slice(0, 8) }}...{{
+            activeUserInfo.username.slice(activeUserInfo.username.length - 5, activeUserInfo.username.length) }}
+                </span>
+                <span v-else>{{ activeUserInfo.email }}</span>
+              </p>
+              <p v-else>>> user.account > <span>Not logged in</span></p>
               <p v-if="address !== ''">>> wallet.status > <span>connected</span></p>
               <p v-else>>> wallet.status > <span>not connected</span></p>
             </div>
@@ -119,7 +129,7 @@
                   </clipPath>
                 </defs>
               </svg>
-              <svg class="mr-5 mb-5" width="31" height="35" viewBox="0 0 31 35" fill="none"
+              <!-- <svg class="mr-5 mb-5" width="31" height="35" viewBox="0 0 31 35" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <g opacity="0.4">
                   <path
@@ -134,7 +144,7 @@
                     d="M24.2845 20.2042L28.2329 24.1497L17.5512 34.8314L6.86949 24.1512L10.8165 20.2042L17.5512 26.9738L24.2845 20.2042ZM31.0207 13.4694L34.9996 17.415L31.0555 21.3605L27.1085 17.415L31.0207 13.4694ZM17.5512 13.4694L21.4967 17.3801L17.5498 21.3271L13.6042 17.415L17.5512 13.4694ZM4.0803 13.4694L7.99388 17.415L4.08321 21.3257L0.134766 17.415L4.0803 13.4694ZM17.5527 0L28.23 10.6454L24.283 14.5895L17.5527 7.85621L10.8179 14.6258L6.87094 10.6803L17.5527 0Z"
                     fill="#EBB52C" />
                 </g>
-              </svg>
+              </svg> -->
             </div>
             <p class="join-type w-full">/* Your wallet information is not mapped to your email or name. It will be used
               to fetch your purchased ticket */</p>
@@ -166,10 +176,16 @@ export default {
       currencyBalance: '',
       hasPurchased: true,
       isLoading: false,
-      activeRoles: [],
-      activeTokenId: [],
-      isWhiteListed: [],
       selectedIndex: 0,
+      tokenUri: [],
+      // tokenUriSample: [
+      //   {
+      //     name: "Viewer",
+      //     description: '',
+      //     tokenId: 'sdsdfsdfsdf',
+      //     tokenImage: 'https://videowikistorage.blob.core.windows.net/sample/ViewerNFT.png'
+      //   }
+      // ],
     };
   },
   computed: {
@@ -179,14 +195,6 @@ export default {
     activeUserInfo() {
       return this.$store.state.AppActiveUser;
     },
-    joiningRole: {
-      get() {
-        return this.activeRoles[this.selectedIndex];
-      },
-      set(newRole) {
-        this.selectedIndex = this.activeRoles.indexOf(newRole);
-      }
-    }
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'block';
@@ -271,26 +279,38 @@ export default {
       document.getElementById('loading-bg-transparent').style.display = 'flex';
       this.isLoading = true;
       let hasPurchased = false;
-      this.activeRoles = [];
-      this.activeTokenId = [];
-      this.isWhiteListed = [];
+      this.tokenUri = [];
       const castId = this.$route.params.meetingID;
       try {
         const tokenIds = await tokenContractWithSigner.getTokenIdsFromEventId(castId);
-        const roles = await tokenContractWithSigner.getAccessLevelsFromEventId(castId);
-        const whiteListPromises = tokenIds.map(tokenId =>
-          tokenContractWithSigner.getWhitelistBooleanFromTokenId(tokenId._hex)
-        );
-        const isWhiteListed = await Promise.all(whiteListPromises);
         document.getElementById('loading-bg-transparent-title').innerText = 'Verifying all tickets';
         for (let i = 0; i < tokenIds.length; i++) {
           const address = ethers.utils.getAddress(this.address);
           const isPurchased = await tokenContractWithSigner.balanceOf(address, tokenIds[i]);
+          const TOKEN_URI_API = await tokenContractWithSigner.uri(tokenIds[i].toString());
+          //if user has purchased this token
           if (isPurchased.toNumber() > 0) {
             hasPurchased = true;
-            this.activeRoles.push(roles[i]);
-            this.activeTokenId.push(tokenIds[i]._hex);
-            this.isWhiteListed.push(isWhiteListed[i])
+            try {
+              const response = await fetch(TOKEN_URI_API, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+              if (!response.ok) {
+                throw new Error(response.statusText);
+              }
+              const result = await response.json();
+              this.tokenUri.push({
+                name: result.name,
+                description: result.description,
+                tokenId: result.tokenId,
+                tokenImage: result.tokenImage,
+              });
+            } catch (error) {
+              console.error("Error occurred:", error);
+            }
           }
         }
         this.isLoading = false;
@@ -315,114 +335,51 @@ export default {
     async joinCast() {
       const payload = {
         cast_id: this.meeting_id,
-        email: this.activeUserInfo ? this.activeUserInfo.email : null,
-        token_id: this.activeTokenId[this.selectedIndex],
-        role: this.activeRoles[this.selectedIndex].toLowerCase(),
+        token_id: this.tokenUri[this.selectedIndex].tokenId,
         name: this.joiningName,
-        isWhiteListed: this.isWhiteListed[this.selectedIndex] ? 'True' : 'False',
       };
 
       fetch(`https://api.cast.decast.live/api/cast-token/join/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
         },
         body: JSON.stringify(payload),
       }).then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
+          if (!this.castDetails.running && response.status === 400) {
+            this.$vs.notify({
+              title: 'Cast not started yet!',
+              text: 'The cast you are trying to join has either ended or yet to begin',
+              color: 'danger',
+            });
+          } else {
+            this.$vs.notify({
+              title: 'Operation failed',
+              text: 'Failed to accept request, please try again later!',
+              color: 'danger',
+            });
+          }
+          throw new Error(response.statusText);
         }
         return response.json();
       }).then(result => {
         this.$vs.notify({
           title: 'Request Accepted',
-          text: '',
+          text: 'Joining you to cast...',
           color: 'success',
         });
         location.href = result.url;
       }).catch(error => {
-        this.$vs.notify({
-          title: 'Operation failed',
-          text: 'Failed to accept request, please try again later!',
-          color: 'danger',
-        });
+        console.log("Error occured")
       });
-
-      // const payload = {
-      //   name: this.joiningName,
-      //   email: !this.sentOtp ? '' : this.email,
-      //   password: !this.sentOtp ? this.$route.query.pass : '',
-      //   public_meeting_id: this.meeting_id,
-      //   avatar_url: '',
-      //   isPublic: !this.sentOtp,
-      // };
-      // if (this.payload) {
-      //   this.email = this.payload.email;
-      // } else {
-      //   this.email = '';
-      // }
-
-      // if (!this.sentOtp) {
-      //   const joineePayload = {
-      //     user_name: this.joiningName,
-      //     user_email: payload.email || '',
-      //     session_id: payload.public_meeting_id,
-      //   };
-
-      //   await this.$store
-      //     .dispatch('studio/addJoinee', joineePayload)
-      //     .then(async (response) => {
-      //       console.log(response.data);
-      //       if (response.data.status) {
-      //         console.log('public path');
-      //         if (this.$route.query.pass !== undefined) {
-      //           console.log(payload);
-      //           await this.magicJoin(payload);
-      //         } else {
-      //           await this.joinCastUtil(payload);
-      //         }
-      //       }
-      //     })
-      //     .catch((err) => {
-      //       console.log(err);
-      //       this.$vs.loading.close();
-      //       this.disabled = false;
-      //       this.$vs.notify({
-      //         title: 'Error Occurred',
-      //         text:
-      //           err.response != null
-      //             ? err.response.data.message
-      //             : 'Something went wrong! Try Again',
-      //         color: 'danger',
-      //       });
-      //     });
-      // } else {
-      //   if (this.$route.query.pass !== undefined) {
-      //     await this.magicJoin(payload);
-      //   } else {
-      //     this.joinCastUtil(payload);
-      //   }
-      // }
     },
     goToEventPage() {
       const url = `https://decast.live/cast/nft-gated/${this.castDetails.public_meeting_id}`;
       window.open(url, '_blank');
     }
   },
-  watch: {
-    activeRoles(newRoles) {
-      if (newRoles.length > 0 && !newRoles.includes(this.joiningRole)) {
-        this.selectedIndex = 0;
-      } else if (newRoles.length === 0) {
-        this.selectedIndex = null;
-      }
-    }
-  },
-  created() {
-    if (this.activeRoles.length > 0) {
-      this.selectedIndex = 0;
-    }
-  }
 };
 </script>
 <style scoped>
@@ -431,24 +388,30 @@ export default {
   font-family: 'JetBrains Mono' !important;
 }
 
-.tc-section h3{
+.tc-section h3 {
   color: #22C55E;
 }
-.tc-section p{
+
+.tc-section p {
   color: #5B96EB;
 }
+
 .tc-section img {
   height: 150px;
   width: 150px;
+  cursor: pointer;
 }
+
 .ticketImage {
   border: 2px solid transparent;
-  transition: border-color 0.5s, box-shadow 0.5s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
+
 .selectedTicket {
   border-color: yellow;
   box-shadow: 0 0 6px 4px yellow;
 }
+
 .fixed-height {
   height: 38px;
   padding-left: 8px;
@@ -481,9 +444,9 @@ export default {
   padding-bottom: 50px;
 }
 
-.join-wrapper {
+/* .join-wrapper {
   height: calc(100vh - 100px);
-}
+} */
 
 .join-body {
   width: 100%;
@@ -520,7 +483,7 @@ export default {
 .join-input-content {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 36px;
 }
 

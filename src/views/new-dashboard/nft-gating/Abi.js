@@ -67,11 +67,6 @@ export const TOKEN_ABI = [
     },
     {
         "inputs": [],
-        "name": "DecastGating__UnableToGenerateTokenIdsForGivenEventId",
-        "type": "error"
-    },
-    {
-        "inputs": [],
         "name": "DecastGating__UnmatchedArrayLength",
         "type": "error"
     },
@@ -855,6 +850,11 @@ export const TOKEN_ABI = [
     {
         "inputs": [
             {
+                "internalType": "address",
+                "name": "userAddress",
+                "type": "address"
+            },
+            {
                 "internalType": "string",
                 "name": "eventId",
                 "type": "string"
@@ -1105,7 +1105,7 @@ export const TOKEN_ABI = [
         ],
         "name": "withdrawCollectedAmountForEventId",
         "outputs": [],
-        "stateMutability": "payable",
+        "stateMutability": "nonpayable",
         "type": "function"
     }
 ]
