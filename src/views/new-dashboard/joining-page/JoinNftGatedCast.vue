@@ -15,8 +15,9 @@
         <div class="join-body-left join-body-left-half">
           <p class="join-by">/* Hosted by {{ castDetails.event_creator_name }} */</p>
           <h2 class="room-name">{{ castDetails.event_name }}</h2>
-          <p v-if="castDetails.running" class="room-status"><span></span> LIVE</p>
-          <p v-else class="room-status"><span></span> Cast Offline</p>
+          <!-- <p v-if="castDetails.running" class="room-status"><span></span> LIVE</p>
+          <p v-else class="room-status"><span></span> Cast Offline</p> -->
+          <div v-if="castDetails && castDetails.time"><CountDownTImer :castDetails="castDetails"/></div>
 
           <div>
             <div class="join-input-content">
@@ -47,7 +48,7 @@
               <!--  -->
 
               <!-- joining button -->
-              <button v-if="!accessToken">Please login to join</button>
+              <button v-if="!accessToken" @click="openLoginModal">Please login to join</button>
               <button v-else-if="address === ''">Please connect wallet</button>
               <div v-else-if="!hasPurchased">
                 <p class="reg-msg">You haven't purchased any ticket yet, </br> please visit the event page to register
@@ -159,10 +160,12 @@
 import Private from '@/layouts/components/navbar/components/Connect_Wallet.vue';
 import { ethers } from 'ethers';
 import { tokenContractWithSigner } from "../nft-gating/Constants"
+import CountDownTImer from './CountDownTImer.vue';
+import constants from '../../../../constant';
 
 export default {
   name: 'JoinNftGatedCast',
-  components: { Private },
+  components: { Private, CountDownTImer },
   props: ["castDetailsProps"],
   data() {
     return {
@@ -374,6 +377,9 @@ export default {
       }).catch(error => {
         console.log("Error occured")
       });
+    },
+    openLoginModal() {
+      window.open(constants.challengeUri, '_blank', 'width=600,height=600');
     },
     goToEventPage() {
       const url = `https://decast.live/cast/nft-gated/${this.castDetails.public_meeting_id}`;

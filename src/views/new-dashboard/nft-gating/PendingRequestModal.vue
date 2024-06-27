@@ -76,7 +76,7 @@
                         </div>
                         <div>
                             <vs-button class="mt-8" type="border" @click="handleAcceptAllRequest">
-                                >>request.send</vs-button>
+                                >>request.accept</vs-button>
                         </div>
                     </div>
                 </div>

@@ -27,7 +27,7 @@
                             <p class="collect-em-label">/* Please login first to send the access request */<br /></p>
                         </div>
                         <div>
-                            <vs-button class="mt-8" type="border" @click="openNFTGatingCastPage">
+                            <vs-button class="mt-8" type="border" @click="openLoginModal">
                                 >>login</vs-button>
                         </div>
                     </div>
@@ -44,6 +44,7 @@
 import BaseModal from "@/components/common/BaseModal.vue";
 import { ethers } from 'ethers';
 import { tokenContractWithSigner } from "./Constants"
+import constants from '../../../../constant';
 
 export default {
     name: 'RequestAccessModal',
@@ -61,6 +62,9 @@ export default {
     created() {
     },
     methods: {
+        openLoginModal(){
+            window.open(constants.challengeUri, '_blank', 'width=600,height=600');
+        },
         openNFTGatingCastPage() {
             const url = 'https://decast.live/nft-gating/cast/abcd';
             window.open(url, '_blank');

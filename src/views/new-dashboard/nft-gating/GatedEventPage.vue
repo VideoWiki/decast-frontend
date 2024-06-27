@@ -29,11 +29,11 @@
                     <div class="instr-2">
                         <div>
                             <p>Join Event</p>
-                            <span>www.decast.live/j/nft-gated-event-2024</span>
+                            <span @click="gotoJoiningPage">www.decast.live/n/{{ castDetails.public_meeting_id }}</span>
                         </div>
                         <div>
                             <p>Website</p>
-                            <span>www.decast.live/</span>
+                            <span @click="gotoMainPage">www.decast.live/</span>
                         </div>
                     </div>
                     <div class="instr-3">
@@ -65,13 +65,14 @@
                 <div class="cr-head">
                     <div class="flex align-center justify-between">
                         <h2 :style="{ color: dynamicColor }">Event Tickets</h2>
-                        <span v-if="isAdmin" @click="setActiveModal('redeemAmountModal')">Collected Amount: {{collectedAmount}} Eth</span>
+                        <span v-if="isAdmin" @click="setActiveModal('redeemAmountModal')">Collected Amount:
+                            {{ collectedAmount }} Eth</span>
                         <span v-else></span>
                     </div>
                     <p>/* Each user can mint only one NFT Ticket per Wallet. Multiple NFT minting is not permissible for
                         fair ticket distributions */</p>
                 </div>
-                <div v-if="wallet_address !== '' && rolesList.length>0" class="cr-content">
+                <div v-if="wallet_address !== '' && rolesList.length > 0" class="cr-content">
                     <div v-if="rolesList" v-for="(role, index) in rolesList" :key="index" class="crc-section mb-4 mt-4">
                         <h4 class="text-white">{{ role.roleName }}</h4>
                         <div>
@@ -379,7 +380,7 @@
         <EditBrandingModal v-if="activeModal === 'editBrandingModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :getMeetingDetails="getMeetingDetails" />
         <RedeemAmountModal v-if="activeModal === 'redeemAmountModal'" :closeModal="() => setActiveModal('')"
-            :castDetails="castDetails" :collectedAmount="collectedAmount" :getCollectedAmount="getCollectedAmount"/>
+            :castDetails="castDetails" :collectedAmount="collectedAmount" :getCollectedAmount="getCollectedAmount" />
     </div>
 </template>
 
@@ -423,16 +424,20 @@ export default {
         this.getCollectedAmount();
     },
     methods: {
-        async getCollectedAmount(){
+        async getCollectedAmount() {
             if (this.wallet_address === '') {
                 this.connectWallet();
             } else {
-                const amount = await tokenContractWithSigner.getCollectedAmountForEventId(this.castDetails.public_meeting_id)
+                const amount = await tokenContractWithSigner.getCollectedAmountForEventId(this.$route.params.castId)
                 this.collectedAmount = ethers.utils.formatEther(amount._hex).toString();
             }
         },
         gotoJoiningPage() {
             const url = `https://decast.live/n/${this.castDetails.public_meeting_id}`;
+            window.open(url, '_blank');
+        },
+        gotoMainPage() {
+            const url = `https://decast.live/`;
             window.open(url, '_blank');
         },
         updateButtonOnRequestSent() {
@@ -444,9 +449,10 @@ export default {
         async handleMintTicket(roleName, ticketPrice, tokenId) {
             if (this.wallet_address === '') {
                 this.connectWallet();
-            } else if (!this.activeUserInfo || (this.activeUserInfo.email==='' && this.activeUserInfo.username==='')) {
+            } else if (!this.accessToken) {
                 window.open(constants.challengeUri, '_blank', 'width=600,height=600');
             } else {
+                console.log("this.activeUserInfo", this.activeUserInfo)
                 try {
                     document.getElementById('loading-bg-transparent-title').innerText = 'Waiting for transaction';
                     document.getElementById('loading-bg-transparent').style.display = 'flex';
@@ -456,7 +462,6 @@ export default {
                     const _amounts = ["1"];
                     const aggregatePrice = (parseFloat(ticketPrice) * _to.length).toFixed(20);
                     const _price = ethers.utils.parseEther(aggregatePrice.toString());
-                    console.log("aggregatePrice", aggregatePrice)
                     if (aggregatePrice > 0) {
                         const tx = await tokenContractWithSigner.mintTicketPayable(
                             _to, _eventIds, _accessLevels, _amounts, { value: _price, gasLimit: 500000 }
@@ -467,6 +472,11 @@ export default {
                         // Transaction successful
                         document.getElementById('loading-bg-transparent-title').innerText = 'Transaction confirmed✔️ finishing up';
                         if (receipt.transactionHash) {
+                            fetch(`https://api.cast.decast.live/api/event/meeting/running/?public_meeting_id=${this.castDetails.public_meeting_id}`)
+                                .then(response => response.json())
+                                .then(data => {})
+                                .catch(error => {});
+
                             const index = this.rolesList.findIndex(item => item.tokenId === tokenId);
                             if (index !== -1) {
                                 this.$set(this.rolesList, index, { ...this.rolesList[index], ...{ isPurchased: true } });
@@ -513,7 +523,7 @@ export default {
             }
         },
         getRequestStatus() {
-            if (this.activeUserInfo && (this.activeUserInfo.email!=='' || this.activeUserInfo.username!=='')) {
+            if (this.activeUserInfo && (this.activeUserInfo.email !== '' || this.activeUserInfo.username !== '')) {
                 const endPoint = this.activeUserInfo.email === '' ? `https://api.cast.decast.live/api/nft/gating/user/status/?cast_id=${this.$route.params.castId}&email=${this.activeUserInfo.username}` : `https://api.cast.decast.live/api/nft/gating/user/status/?cast_id=${this.$route.params.castId}&email=${this.activeUserInfo.email}`
                 return fetch(endPoint, {
                     method: 'GET',
@@ -1055,6 +1065,7 @@ export default {
     margin-bottom: 14px;
     line-height: 1.4;
 }
+
 .cr-head span {
     color: #FFFFFF;
     cursor: pointer;

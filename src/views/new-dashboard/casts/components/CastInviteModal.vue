@@ -10,9 +10,9 @@
                         <div @click="setActiveModal('nftDropModal')">
                             <p>Add NFT Drops</p>
                         </div>
-                        <div>
+                        <!-- <div>
                             <p>Invite Audience</p>
-                        </div>
+                        </div> -->
                         <div  @click="setActiveModal('createNFTGating')">
                             <p>Enable Nft Gating</p>
                         </div>
@@ -34,8 +34,8 @@
                     </p>
                     <p v-if="inviteData.type !== 'private' && inviteData.viewer_mode && viewerLink !== null" class="mt-2 mb-4">{{ viewerLink }}</p>
 
-                    <p v-if="inviteData.type === 'private'" class="copy-cast-button mt-4">Great! Now you can invite the
-                        other audience from the above action...</p>
+                    <!-- <p v-if="inviteData.type === 'private'" class="copy-cast-button mt-4">Great! Now you can invite the
+                        other audience from the above action...</p> -->
                     <vs-button class="mt-8" type="border" @click="closeModal">>>skip</vs-button>
                 </div>
                 <div class="cast-modal-bottom">

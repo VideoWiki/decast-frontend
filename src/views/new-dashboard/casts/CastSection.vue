@@ -55,7 +55,7 @@
             </div>
             <div v-else-if="recordingList.length">
               <div class="recordings flex justify-between items-center mb-4"
-                v-for="(recording, index) in flattenedRecordingList" :key="index">
+                v-for="(recording, index) in recordings" :key="index">
                 <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings"/>
               </div>
             </div>
@@ -230,9 +230,11 @@ export default {
     // totalImagesCount() {
     //   return this.casts.map((cast) => cast.images.length);
     // },
-    flattenedRecordingList() {
-      return this.flattenRecordingList(this.recordings);
-    },
+
+    // flattenedRecordingList depricated may be used latter
+    // flattenedRecordingList() {
+    //   return this.flattenRecordingList(this.recordings);
+    // },
     recordingList() {
       return this.$store.state.cast.recordings;
     },
@@ -258,15 +260,17 @@ export default {
     handleCardClick(details) {
       this.selectedCastId = details;
     },
-    flattenRecordingList(recordings) {
-      const flattenedList = [];
-      recordings.forEach((meetings) => {
-        meetings.forEach((recording) => {
-          flattenedList.push(recording);
-        });
-      });
-      return flattenedList;
-    },
+
+    // flattenRecordingList depricated may be used latter
+    // flattenRecordingList(recordings) {
+    //   const flattenedList = [];
+    //   recordings.forEach((meetings) => {
+    //     meetings.forEach((recording) => {
+    //       flattenedList.push(recording);
+    //     });
+    //   });
+    //   return flattenedList;
+    // },
     async getRecordings() {
       this.isRecordingLoading = true;
       try {

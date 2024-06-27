@@ -21,8 +21,9 @@
             <p class="join-type" v-else>/* Public Cast */</p>
             <p class="join-by">/* Hosted by {{ creator }} */</p>
             <h2 class="room-name">{{ eventName }}</h2>
-            <p v-if="running" class="room-status"><span></span> LIVE</p>
-            <p v-else class="room-status"><span></span> Cast Offline</p>
+            <!-- <p v-if="running" class="room-status"><span></span> LIVE</p>
+            <p v-else class="room-status"><span></span> Cast Offline</p> -->
+            <div v-if="castDetails && castDetails.time"><CountDownTImer :castDetails="castDetails"/></div>
 
             <!-- ask for OTP -->
             <div v-if="sentOtp && !verified">
@@ -290,9 +291,10 @@
 <script>
 import Private from '@/layouts/components/navbar/components/Connect_Wallet.vue';
 import JoinNftGatedCast from './JoinNftGatedCast.vue';
+import CountDownTImer from './CountDownTImer.vue';
 export default {
   name: 'JoinCast',
-  components: { Private, JoinNftGatedCast },
+  components: { Private, JoinNftGatedCast, CountDownTImer },
   data() {
     return {
       joiningName: '',
