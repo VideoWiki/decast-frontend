@@ -38,10 +38,17 @@
                     </div>
                     <div class="instr-3">
                         <div class="flex justify-between">
-                            <h5>Hosts and Guests</h5><button class="req-modal-btn" v-if="isAdmin"
-                                @click="setActiveModal('pendingRequestModal')">Pending Requests ({{
+                            <h5>Hosts</h5>
+                            <div class="flex align-center">
+                                <button class="req-modal-btn" v-if="isAdmin"
+                                    @click="setActiveModal('allAudienceModal')">All Audience</button>
+                                <span class="mx-2">|</span>
+                                <button class="req-modal-btn" v-if="isAdmin"
+                                    @click="setActiveModal('pendingRequestModal')">Requests ({{
                     pendingRequest.length }})</button>
+                            </div>
                         </div>
+                        <!-- <p @click="setActiveModal('allAudienceModal')">All Audience</p> -->
                         <div v-for="(req, index) in acceptedRequest" :key="index" v-if="isAdmin && req.isReqAccepted"
                             class="flex items-center">
                             <img :src="req.profile_image" class="instr-3-ulogo" />
@@ -381,6 +388,7 @@
             :castDetails="castDetails" :getMeetingDetails="getMeetingDetails" />
         <RedeemAmountModal v-if="activeModal === 'redeemAmountModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :collectedAmount="collectedAmount" :getCollectedAmount="getCollectedAmount" />
+        <AllAudienceModal v-if="activeModal === 'allAudienceModal'" :closeModal="() => setActiveModal('')" />
     </div>
 </template>
 
@@ -392,6 +400,7 @@ import PendingRequestModal from './PendingRequestModal';
 import EditBrandingModal from './EditBrandingModal';
 import RedeemAmountModal from './RedeemAmountModal';
 import constants from '../../../../constant';
+import AllAudienceModal from './AllAudienceModal.vue';
 
 export default {
     name: 'GatedEventPage',
@@ -416,12 +425,14 @@ export default {
         PendingRequestModal,
         EditBrandingModal,
         RedeemAmountModal,
+        AllAudienceModal,
     },
     async mounted() {
         document.getElementById('loading-bg-transparent').style.display = 'none';
         this.getMeetingDetails();
         await this.connectWallet();
         this.getCollectedAmount();
+        this.getAllAudience();
     },
     methods: {
         async getCollectedAmount() {
@@ -452,7 +463,6 @@ export default {
             } else if (!this.accessToken) {
                 window.open(constants.challengeUri, '_blank', 'width=600,height=600');
             } else {
-                console.log("this.activeUserInfo", this.activeUserInfo)
                 try {
                     document.getElementById('loading-bg-transparent-title').innerText = 'Waiting for transaction';
                     document.getElementById('loading-bg-transparent').style.display = 'flex';
@@ -472,10 +482,21 @@ export default {
                         // Transaction successful
                         document.getElementById('loading-bg-transparent-title').innerText = 'Transaction confirmed✔️ finishing up';
                         if (receipt.transactionHash) {
-                            fetch(`https://api.cast.decast.live/api/event/meeting/running/?public_meeting_id=${this.castDetails.public_meeting_id}`)
-                                .then(response => response.json())
-                                .then(data => {})
-                                .catch(error => {});
+                            await fetch(`https://api.cast.decast.live/api/event/audience/create/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                                },
+                                body: JSON.stringify({
+                                    name: this.activeUserInfo.username,
+                                    email: this.activeUserInfo.email,
+                                    wallet_address: this.wallet_address,
+                                    role: roleName,
+                                    token_id: tokenId._hex,
+                                    cast_id: this.castDetails.public_meeting_id,
+                                }),
+                            })
 
                             const index = this.rolesList.findIndex(item => item.tokenId === tokenId);
                             if (index !== -1) {
@@ -498,6 +519,21 @@ export default {
                         // Transaction successful
                         document.getElementById('loading-bg-transparent-title').innerText = 'Transaction confirmed✔️ finishing up';
                         if (receipt.transactionHash) {
+                            await fetch(`https://api.cast.decast.live/api/event/audience/create/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                                },
+                                body: JSON.stringify({
+                                    name: this.activeUserInfo.username,
+                                    email: this.activeUserInfo.email,
+                                    wallet_address: this.wallet_address,
+                                    role: roleName,
+                                    token_id: tokenId._hex,
+                                    cast_id: this.castDetails.public_meeting_id,
+                                }),
+                            })
                             const index = this.rolesList.findIndex(item => item.tokenId === tokenId);
                             if (index !== -1) {
                                 this.$set(this.rolesList, index, { ...this.rolesList[index], ...{ isPurchased: true } });
@@ -813,6 +849,10 @@ export default {
     outline: none;
     color: #FFFFFF;
     cursor: pointer;
+    transition: 0.2s color ease;
+}
+.req-modal-btn:hover {
+    color: #D7DF23;
 }
 
 .custom-button {

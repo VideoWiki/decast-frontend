@@ -2,8 +2,11 @@
 import axios from '../../axios';
 import constants from '../../../constant';
 export default {
-  async getAllCasts() {
-    return axios.get(constants.apiCastUrl + '/api/event/get/all/info/');
+  async getAllCasts({ commit }) {
+    const response = await axios.get(constants.apiCastUrl + '/api/event/get/all/info/');
+    const allCasts = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
+    commit('SET_ALL_CASTS', allCasts);
+    return allCasts;
   },
   async renameRecording({ commit }, payload) {
     return new Promise((resolve, reject) => {
@@ -24,7 +27,7 @@ export default {
     const newRecordings = recordings.map(subList =>
       subList.filter(item => item["Record ID"] !== recordingId)
     );
-    commit('SET_RECORDINGLIST', newRecordings);
+    commit('SET_RECORDING_LIST', newRecordings);
   },
   async changeShortCode({ commit }, payload) {
     return new Promise((resolve, reject) => {
@@ -80,7 +83,7 @@ export default {
         castsInfo[info.castId] = info.details;
       });
       commit('SET_CASTS_INFO', castsInfo);
-      commit('SET_ALLCASTS', casts);
+      commit('SET_ALL_CASTS', casts);
       // console.log(castsInfo, 'TTTT');
       // console.log(casts, 'pppp');
     } catch (error) {
@@ -435,7 +438,7 @@ export default {
   // async recordings({ commit }) {
   //   const res = await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
   //   console.log("res.data.status", res.data.status)
-  //   commit('SET_RECORDINGLIST', res.data.status);
+  //   commit('SET_RECORDING_LIST', res.data.status);
   //   return res.data.status;
   // },
   async recordings({ commit }) {
@@ -471,7 +474,7 @@ export default {
       });
       console.log("after", allRecordings)
 
-      commit('SET_RECORDINGLIST', allRecordings);
+      commit('SET_RECORDING_LIST', allRecordings);
       return allRecordings;
     } catch (error) {
       // Handle error

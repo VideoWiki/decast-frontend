@@ -44,7 +44,7 @@
               <CastCardShimmer :style="{ opacity: 0.5 }" />
             </div>
             <div v-else v-for="(cast, index) in castList" :key="index">
-              <CastCard :castDetails="cast" :index="index" :getCastList="getCastList" :updateCastListElement="updateCastListElement" @card-click="handleCardClick" />
+              <CastCard :castList="castList" :castDetails="cast" :index="index" :getCastList="getCastList" :updateCastListElement="updateCastListElement" @card-click="handleCardClick" />
             </div>
           </div>
           <div v-else class="cast_list_cont">
@@ -96,7 +96,6 @@ export default {
   data() {
     return {
       activeModal: '',
-      castList: [],
       focusYourRooms: true,
       firstCastId: null,
       isCastsLoading: false,
@@ -238,6 +237,9 @@ export default {
     recordingList() {
       return this.$store.state.cast.recordings;
     },
+    castList(){
+      return this.$store.state.cast.casts;
+    }
   },
   watch: {
     recordingList(newList) {
@@ -532,9 +534,7 @@ export default {
       this.isCastsLoading = true;
       try {
         const response = await this.$store.dispatch('cast/getAllCasts');
-        if (response.data.my_events) {
-          const allEvents = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
-          this.castList = allEvents;
+        if (response) {
           this.firstCastId = this.castList[0];
           this.selectedCastId = this.castList[0];
           this.isCastsLoading = false;
@@ -549,7 +549,9 @@ export default {
       const index = this.castList.findIndex(item => item.public_meeting_id === eventId);
       // If an element is found, update it
       if (index !== -1) {
-        this.$set(this.castList, index, { ...this.castList[index], ...newData });
+        var newCastList = this.castList;
+        newCastList[index] = { ...newCastList[index], ...newData };
+        this.$store.commit('cast/SET_ALL_CASTS', newCastList);
         this.firstCastId = this.castList[index];
         this.selectedCastId = this.castList[index];
       }

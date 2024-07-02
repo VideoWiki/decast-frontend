@@ -185,9 +185,9 @@
     <CreateNftModal v-else-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')"
       :castDetails="castDetails" :getCastList="getCastList" />
     <CreateNftGating v-else-if="activeModal === 'createNFTGating'" :closeModal="() => setActiveModal('')"
-      :castDetails="castDetails" :setActiveModal="setActiveModal" :updateCastListElement="updateCastListElement"/>
+      :castDetails="castDetails" :setActiveModal="setActiveModal" :updateCastListElement="updateCastListElement" />
     <CreateSucessModal v-else-if="activeModal === 'createSuccessModal'" :closeModal="() => setActiveModal('')"
-      :castDetails="castDetails"/>
+      :castDetails="castDetails" />
     <EditNftModal v-else-if="activeModal === 'editNftDropModal'" :closeModal="() => setActiveModal('')"
       :castDetails="castDetails" :getCastList="getCastList" />
     <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
@@ -242,6 +242,7 @@ import CreateSucessModal from '../../nft-gating/CreateSucessModal.vue';
 export default {
   name: 'CastCard',
   props: [
+    'castList',
     'castDetails',
     'index',
     'updateCastListElement',
@@ -622,13 +623,20 @@ export default {
     async deleteCast(deleteCastId) {
       this.isLoading = true;
       this.setActiveModal('');
-      await this.$store.dispatch('cast/deleteCast', deleteCastId);
-      // const newCasts = this.casts.filter((item) => {
-      //   return item.public_meeting_id !== deleteCastId;
-      // });
-      // this.casts = newCasts;
-      this.isLoading = false;
-      this.getCastList();
+      this.$store.dispatch('cast/deleteCast', deleteCastId)
+        .then((response) => {
+          const index = this.castList.findIndex(item => item.public_meeting_id === deleteCastId);
+          if (index !== -1) {
+            var newCasts = this.castList;
+            newCasts.splice(index, 1);
+            this.$store.commit('cast/SET_ALL_CASTS', newCasts);
+          }
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          console.error(error);
+        });
     },
     validateFormOne() {
       if (

@@ -53,6 +53,7 @@ export default {
 .modal {
     position: relative;
     min-width: 400px;
+    height: fit-content;
     margin: 0px 10px;
     z-index: 1000;
     background-color: #000000;

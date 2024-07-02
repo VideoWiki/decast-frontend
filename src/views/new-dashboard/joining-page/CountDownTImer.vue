@@ -84,7 +84,7 @@ export default {
                 .catch(error => {
                     console.error('Error fetching API:', error);
                 });
-        }
+        },
     },
     beforeDestroy() {
         // Clear intervals when component is destroyed
@@ -99,6 +99,7 @@ export default {
 .cd-timer p {
     color: #D7DF23;
 }
+
 .cd-timer span {
     color: #868686;
 }

@@ -26,7 +26,8 @@
                                 </div>
                             </div>
                             <div class="table-content-wrapper">
-                                <div class="table-content-row" v-for="(request, index) in pendingRequest"
+                                <p class="mt-8" v-if="pendingRequest.length<=0">No New Request Found</p>
+                                <div v-else class="table-content-row" v-for="(request, index) in pendingRequest"
                                     v-if="request.email !== activeUserInfo.email" :key="index">
                                     <div class="table-content-col1">
                                         <span v-if="request.name===''">
@@ -75,7 +76,7 @@
                             </div>
                         </div>
                         <div>
-                            <vs-button class="mt-8" type="border" @click="handleAcceptAllRequest">
+                            <vs-button class="mt-8" type="border" @click="handleAcceptAllRequest" :disabled="pendingRequest.length<=0">
                                 >>request.accept</vs-button>
                         </div>
                     </div>
@@ -180,40 +181,41 @@ export default {
                 });
             }
         },
-        handleRejectRequest(requestedEmail) {
-            const payload = {
-                cast_id: this.castDetails.public_meeting_id,
-                email: requestedEmail,
-                isReqAccepted: 'True',
-                isReqRejected: 'True',
-            }
-            fetch(`https://api.cast.decast.live/api/nft/gating/admin/update/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                },
-                body: JSON.stringify(payload),
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                this.getAllRequests(this.castDetails.public_meeting_id);
-                return response.json();
-            }).then(result => {
-                this.$vs.notify({
-                    title: 'Rejected Successfully',
-                    text: '',
-                    color: 'success',
-                });
-            }).catch(error => {
-                this.$vs.notify({
-                    title: 'Operation failed',
-                    text: 'Failed to reject, please try again later!',
-                    color: 'danger',
-                });
-            });
-        }
+        // Can be used as per requirement
+        // handleRejectRequest(requestedEmail) {
+        //     const payload = {
+        //         cast_id: this.castDetails.public_meeting_id,
+        //         email: requestedEmail,
+        //         isReqAccepted: 'True',
+        //         isReqRejected: 'True',
+        //     }
+        //     fetch(`https://api.cast.decast.live/api/nft/gating/admin/update/`, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        //         },
+        //         body: JSON.stringify(payload),
+        //     }).then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok ' + response.statusText);
+        //         }
+        //         this.getAllRequests(this.castDetails.public_meeting_id);
+        //         return response.json();
+        //     }).then(result => {
+        //         this.$vs.notify({
+        //             title: 'Rejected Successfully',
+        //             text: '',
+        //             color: 'success',
+        //         });
+        //     }).catch(error => {
+        //         this.$vs.notify({
+        //             title: 'Operation failed',
+        //             text: 'Failed to reject, please try again later!',
+        //             color: 'danger',
+        //         });
+        //     });
+        // }
     },
     computed: {
         accessToken() {
@@ -249,6 +251,9 @@ export default {
 
 .table-content-wrapper {
     margin-top: 6px;
+}
+.table-content-wrapper p{
+    color: #FFFFFF;
 }
 
 .table-head-col1 {

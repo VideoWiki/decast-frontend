@@ -4,22 +4,22 @@ export default {
   setInitialState(state) {
     Object.assign(state, getDefaultState());
   },
-  setCastList(state, payload) {
-    state.casts = payload;
-  },
-  setCastDetails(state, { castId, details }) {
-    state.castsInfo[castId] = details;
-  },
-  addCast(state, payload) {
+  // setCastList(state, payload) {
+  //   state.casts = payload;
+  // },
+  // setCastDetails(state, { castId, details }) {
+  //   state.castsInfo[castId] = details;
+  // },
+  ADD_CAST(state, payload) {
     state.casts.push(payload);
   },
-  SET_RECORDINGLIST(state,payload){
+  SET_RECORDING_LIST(state, payload){
     state.recordings = payload; 
   },
   SET_CASTS_INFO(state, castsInfo) {
     state.castsInfo = castsInfo;
   },
-  SET_ALLCASTS(state, casts) {
-    state.casts = casts;
+  SET_ALL_CASTS(state, payload) {
+    state.casts = payload;
   },
 };
