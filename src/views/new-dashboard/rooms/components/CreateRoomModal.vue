@@ -45,8 +45,9 @@ export default {
     methods: {
         createRoom() {
             this.isLoading = true;
+            const board_id = localStorage.getItem("LOG_BOARDID");
             this.$store
-                .dispatch('room/addRoom', this.roomName)
+                .dispatch('room/addRoom', {room_name: this.roomName, board_id: board_id})
                 .then(async (res) => {
                     this.isLoading = false;
                     this.closeModal();

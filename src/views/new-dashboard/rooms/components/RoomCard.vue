@@ -16,9 +16,6 @@
             </vs-button>
           </template>
         </SimpleMenu> -->
-        <vs-button class="custm-style" @click="setActiveModal('roomOptionsModal')">
-          <img src="@/assets/images/menu.svg" />
-        </vs-button>
         <div class="copy-btn-cont">
           <vx-tooltip :text="'https://decast.live/j/'+room.short_code" position="bottom">
             <vs-button class="custm-style" @click="copy(room.short_code)">
@@ -26,10 +23,12 @@
             </vs-button>
           </vx-tooltip>
         </div>
-
         <vs-button class="custm-style">
           <img v-if="!isRoomStart" @click.prevent="start(room.room_url)" src="@/assets/images/start.svg" />
           <img v-if="isRoomStart" src="@/assets/images/end.svg" />
+        </vs-button>
+        <vs-button class="custm-style" @click="setActiveModal('roomOptionsModal')">
+          <img src="@/assets/images/menu.svg" />
         </vs-button>
       </div>
     </div>

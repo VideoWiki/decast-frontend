@@ -123,51 +123,18 @@ const mutations = {
       JSON.parse(localStorage.getItem('userInfo')) || state.AppActiveUser;
 
     for (const property of Object.keys(payload)) {
-      if (property === 'username' && payload[property].startsWith('0x')) {
-        console.log(property, payload[property], 'fuk u');
-        const walletAddress = payload[property];
+      // if (payload[property]) {
+      // If some of user property is null - user default property defined in state.AppActiveUser
+      state.AppActiveUser[property] = payload[property];
 
-        // Connect to the Ethereum network
-        const web3 = new Web3(window.ethereum);
-        console.log(console.log(web3.eth.ens));
-        // web3.eth.ens.autoConfigure();
-        // console.log(web3.eth.ens.autoConfigure())
-        web3.eth.ens
-          .getOwner(walletAddress)
-          .then((ensName) => {
-            if (
-              ensName &&
-              ensName !== '0x0000000000000000000000000000000000000000'
-            ) {
-              console.log('ENS Name:', ensName);
-              userInfo['first_name'] = ensName;
-              userInfo['username'] = payload[property]; // Keep username as wallet address
-              localStorage.setItem('userInfo', JSON.stringify(userInfo));
-            } else {
-              console.log('No ENS name found for the address.');
-              this.$vs.notify({
-                title: 'No ENS found',
-                text: 'Please make sure ens is associated with the wallet address!',
-                color: 'warning',
-            });
-            }
-          })
-          .catch((error) => {
-            this.$vs.notify({
-              title: 'ENS fetch failed',
-              text: 'Please try again later!',
-              color: 'warning',
-          });
-            console.error('Failed to fetch ENS name:', error);
-          });
-      } else {
-        state.AppActiveUser[property] = payload[property];
-        userInfo[property] = payload[property];
-      }
+      // Update key in localStorage
+      userInfo[property] = payload[property];
+      // }
     }
+    // Store data in localStorage
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
   },
-
+  
   LOGOUT(state, payload) {
     state.AppActiveUser = payload;
   },

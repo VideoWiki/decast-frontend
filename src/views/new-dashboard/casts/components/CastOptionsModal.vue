@@ -12,7 +12,10 @@
                                 @click="setActiveModal('editNftDropModal')">Edit NFT/Token <br>Drop</div>
                             <div class="grid-item" v-else @click="setActiveModal('nftDropModal')">NFT/Token <br>Drop</div>
 
-                            <div class="grid-item" @click="setActiveModal('customCastUrl')">Custom <br>Cast Url</div>
+                            <div v-if="castDetails.isNftGated" class="grid-item" @click="setActiveModal('createNFTGating')">Edit NFT <br>Gating</div>
+                            <div v-else class="grid-item" @click="setActiveModal('createNFTGating')">NFT <br>Gating</div>
+
+                            <div class="grid-item" @click="setActiveModal('customCastUrl')" v-if="castDetails.cast_type === 'public' && !castDetails.isNftGated">Custom <br>Cast Url</div>
                             <div class="grid-item" @click="setActiveModal('manageAudienceModal')">Manage <br>Audience</div>
                             <div class="grid-item" @click="setActiveModal('liveStreamModal')">Live <br>Streaming</div>
 

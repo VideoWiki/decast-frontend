@@ -9,11 +9,8 @@
               class="basic_live_dot_ rounded-full"></span>LIVE</span>
         </p>
         <div class="inner-div2 flex justify-between items-center">
-          <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
-            <img src="@/assets/images/menu.svg" />
-          </vs-button>
-
-          <SimpleMenu v-if="castDetails.cast_type === 'public'" :menuList="castCopyMenuItems">
+          <SimpleMenu v-if="castDetails.cast_type === 'public' && !castDetails.isNftGated"
+            :menuList="castCopyMenuItems">
             <template #menuButton>
               <vs-button class="custm-style">
                 <img src="@/assets/images/copy.svg" />
@@ -22,22 +19,25 @@
           </SimpleMenu>
           <vs-button class="custm-style">
             <img v-if="isCastStart" src="@/assets/images/end.svg" />
-            <img v-if="castDetails.is_running === 'false' && !isCastStart" @click="joinNow(castDetails.public_meeting_id)"
-              src="@/assets/images/start.svg" />
+            <img v-if="castDetails.is_running === 'false' && !isCastStart"
+              @click="joinNow(castDetails.public_meeting_id)" src="@/assets/images/start.svg" />
             <img v-if="castDetails.is_running === 'true'" src="@/assets/images/end.svg" />
           </vs-button>
+          <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
+            <img src="@/assets/images/menu.svg" />
+          </vs-button>
         </div>
-        <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')" />
+        <!-- <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')" :castDetails="castDetails" /> -->
 
       </div>
 
       <div class="text-left w-full">
         <span class="basic_date_btn_ text-white text-md">
           {{
-            moment(castDetails.event_date).format('DD MMM') +
-            ' ' +
-            NewTime(castDetails.event_date, castDetails.event_time)
-          }}
+      moment(castDetails.event_date).format('DD MMM') +
+      ' ' +
+      NewTime(castDetails.event_date, castDetails.event_time)
+    }}
         </span>
       </div>
 
@@ -48,7 +48,9 @@
           <div>https://decast.live/live</div>
           <div class="flex gap-2 justify-center items-center">
 
-            <vx-tooltip :text="'https://decast.live...'+castDetails.public_meeting_id.slice(castDetails.public_meeting_id.length-7, castDetails.public_meeting_id.length)" position="bottom">
+            <vx-tooltip
+              :text="'https://decast.live...' + castDetails.public_meeting_id.slice(castDetails.public_meeting_id.length - 7, castDetails.public_meeting_id.length)"
+              position="bottom">
               <vs-button class="custm-style">
                 <img @click="copy(castDetails.public_meeting_id, undefined)" src="@/assets/images/copy.svg" />
               </vs-button>
@@ -74,7 +76,8 @@
               viewBox="0,0,256,256" style="fill:#000000;">
               <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
                 stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
-                font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                style="mix-blend-mode: normal">
                 <g transform="scale(5.12,5.12)">
                   <path
                     d="M5.3125,1l-0.25,0.65625l-3,8l-0.0625,0.15625v33.1875h11v6h7.40625l0.3125,-0.28125l5.71875,-5.71875h8.96875l0.3125,-0.28125l12.28125,-12.28125v-29.4375zM6.6875,3h39.3125v26.59375l-11.40625,11.40625h-9l-6,6h-4.59375v-6h-11v-30.8125zM10,5v30h8v7.40625l1.71875,-1.6875l5.71875,-5.71875h11.96875l0.3125,-0.28125l6,-6l0.28125,-0.3125v-23.40625zM12,7h30v20.5625l-5.4375,5.4375h-11.96875l-0.3125,0.28125l-4.28125,4.28125v-4.5625h-8zM20,13v14h6v-14zM30,13v14h6v-14zM22,15h2v10h-2zM32,15h2v10h-2z">
@@ -126,8 +129,8 @@
                 </div>
               </div>
 
-              <div v-if="hasFacebookStream"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35"
-                  viewBox="0,0,256,256" style="fill:#000000;">
+              <div v-if="hasFacebookStream"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35"
+                  height="35" viewBox="0,0,256,256" style="fill:#000000;">
                   <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
                     stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
                     font-family="none" font-weight="none" font-size="none" text-anchor="none"
@@ -149,7 +152,8 @@
       :castDetails="castDetails" :handleEditCast="handleEditCast" :isAirdrop="castDetails.airdrop"
       :setActiveModal="setActiveModal" :pub_nft_flow="castDetails.pub_nft_flow"
       :public_nft_status="castDetails.public_nft_status" :changePublicNftStatus="changePublicNftStatus"
-      :nft_details_submitted="castDetails.nft_details_submitted" :vc_details_submitted="castDetails.vc_details_submitted"
+      :nft_details_submitted="castDetails.nft_details_submitted"
+      :vc_details_submitted="castDetails.vc_details_submitted"
       :event_nft_enabled="!castDetails.pub_nft_flow && castDetails.nft_details_submitted"
       :certificate_enabled="castDetails.vc_details_submitted" :castId="castDetails.public_meeting_id"
       :invites="castDetails.invitee_list" :isStream="castDetails.stream_urls !== null"
@@ -180,6 +184,10 @@
       :setActiveModal="setActiveModal" :castDetails="castDetails" />
     <CreateNftModal v-else-if="activeModal === 'nftDropModal'" :closeModal="() => setActiveModal('')"
       :castDetails="castDetails" :getCastList="getCastList" />
+    <CreateNftGating v-else-if="activeModal === 'createNFTGating'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails" :setActiveModal="setActiveModal" :updateCastListElement="updateCastListElement"/>
+    <CreateSucessModal v-else-if="activeModal === 'createSuccessModal'" :closeModal="() => setActiveModal('')"
+      :castDetails="castDetails"/>
     <EditNftModal v-else-if="activeModal === 'editNftDropModal'" :closeModal="() => setActiveModal('')"
       :castDetails="castDetails" :getCastList="getCastList" />
     <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
@@ -228,12 +236,15 @@ import FacebookStreamModal from './options-components/FacebookStreamModal.vue';
 import CopyNFTModal from './options-components/CopyNFTModal.vue';
 import EditPostponeDetail from './options-components/EditPostponeDetail.vue';
 import CustomCastUrl from './options-components/CustomCastUrl.vue';
+import CreateNftGating from '../../nft-gating/CreateNftGating.vue';
+import CreateSucessModal from '../../nft-gating/CreateSucessModal.vue';
 
 export default {
   name: 'CastCard',
   props: [
     'castDetails',
     'index',
+    'updateCastListElement',
     // 'setProps',
     // 'stepOneProps',
     // 'stepTwoProps',
@@ -411,7 +422,9 @@ export default {
     FacebookStreamModal,
     CopyNFTModal,
     EditPostponeDetail,
-    CustomCastUrl
+    CustomCastUrl,
+    CreateNftGating,
+    CreateSucessModal,
   },
   mounted() {
     this.setProps();
@@ -450,6 +463,7 @@ export default {
         event_name: this.castDetails.event_name,
         nft_details_submitted: this.castDetails.nft_details_submitted,
         event_time: this.castDetails.event_time,
+        isNftGated: this.castDetails.isNftGated,
       });
     },
     setActiveModal(modalName) {

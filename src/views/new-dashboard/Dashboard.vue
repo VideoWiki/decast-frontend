@@ -16,7 +16,7 @@
       </div>
 
       <div class="w-3/5 flex flex-row gap-6 justify-end h-24 items-center">
-        <div v-if="(accessToken || loggedIn) && activeUserInfo.email== ''" class="flex gap-6">
+        <div v-if="(accessToken || loggedIn) && activeUserInfo.email == ''" class="flex gap-6">
           <img src="@/assets/images/pixel_wallet.svg" class="w-8 h-6 cursor-pointer" />
           <p class="text-lg">{{ activeUserInfo.username }}</p>
         </div>
@@ -194,9 +194,12 @@ export default {
     },
   },
   mounted() {
-    console.log("this.$route.params", this.$route.params)
-    if(this.$route.params === ''){
-      this.$router.push('/dashboard/rooms');
+    const gb_redirect = localStorage.getItem("LOG_REDIRECT")
+    if (gb_redirect) {
+      localStorage.removeItem("LOG_REDIRECT");
+      const url = new URL(gb_redirect);
+      const path = url.pathname + url.search + url.hash; // Extract path, query, and hash
+      this.$router.push(path);
     }
     this.verifyAuthToken();
     // this.userInfo = { ...this.$store.state.AppActiveUser };

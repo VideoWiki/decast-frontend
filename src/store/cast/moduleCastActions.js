@@ -282,7 +282,6 @@ export default {
       axios
         .patch(constants.apiCastUrl + '/api/event/meeting/update/', payload)
         .then((res) => {
-          console.log('form submitting');
           resolve(res);
 
         })
@@ -433,9 +432,51 @@ export default {
       public_meeting_id: payload,
     });
   },
+  // async recordings({ commit }) {
+  //   const res = await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
+  //   console.log("res.data.status", res.data.status)
+  //   commit('SET_RECORDINGLIST', res.data.status);
+  //   return res.data.status;
+  // },
   async recordings({ commit }) {
-    const res = await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
-    commit('SET_RECORDINGLIST', res.data.status);
-    return res.data.status;
+    try {
+      const res = await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
+
+      // Initialize an array to store all recordings from all status arrays
+      let allRecordings = [];
+      console.log("before", res.data.status)
+      // Iterate over each status array within res.data.status
+      res.data.status.forEach(statusArray => {
+        // Iterate over each recording within the current status array
+        statusArray.forEach(recording => {
+          allRecordings.push(recording);
+        });
+      });
+
+      // Sort all recordings by 'Start Time (Readable)' in descending order (newest first)
+      allRecordings.sort((a, b) => {
+        const dateA = new Date(a['Start Time (Readable)']);
+        const dateB = new Date(b['Start Time (Readable)']);
+        return dateB - dateA; // Compare dates in reverse order for descending sort
+      });
+
+      // Format 'Start Time (Readable)' to DD/MM/YY for all recordings
+      allRecordings.forEach(recording => {
+        const date = new Date(recording['Start Time (Readable)']);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const year = String(date.getFullYear()).substring(2); // Get last two digits of the year
+        const formattedDate = `${day}/${month}/${year}`;
+        recording['Start Time (Readable)'] = formattedDate;
+      });
+      console.log("after", allRecordings)
+
+      commit('SET_RECORDINGLIST', allRecordings);
+      return allRecordings;
+    } catch (error) {
+      // Handle error
+      console.error('Error fetching recordings:', error);
+      throw error; // Rethrow error to be handled upstream
+    }
   },
 };

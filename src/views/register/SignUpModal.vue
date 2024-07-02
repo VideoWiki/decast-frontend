@@ -37,8 +37,12 @@
           </div>
           <div class="flex flex-col mt-4 flex-1">
             <span class="text-white">user.password</span>
-            <div>
-              <input class="p-2 mt-2 w-full" v-model="password" type="text" placeholder="//password"/>
+            <div class="password-input flex flex-row p-2 mt-2 items-center justify-between" >
+              <input id="signupPassword" v-model="password" type="password" placeholder="//password" autocomplete="off"/>
+              <span class="toggle-password flex items-center justify-between" @click="togglePasswordVisibility('signupPassword')">
+                  <EyeVisible v-if="isPasswordVisible" />
+                  <EyeHide v-else />
+                </span>
             </div>
           </div>
         </div>
@@ -96,6 +100,9 @@ import Web3 from 'web3';
 import Vue from 'vue';
 import { detectIncognito } from 'detectincognitojs';
 import constants from '../../../constant';
+import EyeHide from "@/assets/svgs/EyeHide.vue";
+import EyeVisible from "@/assets/svgs/EyeVisible.vue";
+
 export default {
   name: 'SignUpModal',
   props: {
@@ -112,7 +119,12 @@ export default {
       email: '',
       password: '',
       isTermsConditionAccepted: true,
+      isPasswordVisible: false,
     };
+  },
+  components: {
+    EyeHide,
+    EyeVisible,
   },
   mounted() {
     this.initilizeGAuth();
@@ -153,6 +165,13 @@ export default {
     });
   },
   methods: {
+    togglePasswordVisibility(field) {
+      this.isPasswordVisible = !this.isPasswordVisible;
+      const input = document.getElementById(field);
+      if (input) {
+        input.type = this.isPasswordVisible ? 'text' : 'password';
+      }
+    },
     register() {
       if (this.validateForm) {
         this.registerUserJWt();
@@ -413,6 +432,16 @@ export default {
 .faded {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.password-input{
+  background: #fff;
+  height: 34.8px;
+}
+
+.password-input input{
+  outline: none;
+  border: none;
 }
 
 .top-panel {

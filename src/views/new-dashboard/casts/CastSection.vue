@@ -44,7 +44,7 @@
               <CastCardShimmer :style="{ opacity: 0.5 }" />
             </div>
             <div v-else v-for="(cast, index) in castList" :key="index">
-              <CastCard :castDetails="cast" :index="index" :getCastList="getCastList" @card-click="handleCardClick" />
+              <CastCard :castDetails="cast" :index="index" :getCastList="getCastList" :updateCastListElement="updateCastListElement" @card-click="handleCardClick" />
             </div>
           </div>
           <div v-else class="cast_list_cont">
@@ -55,7 +55,7 @@
             </div>
             <div v-else-if="recordingList.length">
               <div class="recordings flex justify-between items-center mb-4"
-                v-for="(recording, index) in flattenedRecordingList" :key="index">
+                v-for="(recording, index) in recordings" :key="index">
                 <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings"/>
               </div>
             </div>
@@ -69,9 +69,9 @@
         <CastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId" />
       </div>
     </div>
-    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="() => {setActiveModal(''); $router.push('/dashboard/casts')}"
+    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="closeCreateModal"
       :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps"
-      :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData" />
+      :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData" :updateCastListElement="updateCastListElement" />
   </div>
 </template>
 
@@ -230,9 +230,11 @@ export default {
     // totalImagesCount() {
     //   return this.casts.map((cast) => cast.images.length);
     // },
-    flattenedRecordingList() {
-      return this.flattenRecordingList(this.recordings);
-    },
+
+    // flattenedRecordingList depricated may be used latter
+    // flattenedRecordingList() {
+    //   return this.flattenRecordingList(this.recordings);
+    // },
     recordingList() {
       return this.$store.state.cast.recordings;
     },
@@ -248,19 +250,27 @@ export default {
     }
   },
   methods: {
+    closeCreateModal(){
+      this.setActiveModal(''); 
+      this.$router.push('/dashboard/casts'); 
+      localStorage.removeItem("LOG_BOARDID");
+      localStorage.removeItem("LOG_REDIRECT");
+      localStorage.removeItem("LOG_TOKEN");
+    },
     handleCardClick(details) {
       this.selectedCastId = details;
-      console.log(this.selectedCastId, 'fkflllldijji');
     },
-    flattenRecordingList(recordings) {
-      const flattenedList = [];
-      recordings.forEach((meetings) => {
-        meetings.forEach((recording) => {
-          flattenedList.push(recording);
-        });
-      });
-      return flattenedList;
-    },
+
+    // flattenRecordingList depricated may be used latter
+    // flattenRecordingList(recordings) {
+    //   const flattenedList = [];
+    //   recordings.forEach((meetings) => {
+    //     meetings.forEach((recording) => {
+    //       flattenedList.push(recording);
+    //     });
+    //   });
+    //   return flattenedList;
+    // },
     async getRecordings() {
       this.isRecordingLoading = true;
       try {
@@ -336,6 +346,10 @@ export default {
     },
     setCreateEventData() {
       // console.log('12');
+      const board_id = localStorage.getItem("LOG_BOARDID");
+      if(board_id){
+        this.formData.append("board_id", board_id);
+      }
       this.startNow = this.stepOneProps.start_now;
       for (let [key, value] of Object.entries(this.stepOneProps)) {
         if (value.length === 0) {
@@ -522,12 +536,22 @@ export default {
           const allEvents = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
           this.castList = allEvents;
           this.firstCastId = this.castList[0];
-          console.log(this.firstCastId, 'lets see');
+          this.selectedCastId = this.castList[0];
           this.isCastsLoading = false;
         }
       } catch (error) {
         this.isCastsLoading = false;
         console.log("Error in fetching cast detail");
+      }
+    },
+    updateCastListElement(eventId, newData) {
+      // Find the index of the element with the matching public_meeting_id
+      const index = this.castList.findIndex(item => item.public_meeting_id === eventId);
+      // If an element is found, update it
+      if (index !== -1) {
+        this.$set(this.castList, index, { ...this.castList[index], ...newData });
+        this.firstCastId = this.castList[index];
+        this.selectedCastId = this.castList[index];
       }
     },
     toggleCopy(index) {

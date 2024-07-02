@@ -75,7 +75,7 @@
         <RoomDetails :selectedRoomDetails="selectedRoomDetails" :firstRoomId="firstRoomId" />
       </div>
     </div>
-    <CreateRoomModal v-if="activeModal === 'createRoomModal'" :closeModal="() => {setActiveModal(''); $router.push('/dashboard/rooms')}" />
+    <CreateRoomModal v-if="activeModal === 'createRoomModal'" :closeModal="closeCreateModal" />
   </div>
 </template>
 
@@ -145,6 +145,13 @@ export default {
     this.getList();
   },
   methods: {
+    closeCreateModal(){
+      this.setActiveModal(''); 
+      this.$router.push('/dashboard/rooms');
+      localStorage.removeItem("LOG_BOARDID");
+      localStorage.removeItem("LOG_REDIRECT");
+      localStorage.removeItem("LOG_TOKEN");
+    },
     handleRoomClick(details) {
       this.selectedRoomDetails = details;
       console.log(this.selectedRoomDetails, 'jfkll')
