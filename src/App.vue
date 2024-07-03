@@ -157,6 +157,9 @@ body {
   font-weight: 500;
   padding: 2px 7px !important;
 }
+.material-icons {
+  font-family: 'Material Icons' !important;
+}
 
 .vs-button-primary {
   width: fit-content !important;
@@ -205,7 +208,7 @@ body {
 
 /* Modal common css for terminal modal */
 .modal-content-wrapper * {
-  font-family: 'JetBrains Mono' !important;
+  font-family: 'JetBrains Mono';
 }
 
 .modal-content-wrapper {

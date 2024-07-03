@@ -39,12 +39,12 @@
                     <div class="instr-3">
                         <div class="flex justify-between">
                             <h5>Hosts</h5>
-                            <div class="flex align-center">
-                                <button class="req-modal-btn" v-if="isAdmin"
-                                    @click="setActiveModal('allAudienceModal')">All Audience</button>
+                            <div class="flex align-center" v-if="isAdmin">
+                                <button class="req-modal-btn" @click="setActiveModal('allAudienceModal')">All
+                                    Audience</button>
                                 <span class="mx-2">|</span>
-                                <button class="req-modal-btn" v-if="isAdmin"
-                                    @click="setActiveModal('pendingRequestModal')">Requests ({{
+                                <button class="req-modal-btn" @click="setActiveModal('pendingRequestModal')">Requests
+                                    ({{
                     pendingRequest.length }})</button>
                             </div>
                         </div>
@@ -382,13 +382,13 @@
         <RequestAccessModal v-if="activeModal === 'requestAccessModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :wallet_address="wallet_address" :roleRequest="roleRequest"
             :updateButtonOnRequestSent="updateButtonOnRequestSent" />
-        <PendingRequestModal v-if="activeModal === 'pendingRequestModal'" :closeModal="() => setActiveModal('')"
+        <PendingRequestModal v-else-if="activeModal === 'pendingRequestModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :pendingRequest="pendingRequest" :getAllRequests="getAllRequests" />
-        <EditBrandingModal v-if="activeModal === 'editBrandingModal'" :closeModal="() => setActiveModal('')"
+        <EditBrandingModal v-else-if="activeModal === 'editBrandingModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :getMeetingDetails="getMeetingDetails" />
-        <RedeemAmountModal v-if="activeModal === 'redeemAmountModal'" :closeModal="() => setActiveModal('')"
+        <RedeemAmountModal v-else-if="activeModal === 'redeemAmountModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :collectedAmount="collectedAmount" :getCollectedAmount="getCollectedAmount" />
-        <AllAudienceModal v-if="activeModal === 'allAudienceModal'" :closeModal="() => setActiveModal('')" />
+        <AllAudienceModal v-else-if="activeModal === 'allAudienceModal'" :closeModal="() => setActiveModal('')" />
     </div>
 </template>
 
@@ -432,7 +432,6 @@ export default {
         this.getMeetingDetails();
         await this.connectWallet();
         this.getCollectedAmount();
-        this.getAllAudience();
     },
     methods: {
         async getCollectedAmount() {
@@ -851,6 +850,7 @@ export default {
     cursor: pointer;
     transition: 0.2s color ease;
 }
+
 .req-modal-btn:hover {
     color: #D7DF23;
 }

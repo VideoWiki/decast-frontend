@@ -592,7 +592,7 @@ input:disabled {
 }
 
 input {
-    font-family: 'JetBrains Mono';
+    /* font-family: 'JetBrains Mono'; */
     border: 0px;
     background-color: #FFFFFF;
     outline: none;

@@ -26,11 +26,11 @@
                                 </div>
                             </div>
                             <div class="table-content-wrapper">
-                                <p class="mt-8" v-if="pendingRequest.length<=0">No New Request Found</p>
+                                <p class="mt-8" v-if="pendingRequest.length <= 0">No New Request Found</p>
                                 <div v-else class="table-content-row" v-for="(request, index) in pendingRequest"
                                     v-if="request.email !== activeUserInfo.email" :key="index">
                                     <div class="table-content-col1">
-                                        <span v-if="request.name===''">
+                                        <span v-if="request.name === ''">
                                             -
                                         </span>
                                         <span v-else>
@@ -38,7 +38,8 @@
                                         </span>
                                     </div>
                                     <div class="table-content-col2">
-                                        <vx-tooltip v-if="request.email.length > 17" :text="request.wallet_address" position="top">
+                                        <vx-tooltip v-if="request.email.length > 17" :text="request.wallet_address"
+                                            position="top">
                                             <span>
                                                 {{ request.wallet_address.slice(0, 8) }}...{{
         request.wallet_address.slice(request.wallet_address.length - 5,
@@ -76,7 +77,8 @@
                             </div>
                         </div>
                         <div>
-                            <vs-button class="mt-8" type="border" @click="handleAcceptAllRequest" :disabled="pendingRequest.length<=0">
+                            <vs-button class="mt-8" type="border" @click="handleAcceptAllRequest"
+                                :disabled="pendingRequest.length<=0">
                                 >>request.accept</vs-button>
                         </div>
                     </div>
@@ -112,72 +114,88 @@ export default {
     },
     methods: {
         async handleAcceptAllRequest() {
-            document.getElementById('loading-bg-transparent-title').innerText = 'Waiting for transaction';
-            document.getElementById('loading-bg-transparent').style.display = 'flex';
-            const payload = {
-                cast_id: this.castDetails.public_meeting_id,
-                user_requests: [],
-            }
-            const _eventIds = [];
-            const _to = [];
-            const _accessLevels = [];
-            const _amounts = [];
-            for (let i = 0; i < this.pendingRequest.length; i++) {
-                if (this.pendingRequest[i].isReqAccepted) {
-                    _eventIds[i] = this.castDetails.public_meeting_id;
-                    _to[i] = this.pendingRequest[i].wallet_address;
-                    _accessLevels[i] = this.pendingRequest[i].role;
-                    _amounts[i] = "1";
-                    payload.user_requests.push({
-                        email: this.pendingRequest[i].email,
-                        isReqAccepted: 'True',
-                        isReqRejected: 'False',
-                    })
+            try {
+                document.getElementById('loading-bg-transparent-title').innerText = 'Waiting for transaction';
+                document.getElementById('loading-bg-transparent').style.display = 'flex';
+                const payload = {
+                    cast_id: this.castDetails.public_meeting_id,
+                    user_requests: [],
                 }
-            }
-            if (_to.length <= 0) {
-                document.getElementById('loading-bg-transparent-title').innerText = 'Loading';
-                document.getElementById('loading-bg-transparent').style.display = 'none';
-                this.$vs.notify({
-                    title: 'Operation failed',
-                    text: 'Please check atleast one request!',
-                    color: 'danger',
-                });
-                return;
-            }
-            const response = await tokenContractWithSigner.setMintingApproval(_eventIds, _to, _accessLevels, _amounts);
-            document.getElementById('loading-bg-transparent-title').innerText = 'Processing transaction';
-            const receipt = await response.wait();
-            document.getElementById('loading-bg-transparent-title').innerText = 'Transaction confirmed✔️ finishing up';
-            if (receipt.transactionHash) {
-                fetch(`https://api.cast.decast.live/api/nft/gating/admin/update/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                    },
-                    body: JSON.stringify(payload),
-                }).then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
+                const _eventIds = [];
+                const _to = [];
+                const _accessLevels = [];
+                const _amounts = [];
+                for (let i = 0; i < this.pendingRequest.length; i++) {
+                    if (this.pendingRequest[i].isReqAccepted) {
+                        _eventIds.push(this.castDetails.public_meeting_id);
+                        _to.push(this.pendingRequest[i].wallet_address);
+                        _accessLevels.push(this.pendingRequest[i].role);
+                        _amounts.push("1");
+                        payload.user_requests.push({
+                            email: this.pendingRequest[i].email,
+                            isReqAccepted: 'True',
+                            isReqRejected: 'False',
+                        })
                     }
-                    this.getAllRequests(this.castDetails.public_meeting_id);
-                    return response.json();
-                }).then(result => {
-                    document.getElementById('loading-bg-transparent').style.display = 'none';
-                    this.closeModal();
-                    this.$vs.notify({
-                        title: 'Request Accepted',
-                        text: '',
-                        color: 'success',
-                    });
-                }).catch(error => {
+                }
+                if (_to.length <= 0) {
+                    document.getElementById('loading-bg-transparent-title').innerText = 'Loading';
                     document.getElementById('loading-bg-transparent').style.display = 'none';
                     this.$vs.notify({
                         title: 'Operation failed',
-                        text: 'Failed to accept request, please try again later!',
+                        text: 'Please check atleast one request!',
                         color: 'danger',
                     });
+                    return;
+                }
+                const response = await tokenContractWithSigner.setMintingApproval(_eventIds, _to, _accessLevels, _amounts);
+                document.getElementById('loading-bg-transparent-title').innerText = 'Processing transaction';
+                const receipt = await response.wait();
+                document.getElementById('loading-bg-transparent-title').innerText = 'Transaction confirmed✔️ finishing up';
+                if (receipt.transactionHash) {
+                    fetch(`https://api.cast.decast.live/api/nft/gating/admin/update/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                        },
+                        body: JSON.stringify(payload),
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        this.getAllRequests(this.castDetails.public_meeting_id);
+                        return response.json();
+                    }).then(result => {
+                        document.getElementById('loading-bg-transparent').style.display = 'none';
+                        this.closeModal();
+                        this.$vs.notify({
+                            title: 'Request Accepted',
+                            text: '',
+                            color: 'success',
+                        });
+                    }).catch(error => {
+                        document.getElementById('loading-bg-transparent').style.display = 'none';
+                        this.$vs.notify({
+                            title: 'Operation failed',
+                            text: 'Failed to accept request, please try again later!',
+                            color: 'danger',
+                        });
+                    });
+                } else {
+                    document.getElementById('loading-bg-transparent').style.display = 'none';
+                    this.$vs.notify({
+                        title: 'Something went wrong!',
+                        text: 'Operation cancelled, please try again later',
+                        color: 'danger',
+                    });
+                }
+            } catch (error) {
+                document.getElementById('loading-bg-transparent').style.display = 'none';
+                this.$vs.notify({
+                    title: 'Something went wrong!',
+                    text: 'Operation cancelled, please try again later',
+                    color: 'danger',
                 });
             }
         },
@@ -252,7 +270,8 @@ export default {
 .table-content-wrapper {
     margin-top: 6px;
 }
-.table-content-wrapper p{
+
+.table-content-wrapper p {
     color: #FFFFFF;
 }
 
