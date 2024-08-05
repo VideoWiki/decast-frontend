@@ -49,6 +49,13 @@
     <div class="dashboard_content max-w-6xl w-full flex flex-row gap-3 justify-start lg:px-12 md:px-4 px-3 py-4">
       <div class="flex flex-col justify-start gap-4 mr-10">
         <div class="w-24 h-24">
+          <vx-tooltip text="/ Decast" position="right">
+            <img src="@/assets/images/decast.svg" class="w-24 h-24 cursor-pointer object-contain"
+              @click="$router.push('/dashboard/decast')" />
+          </vx-tooltip>
+        </div>
+
+        <div class="w-24 h-24">
           <vx-tooltip text="/ Rooms" position="right">
             <img src="@/assets/images/pixel_call.svg" class="w-24 h-24 cursor-pointer object-contain"
               @click="$router.push('/dashboard/rooms')" />
@@ -63,9 +70,9 @@
         </div>
 
         <div class="w-24 h-24">
-          <vx-tooltip text="/ Communities" position="right">
-            <img src="@/assets/images/pixel_com.svg" class="w-24 h-24 cursor-pointer object-contain"
-              @click="$router.push('/dashboard/communities')" />
+          <vx-tooltip text="/ Minutes" position="right">
+            <img src="@/assets/images/pixel_min.svg" class="w-24 h-24 cursor-pointer object-contain"
+              @click="$router.push('/addfunds')" />
           </vx-tooltip>
         </div>
       </div>
@@ -119,6 +126,7 @@
 <script>
 import RoomSection from './rooms/RoomSection.vue';
 import CastSection from './casts/CastSection.vue';
+import DecastSection from './decast/DecastSection.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
@@ -129,6 +137,7 @@ export default {
   components: {
     RoomSection,
     CastSection,
+    DecastSection,
     SimpleMenu,
     ResetPasswordModal,
     ProfileModal,

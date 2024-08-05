@@ -55,6 +55,14 @@ const networks = {
     rpcUrl: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
     blockExplorerUrl: 'https://telos.net/',
   },
+  11155111: {
+    chainId: '0xaa36a7', 
+    chainName: 'Sepolia Test Network',
+    currencyName: 'Sepolia',
+    symbol: 'SepplETH ',
+    rpcUrl: 'https://rpc.sepolia.ethpandaops.io',
+    blockExplorerUrl: 'https://sepolia.etherscan.io',
+  },
 };
 
 export default networks;

@@ -136,7 +136,7 @@ const router = new Router({
         },
         {
           path: '/dashboard',
-          redirect: '/dashboard/rooms',
+          redirect: '/dashboard/decast',
           name: 'Welcome to Dashbord',
           component: Dashboard,
           meta: {
@@ -155,6 +155,14 @@ const router = new Router({
               path: 'casts/:action?',
               name: 'Welcome to Casts',
               component: () => import('./views/new-dashboard/casts/CastSection.vue'),
+              meta: {
+                rule: 'isLogged',
+              },
+            },
+            {
+              path: 'decast/:action?',
+              name: 'Welcome to Decast',
+              component: () => import('./views/new-dashboard/decast/DecastSection.vue'),
               meta: {
                 rule: 'isLogged',
               },
@@ -695,6 +703,14 @@ const router = new Router({
       component: () => import('@/views/new-dashboard/nft/PrivateNftMint.vue'),
       meta: {
         rule: 'isPublic',
+      },
+    },
+    {
+      path: '/addfunds',
+      name: 'Add Funds for Decast',
+      component: () => import('@/views/new-dashboard/nft/AddFunds.vue'),
+      meta: {
+        rule: 'isLogged',
       },
     },
     {
