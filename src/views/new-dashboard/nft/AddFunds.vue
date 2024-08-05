@@ -77,63 +77,90 @@
                             </div>
                         </div>
 
-                        <div class="w-2/3 flex flex-col gap-2">
-                            <label for="storage-select" class="text-left text-grey-light">Storage Select</label>
-                            <div class="relative w-full">
-                                <div @click="toggleDropdown"
-                                    class="h-12 w-full p-2 outline-none bg-black text-white flex justify-between items-center cursor-pointer storage-select">
-                                    <div class="flex gap-4 items-center justify-start text-lg">
-                                        <img v-if="selectedStorage" :src="storages[selectedStorage].icon"
-                                            class="w-8 h-8 object-contain" alt="icon" />
-                                        <span>{{ selectedStorage ? storages[selectedStorage].desc : 'Select Storage'
-                                            }}</span>
+                        <div class="flex w-full gap-6 justify-between items-center">
+                            <div class="w-2/3 flex flex-col gap-2">
+                                <label for="storage-select" class="text-left text-grey-light">Storage Select</label>
+                                <div class="relative w-full">
+                                    <div @click="toggleDropdown"
+                                        class="h-12 w-full p-2 outline-none bg-black text-white flex justify-between items-center cursor-pointer storage-select">
+                                        <div class="flex gap-4 items-center justify-start text-lg">
+                                            <img v-if="selectedStorage" :src="storages[selectedStorage].icon"
+                                                class="w-8 h-8 object-contain" alt="icon" />
+                                            <span>{{ selectedStorage ? storages[selectedStorage].desc : 'Select Storage'
+                                                }}</span>
+                                        </div>
+                                        <span> <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M18.3333 1.66667L18.3333 -7.28519e-08L1.66668 -8.01375e-07L1.66668 1.66667L18.3333 1.66667Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M20 1.66671L18.3333 1.66667L18.3333 5.00002L20 5.00002L20 1.66671Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M18.3333 5.00002L16.6667 5L16.6667 8.33336L18.3333 8.33338L18.3333 5.00002Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M16.6667 8.33336L15 8.33336L15 11.6667L16.6667 11.6667L16.6667 8.33336Z"
+                                                    fill="black" />
+                                                <path d="M15 11.6667L13.3333 11.6667L13.3333 15L15 15L15 11.6667Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M13.3333 15L11.6667 15L11.6667 18.3334L13.3333 18.3334L13.3333 15Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M8.33332 18.3334L8.33332 20L11.6667 20L11.6667 18.3334L8.33332 18.3334Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M8.33334 15L6.66668 15L6.66668 18.3334L8.33332 18.3334L8.33334 15Z"
+                                                    fill="black" />
+                                                <path d="M6.66667 11.6667L5 11.6667L5 15L6.66668 15L6.66667 11.6667Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M4.99999 8.33336L3.33332 8.33336L3.33332 11.6667L5 11.6667L4.99999 8.33336Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M3.33334 5L1.66667 5.00002L1.66668 8.33338L3.33332 8.33336L3.33334 5Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M1.66668 1.66667L-7.28543e-08 1.66671L-2.18558e-07 5.00002L1.66667 5.00002L1.66668 1.66667Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M18.334 5.00008L18.334 1.66675L1.66732 1.66675L1.66732 5.00008L3.33399 5.00008L3.33399 8.33341L5.00065 8.33341L5.00065 11.6667L6.66732 11.6667L6.66732 15.0001L8.33398 15.0001L8.33398 18.3334L11.6673 18.3334L11.6673 15.0001L13.334 15.0001L13.334 11.6667L15.0007 11.6667L15.0007 8.33341L16.6673 8.33341L16.6673 5.00008L18.334 5.00008Z"
+                                                    fill="#D7DF23" />
+                                            </svg></span>
                                     </div>
-                                    <span> <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M18.3333 1.66667L18.3333 -7.28519e-08L1.66668 -8.01375e-07L1.66668 1.66667L18.3333 1.66667Z"
-                                                fill="black" />
-                                            <path d="M20 1.66671L18.3333 1.66667L18.3333 5.00002L20 5.00002L20 1.66671Z"
-                                                fill="black" />
-                                            <path
-                                                d="M18.3333 5.00002L16.6667 5L16.6667 8.33336L18.3333 8.33338L18.3333 5.00002Z"
-                                                fill="black" />
-                                            <path
-                                                d="M16.6667 8.33336L15 8.33336L15 11.6667L16.6667 11.6667L16.6667 8.33336Z"
-                                                fill="black" />
-                                            <path d="M15 11.6667L13.3333 11.6667L13.3333 15L15 15L15 11.6667Z"
-                                                fill="black" />
-                                            <path d="M13.3333 15L11.6667 15L11.6667 18.3334L13.3333 18.3334L13.3333 15Z"
-                                                fill="black" />
-                                            <path
-                                                d="M8.33332 18.3334L8.33332 20L11.6667 20L11.6667 18.3334L8.33332 18.3334Z"
-                                                fill="black" />
-                                            <path d="M8.33334 15L6.66668 15L6.66668 18.3334L8.33332 18.3334L8.33334 15Z"
-                                                fill="black" />
-                                            <path d="M6.66667 11.6667L5 11.6667L5 15L6.66668 15L6.66667 11.6667Z"
-                                                fill="black" />
-                                            <path
-                                                d="M4.99999 8.33336L3.33332 8.33336L3.33332 11.6667L5 11.6667L4.99999 8.33336Z"
-                                                fill="black" />
-                                            <path
-                                                d="M3.33334 5L1.66667 5.00002L1.66668 8.33338L3.33332 8.33336L3.33334 5Z"
-                                                fill="black" />
-                                            <path
-                                                d="M1.66668 1.66667L-7.28543e-08 1.66671L-2.18558e-07 5.00002L1.66667 5.00002L1.66668 1.66667Z"
-                                                fill="black" />
-                                            <path
-                                                d="M18.334 5.00008L18.334 1.66675L1.66732 1.66675L1.66732 5.00008L3.33399 5.00008L3.33399 8.33341L5.00065 8.33341L5.00065 11.6667L6.66732 11.6667L6.66732 15.0001L8.33398 15.0001L8.33398 18.3334L11.6673 18.3334L11.6673 15.0001L13.334 15.0001L13.334 11.6667L15.0007 11.6667L15.0007 8.33341L16.6673 8.33341L16.6673 5.00008L18.334 5.00008Z"
-                                                fill="#D7DF23" />
-                                        </svg></span>
-                                </div>
-                                <div v-if="isOpen" class="absolute w-full bg-black text-white z-10">
-                                    <div v-for="(storage, name) in storages" :key="name" @click="selectStorage(name)"
-                                        class="storage_opt_ p-2 h-12 flex gap-4 items-center justify-start cursor-pointer text-lg hover:bg-gray-800 hover:text-green-500">
-                                        <img class="w-8 h-8 object-contain" :src="storage.icon" />
-                                        <span>{{ storage.desc }}</span>
+                                    <div v-if="isOpen" class="absolute w-full bg-black text-white z-10">
+                                        <div v-for="(storage, name) in storages" :key="name"
+                                            @click="selectStorage(name)"
+                                            class="storage_opt_ p-2 h-12 flex gap-4 items-center justify-start cursor-pointer text-lg hover:bg-gray-800 hover:text-green-500">
+                                            <img class="w-8 h-8 object-contain" :src="storage.icon" />
+                                            <span>{{ storage.desc }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- <div class="flex flex-row items-center">
+                                <p
+                                    class="text-xl font-semibold flex flex-row gap-2 items-center justify-end text-white">
+                                    {{ normalPrice.price }}
+                                    <span class="text-md text-grey-light">gwei</span>
+                                    <span class="reload cursor-pointer" @click="getGasPrices">
+                                        <svg class="reload-icon" fill="#ffffff" width="20px" height="20px"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path
+                                                    d="M14.66 15.66A8 8 0 1 1 17 10h-2a6 6 0 1 0-1.76 4.24l1.42 1.42zM12 10h8l-4 4-4-4z">
+                                                </path>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </p>
+                            </div> -->
                         </div>
 
 
@@ -421,10 +448,16 @@ export default {
             minutes: '',
             loading: false,
             mintInfo: '',
+            fastPrice: '',
+            slowPrice: '',
+            normalPrice: '',
+            gasPriceInterval: '',
         };
     },
     created() {
         this.$store.dispatch('fetchUserMinutes');
+        // this.getGasPrices();
+        // this.startGasPriceInterval();
     },
     computed: {
         activeUserInfo() {
@@ -521,6 +554,42 @@ export default {
                 this.loading = false;
                 console.error('Error fetching estimated minutes:', error);
             }
+        },
+        async getGasPrices() {
+            this.hasOpenLoading = true;
+            const apiKey = '47002a53-0b3a-4d42-a1cb-c776909c9a3f';
+            const url = 'https://api.blocknative.com/gasprices/blockprices?confidenceLevels=99&confidenceLevels=90&confidenceLevels=80&confidenceLevels=60';
+
+            try {
+                const response = await axios.get(url, {
+                    headers: {
+                        Authorization: apiKey,
+                    },
+                });
+
+                if (response.data && response.data.blockPrices) {
+                    const blockPrices = response.data.blockPrices[0].estimatedPrices;
+
+                    this.fastPrice = blockPrices.find(price => price.confidence === 99);
+                    this.normalPrice = blockPrices.find(price => price.confidence === 90);
+                    this.slowPrice = blockPrices.find(price => price.confidence === 80);
+
+                    // console.log('Fast Gas Price:', this.fastPrice.maxFeePerGas, 'Gwei');
+                    // console.log('Normal Gas Price:', this.normalPrice.maxFeePerGas, 'Gwei');
+                    // console.log('Slow Gas Price:', this.slowPrice.maxFeePerGas, 'Gwei');
+                } else {
+                    console.log('No gas price data available');
+                }
+            } catch (error) {
+                console.error('Error fetching gas prices:', error);
+            } finally {
+                this.hasOpenLoading = false;
+            }
+        },
+        startGasPriceInterval() {
+            this.gasPriceInterval = setInterval(async () => {
+                await this.getGasPrices();
+            }, 90000);
         },
         async getDecimals(tokenContract) {
             try {
@@ -649,16 +718,21 @@ export default {
                 });
 
                 try {
-                    await axios.post('https://api.cast.decast.live/api/decast/create/tx/', {
-                        wallet_address: this.mintInfo.from,
-                        transaction_hash: this.mintInfo.hash,
-                        amount: this.amount,
-                        network: {
-                            chainId: this.selectedNetwork.chainId,
-                            chainName: this.selectedNetwork.currencyName
+                    const formData = new FormData();
+                    formData.append('wallet_address', this.mintInfo.from);
+                    formData.append('transaction_hash', this.mintInfo.hash);
+                    formData.append('amount', this.amount);
+                    formData.append('network', JSON.stringify({
+                        chainId: this.selectedNetwork.chainId,
+                        chainName: this.selectedNetwork.currencyName,
+                    }));
+                    formData.append('storage', this.selectedStorage);
+                    await axios.post('https://api.cast.decast.live/api/decast/create/tx/', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
                         },
-                        storage: this.selectedStorage,
                     });
+
                     this.$vs.notify({
                         title: 'Success!',
                         text: 'Transaction saved successfully!',
@@ -672,6 +746,7 @@ export default {
                         color: 'danger',
                     });
                 }
+
             } catch (transferError) {
                 console.error('Error transferring funds:', transferError);
                 this.$vs.notify({
@@ -682,9 +757,12 @@ export default {
             } finally {
                 this.isLoading = false;
             }
-        }
-
+        },
     },
+    beforeDestroy() {
+        clearInterval(this.gasPriceInterval);
+    },
+
 };
 </script>
 
@@ -754,5 +832,22 @@ export default {
 
 .basic_note_ {
     color: #22c55e;
+}
+
+.reload:active .reload-icon path {
+    fill: #d7df23;
+}
+
+.reload:active {
+    animation: rotateIcon 0.5s linear;
+    transform-origin: center;
+    transition-delay: 0.3s;
+    transition: 0.5s ease-in-out;
+}
+
+@keyframes rotateIcon {
+    100% {
+        transform: rotate(720deg);
+    }
 }
 </style>
