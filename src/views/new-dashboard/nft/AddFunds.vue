@@ -215,7 +215,7 @@
                             </h2>
 
                             <div class="w-2/3 flex flex-col gap-2">
-                                <label for="storage-select" class="text-left text-grey-light">Storage Select</label>
+                                <label for="storage-select" class="text-left text-grey-light">storage.select</label>
                                 <div class="relative w-full">
                                     <div @click="toggleDropdown1"
                                         class="h-12 w-full p-2 outline-none bg-black text-white flex justify-between items-center cursor-pointer storage-select">
@@ -223,7 +223,7 @@
                                             <img v-if="selectedStorage1" :src="storages[selectedStorage1].icon"
                                                 class="w-8 h-8 object-contain" alt="icon" />
                                             <span>{{ selectedStorage1 ? storages[selectedStorage1].desc :
-                                                'SelectStorage'
+                                                'storage.select'
                                                 }}</span>
                                         </div>
                                         <span> <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -279,9 +279,26 @@
                             </div>
 
                             <div class="flex flex-col gap-2">
-                                <p class="text-grey-light text-lg">Minutes</p>
-                                <p class="text-3xl font-semibold text-white">37.5</p>
+                                <p class="text-grey-light text-lg" style="color: #22c55e;">Storage</p>
+                                <p class="text-3xl font-semibold text-white"
+                                    v-if="swarmFreeGiven === true && selectedStorage1 == 'Swarm'">{{ swarmMinutes
+                                    }}<span class="text-lg font-normal">Minutes</span></p>
+                                <p class="text-3xl font-semibold text-white"
+                                    v-else-if="siaFreeGiven === true && selectedStorage1 == 'Sia'">{{ siaMinutes }}<span
+                                        class="text-lg font-normal">Minutes</span>
+                                </p>
+                                <p class="text-3xl font-semibold text-white" v-else>0<span
+                                        class="text-lg font-normal">Minutes</span>
+                                </p>
                             </div>
+
+                            <hr class="border-grey mt-2" />
+                            <div class="w-full basic_note_">
+                                /* Note: After a successful recharge, it may take some time for your updated balance to
+                                reflect here. If you still see the old balance, please be patient; it will be updated
+                                shortly. */
+                            </div>
+                            <hr class="border-grey mt-2 mb-2" />
 
                         </div>
 
@@ -406,6 +423,9 @@ export default {
             mintInfo: '',
         };
     },
+    created() {
+        this.$store.dispatch('fetchUserMinutes');
+    },
     computed: {
         activeUserInfo() {
             return this.$store.state.AppActiveUser;
@@ -422,6 +442,19 @@ export default {
         getFirstLetter() {
             return this.activeUserInfo.first_name[0];
         },
+        siaMinutes() {
+            return this.$store.state.minutes.siaMinutes;
+        },
+        siaFreeGiven() {
+            return this.$store.state.minutes.siaFreeGiven;
+        },
+        swarmMinutes() {
+            return this.$store.state.minutes.swarmMinutes;
+        },
+        swarmFreeGiven() {
+            return this.$store.state.minutes.swarmFreeGiven;
+        },
+
     },
     watch: {
         amount() {
@@ -460,6 +493,7 @@ export default {
             this.handleInputChange();
         },
         selectStorage1(name) {
+            // this.$store.dispatch('fetchUserMinutes');
             this.selectedStorage1 = name;
             this.isOpen1 = false;
             this.$emit('input', name);
@@ -610,33 +644,41 @@ export default {
 
                 this.$vs.notify({
                     title: 'Success!',
-                    text: 'Transaction successfull!',
+                    text: 'Transaction successful!',
                     color: 'success',
                 });
 
-                await axios.post('https://api.cast.decast.live/api/decast/create/tx/', {
-                    wallet_address: this.mintInfo.from,
-                    transaction_hash: this.mintInfo.hash,
-                    amount: this.amount,
-                    network: {
-                        chainId: this.selectedNetwork.chainId,
-                        chainName: this.selectedNetwork.currencyName
-                    }
-                });
-                this.$vs.notify({
-                    title: 'Success!',
-                    text: 'Transaction saved successfully!',
-                    color: 'success',
-                });
-                // alert('Transaction saved successfully!');
-            } catch (error) {
-                console.error('Error transferring funds:', error);
+                try {
+                    await axios.post('https://api.cast.decast.live/api/decast/create/tx/', {
+                        wallet_address: this.mintInfo.from,
+                        transaction_hash: this.mintInfo.hash,
+                        amount: this.amount,
+                        network: {
+                            chainId: this.selectedNetwork.chainId,
+                            chainName: this.selectedNetwork.currencyName
+                        },
+                        storage: this.selectedStorage,
+                    });
+                    this.$vs.notify({
+                        title: 'Success!',
+                        text: 'Transaction saved successfully!',
+                        color: 'success',
+                    });
+                } catch (saveError) {
+                    console.error('Error saving transaction:', saveError);
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: 'Transaction succeeded but failed to save. Please try again.',
+                        color: 'danger',
+                    });
+                }
+            } catch (transferError) {
+                console.error('Error transferring funds:', transferError);
                 this.$vs.notify({
                     title: 'Error',
                     text: 'Failed to transfer funds. Please try again.',
                     color: 'danger',
                 });
-                // alert('Failed to transfer funds. Please try again.');
             } finally {
                 this.isLoading = false;
             }
