@@ -42,7 +42,8 @@
         </div>
 
         <div class="" v-if="isLoading">
-            <p class="text-md basic_note_">/* Please wait while your transaction is being processed. Do not close or refresh this page. */</p>
+            <p class="text-md basic_note_">/* Please wait while your transaction is being processed. Do not close or
+                refresh this page. */</p>
         </div>
 
         <div class="dashboard_content max-w-6xl w-full flex flex-row gap-3 justify-start lg:px-12 md:px-4 px-3 py-4">
@@ -206,8 +207,10 @@
 
                         <hr class="border-grey mt-2" />
                         <div class="w-full basic_note_">
-                            /* This is an approximate figure according to current storage prices. Real price/duration
-                            will be assigned after the transaction is completed. */
+                            /*This is an approximate figure according to current storage prices. Real price/duration
+                            will be assigned after the transaction is completed. Please note that a 1% platform fee will
+                            be applied to the transaction.
+                            */
                         </div>
                         <hr class="border-grey mt-2" />
 
@@ -553,7 +556,7 @@ export default {
                 this.minutes = '';
                 const response = await axios.get(apiUrl);
                 this.loading = false;
-                this.minutes = parseFloat(response.data.total_minutes).toFixed(3);
+                this.minutes = parseFloat(response.data.total_minutes).toFixed(2);
             } catch (error) {
                 this.loading = false;
                 console.error('Error fetching estimated minutes:', error);
@@ -730,6 +733,7 @@ export default {
                         chainId: this.selectedNetwork.chainId,
                         chainName: this.selectedNetwork.currencyName,
                     }));
+                    formData.append('minutes', parseInt(this.minutes, 10));
                     formData.append('storage', this.selectedStorage);
                     await axios.post('https://api.cast.decast.live/api/decast/create/tx/', formData, {
                         headers: {
@@ -760,11 +764,11 @@ export default {
                 });
             } finally {
                 this.isLoading = false;
-                this.selectStorage='';
-                this.selectedNetwork='';
-                this.amount='';
-                this.minutes='';
-                this.selectedToken='';
+                this.selectStorage = '';
+                this.selectedNetwork = '';
+                this.amount = '';
+                this.minutes = '';
+                this.selectedToken = '';
             }
         },
     },
