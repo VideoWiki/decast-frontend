@@ -41,6 +41,10 @@
             </div>
         </div>
 
+        <div class="" v-if="isLoading">
+            <p class="text-md basic_note_">/* Please wait while your transaction is being processed. Do not close or refresh this page. */</p>
+        </div>
+
         <div class="dashboard_content max-w-6xl w-full flex flex-row gap-3 justify-start lg:px-12 md:px-4 px-3 py-4">
             <div class="w-24 h-24 mr-10">
                 <vx-tooltip text="/Add funds" position="right">
@@ -756,6 +760,11 @@ export default {
                 });
             } finally {
                 this.isLoading = false;
+                this.selectStorage='';
+                this.selectedNetwork='';
+                this.amount='';
+                this.minutes='';
+                this.selectedToken='';
             }
         },
     },

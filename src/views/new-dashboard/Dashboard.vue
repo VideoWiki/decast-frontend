@@ -32,9 +32,9 @@
               <template #menuButton>
                 <div class="pfp">
                   <vs-avatar :text="getFirstLetter" color="primary" class="m-0 shadow-md" :src="activeUserInfo.profile_pic
-          ? activeUserInfo.profile_pic
-          : ''
-          " size="40px" />
+                    ? activeUserInfo.profile_pic
+                    : ''
+                    " size="40px" />
                 </div>
               </template>
             </SimpleMenu>
@@ -49,30 +49,23 @@
     <div class="dashboard_content max-w-6xl w-full flex flex-row gap-3 justify-start lg:px-12 md:px-4 px-3 py-4">
       <div class="flex flex-col justify-start gap-4 mr-10">
         <div class="w-24 h-24">
-          <vx-tooltip text="/ Decast" position="right">
-            <img src="@/assets/images/decast.svg" class="w-24 h-24 cursor-pointer object-contain"
-              @click="$router.push('/dashboard/decast')" />
-          </vx-tooltip>
-        </div>
-
-        <div class="w-24 h-24">
           <vx-tooltip text="/ Rooms" position="right">
-            <img src="@/assets/images/pixel_call.svg" class="w-24 h-24 cursor-pointer object-contain"
+            <img src="@/assets/images/pix-call.svg" class="w-24 h-24 cursor-pointer object-contain"
               @click="$router.push('/dashboard/rooms')" />
           </vx-tooltip>
         </div>
 
         <div class="w-24 h-24">
           <vx-tooltip text="/ Casts" position="right">
-            <img src="@/assets/images/pixel_cast.svg" class="w-24 h-24 cursor-pointer object-contain"
+            <img src="@/assets/images/pix-cast.svg" class="w-24 h-24 cursor-pointer object-contain"
               @click="$router.push('/dashboard/casts')" />
           </vx-tooltip>
         </div>
 
         <div class="w-24 h-24">
-          <vx-tooltip text="/ Minutes" position="right">
-            <img src="@/assets/images/pixel_min.svg" class="w-24 h-24 cursor-pointer object-contain"
-              @click="$router.push('/addfunds')" />
+          <vx-tooltip text="/ Communities" position="right">
+            <img src="@/assets/images/pixel_com.svg" class="w-24 h-24 cursor-pointer object-contain"
+              @click="$router.push('/dashboard/communities')" />
           </vx-tooltip>
         </div>
       </div>
@@ -126,7 +119,6 @@
 <script>
 import RoomSection from './rooms/RoomSection.vue';
 import CastSection from './casts/CastSection.vue';
-import DecastSection from './decast/DecastSection.vue';
 import constants from '../../../constant';
 import { utils } from '@/mixins/index';
 import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
@@ -137,7 +129,6 @@ export default {
   components: {
     RoomSection,
     CastSection,
-    DecastSection,
     SimpleMenu,
     ResetPasswordModal,
     ProfileModal,
@@ -164,9 +155,14 @@ export default {
           icon: () => import("@/assets/svgs/menu-icons/setting.vue"),
           onClick: () => this.toggleActiveModal('resetPassModal')
         },
+        // {
+        //   label: "Guide",
+        //   icon: () => import("@/assets/svgs/menu-icons/guide.vue"),
+        // },
         {
-          label: "Guide",
-          icon: () => import("@/assets/svgs/menu-icons/guide.vue"),
+          label: "Wallet",
+          icon: () => import("@/assets/svgs/menu-icons/wallet.vue"),
+          onClick: () => this.$router.push('/addfunds')
         },
         {
           label: "Help Center",
