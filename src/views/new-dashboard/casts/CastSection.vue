@@ -9,12 +9,13 @@
       <div class="cursor-pointer">
         <vx-tooltip text="/ Create Cast" position="left">
           <img src="@/assets/images/pixel_create.svg" @click="$router.push('/dashboard/casts/create')" />
-        </vx-tooltip> 
+        </vx-tooltip>
       </div>
     </div>
 
     <div class="choose-room">
-      <button class="options-button border-none" @click="changeFocus(true)" :class="{ 'focused-button': focusYourRooms }">
+      <button class="options-button border-none" @click="changeFocus(true)"
+        :class="{ 'focused-button': focusYourRooms }">
         /casts
       </button>
       <button class="options-button border-none px-5" @click="handleButtonClick"
@@ -44,7 +45,8 @@
               <CastCardShimmer :style="{ opacity: 0.5 }" />
             </div>
             <div v-else v-for="(cast, index) in castList" :key="index">
-              <CastCard :castList="castList" :castDetails="cast" :index="index" :getCastList="getCastList" :updateCastListElement="updateCastListElement" @card-click="handleCardClick" />
+              <CastCard :castList="castList" :castDetails="cast" :index="index" :getCastList="getCastList"
+                :updateCastListElement="updateCastListElement" @card-click="handleCardClick" />
             </div>
           </div>
           <div v-else class="cast_list_cont">
@@ -54,13 +56,37 @@
               <RecordingCardCastShimmer :style="{ opacity: 0.6 }" />
             </div>
             <div v-else-if="recordingList.length">
-              <div class="recordings flex justify-between items-center mb-4"
-                v-for="(recording, index) in recordings" :key="index">
-                <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings"/>
+              <div class="recordings flex justify-between items-center mb-4" v-for="(recording, index) in recordings"
+                :key="index">
+                <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings" />
               </div>
             </div>
-            <div v-else class="recording flex flex-col items-center justify-items-center">
-              <h1 class="text-4xl text-white font-bold">Oops! No Recordings Found. :(</h1>
+            <div v-else class="recording flex flex-col items-center justify-items-center gap-4 mt-4">
+              <span>
+                <svg width="160px" height="160px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink" class="si-glyph si-glyph-disc-upload" fill="#ffffff">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <title>598</title>
+                    <defs> </defs>
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <g fill="#ffffff">
+                        <path
+                          d="M7.917,6 C6.857,6 6,6.863 6,7.93 C6,8.995 6.857,9.858 7.917,9.858 C8.974,9.858 9.832,8.996 9.832,7.93 C9.832,6.864 8.974,6 7.917,6 L7.917,6 Z"
+                          class="si-glyph-fill"> </path>
+                        <path
+                          d="M10.979,15.1106614 L14.51,10.5030985 L15.2,11.4045782 C15.702,10.3553813 15.999,9.18983179 15.999,7.94637663 C15.999,3.49867206 12.417,0 7.999,0 C3.581,0 -0.00100000005,3.49867206 -0.00100000005,7.94637663 C-0.00100000005,12.3940812 3.581,16 7.999,16 C9.366,16 10.642,15.7005185 11.765,15.1106614 L10.979,15.1106614 L10.979,15.1106614 Z M12.423,2.691 L13.269,3.537 L11.481,5.324 L10.637,4.479 L12.423,2.691 L12.423,2.691 Z M3.548,13.258 L2.703,12.412 L4.49,10.625 L5.336,11.47 L3.548,13.258 L3.548,13.258 Z M8,11 C6.34408936,11 5,9.65704979 5,8.00046533 C5,6.34388087 6.34315855,5 8,5 C9.65684145,5 11,6.34295021 11,8.00046533 C11,9.65611913 9.65591064,11 8,11 L8,11 Z"
+                          class="si-glyph-fill"> </path>
+                        <path
+                          d="M16,13.966 L14.511,12.106 L13.021,13.966 L14.018,13.966 L14.018,15.969 L14.988,15.969 L14.988,13.966 L16,13.966 Z"
+                          class="si-glyph-fill"> </path>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+              <h1 class="text-lg text-white font-semibold">No Recordings Found.</h1>
             </div>
           </div>
         </div>
@@ -69,9 +95,10 @@
         <CastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId" />
       </div>
     </div>
-    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="closeCreateModal"
-      :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps"
-      :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData" :updateCastListElement="updateCastListElement" />
+    <CreateCastModal v-if="activeModal === 'createCastModal'" :closeModal="closeCreateModal" :createCast="createCast"
+      :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps" :stepThreeProps="stepThreeProps"
+      :stepFourProps="stepFourProps" :getCastList="getCastList" :inviteData="inviteData"
+      :updateCastListElement="updateCastListElement" />
   </div>
 </template>
 
@@ -220,7 +247,7 @@ export default {
     };
   },
   mounted() {
-    if(this.$route.params.action === 'create'){
+    if (this.$route.params.action === 'create') {
       this.setActiveModal('createCastModal')
     }
     this.getCastList();
@@ -237,7 +264,7 @@ export default {
     recordingList() {
       return this.$store.state.cast.recordings;
     },
-    castList(){
+    castList() {
       return this.$store.state.cast.casts;
     }
   },
@@ -252,9 +279,9 @@ export default {
     }
   },
   methods: {
-    closeCreateModal(){
-      this.setActiveModal(''); 
-      this.$router.push('/dashboard/casts'); 
+    closeCreateModal() {
+      this.setActiveModal('');
+      this.$router.push('/dashboard/casts');
       localStorage.removeItem("LOG_BOARDID");
       localStorage.removeItem("LOG_REDIRECT");
       localStorage.removeItem("LOG_TOKEN");
@@ -349,7 +376,7 @@ export default {
     setCreateEventData() {
       // console.log('12');
       const board_id = localStorage.getItem("LOG_BOARDID");
-      if(board_id){
+      if (board_id) {
         this.formData.append("board_id", board_id);
       }
       this.startNow = this.stepOneProps.start_now;

@@ -22,4 +22,7 @@ export default {
   SET_ALL_CASTS(state, payload) {
     state.casts = payload;
   },
+  SET_RECORDINGLIST(state,payload){
+    state.recordings = payload; 
+  },
 };

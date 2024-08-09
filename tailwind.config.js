@@ -75,6 +75,7 @@ module.exports = {
       'black': '#22292f',
       'dark-black':'#000000',
       'new-black':'#141318',
+      'back-black':'#0a0b0f',
       'white': '#ffffff',
       'grey': '#b8c2cc',
       'custom-purple': '#7247C4',

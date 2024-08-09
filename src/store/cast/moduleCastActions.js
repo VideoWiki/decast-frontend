@@ -3,10 +3,24 @@ import axios from '../../axios';
 import constants from '../../../constant';
 export default {
   async getAllCasts({ commit }) {
-    const response = await axios.get(constants.apiCastUrl + '/api/event/get/all/info/');
-    const allCasts = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
+    const response = await axios.get(
+      constants.apiCastUrl + '/api/event/get/all/info/'
+    );
+    const allCasts = response.data.my_events.sort(
+      (a, b) => b.event_id - a.event_id
+    );
     commit('SET_ALL_CASTS', allCasts);
     return allCasts;
+  },
+  async getDecasts({ commit }) {
+    try {
+      const res = await axios.get(
+        constants.apiCastUrl + '/api/event/get/decast/info/'
+      );
+      return res;
+    } catch (error) {
+      console.error('Error fetching all casts:', error);
+    }
   },
   async renameRecording({ commit }, payload) {
     return new Promise((resolve, reject) => {
@@ -24,8 +38,8 @@ export default {
   },
   async deleteRecording({ commit, state }, recordingId) {
     const recordings = state.recordings;
-    const newRecordings = recordings.map(subList =>
-      subList.filter(item => item["Record ID"] !== recordingId)
+    const newRecordings = recordings.map((subList) =>
+      subList.filter((item) => item['Record ID'] !== recordingId)
     );
     commit('SET_RECORDING_LIST', newRecordings);
   },
@@ -45,11 +59,14 @@ export default {
   },
   async getOriginalUrl({ commit }, shortCode) {
     try {
-      const res = await axios.get(`${constants.apiCastUrl}/api/url/retrieve/${shortCode}/`, {
-        headers: {
-          'Content-Type': 'application/json'
+      const res = await axios.get(
+        `${constants.apiCastUrl}/api/url/retrieve/${shortCode}/`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      });
+      );
       return res;
     } catch (error) {
       return null;
@@ -151,7 +168,7 @@ export default {
           if (
             e.response.status === 400 &&
             e.response.data.message ===
-            'please check the scheduled cast start time'
+              'please check the scheduled cast start time'
           ) {
             location.href = '/joining/' + this.$route.params.cast_Id;
           }
@@ -270,14 +287,12 @@ export default {
         .then((res) => {
           resolve(res);
           // console.log(res,"res..")
-
         })
         .catch((error) => {
           reject(error);
           console.log('not Editing');
           console.log(error);
         });
-
     });
   },
   formSubmit({ commit }, payload) {
@@ -286,7 +301,6 @@ export default {
         .patch(constants.apiCastUrl + '/api/event/meeting/update/', payload)
         .then((res) => {
           resolve(res);
-
         })
         .catch((error) => {
           console.log('not submitting');
@@ -443,15 +457,17 @@ export default {
   // },
   async recordings({ commit }) {
     try {
-      const res = await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
+      const res = await axios.get(
+        constants.apiCastUrl + '/api/event/user/recordings'
+      );
 
       // Initialize an array to store all recordings from all status arrays
       let allRecordings = [];
-      console.log("before", res.data.status)
+      console.log('before', res.data.status);
       // Iterate over each status array within res.data.status
-      res.data.status.forEach(statusArray => {
+      res.data.status.forEach((statusArray) => {
         // Iterate over each recording within the current status array
-        statusArray.forEach(recording => {
+        statusArray.forEach((recording) => {
           allRecordings.push(recording);
         });
       });
@@ -464,7 +480,7 @@ export default {
       });
 
       // Format 'Start Time (Readable)' to DD/MM/YY for all recordings
-      allRecordings.forEach(recording => {
+      allRecordings.forEach((recording) => {
         const date = new Date(recording['Start Time (Readable)']);
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
@@ -472,7 +488,7 @@ export default {
         const formattedDate = `${day}/${month}/${year}`;
         recording['Start Time (Readable)'] = formattedDate;
       });
-      console.log("after", allRecordings)
+      console.log('after', allRecordings);
 
       commit('SET_RECORDING_LIST', allRecordings);
       return allRecordings;
@@ -480,6 +496,17 @@ export default {
       // Handle error
       console.error('Error fetching recordings:', error);
       throw error; // Rethrow error to be handled upstream
+    }
+  },
+  async decastRecordings({ commit }) {
+    try {
+      const res = await axios.get(
+        constants.apiCastUrl + '/api/event/user/decast/recordings'
+      );
+      commit('SET_RECORDINGLIST', res.data.status);
+      return res.data.status;
+    } catch (error) {
+      console.error('Error fetching recordings:', error);
     }
   },
 };
