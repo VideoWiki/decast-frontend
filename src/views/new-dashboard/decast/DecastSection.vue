@@ -35,7 +35,7 @@
                         </div>
                         <div v-else v-for="(cast, index) in castList" :key="index">
                             <CastCard :castDetails="cast" :index="index" :getCastList="getDecastList"
-                                @openModal="openModal(cast)" />
+                                @card-click="handleCardClick" @openModal="openModal(cast)" />
                         </div>
                     </div>
                     <div v-else class="cast_list_cont">
@@ -84,6 +84,9 @@
                     </div>
                 </div>
             </div>
+            <div v-if="firstCastId !== null" class="cast_details w-1/2 p-5">
+                <DecastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId" :selectedStorage="selectedStorage" :getSelectedStorage="getSelectedStorage"/>
+            </div>
         </div>
 
     </div>
@@ -94,6 +97,9 @@ import CastCardShimmer from './components/DecastCardShimmer.vue';
 import CastCard from './components/DecastCard.vue';
 import RecordingCardShimmer from './components/RecordingCardShimmer.vue';
 import RecordingCard from './components/RecordingCard.vue';
+import DecastDetails from './components/DecastDetails.vue';
+import constants from '../../../../constant';
+import axios from '../../../axios';
 export default {
     name: "DecastSection",
     data() {
@@ -110,6 +116,10 @@ export default {
             recordings: [],
             showStorageModal: false,
             selectedCast: null,
+            selectedCastId: null,
+            firstCastId: null,
+            loading:false,
+            selectedStorage:'Null',
         }
     },
     components: {
@@ -117,6 +127,7 @@ export default {
         RecordingCardShimmer,
         RecordingCard,
         CastCard,
+        DecastDetails,
         // StorageModal
     },
     mounted() {
@@ -151,6 +162,11 @@ export default {
         changeFocus(toYourRooms) {
             this.focusYourRooms = toYourRooms;
         },
+        handleCardClick(details) {
+            console.log(details,'detao;s');
+            this.selectedCastId = details;
+            this.getSelectedStorage();
+        },
         async handleButtonClick() {
             this.getDecastRecordings();
             this.changeFocus(false);
@@ -160,6 +176,33 @@ export default {
             this.selectedCast = cast;
             this.showStorageModal = true;
         },
+        async getSelectedStorage() {
+            const cast_id = this.selectedCastId ? this.selectedCastId.public_meeting_id : this.firstCastId.public_meeting_id;
+            const url = `${constants.apiCastUrl}/api/event/select/storage/?cast_id=${cast_id}`;
+
+            try {
+                this.loading = true;
+                const response = await axios.get(url);
+                console.log('Storage retrived successfully:', response.data);
+
+                if (response.data.SIA == true && response.data.SWARM == false) {
+                    console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    this.selectedStorage = 'Sia';
+                    this.preSelected = true;
+                } else if (response.data.SIA == false && response.data.SWARM == true) {
+                    console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    this.selectedStorage = 'Swarm';
+                    this.preSelected = true;
+                } else if (response.data.SIA == false && response.data.SWARM == false) {
+                    console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    this.selectedStorage = 'Null';
+                }
+                this.loading = false;
+            } catch (error) {
+                this.loading = false;
+                console.error('Error:', error);
+            }
+        },
         async getDecastList() {
             this.isCastsLoading = true;
             try {
@@ -167,6 +210,8 @@ export default {
                 if (response.data.my_events) {
                     const allEvents = response.data.my_events.sort((a, b) => b.event_id - a.event_id);
                     this.castList = allEvents;
+                    this.firstCastId = this.castList[0];
+                    this.selectedCastId = this.castList[0];
                     console.log('This is castlist', this.castList)
                     this.isCastsLoading = false;
                 }
@@ -238,6 +283,13 @@ export default {
 
 .cast_list_cont::-webkit-scrollbar {
     display: none;
+}
+
+.cast_details {
+    border: 2px solid #272727;
+    box-shadow: 3px 3px 0px 0px #272727;
+    height: 60vh;
+    overflow: scroll !important;
 }
 
 .cast_details::-webkit-scrollbar {
