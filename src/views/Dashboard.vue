@@ -173,10 +173,10 @@ export default {
         // const instance = new web3.eth.Contract(JSON.parse(Upload.interface), v);
         // await instance.methods.CreateNewMasterBranch().send({from: accounts[0]});
         // const ver = await instance.methods.getContract().call({from: accounts[0]});
-        // console.log(ver);
+        // //console.log(ver);
         this.$router.push('/studio');
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       } finally {
         this.btndisable = false;
       }
@@ -203,7 +203,7 @@ export default {
         this.videos = response.data.data || response;
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   },
 };

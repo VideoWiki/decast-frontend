@@ -57,7 +57,7 @@ export default {
                 this.closeModal();
             } catch (error) {
                 this.isLoading = false;
-                console.error(error);
+                ////console.log(error);
             }
         },
     },

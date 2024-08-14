@@ -257,10 +257,10 @@ export default {
 
   methods: {
     startCallBack: function (x) {
-      // console.log(x);
+      // //console.log(x);
     },
     endCallBack: function (x) {
-      // console.log(x);
+      // //console.log(x);
     },
     goToJoinPage() {
       this.$router.push('/e/' + this.$route.params.eventId);

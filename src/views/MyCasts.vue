@@ -607,7 +607,7 @@ export default {
         })
         .catch((e) => {
           this.$vs.loading.close();
-          console.log(e.response);
+          //console.log(e.response);
           if (e.response.data.recording_url === null) {
             this.$vs.notify({
               time: 3000,
@@ -681,7 +681,7 @@ export default {
       this.isLoading = false;
       this.videoList = apiResponse.my_events;
       this.event_name = apiResponse.my_events.event_name;
-      console.log(typeof this.videoList[2].is_running);
+      //console.log(typeof this.videoList[2].is_running);
     },
 
     async joinnow(video) {
@@ -773,7 +773,7 @@ export default {
       }
     },
     inviteUser(meetId) {
-      console.log('meetId', meetId);
+      //console.log('meetId', meetId);
     },
     showMoreDetails(id) {
       if (this.moreBox) {

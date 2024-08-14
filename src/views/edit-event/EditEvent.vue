@@ -244,7 +244,7 @@ export default {
         ':' +
         fiveMin._d.getMinutes() +
         ':00';
-      console.log(this.stepOneProps.schedule_time);
+      //console.log(this.stepOneProps.schedule_time);
     }
     if (this.$route.params.cast_Id === 'vw.svg') {
       return;
@@ -252,9 +252,9 @@ export default {
     this.$store
       .dispatch('cast/editEvent', this.$route.params.cast_Id)
       .then((res) => {
-        console.log('Working edit');
+        //console.log('Working edit');
         const info = res.data.details;
-        console.log("url'", info.bbb_stream_url);
+        //console.log("url'", info.bbb_stream_url);
         this.stepOneProps.event_name = info.event_name;
         this.stepOneProps.description = info.description;
         this.stepOneProps.schedule_time = info.schedule_time;
@@ -298,12 +298,12 @@ export default {
           this.stepFourProps.lock_layout;
         if (info.bbb_stream_url !== null) {
           // eslint-disable-next-line no-eval
-          console.log('dsd', eval(info.bbb_stream_url));
+          //console.log('dsd', eval(info.bbb_stream_url));
           // eslint-disable-next-line no-eval
           window.eval(info.bbb_stream_url).forEach((item) => {
             var x = item.split('/');
             if (item.match(/youtube/)) {
-              console.log('dsafgsad', x[-1]);
+              //console.log('dsafgsad', x[-1]);
               this.stepThreeProps.youtube_secret_key = x.pop();
               this.stepThreeProps.youtube_rtmp_url = x.join('/');
               this.stepThreeProps.youtube_stream_url = item;
@@ -337,7 +337,7 @@ export default {
         // wizard.activateAll();
       })
       .catch((e) => {
-        console.log('Error editing', e);
+        //console.log('Error editing', e);
       });
   },
   methods: {
@@ -457,7 +457,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.formData = new FormData();
-          console.log(JSON.stringify(error));
+          //console.log(JSON.stringify(error));
           if (error) {
             this.$vs.notify({
               title: 'Error!',
@@ -476,7 +476,7 @@ export default {
     /* ****** Function: validateForm{FormNo}: Validates the tab data, if true: move forward else display errors ******************* */
     validateFormOne() {
       if (moment().isAfter(this.stepOneProps.schedule_time)) {
-        console.log('CERO');
+        //console.log('CERO');
         const fiveMin = moment().add(5, 'minutes');
         this.stepOneProps.schedule_time =
           `${fiveMin._d.getFullYear()}-${String(
@@ -490,7 +490,7 @@ export default {
           ':' +
           fiveMin._d.getMinutes() +
           ':00';
-        console.log(this.stepOneProps.schedule_time);
+        //console.log(this.stepOneProps.schedule_time);
       }
       if (
         this.stepOneProps.event_name === '' ||
@@ -536,8 +536,8 @@ export default {
         this.stepOneProps.public_nft_flow =
           this.stepOneProps.public_stream_nfts === 'true';
         this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
-        console.log(this.stepOneProps.schedule_time);
-        console.log(
+        //console.log(this.stepOneProps.schedule_time);
+        //console.log(
           this.stepOneProps.schedule_time_error,
           this.stepOneProps.invalidTimeError
         );
@@ -597,7 +597,7 @@ export default {
             ? // eslint-disable-next-line no-eval
               eval(this.stepThreeProps.vw_stream_url)
             : this.stepThreeProps.vw_stream_url;
-        console.log(this.stepThreeProps.vw_stream_url);
+        //console.log(this.stepThreeProps.vw_stream_url);
         this.stepThreeProps.vw_stream_url[0].vw_stream = this.stepThreeProps
           .vw_stream
           ? 'True'

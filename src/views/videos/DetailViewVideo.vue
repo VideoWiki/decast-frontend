@@ -187,7 +187,7 @@ export default {
       try {
         this.btndisab = true;
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       } finally {
         this.btndisab = false;
       }
@@ -205,7 +205,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
           this.$router.push('/error/404');
         });
     }

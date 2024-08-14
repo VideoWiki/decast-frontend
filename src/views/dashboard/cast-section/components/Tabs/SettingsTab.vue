@@ -117,7 +117,7 @@ export default {
       if (this.createCast) {
         this.createCast();
       } else {
-        console.log(this.castId);
+        //console.log(this.castId);
         this.changeSettings();
       }
     },
@@ -198,7 +198,7 @@ export default {
         this.stepOneProps.password_auth ? 'True' : 'False'
       );
       this.$store.dispatch('cast/formSubmit', data).then((response) => {
-        console.log(response);
+        //console.log(response);
         this.closeCreate();
       });
     },

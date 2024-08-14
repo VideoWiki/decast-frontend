@@ -60,8 +60,8 @@ export default {
     this.timeAbbr = moment().tz(timezone).zoneAbbr();
     this.newTime = moment(a._d).tz(timezone).format('HH:mm:ss');
     if (this.meeting_name === 'dsaf') {
-      console.log(this.meeting_name, a._d);
-      console.log(this.newTime);
+      //console.log(this.meeting_name, a._d);
+      //console.log(this.newTime);
     }
   },
   props: [

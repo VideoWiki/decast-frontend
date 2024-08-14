@@ -110,7 +110,7 @@ export default {
                 }
             })
             .catch((e) => {
-                console.log('Error editing', e);
+                //console.log('Error editing', e);
             });
     },
     methods: {

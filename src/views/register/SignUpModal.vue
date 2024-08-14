@@ -131,15 +131,15 @@ export default {
   },
   computed: {
     validateForm() {
-      console.log(
-        this.password,
-        !this.errors.any(),
-        this.firstName !== '',
-        this.lastName !== '',
-        this.validateEmail(),
-        this.password !== '',
-        this.isTermsConditionAccepted === true
-      );
+      //console.log(
+      //   this.password,
+      //   !this.errors.any(),
+      //   this.firstName !== '',
+      //   this.lastName !== '',
+      //   this.validateEmail(),
+      //   this.password !== '',
+      //   this.isTermsConditionAccepted === true
+      // );
       return (
         !this.errors.any() &&
         this.firstName !== '' &&
@@ -156,7 +156,7 @@ export default {
   created() {
     document.getElementById('loading-bg').style.display = 'none';
     detectIncognito().then((result) => {
-      console.log('this is working ', result.browserName, result.isPrivate);
+      //console.log('this is working ', result.browserName, result.isPrivate);
       if (result.isPrivate && result.browserName.toLowerCase() === 'chrome') {
         this.isIncognito = true;
       } else {
@@ -176,7 +176,7 @@ export default {
       if (this.validateForm) {
         this.registerUserJWt();
       } else {
-        console.log('some error');
+        //console.log('some error');
       }
     },
     validateEmail() {
@@ -200,7 +200,7 @@ export default {
     registerUserJWt() {
       // If form is not validated or user is already login return
       // if (!this.validateForm || !this.checkLogin()) return;
-      console.log('yessss');
+      //console.log('yessss');
       this.$vs.loading();
 
       const payload = {
@@ -228,16 +228,16 @@ export default {
             icon: 'icon-check-circle',
             color: 'success',
           });
-          console.log('Registration successful - after notification');
-          console.log('ye res', response);
+          //console.log('Registration successful - after notification');
+          //console.log('ye res', response);
           location.href = constants.challengeUri;
         })
         .catch((error) => {
           this.$vs.loading.close();
-          console.log(
-            error.response.data.message,
-            error.response.data.message === 'username already exists'
-          );
+          //console.log(
+          //   error.response.data.message,
+          //   error.response.data.message === 'username already exists'
+          // );
           this.$vs.notify({
             title: 'Login Error',
             text:
@@ -337,7 +337,7 @@ export default {
           this.handleSignMessage(this.publicAddress, res.data.nonce)
         )
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           this.$vs.notify({
             title: this.$t('Login.notify.title'),
             text: this.$t('Metamasklogin.tryagain'),
@@ -349,7 +349,7 @@ export default {
     },
 
     walletUse() {
-      console.log(178);
+      //console.log(178);
       this.loginWithMetamask();
     },
     // Google Login
@@ -377,7 +377,7 @@ export default {
               login_challenge: this.$route.query.login_challenge,
             })
             .then((response) => {
-              console.log(5);
+              //console.log(5);
               this.$acl.change(this.activeUserInfo.userRole);
               this.$router.push('/');
               this.$vs.loading.close();
@@ -400,7 +400,7 @@ export default {
           this.$vs.loading.close();
         }
       } catch (error) {
-        console.log(error, 'err');
+        //console.log(error, 'err');
         if (this.isIncognito) {
           this.$vs.notify({
             title: this.$t('Login.notify.title'),

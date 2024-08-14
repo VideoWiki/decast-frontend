@@ -62,17 +62,17 @@ export default {
   props: {},
   computed: {},
   mounted() {
-    console.log(this.$route);
+    //console.log(this.$route);
   },
   methods: {
     emailDisplay() {
-      console.log(!this.validateEmail(this.emailReset));
+      //console.log(!this.validateEmail(this.emailReset));
       if (this.validateEmail(this.emailReset) === true) {
         this.sendResetEmail();
         return;
       }
       this.invalidEmailError = true;
-      console.log();
+      //console.log();
       this.$vs.notify({
         title: 'Invalid Input',
         text: 'Please enter a valid E-mail',
@@ -83,7 +83,7 @@ export default {
       return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,12})+$/.test(email);
     },
     sendResetEmail() {
-      console.log((this.invalidEmailError = false));
+      //console.log((this.invalidEmailError = false));
       if (this.emailError === false) {
         this.emailError = true;
         setTimeout(() => {

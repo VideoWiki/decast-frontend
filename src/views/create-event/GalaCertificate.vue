@@ -244,7 +244,7 @@ export default {
           });
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
         });
     },
     async getid() {
@@ -280,11 +280,11 @@ export default {
             this.nft_description = res.data.description;
           })
           .catch((e) => {
-            console.log(e.response);
+            //console.log(e.response);
           });
       } catch (e) {
-        console.log(JSON.stringify(e));
-        console.log(e.response);
+        //console.log(JSON.stringify(e));
+        //console.log(e.response);
       }
     },
     async sendEmail() {
@@ -307,7 +307,7 @@ export default {
           });
         })
         .catch(function (error) {
-          console.log(error);
+          //console.log(error);
         });
     },
     async getImage() {
@@ -324,7 +324,7 @@ export default {
       try {
         await this.verifyWallet();
       } catch (e) {
-        console.log('e', e.response);
+        //console.log('e', e.response);
         this.$vs.loading.close();
         this.$vs.notify({
           color: 'danger',
@@ -351,7 +351,7 @@ export default {
           });
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.$vs.loading.close();
         });
     },
@@ -531,7 +531,7 @@ export default {
               }, 2000);
             }
           } catch (e) {
-            console.log(JSON.stringify(e));
+            //console.log(JSON.stringify(e));
             if (e.code === 'INSUFFICIENT_FUNDS')
               this.$vs.notify({
                 time: 3000,
@@ -566,7 +566,7 @@ export default {
                 });
               }
             } else {
-              console.log(e.response);
+              //console.log(e.response);
               this.$vs.notify({
                 time: 3000,
                 title: 'Error',
@@ -717,7 +717,7 @@ export default {
         });
         this.$router.push('/error/404');
       }
-      console.log(e);
+      //console.log(e);
     }
     this.switchNetworkRinkeby(this.network);
   },

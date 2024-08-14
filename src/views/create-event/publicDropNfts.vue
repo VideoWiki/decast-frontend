@@ -285,7 +285,7 @@ export default {
           });
           return accounts[0];
         } catch (error) {
-          console.log('Error connecting...');
+          //console.log('Error connecting...');
         }
       } else {
         alert('Meta Mask not detected');
@@ -314,11 +314,11 @@ export default {
             this.nft_description = res.data.description;
           })
           .catch((e) => {
-            console.log(e.response);
+            //console.log(e.response);
           });
       } catch (e) {
-        console.log(JSON.stringify(e));
-        console.log(e.response);
+        //console.log(JSON.stringify(e));
+        //console.log(e.response);
       }
     },
     copyTransaction() {
@@ -534,7 +534,7 @@ export default {
                 color: 'danger',
               });
             } else {
-              console.log(e.response);
+              //console.log(e.response);
               this.$vs.notify({
                 time: 3000,
                 title: 'Error',
@@ -545,7 +545,7 @@ export default {
               });
             }
             this.$vs.loading.close();
-            console.log('Minting Error', e);
+            //console.log('Minting Error', e);
           }
         } else {
           this.switchNetworkRinkeby(this.network);
@@ -675,7 +675,7 @@ export default {
       }
     } catch (e) {
       this.$router.push('/error/404');
-      console.log(e);
+      //console.log(e);
     }
     this.switchNetworkRinkeby(this.network);
   },

@@ -87,7 +87,7 @@ export default {
   generateKey({ commit }, payload) {
     const data = new FormData();
     data.append('username', payload);
-    console.log(data);
+    //console.log(data);
     return new Promise((resolve, reject) => {
       axios
         .post(constants.apiUrl + '/api/generate/key/', data)
@@ -102,7 +102,7 @@ export default {
   getKey({ commit }, payload) {
     const data = new FormData();
     data.append('username', payload);
-    console.log(data);
+    //console.log(data);
     return new Promise((resolve, reject) => {
       axios
         .get(constants.apiUrl + '/api/get/key/?username=' + payload, data)
@@ -206,12 +206,12 @@ export default {
       axios
         .post(constants.apiUrl + '/al/', dataObj)
         .then((res) => {
-          // console.log('audio suggestions', res);
+          // //console.log('audio suggestions', res);
           commit('setAudios', res.data);
           resolve(res);
         })
         .catch((err) => {
-          console.log('error in audio suggestion', err);
+          //console.log('error in audio suggestion', err);
           reject(err);
         });
     });
@@ -339,7 +339,7 @@ export default {
         .get(constants.apiUrl + '/api/video_details?saved_video_id=' + videoId)
         .then((res) => {
           const apiResponse = res.data.data;
-          console.log({ apiResponse });
+          //console.log({ apiResponse });
           const videoData = {};
           const videoDataKeys = [
             'title',
@@ -404,7 +404,7 @@ export default {
       axios
         .post(constants.apiUrl + '/transaction/oceanbuy', payload)
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           resolve(res);
         })
         .catch((err) => {
@@ -413,7 +413,7 @@ export default {
     });
   },
   getTemplate({ commit }, payload) {
-    console.log('getTemplate');
+    //console.log('getTemplate');
     return new Promise((resolve, reject) => {
       axios
         .get(
@@ -429,7 +429,7 @@ export default {
     });
   },
   setTemplate({ commit }, payload) {
-    console.log(payload);
+    //console.log(payload);
     var config = {
       method: 'patch',
       url: constants.apiCastUrl + '/api/event/update/template/',
@@ -439,7 +439,7 @@ export default {
       data: payload,
     };
 
-    console.log('setTemplate');
+    //console.log('setTemplate');
     return new Promise((resolve, reject) => {
       axios(config)
         .then((res) => {
@@ -495,7 +495,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           resolve(res);
         })
         .catch((err) => {
@@ -547,7 +547,7 @@ export default {
     });
   },
   addInvitee({ commit }, payload) {
-    console.log(payload, 'pay');
+    //console.log(payload, 'pay');
     return new Promise((resolve, reject) => {
       axios
         .post(
@@ -572,7 +572,7 @@ export default {
           resolve(res);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           reject(err);
         });
     });
@@ -588,7 +588,7 @@ export default {
           resolve(res);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           reject(err);
         });
     });
@@ -603,7 +603,7 @@ export default {
           resolve(res);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           reject(err);
         });
     });
@@ -620,7 +620,7 @@ export default {
           resolve(res);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           reject(err);
         });
     });
@@ -832,7 +832,7 @@ export default {
     });
   },
   sendTestEmail({ commit }, payload) {
-    console.log('send test email');
+    //console.log('send test email');
     var data = new FormData();
     data.append('cast_id', payload.cast_id);
     data.append('role', payload.role);
@@ -848,7 +848,7 @@ export default {
     });
   },
   resetTemplate({ commit }, payload) {
-    console.log('reset Template');
+    //console.log('reset Template');
     return new Promise((resolve, reject) => {
       axios
         .patch(constants.apiCastUrl + '/api/event/reset/template/', payload)
@@ -861,7 +861,7 @@ export default {
     });
   },
   createInstantCast({ commit }, { castName, name, timeZone, time }) {
-    console.log('Creating instant cast', castName, name, time, timeZone);
+    //console.log('Creating instant cast', castName, name, time, timeZone);
     var data = new FormData();
     data.append('event_name', castName);
     data.append('creator_name', name);

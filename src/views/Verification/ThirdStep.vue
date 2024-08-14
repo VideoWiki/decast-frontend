@@ -144,7 +144,7 @@ export default {
     },
 
     joinCastUtil(payload) {
-      console.log('----->');
+      //console.log('----->');
       this.$store
         .dispatch('studio/joinEvent', payload)
         .then((response) => {
@@ -157,7 +157,7 @@ export default {
           });
         })
         .catch((e) => {
-          console.log(e.response);
+          //console.log(e.response);
           this.$vs.loading.close();
           this.disabled = false;
           this.$vs.notify({
@@ -171,19 +171,19 @@ export default {
         });
     },
     async magicJoin(payload) {
-      console.log(payload);
+      //console.log(payload);
       var data = JSON.stringify({
         id: this.$route.params.session_key,
         pass: this.$route.query.pass,
         name: payload.name,
       });
-      console.log(178);
+      //console.log(178);
       await this.$store
         .dispatch('studio/magicJoin', data)
         .then((res) => {
-          console.log(res.data.url, 181);
+          //console.log(res.data.url, 181);
           if (res.data.url) {
-            console.log(184);
+            //console.log(184);
             this.$vs.notify({
               title: 'Success',
               color: 'success',
@@ -202,7 +202,7 @@ export default {
         .catch((e) => {
           this.$vs.loading.close();
           this.disabled = false;
-          console.log(e.response);
+          //console.log(e.response);
         });
     },
     async joinCast() {
@@ -233,11 +233,11 @@ export default {
         await this.$store
           .dispatch('studio/addJoinee', joineePayload)
           .then(async (response) => {
-            console.log(response.data);
+            //console.log(response.data);
             if (response.data.status) {
-              console.log('public path');
+              //console.log('public path');
               if (this.$route.query.pass !== undefined) {
-                console.log(payload);
+                //console.log(payload);
                 await this.magicJoin(payload);
               } else {
                 await this.joinCastUtil(payload);
@@ -245,7 +245,7 @@ export default {
             }
           })
           .catch((err) => {
-            console.log(err);
+            //console.log(err);
             this.$vs.loading.close();
             this.disabled = false;
             this.$vs.notify({

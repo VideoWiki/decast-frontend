@@ -177,7 +177,7 @@ export default {
       this.isDropdownOpen2 = true;
     },
     stepFourPropsBound() {
-      console.log(this.activeTab);
+      //console.log(this.activeTab);
       if (this.activeTab === 'BigMeetingPopup') {
         this.stepFourProps.record = true;
         this.stepFourProps.auto_start_recording = false;

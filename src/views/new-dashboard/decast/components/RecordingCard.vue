@@ -134,7 +134,7 @@ export default {
             try {
                 this.loading = true;
                 const response = await axios.get(url);
-                console.log('Storage retrived successfully:', response.data);
+                //console.log('Storage retrived successfully:', response.data);
 
                 if (response.data.SIA == true && response.data.SWARM == false) {
                     await this.handleSiaDownload();
@@ -144,7 +144,7 @@ export default {
                 this.loading = false;
             } catch (error) {
                 this.loading = false;
-                console.error('Error:', error);
+                ////console.log('Error:', error);
             }
         },
         async handleSiaStatus() {
@@ -155,12 +155,12 @@ export default {
             try {
                 this.loading = true;
                 const response = await axios.get(url);
-                console.log('Storage retrived successfully:', response.data);
+                //console.log('Storage retrived successfully:', response.data);
                 this.taskId = response.data.task_id;
                 this.loading = false;
             } catch (error) {
                 this.loading = false;
-                console.error('Error:', error);
+                ////console.log('Error:', error);
             }
         },
         async handleSiaDownload() {
@@ -169,7 +169,7 @@ export default {
 
             this.loading = true;
             if (parseFloat(this.recording["Playback Data"]["Playback Length"]) > parseFloat(this.siaMinutes)) {
-                console.log("size true");
+                //console.log("size true");
                 this.$vs.notify({
                     title: 'Insufficient Balance',
                     text: 'Please add sufficient minutes to your wallet to download this recording.',
@@ -218,7 +218,7 @@ export default {
                                 text: 'Your recording is not ready for download yet!',
                                 color: 'danger',
                             });
-                            console.error('No binary data found in response.');
+                            ////console.log('No binary data found in response.');
                         }
                     }
                     else if (response.data.status === 'PENDING') {
@@ -231,7 +231,7 @@ export default {
                         return;
                     }
                     else {
-                        console.error('Failed to retrieve video data. Status:', response.data.status);
+                        ////console.log('Failed to retrieve video data. Status:', response.data.status);
                         await new Promise(resolve => setTimeout(resolve, 5000));
                     }
                 }
@@ -242,7 +242,7 @@ export default {
                     text: 'Unable to process your request!',
                     color: 'danger',
                 });
-                console.error('Error:', error);
+                ////console.log('Error:', error);
             } finally {
                 this.loading = false;
             }
@@ -255,21 +255,21 @@ export default {
             try {
                 this.loading = true;
                 const response = await axios.get(url);
-                console.log('Storage retrived successfully:', response.data);
+                //console.log('Storage retrived successfully:', response.data);
                 this.taskId = response.data.task_id;
                 this.loading = false;
             } catch (error) {
                 this.loading = false;
-                console.error('Error:', error);
+                ////console.log('Error:', error);
             }
         },
         async handleSwarmDownload() {
-            console.log('Running handleSwarmDownload', this.recording["Playback Data"]["Playback Size"], this.swarmMinutes);
+            //console.log('Running handleSwarmDownload', this.recording["Playback Data"]["Playback Size"], this.swarmMinutes);
             await this.handleSwarmStatus();
             const url = `${constants.apiCastUrl}/api/decast/rec/swarm/result/?task_id=${this.taskId}`;
             this.loading = true;
             if (parseFloat(this.recording["Playback Data"]["Playback Length"]) > parseFloat(this.swarmMinutes)) {
-                console.log("size true");
+                //console.log("size true");
                 this.$vs.notify({
                     title: 'Insufficient Balance',
                     text: 'Please add sufficient minutes to your wallet to download this recording.',
@@ -318,7 +318,7 @@ export default {
                                 text: 'Your recording is not ready for download yet!',
                                 color: 'danger',
                             });
-                            console.error('No binary data found in response.');
+                            ////console.log('No binary data found in response.');
                         }
                     }
                     else if (response.data.status === 'PENDING') {
@@ -331,7 +331,7 @@ export default {
                         return;
                     }
                     else {
-                        console.error('Failed to retrieve video data. Status:', response.data.status);
+                        ////console.log('Failed to retrieve video data. Status:', response.data.status);
                         await new Promise(resolve => setTimeout(resolve, 5000));
                     }
                 }
@@ -342,7 +342,7 @@ export default {
                     text: 'Unable to process your request!',
                     color: 'danger',
                 });
-                console.error('Error:', error);
+                ////console.log('Error:', error);
             } finally {
                 this.loading = false;
             }

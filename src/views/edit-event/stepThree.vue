@@ -214,8 +214,8 @@ export default {
   },
   mounted() {
     this.publicStream = !this.stepThreeProps.public_stream;
-    console.log('public', this.publicStream);
-    console.log('this is record video', this.stepThreeProps.record_youtube);
+    //console.log('public', this.publicStream);
+    //console.log('this is record video', this.stepThreeProps.record_youtube);
     if (
       this.stepThreeProps.record_youtube ||
       this.stepThreeProps.record_facebook ||
@@ -262,7 +262,7 @@ export default {
         this.stepThreeProps.youtube_rtmp_url = '';
         this.stepThreeProps.youtube_secret_key = '';
       }
-      console.log(this.stepThreeProps.is_streaming);
+      //console.log(this.stepThreeProps.is_streaming);
     },
     valueCheck() {
       if (

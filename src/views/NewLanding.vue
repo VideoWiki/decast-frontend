@@ -495,7 +495,7 @@ export default {
         border: `${borderSize}px solid #D7DF23`,
         backgroundColor: `#D7DF23`,
       };
-      // console.log('Computed border style:', style);
+      // //console.log('Computed border style:', style);
       return style;
     },
     computedGradient() {
@@ -530,7 +530,7 @@ export default {
   },
   mounted() {
     document.getElementById('loading-bg').style.display = 'none';
-    // console.log(this.accessToken || this.loggedIn, 'prof');
+    // //console.log(this.accessToken || this.loggedIn, 'prof');
     window.addEventListener('message', (event) => {
       // if (event.data === 'closeIframe') {
       //   this.iframe = false;
@@ -564,7 +564,7 @@ export default {
       //   document.getElementsByTagName('iframe')[0].style.height = '41.6%';
       // }
       if (event.data === 'loginSuccess') {
-        console.log(this.$store.state.auth.loggedIn, 'loggedIn');
+        //console.log(this.$store.state.auth.loggedIn, 'loggedIn');
         this.$store.dispatch('auth/fetched');
         this.$acl.change('user');
         this.$store.commit('auth/SET_LOGGEDIN', true);
@@ -607,17 +607,17 @@ export default {
   methods: {
     open() {
       window.open(constants.challengeUri, '_blank', 'width=600,height=600');
-      // console.log('open');
+      // //console.log('open');
       // this.iframe = !this.iframe;
       // this.url = constants.challengeUri;
       // // this.url = 'http://localhost:8080/login';
       // document.getElementsByTagName('iframe')[0].style.height = '66.7%';
       // document.getElementsByTagName('iframe')[0].style.width = '32%';
-      // console.log(this.iframe);
+      // //console.log(this.iframe);
       // window.location.href = constants.challengeUri;
     },
     handleScroll(event) {
-      // console.log('Scrolling...');
+      // //console.log('Scrolling...');
       const scrollPosition = window.scrollY;
       this.scrollPosition = event.target.documentElement.scrollTop;
       const threshold = 10; // Adjust this threshold as needed
@@ -662,10 +662,10 @@ export default {
       const accessToken = localStorage.getItem('accessToken');
       if (userInfo && accessToken) {
         this.isLoggedIn = true;
-        console.log('Ture');
+        //console.log('Ture');
         this.username = this.activeUserInfo.first_name || 'User';
       } else {
-        console.log('false');
+        //console.log('false');
       }
     },
     transform(section) {
@@ -735,7 +735,7 @@ export default {
         const duration = Math.random() * 2;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
-        // console.log(rotation, 'rot');
+        // //console.log(rotation, 'rot');
 
         const textIndex = Math.floor(Math.random() * this.boxTexts.length);
         const text = this.boxTexts[textIndex];
@@ -783,7 +783,7 @@ export default {
         const duration = Math.random() * 2 + 0.4;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
-        // console.log(rotation, 'rot');
+        // //console.log(rotation, 'rot');
 
         const textIndex1 = Math.floor(Math.random() * this.boxTexts1.length);
         const text = this.boxTexts1[textIndex1];
@@ -809,7 +809,7 @@ export default {
         const duration = Math.random() * 2;
         const leftPosition = Math.random() * 90 + 'vw';
         const rotation = Math.round(Math.random() * 20);
-        // console.log(rotation, 'rot');
+        // //console.log(rotation, 'rot');
 
         const textIndex2 = Math.floor(Math.random() * this.boxTexts2.length);
         const text = this.boxTexts2[textIndex2];

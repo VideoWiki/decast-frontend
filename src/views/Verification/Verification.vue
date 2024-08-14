@@ -230,7 +230,7 @@ export default {
   },
   mounted() {
     if (sessionStorage.getItem('verified') === 'true') {
-      console.log(sessionStorage.getItem('verified'));
+      //console.log(sessionStorage.getItem('verified'));
       this.verified = sessionStorage.getItem('verified');
       this.otpField = true;
       this.payload = {

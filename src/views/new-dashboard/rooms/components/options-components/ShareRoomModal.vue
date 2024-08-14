@@ -70,7 +70,7 @@ export default {
                             })
                             .catch(function (error) {
                                 this.isLoading = false;
-                                console.error(error);
+                                ////console.log(error);
                             });
                     }else{
                         this.isLoading = false;
@@ -79,7 +79,7 @@ export default {
                 })
                 .catch((e) => {
                     this.isLoading = false;
-                    console.log("User does not exist");
+                    //console.log("User does not exist");
                 });
         },
     },

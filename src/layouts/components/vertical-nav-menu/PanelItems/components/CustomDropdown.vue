@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     showDropdownMenu() {
-      console.log(this.$refs.dropdownMenu);
+      //console.log(this.$refs.dropdownMenu);
     }
   }
 };

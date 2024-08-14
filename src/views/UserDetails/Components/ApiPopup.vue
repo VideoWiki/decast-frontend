@@ -79,10 +79,10 @@
                         >=></span
                       >{
                     </p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(res.data)</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//console.log(res.data)</p>
                     <p>})</p>
                     <p>.<span class="orange">catch</span>(e=>{</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(e)</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//console.log(e)</p>
                     <p>})</p>
                   </div>
                 </vs-tab>
@@ -134,7 +134,7 @@ export default {
           this.showCode = true;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
         })
         .finally(() => {
           this.$vs.loading.close();
@@ -158,7 +158,7 @@ export default {
           this.showCode = true;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           if (e.response.status === 400) {
             this.generateKey();
           } else {
@@ -190,10 +190,10 @@ export default {
                 url: '${this.url}/api/get/cast/information/?cast_id=${this.$route.params.session_key}&apikey=${this.key}&full_info=false',
             })
             .then(res=>{
-                console.log(res.data)
+                //console.log(res.data)
             })
             .catch(e=>{
-                console.log(e)
+                //console.log(e)
             })
         `;
       }

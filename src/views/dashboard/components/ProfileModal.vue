@@ -173,16 +173,16 @@ export default {
           email: this.email,
           p_image: this.uploadedImageBlob ? this.uploadedImageBlob : '',
         };
-        console.log(payload);
+        //console.log(payload);
         this.$store
           .dispatch('auth/updateUserDetails', payload)
           .then((res) => {
-            console.log(res, 'res');
+            //console.log(res, 'res');
             localStorage.setItem('designation', this.designation);
             this.isEditing = false;
             this.activeUserInfo.profile_pic = res.data.profile_image;
-            console.log(res.data.profile_image, 'img');
-            console.log(payload, 'pay');
+            //console.log(res.data.profile_image, 'img');
+            //console.log(payload, 'pay');
             this.$store.commit('UPDATE_USER_INFO', this.activeUserInfo);
             this.$vs.notify({
               title: 'Success',
@@ -192,7 +192,7 @@ export default {
             this.logout();
           })
           .catch((err) => {
-            console.error(err);
+            ////console.log(err);
             this.$vs.notify({
               title: 'Error',
               text: 'Error Saving Details',

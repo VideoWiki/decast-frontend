@@ -25,7 +25,7 @@ export default {
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -41,7 +41,7 @@ export default {
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -51,15 +51,15 @@ export default {
       email,
     };
     try {
-      console.log('hello');
+      //console.log('hello');
       const resObj = await axios.post(
         constants.apiUrl + `/api/send_otp/`,
         userDetails
       );
-      console.log('resObj is', resObj.data);
+      //console.log('resObj is', resObj.data);
       return true;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       return false;
     }
   },
@@ -144,7 +144,7 @@ export default {
         }
       })
       .catch((error) => {
-        console.log("Error while verifying token");
+        //console.log("Error while verifying token");
       });
   },
   logOut({ commit }) {
@@ -160,7 +160,7 @@ export default {
         commit('LOGOUT', null, { root: true });
       })
       .catch((error) => {
-        console.log("Error while logging out");
+        //console.log("Error while logging out");
       });
   },
   updateUserDetails({ commit }, payload) {
@@ -190,7 +190,7 @@ export default {
   fetchAccessToken() {
     return new Promise((resolve) => {
       jwt.refreshToken().then((response) => {
-        console.log('response', response);
+        //console.log('response', response);
         resolve(response);
       });
     });
@@ -265,7 +265,7 @@ export default {
       jwt
         .verifySignature(payload)
         .then((response) => {
-          console.log('response');
+          //console.log('response');
           resolve(response);
         })
         .catch((err) => {

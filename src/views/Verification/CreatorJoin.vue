@@ -20,12 +20,12 @@ export default {
     this.$store
       .dispatch('cast/checkCreateJoin', data)
       .then((res) => {
-        console.log('This is running');
-        console.log(res);
+        //console.log('This is running');
+        //console.log(res);
         location.href = res.data.cast_url;
       })
       .catch((e) => {
-        console.log(e);
+        //console.log(e);
       });
   },
 };

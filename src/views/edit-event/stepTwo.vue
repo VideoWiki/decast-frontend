@@ -314,13 +314,13 @@ export default {
       if (this.stepTwoProps.cover_image !== '')
         this.stepTwoProps.showText = false;
     });
-    console.log('img ', this.stepTwoProps.cover_image);
+    //console.log('img ', this.stepTwoProps.cover_image);
     var x =
       this.stepTwoProps.cover_image === ''
         ? 'duded'
         : this.stepTwoProps.cover_image;
     if (this.stepTwoProps.cover_image) {
-      console.log('yeh');
+      //console.log('yeh');
       document.getElementById(
         'upload-cover-container-step2'
       ).style.backgroundImage = `url(https://api.cast.video.wiki/media/${this.stepTwoProps.cover_image})`;
@@ -330,7 +330,7 @@ export default {
       document.getElementById('brand-logo-preview').style.backgroundImage =
         'url(' + this.stepTwoProps.logo + ')';
     }
-    console.log(
+    //console.log(
       document.getElementById('upload-cover-container-step2').style
         .backgroundImage
     );

@@ -329,7 +329,9 @@ export default {
       };
       this.$store
         .dispatch('studio/updateEnableNft', payload)
-        .then(() => console.log(this.nft_enable_count))
+        .then(() => 
+        console.log(this.nft_enable_count)
+      )
         .catch((err) => {
           this.$vs.notify({
             title: 'Error',

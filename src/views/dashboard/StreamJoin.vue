@@ -206,8 +206,8 @@ export default {
           this.give_nft = details.give_nft || details.vc_details_submitted;
           this.running = details.running;
           this.expired = details.expired;
-          console.log(this.running, 'run');
-          console.log(this.expired, 'rrr');
+          //console.log(this.running, 'run');
+          //console.log(this.expired, 'rrr');
           document.getElementById('loading-bg').style.display = 'none';
 
           if (!details.running) {
@@ -238,7 +238,7 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           this.$vs.loading.close();
         });
     },

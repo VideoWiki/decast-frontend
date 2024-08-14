@@ -150,7 +150,7 @@ export default {
           );
         }
       } catch (err) {
-        console.log({ chunksAPIError: err });
+        //console.log({ chunksAPIError: err });
         this.$vs.notify({
           title: 'Error',
           text: 'Fail to split video',

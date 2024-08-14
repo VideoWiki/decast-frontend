@@ -110,7 +110,7 @@ export default {
     return axios(config);
   },
   verifySignature(payload) {
-    console.log(payload);
+    //console.log(payload);
     var config = {
       method: 'post',
       // url: `https://cors-anywhere.herokuapp.com/${Constant.hydra_ep}/api/login/?login_challenge=${payload.login_challenge}&login_type=web3`, //uncomment when use in local
@@ -151,14 +151,14 @@ export default {
     });
   },
   async submitSheet(payload) {
-    console.log(payload);
+    //console.log(payload);
     return axios.post(
       Constant.apiCastUrl + '/api/event/invitee/import/',
       payload
     );
   },
   generateAccessToken(payload) {
-    console.log('payload', payload);
+    //console.log('payload', payload);
     var data = JSON.stringify({
       access_token: payload.access_token,
     });

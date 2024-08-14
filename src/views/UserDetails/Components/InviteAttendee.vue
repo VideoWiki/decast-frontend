@@ -114,7 +114,7 @@ export default {
       formData.append(
         'file',
         this.inviteeSheet,
-        console.log(URL.createObjectURL(this.inviteeSheet))
+        //console.log(URL.createObjectURL(this.inviteeSheet))
       );
       formData.append('cast_id', this.$route.params.session_key);
       axios

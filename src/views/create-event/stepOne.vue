@@ -513,10 +513,10 @@ export default {
         return new Promise((resolve, reject) => {
           axios(config)
             .then((response) => {
-              console.log(JSON.stringify(response.data));
-              console.log('this is response', response.data.choices[0].text);
+              //console.log(JSON.stringify(response.data));
+              //console.log('this is response', response.data.choices[0].text);
               const n = response.data.choices[0].text.charAt(0);
-              console.log('F Char', n);
+              //console.log('F Char', n);
               resolve(response);
               this.$vs.loading.close();
               const data = response.data.choices[0].text.trim();
@@ -524,7 +524,7 @@ export default {
             })
             .catch((error) => {
               reject(error);
-              console.log(error);
+              //console.log(error);
             });
           });
      },
@@ -566,7 +566,7 @@ export default {
           model: 'text-davinci-003',
         });
 
-        console.log(text);
+        //console.log(text);
 
         const config = {
           method: 'post',
@@ -582,17 +582,17 @@ export default {
         return new Promise((resolve, reject) => {
           axios(config)
             .then( (response)=> {
-              console.log(JSON.stringify(response.data));
+              //console.log(JSON.stringify(response.data));
             
               const generatedTitle = response.data.choices[0].text.trim();
-              console.log('Generated Title:', generatedTitle);
+              //console.log('Generated Title:', generatedTitle);
               resolve(generatedTitle);
               this.stepOneProps.generated_event_title = generatedTitle;
 
             })
             .catch(function (error) {
               reject(error);
-              console.log(error);
+              //console.log(error);
             });
         });
      },

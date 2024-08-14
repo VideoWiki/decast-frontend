@@ -13,7 +13,7 @@ export default {
   mounted() {
     window.addEventListener('message', (event) => {
       if (event.data === 'loginSuccess') {
-        console.log(this.$store.state.auth.loggedIn, 'loggedIn');
+        //console.log(this.$store.state.auth.loggedIn, 'loggedIn');
         this.$store.dispatch('auth/fetched');
         this.$acl.change('user');
         this.$store.commit('auth/SET_LOGGEDIN', true);
@@ -35,7 +35,7 @@ export default {
         document.getElementById('loading-bg').style.display = 'none';
       })
       .catch(error => {
-        console.error('Operation failed:', error);
+        ////console.log('Operation failed:', error);
         document.getElementById('loading-bg').style.display = 'none';
       });
   },

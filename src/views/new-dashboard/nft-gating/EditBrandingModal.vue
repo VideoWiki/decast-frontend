@@ -141,7 +141,7 @@ export default {
                     reader.onload = (event) => {
                         this.logoImg = event.target.result;
                         this.img1Src = event.target.result;
-                        console.log(file);
+                        //console.log(file);
                         this.castDetails.logo = file;
                     };
                     reader.readAsDataURL(file);

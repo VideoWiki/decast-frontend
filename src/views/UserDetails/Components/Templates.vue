@@ -170,18 +170,18 @@ export default {
     };
   },
   async mounted() {
-    console.log('this is Quill instance:', this.editor);
+    //console.log('this is Quill instance:', this.editor);
     this.getTemplate(this.role);
     this.$refs.Templates.$el.childNodes[1].childNodes[0].style.display = 'none';
     this.$refs.Templates.$el.childNodes[1].style.width = '400px';
   },
   methods: {
     closeDropDown() {
-      console.log('Clicked On Drop Down');
+      //console.log('Clicked On Drop Down');
     },
     onBodyChange: debounce(function (value) {
       this.body = value.html;
-      console.log(value);
+      //console.log(value);
     }, 466),
     sendTestEmail() {
       this.$vs.loading();
@@ -245,7 +245,7 @@ export default {
         .dispatch('studio/getTemplate', payload)
         .then((res) => {
           this.$vs.loading.close();
-          console.log(res.data);
+          //console.log(res.data);
           this.subject = res.data.data.subject;
           this.body = res.data.data.body;
         })

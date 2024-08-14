@@ -22,7 +22,7 @@
                     <div class="op-3 mt-6">
                         <button
                             class="cast_start_btn_ flex justify-center items-center text-lg font-semibold gap-6 p-2 px-4 cursor-pointer bg-primary"
-                            @click="handleButtonClick">/Cast.enter <span class="pt-2">
+                            @click="handleButtonClick">/cast.enter <span class="pt-2">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M17.9678 1.49731H1.49731V17.9678H17.9678V1.49731Z" fill="white" />
@@ -245,7 +245,7 @@ import axios from '../axios';
 import constants from '../../constant';
 
 export default {
-    name: 'New Landing',
+    name: 'Landing',
     components: {
         Navbar,
         Footer
@@ -260,7 +260,7 @@ export default {
     mounted() {
         window.addEventListener('message', (event) => {
             if (event.data === 'loginSuccess') {
-                console.log(this.$store.state.auth.loggedIn, 'loggedIn');
+                //console.log(this.$store.state.auth.loggedIn, 'loggedIn');
                 this.$store.dispatch('auth/fetched');
                 this.$acl.change('user');
                 this.$store.commit('auth/SET_LOGGEDIN', true);
@@ -325,7 +325,7 @@ export default {
                     text: 'Try again',
                     color: 'danger',
                 });
-                console.error('Error sending message:', error);
+                ////console.log('Error sending message:', error);
             }
         },
         resetForm() {

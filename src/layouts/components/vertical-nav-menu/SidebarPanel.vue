@@ -191,7 +191,7 @@ export default {
       }
     },
     toggleStorage(){
-      console.log("Hello");
+      //console.log("Hello");
       this.$store.commit('studio/toggleStorage');
     },
     togglePublish() {

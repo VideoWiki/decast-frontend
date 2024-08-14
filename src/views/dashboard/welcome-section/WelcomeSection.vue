@@ -82,11 +82,11 @@ export default {
       this.$store
         .dispatch('room/start', id)
         .then((res) => {
-          console.log(res.data);
+          //console.log(res.data);
           window.location.href = res.data.room_url;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
         });
     },
     created() {

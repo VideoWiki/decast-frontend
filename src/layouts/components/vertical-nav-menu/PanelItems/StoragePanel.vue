@@ -49,30 +49,30 @@ export default {
     },
     toggleRequestSelection() { 
       this.isRequestSelected = !this.isRequestSelected;
-      console.log('Request clicked');
+      //console.log('Request clicked');
     },
     getIconPath(iconName) {
       return require(`@/assets/images/storage-icons/${iconName}`);
     },
     performLocalDiskAction() {
       // Implement logic for the Local Disk action
-      console.log("A clicked");
+      //console.log("A clicked");
     },
     performPublicCloudAction() {
       // Implement logic for the Public Cloud action
-      console.log("B clicked");
+      //console.log("B clicked");
     },
     performPrivateCloudAction() {
       // Implement logic for the Private Cloud action
-      console.log("C clicked");
+      //console.log("C clicked");
     },
     performDecentralizedAction() {
       // Implement logic for the Decentralized action
-      console.log("D clicked");
+      //console.log("D clicked");
     },
     requestStorageOption() {
       // Implement logic for the Request Storage Option action
-      console.log("D clicked");
+      //console.log("D clicked");
     },
   },
 };

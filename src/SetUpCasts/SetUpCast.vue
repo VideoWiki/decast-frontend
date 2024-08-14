@@ -354,12 +354,12 @@ export default {
     },
     createCast() {
       if (this.validateFormOne) {
-        // console.log('success validated');
+        // //console.log('success validated');
         this.formSubmitted();
       }
     },
     setCreateEventData() {
-      // console.log('12');
+      // //console.log('12');
       this.startNow = this.stepOneProps.start_now;
       for (let [key, value] of Object.entries(this.stepOneProps)) {
         if (value.length === 0) {
@@ -375,7 +375,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      // console.log('123');
+      // //console.log('123');
       this.stepTwoProps.imageURL = '';
       this.stepTwoProps.BackImageURL = '';
       for (let [key, value] of Object.entries(this.stepTwoProps)) {
@@ -392,7 +392,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      // console.log('1234');
+      // //console.log('1234');
       for (let [key, value] of Object.entries(this.stepThreeProps)) {
         if (value.length === 0) {
           value = '';
@@ -408,7 +408,7 @@ export default {
         this.formData.append(key, value);
       }
       for (let [key, value] of Object.entries(this.stepFourProps)) {
-        // console.log(value);
+        // //console.log(value);
 
         if (value.length === 0) {
           value = '';
@@ -425,7 +425,7 @@ export default {
       }
     },
     formSubmitted() {
-      // console.log(
+      // //console.log(
       //   this.stepFourProps.record,
       //   this.stepFourProps.start_stop_recording,
       //   this.stepOneProps
@@ -502,11 +502,11 @@ export default {
           session_key: this.session_key,
         })
         .then((res) => {
-          console.log('certificate info getting');
+          //console.log('certificate info getting');
           this.abi = res.data.aib;
         })
         .catch((e) => {
-          console.log('certificate info not getting');
+          //console.log('certificate info not getting');
           if (e.response.data.message === 'invalid cast_id') {
             this.$vs.notify({
               title: 'Invalid Cast ID',
@@ -514,7 +514,7 @@ export default {
             });
             this.$router.push('/error/404');
           }
-          console.log(e);
+          //console.log(e);
         });
     },
     castInfo(setRunning) {

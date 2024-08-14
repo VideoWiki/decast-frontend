@@ -54,7 +54,7 @@ export default {
                 })
                 .catch((e) => {
                     this.isLoading = false;
-                    console.log(e.resonse);
+                    //console.log(e.resonse);
                 });
         },
     },

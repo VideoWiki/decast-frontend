@@ -234,7 +234,7 @@ export default {
           const diff = expiration.diff(now);
           const diffDuration = moment.duration(diff);
         })
-        .catch((error) => console.log('hii error', error));
+        .catch((error) => //console.log('hii error', error));
     },
     claimNFT() {
       window.open(
@@ -251,7 +251,7 @@ export default {
         this.$store
           .dispatch('cast/sendingOtp', data)
           .then((res) => {
-            console.log('Otp Sending');
+            //console.log('Otp Sending');
             this.emailVerify = false;
             this.otpVerify = true;
             this.$vs.notify({
@@ -281,7 +281,7 @@ export default {
         this.$store
           .dispatch('cast/verifyingOtp', data)
           .then((res) => {
-            console.log('otp verifyinh');
+            //console.log('otp verifyinh');
             this.$vs.loading();
             setTimeout(() => {
               this.$vs.loading.close();

@@ -299,8 +299,8 @@ export default {
     },
     mounted() {
         window.addEventListener('click', this.closeDropDown);
-        console.log(this.isStream);
-        console.log(this.viewer);
+        //console.log(this.isStream);
+        //console.log(this.viewer);
         if (this.isStream)
             this.options.push({ value: 'spectator', label: 'Spectator' });
         if (this.viewer) this.options.push({ value: 'viewer', label: 'Viewer' });
@@ -418,16 +418,16 @@ export default {
             fileInput.value = '';
         },
         closeDropDown(e) {
-            console.log(e.target.tagName);
+            //console.log(e.target.tagName);
             if (e.target.tagName !== 'LI') {
-                console.log(2);
+                //console.log(2);
                 this.isDropdownOpen = false;
             }
         },
         toggleDropdown(event) {
             if (window.innerWidth >= 420) {
                 event.preventDefault();
-                console.log(1);
+                //console.log(1);
                 setTimeout(() => (this.isDropdownOpen = !this.isDropdownOpen), 500);
             }
         },
@@ -448,7 +448,7 @@ export default {
                     result = false;
                 })
                 .catch((err) => {
-                    console.log(err);
+                    //console.log(err);
                     result = true;
                 });
             return result;
@@ -458,7 +458,7 @@ export default {
             var x = {};
             var emailList = this.userEmail.split(',').map((item) => {
                 if (x[item.trim()]) {
-                    console.log('nooooo');
+                    //console.log('nooooo');
                     return;
                 }
                 x[item.trim()] = 1;
@@ -494,7 +494,7 @@ export default {
                     });
                     continue;
                 }
-                console.log(duplicate);
+                //console.log(duplicate);
                 users.push({
                     name: '',
                     email: emailList[i],
@@ -607,7 +607,7 @@ export default {
         //       this.$vs.loading.close();
         //     })
         //     .catch((err) => {
-        //       console.log(err);
+        //       //console.log(err);
         //       this.$vs.loading.close();
         //       this.$vs.notify({
         //         title: 'Error',
@@ -694,7 +694,7 @@ export default {
                     this.userDetails();
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                     this.$vs.notify({
                         time: 3000,
                         title: 'Unauthorized',

@@ -81,7 +81,7 @@ export default {
           isPublic: true,
         })
         .then((response) => {
-          console.log('Join API response:', response.data);
+          //console.log('Join API response:', response.data);
           const roomUrl = response.data.room_url;
           window.location.href = roomUrl;
           this.$vs.notify({
@@ -91,7 +91,7 @@ export default {
           });
         })
         .catch((error) => {
-          console.error('Join API error:', error);
+          ////console.log('Join API error:', error);
           this.$vs.notify({
             title: 'OOPS',
             text: error.response.data.message,
@@ -109,12 +109,12 @@ export default {
       try {
         const response = await axios(config);
         const responseData = response.data;
-        console.log('here are we', responseData);
+        //console.log('here are we', responseData);
         this.eventName = responseData.meeting_info.event_name;
         this.creator = responseData.meeting_info.event_creator_name;
         document.getElementById('loading-bg').style.display = 'none';
       } catch (error) {
-        console.error(error);
+        ////console.log(error);
       }
     },
   },

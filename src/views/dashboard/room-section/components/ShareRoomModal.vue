@@ -41,7 +41,7 @@ export default {
                     user: this.email,
                 },
             };
-            console.log(options)
+            //console.log(options)
 
             axios
                 .request(options)
@@ -53,7 +53,7 @@ export default {
                     });
                 })
                 .catch(function (error) {
-                    console.error(error);
+                    ////console.log(error);
                 });
         },
     },

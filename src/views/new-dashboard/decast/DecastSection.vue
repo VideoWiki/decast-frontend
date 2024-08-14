@@ -289,7 +289,7 @@ export default {
             this.focusYourRooms = toYourRooms;
         },
         handleCardClick(details) {
-            console.log(details, 'detao;s');
+            //console.log(details, 'detao;s');
             this.selectedCastId = details;
             this.getSelectedStorage();
         },
@@ -312,25 +312,25 @@ export default {
             try {
                 this.loading = true;
                 const response = await axios.get(url);
-                console.log('Storage retrived successfully:', response.data);
+                //console.log('Storage retrived successfully:', response.data);
 
                 if (response.data.SIA == true && response.data.SWARM == false) {
-                    console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    //console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
                     this.selectedStorage = 'Sia';
                     this.preSelected = true;
                 } else if (response.data.SIA == false && response.data.SWARM == true) {
-                    console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    //console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
                     this.selectedStorage = 'Swarm';
                     this.preSelected = true;
                 } else if (response.data.SIA == false && response.data.SWARM == false) {
-                    console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    //console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
                     this.selectedStorage = 'Null';
                 }
                 this.loading = false;
             } catch (error) {
                 this.loading = false;
                 this.selectedStorage = 'Null';
-                // console.error('Error:', error);
+                // ////console.log('Error:', error);
             }
         },
         async getDecastList() {
@@ -342,12 +342,12 @@ export default {
                     this.castList = allEvents;
                     this.firstCastId = this.castList[0];
                     this.selectedCastId = this.castList[0];
-                    console.log('This is castlist', this.castList)
+                    //console.log('This is castlist', this.castList)
                     this.isCastsLoading = false;
                 }
             } catch (error) {
                 this.isCastsLoading = false;
-                console.log("Error in fetching cast detail");
+                //console.log("Error in fetching cast detail");
             }
         },
         async getDecastRecordings() {
@@ -355,10 +355,10 @@ export default {
             try {
                 const res = await this.$store.dispatch('cast/decastRecordings');
                 this.isRecordingLoading = false;
-                console.log(res);
+                //console.log(res);
             } catch (e) {
                 this.isRecordingLoading = false;
-                console.log(e);
+                //console.log(e);
             }
         },
         flattenRecordingList(recordings) {
@@ -372,7 +372,7 @@ export default {
         },
         toggleCopy(index) {
             this.showCopy = this.showCopy === index ? null : index;
-            console.log(index, 'copy');
+            //console.log(index, 'copy');
         },
         truncateText(text, maxLength) {
             if (text.length > maxLength) {
@@ -442,7 +442,7 @@ export default {
             }
         },
         setCreateEventData() {
-            // console.log('12');
+            // //console.log('12');
             const board_id = localStorage.getItem("LOG_BOARDID");
             if (board_id) {
                 this.formData.append("board_id", board_id);
@@ -462,7 +462,7 @@ export default {
                 }
                 this.formData.append(key, value);
             }
-            // console.log('123');
+            // //console.log('123');
             this.stepTwoProps.imageURL = '';
             this.stepTwoProps.BackImageURL = '';
             for (let [key, value] of Object.entries(this.stepTwoProps)) {
@@ -479,7 +479,7 @@ export default {
                 }
                 this.formData.append(key, value);
             }
-            // console.log('1234');
+            // //console.log('1234');
             for (let [key, value] of Object.entries(this.stepThreeProps)) {
                 if (value.length === 0) {
                     value = '';
@@ -495,7 +495,7 @@ export default {
                 this.formData.append(key, value);
             }
             for (let [key, value] of Object.entries(this.stepFourProps)) {
-                // console.log(value);
+                // //console.log(value);
 
                 if (value.length === 0) {
                     value = '';

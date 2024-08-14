@@ -88,7 +88,7 @@ export default {
                         text: 'Shortcode is already in use, Please try different shortcode',
                         color: 'danger',
                     });
-                    console.error('Error in dispatch:', error);
+                    ////console.log('Error in dispatch:', error);
                 });
         }
     },

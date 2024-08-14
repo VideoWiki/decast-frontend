@@ -115,7 +115,7 @@ export default {
         this.btndisable = true;
         this.$router.push('/studio');
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       } finally {
         this.btndisable = false;
       }

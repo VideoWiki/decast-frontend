@@ -82,7 +82,7 @@ export default {
                     }
                 })
                 .catch(error => {
-                    console.error('Error fetching API:', error);
+                    ////console.log('Error fetching API:', error);
                 });
         },
     },

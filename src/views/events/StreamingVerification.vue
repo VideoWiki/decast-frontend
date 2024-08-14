@@ -221,7 +221,7 @@ export default {
           if (!this.give_nft) {
             this.skippedStep = true;
           }
-          console.log(this.skippedStep);
+          //console.log(this.skippedStep);
           if (res.data.status === true) {
             this.verified = true;
           }

@@ -25,11 +25,11 @@ export default {
     },
   },
   mounted() {
-    console.log(this.activePopup);
+    //console.log(this.activePopup);
   },
   methods: {
     click(e) {
-      console.log(e.currentTarget);
+      //console.log(e.currentTarget);
       if (e.currentTarget === e.target) {
         this.$store.commit('room/SET_POPUP', '');
       }

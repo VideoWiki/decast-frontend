@@ -353,7 +353,7 @@ export default {
     },
     async toggleStream(id, action) {
       // this.resetShowTooltip2();
-      console.log(action);
+      //console.log(action);
       try {
         this.$vs.loading();
         if (action === 'start') {
@@ -486,7 +486,7 @@ export default {
         this.isCastStart = true;
         window.open(res.url, '_blank');
       } catch (e) {
-        console.log('error', e);
+        //console.log('error', e);
       }
     },
     async deleteCast(deleteCastId) {

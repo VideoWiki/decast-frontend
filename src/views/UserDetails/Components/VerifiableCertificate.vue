@@ -266,7 +266,7 @@ export default {
             this.airdrops = false;
           })
           .catch((e) => {
-            console.log(JSON.stringify(e));
+            //console.log(JSON.stringify(e));
             if (e) {
               this.$vs.notify({
                 time: 6000,

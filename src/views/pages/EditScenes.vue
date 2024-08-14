@@ -274,7 +274,7 @@ export default {
           this.$store.commit('studio/setScriptSceneVideo', response);
         })
         .catch(err => {
-          console.log('edit scene script', err);
+          //console.log('edit scene script', err);
           /* this.$Progress.fail();
           this.$vs.loading.close(); */
           this.$vs.notify({

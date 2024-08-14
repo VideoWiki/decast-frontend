@@ -139,7 +139,7 @@ export default {
           return response.json();
         })
         .then(data => {
-          console.log('Join API response:', data);
+          //console.log('Join API response:', data);
           const roomUrl = data.room_url;
           window.location.href = roomUrl;
           this.isJoining = false;
@@ -150,7 +150,7 @@ export default {
           });
         })
         .catch(error => {
-          console.error('Join API error:', error);
+          ////console.log('Join API error:', error);
           this.isJoining = false;
           this.$vs.notify({
             title: 'OOPS',
@@ -174,7 +174,7 @@ export default {
         this.castType = responseData.details.cast_type;
         document.getElementById('loading-bg').style.display = 'none';
       } catch (error) {
-        console.error(error);
+        ////console.log(error);
       }
     },
   },

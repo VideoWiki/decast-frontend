@@ -210,10 +210,10 @@ export default {
             this.$store
                 .dispatch('room/getList')
                 .then((res) => {
-                    console.log(res);
+                    //console.log(res);
                 })
                 .catch((e) => {
-                    console.log(e);
+                    //console.log(e);
                 });
         },
         start(url) {
@@ -222,11 +222,11 @@ export default {
             this.$store
                 .dispatch('room/start', id)
                 .then((res) => {
-                    console.log(res.data);
+                    //console.log(res.data);
                     window.location.href = res.data.room_url;
                 })
                 .catch((e) => {
-                    console.log(e);
+                    //console.log(e);
                 });
         },
         deleteRoom(room) {
@@ -240,7 +240,7 @@ export default {
             axios
                 .request(options)
                 .then((response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     const index = this.roomsList.indexOf(room);
                     if (index !== -1) {
                         var newRooms = this.roomsList;
@@ -251,7 +251,7 @@ export default {
                 })
                 .catch((error) => {
                     this.isLoading = false;
-                    console.error(error);
+                    ////console.log(error);
                 });
         },
         checkScreenWidth() {

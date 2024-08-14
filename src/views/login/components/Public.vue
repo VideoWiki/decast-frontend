@@ -69,7 +69,7 @@ export default {
   },
   created() {
     detectIncognito().then((result) => {
-      console.log('this is working ', result.browserName, result.isPrivate);
+      //console.log('this is working ', result.browserName, result.isPrivate);
       if (result.isPrivate && result.browserName.toLowerCase() === 'chrome') {
         this.isIncognito = true;
       } else {
@@ -107,7 +107,7 @@ export default {
               login_challenge: this.$route.query.login_challenge,
             })
             .then((response) => {
-              console.log(5);
+              //console.log(5);
               this.$acl.change(this.activeUserInfo.userRole);
               this.$router.push('/');
               this.$vs.loading.close();
@@ -123,7 +123,7 @@ export default {
           this.$vs.loading.close();
         }
       } catch (error) {
-        console.log(error, 'err');
+        //console.log(error, 'err');
         if (this.isIncognito) {
           this.$vs.notify({
             title: this.$t('Login.notify.title'),

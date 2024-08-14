@@ -441,43 +441,43 @@ export default {
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         time: moment().add(5, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
       };
-      console.log('1');
+      //console.log('1');
 
       this.$store
         .dispatch('studio/createInstantCast', payload)
         .then((res) => {
-          console.log('2');
+          //console.log('2');
           // Work Here
           localStorage.setItem('Instant_cast', JSON.stringify(res.data));
-          console.log(3);
+          //console.log(3);
           localStorage.setItem('open', 'false');
-          console.log(4);
+          //console.log(4);
           this.$vs.notify({
             time: 3000,
             title: 'Success',
             text: 'Redirecting',
             color: 'success',
           });
-          console.log(5);
+          //console.log(5);
 
           this.$store.dispatch('auth/addURLS', res.data);
-          console.log(6);
+          //console.log(6);
           this.coHostUrl = res.data['co-host_url'][0];
-          console.log(7);
+          //console.log(7);
           this.participantUrl = res.data.participant_url[0];
-          console.log(8);
+          //console.log(8);
           this.showOneClickModal = false;
 
           // window.open(res.data.creator_url, '_blank');
           this.$refs.link.setAttribute('href', '/'); //  "/ <- homepage " , delete res.data.creator and put this is on any other page
-          console.log(this.$refs.link);
+          //console.log(this.$refs.link);
 
           this.$refs.link.click();
-          console.log(11);
+          //console.log(11);
           setTimeout(() => {
             location.replace(res.data.creator_url[0]);
           }, 1000);
-          console.log(12);
+          //console.log(12);
 
           // worked Here
         })

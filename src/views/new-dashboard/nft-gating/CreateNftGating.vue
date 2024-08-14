@@ -218,13 +218,13 @@ export default {
                 this.$vs.loading.close();
             } catch (error) {
                 this.$vs.loading.close();
-                console.error("Error calling contract function:", error);
+                ////console.log("Error calling contract function:", error);
             }
         },
         async createNFTGating() {
             this.isLoading = true;
             if (!tokenContractWithSigner) {
-                console.error("Contract not initialized");
+                ////console.log("Contract not initialized");
                 this.isLoading = false;
                 return;
             }
@@ -254,7 +254,7 @@ export default {
                 }
             }
             try {
-                console.log("payload", payload)
+                //console.log("payload", payload)
                 fetch("https://api.cast.decast.live/api/event/nft-gating/register/", {
                     method: 'POST',
                     headers: {
@@ -281,7 +281,7 @@ export default {
                 }).catch(error => {
                     this.isLoading = false;
                     document.getElementById('loading-bg-transparent').style.display = 'none';
-                    console.error("Error while enabling nft gating")
+                    ////console.log("Error while enabling nft gating")
                 });
                 // const result = await tokenContractWithSigner.registerEvent(eventId, accessLevels, ticketPrices, whitelist);
                 // document.getElementById('loading-bg-transparent-title').innerText = 'Processing transaction';
@@ -302,7 +302,7 @@ export default {
             } catch (error) {
                 this.isLoading = false;
                 document.getElementById('loading-bg-transparent').style.display = 'none';
-                console.error("Error calling registerEvent function:", error);
+                ////console.log("Error calling registerEvent function:", error);
             }
         },
         async saveTokensToBackend(roles, tokenIds) {
@@ -350,7 +350,7 @@ export default {
         async updateNFTGating() {
             this.isLoading = true;
             if (!tokenContractWithSigner) {
-                console.error("Contract not initialized");
+                ////console.log("Contract not initialized");
                 this.isLoading = false;
                 return;
             }
@@ -384,7 +384,7 @@ export default {
             } catch (error) {
                 this.isLoading = false;
                 document.getElementById('loading-bg-transparent').style.display = 'none';
-                console.error("Error calling registerEvent function:", error);
+                ////console.log("Error calling registerEvent function:", error);
             }
         },
         handleWhiteListChange(index) {
@@ -414,7 +414,7 @@ export default {
                     this.updateCastListElement(this.castDetails.public_meeting_id, { isNftGated: true });
                 })
                 .catch((error) => {
-                    console.log("Error updating cast")
+                    //console.log("Error updating cast")
                 });
         },
         async connectWallet() {
@@ -454,10 +454,10 @@ export default {
                                         ],
                                     });
                                 } catch (error) {
-                                    console.error('Failed to add optimism sepolia network');
+                                    ////console.log('Failed to add optimism sepolia network');
                                 }
                             } else {
-                                console.error('Failed to switch to optimism sepolia network');
+                                ////console.log('Failed to switch to optimism sepolia network');
                             }
                         }
                     }
@@ -473,7 +473,7 @@ export default {
                     console.warn('Window or window.ethereum is not available.');
                 }
             } catch (error) {
-                console.error('Error connecting wallet:', error);
+                ////console.log('Error connecting wallet:', error);
             }
         },
     },

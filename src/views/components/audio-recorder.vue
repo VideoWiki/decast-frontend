@@ -117,7 +117,7 @@ export default {
           this.button.addEventListener('click', this.stopRecording);
         })
         .catch((e) => {
-          console.error(e);
+          ////console.log(e);
         });
     },
     toBase64(blob) {
@@ -146,7 +146,7 @@ export default {
               this.audioBlob = res;
             })
             .catch((e) => {
-              console.error(e);
+              ////console.log(e);
             });
           this.audioFile = new File(buffer, 'music_' + this.sceneNum + '.mp3', {
             type: blob.type,

@@ -250,7 +250,7 @@ export default {
           this.handleSignMessage(this.publicAddress, res.data.nonce)
         )
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           this.$vs.notify({
             title: this.$t('Login.notify.title'),
             text: this.$t('Metamasklogin.tryagain'),

@@ -75,7 +75,7 @@ export default {
     },
     coHostUrl() {
       const hostUrl = JSON.parse(localStorage.getItem('Instant_cast'));
-      // console.log('this is Host' + Host_Url['co-host_url']);
+      // //console.log('this is Host' + Host_Url['co-host_url']);
       return hostUrl['co-host_url'][0];
     },
     participantUrl() {
@@ -84,7 +84,7 @@ export default {
     },
     open() {
       const openVal = localStorage.getItem('open');
-      console.log('value of Open is ', openVal);
+      //console.log('value of Open is ', openVal);
       return openVal;
     },
   },
@@ -162,8 +162,8 @@ export default {
           //   this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
         })
         .catch((err) => {
-          console.log(err.response.status);
-          console.log(JSON.stringify(err));
+          //console.log(err.response.status);
+          //console.log(JSON.stringify(err));
           // this.$router.push('/error/404.vue');
         });
     },

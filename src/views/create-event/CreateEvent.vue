@@ -525,7 +525,7 @@ export default {
           });
         } else {
           if(this.stepOneProps.event_name === '' && this.stepOneProps.description !== ''){
-           // console.log(this.stepOneProps.generated_event_title ,'its done ')
+           // //console.log(this.stepOneProps.generated_event_title ,'its done ')
              this.stepOneProps.event_name = this.stepOneProps.generated_event_title ;
             // return;
 

@@ -353,7 +353,7 @@ export default {
                 });
               })
               .catch((err) => {
-                console.log(err);
+                //console.log(err);
                 this.$Progress.fail();
                 this.$vs.loading.close();
                 this.$vs.notify({
@@ -374,7 +374,7 @@ export default {
           });
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           this.$Progress.fail();
           this.$vs.loading.close();
           this.$vs.notify({
@@ -430,7 +430,7 @@ export default {
           });
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           this.$Progress.fail();
           this.$vs.loading.close();
           this.$vs.notify({

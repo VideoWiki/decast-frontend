@@ -169,15 +169,15 @@ export default {
   },
   mounted() {
     const currentTime = moment();
-    console.log(currentTime);
+    //console.log(currentTime);
     for (let i = 0; i < this.timeOptions.length; i++) {
       const time = moment(this.timeOptions[i].value, 'HH:mm:ss');
-      console.log(time.isAfter(currentTime), time);
+      //console.log(time.isAfter(currentTime), time);
       if (time.isAfter(currentTime)) {
-        console.log('yes');
+        //console.log('yes');
         this.stepOneProps.startTime = this.timeOptions[i].value;
         this.selectedEndTime = this.timeOptions[i + 1].value;
-        console.log();
+        //console.log();
         break;
       }
     }
@@ -185,7 +185,7 @@ export default {
   },
   watch: {
     selectEnd(newV, oldV) {
-      console.log(newV);
+      //console.log(newV);
     },
   },
   beforeDestroy() {
@@ -206,10 +206,10 @@ export default {
       this.publicIsChecked = !this.publicIsChecked;
       this.privateIsChecked = !this.privateIsChecked;
 
-      console.log(
-        'Toggle Switch Clicked, auth_type:',
-        this.stepOneProps.auth_type
-      );
+      // console.log(
+      //   'Toggle Switch Clicked, auth_type:',
+      //   this.stepOneProps.auth_type
+      // );
 
       // Validation logic
       if (
@@ -306,7 +306,7 @@ export default {
       }
     },
     convertTo12(time) {
-      console.log(moment(time, 'HH:mm:ss').format('h:mm A'));
+      //console.log(moment(time, 'HH:mm:ss').format('h:mm A'));
       return moment(time, 'HH:mm:ss').format('h:mm A');
     },
     openPopup(popup) {

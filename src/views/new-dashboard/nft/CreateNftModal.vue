@@ -243,7 +243,7 @@ export default {
         };
     },
     mounted() {
-        console.log("castDetails", this.castDetails)
+        //console.log("castDetails", this.castDetails)
         this.stepOneProps.meeting_type = this.castDetails.cast_type ? this.castDetails.cast_type : this.castDetails.type;
     },
     created() {
@@ -278,7 +278,7 @@ export default {
             this.toggleDistributionType('public');
         },
         updateDistributionType(type) {
-            console.log('update called with type:', type);
+            //console.log('update called with type:', type);
             this.toggleDistributionType(type);
         },
         toggleNftSwitch() {
@@ -287,7 +287,7 @@ export default {
             this.toggleDistributionType('private');
         },
         updateGiveNft(e) {
-            console.log(e, 'updatenft');
+            //console.log(e, 'updatenft');
             if (
                 (this.stepOneProps.audienceAirdrop &&
                     this.stepOneProps.airdropType === 'NFTs') ||
@@ -313,7 +313,7 @@ export default {
             }
         },
         typeOfNft(e) {
-            console.log(e, 'typeNFT');
+            //console.log(e, 'typeNFT');
             if (this.stepOneProps.public_stream_nfts === 'true') {
                 this.stepOneProps.give_nft = false;
             } else if (this.stepOneProps.public_stream_nfts === 'false') {
@@ -357,15 +357,15 @@ export default {
             document.getElementById('nft_image').click();
         },
         canSubmitNft() {
-            console.log(
-                this.stepOneProps.audienceAirdrop,
-                this.stepOneProps.airdropType,
-                this.stepOneProps.mint_function_name,
-                this.stepOneProps.contract_address,
-                this.stepOneProps.nft_description,
-                this.stepOneProps.nft_image,
-                'stepproo'
-            );
+            // console.log(
+            //     this.stepOneProps.audienceAirdrop,
+            //     this.stepOneProps.airdropType,
+            //     this.stepOneProps.mint_function_name,
+            //     this.stepOneProps.contract_address,
+            //     this.stepOneProps.nft_description,
+            //     this.stepOneProps.nft_image,
+            //     'stepproo'
+            // );
             if (
                 this.stepOneProps.audienceAirdrop &&
                 this.stepOneProps.airdropType === 'NFTs' &&
@@ -391,7 +391,7 @@ export default {
                 }
                 this.stepOneProps.public_nft_flow =
                     this.stepOneProps.public_stream_nfts === 'true';
-                console.log('error');
+                //console.log('error');
                 this.$vs.notify({
                     time: 3000,
                     title: 'Cannot Submit',
@@ -400,14 +400,14 @@ export default {
                 });
                 return false;
             } else {
-                console.log('success');
+                //console.log('success');
                 this.stepOneProps.public_nft_flow =
                     this.stepOneProps.public_stream_nfts === 'true';
                 return true;
             }
         },
         updateGiveNft(e) {
-            console.log(e, 'updatenft');
+            //console.log(e, 'updatenft');
             if (
                 (this.stepOneProps.audienceAirdrop &&
                     this.stepOneProps.airdropType === 'NFTs') ||
@@ -470,10 +470,10 @@ export default {
                     }
                 } catch (error) {
                     this.$vs.loading.close();
-                    console.log(JSON.stringify(error));
+                    //console.log(JSON.stringify(error));
 
                     if (error.response) {
-                        console.log(error.response);
+                        //console.log(error.response);
                         this.$vs.loading.close();
                         this.$vs.notify({
                             time: 6000,
@@ -509,7 +509,7 @@ export default {
                         },
                     }
                 );
-                console.log(response, 'dkk');
+                //console.log(response, 'dkk');
                 const cid = response.data.IpfsHash;
 
                 const data = JSON.stringify({
@@ -539,12 +539,12 @@ export default {
                 this.dummyURI = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
                 await this.addNft(true);
             } catch (error) {
-                console.error('Error uploading metadata to Pinata IPFS:', error);
+                ////console.log('Error uploading metadata to Pinata IPFS:', error);
             }
         },
 
         resetFields() {
-            console.log('yes I am called');
+            //console.log('yes I am called');
             this.stepOneProps = {
                 contract_address: '',
                 contract_address_error: false,

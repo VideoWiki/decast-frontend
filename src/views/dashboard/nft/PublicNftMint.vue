@@ -295,7 +295,7 @@ export default {
       const contractAddress = this.contractAddress;
       const contract = new ethers.Contract(contractAddress, abi, provider);
       const iuri = await contract.balanceOf(this.accountAddress);
-      console.log(iuri, 'iuri');
+      //console.log(iuri, 'iuri');
       return iuri;
     },
     async fetchWallet() {
@@ -306,7 +306,7 @@ export default {
           });
           return accounts[0];
         } catch (error) {
-          console.log('Error connecting...');
+          //console.log('Error connecting...');
         }
       } else {
         alert('Meta Mask not detected');
@@ -314,7 +314,7 @@ export default {
     },
 
     async getjson() {
-      console.log('json cllled');
+      //console.log('json cllled');
       const iuri = await this.getid();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send('eth_requestAccounts', []);
@@ -322,10 +322,10 @@ export default {
       const contractAddress = this.contractAddress;
       const contract = new ethers.Contract(contractAddress, abi, provider);
       const tid = iuri._hex;
-      console.log(iuri, iuri._hex, tid, 'dkjdidi');
+      //console.log(iuri, iuri._hex, tid, 'dkjdidi');
       try {
         const uri = await contract.tokenURI(tid);
-        console.log(uri, 'jgjffh');
+        //console.log(uri, 'jgjffh');
         const response = await axios.get(
           `https://api.allorigins.win/get?url=${encodeURIComponent(uri)}`,
           {
@@ -338,12 +338,12 @@ export default {
             },
           }
         );
-        console.log(response, 'tokenmk');
+        //console.log(response, 'tokenmk');
         this.nft_image = response.data.image;
         this.nft_description = response.data.description;
       } catch (e) {
-        console.log(JSON.stringify(e), 'ofokfm');
-        console.log(e, 'rororo');
+        //console.log(JSON.stringify(e), 'ofokfm');
+        //console.log(e, 'rororo');
       }
     },
     copyTransaction() {
@@ -491,20 +491,20 @@ export default {
     async mint() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = await provider.getSigner();
-      console.log(signer, 'sign');
+      //console.log(signer, 'sign');
       const abi = this.abi;
       const functionParameters = this.params;
       const functionName = this.functionName;
-      console.log(functionName, functionParameters, 'fkfjhhj');
+      //console.log(functionName, functionParameters, 'fkfjhhj');
       const contractAddress = this.contractAddress;
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      console.log(contract, this.contract, 'cont');
-      console.log(contract, contract.tokenURI, 'token');
-      console.log('connected', this.isConnected);
+      //console.log(contract, this.contract, 'cont');
+      //console.log(contract, contract.tokenURI, 'token');
+      //console.log('connected', this.isConnected);
       if (this.isConnected) {
-        console.log('connected', this.isConnected);
-        console.log(window.ethereum.networkVersion, 'mdoom,m');
-        console.log(this.network, 'fjko');
+        //console.log('connected', this.isConnected);
+        //console.log(window.ethereum.networkVersion, 'mdoom,m');
+        //console.log(this.network, 'fjko');
         if (window.ethereum.networkVersion === this.network) {
           try {
             this.$vs.loading();
@@ -520,7 +520,7 @@ export default {
                 ...Object.values(functionParameters),
                 transactionOptions
               );
-              console.log(tx, 'ycndu');
+              //console.log(tx, 'ycndu');
               const receipt = await tx.wait();
               this.$vs.loading.close();
               this.loading = true;
@@ -563,7 +563,7 @@ export default {
             }
           } catch (e) {
             this.$vs.loading.close();
-            console.log(e, 'check nft');
+            //console.log(e, 'check nft');
             if (e.code === 'INSUFFICIENT_FUNDS')
               this.$vs.notify({
                 time: 3000,
@@ -576,7 +576,7 @@ export default {
             else if (
               e.data.message === 'The sender address has a zero balance'
             ) {
-              console.log(e.data, data, 'check nft');
+              //console.log(e.data, data, 'check nft');
               this.$vs.notify({
                 time: 3000,
                 title: 'Error',
@@ -587,7 +587,7 @@ export default {
               });
             } else {
               this.$vs.loading.close();
-              console.log(e.response);
+              //console.log(e.response);
               this.$vs.notify({
                 time: 3000,
                 title: 'Error',
@@ -598,7 +598,7 @@ export default {
               });
             }
             this.$vs.loading.close();
-            console.log('Minting Error', e);
+            //console.log('Minting Error', e);
           }
         } else {
           this.$vs.loading.close();
@@ -730,7 +730,7 @@ export default {
       }
     } catch (e) {
       this.$router.push('/error/404');
-      console.log(e);
+      //console.log(e);
     }
     this.switchNetworkRinkeby(this.network);
   },

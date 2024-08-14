@@ -502,7 +502,7 @@ export default {
                 y[i].style.borderColor = "#475569";
             }
             document.getElementById(tabid).style.display = "grid";
-            console.log(tabid)
+            //console.log(tabid)
             document.getElementById(tabid + "tab").style.borderColor = "#d7df23";
 
 

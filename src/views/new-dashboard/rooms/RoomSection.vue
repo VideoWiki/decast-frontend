@@ -121,16 +121,16 @@ export default {
   watch: {
     // whenever question changes, this function will run
     roomsList(newList) {
-      console.log(newList);
+      //console.log(newList);
       this.rooms = [...newList];
       this.firstRoomId = newList.length > 0 ? newList[0] : null;
-      console.log(this.firstRoomId, 'firstRoomId');
-      console.log(this.rooms);
+      //console.log(this.firstRoomId, 'firstRoomId');
+      //console.log(this.rooms);
     },
     recordingList(newList) {
-      console.log(newList);
+      //console.log(newList);
       this.recordings = [...newList];
-      console.log(this.recordings);
+      //console.log(this.recordings);
     },
     '$route'(to, from) {
       if (to.params.action === 'create') {
@@ -154,7 +154,7 @@ export default {
     },
     handleRoomClick(details) {
       this.selectedRoomDetails = details;
-      console.log(this.selectedRoomDetails, 'jfkll')
+      //console.log(this.selectedRoomDetails, 'jfkll')
     },
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
@@ -167,11 +167,11 @@ export default {
       this.$store
         .dispatch('room/getList')
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           this.isRoomsLoading = false;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.isRoomsLoading = false;
         });
     },
@@ -180,10 +180,10 @@ export default {
       try {
         const res = await this.$store.dispatch('room/getRecordings');
         this.isRecordingLoading = false;
-        console.log(res);
+        //console.log(res);
       } catch (e) {
         this.isRecordingLoading = false;
-        console.error('Error getting recordings', e);
+        ////console.log('Error getting recordings', e);
       }
     },
     async handleButtonClick() {
@@ -192,7 +192,7 @@ export default {
       try {
         await this.getRecordings();
       } catch (e) {
-        console.error('Error getting recordings', e);
+        ////console.log('Error getting recordings', e);
       }
       this.isRecordingLoading = false;
     },

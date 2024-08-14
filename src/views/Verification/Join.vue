@@ -246,7 +246,7 @@ export default {
           this.viewer_mode = response.data.meeting_info.viewer_mode;
           this.isExpired = response.data.meeting_info.expired;
           this.has_magic = this.$route.query.pass !== undefined;
-          console.log(this.has_magic);
+          //console.log(this.has_magic);
           var time_remaining = moment
             .utc(this.event_date + ' ' + this.event_time, moment.defaultFormat)
             .fromNow();

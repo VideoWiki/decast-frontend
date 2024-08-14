@@ -667,7 +667,7 @@ export default {
 
       try {
         const response = await this.$store.dispatch('cast/joinNow', data);
-        console.log('joining Now');
+        //console.log('joining Now');
         if (response && response.url) {
           this.responsedata = response.url;
           window.open(`/user_details/${public_meeting_id}`, '_blank');
@@ -678,10 +678,10 @@ export default {
             color: 'success',
           });
         } else {
-          console.log('Invalid response format:', response);
+          //console.log('Invalid response format:', response);
         }
       } catch (error) {
-        console.log('cannot join', error);
+        //console.log('cannot join', error);
         this.$vs.notify({
           title: 'Oops!',
           text:
@@ -699,11 +699,11 @@ export default {
           session_key: this.session_key,
         })
         .then((res) => {
-          console.log('certificate info getting');
+          //console.log('certificate info getting');
           this.abi = res.data.aib;
         })
         .catch((e) => {
-          console.log('certificate info not getting');
+          //console.log('certificate info not getting');
           if (e.response.data.message === 'invalid cast_id') {
             this.$vs.notify({
               title: 'Invalid Cast ID',
@@ -711,7 +711,7 @@ export default {
             });
             this.$router.push('/error/404');
           }
-          console.log(e);
+          //console.log(e);
         });
     },
     // Unused COde,never called
@@ -725,7 +725,7 @@ export default {
     //       alert(res.api_key);
     //     })
     //     .catch((e) => {
-    //       console.log(e);
+    //       //console.log(e);
     //     });
     // },
     // Unused COde,never called
@@ -1072,7 +1072,7 @@ export default {
           result = false;
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           result = true;
         });
       return result;

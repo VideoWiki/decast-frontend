@@ -64,7 +64,7 @@ export default {
                     document.getElementById('loading-bg-transparent').style.display = 'none';
                 }
             } catch (error) {
-                console.error('Error Redeem Amount');
+                ////console.log('Error Redeem Amount');
                 document.getElementById('loading-bg-transparent').style.display = 'none';
                 this.$vs.notify({
                     title: 'Something went wrong!',

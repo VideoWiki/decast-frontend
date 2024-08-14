@@ -67,7 +67,7 @@ export default {
         })
         .catch(err => {
           document.getElementById('upload-doc').value = '';
-          console.log(err);
+          //console.log(err);
           this.$Progress.fail();
           this.$vs.loading.close();
           this.$vs.notify({

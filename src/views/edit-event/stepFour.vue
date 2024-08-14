@@ -218,18 +218,18 @@ export default {
   name: '',
   props: ['stepFourProps', 'stepOneProps'],
   mounted() {
-    console.log('Type', this.stepOneProps.auth_type);
+    //console.log('Type', this.stepOneProps.auth_type);
   },
 
   methods: {
     onRecordingSwitch(e) {
-      console.log(e.target.value);
+      //console.log(e.target.value);
       if (this.stepFourProps.auto_start_recording) {
         this.stepFourProps.record = true;
       }
     },
     offAutoRecordingSwitch(e) {
-      console.log(typeof e.target.value);
+      //console.log(typeof e.target.value);
       if (!this.stepFourProps.record) {
         this.stepFourProps.auto_start_recording = false;
       }
@@ -239,7 +239,7 @@ export default {
         this.stepOneProps.send_otp = false;
         this.stepOneProps.public_otp = false;
         this.stepOneProps.auth_type = 'private';
-        console.log(this.stepOneProps.send_otp, this.stepOneProps.public_otp);
+        //console.log(this.stepOneProps.send_otp, this.stepOneProps.public_otp);
       } else {
         this.stepOneProps.send_otp = true;
       }

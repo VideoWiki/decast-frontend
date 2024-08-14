@@ -135,17 +135,17 @@ export default {
       } else if (type === 'public') {
         this.textColor = this.publicIsChecked ? 'gray' : '#31a2f4';
       }
-      console.log('colortype',type)
+      //console.log('colortype',type)
     },
     toggleNftSwitch() {
       this.nftIsChecked = !this.nftIsChecked;
       this.tokenIsChecked=!this.tokenIsChecked;
-      console.log('NFT switch toggled');
+      //console.log('NFT switch toggled');
     },
     togglePrivateSwitch() {
       this.privateIsChecked = !this.privateIsChecked;
       this.publicIsChecked = !this.publicIsChecked;
-      console.log('Private switch toggled');
+      //console.log('Private switch toggled');
     },
   },
 };

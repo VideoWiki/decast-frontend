@@ -181,7 +181,7 @@ export default {
         this.isLoggedIn = true;
         this.username = this.activeUserInfo.first_name || 'User';
       } else {
-        console.log('false');
+        //console.log('false');
       }
     },
     toggleMobileMenu() {

@@ -308,7 +308,7 @@ export default {
       const contractAddress = this.contractAddress;
       const contract = new ethers.Contract(contractAddress, abi, provider);
       const iuri = await contract.balanceOf(this.accountAddress);
-      console.log(iuri, 'iuri');
+      //console.log(iuri, 'iuri');
       return iuri;
     },
     async fetchWallet() {
@@ -319,7 +319,7 @@ export default {
           });
           return accounts[0];
         } catch (error) {
-          console.log('Error connecting...');
+          //console.log('Error connecting...');
         }
       } else {
         alert('Meta Mask not detected');
@@ -352,11 +352,11 @@ export default {
             this.nft_description = res.data.description;
           })
           .catch((e) => {
-            console.log(e.response);
+            //console.log(e.response);
           });
       } catch (e) {
-        console.log(JSON.stringify(e));
-        console.log(e.response);
+        //console.log(JSON.stringify(e));
+        //console.log(e.response);
       }
     },
     async switchNetworkRinkeby(id) {
@@ -415,7 +415,7 @@ export default {
     },
 
     async getMindId() {
-      console.log('mint id call');
+      //console.log('mint id call');
       try {
         const res = await this.getMintIdUtil({
           cast_id: this.$route.query.cast_id,
@@ -478,7 +478,7 @@ export default {
       this.$store
         .dispatch('studio/getMerkleTree', this.$route.query.cast_id)
         .then((res) => {
-          // console.log('merkel tree getting');
+          // //console.log('merkel tree getting');
           var leafs = res.data.map((item) => {
             return Uint8Array.from(item.data);
           });
@@ -487,7 +487,7 @@ export default {
           });
         })
         .catch((e) => {
-          // console.log('Merkel Tree Not Getting', e);
+          // //console.log('Merkel Tree Not Getting', e);
         });
     },
     async mint() {
@@ -501,7 +501,7 @@ export default {
       if (this.isConnected) {
         if (window.ethereum.networkVersion === this.network) {
           try {
-            console.log('inside block');
+            //console.log('inside block');
             this.$vs.loading();
             const verifiedWallet = await this.verifyWallet();
             if (verifiedWallet) { 
@@ -531,9 +531,9 @@ export default {
                 this.loading = false;
               }, 1000);
             } else {
-              console.log('mint');
+              //console.log('mint');
               const mintIsStatus = await this.getMindId();
-              console.log(mintIsStatus, 'min');
+              //console.log(mintIsStatus, 'min');
               if (mintIsStatus !== null) {
                 this.$vs.notify({
                   title: 'Cannot Add Again',
@@ -558,7 +558,7 @@ export default {
             }
           } catch (e) {
             this.$vs.loading.close();
-            console.log(e, 'check nft');
+            //console.log(e, 'check nft');
             if (e.code === 'INSUFFICIENT_FUNDS')
               this.$vs.notify({
                 time: 3000,
@@ -571,7 +571,7 @@ export default {
             else if (
               e.data.message === 'The sender address has a zero balance'
             ) {
-              console.log(e.data, data, 'check nft');
+              //console.log(e.data, data, 'check nft');
               this.$vs.notify({
                 time: 3000,
                 title: 'Error',
@@ -582,7 +582,7 @@ export default {
               });
             } else {
               this.$vs.loading.close();
-              console.log(e.response);
+              //console.log(e.response);
               this.$vs.notify({
                 time: 3000,
                 title: 'Error',
@@ -593,7 +593,7 @@ export default {
               });
             }
             this.$vs.loading.close();
-            console.log('Minting Error', e);
+            //console.log('Minting Error', e);
           }
         } else {
           this.$vs.loading.close();
@@ -619,7 +619,7 @@ export default {
     //       try {
     //         await this.verifyWallet();
     //         const mintIsStatus = await this.getMindId();
-    //         console.log(mintIsStatus,'lekke');
+    //         //console.log(mintIsStatus,'lekke');
     //         if (mintIsStatus != null) {
     //           this.$vs.notify({
     //             title: 'Cannot Add Again',
@@ -681,7 +681,7 @@ export default {
     //             color: 'danger',
     //           });
     //         } else {
-    //           console.log('message', e.reason);
+    //           //console.log('message', e.reason);
     //           this.$vs.notify({
     //             time: 3000,
     //             title: 'Error',
@@ -694,7 +694,7 @@ export default {
     //             color: 'danger',
     //           });
     //         }
-    //         console.log('Minting Error', e);
+    //         //console.log('Minting Error', e);
     //       }
     //     } else {
     //       this.switchNetworkRinkeby(this.network);
@@ -813,7 +813,7 @@ export default {
         nftType: 'NFTs',
       };
       await this.$store.dispatch('cast/getNFTDetails', payload).then((res) => {
-        console.log('working');
+        //console.log('working');
         this.contractAddress = res.data.contract_adress;
         this.abi = res.data.aib;
         this.functionName = res.data.mint_function_name;
@@ -841,7 +841,7 @@ export default {
         });
         this.$router.push('/error/404');
       }
-      console.log('not workiing', e);
+      //console.log('not workiing', e);
     }
     this.switchNetworkRinkeby(this.network);
   },

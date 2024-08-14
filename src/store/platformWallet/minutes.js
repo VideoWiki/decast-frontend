@@ -35,7 +35,7 @@ const actions = {
         swarmFreeGiven: swarm_free_given,
       });
     } catch (error) {
-      console.error('Error fetching user minutes:', error);
+      ////console.log('Error fetching user minutes:', error);
     }
   },
 };

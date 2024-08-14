@@ -186,8 +186,8 @@ export default {
               .clone()
               .add(this.timeLeft, 'minutes');
             this.endTime = endTimeMoment.format('HH:mm:ss');
-            console.log(this.endTime);
-            console.log(this.timeLeft);
+            //console.log(this.endTime);
+            //console.log(this.timeLeft);
           }
         }
       },
@@ -202,27 +202,27 @@ export default {
   methods: {
     handleDateChange(selectedDate) {
       this.selectedDate = selectedDate;
-      console.log(selectedDate, 'date');
+      //console.log(selectedDate, 'date');
     },
     changeFocus(toPostpone) {
       this.focusReschedule = toPostpone;
-      console.log('EEEE');
+      //console.log('EEEE');
     },
     openPopup(popup) {
       setTimeout(() => {
-        console.log(this[popup]);
+        //console.log(this[popup]);
         this[popup] = !this[popup];
       }, 1);
     },
     setStartTime(time) {
       this.startTime = time.label;
       this.selectStart = false;
-      console.log('Start');
+      //console.log('Start');
     },
     setEndTime(time) {
       this.endTime = time.label;
       this.selectEnd = false;
-      console.log('End');
+      //console.log('End');
     },
     closePopups() {
       if (this.selectStart) this.selectStart = false;
@@ -291,7 +291,7 @@ export default {
         });
         this.closePostpone();
       } catch (e) {
-        console.log(e);
+        //console.log(e);
         this.$vs.notify({
           title: 'Error',
           text: 'Changes Not Saved',

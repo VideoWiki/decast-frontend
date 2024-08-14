@@ -369,7 +369,7 @@ export default {
         this.btndisabl = true;
         // Write blockchain code here!!!!
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       } finally {
         this.btndisabl = false;
       }

@@ -14,15 +14,15 @@ export const utils = {
     },
     updateScroll() {
       // let scrollPosition = window.scrollY
-      // console.log(scrollPosition)
+      // //console.log(scrollPosition)
       for (const s in this.$store.state.studio.scenes) {
         const rect = document
           .getElementById('scene_card_' + s)
           .getBoundingClientRect();
-        // console.log(s, "bounding client", rect.top, rect.bottom);
+        // //console.log(s, "bounding client", rect.top, rect.bottom);
 
         if (rect.top < 200 && rect.bottom > (this.insideIframe ? 420 : 500)) {
-          // console.log(s+" is active")
+          // //console.log(s+" is active")
           this.$store.commit('studio/setActiveScene', parseInt(s) + 1);
         }
       }

@@ -254,10 +254,10 @@ export default {
                     ],
                   });
                 } catch (error) {
-                  console.error('Failed to add optimism sepolia network');
+                  ////console.log('Failed to add optimism sepolia network');
                 }
               } else {
-                console.error('Failed to switch to optimism sepolia network');
+                ////console.log('Failed to switch to optimism sepolia network');
               }
             }
           }
@@ -274,7 +274,7 @@ export default {
           console.warn('Window or window.ethereum is not available.');
         }
       } catch (error) {
-        console.error('Error connecting wallet:', error);
+        ////console.log('Error connecting wallet:', error);
       }
     },
     async fetchTokenDetails() {
@@ -312,7 +312,7 @@ export default {
                 tokenImage: result.tokenImage,
               });
             } catch (error) {
-              console.error("Error occurred:", error);
+              ////console.log("Error occurred:", error);
             }
           }
         }
@@ -323,7 +323,7 @@ export default {
         document.getElementById('loading-bg-transparent').style.display = 'none';
       } catch (error) {
         document.getElementById('loading-bg-transparent').style.display = 'none';
-        console.error("Error calling contract function");
+        ////console.log("Error calling contract function");
       }
     },
     async getMeetingDetails() {
@@ -375,7 +375,7 @@ export default {
         });
         location.href = result.url;
       }).catch(error => {
-        console.log("Error occured")
+        //console.log("Error occured")
       });
     },
     openLoginModal() {

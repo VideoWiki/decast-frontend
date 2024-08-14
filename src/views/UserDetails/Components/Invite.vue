@@ -108,7 +108,7 @@ export default {
   },
   created() {},
   mounted() {
-    console.log('viewer', this.viewer_mode);
+    //console.log('viewer', this.viewer_mode);
   },
   beforeDestroy() {
     document.querySelectorAll('body > div.vs-component').forEach((el) => {
@@ -134,7 +134,7 @@ export default {
           result = false;
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           result = true;
         });
       return result;
@@ -158,7 +158,7 @@ export default {
       var x = {};
       var emailList = this.userEmail.split(',').map((item) => {
         if (x[item.trim()]) {
-          console.log('nooooo');
+          //console.log('nooooo');
           return;
         }
         x[item.trim()] = 1;
@@ -167,7 +167,7 @@ export default {
       });
       emailList = Object.keys(x);
       var validEmails = emailList.reduce((validEmail, item) => {
-        console.log(this.validateEmail(item));
+        //console.log(this.validateEmail(item));
         if (!this.validateEmail(item)) {
           this.$vs.notify({
             time: 6000,
@@ -183,7 +183,7 @@ export default {
         return;
       }
       this.$vs.loading();
-      console.log(1);
+      //console.log(1);
       var users = [];
       for (let i = 0; i < emailList.length; i++) {
         const duplicate = await this.checkInvitee(emailList[i]);
@@ -196,7 +196,7 @@ export default {
           });
           continue;
         }
-        console.log(duplicate);
+        //console.log(duplicate);
         users.push({
           name: '',
           email: emailList[i],

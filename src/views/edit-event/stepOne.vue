@@ -398,11 +398,11 @@ export default {
   },
   watch: {
     'stepOneProps.schedule_time': function (cur, prev) {
-      console.log('this is cur', cur);
+      //console.log('this is cur', cur);
     },
   },
   mounted() {
-    console.log('date', this.stepOneProps.schedule_time);
+    //console.log('date', this.stepOneProps.schedule_time);
     (this.startH =
       this.stepOneProps.schedule_time !== ''
         ? moment(this.stepOneProps.schedule_time).hours()
@@ -417,7 +417,7 @@ export default {
         this.stepOneProps.schedule_time != ''
           ? moment.utc(this.stepOneProps.schedule_time).format('YYYY-MM-DD')
           : this.setDate());
-    console.log(
+    //console.log(
       'this is moment',
       moment.utc(this.stepOneProps.schedule_time).format('YYYY-MM-DD')
     );
@@ -457,7 +457,7 @@ export default {
       this.stepOneProps.schedule_time_error = moment().isAfter(
         this.stepOneProps.schedule_time
       );
-      console.log(this.stepOneProps.schedule_time);
+      //console.log(this.stepOneProps.schedule_time);
     },
     switchingOffPublicOtp(e) {
       if (this.stepOneProps.public_otp === false) {

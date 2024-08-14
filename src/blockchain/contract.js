@@ -8,12 +8,12 @@ async function dropNft(payload) {
   // Prompt user for account connections
   await provider.send('eth_requestAccounts', []);
   const signer = provider.getSigner();
-  // console.log('Account:', await signer.getAddress()); // public address
+  // //console.log('Account:', await signer.getAddress()); // public address
 
   let account = await signer.getAddress();
-  // console.log('User Address:', account);
-  // console.log('Provider:', provider);
-  // console.log('Signer:', signer);
+  // //console.log('User Address:', account);
+  // //console.log('Provider:', provider);
+  // //console.log('Signer:', signer);
 
   // contractAddress and abi are set after contract deployment
 
@@ -31,7 +31,7 @@ async function dropNft(payload) {
 
   // pass a signer to create a contract instance for state changing operations
   const contract2 = new ethers.Contract(contractAddress, abi, signer);
-  // console.log('Contract2:', contract2);
+  // //console.log('Contract2:', contract2);
 
   const tx = await contract2.bulkAirdropERC721(wallet_addresses, nft_uri);
 

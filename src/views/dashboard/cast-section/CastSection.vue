@@ -361,14 +361,14 @@ export default {
       this.meetingId = id;
       this.invites = inviteList;
       this.isStream = typeof stream !== 'undefined';
-      console.log(typeof stream !== 'undefined');
+      //console.log(typeof stream !== 'undefined');
       this.viewer = viewer;
-      console.log(viewer);
+      //console.log(viewer);
       this.invite = true;
     },
     async toggleStream(id, action) {
       this.resetShowTooltip2();
-      console.log(action);
+      //console.log(action);
       try {
         this.$vs.loading();
         if (action === 'start') {
@@ -467,7 +467,7 @@ export default {
     },
     setProps(id) {
       const details = this.castsInfo[id].details;
-      console.log('details', details);
+      //console.log('details', details);
       this.stepOneProps = {
         event_name: details.event_name,
         moderator_password: '',
@@ -592,7 +592,7 @@ export default {
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.record-popup');
         if (this.mouse > 222) {
-          console.log('yes', roomPopups);
+          //console.log('yes', roomPopups);
           roomPopups.forEach((item) => (item.style.top = '-85%'));
         } else {
           roomPopups.forEach((item) => (item.style.top = '85%'));
@@ -607,11 +607,11 @@ export default {
         this.isRecordingLoading = false;
       } catch (e) {
         this.isRecordingLoading = false;
-        console.log(e);
+        //console.log(e);
       }
     },
     openRecording(recording) {
-      // console.log(recording, 'mmmmmmm');
+      // //console.log(recording, 'mmmmmmm');
       const playbackURL =
         recording['Playback Data']['Playback URL'].replace(
           '/presentation/2.3',
@@ -633,7 +633,7 @@ export default {
       //   text: 'Recording may take some time to process. Please wait.',
       //   color: 'primary',
       // });
-      console.log(recording, 'mmmmmmm');
+      //console.log(recording, 'mmmmmmm');
       setTimeout(() => {
         const meetingId = recording['Record ID'];
         const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
@@ -678,7 +678,7 @@ export default {
         const res = await this.$store.dispatch('cast/joinNow', data);
         window.location.href = res.url;
       } catch (e) {
-        console.log('error', e);
+        //console.log('error', e);
       }
     },
     async getCastList() {
@@ -686,7 +686,7 @@ export default {
       const response = await this.$store.dispatch('cast/getUserCasts');
       let casts = response.data.my_events;
       casts = casts.sort((a, b) => b.event_id - a.event_id);
-      // console.log(casts, casts.event_id, 'cats list');
+      // //console.log(casts, casts.event_id, 'cats list');
       const castInfoPromises = casts.map(async (cast) => {
         try {
           const castDetails = await this.$store.dispatch(
@@ -695,7 +695,7 @@ export default {
           );
           return { castId: cast.public_meeting_id, details: castDetails.data };
         } catch (error) {
-          console.error(error);
+          ////console.log(error);
           return null;
         }
       });
@@ -711,7 +711,7 @@ export default {
             details: castDetails.data.meeting_info,
           };
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       });
       const streamInfoList = await Promise.all(streamInfoPromise);
@@ -731,10 +731,10 @@ export default {
       this.castsInfo = castsInfo;
       this.casts = casts;
       this.isCastsLoading = false;
-      console.log(streamInfo, 'streamInfo');
+      //console.log(streamInfo, 'streamInfo');
       // document.getElementById('loading-bg').style.display = 'none';
-      // console.log(castsInfo, 'TTTT');
-      // console.log(casts, 'pppp');
+      // //console.log(castsInfo, 'TTTT');
+      // //console.log(casts, 'pppp');
     },
     async updateCastList() {
       // await this.getCastList();
@@ -743,7 +743,7 @@ export default {
       this.showEditCast = true;
       this.index = id;
       this.toEditCast = toEditCast;
-      console.log('index', this.index);
+      //console.log('index', this.index);
     },
     updateShowEditCast(value) {
       this.showEditCast = value;
@@ -779,7 +779,7 @@ export default {
     toggleCopy(index) {
       this.postPoneVisible = false;
       this.showCopy = this.showCopy === index ? null : index;
-      console.log(index, 'copy');
+      //console.log(index, 'copy');
     },
     resetShowTooltip2() {
       this.showTooltip2 = null;
@@ -796,7 +796,7 @@ export default {
     },
     async deleteCast(index) {
       const res = await this.$store.dispatch('cast/deleteCast', this.index);
-      console.log(res);
+      //console.log(res);
       const newCasts = this.casts.filter((item) => {
         return item.public_meeting_id !== index;
       });

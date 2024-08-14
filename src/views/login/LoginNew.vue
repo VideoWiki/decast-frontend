@@ -152,7 +152,7 @@ export default {
   },
   created() {
     detectIncognito().then((result) => {
-      console.log('this is working ', result.browserName, result.isPrivate);
+      //console.log('this is working ', result.browserName, result.isPrivate);
       if (result.isPrivate && result.browserName.toLowerCase() === 'chrome') {
         this.isIncognito = true;
       } else {
@@ -214,7 +214,7 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           window.location.href = constants.challengeUri;
           this.$vs.loading.close();
           if (
@@ -321,7 +321,7 @@ export default {
           this.handleSignMessage(this.publicAddress, res.data.nonce)
         )
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           this.$vs.notify({
             title: this.$t('Login.notify.title'),
             text: this.$t('Metamasklogin.tryagain'),
@@ -333,8 +333,8 @@ export default {
     },
     submitForm() {
       if (this.validateForm) {
-        console.log('Email:', this.email);
-        console.log('Password:', this.password);
+        //console.log('Email:', this.email);
+        //console.log('Password:', this.password);
       } else {
         this.$vs.notify({
           title: 'Fill all the details',
@@ -373,8 +373,8 @@ export default {
               login_challenge: this.$route.query.login_challenge,
             })
             .then((response) => {
-              console.log(5);
-              console.log(response);
+              //console.log(5);
+              //console.log(response);
               window.location.replace(response.data.redirect_to);
               this.$acl.change(this.activeUserInfo.userRole);
               if (this.popup) this.$emit('loggedIn');
@@ -397,7 +397,7 @@ export default {
           this.$vs.loading.close();
         }
       } catch (error) {
-        console.log(error, 'err');
+        //console.log(error, 'err');
         if (this.isIncognito) {
           this.$vs.notify({
             title: this.$t('Login.notify.title'),

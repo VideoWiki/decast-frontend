@@ -260,7 +260,7 @@ export default {
       }
     },
     setCreateEventData() {
-      // console.log('12');
+      // //console.log('12');
       this.startNow = this.stepOneProps.start_now;
       for (let [key, value] of Object.entries(this.stepOneProps)) {
         if (value.length === 0) {
@@ -276,7 +276,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      // console.log('123');
+      // //console.log('123');
       this.stepTwoProps.imageURL = '';
       this.stepTwoProps.BackImageURL = '';
       for (let [key, value] of Object.entries(this.stepTwoProps)) {
@@ -293,7 +293,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      // console.log('1234');
+      // //console.log('1234');
       for (let [key, value] of Object.entries(this.stepThreeProps)) {
         if (value.length === 0) {
           value = '';
@@ -309,7 +309,7 @@ export default {
         this.formData.append(key, value);
       }
       for (let [key, value] of Object.entries(this.stepFourProps)) {
-        // console.log(value);
+        // //console.log(value);
 
         if (value.length === 0) {
           value = '';
@@ -326,7 +326,7 @@ export default {
       }
     },
     formSubmitted() {
-      // console.log(
+      // //console.log(
       //   this.stepFourProps.record,
       //   this.stepFourProps.start_stop_recording,
       //   this.stepOneProps
@@ -439,7 +439,7 @@ export default {
     },
     // setProps(id) {
     //   const details = this.castsInfo[id].details;
-    //   console.log('details', details);
+    //   //console.log('details', details);
     //   this.stepOneProps = {
     //     event_name: details.event_name,
     //     moderator_password: '',
@@ -516,7 +516,7 @@ export default {
           );
           return { castId: cast.public_meeting_id, details: castDetails.data };
         } catch (error) {
-          console.error(error);
+          ////console.log(error);
           return null;
         }
       });
@@ -532,7 +532,7 @@ export default {
             details: castDetails.data.meeting_info,
           };
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       });
 
@@ -542,7 +542,7 @@ export default {
       const validStreamInfo = streamInfoList.filter((info) => info !== null);
       const castsInfo = {};
       const streamInfo = {};
-      // console.log("castInfoPromises", casts, streamInfoList, castInfoList)
+      // //console.log("castInfoPromises", casts, streamInfoList, castInfoList)
       validCastInfoList.forEach((info) => {
         castsInfo[info.castId] = info.details;
       });
@@ -554,11 +554,11 @@ export default {
       this.castsInfo = castsInfo;
       this.casts = casts;
       this.isCastsLoading = false;
-      console.log(streamInfo, 'streamInfo');
+      //console.log(streamInfo, 'streamInfo');
     },
     toggleCopy(index) {
       this.showCopy = this.showCopy === index ? null : index;
-      console.log(index, 'copy');
+      //console.log(index, 'copy');
     },
   },
 };

@@ -117,8 +117,8 @@ export default {
     this.$store
       .dispatch('cast/meetingInfo', this.cast_Id)
       .then((res) => {
-        console.log('Meeting Info Getting');
-        console.log('result', res);
+        //console.log('Meeting Info Getting');
+        //console.log('result', res);
         this.eventName = res.data.meeting_info.event_name;
         this.eventDescription = res.data.meeting_info.description;
         this.eventCreatorEmail = res.data.meeting_info.event_creator_email;
@@ -134,7 +134,7 @@ export default {
         );
         this.eventDate = eventDateTime.local().format('YYYY-MM-DD HH:mm:ss');
         this.startDate = moment.utc().format('YYYY-MM-DD HH:mm:ss');
-        console.log(
+        //console.log(
           this.eventName,
           this.eventCreator,
           this.eventDescription,
@@ -143,8 +143,8 @@ export default {
         );
       })
       .catch((error) => {
-        console.log('Meeting Info Error');
-        console.log(error);
+        //console.log('Meeting Info Error');
+        //console.log(error);
       });
   },
 
@@ -188,7 +188,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err.response);
+          //console.log(err.response);
         });
     },
   },

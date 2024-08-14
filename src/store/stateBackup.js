@@ -52,7 +52,7 @@ const getUserDetails = () => {
       })
       .catch((error) => {
         reject(error);
-        console.log(error);
+        //console.log(error);
       });
   });
 }

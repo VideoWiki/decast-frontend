@@ -455,9 +455,9 @@ export default {
             }
           })
           .catch((e) => {
-            console.log(JSON.stringify(e));
+            //console.log(JSON.stringify(e));
             if (e) {
-              console.log(e);
+              //console.log(e);
               this.$vs.notify({
                 time: 6000,
                 title: 'Error',

@@ -118,7 +118,7 @@ export default {
             text: 'Try again',
             color: 'danger',
           });
-        console.error('Error sending message:', error);
+        ////console.log('Error sending message:', error);
       }
     },
     resetForm() {

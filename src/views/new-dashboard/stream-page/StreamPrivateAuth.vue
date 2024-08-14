@@ -273,7 +273,7 @@ export default {
         });
     },
     userVerification() {
-      console.log(this.streamDetails,'stream details');
+      //console.log(this.streamDetails,'stream details');
       const payload = {
         email: this.email,
         cast_id: this.streamDetails.public_meeting_id,

@@ -279,7 +279,7 @@ export default {
       }
     },
     async addNft(x) {
-      console.log('add nft');
+      //console.log('add nft');
       if (this.canSubmitNft()) {
         var payload = new FormData();
         for (var [key, value] of Object.entries(this.stepOneProps)) {
@@ -300,7 +300,7 @@ export default {
         await this.$store
           .dispatch('studio/updateNftDetails', payload)
           .then(async (res) => {
-            console.log(res);
+            //console.log(res);
             this.$vs.notify({
               time: 6000,
               title: 'NFT Details Updated',
@@ -311,7 +311,7 @@ export default {
             this.$router.push(`/user_details/${this.cast_Id}`);
           })
           .catch((e) => {
-            console.log(JSON.stringify(e));
+            //console.log(JSON.stringify(e));
             if (e.response.status === 500) {
               this.$vs.notify({
                 time: 6000,
@@ -393,20 +393,20 @@ export default {
           );
           this.network.forEach((item) => {
             if (this.stepOneProps.network === item.value) {
-              console.log(this.selectedNetwork, item);
+              //console.log(this.selectedNetwork, item);
               this.selectedNetwork.value = item.value;
               this.selectedNetwork.text = item.text;
               this.selectedNetwork.image = item.image;
-              console.log(this.selectedNetwork);
+              //console.log(this.selectedNetwork);
             }
           });
           this.stepOneProps.aib = JSON.stringify(res.data.aib);
           this.stepOneProps.price = res.data.price;
-          console.log(this.stepOneProps);
+          //console.log(this.stepOneProps);
           this.$vs.loading.close();
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
         });
     },
     async castInfo() {
@@ -418,8 +418,8 @@ export default {
           this.stepOneProps.public_otp = response.data.meeting_info.public_otp;
         })
         .catch((err) => {
-          console.log(err.response.status);
-          console.log(JSON.stringify(err));
+          //console.log(err.response.status);
+          //console.log(JSON.stringify(err));
           // this.$router.push('/error/404.vue');
         });
     },
@@ -428,7 +428,7 @@ export default {
     if (this.cast_Id === 'vw.svg') {
       return;
     }
-    console.log(this.$route.params);
+    //console.log(this.$route.params);
     await this.castInfo();
     this.getNFTDetails();
   },

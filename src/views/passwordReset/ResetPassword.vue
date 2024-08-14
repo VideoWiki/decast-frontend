@@ -93,7 +93,7 @@ export default {
   props: {},
   computed: {},
   mounted() {
-    console.log(this.$route);
+    //console.log(this.$route);
   },
   methods: {
     RestPassword() {

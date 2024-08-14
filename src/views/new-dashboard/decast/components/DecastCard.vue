@@ -538,7 +538,7 @@ export default {
                 })
                 .catch((error) => {
                     this.isLoading = false;
-                    console.error(error);
+                    ////console.log(error);
                 });
         },
         validateFormOne() {
@@ -678,7 +678,7 @@ export default {
                 .catch((error) => {
                     this.$vs.loading.close();
                     this.formData = new FormData();
-                    console.log(JSON.stringify(error));
+                    //console.log(JSON.stringify(error));
                     if (error) {
                         this.$vs.notify({
                             title: 'Error!',
@@ -696,12 +696,12 @@ export default {
         },
         handleEditCast(args) {
             if (this.validateFormOne) {
-                console.log('success validated');
+                //console.log('success validated');
                 this.formSubmitted(args);
             }
         },
         async toggleStream(id, action) {
-            console.log(action);
+            //console.log(action);
             try {
                 this.$vs.loading();
                 if (action === 'start') {
@@ -752,15 +752,15 @@ export default {
             try {
                 const res = await this.$store.dispatch('cast/joinNow', data);
                 this.isCastStart = true;
-                console.log(res);
+                //console.log(res);
                 window.open(res.url, '_blank');
             } catch (e) {
-                console.log('error', e);
+                //console.log('error', e);
             }
         },
         handleEditCast(args) {
             if (this.validateFormOne) {
-                console.log('success validated');
+                //console.log('success validated');
                 this.formSubmitted(args);
             }
         },

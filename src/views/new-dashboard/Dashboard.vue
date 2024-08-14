@@ -356,7 +356,7 @@ export default {
       const message = JSON.stringify(localStorage.getItem("accessToken"));
       wind.postMessage(message, 'https://live1.decast.live');
     }, 2000);
-    console.log(this.activeUserInfo);
+    //console.log(this.activeUserInfo);
   },
   methods: {
     verifyAuthToken() {
@@ -373,17 +373,17 @@ export default {
       iframe.style.display = 'none';
     },
     open() {
-      console.log('open');
+      //console.log('open');
       this.iframe = !this.iframe;
       this.url = constants.challengeUri;
       // this.url = 'http://localhost:8080/login';
       document.getElementsByTagName('iframe')[0].style.height = '66.7%';
       document.getElementsByTagName('iframe')[0].style.width = '32%';
-      console.log(this.iframe);
+      //console.log(this.iframe);
       // window.location.href = constants.challengeUri;
     },
     toggleUserMenu() {
-      console.log('Clicked');
+      //console.log('Clicked');
       this.userMenuVisible = !this.userMenuVisible;
     },
     redirectHome() {

@@ -115,7 +115,7 @@ export default {
                 const response = await axios.get(apiUrl);
                 this.minutes = parseFloat(response.data.total_minutes).toFixed(3);
             } catch (error) {
-                console.error('Error fetching estimated minutes:', error);
+                ////console.log('Error fetching estimated minutes:', error);
             }
         },
     },

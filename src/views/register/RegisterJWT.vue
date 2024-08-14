@@ -169,18 +169,18 @@ export default {
         this.confirm_password !== ''
       )
         this.confirmPasswordError = false;
-      console.log(
-        this.password,
-        this.confirm_password,
-        !this.errors.any(),
-        this.firstName !== '',
-        this.lastName !== '',
-        this.validateEmail(),
-        this.password !== '',
-        this.confirm_password !== '',
-        this.confirm_password === this.password,
-        this.isTermsConditionAccepted === true
-      );
+      //console.log(
+      //   this.password,
+      //   this.confirm_password,
+      //   !this.errors.any(),
+      //   this.firstName !== '',
+      //   this.lastName !== '',
+      //   this.validateEmail(),
+      //   this.password !== '',
+      //   this.confirm_password !== '',
+      //   this.confirm_password === this.password,
+      //   this.isTermsConditionAccepted === true
+      // );
       return (
         !this.errors.any() &&
         this.firstName !== '' &&
@@ -275,10 +275,10 @@ export default {
             })
             .catch((error) => {
               this.$vs.loading.close();
-              console.log(
-                error.response.data.message,
-                error.response.data.message === 'username already exists'
-              );
+              // console.log(
+              //   error.response.data.message,
+              //   error.response.data.message === 'username already exists'
+              // );
               this.$vs.notify({
                 title: 'Login Error',
                 text:
@@ -293,10 +293,10 @@ export default {
         })
         .catch((error) => {
           this.$vs.loading.close();
-          console.log(
-            error.response.data.message,
-            error.response.data.message === 'username already exists'
-          );
+          //console.log(
+          //   error.response.data.message,
+          //   error.response.data.message === 'username already exists'
+          // );
           this.$vs.notify({
             title: 'Login Error',
             text:

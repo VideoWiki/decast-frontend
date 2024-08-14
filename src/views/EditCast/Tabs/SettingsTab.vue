@@ -116,7 +116,7 @@ export default {
       if (this.createCast) {
         this.createCast();
       } else {
-        console.log(this.castId);
+        //console.log(this.castId);
         this.changeSettings();
       }
     },
@@ -197,11 +197,11 @@ export default {
         this.stepOneProps.password_auth ? 'True' : 'False'
       );
       this.$store.dispatch('cast/formSubmit', data).then((response) => {
-        console.log(response);
+        //console.log(response);
       });
     },
     change(tab) {
-      console.log(this.tab, 'tab');
+      //console.log(this.tab, 'tab');
 
       if (tab === 'BigMeetingPopup') {
         this.stepFourProps.checkBox = 'BigMeetingPopup';
@@ -225,7 +225,7 @@ export default {
         this.activeTab = 'CustomPopup';
         this.stepFourProps.checkBox = 'CustomPopup';
       }
-      console.log(this.activeTab, 'activeTab');
+      //console.log(this.activeTab, 'activeTab');
     },
   },
 };

@@ -214,8 +214,8 @@ export default {
     }
     this.getMeetingDetails();
     this.castInfo();
-    console.log(this.newPay);
-    console.log(this.nft, 'nft');
+    //console.log(this.newPay);
+    //console.log(this.nft, 'nft');
   },
   methods: {
     // extractCredentials() {
@@ -260,14 +260,14 @@ export default {
         this.viewer_mode = response.data.meeting_info.viewer_mode;
         this.isExpired = response.data.meeting_info.expired;
         this.has_magic = this.$route.query.pass !== undefined;
-        console.log(this.has_magic);
+        //console.log(this.has_magic);
         this.$vs.loading.close();
         this.data_loaded = true;
       } catch (err) {
         if (err.status === 404) {
           this.$router.push('/error/404.vue');
         } else {
-          console.log(err);
+          //console.log(err);
         }
       }
     },
@@ -277,9 +277,9 @@ export default {
         this.meeting_id
       );
       const details = res.data.meeting_info;
-      console.log(details);
+      //console.log(details);
       this.sentOtp = details.send_otp;
-      console.log(this.sentOtp);
+      //console.log(this.sentOtp);
       this.eventName = details.event_name;
       this.eventDescription = details.description;
       this.creator = details.event_creator_name;
@@ -288,7 +288,7 @@ export default {
     },
     async joinCast() {
       // const credentials = this.extractCredentials();
-      // console.log('my credentials are', credentials);
+      // //console.log('my credentials are', credentials);
       const payload = {
         name: this.joiningName,
         email: !this.sentOtp ? '' : this.email,
@@ -297,7 +297,7 @@ export default {
         avatar_url: '',
         isPublic: !this.sentOtp,
       };
-      console.log('my payload is this', payload);
+      //console.log('my payload is this', payload);
       if (this.payload) {
         this.email = this.payload.email;
       } else {
@@ -314,11 +314,11 @@ export default {
         await this.$store
           .dispatch('studio/addJoinee', joineePayload)
           .then(async (response) => {
-            console.log(response.data);
+            //console.log(response.data);
             if (response.data.status) {
-              console.log('public path');
+              //console.log('public path');
               if (this.$route.query.pass !== undefined) {
-                console.log(payload);
+                //console.log(payload);
                 await this.magicJoin(payload);
               } else {
                 await this.joinCastUtil(payload);
@@ -326,7 +326,7 @@ export default {
             }
           })
           .catch((err) => {
-            console.log(err);
+            //console.log(err);
             this.$vs.loading.close();
             this.disabled = false;
             this.$vs.notify({
@@ -351,7 +351,7 @@ export default {
       // sessionStorage.setItem('email', this.email);
     },
     joinCastUtil(payload) {
-      console.log('----->');
+      //console.log('----->');
       this.$store
         .dispatch('studio/joinEvent', payload)
         .then((response) => {
@@ -364,7 +364,7 @@ export default {
           });
         })
         .catch((e) => {
-          console.log(e.response);
+          //console.log(e.response);
           this.$vs.loading.close();
           this.disabled = false;
           this.$vs.notify({
@@ -378,19 +378,19 @@ export default {
         });
     },
     async magicJoin(payload) {
-      console.log(payload);
+      //console.log(payload);
       var data = JSON.stringify({
         id: this.meeting_id,
         pass: this.$route.query.pass,
         name: this.joiningName,
       });
-      console.log(178);
+      //console.log(178);
       await this.$store
         .dispatch('studio/magicJoin', data)
         .then((res) => {
-          console.log(res.data.url, 181);
+          //console.log(res.data.url, 181);
           if (res.data.url) {
-            console.log(184);
+            //console.log(184);
             this.$vs.notify({
               title: 'Success',
               color: 'success',
@@ -409,7 +409,7 @@ export default {
         .catch((e) => {
           this.$vs.loading.close();
           this.disabled = false;
-          console.log(e.response);
+          //console.log(e.response);
         });
     },
     accessCast() {
@@ -434,13 +434,13 @@ export default {
       });
       sessionStorage.setItem('name', this.joiningName);
       this.$vs.loading();
-      console.log(178);
+      //console.log(178);
       this.$store
         .dispatch('studio/magicJoin', data)
         .then((res) => {
-          console.log(res.data.url, 181);
+          //console.log(res.data.url, 181);
           if (res.data.url) {
-            console.log(184);
+            //console.log(184);
             this.$vs.notify({
               title: 'Success',
               color: 'success',
@@ -458,7 +458,7 @@ export default {
         })
         .catch((e) => {
           this.$vs.loading.close();
-          console.log(e.response);
+          //console.log(e.response);
         });
     },
     reloadStepOne() {
@@ -496,7 +496,7 @@ export default {
         this.$store
           .dispatch('auth/sendingOtp', this.payload)
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             this.$vs.loading.close();
 
             if (res.data.status) {
@@ -512,7 +512,7 @@ export default {
             }
           })
           .catch((e) => {
-            console.log(e.response.data);
+            //console.log(e.response.data);
             this.$vs.loading.close();
             if (e.response.data.message === 'invalid email')
               this.$vs.notify({

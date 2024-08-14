@@ -74,19 +74,19 @@ export default {
   mounted() {
     document.getElementById('loading-bg').style.display = 'block';
     this.msg = this.$route.params.id;
-    console.log(this.$route.params.id);
-    console.log(this.recordingList);
+    //console.log(this.$route.params.id);
+    //console.log(this.recordingList);
     this.getRecordings();
   },
   methods: {
     click() {},
     start() {
-      console.log(this.$refs.video);
+      //console.log(this.$refs.video);
       this.$refs.video.play();
       this.play = true;
     },
     transfer(room) {
-      console.log(room);
+      //console.log(room);
       window.location.href = `/recording/${room.url['Record ID']}`;
     },
     stop() {
@@ -97,14 +97,14 @@ export default {
       try {
         const res = await this.$store.dispatch('room/getRecordings');
         document.getElementById('loading-bg').style.display = 'none';
-        console.log(res);
+        //console.log(res);
       } catch (e) {
-        console.error('Error getting recordings', e);
+        ////console.log('Error getting recordings', e);
       }
     },
     closePopup() {
       this.showPopup = false; // Close the popup when the SVG is clicked
-      console.log('Popup closed');
+      //console.log('Popup closed');
     },
   },
 };

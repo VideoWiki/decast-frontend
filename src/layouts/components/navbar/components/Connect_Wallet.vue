@@ -81,7 +81,7 @@ export default {
     };
   },
   created() {
-    console.log(this.payload);
+    //console.log(this.payload);
   },
   computed: {
     accountAddress() {
@@ -94,15 +94,15 @@ export default {
   methods: {
     async connectWallet() {
       await this.login();
-      // console.log(this.accountAddress, 'this.$store.state.isWalletConnected');
+      // //console.log(this.accountAddress, 'this.$store.state.isWalletConnected');
       const payload = {
           cast_id: this.payload.cast_id,
           email: this.payload.email,
           public_address: this.accountAddress.toLowerCase(),
         };
-      console.log(payload,this.payload, 'this pay');
+      //console.log(payload,this.payload, 'this pay');
       // if (this.$store.state.isWalletConnected==true) {
-        // console.log(this.accountAddress, 'this.$store.state.isWalletConnected222222');
+        // //console.log(this.accountAddress, 'this.$store.state.isWalletConnected222222');
       //   this.$vs.notify({
       //     title: 'Wallet Connected',
       //     text: 'Your wallet is connected.',
@@ -112,12 +112,12 @@ export default {
       //   });
       //   return;
       // } else {
-        // console.log(this.accountAddress, 'this.$store.state.isWalletConnected345555555555555');
+        // //console.log(this.accountAddress, 'this.$store.state.isWalletConnected345555555555555');
         this.$store
           .dispatch('auth/saveWalletAddress', payload)
           .then((res) => null)
           .catch((err) => {
-            console.log(err, 'met err');
+            //console.log(err, 'met err');
             this.$vs.notify({
               title: this.$t('Login.notify.title'),
               text:
@@ -136,7 +136,7 @@ export default {
       this.popupDisplay = false;
       await this.$store.dispatch('connectWallet');
       this.authenticated = false;
-      console.log(this.$store.state.isWalletConnected);
+      //console.log(this.$store.state.isWalletConnected);
     },
     async logout() {
       this.authenticated = true;

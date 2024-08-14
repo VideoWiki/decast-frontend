@@ -101,16 +101,16 @@ export default {
     closePopup() {
       this.showPopup = false;
       this.showShare = false;
-      console.log('Popup closed');
+      //console.log('Popup closed');
     },
     closeShare() {
       this.showShare = false;
-      console.log('Share-closed');
+      //console.log('Share-closed');
     },
     toggleShare() {
       this.showShare = !this.showShare;
-      // console.log('Cast List:', this.castList);
-      // console.log('jjjlk:', this.castInfoList);
+      // //console.log('Cast List:', this.castList);
+      // //console.log('jjjlk:', this.castInfoList);
     },
     handleGlobalClick(event) {
       const isOutsideRoomPopup = !event.target.closest('.share-cont');
@@ -150,7 +150,7 @@ export default {
       return '';
     },
     copyCastLink() {
-      console.log('click');
+      //console.log('click');
       this.copy();
     },
     copy() {
@@ -163,10 +163,10 @@ export default {
         navigator.clipboard
           .writeText(link)
           .then(() => {
-            console.log('Link copied:', link);
+            //console.log('Link copied:', link);
           })
           .catch((error) => {
-            console.error('Copy failed:', error);
+            ////console.log('Copy failed:', error);
           });
         this.getCastList();
       }
@@ -175,11 +175,11 @@ export default {
       this.$store
         .dispatch('cast/getCastList')
         .then((response) => {
-          // console.log(response, 'll');
+          // //console.log(response, 'll');
         })
         .catch((error) => {
           // Handle API request error here
-          console.error(error);
+          ////console.log(error);
         });
     },
   },

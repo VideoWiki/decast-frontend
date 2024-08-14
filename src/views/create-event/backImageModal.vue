@@ -229,7 +229,7 @@ export default {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.addEventListener('load', () => {
-        console.log('aksdasdakls', reader.result);
+        //console.log('aksdasdakls', reader.result);
         this.$store
           .dispatch('cast/compressImage', {
             data: reader.result,
@@ -238,12 +238,12 @@ export default {
             quality: 0.8,
           })
           .then((compressedDataURL) => {
-            console.log('Compressed Image Data URL:', compressedDataURL);
+            //console.log('Compressed Image Data URL:', compressedDataURL);
             // Use the compressed data URL as needed
             this.stepTwoProps.BackImageURL = reader.result;
           })
           .catch((error) => {
-            console.error('Image compression failed:', error);
+            ////console.log('Image compression failed:', error);
           });
       });
     },

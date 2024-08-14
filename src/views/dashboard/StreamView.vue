@@ -173,7 +173,7 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           this.$vs.loading.close();
         });
     },

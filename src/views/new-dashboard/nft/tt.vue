@@ -80,7 +80,7 @@
           const response = await axios.get(apiUrl);
           this.minutes = response.data.minutes;
         } catch (error) {
-          console.error('Error fetching estimated minutes:', error);
+          ////console.log('Error fetching estimated minutes:', error);
         }
       },
     },

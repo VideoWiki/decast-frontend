@@ -98,7 +98,7 @@ export default {
       this.img1Src = img;
       this.logoImg = img;
     }
-    console.log(this.stepTwoProps.logo);
+    //console.log(this.stepTwoProps.logo);
   },
   methods: {
     changeImageLogo() {
@@ -112,7 +112,7 @@ export default {
           reader.onload = (event) => {
             this.logoImg = event.target.result;
             this.img1Src = event.target.result;
-            console.log(file);
+            //console.log(file);
             this.stepTwoProps.logo = file;
           };
           reader.readAsDataURL(file);

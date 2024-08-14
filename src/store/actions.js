@@ -64,7 +64,7 @@ const actions = {
     try {
       await onConnect();
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
 
@@ -73,14 +73,14 @@ const actions = {
       await onDisconnect();
       commit('DISCONNECT');
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
   /* async buyContent({ commit }) {
     try {
       await onBuy();
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   }, */
   async getAssetPrice({ commit }, exchangeId) {
@@ -88,7 +88,7 @@ const actions = {
       const price = await getPrice(exchangeId);
       return price;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
   async getDownloadStatus({ commit }, payload) {
@@ -103,11 +103,11 @@ const actions = {
         payload.author,
         payload.metaData
       );
-      console.log(videoTxData);
+      //console.log(videoTxData);
       commit('studio/setTxData', videoTxData);
       return true;
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       throw e;
     }
   },
@@ -115,7 +115,7 @@ const actions = {
     try {
       await buyContent(exchangeId);
     } catch (e) {
-      console.log({ buyContentError: e });
+      //console.log({ buyContentError: e });
       throw e;
     }
   },
@@ -123,7 +123,7 @@ const actions = {
     try {
       await downloadContent(payload.did, payload.dta);
     } catch (e) {
-      console.log({ downloadContentErro: e });
+      //console.log({ downloadContentErro: e });
       throw e;
     }
   },

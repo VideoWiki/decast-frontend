@@ -151,7 +151,7 @@ export default {
             })
             .catch((e) => {
                 this.isLoading = false;
-                console.log('Error editing', e);
+                //console.log('Error editing', e);
             });
     },
     methods: {

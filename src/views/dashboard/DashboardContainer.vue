@@ -157,12 +157,12 @@ export default {
     },
   },
   mounted() {
-    console.log(this.accessToken || this.loggedIn, 'prof');
+    //console.log(this.accessToken || this.loggedIn, 'prof');
     window.addEventListener('message', (event) => {
       if (event.data === 'closeIframe') {
         this.iframe = false;
         this.url = '';
-        console.log(this.iframe);
+        //console.log(this.iframe);
       }
       if (event.data === 'navigateToSignUp') {
         document.getElementsByTagName('iframe')[0].style.height = '79%';
@@ -176,7 +176,7 @@ export default {
         document.getElementsByTagName('iframe')[0].style.height = '41.6%';
       }
       if (event.data === 'loginSuccess') {
-        console.log(this.$store.state.auth.loggedIn, 'loggedIn');
+        //console.log(this.$store.state.auth.loggedIn, 'loggedIn');
         this.iframe = false;
         this.url = '';
       }
@@ -194,17 +194,17 @@ export default {
       iframe.style.display = 'none';
     },
     open() {
-      console.log('open');
+      //console.log('open');
       this.iframe = !this.iframe;
       this.url = constants.challengeUri;
       // this.url = 'http://localhost:8080/login';
       document.getElementsByTagName('iframe')[0].style.height = '66.7%';
       document.getElementsByTagName('iframe')[0].style.width = '32%';
-      console.log(this.iframe);
+      //console.log(this.iframe);
       // window.location.href = constants.challengeUri;
     },
     toggleUserMenu() {
-      console.log('Clicked');
+      //console.log('Clicked');
       this.userMenuVisible = !this.userMenuVisible;
     },
   },

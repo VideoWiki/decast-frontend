@@ -42,14 +42,14 @@ export default {
 
     axios(config)
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         this.$store
           .dispatch('auth/fetchUser', {
             access_token: response.data.data.token_data.access_token,
             ...response.data.data.user_info,
           })
           .then((res) => {
-            console.log(res);
+            //console.log(res);
             localStorage.setItem(
               'accessToken',
               response.data.data.token_data.access_token
@@ -90,7 +90,7 @@ export default {
           color: 'danger',
         });
         window.location.href = constant.challengeUri;
-        console.log(JSON.stringify(e));
+        //console.log(JSON.stringify(e));
       });
   }
 };

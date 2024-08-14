@@ -183,7 +183,7 @@ export default {
         BaseModal,
     },
     mounted() {
-        console.log(this.castId, 'cast--');
+        //console.log(this.castId, 'cast--');
     },
     methods: {
         ChangeStream() {
@@ -247,9 +247,9 @@ export default {
             this.stepThreeProps.vw_stream = streamUrls[0].vw_stream;
             this.stepThreeProps.vw_stream_url = JSON.stringify(streamUrls);
 
-            console.log(this.stepThreeProps.vw_stream, 'stream...');
-            console.log(this.stepThreeProps.vw_stream_url, 'urls....');
-            console.log(this.stepThreeProps.is_streaming, 'isStream');
+            //console.log(this.stepThreeProps.vw_stream, 'stream...');
+            //console.log(this.stepThreeProps.vw_stream_url, 'urls....');
+            //console.log(this.stepThreeProps.is_streaming, 'isStream');
 
             this.createCast();
         },
@@ -343,7 +343,7 @@ export default {
             this.$store
                 .dispatch('cast/formSubmit', data)
                 .then((response) => {
-                    console.log(response);
+                    //console.log(response);
                     this.closeModal();
                 })
                 .catch((e) => {
@@ -362,7 +362,7 @@ export default {
             if (this.createCast) {
                 this.createCast();
             } else {
-                console.log(this.castId);
+                //console.log(this.castId);
             }
         },
     },

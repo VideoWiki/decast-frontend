@@ -269,13 +269,13 @@ export default {
     };
   },
   mounted() {
-    console.log(this.cast_id, 'iddd');
+    //console.log(this.cast_id, 'iddd');
     this.$store
       .dispatch('cast/editEvent', this.cast_id)
       .then((res) => {
-        console.log('Working edit');
+        //console.log('Working edit');
         const info = res.data.details;
-        console.log("url'", info.bbb_stream_url);
+        //console.log("url'", info.bbb_stream_url);
         this.stepOneProps.event_name = info.event_name;
         this.stepOneProps.description = info.description;
         this.stepOneProps.schedule_time = info.schedule_time;
@@ -319,12 +319,12 @@ export default {
           this.stepFourProps.lock_layout;
         if (info.bbb_stream_url !== null) {
           // eslint-disable-next-line no-eval
-          console.log('dsd', eval(info.bbb_stream_url));
+          //console.log('dsd', eval(info.bbb_stream_url));
           // eslint-disable-next-line no-eval
           window.eval(info.bbb_stream_url).forEach((item) => {
             var x = item.split('/');
             if (item.match(/youtube/)) {
-              console.log('dsafgsad', x[-1]);
+              //console.log('dsafgsad', x[-1]);
               this.stepThreeProps.youtube_secret_key = x.pop();
               this.stepThreeProps.youtube_rtmp_url = x.join('/');
               this.stepThreeProps.youtube_stream_url = item;
@@ -357,7 +357,7 @@ export default {
         }, 0);
       })
       .catch((e) => {
-        console.log('Error editing', e);
+        //console.log('Error editing', e);
       });
   },
   methods: {
@@ -461,8 +461,8 @@ export default {
             this.$vs.loading.close();
           }, 5000);
           this.getCast();
-          console.log('100');
-          console.log(this.getCast(), 'this list');
+          //console.log('100');
+          //console.log(this.getCast(), 'this list');
           this.responsedata = response.data.message;
           this.$vs.notify({
             title: 'Success',
@@ -482,7 +482,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.formData = new FormData();
-          console.log(JSON.stringify(error));
+          //console.log(JSON.stringify(error));
           if (error) {
             this.$vs.notify({
               title: 'Error!',
@@ -568,14 +568,14 @@ export default {
     createCast() {
       if (this.validateFormOne) {
         this.getCast();
-        console.log('100');
-        console.log(this.getCast(), 'this list');
-        console.log('success validated');
+        //console.log('100');
+        //console.log(this.getCast(), 'this list');
+        //console.log('success validated');
         this.formSubmitted();
       }
     },
     setCreateEventData() {
-      console.log('12');
+      //console.log('12');
       this.startNow = this.stepOneProps.start_now;
       for (let [key, value] of Object.entries(this.stepOneProps)) {
         if (value.length === 0) {
@@ -591,7 +591,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      console.log('123');
+      //console.log('123');
       this.stepTwoProps.imageURL = '';
       this.stepTwoProps.BackImageURL = '';
       for (let [key, value] of Object.entries(this.stepTwoProps)) {
@@ -608,7 +608,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      console.log('1234');
+      //console.log('1234');
       for (let [key, value] of Object.entries(this.stepThreeProps)) {
         if (value.length === 0) {
           value = '';
@@ -624,7 +624,7 @@ export default {
         this.formData.append(key, value);
       }
       for (let [key, value] of Object.entries(this.stepFourProps)) {
-        console.log(value);
+        //console.log(value);
 
         if (value.length === 0) {
           value = '';

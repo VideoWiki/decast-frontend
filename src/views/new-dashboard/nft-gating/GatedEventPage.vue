@@ -547,7 +547,7 @@ export default {
                     }
 
                 } catch (error) {
-                    console.error('Error minting ticket');
+                    ////console.log('Error minting ticket');
                     document.getElementById('loading-bg-transparent').style.display = 'none';
                     this.$vs.notify({
                         title: 'Something went wrong!',
@@ -619,7 +619,7 @@ export default {
                     console.warn('Window or window.ethereum is not available.');
                 }
             } catch (error) {
-                console.error('Error disconnecting wallet:', error);
+                ////console.log('Error disconnecting wallet:', error);
             }
         },
         async connectWallet() {
@@ -659,10 +659,10 @@ export default {
                                         ],
                                     });
                                 } catch (error) {
-                                    console.error('Failed to add optimism sepolia network');
+                                    ////console.log('Failed to add optimism sepolia network');
                                 }
                             } else {
-                                console.error('Failed to switch to optimism sepolia network');
+                                ////console.log('Failed to switch to optimism sepolia network');
                             }
                         }
                     }
@@ -684,7 +684,7 @@ export default {
                     console.warn('Window or window.ethereum is not available.');
                 }
             } catch (error) {
-                console.error('Error connecting wallet:', error);
+                ////console.log('Error connecting wallet:', error);
             }
         },
         getAllRequests(meetingId) {
@@ -790,7 +790,7 @@ export default {
                 document.getElementById('loading-bg-transparent').style.display = 'none';
             } catch (error) {
                 document.getElementById('loading-bg-transparent').style.display = 'none';
-                console.error("Error calling contract function:", error);
+                ////console.log("Error calling contract function:", error);
             }
         },
     },

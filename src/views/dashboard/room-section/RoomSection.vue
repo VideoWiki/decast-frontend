@@ -193,18 +193,18 @@ export default {
   watch: {
     // whenever question changes, this function will run
     roomsList(newList) {
-      console.log(newList);
+      //console.log(newList);
       this.rooms = [...newList];
-      console.log(this.rooms);
+      //console.log(this.rooms);
     },
     recordingList(newList) {
-      console.log(newList);
+      //console.log(newList);
       this.recordings = [...newList];
-      console.log(this.recordings);
+      //console.log(this.recordings);
     },
     showPopup(newQuestion, oldQuestion) {
       if (newQuestion) {
-        console.log('yes');
+        //console.log('yes');
       }
     },
   },
@@ -248,7 +248,7 @@ export default {
     },
     // openRecording(recording) {
     //   // this.$router.push(`/recording/${recording.url['Record ID']}`);
-    //   console.log(recording, 'mmmmmmm');
+    //   //console.log(recording, 'mmmmmmm');
     //   const playbackURL =
     //     recording.url['Playback Data']['Playback URL'] + '/video-0.m4v';
     //   window.open(playbackURL, '_blank');
@@ -265,9 +265,9 @@ export default {
     //   );
     // },
     // editRecord(recording) {
-    //   // console.log(recording,'pppp');
+    //   // //console.log(recording,'pppp');
     //   const meetingId = recording.url['Record ID'];
-    //   console.log(meetingId, 'mid');
+    //   //console.log(meetingId, 'mid');
     //   setTimeout(() => {
     //     const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
     //     window.open(url, '_blank');
@@ -284,7 +284,7 @@ export default {
       this.$store
         .dispatch('room/addRoom', this.text)
         .then(async (res) => {
-          console.log(res.data);
+          //console.log(res.data);
           // this.rooms.push(room);
           this.createPopup = false;
           this.closeModal();
@@ -295,7 +295,7 @@ export default {
           // }
         })
         .catch((e) => {
-          console.log(e.resonse);
+          //console.log(e.resonse);
         });
     },
     changeFocus(toYourRooms) {
@@ -311,11 +311,11 @@ export default {
       this.$store
         .dispatch('room/getList')
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           this.isRoomsLoading = false;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.isRoomsLoading = false;
         });
     },
@@ -325,11 +325,11 @@ export default {
       this.$store
         .dispatch('room/start', id)
         .then((res) => {
-          console.log(res.data);
+          //console.log(res.data);
           window.location.href = res.data.room_url;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
         });
     },
     togglePopup(index) {
@@ -338,7 +338,7 @@ export default {
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.room-popup');
         if (this.mouse > 222) {
-          console.log('yes', roomPopups);
+          //console.log('yes', roomPopups);
           roomPopups.forEach((item) => (item.style.top = '-85%'));
         } else {
           roomPopups.forEach((item) => (item.style.top = '85%'));
@@ -353,7 +353,7 @@ export default {
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.room-popup');
         if (this.mouse > 222) {
-          console.log('yes', roomPopups);
+          //console.log('yes', roomPopups);
           roomPopups.forEach((item) => (item.style.top = '-85%'));
         } else {
           roomPopups.forEach((item) => (item.style.top = '85%'));
@@ -363,9 +363,9 @@ export default {
     async getRecordings() {
       try {
         const res = await this.$store.dispatch('room/getRecordings');
-        console.log(res);
+        //console.log(res);
       } catch (e) {
-        console.error('Error getting recordings', e);
+        ////console.log('Error getting recordings', e);
       }
     },
     // deleteRoom(room) {
@@ -378,7 +378,7 @@ export default {
     //   axios
     //     .request(options)
     //     .then((response) => {
-    //       console.log(response.data);
+    //       //console.log(response.data);
     //       const index = this.rooms.indexOf(room);
     //       if (index !== -1) {
     //         var newRooms = this.rooms;
@@ -388,13 +388,13 @@ export default {
     //       }
     //     })
     //     .catch((error) => {
-    //       console.error(error);
+    //       ////console.log(error);
     //     });
-    //   console.log('delete');
+    //   //console.log('delete');
     // },
 
     downloadRoom(room) {
-      console.log('download');
+      //console.log('download');
     },
 
     shareRoom() {
@@ -410,7 +410,7 @@ export default {
       axios
         .request(options)
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           this.sharePopup = false;
           this.showPopup = null;
           this.$vs.notify({
@@ -420,7 +420,7 @@ export default {
           });
         })
         .catch(function (error) {
-          console.error(error);
+          ////console.log(error);
         });
     },
     handleGlobalClick(event) {
@@ -440,7 +440,7 @@ export default {
       try {
         await this.getRecordings();
       } catch (e) {
-        console.error('Error getting recordings', e);
+        ////console.log('Error getting recordings', e);
       } finally {
         this.isRecordingLoading = false;
       }
@@ -449,7 +449,7 @@ export default {
   mounted() {
     this.checkScreenWidth();
     window.addEventListener('resize', this.checkScreenWidth);
-    console.log(this.room);
+    //console.log(this.room);
     window.addEventListener('click', this.handleGlobalClick);
     const container = document.querySelector('.options-container');
     container.addEventListener('mousemove', (e) => {

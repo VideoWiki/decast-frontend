@@ -44,7 +44,7 @@ export default {
   methods: {
     closePopup() {
       this.showPopup = false; // Close the popup when the SVG is clicked
-      console.log('Popup closed');
+      //console.log('Popup closed');
     },
   },
 };

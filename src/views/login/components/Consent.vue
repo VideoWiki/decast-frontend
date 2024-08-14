@@ -30,7 +30,7 @@ export default {
       icon: 'icon-alert-circle',
       color: 'warning',
     });
-    console.log(this.$route.query);
+    //console.log(this.$route.query);
     var config = {
       method: 'get',
       url:
@@ -50,7 +50,7 @@ export default {
             username: response.data.username,
           })
           .then((res) => {
-            console.log(res);
+            //console.log(res);
             // location.href = '/';
           })
           .catch((_err) => {
@@ -66,7 +66,7 @@ export default {
         location.href = response.data.url.redirect_to;
       })
       .catch(function (error) {
-        console.log(error);
+        //console.log(error);
       });
   },
 };

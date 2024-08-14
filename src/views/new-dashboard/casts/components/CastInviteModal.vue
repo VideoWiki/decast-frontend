@@ -69,35 +69,35 @@ export default {
             navigator.clipboard
                 .writeText(this.cohostLink)
                 .then(() => {
-                    console.log('Link copied');
+                    //console.log('Link copied');
                 })
                 .catch((error) => {
-                    console.error('Copy failed:', error);
+                    ////console.log('Copy failed:', error);
                 });
         },
         copyParticipantLink() {
             navigator.clipboard
                 .writeText(this.participantLink)
                 .then(() => {
-                    console.log('Link copied');
+                    //console.log('Link copied');
                 })
                 .catch((error) => {
-                    console.error('Copy failed:', error);
+                    ////console.log('Copy failed:', error);
                 });
         },
         copyViewerLink() {
             navigator.clipboard
                 .writeText(this.viewerLink)
                 .then(() => {
-                    console.log('Link copied');
+                    //console.log('Link copied');
                 })
                 .catch((error) => {
-                    console.error('Copy failed:', error);
+                    ////console.log('Copy failed:', error);
                 });
         },
         // getCastLink() {
         //     const castInfoList = this.castInfoList;
-        //     console.log(castInfoList)
+        //     //console.log(castInfoList)
         //     if (castInfoList && castInfoList.length > 0) {
         //         const firstCast = castInfoList[0];
         //         const id = firstCast.public_meeting_id;
@@ -111,10 +111,10 @@ export default {
         //     navigator.clipboard
         //         .writeText(castLink)
         //         .then(() => {
-        //             console.log('Link copied:', castLink);
+        //             //console.log('Link copied:', castLink);
         //         })
         //         .catch((error) => {
-        //             console.error('Copy failed:', error);
+        //             ////console.log('Copy failed:', error);
         //         });
         // },
         // getCastList() {
@@ -125,7 +125,7 @@ export default {
         //         })
         //         .catch((error) => {
         //             // Handle API request error here
-        //             console.error(error);
+        //             ////console.log(error);
         //         });
         // },
     },

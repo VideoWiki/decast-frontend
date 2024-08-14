@@ -16,7 +16,7 @@ export default {
   },
   mounted() {
     // this.isCheck=null;
-    console.log(this.isCheck, this.isNewCheck,'fjfjj');
+    //console.log(this.isCheck, this.isNewCheck,'fjfjj');
   },
   methods: {
     toggleSwitch() {

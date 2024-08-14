@@ -151,7 +151,7 @@ export default {
   },
   async mounted() {
     document.getElementById('loading-bg').style.display = 'none';
-    console.log(this.castId, 'castid');
+    //console.log(this.castId, 'castid');
     await this.meetInfo();
   },
   methods: {
@@ -169,7 +169,7 @@ export default {
       } else if (type === 'public') {
         this.textColor = this.publicIsChecked ? 'gray' : '#31a2f4';
       }
-      // console.log('colortype', type);
+      // //console.log('colortype', type);
     },
     toggleNftSwitch() {
       this.nftIsChecked = !this.nftIsChecked;
@@ -177,16 +177,16 @@ export default {
       // const type = this.tokenIsChecked ? 'Token' : 'NFTs';
       // this.updateAirdropType(type)
       this.typeOfNft();
-      console.log('NFT switch toggled');
+      //console.log('NFT switch toggled');
     },
     togglePrivateSwitch() {
       this.publicIsChecked = !this.publicIsChecked;
       this.privateIsChecked = !this.privateIsChecked;
-      console.log(this.privateIsChecked, 'toggle');
+      //console.log(this.privateIsChecked, 'toggle');
       const type = this.privateIsChecked ? 'private' : 'public';
       this.typeOfNft();
       this.updateGiveNft();
-      console.log(this.stepOneProps);
+      //console.log(this.stepOneProps);
       this.updateDistributionType(type);
     },
     updateAirdropType(type) {
@@ -204,7 +204,7 @@ export default {
       }
     },
     updateDistributionType(type) {
-      console.log('update called with type:', type);
+      //console.log('update called with type:', type);
       if (type === 'private') {
         this.toggleTextColor('private');
         this.privateIsChecked = true;
@@ -246,7 +246,7 @@ export default {
       document.getElementById('nft_image').click();
     },
     canSubmitNft() {
-      console.log(
+      //console.log(
         this.stepOneProps.audienceAirdrop,
         this.stepOneProps.airdropType,
         this.stepOneProps.mint_function_name,
@@ -280,7 +280,7 @@ export default {
         }
         this.stepOneProps.public_nft_flow =
           this.stepOneProps.public_stream_nfts === 'true';
-        console.log('error');
+        //console.log('error');
         this.$vs.notify({
           time: 3000,
           title: 'Cannot Submit',
@@ -289,14 +289,14 @@ export default {
         });
         return false;
       } else {
-        console.log('success');
+        //console.log('success');
         this.stepOneProps.public_nft_flow =
           this.stepOneProps.public_stream_nfts === 'true';
         return true;
       }
     },
     updateGiveNft(e) {
-      console.log(e, 'updatenft');
+      //console.log(e, 'updatenft');
       if (
         (this.stepOneProps.audienceAirdrop &&
           this.stepOneProps.airdropType === 'NFTs') ||
@@ -313,19 +313,19 @@ export default {
       await this.$store
         .dispatch('cast/meetInfo', payload)
         .then(async (response) => {
-          console.log(response, 'meet');
+          //console.log(response, 'meet');
           this.stepOneProps.meeting_type = response.data.details.cast_type;
-          console.log(this.stepOneProps.meeting_type);
+          //console.log(this.stepOneProps.meeting_type);
           this.$vs.loading.close();
         })
         .catch((err) => {
           this.$vs.loading.close();
-          console.log(err.response.status);
-          console.log(JSON.stringify(err));
+          //console.log(err.response.status);
+          //console.log(JSON.stringify(err));
         });
     },
     async addNft(x) {
-      console.log('add call');
+      //console.log('add call');
       if (
         !this.publicIsChecked &&
         this.stepOneProps.meeting_type === 'public'
@@ -380,10 +380,10 @@ export default {
             this.resetFields();
           }
         } catch (error) {
-          console.log(JSON.stringify(error));
+          //console.log(JSON.stringify(error));
 
           if (error.response) {
-            console.log(error.response);
+            //console.log(error.response);
             this.$vs.loading.close();
             this.$vs.notify({
               time: 6000,
@@ -419,7 +419,7 @@ export default {
             },
           }
         );
-        console.log(response, 'dkk');
+        //console.log(response, 'dkk');
         const cid = response.data.IpfsHash;
 
         const data = JSON.stringify({
@@ -449,7 +449,7 @@ export default {
         this.dummyURI = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
         await this.addNft(true);
       } catch (error) {
-        console.error('Error uploading metadata to Pinata IPFS:', error);
+        ////console.log('Error uploading metadata to Pinata IPFS:', error);
       }
     },
 
@@ -470,7 +470,7 @@ export default {
       this.$refs.nft_image.value = '';
     },
     typeOfNft(e) {
-      console.log(e, 'typeNFT');
+      //console.log(e, 'typeNFT');
       if (this.stepOneProps.public_stream_nfts === 'true') {
         this.stepOneProps.give_nft = false;
       } else if (this.stepOneProps.public_stream_nfts === 'false') {

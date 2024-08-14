@@ -209,7 +209,7 @@ export default {
             authenticationMethod: 'Email',
             userId: response.data.usersData.id, // this should be replaced with an actual ID
           });
-          console.log(this.activeUserInfo.userRole);
+          //console.log(this.activeUserInfo.userRole);
           this.$acl.change(this.activeUserInfo.userRole);
           this.$vs.loading.close();
           this.$router.push('/');
@@ -221,7 +221,7 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           this.$vs.loading.close();
           if (
             error.response.data.message ===

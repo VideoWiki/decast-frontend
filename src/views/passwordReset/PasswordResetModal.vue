@@ -58,7 +58,7 @@ export default {
       this.$store
         .dispatch('auth/sendResetEmail', this.email)
         .then((res) => {
-          console.log('sending sms');
+          //console.log('sending sms');
           this.$vs.notify({
             title: 'Check your mail',
             text: 'Mail sent successfully',
@@ -67,7 +67,7 @@ export default {
           this.email = '';
         })
         .catch((e) => {
-          console.log(' can not sending sms');
+          //console.log(' can not sending sms');
           if (e.response.data.message === 'invalid email') {
             this.$vs.notify({
               title: 'Error occurred',
@@ -90,7 +90,7 @@ export default {
       } else if (!this.isValidEmail(this.email)) {
         this.errors.email = 'Invalid email format.';
       } else {
-        console.log('Form submitted with email:', this.email);
+        //console.log('Form submitted with email:', this.email);
         this.sendResetEmail();
       }
     },

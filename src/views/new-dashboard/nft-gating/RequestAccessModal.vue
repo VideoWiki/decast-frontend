@@ -57,7 +57,7 @@ export default {
         };
     },
     mounted() {
-        console.log("castDetails", this.castDetails)
+        //console.log("castDetails", this.castDetails)
     },
     created() {
     },

@@ -19,7 +19,7 @@ export default {
       );
       return res;
     } catch (error) {
-      console.error('Error fetching all casts:', error);
+      ////console.log('Error fetching all casts:', error);
     }
   },
   async renameRecording({ commit }, payload) {
@@ -77,7 +77,7 @@ export default {
       const response = await axios.get(
         constants.apiCastUrl + '/api/event/user/events/'
       );
-      // console.log(response, 'castlis');
+      // //console.log(response, 'castlis');
       const casts = response.data.my_events;
       const castInfoPromises = casts.map(async (cast) => {
         try {
@@ -89,7 +89,7 @@ export default {
             details: castDetailsResponse.data,
           };
         } catch (error) {
-          console.error(error);
+          ////console.log(error);
           return null;
         }
       });
@@ -101,10 +101,10 @@ export default {
       });
       commit('SET_CASTS_INFO', castsInfo);
       commit('SET_ALL_CASTS', casts);
-      // console.log(castsInfo, 'TTTT');
-      // console.log(casts, 'pppp');
+      // //console.log(castsInfo, 'TTTT');
+      // //console.log(casts, 'pppp');
     } catch (error) {
-      console.error(error);
+      ////console.log(error);
     }
   },
   getUserCasts({ commit }) {
@@ -158,13 +158,13 @@ export default {
           'Content-Type': 'application/json',
         })
         .then((res) => {
-          console.log('This is running');
-          console.log(res);
+          //console.log('This is running');
+          //console.log(res);
           // location.href = res.data.cast_url;
           resolve(res);
         })
         .catch((e) => {
-          console.log(e.response);
+          //console.log(e.response);
           if (
             e.response.status === 400 &&
             e.response.data.message ===
@@ -184,11 +184,11 @@ export default {
           `${constants.apiCastUrl}/api/event/meeting/info/?public_meeting_id=${payload}`
         )
         .then((res) => {
-          console.log('meeting working');
+          //console.log('meeting working');
           resolve(res);
         })
         .catch((error) => {
-          console.log('meeting not working');
+          //console.log('meeting not working');
           reject(error);
         });
     });
@@ -201,11 +201,11 @@ export default {
           `${constants.apiCastUrl}/api/event/meeting/get/details/?cast_id=${payload}`
         )
         .then((res) => {
-          console.log('meeting working');
+          //console.log('meeting working');
           resolve(res);
         })
         .catch((error) => {
-          console.log('meeting not working');
+          //console.log('meeting not working');
           reject(error);
         });
     });
@@ -225,7 +225,7 @@ export default {
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -235,11 +235,11 @@ export default {
       axios
         .post(constants.apiCastUrl + '/api/event/meeting/join/', payload)
         .then((response) => {
-          console.log('joining Now');
+          //console.log('joining Now');
           resolve(response.data);
         })
         .catch((error) => {
-          console.log('cannot join');
+          //console.log('cannot join');
           reject(error);
         });
     });
@@ -257,7 +257,7 @@ export default {
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -273,7 +273,7 @@ export default {
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -286,12 +286,12 @@ export default {
       })
         .then((res) => {
           resolve(res);
-          // console.log(res,"res..")
+          // //console.log(res,"res..")
         })
         .catch((error) => {
           reject(error);
-          console.log('not Editing');
-          console.log(error);
+          //console.log('not Editing');
+          //console.log(error);
         });
     });
   },
@@ -303,9 +303,9 @@ export default {
           resolve(res);
         })
         .catch((error) => {
-          console.log('not submitting');
+          //console.log('not submitting');
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -314,13 +314,13 @@ export default {
       axios
         .post(constants.apiCastUrl + '/api/event/meeting/create/', payload)
         .then((res) => {
-          console.log('form create submit');
+          //console.log('form create submit');
           resolve(res);
         })
         .catch((error) => {
-          console.log('form create not submit');
+          //console.log('form create not submit');
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -333,12 +333,12 @@ export default {
         )
         .then((res) => {
           resolve(res);
-          console.log('getting');
+          //console.log('getting');
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
-          console.log('not getting');
+          //console.log(error);
+          //console.log('not getting');
         });
     });
   },
@@ -353,12 +353,12 @@ export default {
         )
         .then((res) => {
           resolve(res);
-          console.log('fetching');
+          //console.log('fetching');
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
-          console.log('not fetching');
+          //console.log(error);
+          //console.log('not fetching');
         });
     });
   },
@@ -372,12 +372,12 @@ export default {
           }
         )
         .then((res) => {
-          console.log('reciveing');
+          //console.log('reciveing');
           resolve(res);
         })
         .catch((error) => {
           reject(error);
-          console.log('not reciveing', error);
+          //console.log('not reciveing', error);
         });
     });
   },
@@ -391,7 +391,7 @@ export default {
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -406,11 +406,11 @@ export default {
         )
         .then((res) => {
           resolve(res);
-          console.log('Merkel tree getting');
+          //console.log('Merkel tree getting');
         })
         .catch((error) => {
           reject(error);
-          console.log('Merkel tree not getting', error);
+          //console.log('Merkel tree not getting', error);
         });
     });
   },
@@ -423,7 +423,7 @@ export default {
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -440,7 +440,7 @@ export default {
         })
         .catch((error) => {
           reject(error);
-          console.log(error);
+          //console.log(error);
         });
     });
   },
@@ -451,7 +451,7 @@ export default {
   },
   // async recordings({ commit }) {
   //   const res = await axios.get(constants.apiCastUrl + '/api/event/user/recordings');
-  //   console.log("res.data.status", res.data.status)
+  //   //console.log("res.data.status", res.data.status)
   //   commit('SET_RECORDING_LIST', res.data.status);
   //   return res.data.status;
   // },
@@ -463,7 +463,7 @@ export default {
 
       // Initialize an array to store all recordings from all status arrays
       let allRecordings = [];
-      console.log('before', res.data.status);
+      //console.log('before', res.data.status);
       // Iterate over each status array within res.data.status
       res.data.status.forEach((statusArray) => {
         // Iterate over each recording within the current status array
@@ -488,13 +488,13 @@ export default {
         const formattedDate = `${day}/${month}/${year}`;
         recording['Start Time (Readable)'] = formattedDate;
       });
-      console.log('after', allRecordings);
+      //console.log('after', allRecordings);
 
       commit('SET_RECORDING_LIST', allRecordings);
       return allRecordings;
     } catch (error) {
       // Handle error
-      console.error('Error fetching recordings:', error);
+      ////console.log('Error fetching recordings:', error);
       throw error; // Rethrow error to be handled upstream
     }
   },
@@ -506,7 +506,7 @@ export default {
       commit('SET_RECORDINGLIST', res.data.status);
       return res.data.status;
     } catch (error) {
-      console.error('Error fetching recordings:', error);
+      ////console.log('Error fetching recordings:', error);
     }
   },
   

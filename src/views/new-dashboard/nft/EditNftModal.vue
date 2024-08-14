@@ -213,7 +213,7 @@ export default {
                         this.publicIsChecked = false;
                         this.privateIsChecked = true;
                         this.isNewCheck=true;
-                        console.log(this.isNewCheck,'dkjdll');
+                        //console.log(this.isNewCheck,'dkjdll');
                     }else{
                         this.publicIsChecked = true;
                         this.privateIsChecked = false;
@@ -241,7 +241,7 @@ export default {
                     this.$vs.loading.close();
                 })
                 .catch((e) => {
-                    console.log('error in receibing', e);
+                    //console.log('error in receibing', e);
                 });
         },
         toggleDistributionType(type) {
@@ -272,7 +272,7 @@ export default {
             this.toggleDistributionType('public');
         },
         updateDistributionType(type) {
-            console.log('update called with type:', type);
+            //console.log('update called with type:', type);
             this.toggleDistributionType(type);
         },
         toggleNftSwitch() {
@@ -281,7 +281,7 @@ export default {
             this.toggleDistributionType('private');
         },
         updateGiveNft(e) {
-            console.log(e, 'updatenft');
+            //console.log(e, 'updatenft');
             if (
                 (this.stepOneProps.audienceAirdrop &&
                     this.stepOneProps.airdropType === 'NFTs') ||
@@ -307,7 +307,7 @@ export default {
             }
         },
         typeOfNft(e) {
-            console.log(e, 'typeNFT');
+            //console.log(e, 'typeNFT');
             if (this.stepOneProps.public_stream_nfts === 'true') {
                 this.stepOneProps.give_nft = false;
             } else if (this.stepOneProps.public_stream_nfts === 'false') {
@@ -351,15 +351,15 @@ export default {
             document.getElementById('nft_image').click();
         },
         canSubmitNft() {
-            console.log(
-                this.stepOneProps.audienceAirdrop,
-                this.stepOneProps.airdropType,
-                this.stepOneProps.mint_function_name,
-                this.stepOneProps.contract_address,
-                this.stepOneProps.nft_description,
-                this.stepOneProps.nft_image,
-                'stepproo'
-            );
+            // console.log(
+            //     this.stepOneProps.audienceAirdrop,
+            //     this.stepOneProps.airdropType,
+            //     this.stepOneProps.mint_function_name,
+            //     this.stepOneProps.contract_address,
+            //     this.stepOneProps.nft_description,
+            //     this.stepOneProps.nft_image,
+            //     'stepproo'
+            // );
             if (
                 this.stepOneProps.audienceAirdrop &&
                 this.stepOneProps.airdropType === 'NFTs' &&
@@ -385,7 +385,7 @@ export default {
                 }
                 this.stepOneProps.public_nft_flow =
                     this.stepOneProps.public_stream_nfts === 'true';
-                console.log('error');
+                //console.log('error');
                 this.$vs.notify({
                     time: 3000,
                     title: 'Cannot Submit',
@@ -394,14 +394,14 @@ export default {
                 });
                 return false;
             } else {
-                console.log('success');
+                //console.log('success');
                 this.stepOneProps.public_nft_flow =
                     this.stepOneProps.public_stream_nfts === 'true';
                 return true;
             }
         },
         updateGiveNft(e) {
-            console.log(e, 'updatenft');
+            //console.log(e, 'updatenft');
             if (
                 (this.stepOneProps.audienceAirdrop &&
                     this.stepOneProps.airdropType === 'NFTs') ||
@@ -459,9 +459,9 @@ export default {
                             }
                         })
                         .catch((e) => {
-                            console.log(JSON.stringify(e));
+                            //console.log(JSON.stringify(e));
                             if (e) {
-                                console.log(e);
+                                //console.log(e);
                                 this.$vs.loading.close();
                                 this.$vs.notify({
                                     time: 6000,
@@ -476,7 +476,7 @@ export default {
         },
 
         resetFields() {
-            console.log('yes I am called');
+            //console.log('yes I am called');
             this.stepOneProps = {
                 contract_address: '',
                 contract_address_error: false,

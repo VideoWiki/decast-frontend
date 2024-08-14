@@ -553,14 +553,14 @@ export default {
       this.meetingId = id;
       this.invites = inviteList;
       this.isStream = typeof stream !== 'undefined';
-      console.log(typeof stream !== 'undefined');
+      //console.log(typeof stream !== 'undefined');
       this.viewer = viewer;
-      console.log(viewer);
+      //console.log(viewer);
       this.invite = true;
     },
     async toggleStream(id, action) {
       this.resetShowTooltip2();
-      console.log(action);
+      //console.log(action);
       try {
         this.$vs.loading();
         if (action === 'start') {
@@ -783,7 +783,7 @@ export default {
       setTimeout(() => {
         const roomPopups = document.querySelectorAll('.record-popup');
         if (this.mouse > 222) {
-          console.log('yes', roomPopups);
+          //console.log('yes', roomPopups);
           roomPopups.forEach((item) => (item.style.top = '-85%'));
         } else {
           roomPopups.forEach((item) => (item.style.top = '85%'));
@@ -794,10 +794,10 @@ export default {
       try {
         const res = await this.$store.dispatch('cast/recordingList');
         this.recordingList = res.status || [];
-        console.log(this.recordingList, 'lliii');
-        console.log(res, 'records');
+        //console.log(this.recordingList, 'lliii');
+        //console.log(res, 'records');
       } catch (e) {
-        console.log(e);
+        //console.log(e);
       }
     },
     editRecord(recording) {
@@ -806,7 +806,7 @@ export default {
       //   text: 'Recording may take some time to process. Please wait.',
       //   color: 'primary',
       // });
-      console.log(recording, 'mmmmmmm');
+      //console.log(recording, 'mmmmmmm');
       setTimeout(() => {
         const meetingId = recording['Record ID'];
         const url = `https://beta.editor.video.wiki/studio?meetingId=${meetingId}`;
@@ -851,7 +851,7 @@ export default {
         const res = await this.$store.dispatch('cast/joinNow', data);
         window.open(res.url, '_blank');
       } catch (e) {
-        console.log('error', e);
+        //console.log('error', e);
       }
     },
     // async getCastList() {
@@ -865,7 +865,7 @@ export default {
     //             );
     //             return { castId: cast.public_meeting_id, details: castDetails.data };
     //         } catch (error) {
-    //             console.error(error);
+    //             ////console.log(error);
     //             return null;
     //         }
     //     });
@@ -881,7 +881,7 @@ export default {
     //                 details: castDetails.data.meeting_info,
     //             };
     //         } catch (error) {
-    //             console.log(error);
+    //             //console.log(error);
     //         }
     //     });
     //     const streamInfoList = await Promise.all(streamInfoPromise);
@@ -900,10 +900,10 @@ export default {
     //     this.streamInfo = streamInfo;
     //     this.castsInfo = castsInfo;
     //     this.casts = casts;
-    //     console.log(streamInfo, 'streamInfo');
+    //     //console.log(streamInfo, 'streamInfo');
     //     // document.getElementById('loading-bg').style.display = 'none';
-    //     // console.log(castsInfo, 'TTTT');
-    //     // console.log(casts, 'pppp');
+    //     // //console.log(castsInfo, 'TTTT');
+    //     // //console.log(casts, 'pppp');
     // },
     async updateCastList() {
       // await this.getCastList();
@@ -912,7 +912,7 @@ export default {
       this.showEditCast = true;
       this.index = id;
       this.toEditCast = toEditCast;
-      console.log('index', this.index);
+      //console.log('index', this.index);
     },
     updateShowEditCast(value) {
       this.showEditCast = value;
@@ -948,7 +948,7 @@ export default {
     toggleCopy(index) {
       this.postPoneVisible = false;
       this.showCopy = this.showCopy === index ? null : index;
-      console.log(index, 'copy');
+      //console.log(index, 'copy');
     },
     resetShowTooltip2() {
       this.showTooltip2 = null;
@@ -1004,13 +1004,13 @@ export default {
       }
     },
     castNftInfo(id) {
-      console.log(id, 'newnft');
+      //console.log(id, 'newnft');
       const payload = id;
       this.$store
         .dispatch('auth/eventDetail', payload)
         .then(async (response) => {
           const response_val = await response.data;
-          // console.log(response_val, 'pinky');
+          // //console.log(response_val, 'pinky');
           this.expired = response_val.meeting_info.expired;
           this.public_meeting_id = response_val.meeting_info.public_meeting_id;
           this.vc_details_submitted =
@@ -1043,7 +1043,7 @@ export default {
           // if (!setRunning) {
           //     setTimeout(() => {
           //         this.castNftInfo(true);
-          //         console.log('check it otu');
+          //         //console.log('check it otu');
           //     }, 5000);
           // }
           this.isPublic = !response_val.meeting_info.send_otp;

@@ -516,7 +516,7 @@ export default {
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 return accounts[0];
             } catch (error) {
-                console.error('Error fetching account:', error);
+                ////console.log('Error fetching account:', error);
                 return null;
             }
         },
@@ -559,7 +559,7 @@ export default {
                 this.minutes = parseFloat(response.data.total_minutes).toFixed(2);
             } catch (error) {
                 this.loading = false;
-                console.error('Error fetching estimated minutes:', error);
+                ////console.log('Error fetching estimated minutes:', error);
             }
         },
         async getGasPrices() {
@@ -581,14 +581,14 @@ export default {
                     this.normalPrice = blockPrices.find(price => price.confidence === 90);
                     this.slowPrice = blockPrices.find(price => price.confidence === 80);
 
-                    // console.log('Fast Gas Price:', this.fastPrice.maxFeePerGas, 'Gwei');
-                    // console.log('Normal Gas Price:', this.normalPrice.maxFeePerGas, 'Gwei');
-                    // console.log('Slow Gas Price:', this.slowPrice.maxFeePerGas, 'Gwei');
+                    // //console.log('Fast Gas Price:', this.fastPrice.maxFeePerGas, 'Gwei');
+                    // //console.log('Normal Gas Price:', this.normalPrice.maxFeePerGas, 'Gwei');
+                    // //console.log('Slow Gas Price:', this.slowPrice.maxFeePerGas, 'Gwei');
                 } else {
-                    console.log('No gas price data available');
+                    //console.log('No gas price data available');
                 }
             } catch (error) {
-                console.error('Error fetching gas prices:', error);
+                ////console.log('Error fetching gas prices:', error);
             } finally {
                 this.hasOpenLoading = false;
             }
@@ -635,11 +635,11 @@ export default {
                         });
                         return true;
                     } catch (addError) {
-                        console.error('Error adding network:', addError);
+                        ////console.log('Error adding network:', addError);
                         return false;
                     }
                 }
-                console.error('Error switching network:', switchError);
+                ////console.log('Error switching network:', switchError);
                 return false;
             }
         },
@@ -695,7 +695,7 @@ export default {
                 const token = this.tokens[this.selectedToken];
 
                 if (!this.selectedToken) {
-                    console.log("YES ETH")
+                    //console.log("YES ETH")
                     const tx = await signer.sendTransaction({
                         to: '0x8762e42C7Ae230d3Cd0651a897580caAb28B65B3',
                         value: ethers.utils.parseEther(this.amount),
@@ -703,18 +703,18 @@ export default {
                     });
                     await tx.wait();
                     this.mintInfo = tx;
-                    console.log(tx, this.mintInfo, 'trans')
+                    //console.log(tx, this.mintInfo, 'trans')
                 } else {
-                    console.log('No ETH')
+                    //console.log('No ETH')
                     const tokenContract = new ethers.Contract(token.address, token.abi, signer);
-                    console.log(tokenContract, 'tokecvont')
+                    //console.log(tokenContract, 'tokecvont')
                     const decimals = token.decimals || await this.getDecimals(tokenContract);
-                    console.log(decimals, 'decc')
+                    //console.log(decimals, 'decc')
                     const amountInWei = ethers.utils.parseUnits(this.amount, decimals);
-                    console.log(amountInWei, 'amtgg')
+                    //console.log(amountInWei, 'amtgg')
                     const tx = await tokenContract.transfer('0x8762e42C7Ae230d3Cd0651a897580caAb28B65B3', amountInWei);
                     this.mintInfo = tx;
-                    console.log(tx, this.mintInfo, 'trans')
+                    //console.log(tx, this.mintInfo, 'trans')
                     await tx.wait();
                 }
 
@@ -747,7 +747,7 @@ export default {
                         color: 'success',
                     });
                 } catch (saveError) {
-                    console.error('Error saving transaction:', saveError);
+                    ////console.log('Error saving transaction:', saveError);
                     this.$vs.notify({
                         title: 'Error',
                         text: 'Transaction succeeded but failed to save. Please try again.',
@@ -756,7 +756,7 @@ export default {
                 }
 
             } catch (transferError) {
-                console.error('Error transferring funds:', transferError);
+                ////console.log('Error transferring funds:', transferError);
                 this.$vs.notify({
                     title: 'Error',
                     text: 'Failed to transfer funds. Please try again.',

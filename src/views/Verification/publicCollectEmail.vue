@@ -246,7 +246,7 @@ export default {
       return !this.errors.any() && this.email !== '' && this.otp !== '';
     },
     walletAddress() {
-      console.log(this.$store.state.auth.isGetWalletAddress);
+      //console.log(this.$store.state.auth.isGetWalletAddress);
       return this.$store.state.auth.isGetWalletAddress;
     },
   },
@@ -320,13 +320,13 @@ export default {
             session_id: this.$route.params.session_key,
           })
           .then(async (response) => {
-            console.log(response.data);
+            //console.log(response.data);
             if (response.data.status) {
-              console.log('public path');
+              //console.log('public path');
             }
           })
           .catch((err) => {
-            console.log(err);
+            //console.log(err);
             this.$vs.notify({
               title: 'Error Occurred',
               text:

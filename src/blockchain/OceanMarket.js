@@ -18,7 +18,7 @@ async function loadLibrary() {
     const { Ocean, DataTokens } = module;
     return { Ocean, DataTokens };
   });
-  console.log(obj);
+  //console.log(obj);
   Ocean = obj.Ocean;
   DataTokens = obj.DataTokens;
   OceanFixedRateExchange = await import(
@@ -50,7 +50,7 @@ let rate;
 let did;
 
 async function connectToOceanMarketPlace(provider) {
-  // console.log(DataTokens)
+  // //console.log(DataTokens)
   await loadLibrary();
   web3 = new Web3(provider);
   const config = {
@@ -71,7 +71,7 @@ async function publishContent(author, metadata) {
   try {
     let stepNumber = 1;
     var alice = (await ocean.accounts.list())[0];
-    console.log({ alice, address: alice.getId() });
+    //console.log({ alice, address: alice.getId() });
     datatoken = new DataTokens(
       ocean.config.factoryAddress,
       factory.abi,
@@ -80,15 +80,15 @@ async function publishContent(author, metadata) {
     );
     const data = { t: 1, url: ocean.config.metadataCacheUri };
     const blob = JSON.stringify(data);
-    console.log('creating datatoken address');
+    //console.log('creating datatoken address');
     const dataTokenAddress = await datatoken.create(blob, alice.getId());
     // const dataTokenAddress = "0x751d4EE1D7C18eE3F74D65f57B9C6110c61F1f40"
-    console.log(dataTokenAddress);
+    //console.log(dataTokenAddress);
     // move to next step
     stepNumber++;
     store.commit('SET_CURRENT_TRANSACTION_STEP', stepNumber);
 
-    console.log('created datatoken');
+    //console.log('created datatoken');
 
     var asset = {
       main: {
@@ -123,10 +123,10 @@ async function publishContent(author, metadata) {
         [service1],
         dataTokenAddress
       );
-      console.log({ DDO: ddo, DID: ddo.id });
+      //console.log({ DDO: ddo, DID: ddo.id });
       did = ddo.id;
     } catch (err) {
-      console.log('error at create assets');
+      //console.log('error at create assets');
       throw err;
     }
     // move to next step
@@ -175,14 +175,14 @@ async function publishContent(author, metadata) {
       alice.getId()
     );
     const exchangeId = tx.events.ExchangeCreated.returnValues[0];
-    console.log('exchange id: ', exchangeId);
+    //console.log('exchange id: ', exchangeId);
     // move to next step
     stepNumber++;
     store.commit('SET_CURRENT_TRANSACTION_STEP', stepNumber);
 
     return { did, exchangeId, dataTokenAddress };
   } catch (err) {
-    console.log('error catched at OceanMarket.js');
+    //console.log('error catched at OceanMarket.js');
     throw err;
   }
 }
@@ -193,7 +193,7 @@ async function isDownloadable(datatokenAddress, accountAddress) {
     datatokenAddress
   );
   const res = await tokenInstance.methods.balanceOf(accountAddress).call();
-  console.log(res);
+  //console.log(res);
   return parseInt(res) > 0;
 }
 function loadMetadata() {
@@ -214,14 +214,14 @@ function loadMetadata() {
 }
 async function getPrice(exchangeId) {
   loadMetadata();
-  console.log('getPrice function working');
+  //console.log('getPrice function working');
   var oceanNeeded = await fixedRateExchange.getRate(exchangeId);
-  console.log('ocean Needed: ', oceanNeeded);
+  //console.log('ocean Needed: ', oceanNeeded);
   return oceanNeeded;
 }
 async function buyContent(exchangeId) {
   loadMetadata();
-  console.log({ Buying: exchangeId });
+  //console.log({ Buying: exchangeId });
   var bob = (await ocean.accounts.list())[0];
   let stepNumber = 1;
   try {
@@ -231,7 +231,7 @@ async function buyContent(exchangeId) {
       '10',
       bob.getId()
     );
-    console.log('txId: ', txId);
+    //console.log('txId: ', txId);
     // move to next step
     stepNumber++;
     store.commit('SET_CURRENT_TRANSACTION_STEP', stepNumber);
@@ -249,7 +249,7 @@ async function buyContent(exchangeId) {
       throw new Error({ code: -3206, message: 'Null value' });
     }
   } catch (err) {
-    console.log('error catched at OceanMarket.js');
+    //console.log('error catched at OceanMarket.js');
     throw err;
   }
 }
@@ -258,12 +258,12 @@ async function downloadContent(DID, dta) {
   let stepNumber = 1;
   try {
     const accessService = await ocean.assets.getServiceByType(DID, 'access');
-    console.log(accessService);
+    //console.log(accessService);
 
     await ocean.assets
       .order(DID, accessService.type, bob.getId())
       .then(async tx => {
-        console.log('tx=>', tx);
+        //console.log('tx=>', tx);
         if (tx) {
           await ocean.assets.download(DID, tx, dta, bob, '');
         }
@@ -271,7 +271,7 @@ async function downloadContent(DID, dta) {
     stepNumber++;
     store.commit('SET_CURRENT_TRANSACTION_STEP', stepNumber);
   } catch (err) {
-    console.log('error in download OceanMarket.js');
+    //console.log('error in download OceanMarket.js');
     throw err;
   }
 }

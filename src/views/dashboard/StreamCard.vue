@@ -262,7 +262,7 @@ export default {
       );
       try {
         this.$store.dispatch('cast/formSubmit', data).then((response) => {
-          console.log(response);
+          //console.log(response);
           this.$vs.notify({
             title: 'Success',
             text: 'Changes Saved',
@@ -271,7 +271,7 @@ export default {
           this.closeCreate();
         });
       } catch (e) {
-        console.log(e);
+        //console.log(e);
         this.$vs.notify({
           title: 'Error',
           text: 'Changes Not Saved',

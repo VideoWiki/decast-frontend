@@ -210,7 +210,7 @@ export default {
           this.recordingInProcess = true;
         })
         .catch((e) => {
-          console.error(e);
+          ////console.log(e);
         });
     },
     toBase64(blob) {
@@ -349,7 +349,7 @@ export default {
           this.$store.commit('studio/setVideoWithAudio', response);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           this.$vs.notify({
             title: 'Error Occured',
             text: 'Cannot merge audio and video',
