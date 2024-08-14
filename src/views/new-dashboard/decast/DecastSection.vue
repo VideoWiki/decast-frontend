@@ -9,7 +9,7 @@
 
             <div class="cursor-pointer">
                 <vx-tooltip text="/ decast.create" position="left">
-                    <img src="@/assets/images/pixel_create.svg" @click="$router.push('/dashboard/casts/create')" />
+                    <img src="@/assets/images/pixel_create.svg" @click="$router.push('/dashboard/decast/create')" />
                 </vx-tooltip>
             </div>
         </div>
@@ -85,16 +85,22 @@
                 </div>
             </div>
             <div v-if="firstCastId !== null" class="cast_details w-1/2 p-5">
-                <DecastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId" :selectedStorage="selectedStorage" :getSelectedStorage="getSelectedStorage"/>
+                <DecastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId"
+                    :selectedStorage="selectedStorage" :getSelectedStorage="getSelectedStorage" />
             </div>
         </div>
-
+        <CreateDecastModal v-if="activeModal === 'createDecastModal'" :closeModal="closeCreateModal"
+            :createCast="createCast" :stepOneProps="stepOneProps" :stepTwoProps="stepTwoProps"
+            :stepThreeProps="stepThreeProps" :stepFourProps="stepFourProps" :getCastList="getDecastList"
+            :inviteData="inviteData" :updateCastListElement="updateCastListElement" />
     </div>
 </template>
 
 <script>
+import moment from 'moment-timezone';
 import CastCardShimmer from './components/DecastCardShimmer.vue';
 import CastCard from './components/DecastCard.vue';
+import CreateDecastModal from './components/CreateDecastModal.vue'
 import RecordingCardShimmer from './components/RecordingCardShimmer.vue';
 import RecordingCard from './components/RecordingCard.vue';
 import DecastDetails from './components/DecastDetails.vue';
@@ -111,15 +117,122 @@ export default {
             isRecordingLoading: false,
             showCastIsLive: false,
             index: '',
-            // moment,
+            moment,
             casts: [],
             recordings: [],
+            inviteData: null,
             showStorageModal: false,
             selectedCast: null,
             selectedCastId: null,
             firstCastId: null,
-            loading:false,
-            selectedStorage:'Null',
+            loading: false,
+            selectedStorage: 'Null',
+            formData: new FormData(),
+            stepOneProps: {
+                mint_function_name: '',
+                mintfnc_name_error: false,
+                contract_address: '',
+                contract_address_error: false,
+                aib: '',
+                aib_error: false,
+                parameter: '',
+                parameter_error: false,
+                network: '',
+                audienceAirdrop: true,
+                give_vc: false,
+                airdropType: 'NFTs',
+                price: '',
+                price_error: false,
+                nft_description: '',
+                nft_description_error: false,
+                nft_image: '',
+                data_token: false,
+                nft_image_error: false,
+                password_auth: false,
+                auth_type: 'public',
+                meeting_auth_error: false,
+                send_otp: false,
+                public_auth: false, // Changed from the first object's 'true' to the second object's 'false'
+                public_otp: false,
+                give_nft: false,
+                public_stream_nfts: 'true',
+                public_nft_flow: false,
+                nft_t_ype: 'NFTs', // Appears only in the first object, I'll keep it here
+                nft_type: 'NFTs', // Appears only in the first object, I'll keep it here
+                generated_event_title: '',
+                event_name: '',
+                invalidTimeError: false,
+                moderator_password: '',
+                attendee_password: '',
+                meeting_type: 'public',
+                schedule_time: '',
+                description: '',
+                max_participant: 100,
+                short_description: '',
+                hide_users: false,
+                event_name_error: false,
+                moderator_password_error: false,
+                attendee_password_error: false,
+                viewer_password_error: false,
+                description_error: false,
+                description_length_error: false,
+                schedule_time_error: false,
+                meeting_type_error: false,
+                event_name_length_error: false,
+                start_now: false,
+                startTime: '0:00:00',
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                timeZoneList: [],
+                event_tag: ['videowiki'],
+                startD: moment().format('YYYY-MM-DD'),
+                is_decast: "True"
+            },
+            stepTwoProps: {
+                BackImageURL: '',
+                imageURL: '',
+                primary_color: '#D7DF23',
+                secondary_color: '',
+                logo: '',
+                back_image: '',
+                cover_image: '',
+                cover_image_error: false,
+                back_image_error: false,
+                banner_text: '',
+                moderator_only_text: 'You are a Moderator, you can control who presents and participates in the live cast',
+                guest_policy: '',
+                welcome_text: '',
+                showText: true,
+                duration: '60',
+                logout_url: 'https://decast.live/dashboard',
+            },
+            stepThreeProps: {
+                vw_stream: false,
+                vw_stream_url: [{ vw_stream: '' }, { urls: [] }],
+                is_streaming: false,
+                public_stream: true,
+            },
+            stepFourProps: {
+                start_stop_recording: true,
+                record: true,
+                mute_on_start: true,
+                end_when_no_moderator: true,
+                allow_moderator_to_unmute_user: false,
+                webcam_only_for_moderator: false,
+                auto_start_recording: false,
+                allow_start_stop_recording: false,
+                disable_cam: false,
+                disable_mic: false,
+                lock_layout: true,
+                lock_on_join: false,
+                viewer_mode: false,
+                viewer_password: false,
+                listen_only_mode: true,
+                webcam_enable: false,
+                screen_sharing: true,
+                restrict_participants: false,
+                meeting_settings: false,
+                checkBox: '',
+            },
         }
     },
     components: {
@@ -128,6 +241,7 @@ export default {
         RecordingCard,
         CastCard,
         DecastDetails,
+        CreateDecastModal,
         // StorageModal
     },
     mounted() {
@@ -156,14 +270,26 @@ export default {
     watch: {
         recordingList(newList) {
             this.recordings = [...newList];
+        },
+        '$route'(to, from) {
+            if (to.params.action === 'create') {
+                this.setActiveModal('createDecastModal');
+            }
         }
     },
     methods: {
+        closeCreateModal() {
+            this.setActiveModal('');
+            this.$router.push('/dashboard/decast');
+            localStorage.removeItem("LOG_BOARDID");
+            localStorage.removeItem("LOG_REDIRECT");
+            localStorage.removeItem("LOG_TOKEN");
+        },
         changeFocus(toYourRooms) {
             this.focusYourRooms = toYourRooms;
         },
         handleCardClick(details) {
-            console.log(details,'detao;s');
+            console.log(details, 'detao;s');
             this.selectedCastId = details;
             this.getSelectedStorage();
         },
@@ -171,6 +297,9 @@ export default {
             this.getDecastRecordings();
             this.changeFocus(false);
             this.$store.dispatch('fetchUserMinutes');
+        },
+        setActiveModal(modalName) {
+            this.activeModal = modalName;
         },
         openModal(cast) {
             this.selectedCast = cast;
@@ -200,7 +329,8 @@ export default {
                 this.loading = false;
             } catch (error) {
                 this.loading = false;
-                console.error('Error:', error);
+                this.selectedStorage = 'Null';
+                // console.error('Error:', error);
             }
         },
         async getDecastList() {
@@ -249,6 +379,209 @@ export default {
                 return text.slice(0, maxLength) + '...';
             } else {
                 return text;
+            }
+        },
+        validateFormOne() {
+            if (
+                this.stepOneProps.event_name === '' ||
+                this.stepOneProps.description === '' ||
+                (this.stepOneProps.audienceAirdrop &&
+                    this.stepOneProps.airdropType === 'NFTs' &&
+                    (this.stepOneProps.mint_function_name === '' ||
+                        this.stepOneProps.contract_address === '' ||
+                        this.stepOneProps.aib === '' ||
+                        this.stepOneProps.nft_description === '' ||
+                        this.stepOneProps.nft_image === '')) ||
+                (this.stepOneProps.auth_type === 'private' &&
+                    this.stepOneProps.send_otp === false &&
+                    this.stepOneProps.password_auth === false) ||
+                (!this.stepOneProps.start_now &&
+                    this.stepOneProps.schedule_time_error) ||
+                this.stepOneProps.invalidTimeError
+            ) {
+                this.stepOneProps.event_name_error =
+                    this.stepOneProps.event_name === '';
+                this.stepOneProps.description_error =
+                    this.stepOneProps.description === '';
+
+                if (
+                    this.stepOneProps.audienceAirdrop &&
+                    this.stepOneProps.airdropType === 'NFTs'
+                ) {
+                    this.stepOneProps.mintfnc_name_error =
+                        this.stepOneProps.mint_function_name === '';
+                    this.stepOneProps.contract_address_error =
+                        this.stepOneProps.contract_address === '';
+                    this.stepOneProps.aib_error = this.stepOneProps.aib === '';
+                    this.stepOneProps.nft_image_error =
+                        this.stepOneProps.nft_image === '';
+                    this.stepOneProps.nft_description_error =
+                        this.stepOneProps.nft_description === '';
+                }
+
+                if (
+                    this.stepOneProps.auth_type === 'private' &&
+                    this.stepOneProps.send_otp === false &&
+                    this.stepOneProps.password_auth === false
+                ) {
+                    this.stepOneProps.meeting_auth_error = true;
+                    this.stepOneProps.moderator_password = '';
+                }
+
+                this.stepOneProps.public_nft_flow =
+                    this.stepOneProps.public_stream_nfts === 'true';
+                this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
+                return false;
+            } else {
+                this.stepOneProps.meeting_type = this.stepOneProps.auth_type;
+                this.stepOneProps.public_nft_flow =
+                    this.stepOneProps.public_stream_nfts === 'true';
+                window.scroll(0, 0);
+                localStorage.setItem('Step1', JSON.stringify(this.stepOneProps));
+                return true;
+            }
+        },
+        setCreateEventData() {
+            // console.log('12');
+            const board_id = localStorage.getItem("LOG_BOARDID");
+            if (board_id) {
+                this.formData.append("board_id", board_id);
+            }
+            this.startNow = this.stepOneProps.start_now;
+            for (let [key, value] of Object.entries(this.stepOneProps)) {
+                if (value.length === 0) {
+                    value = '';
+                } else {
+                    if (value === false) {
+                        value = 'False';
+                    } else if (value === true) {
+                        value = 'True';
+                    } else if (value === '') {
+                        value = '';
+                    }
+                }
+                this.formData.append(key, value);
+            }
+            // console.log('123');
+            this.stepTwoProps.imageURL = '';
+            this.stepTwoProps.BackImageURL = '';
+            for (let [key, value] of Object.entries(this.stepTwoProps)) {
+                if (value.length === 0) {
+                    value = '';
+                } else {
+                    if (value === false) {
+                        value = 'False';
+                    } else if (value === true) {
+                        value = 'True';
+                    } else if (value === '') {
+                        value = '';
+                    }
+                }
+                this.formData.append(key, value);
+            }
+            // console.log('1234');
+            for (let [key, value] of Object.entries(this.stepThreeProps)) {
+                if (value.length === 0) {
+                    value = '';
+                } else {
+                    if (value === false) {
+                        value = 'False';
+                    } else if (value === true) {
+                        value = 'True';
+                    } else if (value === '') {
+                        value = '';
+                    }
+                }
+                this.formData.append(key, value);
+            }
+            for (let [key, value] of Object.entries(this.stepFourProps)) {
+                // console.log(value);
+
+                if (value.length === 0) {
+                    value = '';
+                } else {
+                    if (value === false) {
+                        value = 'False';
+                    } else if (value === true) {
+                        value = 'True';
+                    } else if (value === '') {
+                        value = '';
+                    }
+                }
+                this.formData.append(key, value);
+            }
+        },
+        formSubmitted() {
+            this.stepFourProps.start_stop_recording = this.stepFourProps.record;
+            this.stepFourProps.allow_start_stop_recording = this.stepFourProps.record;
+            this.stepOneProps.schedule_time =
+                this.stepOneProps.startD + ' ' + this.stepOneProps.startTime;
+            if (moment().isAfter(this.stepOneProps.schedule_time)) {
+                const fiveMin = moment().add(5, 'minutes');
+                this.stepOneProps.schedule_time =
+                    `${fiveMin._d.getFullYear()}-${String(
+                        fiveMin._d.getMonth() + 1
+                    ).padStart(2, '0')}-${String(fiveMin._d.getDate()).padStart(
+                        2,
+                        '0'
+                    )}` +
+                    ' ' +
+                    fiveMin._d.getHours() +
+                    ':' +
+                    fiveMin._d.getMinutes() +
+                    ':00';
+            }
+            this.setCreateEventData();
+            this.$vs.loading();
+            return this.$store
+                .dispatch('cast/submitForm', this.formData)
+                .then(async (response) => {
+                    this.getDecastList();
+                    this.status = 'success';
+                    this.$vs.loading.close();
+                    this.responsedata = response.data.message;
+                    this.$vs.notify({
+                        title: 'Success',
+                        text: response.data.message,
+                        color: 'success',
+                    });
+                    this.status = 'success';
+                    this.castId = response.data.meeting_id;
+                    this.inviteData = response.data;
+                    return;
+                })
+                .catch((error) => {
+                    this.$vs.loading.close();
+                    this.formData = new FormData();
+
+                    if (error) {
+                        this.$vs.notify({
+                            title: 'Error!',
+                            text: error.response.data.message,
+                            color: 'danger',
+                        });
+                    } else {
+                        this.$vs.notify({
+                            title: 'Fields Missing!',
+                            text: 'Some Fields are Missing',
+                            color: 'danger',
+                        });
+                    }
+                });
+        },
+        createCast() {
+            if (this.validateFormOne) {
+                return this.formSubmitted();
+            }
+        },
+        updateCastListElement(eventId, newData) {
+            const index = this.castList.findIndex(item => item.public_meeting_id === eventId);
+            if (index !== -1) {
+                var newCastList = this.castList;
+                newCastList[index] = { ...newCastList[index], ...newData };
+                this.$store.commit('cast/SET_ALL_CASTS', newCastList);
+                this.firstCastId = this.castList[index];
+                this.selectedCastId = this.castList[index];
             }
         },
     },

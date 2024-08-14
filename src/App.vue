@@ -101,8 +101,8 @@ export default {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
     this.$refs['login-popup'].$el.childNodes[1].childNodes[0].style.display =
       'none';
-    console.log(this.$refs['login-popup'].$el);
-    console.log(document.getElementById('login-popup'));
+    // console.log(this.$refs['login-popup'].$el);
+    // console.log(document.getElementById('login-popup'));
     var styles = {
       padding: 0,
       margin: 0,
