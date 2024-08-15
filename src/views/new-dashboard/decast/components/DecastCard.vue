@@ -220,7 +220,7 @@ import StartButton from "./common/StartButton.vue";
 import DownButton from "./common/DownButton.vue";
 import LiveButton from "./common/LiveButton.vue";
 import CastOptionsModal from '../../casts/components/CastOptionsModal.vue';
-import manageAudienceModal from '../../casts/components/options-components/ManageAudModal.vue';
+import ManageAudModal from '../../casts/components/options-components/ManageAudModal.vue';
 import LiveStreamModal from '../../casts/components/options-components/LiveStreamModal.vue';
 import YoutubeStreamModal from '../../casts/components/options-components/YoutubeStreamModal.vue';
 import TwitchStreamModal from '../../casts/components/options-components/TwitchStreamModal.vue';
@@ -246,7 +246,7 @@ export default {
         StartButton,
         LiveButton,
         DownButton,
-        manageAudienceModal,
+        ManageAudModal,
         LiveStreamModal,
         YoutubeStreamModal,
         FacebookStreamModal,
