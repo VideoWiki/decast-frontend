@@ -725,6 +725,7 @@ export default {
                     this.castDetails.stream_status = !this.castDetails.stream_status;
                 }
             } catch (err) {
+                this.$vs.loading.close();
                 this.$vs.notify({
                     title: 'An Error occurred',
                     text:

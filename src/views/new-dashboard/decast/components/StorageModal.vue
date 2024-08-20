@@ -177,14 +177,13 @@ export default {
                 meetingId: '',
             };
             try {
-                this.$vs.loading.close();
+                this.$vs.loading();
                 const res = await this.$store.dispatch('cast/joinNow', data);
-                chrome.runtime.sendMessage({ action: 'updateBadge', badgeType: 'cast' });
                 window.open(res.url, '_blank');
                 await this.updateStorageBackend(id);
-                this.loading = false;
-                this.getCastList();
                 this.closeModal();
+                this.$vs.loading.close();
+                this.getCastList();
             } catch (e) {
                 this.$vs.loading.close();
                 // console.log('error', e);

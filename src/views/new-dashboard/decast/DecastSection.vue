@@ -314,7 +314,7 @@ export default {
             const url = `${constants.apiCastUrl}/api/event/select/storage/?cast_id=${cast_id}`;
 
             try {
-                this.loading = true;
+                this.$vs.loading();
                 const response = await axios.get(url);
                 //console.log('Storage retrived successfully:', response.data);
 
@@ -330,9 +330,9 @@ export default {
                     //console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
                     this.selectedStorage = 'Null';
                 }
-                this.loading = false;
+                this.$vs.loading.close();
             } catch (error) {
-                this.loading = false;
+                this.$vs.loading.close();
                 this.selectedStorage = 'Null';
                 // console.error('Error:', error);
             }

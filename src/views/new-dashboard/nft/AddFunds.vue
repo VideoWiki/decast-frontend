@@ -677,7 +677,7 @@ export default {
             const isCorrectNetwork = await this.switchNetwork(this.selectedNetwork.chainId);
             if (!isCorrectNetwork) return;
 
-            this.isLoading = true;
+            this.$vs.loading();
             try {
                 const account = await this.getAccount();
                 if (!account) {
@@ -695,7 +695,7 @@ export default {
                 const token = this.tokens[this.selectedToken];
 
                 if (!this.selectedToken) {
-                    console.log("YES ETH")
+                    // console.log("YES ETH")
                     const tx = await signer.sendTransaction({
                         to: '0x8762e42C7Ae230d3Cd0651a897580caAb28B65B3',
                         value: ethers.utils.parseEther(this.amount),
@@ -703,18 +703,18 @@ export default {
                     });
                     await tx.wait();
                     this.mintInfo = tx;
-                    console.log(tx, this.mintInfo, 'trans')
+                    // console.log(tx, this.mintInfo, 'trans')
                 } else {
-                    console.log('No ETH')
+                    // console.log('No ETH')
                     const tokenContract = new ethers.Contract(token.address, token.abi, signer);
-                    console.log(tokenContract, 'tokecvont')
+                    // console.log(tokenContract, 'tokecvont')
                     const decimals = token.decimals || await this.getDecimals(tokenContract);
-                    console.log(decimals, 'decc')
+                    // console.log(decimals, 'decc')
                     const amountInWei = ethers.utils.parseUnits(this.amount, decimals);
-                    console.log(amountInWei, 'amtgg')
+                    // console.log(amountInWei, 'amtgg')
                     const tx = await tokenContract.transfer('0x8762e42C7Ae230d3Cd0651a897580caAb28B65B3', amountInWei);
                     this.mintInfo = tx;
-                    console.log(tx, this.mintInfo, 'trans')
+                    // console.log(tx, this.mintInfo, 'trans')
                     await tx.wait();
                 }
 
@@ -756,6 +756,7 @@ export default {
                 }
 
             } catch (transferError) {
+                this.$vs.loading.close();
                 console.error('Error transferring funds:', transferError);
                 this.$vs.notify({
                     title: 'Error',
@@ -763,7 +764,7 @@ export default {
                     color: 'danger',
                 });
             } finally {
-                this.isLoading = false;
+                this.$vs.loading.close();
                 this.selectStorage = '';
                 this.selectedNetwork = '';
                 this.amount = '';
