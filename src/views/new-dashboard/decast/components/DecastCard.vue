@@ -16,7 +16,7 @@
 
                 <div class="cursor-pointer flex gap-4 justify-end items-center">
                     <span v-if="castDetails.is_running === 'false' && !isCastStart"
-                        @click="joinNow(castDetails.public_meeting_id)">
+                        @click="setActiveModal('storageModal')">
                         <vx-tooltip text="/ storage.select" position="top">
                             <StartButton />
                         </vx-tooltip>
@@ -205,9 +205,11 @@
         <EditNftModal v-else-if="activeModal === 'editNftDropModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :getCastList="getCastList" />
         <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
-            :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
+            :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)"/>
         <CopyNFTModal v-else-if="activeModal === 'copyNftModal'" :closeModal="() => setActiveModal('')"
             :castId="castDetails.public_meeting_id" />
+        <StorageModal v-else-if="activeModal === 'storageModal'" :closeModal="() => setActiveModal('')"
+            :castDetails="castDetails" :getCastList="getCastList" :castId="castDetails.public_meeting_id" />
     </div>
 </template>
 
@@ -237,6 +239,7 @@ import EditBrandingDetail from '../../casts/components/options-components/EditBr
 import EditPostponeDetail from '../../casts/components/options-components/EditPostponeDetail.vue';
 import EditNftModal from '@/views/new-dashboard/nft/EditNftModal.vue';
 import EditAdvanceDetail from '../../casts/components/options-components/EditAdvanceDetail.vue';
+import StorageModal from './StorageModal.vue';
 export default {
     name: "DecastCardShimmer",
     props: ["castDetails", "index", "getCastList", "castList", "updateCastListElement"],
@@ -264,6 +267,7 @@ export default {
         EditNftModal,
         DeleteCastModal,
         CopyNFTModal,
+        StorageModal,
     },
     data() {
         return {
@@ -524,23 +528,18 @@ export default {
             this.stepFourProps.meeting_settings = false;
         },
         async deleteCast(deleteCastId) {
-            this.isLoading = true;
-            this.setActiveModal('');
-            this.$store.dispatch('cast/deleteCast', deleteCastId)
-                .then((response) => {
-                    const index = this.castList.findIndex(item => item.public_meeting_id === deleteCastId);
-                    if (index !== -1) {
-                        var newCasts = this.castList;
-                        newCasts.splice(index, 1);
-                        this.$store.commit('cast/SET_ALL_CASTS', newCasts);
-                    }
-                    this.isLoading = false;
-                })
-                .catch((error) => {
-                    this.isLoading = false;
-                    console.error(error);
-                });
+            try {
+                this.$vs.loading();
+                await this.$store.dispatch('cast/deleteCast', deleteCastId);
+                await this.getCastList();
+                this.setActiveModal('');
+            } catch (error) {
+                console.error(error);
+            } finally {
+                this.$vs.loading.close();
+            }
         },
+
         validateFormOne() {
             if (
                 this.stepOneProps.event_name === '' ||
@@ -678,7 +677,7 @@ export default {
                 .catch((error) => {
                     this.$vs.loading.close();
                     this.formData = new FormData();
-                    console.log(JSON.stringify(error));
+                    //console.log(JSON.stringify(error));
                     if (error) {
                         this.$vs.notify({
                             title: 'Error!',
@@ -696,12 +695,12 @@ export default {
         },
         handleEditCast(args) {
             if (this.validateFormOne) {
-                console.log('success validated');
+                //console.log('success validated');
                 this.formSubmitted(args);
             }
         },
         async toggleStream(id, action) {
-            console.log(action);
+            //console.log(action);
             try {
                 this.$vs.loading();
                 if (action === 'start') {
@@ -752,7 +751,7 @@ export default {
             try {
                 const res = await this.$store.dispatch('cast/joinNow', data);
                 this.isCastStart = true;
-                console.log(res);
+                //console.log(res);
                 window.open(res.url, '_blank');
             } catch (e) {
                 console.log('error', e);
@@ -760,7 +759,7 @@ export default {
         },
         handleEditCast(args) {
             if (this.validateFormOne) {
-                console.log('success validated');
+                //console.log('success validated');
                 this.formSubmitted(args);
             }
         },

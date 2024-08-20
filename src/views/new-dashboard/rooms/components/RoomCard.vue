@@ -1,9 +1,9 @@
-<template>
+name<template>
   <div>
     <RoomCardShimmer v-if="isLoading" />
     <div v-else class="room_list flex justify-between items-center mb-4 w-full py-2 px-6" @click="handleRoomClick">
       <div>
-        <p style="font-size: 16px; font-weight: 600 width: 50%">
+        <p style="font-size: 16px; font-weight:600; width:50%">
           {{ truncateText(room.room_name, 20) }}
         </p>
       </div>
@@ -119,7 +119,7 @@ export default {
       this.$store
         .dispatch('room/getList')
         .then((res) => {
-          console.log(res);
+          //console.log(res);
         })
         .catch((e) => {
           console.log(e);
@@ -150,7 +150,7 @@ export default {
       axios
         .request(options)
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           const index = this.roomsList.indexOf(room);
           if (index !== -1) {
             var newRooms = this.roomsList;

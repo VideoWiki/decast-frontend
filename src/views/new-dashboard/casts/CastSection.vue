@@ -5,23 +5,25 @@
         <p class="font-bold text-2xl">//Casts</p>
         <p>Host large audience social events.</p>
       </div>
+    </div>
+
+    <div class="basic_child_parent__ w-full flex items-center justify-between">
+      <div class="choose-room">
+        <button class="options-button border-none" @click="changeFocus(true)"
+          :class="{ 'focused-button': focusYourRooms }">
+          /decast
+        </button>
+        <button class="options-button border-none px-5" @click="handleButtonClick"
+          :class="{ 'focused-button': !focusYourRooms }">
+          /recordings
+        </button>
+      </div>
 
       <div class="cursor-pointer">
         <vx-tooltip text="/ Create Cast" position="left">
           <img src="@/assets/images/pixel_create.svg" @click="$router.push('/dashboard/casts/create')" />
         </vx-tooltip>
       </div>
-    </div>
-
-    <div class="choose-room">
-      <button class="options-button border-none" @click="changeFocus(true)"
-        :class="{ 'focused-button': focusYourRooms }">
-        /casts
-      </button>
-      <button class="options-button border-none px-5" @click="handleButtonClick"
-        :class="{ 'focused-button': !focusYourRooms }">
-        /recordings
-      </button>
     </div>
 
     <div class="flex flex-row gap-12 w-full">
@@ -305,10 +307,10 @@ export default {
       try {
         const res = await this.$store.dispatch('cast/recordings');
         this.isRecordingLoading = false;
-        console.log(res);
+        //console.log(res);
       } catch (e) {
         this.isRecordingLoading = false;
-        console.log(e);
+        //console.log(e);
       }
     },
     validateFormOne() {
@@ -374,7 +376,7 @@ export default {
       }
     },
     setCreateEventData() {
-      // console.log('12');
+      // //console.log('12');
       const board_id = localStorage.getItem("LOG_BOARDID");
       if (board_id) {
         this.formData.append("board_id", board_id);
@@ -394,7 +396,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      // console.log('123');
+      // //console.log('123');
       this.stepTwoProps.imageURL = '';
       this.stepTwoProps.BackImageURL = '';
       for (let [key, value] of Object.entries(this.stepTwoProps)) {
@@ -411,7 +413,7 @@ export default {
         }
         this.formData.append(key, value);
       }
-      // console.log('1234');
+      // //console.log('1234');
       for (let [key, value] of Object.entries(this.stepThreeProps)) {
         if (value.length === 0) {
           value = '';
@@ -427,7 +429,7 @@ export default {
         this.formData.append(key, value);
       }
       for (let [key, value] of Object.entries(this.stepFourProps)) {
-        // console.log(value);
+        // //console.log(value);
 
         if (value.length === 0) {
           value = '';
@@ -444,7 +446,7 @@ export default {
       }
     },
     formSubmitted() {
-      // console.log(
+      // //console.log(
       //   this.stepFourProps.record,
       //   this.stepFourProps.start_stop_recording,
       //   this.stepOneProps
@@ -568,7 +570,7 @@ export default {
         }
       } catch (error) {
         this.isCastsLoading = false;
-        console.log("Error in fetching cast detail");
+        //console.log("Error in fetching cast detail");
       }
     },
     updateCastListElement(eventId, newData) {
@@ -585,7 +587,7 @@ export default {
     },
     toggleCopy(index) {
       this.showCopy = this.showCopy === index ? null : index;
-      console.log(index, 'copy');
+      //console.log(index, 'copy');
     },
   },
 };
@@ -622,6 +624,11 @@ export default {
 .cast_list_cont {
   overflow: scroll !important;
   height: 64vh;
+  max-width: 645px;
+}
+
+.basic_child_parent__ {
+  max-width: 644px;
 }
 
 .cast_list_cont::-webkit-scrollbar {

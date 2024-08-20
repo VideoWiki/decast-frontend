@@ -199,7 +199,7 @@ export default {
       this.eventCreator = res.data.meeting_info.event_creator_name;
       this.meeting_running = res.data.meeting_info.running;
       this.isExpired = res.data.meeting_info.expired;
-      this.url = `https://gtbrdd.typeform.com/to/xQ5sUFNz#event_name=${encodeURI(
+      this.url = `https://gtbrdd.typeform.com/decast#event_name=${encodeURI(
         this.eventName
       )}&creater_email=${this.eventCreatorEmail}`;
       var timeRemaining = moment

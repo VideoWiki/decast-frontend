@@ -103,7 +103,7 @@ const actions = {
         payload.author,
         payload.metaData
       );
-      console.log(videoTxData);
+      // console.log(videoTxData);
       commit('studio/setTxData', videoTxData);
       return true;
     } catch (e) {

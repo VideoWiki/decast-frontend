@@ -5,19 +5,12 @@
         <p class="font-bold text-2xl">//Calls</p>
         <p>Conference rooms for private calls.</p>
       </div>
-
-      <div class="cursor-pointer">
-        <!-- <vx-tooltip text="/ Create Room" position="left">
-          <img @click="setActiveModal('createRoomModal')" src="@/assets/images/pixel_create.svg" />
-        </vx-tooltip> -->
-        <vx-tooltip text="/ Create Room" position="left">
-          <img @click="$router.push('/dashboard/rooms/create')" src="@/assets/images/pixel_create.svg" />
-        </vx-tooltip>
-      </div>
     </div>
 
+  <div class="basic_child_parent__ w-full flex items-center justify-between">
     <div class="choose-room">
-      <button class="options-button border-none" @click="changeFocus(true)" :class="{ 'focused-button': focusYourRooms }">
+      <button class="options-button border-none" @click="changeFocus(true)"
+        :class="{ 'focused-button': focusYourRooms }">
         /rooms
       </button>
       <button class="options-button border-none px-5" @click="handleButtonClick"
@@ -26,9 +19,16 @@
       </button>
     </div>
 
-    <div class="flex flex-row gap-12 w-full">
-      <div class="flex flex-col gap-6 w-1/2">
-        <!-- <div class="choose-room">
+    <div class="cursor-pointer">
+      <vx-tooltip text="/ Create Room" position="left">
+        <img @click="$router.push('/dashboard/rooms/create')" src="@/assets/images/pixel_create.svg" />
+      </vx-tooltip>
+    </div>
+  </div>
+
+  <div class="flex flex-row gap-12 w-full">
+    <div class="flex flex-col gap-6 w-1/2">
+      <!-- <div class="choose-room">
           <button class="options-button border-none" @click="changeFocus(true)"
             :class="{ 'focused-button': focusYourRooms }">
             /rooms
@@ -39,43 +39,44 @@
           </button>
         </div> -->
 
-        <div class="flex flex-col gap-4">
-          <div class="room_list_cont" v-if="focusYourRooms">
-            <div v-if="isRoomsLoading">
-              <RoomCardShimmer />
-              <RoomCardShimmer :style="{ opacity: 0.7 }" />
-              <RoomCardShimmer :style="{ opacity: 0.4 }" />
-            </div>
-            <div v-else-if="rooms.length">
-              <div v-for="(room, index) in rooms" :key="index">
-                <RoomCard :getRoomList="getList" :room="room" :index="index" :roomsList="rooms" @room-click="handleRoomClick" />
-              </div>
-            </div>
+      <div class="flex flex-col gap-4">
+        <div class="room_list_cont" v-if="focusYourRooms">
+          <div v-if="isRoomsLoading">
+            <RoomCardShimmer />
+            <RoomCardShimmer :style="{ opacity: 0.7 }" />
+            <RoomCardShimmer :style="{ opacity: 0.4 }" />
           </div>
-
-          <div v-else class="room_list_cont">
-            <div v-if="isRecordingLoading">
-              <RecordingCardShimmer />
-              <RecordingCardShimmer :style="{ opacity: 0.7 }" />
-              <RecordingCardShimmer :style="{ opacity: 0.4 }" />
-            </div>
-            <div v-else-if="recordingList.length">
-              <div v-for="(recording, index) in recordings" :key="index">
-                <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings" />
-              </div>
-            </div>
-            <div v-else class="recording flex flex-col items-center justify-items-center">
-              <h1 class="text-4xl text-white font-bold">Oops! No Recordings Found. :(</h1>
+          <div v-else-if="rooms.length">
+            <div v-for="(room, index) in rooms" :key="index">
+              <RoomCard :getRoomList="getList" :room="room" :index="index" :roomsList="rooms"
+                @room-click="handleRoomClick" />
             </div>
           </div>
         </div>
-      </div>
 
-      <div v-if="firstRoomId !== null" class="room_details w-1/2 p-5">
-        <RoomDetails :selectedRoomDetails="selectedRoomDetails" :firstRoomId="firstRoomId" />
+        <div v-else class="room_list_cont">
+          <div v-if="isRecordingLoading">
+            <RecordingCardShimmer />
+            <RecordingCardShimmer :style="{ opacity: 0.7 }" />
+            <RecordingCardShimmer :style="{ opacity: 0.4 }" />
+          </div>
+          <div v-else-if="recordingList.length">
+            <div v-for="(recording, index) in recordings" :key="index">
+              <RecordingCard :recording="recording" :index="index" :getRecordings="getRecordings" />
+            </div>
+          </div>
+          <div v-else class="recording flex flex-col items-center justify-items-center">
+            <h1 class="text-4xl text-white font-bold">Oops! No Recordings Found. :(</h1>
+          </div>
+        </div>
       </div>
     </div>
-    <CreateRoomModal v-if="activeModal === 'createRoomModal'" :closeModal="closeCreateModal" />
+
+    <div v-if="firstRoomId !== null" class="room_details w-1/2 p-5">
+      <RoomDetails :selectedRoomDetails="selectedRoomDetails" :firstRoomId="firstRoomId" />
+    </div>
+  </div>
+  <CreateRoomModal v-if="activeModal === 'createRoomModal'" :closeModal="closeCreateModal" />
   </div>
 </template>
 
@@ -121,16 +122,16 @@ export default {
   watch: {
     // whenever question changes, this function will run
     roomsList(newList) {
-      console.log(newList);
+      //console.log(newList);
       this.rooms = [...newList];
       this.firstRoomId = newList.length > 0 ? newList[0] : null;
-      console.log(this.firstRoomId, 'firstRoomId');
-      console.log(this.rooms);
+      //console.log(this.firstRoomId, 'firstRoomId');
+      //console.log(this.rooms);
     },
     recordingList(newList) {
-      console.log(newList);
+      //console.log(newList);
       this.recordings = [...newList];
-      console.log(this.recordings);
+      //console.log(this.recordings);
     },
     '$route'(to, from) {
       if (to.params.action === 'create') {
@@ -139,14 +140,14 @@ export default {
     }
   },
   mounted() {
-    if(this.$route.params.action === 'create'){
+    if (this.$route.params.action === 'create') {
       this.setActiveModal('createRoomModal')
     }
     this.getList();
   },
   methods: {
-    closeCreateModal(){
-      this.setActiveModal(''); 
+    closeCreateModal() {
+      this.setActiveModal('');
       this.$router.push('/dashboard/rooms');
       localStorage.removeItem("LOG_BOARDID");
       localStorage.removeItem("LOG_REDIRECT");
@@ -154,7 +155,7 @@ export default {
     },
     handleRoomClick(details) {
       this.selectedRoomDetails = details;
-      console.log(this.selectedRoomDetails, 'jfkll')
+      //console.log(this.selectedRoomDetails, 'jfkll')
     },
     changeFocus(toYourRooms) {
       this.focusYourRooms = toYourRooms;
@@ -167,11 +168,11 @@ export default {
       this.$store
         .dispatch('room/getList')
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           this.isRoomsLoading = false;
         })
         .catch((e) => {
-          console.log(e);
+          //console.log(e);
           this.isRoomsLoading = false;
         });
     },
@@ -180,7 +181,7 @@ export default {
       try {
         const res = await this.$store.dispatch('room/getRecordings');
         this.isRecordingLoading = false;
-        console.log(res);
+        //console.log(res);
       } catch (e) {
         this.isRecordingLoading = false;
         console.error('Error getting recordings', e);
@@ -230,6 +231,11 @@ export default {
 .room_list_cont {
   overflow: scroll !important;
   height: 64vh;
+  max-width: 645px;
+}
+
+.basic_child_parent__ {
+  max-width: 644px;
 }
 
 .room_list_cont::-webkit-scrollbar {

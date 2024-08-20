@@ -1,0 +1,323 @@
+<template>
+    <BaseModal :title="'storage.select'" @close="closeModal">
+        <template #modalContent>
+            <div class="modal-content-wrapper">
+                <!-- <div v-if="loading">
+                    <CommonLoader />
+                </div> -->
+                <div class="modal-content h-full flex flex-col gap-4 justify-start items-center pt-4">
+                    <div
+                        class="basic_child_modal_ flex flex-col gap-4 justify-start items-start w-full h-full pl-4 pr-4 pb-4 text-left">
+                        <p class="heading_basic_ w-full pt-2 pb-2 text-lg">
+                            >>Select the network where you want to store your Decast recordings.
+                        </p>
+
+                        <label for="storage-select" class="text-left text-lg text-white w-full">//storage.select</label>
+                        <div class="relative w-1/2">
+                            <div @click="toggleDropdown"
+                                class="h-12 w-full p-2 text-lg outline-none bg-black text-white flex justify-between items-center cursor-pointer storage-select">
+                                <div class="flex gap-4 items-center justify-start">
+                                    <img v-if="selectedStorage" :src="storages[selectedStorage].icon"
+                                        class="w-8 h-8 object-contain" alt="icon">
+                                    <span>{{ selectedStorage ? storages[selectedStorage].desc : 'Select Storage'
+                                        }}</span>
+                                </div>
+                                <span>
+                                    <DownButton />
+                                </span>
+                            </div>
+                            <div v-if="isOpen" class="absolute w-full bg-black text-white z-10">
+                                <div v-for="(storage, name) in storages" :key="name" @click="selectStorage(name)"
+                                    class="storage_opt_ p-2 h-12 flex gap-4 items-center justify-start cursor-pointer text-lg hover:bg-gray-800 hover:text-green-500">
+                                    <img class="w-8 h-8 object-contain" :src="storage.icon" />
+                                    <span>{{ storage.desc }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="basic_wallet_container__ w-1/2 flex flex-col mt-2 gap-4 p-4 pb-4">
+                            <h2 class="text-white font-bold text-xl flex justify-between items-center">//Wallet Balance
+                                <span><svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M18 8V7.2C18 6.0799 18 5.51984 17.782 5.09202C17.5903 4.71569 17.2843 4.40973 16.908 4.21799C16.4802 4 15.9201 4 14.8 4H6.2C5.07989 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.0799 3 7.2V8M21 12H19C17.8954 12 17 12.8954 17 14C17 15.1046 17.8954 16 19 16H21M3 8V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V11.2C21 10.0799 21 9.51984 20.782 9.09202C20.5903 8.71569 20.2843 8.40973 19.908 8.21799C19.4802 8 18.9201 8 17.8 8H3Z"
+                                                stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg></span>
+                            </h2>
+
+                            <div class="flex flex-col gap-2">
+                                <p class="text-grey-light text-lg" style="color: #22c55e;">Storage</p>
+                                <p class="text-2xl font-semibold text-white"
+                                    v-if="swarmFreeGiven === true && selectedStorage == 'Swarm'">{{ swarmMinutes }}<span
+                                        class="text-lg font-normal">Minutes</span></p>
+                                <p class="text-2xl font-semibold text-white"
+                                    v-else-if="siaFreeGiven === true && selectedStorage == 'Sia'">{{ siaMinutes }}<span
+                                        class="text-lg font-normal">Minutes</span>
+                                </p>
+                                <p class="text-2xl font-semibold text-white" v-else>0<span
+                                        class="text-lg font-normal">Minutes</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="w-full flex border-b border-white pb-6" @click="redirectToAddFunds">
+                            <button
+                                class="add_funds_btn bg-white text-black flex gap-2 justify-center items-center text-lg p-2 cursor-pointer">
+                                <img src="@/assets/images/coin.svg" alt="coin"> Add Minutes
+                            </button>
+                        </div>
+
+                        <div style="color: #22c55e;">
+                            <hr class="border-grey mb-2" />
+                            /* Note: If your balance of minutes in the selected storage option (Sia or Swarm) is too low
+                            and your recording is likely to exceed the available balance, you can still host and enjoy
+                            the Decast and record your activity. However, you won't be able to access the recording
+                            until you top up your wallet. To top up, simply click the "Add Minutes" button above, and
+                            you’ll be redirected to the top-up page. */
+                            <hr class="border-grey mt-2" />
+                        </div>
+
+                        <div class="w-1/2 flex items-center justify-center gap-4 mt-auto">
+                            <button
+                                class="basic_start_btn_ w-1/2 p-2 text-lg bg-white text-black flex items-center justify-center cursor-pointer gap-2"
+                                @click="joinNow(castDetails.public_meeting_id)" :disabled="!selectedStorage">
+                                <img src="@/assets/images/start.png" alt="">Start Decast</button>
+                            <button class="cancel_btn_ w-1/2 p-2 text-lg bg-black cursor-pointer text-red-500"
+                                @click="closeModal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </BaseModal>
+</template>
+
+<script>
+import BaseModal from "@/components/common/BaseModal.vue";
+import axios from '../../../../axios';
+import StartButton from "./common/StartButton.vue";
+import DownButton from "./common/DownButton.vue";
+import CommonLoader from './common/CommonLoader.vue'
+import storages from '../../nft/storage.js';
+import constants from '../../../../../constant.js';
+export default {
+    name: 'StorageModal',
+    props: ['closeModal', 'setActiveModal', 'castDetails', 'getCastList'],
+    components: {
+        BaseModal,
+        DownButton,
+        CommonLoader
+    },
+    data() {
+        return {
+            storages,
+            selectedStorage: '',
+            isOpen: false,
+            isCastStart: false,
+            loading: false,
+            preSelected: false,
+        }
+    },
+    mounted() {
+        this.getSelectedStorage();
+    },
+    created() {
+        this.$store.dispatch('fetchUserMinutes');
+    },
+    computed: {
+        siaMinutes() {
+            return this.$store.state.minutes.siaMinutes;
+        },
+        siaFreeGiven() {
+            return this.$store.state.minutes.siaFreeGiven;
+        },
+        swarmMinutes() {
+            return this.$store.state.minutes.swarmMinutes;
+        },
+        swarmFreeGiven() {
+            return this.$store.state.minutes.swarmFreeGiven;
+        },
+
+    },
+    methods: {
+        getImagePath(image) {
+            return require(`@/assets/images/${image}`).default;
+        },
+        toggleDropdown() {
+            // console.log(this.selectedStorage, 'doro')
+            if (this.preSelected == false) {
+                this.isOpen = !this.isOpen;
+            }
+        },
+        selectStorage(name) {
+            this.selectedStorage = name;
+            this.isOpen = false;
+            this.$emit('input', name);
+        },
+        redirectToAddFunds() {
+            // console.log('func call')
+            window.open("https://decast.live/addfunds", "_blank");
+        },
+        async joinNow(id) {
+            const data = {
+                email: '',
+                name: '',
+                password: '',
+                public_meeting_id: id,
+                redirect: true,
+                room_type: 'private',
+                avatar_url: '',
+                guest: false,
+                attendee_password: '',
+                meetingId: '',
+            };
+            try {
+                this.$vs.loading.close();
+                const res = await this.$store.dispatch('cast/joinNow', data);
+                chrome.runtime.sendMessage({ action: 'updateBadge', badgeType: 'cast' });
+                window.open(res.url, '_blank');
+                await this.updateStorageBackend(id);
+                this.loading = false;
+                this.getCastList();
+                this.closeModal();
+            } catch (e) {
+                this.$vs.loading.close();
+                // console.log('error', e);
+            }
+        },
+        async getSelectedStorage() {
+            const token = this.$store.state.accessToken;
+            const cast_id = this.castDetails.public_meeting_id;
+            // console.log(token, cast_id, 'llllllllllll');
+            const url = `${constants.apiCastUrl}/api/event/select/storage/?cast_id=${cast_id}`;
+
+            try {
+                this.$vs.loading();
+                const response = await axios.get(url);
+                // console.log('Storage retrived successfully:', response.data);
+
+                if (response.data.SIA == true && response.data.SWARM == false) {
+                    // console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    this.selectedStorage = 'Sia';
+                    this.preSelected = true;
+                } else if (response.data.SIA == false && response.data.SWARM == true) {
+                    // console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    this.selectedStorage = 'Swarm';
+                    this.preSelected = true;
+                } else if (response.data.SIA == false && response.data.SWARM == false) {
+                    // console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
+                    this.selectedStorage = '';
+                }
+                // console.log(this.selectedStorage,'selecteddtso')
+                this.$vs.loading.close();
+            } catch (error) {
+                // console.log(this.selectedStorage,'selecteddtso')
+                this.$vs.loading.close();
+                // console.error('Error:', error);
+            }
+        },
+        async updateStorageBackend(castId) {
+            if (this.preSelected === false) {
+                const token = this.$store.state.accessToken;
+                const storageParams = {
+                    cast_id: castId,
+                    Sia: this.selectedStorage === 'Sia',
+                    Swarm: this.selectedStorage === 'Swarm',
+                };
+                const url = `${constants.apiCastUrl}/api/event/select/storage/`;
+
+                try {
+                    const response = await axios.post(url, storageParams);
+                    // console.log('Storage updated successfully:', response.data);
+                } catch (error) {
+                    // console.error('Error updating storage:', error);
+                }
+            }
+        },
+    }
+}
+</script>
+
+<style scoped>
+* {
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
+.modal {
+    z-index: 99;
+    position: absolute;
+    background: #000;
+    border: 1px solid #fff;
+    color: #fff;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.modal ::-webkit-scrollbar {
+    display: none;
+}
+
+
+.close {
+    border: 1px solid red;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    background-color: #000;
+    z-index: 5;
+    right: -5px;
+    top: -10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.basic_wallet_container__ {
+    border: 1px solid white;
+}
+
+.storage-select {
+    border: 1px solid white;
+}
+
+.add_funds_btn {
+    border: 1px solid #d7df23;
+    border-right: 2px solid #d7df23;
+    border-bottom: 2px solid #d7df23;
+}
+
+.basic_start_btn_ {
+    border: 1px solid #d7df23;
+    border-right: 2px solid #d7df23;
+    border-bottom: 2px solid #d7df23;
+}
+
+.basic_start_btn_:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.8 !important;
+}
+
+.cancel_btn_ {
+    border: 1px solid red;
+    border-right: 2px solid red;
+    border-bottom: 2px solid red;
+}
+
+.storage_opt_ {
+    /* border: 1px solid white; */
+    background-color: #151515;
+}
+
+.heading_basic_ {
+    border-top: 2px dashed #fff;
+    border-bottom: 2px dashed #fff;
+    color: #fff;
+}
+</style>

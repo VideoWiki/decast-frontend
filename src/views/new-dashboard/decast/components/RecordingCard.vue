@@ -1,8 +1,8 @@
 <template>
     <div class="w-full">
-        <div v-if="loading">
+        <!-- <div v-if="loading">
             <CommonLoader />
-        </div>
+        </div> -->
         <div class="recordings w-full flex flex-col justify-between items-center mb-4 py-2 px-4 gap-2">
             <div class="flex flex-row justify-between items-center w-full">
                 <p class="text-lg font-semibold">
@@ -132,18 +132,18 @@ export default {
             const url = `${constants.apiCastUrl}/api/event/select/storage/?cast_id=${cast_id}`;
 
             try {
-                this.loading = true;
+                this.$vs.loading();
                 const response = await axios.get(url);
-                console.log('Storage retrived successfully:', response.data);
+                // //console.log('Storage retrived successfully:', response.data);
 
                 if (response.data.SIA == true && response.data.SWARM == false) {
                     await this.handleSiaDownload();
                 } else if (response.data.SIA == false && response.data.SWARM == true) {
                     await this.handleSwarmDownload();
                 }
-                this.loading = false;
+                this.$vs.loading.close();
             } catch (error) {
-                this.loading = false;
+                this.$vs.loading.close();
                 console.error('Error:', error);
             }
         },
@@ -153,13 +153,13 @@ export default {
             const l_time = this.recording["End Time (Readable)"];
             const url = `${constants.apiCastUrl}/api/decast/rec/sia/download/?start_time=${start_time}&l_time=${l_time}&pub_id=${cast_id}`;
             try {
-                this.loading = true;
+                this.$vs.loading();
                 const response = await axios.get(url);
-                console.log('Storage retrived successfully:', response.data);
+                //console.log('Storage retrived successfully:', response.data);
                 this.taskId = response.data.task_id;
-                this.loading = false;
+                this.$vs.loading.close();
             } catch (error) {
-                this.loading = false;
+                this.$vs.loading.close();
                 console.error('Error:', error);
             }
         },
@@ -167,17 +167,18 @@ export default {
             await this.handleSiaStatus();
             const url = `${constants.apiCastUrl}/api/decast/rec/swarm/result/?task_id=${this.taskId}`;
 
-            this.loading = true;
-            if (parseFloat(this.recording["Playback Data"]["Playback Length"]) > parseFloat(this.siaMinutes)) {
-                console.log("size true");
+            this.$vs.loading();
+            if (this.recording.is_deducted === false) {
+                //console.log("size true");
                 this.$vs.notify({
-                    title: 'Insufficient Balance',
-                    text: 'Please add sufficient minutes to your wallet to download this recording.',
+                    title: 'Try again later',
+                    text: 'Your recording will be ready for download in a short while.',
                     color: 'danger',
                 });
-                this.loading = false;
+                this.$vs.loading.close();
                 return;
             }
+
             try {
                 let success = false;
                 while (!success) {
@@ -222,7 +223,7 @@ export default {
                         }
                     }
                     else if (response.data.status === 'PENDING') {
-                        this.loading = false;
+                        this.$vs.loading.close();
                         this.$vs.notify({
                             title: 'Download Not Ready',
                             text: 'Your download is not ready yet. Please try again later.',
@@ -236,7 +237,7 @@ export default {
                     }
                 }
             } catch (error) {
-                this.loading = false;
+                this.$vs.loading.close();
                 this.$vs.notify({
                     title: 'Error',
                     text: 'Unable to process your request!',
@@ -244,7 +245,7 @@ export default {
                 });
                 console.error('Error:', error);
             } finally {
-                this.loading = false;
+                this.$vs.loading.close();
             }
         },
         async handleSwarmStatus() {
@@ -253,31 +254,32 @@ export default {
             const l_time = this.recording["End Time (Readable)"];
             const url = `${constants.apiCastUrl}/api/decast/rec/swarm/download/?start_time=${start_time}&l_time=${l_time}&pub_id=${cast_id}`;
             try {
-                this.loading = true;
+                this.$vs.loading();
                 const response = await axios.get(url);
-                console.log('Storage retrived successfully:', response.data);
+                //console.log('Storage retrived successfully:', response.data);
                 this.taskId = response.data.task_id;
-                this.loading = false;
+                this.$vs.loading.close();
             } catch (error) {
-                this.loading = false;
+                this.$vs.loading.close();
                 console.error('Error:', error);
             }
         },
         async handleSwarmDownload() {
-            console.log('Running handleSwarmDownload', this.recording["Playback Data"]["Playback Size"], this.swarmMinutes);
+            //console.log('Running handleSwarmDownload', this.recording["Playback Data"]["Playback Size"], this.swarmMinutes);
             await this.handleSwarmStatus();
             const url = `${constants.apiCastUrl}/api/decast/rec/swarm/result/?task_id=${this.taskId}`;
-            this.loading = true;
-            if (parseFloat(this.recording["Playback Data"]["Playback Length"]) > parseFloat(this.swarmMinutes)) {
-                console.log("size true");
+            this.$vs.loading();
+            if (this.recording.is_deducted === false) {
+                //console.log("size true");
                 this.$vs.notify({
-                    title: 'Insufficient Balance',
-                    text: 'Please add sufficient minutes to your wallet to download this recording.',
+                    title: 'Try again later',
+                    text: 'Your recording will be ready for download in a short while.',
                     color: 'danger',
                 });
-                this.loading = false;
+                this.$vs.loading.close();
                 return;
             }
+
             try {
                 let success = false;
                 while (!success) {
@@ -322,7 +324,7 @@ export default {
                         }
                     }
                     else if (response.data.status === 'PENDING') {
-                        this.loading = false;
+                        this.$vs.loading.close();
                         this.$vs.notify({
                             title: 'Download Not Ready',
                             text: 'Your download is not ready yet. Please try again later.',
@@ -336,7 +338,7 @@ export default {
                     }
                 }
             } catch (error) {
-                this.loading = false;
+                this.$vs.loading.close();
                 this.$vs.notify({
                     title: 'Error',
                     text: 'Unable to process your request!',
@@ -344,7 +346,7 @@ export default {
                 });
                 console.error('Error:', error);
             } finally {
-                this.loading = false;
+                this.$vs.loading.close();
             }
         },
 
