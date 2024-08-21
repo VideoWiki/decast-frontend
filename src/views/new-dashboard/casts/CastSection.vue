@@ -11,7 +11,7 @@
       <div class="choose-room">
         <button class="options-button border-none" @click="changeFocus(true)"
           :class="{ 'focused-button': focusYourRooms }">
-          /decast
+          /cast
         </button>
         <button class="options-button border-none px-5" @click="handleButtonClick"
           :class="{ 'focused-button': !focusYourRooms }">
