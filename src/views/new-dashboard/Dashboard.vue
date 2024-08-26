@@ -140,7 +140,7 @@
                 <path d="M28.1473 19.7775V17.5552H32.5919V19.7775H28.1473Z" class='color_1' fill="white" />
                 <path d="M23.7027 17.5552V15.333H28.1473V17.5552H23.7027Z" class='color_1' fill="white" />
                 <path d="M23.7027 39.7775H21.4804V17.5552H23.7027V39.7775Z" class='color_1' fill="white" />
-                <rect x="35.8022" y="26.6914" width="5.43228" height="3.95062" class='color_2' fill="black" />
+                <rect x="35.8022" y="26.6914" width="5.43228" height="3.95062" class='color_2' fill="black"/>
               </svg>
 
 

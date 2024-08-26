@@ -8,21 +8,40 @@
                             <div class="invite-wrapper">
                                 <div class="invite-wrapper-left">
                                     <div class="input-container">
-                                        <div class="opt-cont" ref="customSelect">
-                                            <label class="custom-selector">
-                                                <select v-model="selectedOption">
-                                                    <option value="participant">Participants</option>
-                                                    <option value="co-host">Co-host</option>
-                                                    <option v-if="isStream" value="spectator">Spectator</option>
-                                                    <option v-if="viewer" value="viewer">Viewer</option>
-                                                </select>
-                                            </label>
-                                            <ul v-if="isDropdownOpen" class="custom-options">
-                                                <li v-for="(option, index) in options" :key="index"
-                                                    @mousedown="selectOption(option)">
-                                                    {{ option.label }}
-                                                </li>
-                                            </ul>
+                                        <div class="basic_share_parent_ flex gap-2 justify-start items-center">
+                                            <div class="opt-cont" ref="customSelect">
+                                                <label class="custom-selector">
+                                                    <select v-model="selectedOption">
+                                                        <option value="participant">Participants</option>
+                                                        <option value="co-host">Co-host</option>
+                                                        <option v-if="isStream" value="spectator">Spectator</option>
+                                                        <option v-if="viewer" value="viewer">Viewer</option>
+                                                    </select>
+                                                </label>
+                                                <ul v-if="isDropdownOpen" class="custom-options">
+                                                    <li v-for="(option, index) in options" :key="index"
+                                                        @mousedown="selectOption(option)">
+                                                        {{ option.label }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <vx-tooltip text="Share cast to other platforms" position="top">
+                                                <vs-button type="border" class="airdrop-btn-1" style="font-size: 12px;"
+                                                    @click="setActiveModal('copyShareModal')">
+                                                    <svg width="25" height="25" viewBox="0 0 10 10" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M8.99998 1L4 6" stroke="#ffffff" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                        <path d="M9 4L8.99995 1.00001L6 1" stroke="#ffffff"
+                                                            stroke-linecap="round" stroke-linejoin="round" />
+                                                        <path d="M4 1H1V9H9V6" stroke="#ffffff" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
+                                                    <!-- <vs-icon icon-pack="feather" icon="icon-share-2" size="14px" rounded="true">
+                                        </vs-icon> -->
+                                                </vs-button>
+                                            </vx-tooltip>
+
                                         </div>
                                         <div class="flex">
                                             <input v-model="userEmail" @keydown.enter="addUser"
@@ -37,12 +56,12 @@
                                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                         style="display: none" @change="updateSheetInfo" ref="sheetInput" />
                                     <div v-if="!file" class="invite-bulk-wrapper">
-                                        <button class="invite-bulk-btn" @click="openSheetInput">Invite Bulk</button>
+                                        <button class="invite-bulk-btn" @click="openSheetInput">Bulk Invite</button>
                                         <button class="sample-btn">
                                             <a
                                                 href="https://videowikistorage.blob.core.windows.net/room-db-backup/Sample_Invitee_List.xlsx">
-                                                <vs-icon icon-pack="feather" icon="icon-download" size="14px" rounded="true"
-                                                    style="align-self: flex-end; color: #a6a6a8;">
+                                                <vs-icon icon-pack="feather" icon="icon-download" size="14px"
+                                                    rounded="true" style="align-self: flex-end; color: #a6a6a8;">
                                                 </vs-icon>
                                                 <span class="ml-2">sample file</span>
                                             </a>
@@ -127,7 +146,8 @@
                                     disabled @click="audienceDropMail" style="font-size: 12px;">>>Airdrop
                                 </vs-button>
 
-                                <vs-button type="border" v-if="nft_enable_count > 0 && !airdrop_done && event_nft_enabled"
+                                <vs-button type="border"
+                                    v-if="nft_enable_count > 0 && !airdrop_done && event_nft_enabled"
                                     @click="audienceDropMail">>>Airdrop
                                 </vs-button>
 
@@ -222,7 +242,7 @@
         </template>
     </BaseModal>
 </template>
-  
+
 <script>
 import constants from '../../../../../../constant';
 import axios from '@/axios';
@@ -609,191 +629,192 @@ export default {
     },
 };
 </script>
-  
-<style scoped> .full-height-table {
-     height: inherit;
- }
 
- .ma-actions-btn {
-     display: flex;
-     justify-content: space-between;
-     padding-top: 15px;
-     border-top: 1px dashed #FFFFFF;
- }
+<style scoped>
+.full-height-table {
+    height: inherit;
+}
 
- .ma-actions-btn h2 {
-     color: #FFFFFF !important;
- }
+.ma-actions-btn {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    border-top: 1px dashed #FFFFFF;
+}
 
- .user-manage-bottom-sec {
-     display: flex;
-     justify-content: end;
- }
+.ma-actions-btn h2 {
+    color: #FFFFFF !important;
+}
 
- .table-heading-wrapper {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     background-color: #FFFFFF;
-     color: #000000;
-     margin-top: 10px;
- }
+.user-manage-bottom-sec {
+    display: flex;
+    justify-content: end;
+}
 
- .table-head-col1,
- .table-head-col2,
- .table-head-col3,
- .table-head-col4 {
-     display: flex;
-     align-items: center;
-     flex: 1;
-     padding: 5px 10px;
- }
+.table-heading-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    color: #000000;
+    margin-top: 10px;
+}
 
- .table-content-row {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     margin: 10px 0px 5px 0px;
-     background-color: #000000;
- }
+.table-head-col1,
+.table-head-col2,
+.table-head-col3,
+.table-head-col4 {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 5px 10px;
+}
 
- .table-content-col1,
- .table-content-col2,
- .table-content-col3,
- .table-content-col4 {
-     display: flex;
-     align-items: center;
-     flex: 1;
-     padding: 5px 10px;
-     cursor: pointer;
- }
+.table-content-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0px 5px 0px;
+    background-color: #000000;
+}
 
- .table-content-wrapper {
-     border: 1px solid #FFFFFF;
-     margin-top: 6px;
- }
+.table-content-col1,
+.table-content-col2,
+.table-content-col3,
+.table-content-col4 {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 5px 10px;
+    cursor: pointer;
+}
 
- .invite-wrapper {
-     display: flex;
-     justify-content: space-between;
- }
+.table-content-wrapper {
+    border: 1px solid #FFFFFF;
+    margin-top: 6px;
+}
 
- .invite-wrapper-left {
-     display: flex;
-     flex: 0.45;
-     margin-right: 10px;
- }
+.invite-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
 
- .invite-wrapper-right {
-     display: flex;
-     justify-content: end;
-     flex: 0.5;
-     margin-left: 10px;
- }
+.invite-wrapper-left {
+    display: flex;
+    flex: 0.45;
+    margin-right: 10px;
+}
 
- .input-separator {
-     display: flex;
-     align-items: center;
-     justify-content: center;
- }
+.invite-wrapper-right {
+    display: flex;
+    justify-content: end;
+    flex: 0.5;
+    margin-left: 10px;
+}
 
- .percent-label {
-     width: 100%;
-     text-align: center;
- }
+.input-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
- .user-table-wrapper {
-     overflow-y: scroll;
-     height: inherit;
- }
+.percent-label {
+    width: 100%;
+    text-align: center;
+}
 
- .select-btn {
-     cursor: pointer;
-     background-color: #2d3a48;
-     border-radius: 6px;
-     border: 1px solid #31394e;
-     font-size: 12px;
-     height: 100%;
-     width: 115.5px;
-     color: #a6a6a8;
- }
+.user-table-wrapper {
+    overflow-y: scroll;
+    height: inherit;
+}
 
- .airdrop-btn-1 {
-     border: none !important;
-     background: transparent !important;
-     color: #a6a6a8 !important;
-     box-shadow: none !important;
- }
+.select-btn {
+    cursor: pointer;
+    background-color: #2d3a48;
+    border-radius: 6px;
+    border: 1px solid #31394e;
+    font-size: 12px;
+    height: 100%;
+    width: 115.5px;
+    color: #a6a6a8;
+}
 
- .opt-cont {
-     width: 150px;
-     height: 34px;
-     background-color: #000000;
-     border: 1px solid #FFFFFF;
-     padding: 8px;
-     font-size: 12px;
-     font-family: sans-serif;
-     position: relative;
-     margin-bottom: 6px;
- }
+.airdrop-btn-1 {
+    border: none !important;
+    background: transparent !important;
+    color: #a6a6a8 !important;
+    box-shadow: none !important;
+}
 
- .opt-cont .custom-selector select {
-     max-width: 120px;
-     min-width: 120px;
-     border-radius: 6px;
-     border: none;
-     outline: none;
-     background-color: #000000;
-     color: #FFFFFF;
-     cursor: pointer;
-     appearance: none;
-     -moz-appearance: none;
-     -webkit-appearance: none;
- }
+.opt-cont {
+    width: 150px;
+    height: 34px;
+    background-color: #000000;
+    border: 1px solid #FFFFFF;
+    padding: 8px;
+    font-size: 12px;
+    font-family: sans-serif;
+    position: relative;
+    margin-bottom: 6px;
+}
 
- .opt-cont .custom-selector::after {
-     content: '';
-     border-width: 6px;
-     border-style: solid;
-     border-color: transparent;
-     border-top-color: #fff;
-     display: inline-block;
-     position: absolute;
-     top: 13px;
-     right: 10px;
- }
+.opt-cont .custom-selector select {
+    max-width: 120px;
+    min-width: 120px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background-color: #000000;
+    color: #FFFFFF;
+    cursor: pointer;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
 
- .opt-cont .custom-options {
-     list-style: none;
-     padding: 5px 0;
-     color: #FFFFFF;
-     background-color: #000000 !important;
-     border-left: 1px solid #FFFFFF;
-     border-right: 1px solid #FFFFFF;
-     border-bottom: 1px solid #FFFFFF;
-     z-index: 999 !important;
-     width: 150px;
-     position: absolute !important;
-     margin: auto;
-     left: -1px;
- }
+.opt-cont .custom-selector::after {
+    content: '';
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent;
+    border-top-color: #fff;
+    display: inline-block;
+    position: absolute;
+    top: 13px;
+    right: 10px;
+}
 
- .opt-cont .custom-options li {
-     height: 28px;
-     display: flex;
-     align-items: center;
-     cursor: pointer;
-     padding-left: 8px;
-     color: #FFFFFF;
-     transition: background 0.3s ease;
- }
+.opt-cont .custom-options {
+    list-style: none;
+    padding: 5px 0;
+    color: #FFFFFF;
+    background-color: #000000 !important;
+    border-left: 1px solid #FFFFFF;
+    border-right: 1px solid #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+    z-index: 999 !important;
+    width: 150px;
+    position: absolute !important;
+    margin: auto;
+    left: -1px;
+}
 
- .opt-cont .custom-options li:hover {
-     background-color: #FFFFFF;
-     color: #000000;
- }
+.opt-cont .custom-options li {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding-left: 8px;
+    color: #FFFFFF;
+    transition: background 0.3s ease;
+}
+
+.opt-cont .custom-options li:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+}
 </style>
-  
+
 <style scoped>
 .invite-cont {
     margin: auto;
@@ -1203,4 +1224,5 @@ button {
     .btn-cont {
         margin: 10px 0px 10px 0px;
     }
-}</style>
+}
+</style>

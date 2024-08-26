@@ -9,22 +9,38 @@
               class="basic_live_dot_ rounded-full"></span>LIVE</span>
         </p>
         <div class="inner-div2 flex justify-between items-center">
+
           <SimpleMenu v-if="castDetails.cast_type === 'public' && !castDetails.isNftGated"
             :menuList="castCopyMenuItems">
             <template #menuButton>
               <vs-button class="custm-style">
-                <img src="@/assets/images/copy.svg" />
+                <vx-tooltip :text="'/ copy'">
+                  <img src="@/assets/images/copy.svg" />
+                </vx-tooltip>
               </vs-button>
             </template>
           </SimpleMenu>
+
+          <div>
+            <vx-tooltip :text="'/ manage audience'">
+              <button class="aud-opt cursor-pointer" @click="setActiveModal('manageAudienceModal')">
+                <img src="@/assets/images/aud.png" />
+              </button>
+            </vx-tooltip>
+          </div>
+
           <vs-button class="custm-style">
             <img v-if="isCastStart" src="@/assets/images/end.svg" />
-            <img v-if="castDetails.is_running === 'false' && !isCastStart"
-              @click="joinNow(castDetails.public_meeting_id)" src="@/assets/images/start.svg" />
+            <vx-tooltip :text="'/ start'">
+              <img v-if="castDetails.is_running === 'false' && !isCastStart"
+                @click="joinNow(castDetails.public_meeting_id)" src="@/assets/images/start.svg" />
+            </vx-tooltip>
             <img v-if="castDetails.is_running === 'true'" src="@/assets/images/end.svg" />
           </vs-button>
           <vs-button class="custm-style" @click="setActiveModal('castOptionsModal')">
-            <img src="@/assets/images/menu.svg" />
+            <vx-tooltip :text="'/ menu'">
+              <img src="@/assets/images/menu.svg" />
+            </vx-tooltip>
           </vs-button>
         </div>
         <!-- <CastOptionsModal v-if="activeModal === 'castOptionsModal'" :closeModal="() => setActiveModal('')" :castDetails="castDetails" /> -->
@@ -34,10 +50,10 @@
       <div class="text-left w-full">
         <span class="basic_date_btn_ text-white text-md">
           {{
-      moment(castDetails.event_date).format('DD MMM') +
-      ' ' +
-      NewTime(castDetails.event_date, castDetails.event_time)
-    }}
+            moment(castDetails.event_date).format('DD MMM') +
+            ' ' +
+            NewTime(castDetails.event_date, castDetails.event_time)
+          }}
         </span>
       </div>
 
@@ -161,11 +177,11 @@
     <LiveStreamModal v-else-if="activeModal === 'liveStreamModal'" :closeModal="() => setActiveModal('')"
       :setActiveModal="setActiveModal" :castDetails="castDetails" :stepThreeProps="stepThreeProps"
       :handleEditCast="handleEditCast" />
-    <YoutubeStreamModal v-else-if="activeModal === 'youtubeStreamModal'" :closeModal="() => setActiveModal('')"
+    <YoutubeStreamModal v-else-if="activeModal === 'youtubeStreamModal'" :closeModal="() => setActiveModal('liveStreamModal')"
       :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
-    <FacebookStreamModal v-else-if="activeModal === 'facebookStreamModal'" :closeModal="() => setActiveModal('')"
+    <FacebookStreamModal v-else-if="activeModal === 'facebookStreamModal'" :closeModal="() => setActiveModal('liveStreamModal')"
       :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
-    <TwitchStreamModal v-else-if="activeModal === 'twitchStreamModal'" :closeModal="() => setActiveModal('')"
+    <TwitchStreamModal v-else-if="activeModal === 'twitchStreamModal'" :closeModal="() => setActiveModal('liveStreamModal')"
       :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
 
     <CustomCastUrl v-else-if="activeModal === 'customCastUrl'" :closeModal="() => setActiveModal('')"
@@ -193,8 +209,10 @@
     <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
       :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
 
-    <CopyNFTModal v-else-if="activeModal === 'copyNftModal'" :closeModal="() => setActiveModal('')"
+    <CopyNFTModal v-else-if="activeModal === 'copyNftModal'" :closeModal="() => setActiveModal('manageAudienceModal')"
       :castId="castDetails.public_meeting_id" />
+    <CopyShareModal v-else-if="activeModal === 'copyShareModal'" :closeModal="() => setActiveModal('manageAudienceModal')"
+      :castId="castDetails.public_meeting_id" :pass="castDetails.h_ap" />
   </div>
 </template>
 <script>
@@ -234,6 +252,7 @@ import YoutubeStreamModal from './options-components/YoutubeStreamModal.vue';
 import TwitchStreamModal from './options-components/TwitchStreamModal.vue';
 import FacebookStreamModal from './options-components/FacebookStreamModal.vue';
 import CopyNFTModal from './options-components/CopyNFTModal.vue';
+import CopyShareModal from './options-components/CopyShareModal.vue';
 import EditPostponeDetail from './options-components/EditPostponeDetail.vue';
 import CustomCastUrl from './options-components/CustomCastUrl.vue';
 import CreateNftGating from '../../nft-gating/CreateNftGating.vue';
@@ -426,6 +445,7 @@ export default {
     CustomCastUrl,
     CreateNftGating,
     CreateSucessModal,
+    CopyShareModal,
   },
   mounted() {
     this.setProps();
@@ -895,5 +915,22 @@ export default {
 .basic_stream_div_:hover {
   border: 1px solid #d7df23 !important;
   cursor: pointer;
+}
+
+.aud-opt {
+  width: 32px;
+  height: 32px;
+  /* border: 1px solid white; */
+  background: none;
+  /* padding: 2px; */
+  outline: none;
+  border: none;
+  /* border-radius: 3px; */
+  /* padding: 2px 2px 0px 2px; */
+}
+
+.aud-opt img {
+  width: 28px;
+  height: 28px;
 }
 </style>
