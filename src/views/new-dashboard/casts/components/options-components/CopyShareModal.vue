@@ -1,5 +1,5 @@
 <template>
-    <BaseModal :title="'Share public NFT link'" @close="closeModal">
+    <BaseModal :title="'Share cast link'" @close="closeModal">
         <template #modalContent>
             <div>
                 <!-- <div class="head-container">

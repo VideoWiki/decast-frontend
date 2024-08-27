@@ -193,7 +193,7 @@ export default {
       method: 'GET',
       url: `${constants.apiCastUrl}/api/event/meeting/info/?public_meeting_id=${this.$route.params.cast_Id}`,
     }).then((res) => {
-      this.eventName = 'By ' + res.data.meeting_info.event_name;
+      this.eventName = res.data.meeting_info.event_name;
       this.eventDescription = res.data.meeting_info.description;
       this.eventCreatorEmail = res.data.meeting_info.event_creator_email;
       this.eventCreator = res.data.meeting_info.event_creator_name;
@@ -224,14 +224,19 @@ export default {
 </script>
 
 <style scoped>
+* {
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
 .reg-main {
-  background: url('./images/event-bg.png');
+  background: url('./images/Registration.svg');
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  top: 0;
 }
 .reg-main-wrapper {
   width: 80%;

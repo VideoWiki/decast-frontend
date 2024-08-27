@@ -491,7 +491,7 @@ export default {
 
 .cast_clicked span svg .color_2 {
   fill: white;
-  stroke: black;
+  /* stroke: black; */
 }
 
 .decast_clicked span svg .color_1 {

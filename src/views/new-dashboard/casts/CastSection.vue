@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="basic_child_parent__ w-1/2 flex items-center justify-between">
+    <div class="basic_child_parent__ w-1/2 flex items-center justify-between pr-5">
       <div class="choose-room">
         <button class="options-button border-none" @click="changeFocus(true)"
           :class="{ 'focused-button': focusYourRooms }">
@@ -639,4 +639,11 @@ export default {
 .cast_details::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (max-width: 1000px) {
+    .cast_details {
+        display: none;
+    }
+}
+
 </style>

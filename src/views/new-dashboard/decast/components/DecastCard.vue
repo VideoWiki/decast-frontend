@@ -18,7 +18,7 @@
                     <div>
                         <vx-tooltip :text="'/ manage audience'">
                             <button class="aud-opt cursor-pointer" @click="setActiveModal('manageAudienceModal')">
-                                <img src="@/assets/images/aud.png" />
+                                <img src="@/assets/images/aud.svg" />
                             </button>
                         </vx-tooltip>
                     </div>
@@ -766,9 +766,11 @@ export default {
                 meetingId: '',
             };
             try {
+                this.$vs.loading();
                 const res = await this.$store.dispatch('cast/joinNow', data);
                 this.isCastStart = true;
                 //console.log(res);
+                this.$vs.loading.close();
                 window.open(res.url, '_blank');
             } catch (e) {
                 console.log('error', e);
