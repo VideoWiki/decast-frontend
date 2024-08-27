@@ -234,6 +234,7 @@ export default {
   background-size: cover;
   min-height: 100vh;
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,8 +252,8 @@ export default {
   padding: 30px;
   margin: 0px 40px;
   color: #ffffff;
-  font-family: 'Poppins';
-  font-style: normal;
+  margin-top: 10rem;
+  /* border: 1px solid red; */
 }
 .reg-left h1 {
   font-weight: 700;
@@ -261,7 +262,7 @@ export default {
   text-transform: capitalize;
   color: #ffffff;
   margin-bottom: 10px;
-  padding-top: 6rem;
+  /* padding-top: 6rem; */
 }
 .reg-left h3 {
   font-weight: 600;
@@ -376,7 +377,8 @@ export default {
 
 @media screen and (max-width: 800px) {
   .reg-main {
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     overflow-y: scroll;
     padding: 30px 0px;
   }
@@ -387,26 +389,29 @@ export default {
   .reg-left {
     flex: none;
     margin: 0px;
+    margin-top: 10rem;
     padding: 30px 0px;
   }
   .reg-left,
   .reg-Right {
     width: 100%;
   }
+
   .reg-left h1 {
-    font-size: 45px;
+    font-size: 40px;
     line-height: 61px;
+    /* padding-top: 25rem; */
   }
   .reg-left h3 {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 36px;
     color: #ffffff;
     margin-bottom: 10px;
   }
   .reg-left p {
     font-weight: 400;
-    font-size: 17px;
+    font-size: 16px;
     line-height: 30px;
     letter-spacing: -0.005em;
   }
@@ -446,4 +451,6 @@ export default {
     top: -25px;
   }
 }
+
+@media screen and (max-width: 800px) {}
 </style>
