@@ -232,7 +232,8 @@ export default {
   background: url('./images/Registration.svg');
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -255,11 +256,12 @@ export default {
 }
 .reg-left h1 {
   font-weight: 700;
-  font-size: 75px;
+  font-size: 65px;
   line-height: 81px;
   text-transform: capitalize;
   color: #ffffff;
   margin-bottom: 10px;
+  padding-top: 6rem;
 }
 .reg-left h3 {
   font-weight: 600;
