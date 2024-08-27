@@ -22,20 +22,9 @@
           </span>
           <div>
             <div class="join-page-details w-full">
-              <p
-                v-if="this.meeting_running"
-                style="color: #6ce733"
-                class="flex flex-wrap items-center"
-              >
-                <vs-icon
-                  icon-pack="feather"
-                  icon="icon-radio"
-                  size="18px"
-                  rounded="true"
-                  color="#6CE733 "
-                  style="align-self: flex-end; line-height: 0.4"
-                  class="mr-2"
-                ></vs-icon>
+              <p v-if="this.meeting_running" style="color: #6ce733" class="flex flex-wrap items-center">
+                <vs-icon icon-pack="feather" icon="icon-radio" size="18px" rounded="true" color="#6CE733 "
+                  style="align-self: flex-end; line-height: 0.4" class="mr-2"></vs-icon>
                 Event is Live
               </p>
               <p v-else-if="this.isExpired" style="color: #fa3f3f">
@@ -45,20 +34,9 @@
               <p v-else-if="this.event_not_started" style="color: #6ce733">
                 Event will start soon!
               </p>
-              <vue-countdown-timer
-                :start-time="`${startDate}`"
-                :end-time="`${eventDate}`"
-                @start_callback="timeStart()"
-                @end_callback="timeUp()"
-                :interval="1000"
-                label-position="begin"
-                :end-text="''"
-                :day-txt="'days'"
-                :hour-txt="'hours'"
-                :minutes-txt="'minutes'"
-                :seconds-txt="'seconds'"
-                class="timerWrapper"
-              >
+              <vue-countdown-timer :start-time="`${startDate}`" :end-time="`${eventDate}`" @start_callback="timeStart()"
+                @end_callback="timeUp()" :interval="1000" label-position="begin" :end-text="''" :day-txt="'days'"
+                :hour-txt="'hours'" :minutes-txt="'minutes'" :seconds-txt="'seconds'" class="timerWrapper">
                 <template slot="countdown" slot-scope="scope">
                   <span class="dtm">
                     <p class="p">{{ scope.props.days }}</p>
@@ -85,34 +63,12 @@
             runs out
           </p>
           <button class="regButton" @click="onCloseClick">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                stroke="#7448FF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M12 8V16"
-                stroke="#7448FF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M8 12H16"
-                stroke="#7448FF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
+                stroke="#7448FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M12 8V16" stroke="#7448FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8 12H16" stroke="#7448FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
 
             Register
@@ -122,27 +78,11 @@
     </div>
     <div v-if="this.isFrameOpen" class="regFrame">
       <button @click="onCloseClick">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M18 6.00098L6 18.001"
-            stroke="#ffffff"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M6 6.00098L18 18.001"
-            stroke="#ffffff"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6.00098L6 18.001" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M6 6.00098L18 18.001" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
       </button>
       <iframe :src="url" title="Registration"></iframe>
@@ -225,7 +165,7 @@ export default {
 
 <style scoped>
 * {
-    font-family: 'JetBrains Mono', monospace !important;
+  font-family: 'JetBrains Mono', monospace !important;
 }
 
 .reg-main {
@@ -240,6 +180,7 @@ export default {
   justify-content: center;
   top: 0;
 }
+
 .reg-main-wrapper {
   width: 80%;
   height: inherit;
@@ -247,6 +188,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 .reg-left {
   flex: 1;
   padding: 30px;
@@ -255,6 +197,7 @@ export default {
   margin-top: 10rem;
   /* border: 1px solid red; */
 }
+
 .reg-left h1 {
   font-weight: 700;
   font-size: 65px;
@@ -264,6 +207,7 @@ export default {
   margin-bottom: 10px;
   /* padding-top: 6rem; */
 }
+
 .reg-left h3 {
   font-weight: 600;
   font-size: 24px;
@@ -271,6 +215,7 @@ export default {
   color: #ffffff;
   margin-bottom: 30px;
 }
+
 .reg-left p {
   font-weight: 400;
   font-size: 20px;
@@ -283,6 +228,7 @@ export default {
   font-family: 'Poppins';
   font-style: normal;
 }
+
 .right-blur {
   padding: 30px 30px 80px 30px;
   position: relative;
@@ -291,6 +237,7 @@ export default {
   backdrop-filter: blur(4px);
   border-radius: 12px;
 }
+
 .right-blur h2 {
   font-weight: 700;
   font-size: 30px;
@@ -298,6 +245,7 @@ export default {
   text-transform: capitalize;
   color: #ffffff;
 }
+
 .right-blur p {
   font-family: 'DM Sans';
   font-style: normal;
@@ -307,12 +255,14 @@ export default {
   letter-spacing: -0.005em;
   color: rgba(255, 255, 255, 0.8);
 }
+
 .timerWrapper {
   margin: 30px 0px;
   display: flex;
   justify-content: space-around;
   color: rgba(255, 255, 255, 0.8);
 }
+
 .timerWrapper p {
   font-family: 'Poppins';
   font-style: normal;
@@ -320,6 +270,7 @@ export default {
   font-size: 30px;
   line-height: 54px;
 }
+
 .timerWrapper span {
   width: 80px;
   display: flex;
@@ -329,6 +280,7 @@ export default {
   background: #4f26bf;
   border-radius: 6px;
 }
+
 .regButton {
   outline: none;
   border: none;
@@ -350,6 +302,7 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 .regButton svg {
   margin-right: 16px;
 }
@@ -359,12 +312,14 @@ export default {
   width: 80%;
   height: 80%;
 }
+
 .regFrame iframe {
   width: 100%;
   height: 100%;
   border: none;
   border-radius: 10px;
 }
+
 .regFrame button {
   position: absolute;
   right: -20px;
@@ -377,38 +332,47 @@ export default {
 
 @media screen and (max-width: 800px) {
   .reg-main {
+    background: url('./images/Registration.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color:#000000 ;
     min-height: 100vh;
     height: 100%;
     overflow-y: scroll;
     padding: 30px 0px;
   }
+
   .reg-main-wrapper {
     width: 90%;
     flex-direction: column;
   }
+
   .reg-left {
     flex: none;
     margin: 0px;
-    margin-top: 10rem;
+    margin-top: 6rem;
     padding: 30px 0px;
   }
+
   .reg-left,
   .reg-Right {
     width: 100%;
   }
 
   .reg-left h1 {
-    font-size: 40px;
-    line-height: 61px;
+    font-size: 35px;
+    line-height: 51px;
     /* padding-top: 25rem; */
   }
+
   .reg-left h3 {
     font-weight: 600;
     font-size: 18px;
-    line-height: 36px;
+    line-height: 32px;
     color: #ffffff;
     margin-bottom: 10px;
   }
+
   .reg-left p {
     font-weight: 400;
     font-size: 16px;
@@ -424,28 +388,35 @@ export default {
     backdrop-filter: blur(4px);
     border-radius: 12px;
   }
+
   .right-blur h2 {
     font-size: 24px;
     line-height: none;
   }
+
   .timerWrapper span {
     width: 70px;
     padding: 6px 20px;
   }
+
   .right-blur p {
     font-size: 18px;
   }
+
   .regButton {
     padding: 15px 55px;
   }
+
   .timerWrapper p {
     font-size: 20px;
     line-height: 44px;
   }
+
   .regFrame {
     width: 95%;
     height: 90%;
   }
+
   .regFrame button {
     right: 0px;
     top: -25px;
