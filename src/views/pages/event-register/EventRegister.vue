@@ -1,20 +1,21 @@
 <template>
-  <div class="reg-main">
-    <div class="reg-main-wrapper">
-      <div class="reg-left">
-        <h1>{{ eventName }}</h1>
-        <h3>By: {{ eventCreator }}</h3>
-        <p>{{ eventDescription }}</p>
+  <div class="reg-main flex flex-col justify-start items-center lg:pt-24 pt-4">
+    <div class="reg-main-wrapper flex justify-between gap-16 items-center max-w-7xl w-full lg:p-16 p-4 m-auto">
+      <div class="reg-left flex-col flex items-start justify-start gap-12 w-full">
+        <img class="w-auto h-16" src="@/assets/images/decast-logo.svg" />
+        <h1 class="text-5xl font-bold text-white">{{ eventName }}</h1>
+        <h3 class="text-blue-500 text-xl font-semibold">By: {{ eventCreator }}</h3>
+        <p class="text-lg text-neutral-100">{{ eventDescription }}</p>
       </div>
-      <div class="reg-right">
-        <div class="right-blur">
+      <div class="reg-right w-full">
+        <div class="right-blur p-8 pb-16">
           <span v-if="this.meeting_running">
             <h2>Your cast is</h2>
             <h2>Live</h2>
           </span>
           <span v-else-if="this.event_not_started">
             <h2>Your cast has</h2>
-            <h2>Not started yet</h2>
+            <h2>Not started yet</h2>  
           </span>
           <span v-else>
             <h2>Your cast will</h2>
@@ -40,19 +41,19 @@
                 <template slot="countdown" slot-scope="scope">
                   <span class="dtm">
                     <p class="p">{{ scope.props.days }}</p>
-                    <div class="cnt">Days</div>
+                    <div class="cnt text-black font-semibold">Days</div>
                   </span>
                   <span class="dtm">
                     <p class="p">{{ scope.props.hours }}</p>
-                    <div class="cnt">HRS</div>
+                    <div class="cnt text-black font-semibold">HRS</div>
                   </span>
                   <span class="dtm">
                     <p class="p">{{ scope.props.minutes }}</p>
-                    <div class="cnt">MIN</div>
+                    <div class="cnt text-black font-semibold">MIN</div>
                   </span>
                   <span class="dtm">
                     <p class="p">{{ scope.props.seconds }}</p>
-                    <div class="cnt">SEC</div>
+                    <div class="cnt text-black font-semibold">SEC</div>
                   </span>
                 </template>
               </vue-countdown-timer>
@@ -66,9 +67,9 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                stroke="#7448FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M12 8V16" stroke="#7448FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M8 12H16" stroke="#7448FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M12 8V16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M8 12H16" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
 
             Register
@@ -182,76 +183,33 @@ export default {
 }
 
 .reg-main-wrapper {
-  width: 80%;
   height: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.reg-left {
-  flex: 1;
-  padding: 30px;
-  margin: 0px 40px;
-  color: #ffffff;
-  margin-top: 10rem;
-  /* border: 1px solid red; */
-}
-
-.reg-left h1 {
-  font-weight: 700;
-  font-size: 65px;
-  line-height: 81px;
-  text-transform: capitalize;
-  color: #ffffff;
-  margin-bottom: 10px;
-  /* padding-top: 6rem; */
-}
-
-.reg-left h3 {
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 36px;
-  color: #ffffff;
-  margin-bottom: 30px;
-}
-
-.reg-left p {
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 30px;
-  letter-spacing: -0.005em;
-}
-
-.reg-right {
-  flex: 1;
-  font-family: 'Poppins';
-  font-style: normal;
+.reg-right{
+  display: flex !important;
+  justify-content: end !important;
 }
 
 .right-blur {
-  padding: 30px 30px 80px 30px;
-  position: relative;
-  margin: 0px 40px;
+  max-width: 600px;
+  width: 95%;
+  /* position: relative; */
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(4px);
-  border-radius: 12px;
+  /* border-radius: 12px; */
 }
 
 .right-blur h2 {
   font-weight: 700;
   font-size: 30px;
-  line-height: 40px;
   text-transform: capitalize;
   color: #ffffff;
 }
 
 .right-blur p {
-  font-family: 'DM Sans';
-  font-style: normal;
   font-weight: 500;
   font-size: 22px;
-  line-height: 140%;
   letter-spacing: -0.005em;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -264,11 +222,10 @@ export default {
 }
 
 .timerWrapper p {
-  font-family: 'Poppins';
-  font-style: normal;
   font-weight: 600;
   font-size: 30px;
   line-height: 54px;
+  color: #000000;
 }
 
 .timerWrapper span {
@@ -277,28 +234,24 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 8px 24px;
-  background: #4f26bf;
-  border-radius: 6px;
+  background: #ffffff;
 }
 
 .regButton {
   outline: none;
   border: none;
   background: #ffffff;
-  border-radius: 1000px;
-  padding: 20px 60px;
+  padding: 15px 55px;
   position: absolute;
   bottom: -30px;
   left: 70px;
   right: 80px;
   display: flex;
   cursor: pointer;
-  font-family: 'Poppins';
-  font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: #7448ff;
+  color: #000000;
   display: flex;
   justify-content: center;
 }
@@ -335,7 +288,7 @@ export default {
     background: url('./images/Registration.svg');
     background-repeat: no-repeat;
     background-size: contain;
-    background-color:#000000 ;
+    background-color: #000000;
     min-height: 100vh;
     height: 100%;
     overflow-y: scroll;
