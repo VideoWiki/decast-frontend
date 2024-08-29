@@ -34,13 +34,7 @@
                     </div>
                     <div class="flex flex-col mt-8">
                         <span>cast.startTime</span>
-                        <StartTimeMenu :menuList="timeFrames" :stepOneProps="stepOneProps" class="menu-button">
-                            <template #menuButton>
-                                <div class="text-left">
-                                    {{ convertTo12(stepOneProps.startTime) }}
-                                </div>
-                            </template>
-                        </StartTimeMenu>
+                        <input type="time" v-model="stepOneProps.startTime" class="menu-button text-left" />
                     </div>
                     <vs-button class="mt-8" type="border" @click="handleEditCast({isReshedule: true})">>>save</vs-button>
                 </div>

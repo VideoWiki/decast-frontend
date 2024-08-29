@@ -766,7 +766,7 @@ export default {
       data.append('cast_type', this.stepOneProps.auth_type);
       data.append('collect_attendee_email', this.stepOneProps.public_otp ? 'True' : 'False');
       if (args && args.isReshedule) {
-        data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
+        data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}${':00'}`);
       }
       if (args && args.postponeMessage) {
         data.append('cast_postponed', true);

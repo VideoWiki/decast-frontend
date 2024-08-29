@@ -1,25 +1,35 @@
 <template>
-  <div class="reg-main flex flex-col justify-start items-center lg:pt-24 pt-4">
-    <div class="reg-main-wrapper flex justify-between gap-16 items-center max-w-7xl w-full lg:p-16 p-4 m-auto">
+  <div class="reg-main flex flex-col justify-start items-center pt-8 p-4 pb-32 gap-8">
+    <div class="parent_2 flex w-full max-w-6xl bg-white h-10 flex justify-between items-center pl-8 pr-8">
+      <div>
+        <div class="basic_child_2 bg-dark-black w-32 h-4"></div>
+      </div>
+      <div class="flex gap-4 items-center justify-center">
+        <div class="basic_child_3 lg:block block hidden bg-dark-black w-32 h-4"></div>
+        <div class="basic_child_4 bg-dark-black w-16 h-4"></div>
+      </div>
+    </div>
+    <div
+      class="reg-main-wrapper flex lg:flex-row flex-col flex-col justify-between gap-16 items-center max-w-6xl w-full m-auto">
       <div class="reg-left flex-col flex items-start justify-start gap-12 w-full">
-        <img class="w-auto h-16" src="@/assets/images/decast-logo.svg" />
-        <h1 class="text-5xl font-bold text-white">{{ eventName }}</h1>
+        <img class="w-auto lg:h-16 h-12" src="@/assets/images/decast-logo.svg" />
+        <h1 class="lg:text-5xl text-3xl font-bold text-white">{{ eventName }}</h1>
         <h3 class="text-blue-500 text-xl font-semibold">By: {{ eventCreator }}</h3>
         <p class="text-lg text-neutral-100">{{ eventDescription }}</p>
       </div>
-      <div class="reg-right w-full">
-        <div class="right-blur p-8 pb-16">
+      <div class="reg-basic_right_ flex items-center lg:justify-end justify-center w-full">
+        <div class="right-blur flex flex-col gap-8 p-8 pb-16 relative">
           <span v-if="this.meeting_running">
-            <h2>Your cast is</h2>
-            <h2>Live</h2>
+            <h2 class="text-white lg:text-4xl text-3xl font-bold">Your cast is</h2>
+            <h2 class="text-white lg:text-4xl text-3xl font-bold">Live</h2>
           </span>
           <span v-else-if="this.event_not_started">
-            <h2>Your cast has</h2>
-            <h2>Not started yet</h2>  
+            <h2 class="text-white lg:text-4xl text-3xl font-bold">Your cast has</h2>
+            <h2 class="text-white lg:text-4xl text-3xl font-bold">Not started yet</h2>
           </span>
           <span v-else>
-            <h2>Your cast will</h2>
-            <h2>Be Live in</h2>
+            <h2 class="text-white lg:text-4xl text-3xl font-bold">Your cast will</h2>
+            <h2 class="text-white lg:text-4xl text-3xl font-bold">Be Live in</h2>
           </span>
           <div>
             <div class="join-page-details w-full">
@@ -37,33 +47,39 @@
               </p>
               <vue-countdown-timer :start-time="`${startDate}`" :end-time="`${eventDate}`" @start_callback="timeStart()"
                 @end_callback="timeUp()" :interval="1000" label-position="begin" :end-text="''" :day-txt="'days'"
-                :hour-txt="'hours'" :minutes-txt="'minutes'" :seconds-txt="'seconds'" class="timerWrapper">
+                :hour-txt="'hours'" :minutes-txt="'minutes'" :seconds-txt="'seconds'"
+                class="timerWrapper flex lg:gap-16 gap-8 w-full items-center justify-center">
                 <template slot="countdown" slot-scope="scope">
-                  <span class="dtm">
-                    <p class="p">{{ scope.props.days }}</p>
+                  <span
+                    class="dtm bg-white flex flex-col lg:w-24 w-16 h-auto pl-4 pr-4 pt-2 pb-2 items-center justify-center gap-2 text-black">
+                    <p class="p lg:text-4xl text-3xl font-bold">{{ scope.props.days }}</p>
                     <div class="cnt text-black font-semibold">Days</div>
                   </span>
-                  <span class="dtm">
-                    <p class="p">{{ scope.props.hours }}</p>
+                  <span
+                    class="dtm bg-white flex flex-col lg:w-24 w-16 h-auto pl-4 pr-4 pt-2 pb-2 items-center justify-center gap-2 text-black">
+                    <p class="p lg:text-4xl text-3xl font-bold">{{ scope.props.hours }}</p>
                     <div class="cnt text-black font-semibold">HRS</div>
                   </span>
-                  <span class="dtm">
-                    <p class="p">{{ scope.props.minutes }}</p>
+                  <span
+                    class="dtm bg-white flex flex-col lg:w-24 w-16 h-auto pl-4 pr-4 pt-2 pb-2 items-center justify-center gap-2 text-black">
+                    <p class="p lg:text-4xl text-3xl font-bold">{{ scope.props.minutes }}</p>
                     <div class="cnt text-black font-semibold">MIN</div>
                   </span>
-                  <span class="dtm">
-                    <p class="p">{{ scope.props.seconds }}</p>
+                  <span
+                    class="dtm bg-white flex flex-col lg:w-24 w-16 h-auto pl-4 pr-4 pt-2 pb-2 items-center justify-center gap-2 text-black">
+                    <p class="p lg:text-4xl text-3xl font-bold">{{ scope.props.seconds }}</p>
                     <div class="cnt text-black font-semibold">SEC</div>
                   </span>
                 </template>
               </vue-countdown-timer>
             </div>
           </div>
-          <p>
+          <p class="text-white lg:text-2xl text:xl">
             You can close this page and come back later or refresh when the time
             runs out
           </p>
-          <button class="regButton" @click="onCloseClick">
+          <button class="regButton lg:pl-32 pl-24 pr-32 pt-4 pb-4 flex justify-center items-center gap-4"
+            @click="onCloseClick">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
@@ -77,7 +93,7 @@
         </div>
       </div>
     </div>
-    <div v-if="this.isFrameOpen" class="regFrame">
+    <div v-if="this.isFrameOpen" class="regFrame max-w-6xl">
       <button @click="onCloseClick">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18 6.00098L6 18.001" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
@@ -173,6 +189,7 @@ export default {
   background: url('./images/Registration.svg');
   background-repeat: no-repeat;
   background-size: cover;
+  /* background-position: center;  */
   min-height: 100vh;
   height: 100%;
   width: 100%;
@@ -182,87 +199,23 @@ export default {
   top: 0;
 }
 
-.reg-main-wrapper {
-  height: inherit;
-}
-
-.reg-right{
-  display: flex !important;
-  justify-content: end !important;
-}
-
 .right-blur {
   max-width: 600px;
-  width: 95%;
-  /* position: relative; */
-  background: rgba(255, 255, 255, 0.2);
+  width: 98%;
   backdrop-filter: blur(4px);
-  /* border-radius: 12px; */
-}
-
-.right-blur h2 {
-  font-weight: 700;
-  font-size: 30px;
-  text-transform: capitalize;
-  color: #ffffff;
-}
-
-.right-blur p {
-  font-weight: 500;
-  font-size: 22px;
-  letter-spacing: -0.005em;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.timerWrapper {
-  margin: 30px 0px;
-  display: flex;
-  justify-content: space-around;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.timerWrapper p {
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 54px;
-  color: #000000;
-}
-
-.timerWrapper span {
-  width: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px 24px;
-  background: #ffffff;
+  background: hsla(0, 0%, 100%, .2);
 }
 
 .regButton {
-  outline: none;
-  border: none;
-  background: #ffffff;
-  padding: 15px 55px;
   position: absolute;
   bottom: -30px;
-  left: 70px;
-  right: 80px;
-  display: flex;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-}
-
-.regButton svg {
-  margin-right: 16px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .regFrame {
   position: absolute;
-  width: 80%;
+  width: 85%;
   height: 80%;
 }
 
@@ -282,99 +235,4 @@ export default {
   background: none;
   cursor: pointer;
 }
-
-@media screen and (max-width: 800px) {
-  .reg-main {
-    background: url('./images/Registration.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-color: #000000;
-    min-height: 100vh;
-    height: 100%;
-    overflow-y: scroll;
-    padding: 30px 0px;
-  }
-
-  .reg-main-wrapper {
-    width: 90%;
-    flex-direction: column;
-  }
-
-  .reg-left {
-    flex: none;
-    margin: 0px;
-    margin-top: 6rem;
-    padding: 30px 0px;
-  }
-
-  .reg-left,
-  .reg-Right {
-    width: 100%;
-  }
-
-  .reg-left h1 {
-    font-size: 35px;
-    line-height: 51px;
-    /* padding-top: 25rem; */
-  }
-
-  .reg-left h3 {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 32px;
-    color: #ffffff;
-    margin-bottom: 10px;
-  }
-
-  .reg-left p {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 30px;
-    letter-spacing: -0.005em;
-  }
-
-  .right-blur {
-    padding: 20px 20px 60px 20px;
-    position: relative;
-    margin: 0px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(4px);
-    border-radius: 12px;
-  }
-
-  .right-blur h2 {
-    font-size: 24px;
-    line-height: none;
-  }
-
-  .timerWrapper span {
-    width: 70px;
-    padding: 6px 20px;
-  }
-
-  .right-blur p {
-    font-size: 18px;
-  }
-
-  .regButton {
-    padding: 15px 55px;
-  }
-
-  .timerWrapper p {
-    font-size: 20px;
-    line-height: 44px;
-  }
-
-  .regFrame {
-    width: 95%;
-    height: 90%;
-  }
-
-  .regFrame button {
-    right: 0px;
-    top: -25px;
-  }
-}
-
-@media screen and (max-width: 800px) {}
 </style>

@@ -262,7 +262,6 @@ export default {
       this.isClicked1 = true;
       this.isClicked3 = false;
 
-      // Update image sources based on the clicked state
       this.callSrc = callIcon;
       this.castSrc = castIconAlt;
       this.decastSrc = decastIconAlt;
@@ -274,7 +273,6 @@ export default {
       this.isClicked1 = false;
       this.isClicked3 = false;
 
-      // Update image sources based on the clicked state
       this.callSrc = callIconAlt;
       this.castSrc = castIcon;
       this.decastSrc = decastIconAlt;
@@ -286,7 +284,6 @@ export default {
       this.isClicked1 = false;
       this.isClicked3 = true;
 
-      // Update image sources based on the clicked state
       this.callSrc = callIconAlt;
       this.castSrc = castIconAlt;
       this.decastSrc = decastIcon;

@@ -194,7 +194,7 @@ export default {
         meeting_type_error: false,
         event_name_length_error: false,
         start_now: false,
-        startTime: '0:00:00',
+        startTime: '00:00',
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         timeZoneList: [],
         event_tag: ['videowiki'],

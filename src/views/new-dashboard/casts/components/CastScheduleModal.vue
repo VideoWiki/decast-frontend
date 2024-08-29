@@ -17,7 +17,7 @@
                         <HoursFrameMenu :menuList="hoursFrame" :stepTwoProps="stepTwoProps" class="menu-button">
                             <template #menuButton>
                                 <div class="text-left">
-                                    {{ stepTwoProps.duration/60 }} Hours
+                                    {{ stepTwoProps.duration / 60 }} Hours
                                 </div>
                             </template>
                         </HoursFrameMenu>
@@ -34,13 +34,7 @@
                     </div>
                     <div class="flex flex-col mt-8">
                         <span>cast.startTime</span>
-                        <StartTimeMenu :menuList="timeFrames" :stepOneProps="stepOneProps" class="menu-button">
-                            <template #menuButton>
-                                <div class="text-left">
-                                    {{ convertTo12(stepOneProps.startTime) }}
-                                </div>
-                            </template>
-                        </StartTimeMenu>
+                        <input type="time" v-model="stepOneProps.startTime" class="menu-button text-left" />
                     </div>
                     <vs-button class="mt-8" type="border" @click="handleConfirmSchedule">>>confirm</vs-button>
                 </div>
@@ -81,7 +75,17 @@ export default {
         };
     },
     methods: {
+        formatDateTime() {
+
+            const formattedTime = this.stepOneProps.startTime + ':00';
+            const formattedDateTime = `${this.stepOneProps.startD} ${formattedTime}`;
+
+            return formattedDateTime;
+        },
         handleConfirmSchedule() {
+            this.stepOneProps.startTime = this.stepOneProps.startTime + ':00';
+            this.stepOneProps.schedule_time = this.formatDateTime();
+            console.log(this.stepOneProps.schedule_time, this.stepOneProps.startTime, 'schedu time')
             this.setActiveModal('castDetailModal');
         },
         convertTo12(time) {
