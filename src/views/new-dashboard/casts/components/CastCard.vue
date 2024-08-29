@@ -652,13 +652,10 @@ export default {
         meetingId: '',
       };
       try {
-        this.$vs.loading();
         const res = await this.$store.dispatch('cast/joinNow', data);
         this.isCastStart = true;
-        this.$vs.loading.close();
         window.open(res.url, '_blank');
       } catch (e) {
-        this.$vs.loading.close();
         console.log('error', e);
       }
     },
