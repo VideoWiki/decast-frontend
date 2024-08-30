@@ -443,6 +443,14 @@ const router = new Router({
       },
     },
     {
+      path: '/analytics/:meetingID?',
+      name: 'Analytics',
+      component: () => import('./views/new-dashboard/analytics-page/AnalyticsPage.vue'),
+      meta: {
+        rule: 'isPublic',
+      },
+    },
+    {
       path: '/j/:shortCode?',
       name: 'Join Event',
       component: () => import('./views/new-dashboard/JoinRedirect.vue'),
