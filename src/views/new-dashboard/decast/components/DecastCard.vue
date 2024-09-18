@@ -15,6 +15,13 @@
                 </div>
 
                 <div class="cursor-pointer flex gap-4 justify-end items-center">
+                    <div>
+                        <vx-tooltip :text="'/ manage audience'">
+                            <button class="aud-opt cursor-pointer" @click="setActiveModal('manageAudienceModal')">
+                                <img src="@/assets/images/aud.svg" />
+                            </button>
+                        </vx-tooltip>
+                    </div>
                     <span v-if="castDetails.is_running === 'false' && !isCastStart"
                         @click="setActiveModal('storageModal')">
                         <vx-tooltip text="/ storage.select" position="top">
@@ -47,6 +54,7 @@
                         </vx-tooltip>
                     </span>
                 </button>
+
             </div>
             <div v-if="castDetails.stream_urls" class="mt-6 flex flex-col justify-between gap-4 w-full">
                 <p class="text-left font-semibold">Live Casting :</p>
@@ -174,12 +182,15 @@
         <LiveStreamModal v-else-if="activeModal === 'liveStreamModal'" :closeModal="() => setActiveModal('')"
             :setActiveModal="setActiveModal" :castDetails="castDetails" :stepThreeProps="stepThreeProps"
             :handleEditCast="handleEditCast" />
-        <YoutubeStreamModal v-else-if="activeModal === 'youtubeStreamModal'" :closeModal="() => setActiveModal('')"
-            :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
-        <FacebookStreamModal v-else-if="activeModal === 'facebookStreamModal'" :closeModal="() => setActiveModal('')"
-            :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
-        <TwitchStreamModal v-else-if="activeModal === 'twitchStreamModal'" :closeModal="() => setActiveModal('')"
-            :castDetails="castDetails" :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
+        <YoutubeStreamModal v-else-if="activeModal === 'youtubeStreamModal'"
+            :closeModal="() => setActiveModal('liveStreamModal')" :castDetails="castDetails"
+            :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
+        <FacebookStreamModal v-else-if="activeModal === 'facebookStreamModal'"
+            :closeModal="() => setActiveModal('liveStreamModal')" :castDetails="castDetails"
+            :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
+        <TwitchStreamModal v-else-if="activeModal === 'twitchStreamModal'"
+            :closeModal="() => setActiveModal('liveStreamModal')" :castDetails="castDetails"
+            :stepThreeProps="stepThreeProps" :handleEditCast="handleEditCast" />
 
         <CustomCastUrl v-else-if="activeModal === 'customCastUrl'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :getCastList="getCastList" />
@@ -205,9 +216,12 @@
         <EditNftModal v-else-if="activeModal === 'editNftDropModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :getCastList="getCastList" />
         <DeleteCastModal v-else-if="activeModal === 'deleteCastModal'" :closeModal="() => setActiveModal('')"
-            :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)"/>
-        <CopyNFTModal v-else-if="activeModal === 'copyNftModal'" :closeModal="() => setActiveModal('')"
-            :castId="castDetails.public_meeting_id" />
+            :castName="castDetails.event_name" :confirmDelete="() => deleteCast(castDetails.public_meeting_id)" />
+        <CopyNFTModal v-else-if="activeModal === 'copyNftModal'"
+            :closeModal="() => setActiveModal('manageAudienceModal')" :castId="castDetails.public_meeting_id" />
+        <CopyShareModal v-else-if="activeModal === 'copyShareModal'"
+            :closeModal="() => setActiveModal('manageAudienceModal')" :castId="castDetails.public_meeting_id"
+            :pass="castDetails.h_ap" />
         <StorageModal v-else-if="activeModal === 'storageModal'" :closeModal="() => setActiveModal('')"
             :castDetails="castDetails" :getCastList="getCastList" :castId="castDetails.public_meeting_id" />
     </div>
@@ -231,6 +245,7 @@ import CustomCastUrl from '../../casts/components/options-components/CustomCastU
 import CreateNftGating from '../../nft-gating/CreateNftGating.vue';
 import CreateSucessModal from '../../nft-gating/CreateSucessModal.vue';
 import CopyNFTModal from '../../casts/components/options-components/CopyNFTModal.vue';
+import CopyShareModal from '../../casts/components/options-components/CopyShareModal.vue';
 import DeleteCastModal from '../../casts/components/options-components/DeleteCastModal.vue';
 import CreateNftModal from '@/views/new-dashboard/nft/CreateNftModal.vue';
 import EditSetupDetail from '../../casts/components/options-components/EditSetupDetail.vue';
@@ -267,6 +282,7 @@ export default {
         EditNftModal,
         DeleteCastModal,
         CopyNFTModal,
+        CopyShareModal,
         StorageModal,
     },
     data() {
@@ -750,9 +766,11 @@ export default {
                 meetingId: '',
             };
             try {
+                this.$vs.loading();
                 const res = await this.$store.dispatch('cast/joinNow', data);
                 this.isCastStart = true;
                 //console.log(res);
+                this.$vs.loading.close();
                 window.open(res.url, '_blank');
             } catch (e) {
                 console.log('error', e);
@@ -846,5 +864,22 @@ export default {
 .basic_stream_div_:hover {
     border: 1px solid #d7df23 !important;
     cursor: pointer;
+}
+
+.aud-opt {
+    width: 32px;
+    height: 32px;
+    /* border: 1px solid white; */
+    background: none;
+    /* padding: 2px; */
+    outline: none;
+    border: none;
+    /* border-radius: 3px; */
+    /* padding: 2px 2px 0px 2px; */
+}
+
+.aud-opt img {
+    width: 28px;
+    height: 28px;
 }
 </style>

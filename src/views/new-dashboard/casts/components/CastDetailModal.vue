@@ -12,7 +12,7 @@
                     <div class="modal-heading">
                         <h3>2.Basic Details</h3>
                     </div>
-                    <div class="flex flex-col mt-8">
+                    <div class="flex flex-col mt-6">
                         <span>cast.name</span>
                         <div>
                             <input class="w-2/5 p-2 mt-2" placeholder="e.g my friend hang out" id="eventName" type="text"
@@ -20,7 +20,7 @@
                             <p v-if="nameError" class="text-danger my-2 p-0">>> Name is required</p>
                         </div>
                     </div>
-                    <div class="flex flex-col mt-8">
+                    <div class="flex flex-col mt-6">
                         <span>cast.description</span>
                         <div>
                             <vs-textarea class="w-2/5 mt-2 txt-desc" id="description" v-model="stepOneProps.description"
@@ -29,7 +29,7 @@
                             <p v-if="descriptionError" class="text-danger my-2 p-0">>> Description is required</p>
                         </div>
                     </div>
-                    <div class="flex flex-col mt-8">
+                    <div class="flex flex-col mt-6">
                         <span>cast.access</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="toggleSwitch"
@@ -37,6 +37,10 @@
                             <button class="custm-toggle" @click="toggleSwitch"
                                 v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">access.private</button>
                         </div>
+                    </div>
+
+                    <div style="color: #22c55e;" class="mt-4">
+                       /* Note: `public` lets anyone with the event link join, while `private` restricts access to invited participants only.
                     </div>
                     <vs-button v-if="castType === 'basic-cast'" class="mt-8" type="border" @click="handleConfirmDetails">>>create</vs-button>
                     <vs-button v-else class="mt-8" type="border" @click="handleConfirmDetails">>>confirm</vs-button>

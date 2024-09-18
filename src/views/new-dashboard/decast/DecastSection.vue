@@ -10,7 +10,7 @@
 
         </div>
 
-        <div class="basic_child_parent__ w-full flex items-center justify-between">
+        <div class="basic_child_parent__  w-1/2 flex items-center justify-between pr-5">
             <div class="choose-room">
                 <button class="options-button border-none" @click="changeFocus(true)"
                     :class="{ 'focused-button': focusYourRooms }">
@@ -314,7 +314,7 @@ export default {
             const url = `${constants.apiCastUrl}/api/event/select/storage/?cast_id=${cast_id}`;
 
             try {
-                this.$vs.loading();
+                this.loading=true;
                 const response = await axios.get(url);
                 //console.log('Storage retrived successfully:', response.data);
 
@@ -330,9 +330,9 @@ export default {
                     //console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
                     this.selectedStorage = 'Null';
                 }
-                this.$vs.loading.close();
+                this.loading=false;
             } catch (error) {
-                this.$vs.loading.close();
+                this.loading=false;
                 this.selectedStorage = 'Null';
                 // console.error('Error:', error);
             }
@@ -620,7 +620,7 @@ export default {
 }
 
 .basic_child_parent__{
-    max-width: 644px;
+    /* max-width: 644px; */
 }
 
 .cast_list_cont::-webkit-scrollbar {
@@ -637,4 +637,11 @@ export default {
 .cast_details::-webkit-scrollbar {
     display: none;
 }
+
+@media screen and (max-width: 1000px) {
+    .cast_details {
+        display: none;
+    }
+}
+
 </style>

@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="basic_child_parent__ w-full flex items-center justify-between">
+    <div class="basic_child_parent__ w-1/2 flex items-center justify-between pr-5">
       <div class="choose-room">
         <button class="options-button border-none" @click="changeFocus(true)"
           :class="{ 'focused-button': focusYourRooms }">
@@ -194,7 +194,7 @@ export default {
         meeting_type_error: false,
         event_name_length_error: false,
         start_now: false,
-        startTime: '0:00:00',
+        startTime: '00:00',
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         timeZoneList: [],
         event_tag: ['videowiki'],
@@ -628,7 +628,8 @@ export default {
 }
 
 .basic_child_parent__ {
-  max-width: 644px;
+  /* max-width: 644px; */
+  /* width: auto; */
 }
 
 .cast_list_cont::-webkit-scrollbar {
@@ -638,4 +639,11 @@ export default {
 .cast_details::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (max-width: 1000px) {
+    .cast_details {
+        display: none;
+    }
+}
+
 </style>
