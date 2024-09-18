@@ -27,6 +27,7 @@
                     <thead>
                         <tr>
                             <th class="py-2 px-4">Name</th>
+                            <th class="py-2 px-4">Activity Score</th>
                             <th class="py-2 px-4">Online time</th>
                             <th class="py-2 px-4">Total Talk Time</th>
                             <th class="py-2 px-4">Webcam time</th>
@@ -39,6 +40,8 @@
                     <tbody>
                         <tr v-for="(user, userKey) in selectedData.users" :key="userKey">
                             <td class="px-4 py-2">{{ user.name }}</td>
+                            <td class="py-2 px-4">{{ getUserActivityScore(user) }}</td>
+                            <!-- <td class="py-4 px-2">0</td> -->
                             <td class="px-4 py-2">{{ getTotalIntIdTime(user.intIds) }}</td>
                             <td class="px-4 py-2">{{ getTalkTime(user.talk.totalTime) }}</td>
                             <td class="px-4 py-2">{{ getWebcamTime(user.webcams) }}</td>
@@ -62,7 +65,7 @@
                         <tr>
                             <th class="py-2 px-4">User</th>
                             <th v-for="(poll, pollId) in selectedData.polls" :key="pollId" class="py-2 px-4">{{
-                    poll.question }}</th>
+                                poll.question }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -140,9 +143,59 @@ export default {
     computed: {
         sortedData() {
             return this.timestampsData.sort((a, b) => b.timestamp - a.timestamp);
-        }
+        },
     },
     methods: {
+        getUserActivityScore(user) {
+            console.log("allUsersArr", user)
+            const allUsers = Object.values(this.selectedData.users || {});;
+            const totalOfPolls = Object.values(this.selectedData.polls || {});
+            if (user.isModerator) return 0;
+
+            const allUsersArr = Object.values(allUsers || {}).filter(currUser => !currUser.isModerator);
+            let userPoints = 0;
+
+            // Calculate points of Talking
+            const usersTalkTime = allUsersArr.map(currUser => currUser.talk.totalTime);
+            const maxTalkTime = Math.max(...usersTalkTime);
+            if (maxTalkTime > 0) {
+                userPoints += (user.talk.totalTime / maxTalkTime) * 2;
+            }
+
+            // Calculate points of Chatting
+            const usersTotalOfMessages = allUsersArr.map(currUser => currUser.totalOfMessages);
+            const maxMessages = Math.max(...usersTotalOfMessages);
+            if (maxMessages > 0) {
+                userPoints += (user.totalOfMessages / maxMessages) * 2;
+            }
+
+            // Calculate points of Raise hand
+            const usersRaiseHand = allUsersArr.map(currUser =>
+                currUser.emojis.filter(emoji => emoji.name === 'raiseHand').length
+            );
+            const maxRaiseHand = Math.max(...usersRaiseHand);
+            const userRaiseHand = user.emojis.filter(emoji => emoji.name === 'raiseHand').length;
+            if (maxRaiseHand > 0) {
+                userPoints += (userRaiseHand / maxRaiseHand) * 2;
+            }
+
+            // Calculate points of Emojis
+            const usersEmojis = allUsersArr.map(currUser =>
+                currUser.emojis.filter(emoji => emoji.name !== 'raiseHand').length
+            );
+            const maxEmojis = Math.max(...usersEmojis);
+            const userEmojis = user.emojis.filter(emoji => emoji.name !== 'raiseHand').length;
+            if (maxEmojis > 0) {
+                userPoints += (userEmojis / maxEmojis) * 2;
+            }
+
+            // Calculate points of Polls
+            if (totalOfPolls > 0) {
+                userPoints += (Object.values(user.answers || {}).length / totalOfPolls) * 2;
+            }
+
+            return parseFloat(userPoints.toFixed(1));
+        },
         getTotalIntIdTime(intIds) {
             let totalSeconds = 0;
             // Loop through each intId entry
@@ -524,14 +577,17 @@ export default {
     color: #000000 !important;
     font-weight: 600 !important;
 }
+
 .table-wrapper {
     height: calc(100vh - 120px);
     overflow-y: scroll;
 }
+
 table {
     margin-bottom: 20px;
 }
+
 td {
-  border-bottom: 1px solid #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
 }
 </style>
