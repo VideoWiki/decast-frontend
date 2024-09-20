@@ -1,7 +1,7 @@
 <template>
     <div class="parent_landing">
         <Navbar />
-        <section class="hp-main flex flex-col justify-center">
+        <section class="hp-main flex flex-col justify-center items-center">
             <div class="flex align-center justify-center px-16 py-12 w-full max-w-5xl">
                 <div class="flex flex-col align-center justify-center">
                     <div class="op-1 flex flex-col align-center">
@@ -246,7 +246,7 @@
                     </div>
                 </div>
                 <div class="flex-1 cont-right">
-                    kjlllj
+                    //Similar box as on left
                 </div>
             </div>
         </section>
@@ -262,37 +262,8 @@
             </div>
         </section>
 
-        <div class="basic_folder_cont__ py-16">
+        <!-- <div class="basic_folder_cont__ py-16">
             <div class="max-w-4xl w-full flex flex-col gap-16 justify-start items-center m-auto py-24">
-                <!-- <div class='mt-16 flex flex-col gap-4 items-center justify-start w-full'>
-                    <div class="bg-white w-full flex flex-row justify-between items-center px-4 h-12">
-                        <div class="bg-black w-4 h-4"></div>
-                        <div class="flex flex-row gap-2">
-                            <div class="bg-black w-4 h-4"></div>
-                            <div class="bg-black w-4 h-4"></div>
-                        </div>
-                    </div>
-
-                    <div class="basic_child_folder_ w-full flex lg:flex-row flex-col justify-between gap-24 items-center p-4 lg:px-12 px-2">
-                        <div class="grid-container lg:w-2/5 w-full">
-                            <span class="grid-item cursor-pointer"><img src="@/assets/images/road.svg" /></span>
-                            <span class="grid-item cursor-pointer"><img src="@/assets/images/docs.svg" /></span>
-                            <span class="grid-item cursor-pointer"><img src="@/assets/images/token.svg" /></span>
-                            <span class="grid-item cursor-pointer"><img src="@/assets/images/arch.svg" /></span>
-                            <span class="grid-item cursor-pointer"><img src="@/assets/images/eco.svg" /></span>
-                            <span class="grid-item cursor-pointer mt-4"><img src="@/assets/images/test.svg" /></span>
-                        </div>
-
-                        <div class="lg:w-2/5 w-full flex flex-col justify-end pb-12">
-                            <div class="text-white font-bold text-4xl mt-16 pt-8">Take a deeper dive into
-                                <br /> the <span class="text-primary">Decast</span> Ecosystem
-                            </div>
-                            <p class="text-white text-lg mt-4">Groundbreaking technology converges with <br /> the future of
-                                live content creation!</p>
-                        </div>
-                    </div>
-                </div> -->
-
                 <div class="flex lg:flex-row flex-col items-center justify-between gap-16 w-full mt-12">
                     <div class="lg:w-2/5 w-4/5">
                         <img class="w-full object-contain" src="@/assets/images/nn.png" />
@@ -348,13 +319,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <Footer />
+        </div> -->
+        <FooterNew />
     </div>
 </template>
 
 <script>
-import Footer from './Footer.vue';
+import FooterNew from './FooterNew.vue';
 import Navbar from './NavbarNew.vue';
 import axios from '../axios';
 import constants from '../../constant';
@@ -365,7 +336,7 @@ export default {
     name: 'New Landing',
     components: {
         Navbar,
-        Footer,
+        FooterNew,
         FaqBox,
         // HomePageSlider,
     },
@@ -534,7 +505,12 @@ export default {
 .hp-main {
     height: calc(100vh - 84px);
 }
-
+.bg-gradient {
+    background-image: url('../assets/images/homepage/homepage-gradient.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 @keyframes logos {
     from {
         transform: translateX(0);
@@ -590,7 +566,8 @@ export default {
 }
 
 .parent_landing {
-    background-image: linear-gradient(180deg, #000, #111);
+    /* background-image: linear-gradient(180deg, #000, #111); */
+    background-color: #000000
 }
 
 .basic_home_head__ {
