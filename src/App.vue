@@ -101,8 +101,8 @@ export default {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
     this.$refs['login-popup'].$el.childNodes[1].childNodes[0].style.display =
       'none';
-    // console.log(this.$refs['login-popup'].$el);
-    // console.log(document.getElementById('login-popup'));
+    console.log(this.$refs['login-popup'].$el);
+    console.log(document.getElementById('login-popup'));
     var styles = {
       padding: 0,
       margin: 0,
@@ -157,9 +157,6 @@ body {
   font-weight: 500;
   padding: 2px 7px !important;
 }
-.material-icons {
-  font-family: 'Material Icons' !important;
-}
 
 .vs-button-primary {
   width: fit-content !important;
@@ -189,8 +186,20 @@ body {
   color: #D7DF23 !important;
 }
 
-.vs-button-primary.vs-button-filled {
+.button-primary-filled.vs-button-primary.vs-button-filled {
+  color: #000000 !important;
+  font-weight: 500;
   background: #D7DF23 !important;
+  border-top: 1px solid #000000 !important;
+  border-bottom: 1px solid #000000 !important;
+  border-right: 1px solid #000000 !important;
+  border-left: 1px solid #000000 !important;
+  -webkit-box-shadow: 3px 3px 0px 0px #FFFFFF !important;
+  box-shadow: 3px 3px 0px 0px #FFFFFF !important;
+}
+.button-primary-filled.vs-button-primary.vs-button-filled:hover {
+  -webkit-box-shadow: 2px 2px 0px 0px #FFFFFF !important;
+  box-shadow: 2px 2px 0px 0px #FFFFFF !important;
 }
 
 .vs-button-primary:hover {
@@ -208,7 +217,7 @@ body {
 
 /* Modal common css for terminal modal */
 .modal-content-wrapper * {
-  font-family: 'JetBrains Mono';
+  font-family: 'JetBrains Mono' !important;
 }
 
 .modal-content-wrapper {
