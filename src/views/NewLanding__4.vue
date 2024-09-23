@@ -340,12 +340,12 @@
                 </p>
                 <div class="flex flex-row gap-4 mt-4">
                     <button
-                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-primary text-black border-none"
-                        @click="handleButtonClick">chrome.download()
+                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-primary text-black border-none cursor-pointer"
+                        @click="handleButtonClickChrome">chrome.download()
                     </button>
                     <button
-                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-white text-black border-none"
-                        @click="handleButtonClick">firefox.download()
+                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-white text-black border-none cursor-pointer"
+                        @click="handleButtonClickFirefox">firefox.download()
                     </button>
                 </div>
 
@@ -530,6 +530,12 @@ export default {
             } else {
                 this.open();
             }
+        },
+        handleButtonClickChrome(){
+            window.open('https://chromewebstore.google.com/detail/decast/nldgpgdgbbhhndfibcmeccbeialcldcc','_blank');
+        },
+        handleButtonClickFirefox(){
+            window.open('https://addons.mozilla.org/en-US/firefox/addon/decast/','_blank');
         },
         async sendMessage() {
             if (
