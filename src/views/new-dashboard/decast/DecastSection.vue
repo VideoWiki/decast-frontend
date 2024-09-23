@@ -24,7 +24,7 @@
 
             <div class="cursor-pointer">
                 <vx-tooltip text="/ decast.create" position="left">
-                    <img src="@/assets/images/pixel_create.svg" @click="$router.push('/dashboard/decast/create')" />
+                    <img src="@/assets/images/pixel_create.svg" @click="createCastPath" />
                 </vx-tooltip>
             </div>
         </div>
@@ -37,7 +37,17 @@
                             <CastCardShimmer :style="{ opacity: 0.6 }" />
                             <CastCardShimmer :style="{ opacity: 0.5 }" />
                         </div>
-                        <div v-else v-for="(cast, index) in castList" :key="index">
+
+                        <div v-else-if="castList.length === 0"
+                            class="flex flex-row h-full items-start justify-center text-white text-left pt-6">
+                            <span class="text-2xl font-semibold">You have not created any Decast yet.
+                                <br>
+                                 Press <span class="text-primary">Enter</span> to get
+                                started and create your Decast
+                                now!</span>
+                        </div>
+
+                        <div v-else-if="castList.length !== 0" v-for="(cast, index) in castList" :key="index">
                             <CastCard :castDetails="cast" :index="index" :getCastList="getDecastList"
                                 @card-click="handleCardClick" @openModal="openModal(cast)" />
                         </div>
@@ -88,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="firstCastId !== null" class="cast_details w-1/2 p-5">
+            <div v-if="firstCastId !== undefined" class="cast_details w-1/2 p-5">
                 <DecastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId"
                     :selectedStorage="selectedStorage" :getSelectedStorage="getSelectedStorage" />
             </div>
@@ -249,7 +259,12 @@ export default {
         // StorageModal
     },
     mounted() {
+        console.log(this.firstCastId,'firstcastid');
         this.getDecastList();
+        document.addEventListener('keydown', this.handleGlobalKeydown);
+    },
+    beforeDestroy() {
+        document.removeEventListener('keydown', this.handleGlobalKeydown);
     },
     computed: {
         flattenedRecordingList() {
@@ -282,6 +297,15 @@ export default {
         }
     },
     methods: {
+        createCastPath() {
+            console.log(this.firstCastId,'firstcastid');
+            this.$router.push('/dashboard/decast/create');
+        },
+        handleGlobalKeydown(event) {
+            if (event.key === 'Enter') {
+                this.createCastPath();
+            }
+        },
         closeCreateModal() {
             this.setActiveModal('');
             this.$router.push('/dashboard/decast');
@@ -314,7 +338,7 @@ export default {
             const url = `${constants.apiCastUrl}/api/event/select/storage/?cast_id=${cast_id}`;
 
             try {
-                this.loading=true;
+                this.loading = true;
                 const response = await axios.get(url);
                 //console.log('Storage retrived successfully:', response.data);
 
@@ -330,9 +354,9 @@ export default {
                     //console.log(response.data.SIA, response.data.SWARM, 'cjdkunn')
                     this.selectedStorage = 'Null';
                 }
-                this.loading=false;
+                this.loading = false;
             } catch (error) {
-                this.loading=false;
+                this.loading = false;
                 this.selectedStorage = 'Null';
                 // console.error('Error:', error);
             }
@@ -619,7 +643,7 @@ export default {
     max-width: 645px;
 }
 
-.basic_child_parent__{
+.basic_child_parent__ {
     /* max-width: 644px; */
 }
 
@@ -643,5 +667,4 @@ export default {
         display: none;
     }
 }
-
 </style>

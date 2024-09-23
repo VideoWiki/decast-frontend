@@ -75,7 +75,7 @@
                     <h3 class="font-bold my-4 text-black-main">//Policy</h3>
                     <p class="text-black-main" @click="termsRedirect">>Terms & Conditions</p>
                     <p class="text-black-main" @click="redirect">>Privacy Policy</p>
-                    <p class="text-black-main">>Copyright</p>
+                    <!-- <p class="text-black-main">>Copyright</p> -->
                     <!-- <p>>Support</p> -->
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     <h3 class="font-bold my-4 text-black-main">//Contact</h3>
                     <p class="text-black-main" @click="commingSoon">>Contact Us</p>
                     <p class="text-black-main" @click="commingSoon">>Work With us</p>
-                    <p class="text-black-main" @click="commingSoon">>Suggestions</p>
+                    <p class="text-black-main" @click="redirectToLink">>Suggestions</p>
                     <!-- <p>>Book a demo</p> -->
                 </div>
             </div>

@@ -93,7 +93,7 @@
           </div>
         </div>
       </div>
-      <div v-if="firstCastId !== null" class="cast_details w-1/2 p-5">
+      <div v-if="firstCastId !== undefined" class="cast_details w-1/2 p-5">
         <CastDetails :selectedCastId="selectedCastId" :firstCastId="firstCastId" />
       </div>
     </div>
