@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white footer-container">
+    <div class="bg-white footer-container w-full">
         <div
             class="max-w-5xl w-full md:px-16 px-4 lg:py-16 py-10 lg:gap-8 gap-16  flex lg:flex-row flex-col lg:justify-between justify-start items-start mx-auto">
             <!-- first section -->
