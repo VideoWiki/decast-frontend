@@ -201,6 +201,10 @@ body {
   -webkit-box-shadow: 2px 2px 0px 0px #FFFFFF !important;
   box-shadow: 2px 2px 0px 0px #FFFFFF !important;
 }
+.button-primary-filled.vs-button-primary.vs-button-filled.vs-button--text {
+  color: #000000 !important;
+  font-weight: 500;
+}
 
 .vs-button-primary:hover {
   -webkit-box-shadow: 0px 3px 17px -10px #D7DF23 !important;
@@ -212,7 +216,7 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  color: #D7DF23 !important;
+  color: #D7DF23;
 }
 
 /* Modal common css for terminal modal */
