@@ -2,7 +2,7 @@
     <div
       class="basic_Terms_cont_ w-full flex flex-col justify-center items-center"
     >
-      <Navbar />
+      <NavbarNew />
       <div
         class="basic_child_Terms_cont_ max-w-5xl w-full flex flex-col gap-4 justify-start lg:px-16 md:px-6 px-4 py-6"
       >
@@ -299,18 +299,20 @@
           damage of any nature.
         </p>
       </div>
-      <FootSec />
+      <FooterNew />
     </div>
   </template>
   
   <script>
-  import Navbar from './Navbar.vue';
-  import FootSec from './FootSec.vue';
+  // import Navbar from './Navbar.vue';
+  import FooterNew from './FooterNew.vue';
+import FootSec from './FootSec.vue';
+import NavbarNew from './NavbarNew.vue';
   export default {
     name: 'Terms',
     components: {
-      Navbar,
-      FootSec,
+      NavbarNew,
+      FooterNew,
     },
   };
   </script>

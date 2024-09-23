@@ -75,7 +75,8 @@
                     <div class="bg-primary w-4 h-full"></div>
                 </div>
 
-                <div class="box-wrapper grid grid-flow-col grid-cols-12 justify-between items-center py-16 px-20 gap-8">
+                <div
+                    class="box-wrapper grid grid-flow-col grid-cols-12 justify-between items-center py-16 px-20 gap-8 overflow-hidden relative">
                     <div class="w-full flex flex-col items-start gap-6 justify-start col-span-6">
                         <p class="text-primary text-base font-normal">// What is Decast?</p>
                         <h4 class="text-white text-5xl font-bold">A Decentralized Video Infrastructure...</h4>
@@ -89,9 +90,14 @@
                         </p>
                     </div>
                     <div
-                        class="col-span-6 flex justify-end items-center relative h-full w-full opacity-100 transition-all">
+                        class="col-span-6 flex justify-end items-center relative h-full w-full opacity-100 transition-all z-10">
                         <img class="flex justify-center items-center w-fit object-contain" style="height: 28rem;"
                             src="@/assets/images/homepage/what.svg" />
+                    </div>
+
+                    <div class="flex justify-center items-center h-full w-full absolute">
+                        <img class="flex justify-center items-center w-full object-contain"
+                            src="@/assets/images/homepage/bg-what.png" />
                     </div>
                 </div>
             </div>
@@ -215,109 +221,101 @@
             </div>
         </section>
 
-        <section class="py-16">
 
-            <div
-                class="max-w-5xl w-full md:px-16 px-4 lg:gap-2 gap-16 flex flex-col justify-center items-center mx-auto">
+        <section class="max-w-5xl w-full md:px-16 px-4 gap-32 flex flex-col justify-center items-center mx-auto py-16">
 
-                <div class="grid grid-cols-2 grid-flow-row justify-center items-center w-full h-full gap-8">
+            <div class="grid grid-cols-2 grid-flow-row justify-center items-start w-full h-full gap-16">
 
-                    <div class="col-span-1 w-full flex flex-col items-start gap-4 justify-start">
-                        <p class="text-primary text-base">//Virtual Events</p>
-                        <h4 class="text-4xl font-extrabold text-white">Effortless Event Creation
-                        </h4>
-                        <p class="font-semibold text-lg text-white opacity-75 w-2/3">Create and manage events while
-                            streamlining
-                            the process and saving time.</p>
+                <div class="col-span-1 w-full flex flex-col items-start gap-4 justify-start">
+                    <p class="text-primary text-base">//Virtual Events</p>
+                    <h4 class="text-4xl font-extrabold text-white">Effortless Event Creation
+                    </h4>
+                    <p class="font-semibold text-lg text-white opacity-75 w-2/3">Create and manage events while
+                        streamlining
+                        the process and saving time.</p>
 
-                        <div class="grid grid-cols-2 w-full justify-start items-start gap-4 opacity-50 mt-8">
+                    <div class="grid grid-cols-2 w-full justify-start items-start gap-4 opacity-50 mt-8">
 
-                            <span
-                                class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
-                                <span class="p-2 bg-white"></span>
-                                Multi-Platform Streaming
-                            </span>
+                        <span class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
+                            <span class="p-2 bg-white"></span>
+                            Multi-Platform Streaming
+                        </span>
 
-                            <span
-                                class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
-                                <span class="p-2 bg-white"></span>
-                                NFT Airdrops and Rewards
-                            </span>
+                        <span class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
+                            <span class="p-2 bg-white"></span>
+                            NFT Airdrops and Rewards
+                        </span>
 
-                            <span
-                                class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
-                                <span class="p-2 bg-white"></span>
-                                AI-Powered Post Editing
-                            </span>
+                        <span class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
+                            <span class="p-2 bg-white"></span>
+                            AI-Powered Post Editing
+                        </span>
 
-                            <span
-                                class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
-                                <span class="p-2 bg-white"></span>
-                                Custom Branding
-                            </span>
+                        <span class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
+                            <span class="p-2 bg-white"></span>
+                            Custom Branding
+                        </span>
 
-                        </div>
                     </div>
-
-                    <div class="col-span-1 w-full flex flex-col gap-4 p-16">
-                        <div class="w-full">
-                            <img class="w-full h-full object-contain" src="@/assets/images/calls-ss.svg" />
-                        </div>
-                    </div>
-
                 </div>
 
-                <div class="grid grid-cols-2 justify-center items-center w-full h-full grid-flow-row gap-8">
-
-                    <div class="col-span-1 w-full flex flex-col items-start gap-4 justify-start order-2">
-                        <p class="text-primary text-base">//Decentralized Organizations</p>
-                        <h4 class="text-4xl font-extrabold text-white">Secure Collaborations & Records
-                        </h4>
-                        <p class="font-semibold text-lg text-white opacity-75 w-full">Optimize your collaborative
-                            workflow with fully personalised rooms with advanced analytics</p>
-
-                        <div class="grid grid-cols-2 w-full justify-start items-start gap-4 opacity-50 mt-8">
-
-                            <span
-                                class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
-                                <span class="p-2 bg-white"></span>
-                                Meeting Analytics
-                            </span>
-
-                            <span
-                                class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
-                                <span class="p-2 bg-white"></span>
-                                Recording Version Control
-                            </span>
-
-                            <span
-                                class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
-                                <span class="p-2 bg-white"></span>
-                                Access Control
-                            </span>
-
-                            <span
-                                class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
-                                <span class="p-2 bg-white"></span>
-                                Advanced In-meeting Tools
-                            </span>
-
-                        </div>
+                <div class="col-span-1 w-full flex flex-col gap-4 border-white border-2 border-solid border-opacity-50">
+                    <div class="w-full">
+                        <img class="w-full h-full object-contain" src="@/assets/images/homepage/events.png" />
                     </div>
-
-                    <div class="col-span-1 w-full flex flex-col gap-4 p-16">
-                        <div class="w-full">
-                            <img class="w-full h-full object-contain" src="@/assets/images/calls-ss.svg" />
-                        </div>
-                    </div>
-
                 </div>
+
             </div>
 
+            <div class="grid grid-cols-2 justify-center items-start w-full h-full grid-flow-row gap-16">
+
+                <div class="col-span-1 w-full flex flex-col items-start gap-4 justify-start order-2">
+                    <p class="text-primary text-base">//Decentralized Organizations</p>
+                    <h4 class="text-4xl font-extrabold text-white">Secure Collaborations & Records
+                    </h4>
+                    <p class="font-semibold text-lg text-white opacity-75 w-full">Optimize your collaborative
+                        workflow with fully personalised rooms with advanced analytics</p>
+
+                    <div class="grid grid-cols-2 w-full justify-start items-start gap-4 opacity-50 mt-8">
+
+                        <span class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
+                            <span class="p-2 bg-white"></span>
+                            Meeting Analytics
+                        </span>
+
+                        <span class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
+                            <span class="p-2 bg-white"></span>
+                            Recording Version Control
+                        </span>
+
+                        <span class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
+                            <span class="p-2 bg-white"></span>
+                            Access Control
+                        </span>
+
+                        <span class="flex gap-4 justify-start items-center text-white text-lg font-semibold col-span-1">
+                            <span class="p-2 bg-white"></span>
+                            Advanced In-meeting Tools
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="col-span-1 w-full flex flex-col gap-4 border-white border-2 border-solid border-opacity-50">
+                    <div class="w-full">
+                        <img class="w-full h-full object-contain" src="@/assets/images/homepage/records.png" />
+                    </div>
+                </div>
+
+            </div>
         </section>
 
+
+        <h1 class="text-center w-full text-green-400 py-16">/* Decast Tools */</h1>
+
+
         <div
-            class="max-w-5xl w-full md:px-16 px-4 gap-16 grid grid-cols-2 grid-flow-col justify-center items-center mx-auto">
+            class="max-w-5xl w-full md:px-16 px-4 gap-8 py-16 grid grid-cols-2 grid-flow-col justify-center items-center mx-auto">
 
             <div
                 class="col-span-1 w-full border-white border-solid border-2 border-opacity-50 p-8 flex flex-col justify-start items-start gap-4">
@@ -331,13 +329,18 @@
                 </p>
                 <div class="flex flex-row gap-4 mt-4">
                     <button
-                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-primary text-black border-none"
-                        @click="handleButtonClick">chrome.download()
+                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-primary text-black border-none cursor-pointer"
+                        @click="handleButtonClickChrome">chrome.download()
                     </button>
                     <button
-                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-white text-black border-none"
-                        @click="handleButtonClick">firefox.download()
+                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-white text-black border-none cursor-pointer"
+                        @click="handleButtonClickFirefox">firefox.download()
                     </button>
+                </div>
+
+                <div class="flex justify-center items-center h-full w-full relative mt-8">
+                    <img class="flex justify-center items-center w-full object-contain border-white border-2 border-solid border-opacity-50"
+                        src="@/assets/images/homepage/extension.png" />
                 </div>
             </div>
 
@@ -359,6 +362,10 @@
                         class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-white text-black border-none"
                         @click="setActiveModal('nodeWaitListModal')">waitList.join()
                     </button>
+                </div>
+                <div class="flex justify-center items-center h-full w-full relative mt-8">
+                    <img class="flex justify-center items-center w-full object-contain border-white border-2 border-solid border-opacity-50"
+                        src="@/assets/images/homepage/node.png" />
                 </div>
             </div>
 
@@ -468,16 +475,24 @@ export default {
             },
             faqQuestions: [
                 {
-                    ques: "What payment methods do you accept?",
-                    answer: "We have integrations with Stripe to accept all major credit and debit cards. We accept bank transfers for annual subscriptions and custom contracts. Connect with our consultants for a customized talent management quote.",
+                    ques: "Is there a free trial available?",
+                    answer: "Yes, our core services are free to use. However, decentralized storage options like Sia and Swarm may incur additional costs.",
                 },
                 {
-                    ques: "What payment methods do you accept?",
-                    answer: "We have integrations with Stripe to accept all major credit and debit cards. We accept bank transfers for annual subscriptions and custom contracts. Connect with our consultants for a customized talent management quote.",
+                    ques: "How secure are my meetings and events on Decast?",
+                    answer: "Decast prioritizes your security with features like private rooms, password-protected events, and NFT gating to ensure only authorized participants can access your sessions.",
                 },
                 {
-                    ques: "What payment methods do you accept?",
-                    answer: "We have integrations with Stripe to accept all major credit and debit cards. We accept bank transfers for annual subscriptions and custom contracts. Connect with our consultants for a customized talent management quote.",
+                    ques: "Can I reschedule or edit Cast details later?",
+                    answer: "Yes, you can easily reschedule or edit details of any Cast through your event management dashboard.",
+                },
+                {
+                    ques: "Can I access the recordings of my Cast or room sessions?",
+                    answer: "Yes, all recordings are securely stored on Decast and decentralized platforms depending upon your event, ensuring they are tamper-proof and available for future access. There are many exciting options available in recordings as well.",
+                },
+                {
+                    ques: "What customization options are available for my events?",
+                    answer: "You can fully brand your events with custom logos, colors, NFT Airdrops and unique meeting URLs ensuring a personalized and professional experience.",
                 }
             ]
         };
@@ -515,6 +530,12 @@ export default {
             } else {
                 this.open();
             }
+        },
+        handleButtonClickChrome(){
+            window.open('https://chromewebstore.google.com/detail/decast/nldgpgdgbbhhndfibcmeccbeialcldcc','_blank');
+        },
+        handleButtonClickFirefox(){
+            window.open('https://addons.mozilla.org/en-US/firefox/addon/decast/','_blank');
         },
         async sendMessage() {
             if (
