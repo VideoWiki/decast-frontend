@@ -83,7 +83,7 @@
             <div class="lg:w-1/5 w-full flex flex-col gap-12">
                 <div class="flex flex-col gap-2">
                     <h3 class="font-bold my-4 text-black-main">//Contact</h3>
-                    <p class="text-black-main" @click="commingSoon">>Contact Us</p>
+                    <p class="text-black-main" @click="setActiveModal('contactUsModal')">>Contact Us</p>
                     <p class="text-black-main" @click="commingSoon">>Work With us</p>
                     <p class="text-black-main" @click="commingSoon">>Suggestions</p>
                     <!-- <p>>Book a demo</p> -->
@@ -98,6 +98,7 @@
                     <p class="text-black-main" @click="$router.push('/achievements')">>Achievements</p>
                 </div>
             </div> -->
+            <ContactUsModal v-if="activeModal === 'contactUsModal'" :closeModal="() => setActiveModal('')"/>
         </div>
         <div class="max-w-4xl w-full m-auto">
             <hr />
@@ -109,9 +110,22 @@
 </template>
 
 <script>
+import ContactUsModal from './ContactUsModal.vue';
+
 export default {
     name: "Footer",
+    components: {
+        ContactUsModal,
+    },
+    data() {
+        return {
+            activeModal: '',
+        }
+    },
     methods: {
+        setActiveModal(modalName) {
+            this.activeModal = modalName;
+        },
         commingSoon() {
             this.$vs.notify({
                 title: 'coming soon',
