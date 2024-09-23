@@ -206,6 +206,24 @@ body {
   font-weight: 500;
 }
 
+.button-primary-filled-new {
+  color: #000000 !important;
+  font-weight: 500;
+  background: #D7DF23 !important;
+  border-top: 1px solid #000000 !important;
+  border-bottom: 1px solid #000000 !important;
+  border-right: 1px solid #000000 !important;
+  border-left: 1px solid #000000 !important;
+  -webkit-box-shadow: 3px 3px 0px 0px #FFFFFF !important;
+  box-shadow: 3px 3px 0px 0px #FFFFFF !important;
+  padding: 10px;
+  width: fit-content;
+}
+.button-primary-filled-new:hover {
+  -webkit-box-shadow: 2px 2px 0px 0px #FFFFFF !important;
+  box-shadow: 2px 2px 0px 0px #FFFFFF !important;
+}
+
 .vs-button-primary:hover {
   -webkit-box-shadow: 0px 3px 17px -10px #D7DF23 !important;
   -moz-box-shadow: 0px 3px 17px -10px #D7DF23 !important;

@@ -18,9 +18,12 @@
                                             <input
                                                 class="outline-none border-none bg-white p-2 w-2/5 font-semibold text-lg"
                                                 type="email" placeholder="//email" v-model="formData.email" />
-                                            <vs-button class="button-primary-filled" @click="sendMessage">
+                                            <!-- <vs-button class="button-primary-filled" @click="sendMessage">
                                                 /join.now()
-                                            </vs-button>
+                                            </vs-button> -->
+                                            <button class="button-primary-filled-new" @click="sendMessage">
+                                                /join.now()
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

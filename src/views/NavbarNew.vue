@@ -110,9 +110,10 @@
         </div>
         <div class="log-cont" v-if="!isLoggedIn">
           <div class="cursor-pointer" :class="{ 'child-1': true, 'slog-cont': isNavbarScrolled }" @click="open">
-            <vs-button class="button-primary-filled text-dark-black">/user.signIn</vs-button>
+            <!-- <vs-button class="button-primary-filled text-dark-black">/user.signIn</vs-button> -->
             <!-- <div class="vertical-line sideOne"></div>
           <vs-button>/user.signUp</vs-button> -->
+            <button class="button-primary-filled-new">/user.signIn</button>
           </div>
         </div>
         <div class="nam-con" v-else>
