@@ -29,35 +29,37 @@
             <section class="flex flex-col justify-center items-center">
                 <div class="logos md:px-16 px-4 pt-32 w-full max-w-5xl opacity-50">
                     <div class="logos-slide">
-                        <img src="@/assets/images/partners/sia.png" />
-                        <img src="@/assets/images/partners/swarm.png" />
                         <img src="@/assets/images/partners/pci.png" />
                         <img src="@/assets/images/partners/africa.png" />
                         <img src="@/assets/images/partners/ocean.png" />
-                        <img src="@/assets/images/partners/videowiki.png" />
-                        <img src="@/assets/images/partners/getboarded.png" />
-                        <img src="@/assets/images/partners/gala.png" />
-                        <img src="@/assets/images/partners/startup portugal.png" />
-
-                    </div>
-                    <div class="logos-slide">
                         <img src="@/assets/images/partners/sia.png" />
                         <img src="@/assets/images/partners/swarm.png" />
-                        <img src="@/assets/images/partners/pci.png" />
-                        <img src="@/assets/images/partners/africa.png" />
-                        <img src="@/assets/images/partners/ocean.png" />
                         <img src="@/assets/images/partners/videowiki.png" />
+                        <img src="@/assets/images/partners/microsoft.png" />
                         <img src="@/assets/images/partners/getboarded.png" />
                         <img src="@/assets/images/partners/gala.png" />
                         <img src="@/assets/images/partners/startup portugal.png" />
                     </div>
                     <div class="logos-slide">
-                        <img src="@/assets/images/partners/sia.png" />
-                        <img src="@/assets/images/partners/swarm.png" />
                         <img src="@/assets/images/partners/pci.png" />
                         <img src="@/assets/images/partners/africa.png" />
                         <img src="@/assets/images/partners/ocean.png" />
+                        <img src="@/assets/images/partners/sia.png" />
+                        <img src="@/assets/images/partners/swarm.png" />
                         <img src="@/assets/images/partners/videowiki.png" />
+                        <img src="@/assets/images/partners/microsoft.png" />
+                        <img src="@/assets/images/partners/getboarded.png" />
+                        <img src="@/assets/images/partners/gala.png" />
+                        <img src="@/assets/images/partners/startup portugal.png" />
+                    </div>
+                    <div class="logos-slide">
+                        <img src="@/assets/images/partners/pci.png" />
+                        <img src="@/assets/images/partners/africa.png" />
+                        <img src="@/assets/images/partners/ocean.png" />
+                        <img src="@/assets/images/partners/sia.png" />
+                        <img src="@/assets/images/partners/swarm.png" />
+                        <img src="@/assets/images/partners/videowiki.png" />
+                        <img src="@/assets/images/partners/microsoft.png" />
                         <img src="@/assets/images/partners/getboarded.png" />
                         <img src="@/assets/images/partners/gala.png" />
                         <img src="@/assets/images/partners/startup portugal.png" />
