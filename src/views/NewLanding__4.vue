@@ -75,7 +75,7 @@
                     <div class="bg-primary w-4 h-full"></div>
                 </div>
 
-                <div
+                <div id="what-is-decast"
                     class="box-wrapper grid grid-flow-col grid-cols-12 justify-between items-center py-16 px-20 gap-8 overflow-hidden relative">
                     <div class="w-full flex flex-col items-start gap-6 justify-start col-span-6">
                         <p class="text-primary text-base font-normal">// What is Decast?</p>
@@ -103,7 +103,7 @@
             </div>
         </section>
 
-        <section class="flex justify-center items-center py-32 relative w-full">
+        <section class="flex justify-center items-center py-32 relative w-full" id="features">
             <div class="flex flex-col items-center justify-center py-6 w-full max-w-5xl relative gap-8 md:px-16 px-4">
                 <!-- First Row -->
                 <div class="grid grid-cols-12 grid-flow-row items-center justify-center relative w-full gap-8">

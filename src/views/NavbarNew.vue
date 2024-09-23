@@ -67,7 +67,7 @@
                 </div>
 
               </div>
-              <a href="/about">What is Decast?</a>
+              <a href="#what-is-decast">What is Decast?</a>
               <a href="/infrastructure">Infrastructure</a>
               <a href="/pricing">Pricing</a>
               <a href="/faq">Faq</a>
@@ -104,8 +104,9 @@
 
       <div class="flex">
         <div class="opt-cont items-center md:flex hidden">
-          <div class="mr-8"><a href="/about">What is Decast?</a></div>
-          <div class="mr-8"><a href="/about">DePIN Revolution</a></div>
+          <div class="mr-8"><a href="#what-is-decast">What is Decast?</a></div>
+          <div class="mr-8"><a href="#features">Features</a></div>
+          <!-- <div class="mr-8"><a href="/about">DePIN Revolution</a></div> -->
         </div>
         <div class="log-cont" v-if="!isLoggedIn">
           <div class="cursor-pointer" :class="{ 'child-1': true, 'slog-cont': isNavbarScrolled }" @click="open">
