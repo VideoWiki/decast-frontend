@@ -471,16 +471,24 @@ export default {
             },
             faqQuestions: [
                 {
-                    ques: "What payment methods do you accept?",
-                    answer: "We have integrations with Stripe to accept all major credit and debit cards. We accept bank transfers for annual subscriptions and custom contracts. Connect with our consultants for a customized talent management quote.",
+                    ques: "Is there a free trial available?",
+                    answer: "Yes, our core services are free to use. However, decentralized storage options like Sia and Swarm may incur additional costs.",
                 },
                 {
-                    ques: "What payment methods do you accept?",
-                    answer: "We have integrations with Stripe to accept all major credit and debit cards. We accept bank transfers for annual subscriptions and custom contracts. Connect with our consultants for a customized talent management quote.",
+                    ques: "How secure are my meetings and events on Decast?",
+                    answer: "Decast prioritizes your security with features like private rooms, password-protected events, and NFT gating to ensure only authorized participants can access your sessions.",
                 },
                 {
-                    ques: "What payment methods do you accept?",
-                    answer: "We have integrations with Stripe to accept all major credit and debit cards. We accept bank transfers for annual subscriptions and custom contracts. Connect with our consultants for a customized talent management quote.",
+                    ques: "Can I reschedule or edit Cast details later?",
+                    answer: "Yes, you can easily reschedule or edit details of any Cast through your event management dashboard.",
+                },
+                {
+                    ques: "Can I access the recordings of my Cast or room sessions?",
+                    answer: "Yes, all recordings are securely stored on Decast and decentralized platforms depending upon your event, ensuring they are tamper-proof and available for future access. There are many exciting options available in recordings as well.",
+                },
+                {
+                    ques: "What customization options are available for my events?",
+                    answer: "You can fully brand your events with custom logos, colors, NFT Airdrops and unique meeting URLs ensuring a personalized and professional experience.",
                 }
             ]
         };
