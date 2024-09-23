@@ -1,5 +1,5 @@
 <template>
-    <BaseModal :title="'waitList.join()'" @close="closeModal">
+    <BaseModal :title="'Contact us'" @close="closeModal">
         <template #modalContent>
             <div class="modal-content-wrapper">
                 <div class="modal-content">
@@ -9,17 +9,21 @@
 
                                 <div class="w-full flex flex-col gap-4">
                                     <div class="basic_event_cont_ flex flex-col gap-4 p-8">
-                                        <h1 class="text-white font-bold text-4xl">Join the waitlist!</h1>
-                                        <p class="text-lg mt-4" style="color:#22c55e;">/* Be the first ones to know
-                                            everything
-                                            <br /> about the decast node network */
+                                        <h1 class="text-white font-bold text-4xl">Get in touch</h1>
+                                        <p class="text-lg mt-4" style="color:#22c55e;">/* Want to get in touch? We'd love to hear from you. */
                                         </p>
                                         <div class="flex flex-col gap-4 mt-4">
                                             <input
                                                 class="outline-none border-none bg-white p-2 w-2/5 font-semibold text-lg"
                                                 type="email" placeholder="//email" v-model="formData.email" />
+                                            <input
+                                                class="outline-none border-none bg-white p-2 w-2/5 font-semibold text-lg"
+                                                type="name" placeholder="//name" v-model="formData.name" />
+                                            <textarea
+                                                class="outline-none border-none bg-white p-2 w-2/5 font-semibold text-lg"
+                                                type="message" placeholder="//message" v-model="formData.message" />
                                             <vs-button class="button-primary-filled" @click="sendMessage">
-                                                /join.now()
+                                                /send()
                                             </vs-button>
                                         </div>
                                     </div>
@@ -42,7 +46,7 @@ import axios from '../axios';
 import constants from '../../constant';
 
 export default {
-    name: 'NodeWaitListModal',
+    name: 'ContactUsModal',
     props: ['closeModal', 'setActiveModal'],
     components: {
         BaseModal,
@@ -51,6 +55,8 @@ export default {
         return {
             formData: {
                 email: '',
+                name: '',
+                message: '',
             },
         };
     },

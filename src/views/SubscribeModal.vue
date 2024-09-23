@@ -17,7 +17,7 @@
                                         <div class="flex flex-col gap-4 mt-4">
                                             <input
                                                 class="outline-none border-none bg-white p-2 w-2/5 font-semibold text-lg"
-                                                type="email" placeholder="//Email" v-model="formData.email" />
+                                                type="email" placeholder="//email" v-model="formData.email" />
                                             <vs-button class="button-primary-filled" @click="sendMessage">
                                                 /subscribe()
                                             </vs-button>
