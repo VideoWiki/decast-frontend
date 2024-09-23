@@ -1,5 +1,6 @@
 <template>
-  <div class="glass-effect flex w-full justify-center items-center" :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }">
+  <div class="flex w-full justify-center items-center bg-dark-black"
+    :class="{ 'nav-cont': true, scrolled: isNavbarScrolled }">
     <nav class="max-w-5xl w-full items-center flex flex-row justify-between lg:px-16 md:px-6 px-4 py-4">
       <a href="/" class="w-48 h-16">
         <img :style="{ display: showMobileMenu ? 'none' : 'block' }" class="w-full h-full object-contain"
@@ -108,7 +109,7 @@
         </div>
         <div class="log-cont" v-if="!isLoggedIn">
           <div class="cursor-pointer" :class="{ 'child-1': true, 'slog-cont': isNavbarScrolled }" @click="open">
-            <vs-button>/user.signIn</vs-button>
+            <vs-button class="button-primary-filled text-dark-black">/user.signIn</vs-button>
             <!-- <div class="vertical-line sideOne"></div>
           <vs-button>/user.signUp</vs-button> -->
           </div>
