@@ -21,7 +21,7 @@
                     <div class="op-3 flex justify-center">
                         <button class="hm-action-btn-1 mr-4 text-xl" @click="handleButtonClick">decast.Start()
                         </button>
-                        <button class="hm-action-btn-2 text-xl" @click="handleButtonClick">decast.Subscribe()
+                        <button class="hm-action-btn-2 text-xl" @click="setActiveModal('subscribeModal')">decast.Subscribe()
                         </button>
                     </div>
                 </div>
@@ -29,35 +29,37 @@
             <section class="flex flex-col justify-center items-center">
                 <div class="logos md:px-16 px-4 pt-32 w-full max-w-5xl opacity-50">
                     <div class="logos-slide">
-                        <img src="@/assets/images/partners/sia.png" />
-                        <img src="@/assets/images/partners/swarm.png" />
                         <img src="@/assets/images/partners/pci.png" />
                         <img src="@/assets/images/partners/africa.png" />
                         <img src="@/assets/images/partners/ocean.png" />
-                        <img src="@/assets/images/partners/videowiki.png" />
-                        <img src="@/assets/images/partners/getboarded.png" />
-                        <img src="@/assets/images/partners/gala.png" />
-                        <img src="@/assets/images/partners/startup portugal.png" />
-
-                    </div>
-                    <div class="logos-slide">
                         <img src="@/assets/images/partners/sia.png" />
                         <img src="@/assets/images/partners/swarm.png" />
-                        <img src="@/assets/images/partners/pci.png" />
-                        <img src="@/assets/images/partners/africa.png" />
-                        <img src="@/assets/images/partners/ocean.png" />
                         <img src="@/assets/images/partners/videowiki.png" />
+                        <img src="@/assets/images/partners/microsoft.png" />
                         <img src="@/assets/images/partners/getboarded.png" />
                         <img src="@/assets/images/partners/gala.png" />
                         <img src="@/assets/images/partners/startup portugal.png" />
                     </div>
                     <div class="logos-slide">
-                        <img src="@/assets/images/partners/sia.png" />
-                        <img src="@/assets/images/partners/swarm.png" />
                         <img src="@/assets/images/partners/pci.png" />
                         <img src="@/assets/images/partners/africa.png" />
                         <img src="@/assets/images/partners/ocean.png" />
+                        <img src="@/assets/images/partners/sia.png" />
+                        <img src="@/assets/images/partners/swarm.png" />
                         <img src="@/assets/images/partners/videowiki.png" />
+                        <img src="@/assets/images/partners/microsoft.png" />
+                        <img src="@/assets/images/partners/getboarded.png" />
+                        <img src="@/assets/images/partners/gala.png" />
+                        <img src="@/assets/images/partners/startup portugal.png" />
+                    </div>
+                    <div class="logos-slide">
+                        <img src="@/assets/images/partners/pci.png" />
+                        <img src="@/assets/images/partners/africa.png" />
+                        <img src="@/assets/images/partners/ocean.png" />
+                        <img src="@/assets/images/partners/sia.png" />
+                        <img src="@/assets/images/partners/swarm.png" />
+                        <img src="@/assets/images/partners/videowiki.png" />
+                        <img src="@/assets/images/partners/microsoft.png" />
                         <img src="@/assets/images/partners/getboarded.png" />
                         <img src="@/assets/images/partners/gala.png" />
                         <img src="@/assets/images/partners/startup portugal.png" />
@@ -75,7 +77,7 @@
                     <div class="bg-primary w-4 h-full"></div>
                 </div>
 
-                <div
+                <div id="what-is-decast"
                     class="box-wrapper grid grid-flow-col grid-cols-12 justify-between items-center py-16 px-20 gap-8 overflow-hidden relative">
                     <div class="w-full flex flex-col items-start gap-6 justify-start col-span-6">
                         <p class="text-primary text-base font-normal">// What is Decast?</p>
@@ -103,7 +105,7 @@
             </div>
         </section>
 
-        <section class="flex justify-center items-center py-32 relative w-full">
+        <section class="flex justify-center items-center py-32 relative w-full" id="features">
             <div class="flex flex-col items-center justify-center py-6 w-full max-w-5xl relative gap-8 md:px-16 px-4">
                 <!-- First Row -->
                 <div class="grid grid-cols-12 grid-flow-row items-center justify-center relative w-full gap-8">
@@ -145,19 +147,14 @@
 
                             </div>
                         </div>
-
-
                         <div
                             class="flex justify-end items-end h-full w-full opacity-100 transition-all absolute bottom-0 right-0">
                             <img class="flex justify-center items-center w-fit object-contain"
                                 src="@/assets/images/homepage/scale.png" />
                         </div>
-
-
                     </div>
                     <div
                         class="h-full w-full col-span-4 justify-center items-center relative border-white border-solid border-2 border-opacity-50 hover:border-opacity-100 overflow-hidden">
-
                         <div class="w-full flex flex-col items-center gap-6 justify-start pt-16 px-8">
                             <h4 class="text-white text-3xl font-bold text-center">//Private Rooms</h4>
                             <p class="text-base font-normal text-white opacity-75 text-center">
@@ -176,7 +173,6 @@
 
                     <div
                         class="h-full w-full col-span-5 justify-center items-center relative border-white border-solid border-2 border-opacity-50 hover:border-opacity-100 overflow-hidden">
-
                         <div class="w-full flex flex-col items-start gap-6 justify-start pt-16 px-16">
                             <h4 class="text-white text-3xl font-bold text-left">//Secure Storage</h4>
                             <p class="text-base font-normal text-white opacity-75 text-left">
@@ -185,13 +181,11 @@
                             </p>
 
                         </div>
-
                         <div
                             class="flex justify-center items-start h-full w-full opacity-100 transition-all relative -mt-4">
                             <img class="flex justify-center items-center h-fit object-cover"
                                 src="@/assets/images/homepage/storage.png" />
                         </div>
-
                     </div>
 
                     <div
@@ -224,11 +218,8 @@
                             <img class="flex justify-center items-center w-fit object-contain"
                                 src="@/assets/images/homepage/security.png" />
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
         </section>
 
@@ -371,7 +362,7 @@
                     </button>
                     <button
                         class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-white text-black border-none"
-                        @click="handleButtonClick">waitList.join()
+                        @click="setActiveModal('nodeWaitListModal')">waitList.join()
                     </button>
                 </div>
                 <div class="flex justify-center items-center h-full w-full relative mt-8">
@@ -392,6 +383,9 @@
                 </div>
             </div>
         </section>
+
+        <SubscribeModal v-if="activeModal === 'subscribeModal'" :closeModal="() => setActiveModal('')" />
+        <NodeWaitListModal v-if="activeModal === 'nodeWaitListModal'" :closeModal="() => setActiveModal('')"/>
 
         <!-- <div class="basic_folder_cont__ py-16">
             <div class="max-w-4xl w-full flex flex-col gap-16 justify-start items-center m-auto py-24">
@@ -461,6 +455,8 @@ import Navbar from './NavbarNew.vue';
 import axios from '../axios';
 import constants from '../../constant';
 import FaqBox from './components/homepage/FaqBox.vue';
+import SubscribeModal from './SubscribeModal.vue';
+import NodeWaitListModal from './NodeWaitListModal.vue';
 // import HomePageSlider from './HomePageSlider.vue';
 
 export default {
@@ -469,10 +465,13 @@ export default {
         Navbar,
         FooterNew,
         FaqBox,
+        SubscribeModal,
+        NodeWaitListModal,
         // HomePageSlider,
     },
     data() {
         return {
+            activeModal: '',
             formData: {
                 email: '',
             },
@@ -522,6 +521,9 @@ export default {
         //         window.location.reload();
         //     }
         // },
+        setActiveModal(modalName) {
+            this.activeModal = modalName;
+        },
         handleButtonClick() {
             const userInfo = localStorage.getItem('userInfo');
             const accessToken = localStorage.getItem('accessToken');

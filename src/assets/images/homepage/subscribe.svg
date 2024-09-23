@@ -1,0 +1,44 @@
+<svg width="551" height="239" viewBox="0 0 551 239" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1851_1506)">
+<path d="M438.012 145.689H446.345M483.845 141.523V124.856C483.845 122.646 484.723 120.526 486.286 118.963C487.849 117.401 489.968 116.523 492.178 116.523M463.012 183.189V199.856" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M483.844 129.685C479.823 129.023 474.51 129.023 466.656 129.023H455.198C443.04 129.023 436.96 129.023 432.356 131.481C428.722 133.424 425.745 136.4 423.802 140.035C421.344 144.639 421.344 150.719 421.344 162.877C421.344 170.173 421.344 173.823 422.819 176.585C423.986 178.763 425.772 180.547 427.952 181.71C430.715 183.189 434.36 183.189 441.656 183.189H480.198C487.494 183.189 491.144 183.189 493.906 181.714C496.084 180.547 497.868 178.761 499.031 176.581C500.51 173.819 500.51 170.173 500.51 162.877C500.51 150.719 500.51 144.639 498.052 140.035C497.331 138.686 496.463 137.42 495.465 136.26" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M463.014 183.189V154.023C463.014 150.152 463.014 148.214 462.759 146.598C462.071 142.253 460.025 138.237 456.914 135.126C453.803 132.016 449.788 129.97 445.443 129.281C445.083 129.225 444.722 129.18 444.359 129.148" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<g filter="url(#filter0_f_1851_1506)">
+<ellipse cx="382.627" cy="221.911" rx="24.3768" ry="205.947" transform="rotate(-90 382.627 221.911)" fill="url(#paint0_linear_1851_1506)"/>
+</g>
+<g opacity="0.1">
+<line x1="527.6" y1="64.3386" x2="601.125" y2="310.951" stroke="white"/>
+<line x1="187.705" y1="190.993" x2="595.505" y2="69.4109" stroke="white"/>
+<line x1="478.733" y1="78.9069" x2="552.258" y2="325.519" stroke="white"/>
+<line x1="197.603" y1="224.184" x2="605.404" y2="102.603" stroke="white"/>
+<line x1="429.87" y1="93.4754" x2="503.395" y2="340.088" stroke="white"/>
+<line x1="207.498" y1="257.376" x2="615.298" y2="135.794" stroke="white"/>
+<line x1="380.995" y1="108.047" x2="454.52" y2="354.659" stroke="white"/>
+<line x1="217.392" y1="290.568" x2="625.193" y2="168.986" stroke="white"/>
+<line x1="332.135" y1="122.614" x2="405.66" y2="369.226" stroke="white"/>
+<line x1="227.291" y1="323.76" x2="635.091" y2="202.178" stroke="white"/>
+<line x1="283.268" y1="137.183" x2="356.793" y2="383.796" stroke="white"/>
+<line x1="237.185" y1="356.952" x2="644.986" y2="235.37" stroke="white"/>
+<line x1="234.401" y1="151.752" x2="307.926" y2="398.364" stroke="white"/>
+</g>
+<rect width="551" height="239" fill="url(#paint1_radial_1851_1506)"/>
+</g>
+<defs>
+<filter id="filter0_f_1851_1506" x="-1.12032" y="19.7343" width="767.495" height="404.354" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="88.9" result="effect1_foregroundBlur_1851_1506"/>
+</filter>
+<linearGradient id="paint0_linear_1851_1506" x1="358.25" y1="221.911" x2="407.004" y2="221.911" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D7DF23"/>
+<stop offset="1"/>
+</linearGradient>
+<radialGradient id="paint1_radial_1851_1506" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(491.414 211.745) rotate(-131.265) scale(485.778 1119.93)">
+<stop stop-opacity="0"/>
+<stop offset="0.557923"/>
+</radialGradient>
+<clipPath id="clip0_1851_1506">
+<rect width="551" height="239" fill="white"/>
+</clipPath>
+</defs>
+</svg>
