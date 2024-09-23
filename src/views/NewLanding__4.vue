@@ -361,7 +361,7 @@
                         class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-primary text-black border-none pointer-events-none opacity-25">node.download()
                     </button>
                     <button
-                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-white text-black border-none"
+                        class="w-fit flex justify-center items-center font-medium px-4 py-2 bg-white text-black border-none cursor-pointer"
                         @click="setActiveModal('nodeWaitListModal')">waitList.join()
                     </button>
                 </div>

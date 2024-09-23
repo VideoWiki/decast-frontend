@@ -97,7 +97,8 @@ export default {
                 );
                 this.$vs.notify({
                     title: 'Successful',
-                    text: 'Subscription added!',
+                    text: 'Message sent.',
+                    description:'We will get back to you soon!',
                     color: 'success',
                 });
                 this.closeModal();
