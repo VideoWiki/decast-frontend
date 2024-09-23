@@ -28,6 +28,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex justify-end items-end h-full w-full opacity-100 transition-all absolute bottom-0 right-0"
+                    style="z-index: -1;">
+                    <img class="flex justify-center items-center w-full object-contain"
+                        src="@/assets/images/homepage/waitlist.svg" />
+                </div>
                 <!-- <div class="cast-modal-bottom">
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
                 </div> -->

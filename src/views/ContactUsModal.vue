@@ -4,13 +4,16 @@
             <div class="modal-content-wrapper">
                 <div class="modal-content">
                     <div class="basic_folder_cont__">
-                        <div class="max-w-4xl w-full flex flex-col gap-16 justify-start items-center m-auto">
+                        <div
+                            class="max-w-4xl w-full flex flex-col gap-16 justify-start items-center m-auto relative z-10">
                             <div class="flex lg:flex-row flex-col items-center justify-between gap-16 w-full">
 
                                 <div class="w-full flex flex-col gap-4">
                                     <div class="basic_event_cont_ flex flex-col gap-4 p-8">
                                         <h1 class="text-white font-bold text-4xl">Get in touch</h1>
-                                        <p class="text-lg mt-4" style="color:#22c55e;">/* Want to get in touch? We'd love to hear from you. */
+                                        <p class="text-lg mt-4" style="color:#22c55e;">/* In need of assistance?
+                                            <br />We'd
+                                            love to hear from you. */
                                         </p>
                                         <div class="flex flex-col gap-4 mt-4">
                                             <input
@@ -29,12 +32,18 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
                 <!-- <div class="cast-modal-bottom">
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
                 </div> -->
+                <div class="flex justify-end items-end h-full w-full opacity-100 transition-all absolute bottom-0 right-0"
+                    style="z-index: -1;">
+                    <img class="flex justify-center items-center w-full object-contain"
+                        src="@/assets/images/homepage/help.svg" />
+                </div>
             </div>
         </template>
     </BaseModal>

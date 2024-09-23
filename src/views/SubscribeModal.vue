@@ -9,11 +9,8 @@
 
                                 <div class="w-full flex flex-col gap-4">
                                     <div class="basic_event_cont_ flex flex-col gap-4 p-8">
-                                        <h1 class="text-white font-bold text-4xl">Looking to host a massive
-                                            event?</h1>
-                                        <p class="text-lg mt-4" style="color:#22c55e;">/* Groundbreaking technology
-                                            converges
-                                            with <br /> the future of live content creation! */</p>
+                                        <h1 class="text-white font-bold text-4xl">Subscribe to Decast.live</h1>
+                                        <p class="text-lg mt-4" style="color:#22c55e;">/* Stay upto date with the latest <br /> releases and reward drops */</p>
                                         <div class="flex flex-col gap-4 mt-4">
                                             <input
                                                 class="outline-none border-none bg-white p-2 w-2/5 font-semibold text-lg"
@@ -27,6 +24,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="flex justify-end items-end h-full w-full opacity-100 transition-all absolute bottom-0 right-0"
+                    style="z-index: -1;">
+                    <img class="flex justify-center items-center w-full object-contain"
+                        src="@/assets/images/homepage/subscribe.svg" />
                 </div>
                 <!-- <div class="cast-modal-bottom">
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
