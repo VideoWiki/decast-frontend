@@ -3,10 +3,17 @@
     <section class="awards-main"
       :style="{ 'background-image': 'url(' + require('@/assets/images/awards/backgroundimg.svg') + ')' }">
       <div class="awards-main-left">
-        <div class="awards-ml-wrapper">
-          <img src="@/assets/images/logot.svg" />
-          <h1>Cast your Content <br>from the Future!</h1>
-          <h4>Cast is a Video Conferencing Software <br>For Virtual Communication And <br>Collaboration.</h4>
+        <div class="awards-ml-wrapper h-full">
+          <div class="flex justify-start gap-8 items-center">
+            <img src="@/assets/images/logot.svg" class="w-32 h-32 cursor-pointer" />
+            <p class="welcome_msg text-5xl font-bold text-white">
+              Decast.Live
+            </p>
+          </div>
+          <div class="flex flex-col pt-24 items-start justify-center">
+            <h1>Cast your Content <br>from the Future!</h1>
+            <h4>Cast is a Video Conferencing Software <br>For Virtual Communication And <br>Collaboration.</h4>
+          </div>
         </div>
       </div>
       <div class="awards-main-right">
@@ -26,7 +33,7 @@
         </div>
       </div>
     </section>
-
+    
     <section class="awards-vision">
       <h2>The Technology</h2>
       <div class="awards-vcards-container">
@@ -46,7 +53,7 @@
         <div class="awards-rcard" v-for="(recog, index) in recognitions" :key="index">
           <div v-if="!recog.isImage">
             <h3>{{ recog.title }}</h3>
-            <img :src="recog.banner" :alt="recog.title" />
+            <img class="object-conatin" :src="recog.banner" :alt="recog.title" />
             <p class="recog-desc">{{ recog.description }}</p>
             <a :href="recog.url" target="_blank">Read More</a>
           </div>
@@ -54,7 +61,7 @@
           <div v-else>
             <div class="awards-vcard-bigimg" v-if="recog.banner">
               <img :src="recog.banner" :alt="recog.title" />
-              <a :href="recog.url" target="_blank"><span>{{recog.title}}</span></a>
+              <a :href="recog.url" target="_blank"><span>{{ recog.title }}</span></a>
             </div>
           </div>
         </div>
@@ -63,15 +70,17 @@
 
     <section class="awards-vision">
       <h2>Roadmap</h2>
-      <img class="roadmap-image" :src="require('@/assets/images/awards/roadmap.svg')" />
+      <div class="roadmap_cont">
+        <img class="roadmap-image" :src="require('@/assets/images/awards/roadmap.svg')" />
+      </div>
     </section>
 
     <section class="awards-news">
       <h2>News & Media Coverage</h2>
-      <div class="awards-news-container">
+      <div class="awards-news-container w-full">
         <div class="awards-news-card" v-for="(topic, index) in news" :key="index">
           <div class="awards-nc-left">
-            <div class="awards-nc-img">
+            <div class="awards-nc-img  flex items-center justify-center">
               <img :src="topic.image" :alt="topic.title" />
             </div>
           </div>
@@ -84,22 +93,22 @@
       </div>
       <div class="awards-news-img">
         <div class="awards-news-img1">
-          <img :src="require('@/assets/images/awards/presidentpic.svg')" />
+          <img :src="require('@/assets/images/presidentpic.png')"/>
         </div>
         <div class="awards-news-img2">
-          <img :src="require('@/assets/images/awards/grouppic.svg')" />
+          <img :src="require('@/assets/images/grouppic.png')"/>
         </div>
       </div>
     </section>
 
-    <FootSec/>
+    <FooterNew />
   </div>
 </template>
 
 <script>
 import constants from '../../constant';
 import Loading from './Loading.vue';
-import FootSec from './FootSec.vue';
+import FooterNew from './FooterNew.vue';
 
 export default {
   data() {
@@ -139,9 +148,23 @@ export default {
         {
           isImage: false,
           title: '#Partnership with SWARM',
-          url:"https://www.ethswarm.org/ecosystem.html#:~:text=Apply%20for%20a%20grant,mentors%20the%20developers%20and%20founders.",
+          url: "https://www.ethswarm.org/ecosystem.html#:~:text=Apply%20for%20a%20grant,mentors%20the%20developers%20and%20founders.",
           banner: require('@/assets/images/awards/swarmlogo.svg'),
-          description: "After applying for SWARM grant program, VideoWiki had the opportunity of showcasing the product to SWARM team, which led to conversations for a partnership. SWARM is a decentralised storage and communication system for a sovereign digital society. It works as a system of peer-to-peer networked nodes, that create a decentralised storage and communication service. The system is economically self-sustaining due to a built-in incentive system enforced through smart contracts on the Ethereum blockchain.",
+          description: "After applying for SWARM grant program, Decast had the opportunity of showcasing the product to SWARM team, which led to conversations for a partnership. SWARM is a decentralised storage and communication system for a sovereign digital society. It works as a system of peer-to-peer networked nodes, that create a decentralised storage and communication service. The system is economically self-sustaining due to a built-in incentive system enforced through smart contracts on the Ethereum blockchain.",
+        },
+        {
+          isImage: false,
+          title: '#Partnership with SIA',
+          url: "https://sia.tech/community-ecosystem",
+          banner: require('@/assets/images/sialogo.png'),
+          description: "Decast was selected for the Sia Grant Program, providing us with the opportunity to integrate Sia, a leading decentralized storage platform, into our system. This collaboration allows Decast to offer enhanced tamper-proof and decentralized storage solutions for our users. By leveraging Sia’s cutting-edge technology, we ensure secure, scalable, and cost-effective data storage, empowering content creators and organizations to host their content with full confidence in its integrity and privacy.Sia is a thriving ecosystem supported by a community of data storage enthusiasts, open-source developers, and commercial platforms, all focused on revolutionizing data storage.",
+        },
+        {
+          isImage: false,
+          title: '#Partnership with Trustchain',
+          url: "https://trustchain.ngi.eu/",
+          banner: require('@/assets/images/trustchain.png'),
+          description: "We’re thrilled to announce that Decast has been awarded a grant from the Trustchain program under NGI (Next Generation Internet) initiatives, funded by the European Dynamics in collaboration with the EU Commission. This prestigious grant was awarded based on our roadmap and innovation in decentralized, secure video infrastructures and blockchain-based interoperability. This partnership marks an exciting step forward in our mission to provide decentralized, secure, and interoperable digital tools for our users.",
         },
         {
           isImage: false,
@@ -234,7 +257,7 @@ export default {
   },
   components: {
     Loading,
-    FootSec,
+    FooterNew,
   },
   mounted() {
   },
@@ -250,6 +273,10 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
 .awards {
   background-color: #000;
   width: 100vw;
@@ -257,10 +284,11 @@ export default {
   justify-content: center;
   flex-direction: column;
   overflow-y: scroll;
+  gap: 24;
 }
 
 .awards-main {
-  height: 90vh;
+  height: 100vh;
   display: flex;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -274,6 +302,7 @@ export default {
 
 .awards-ml-wrapper {
   margin-left: 130px;
+  /* border: 1px solid red; */
 }
 
 .awards-ml-wrapper img {
@@ -283,8 +312,7 @@ export default {
 
 .awards-ml-wrapper h1 {
   color: #FFF;
-  font-family: "Karla";
-  font-size: 54px;
+  font-size: 64px;
   font-style: normal;
   font-weight: 700;
   line-height: 75px;
@@ -293,8 +321,7 @@ export default {
 
 .awards-ml-wrapper h4 {
   color: #A6A6A8;
-  font-family: "Karla";
-  font-size: 35px;
+  font-size: 25px;
   font-style: normal;
   font-weight: 500;
   line-height: 136.4%;
@@ -313,11 +340,11 @@ export default {
 .awards-vision {
   padding: 0px 90px 0px 130px;
   box-sizing: border-box;
+  margin-bottom: 100px;
 }
 
 .awards-vision h2 {
   color: #D7DF23;
-  font-family: "Karla";
   font-size: 42px;
   font-style: normal;
   font-weight: 700;
@@ -327,15 +354,31 @@ export default {
   margin-bottom: 30px;
 }
 
+.roadmap_cont{
+  background-image: url('../assets/images/grad1.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: cover;
+  padding: 50px 25px 0px 25px;
+  border: 1px solid #a6a6a6;
+}
+
 .awards-vcards-container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 80px;
+  gap: 20px;
 }
 
 .awards-vcard {
-  padding-right: 20px;
+  padding: 15px;
+  border: 1px solid #a6a6a6;
+  /* box-shadow: 4px 4px 0px 0px #a6a6a6; */
   flex: 1;
+  background-image: url('../assets/images/grad.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: contain;
 }
 
 .awards-vcard .awards-vcard-img {
@@ -345,7 +388,6 @@ export default {
 
 .awards-vcard h3 {
   color: #F7F7F7;
-  font-family: "Karla";
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -355,7 +397,6 @@ export default {
 
 .awards-vcard p {
   color: #A6A6A8;
-  font-family: "Karla";
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
@@ -366,19 +407,31 @@ export default {
 
 .awards-recog-container {
   display: grid;
-  grid-template-columns: 55% 45%;
+  grid-template-columns: 50% 50%;
+  gap: 20px;
 }
 
 .awards-rcard {
-  padding-right: 20px;
+  border: 1px solid #a6a6a6;
+  /* box-shadow: 4px 4px 0px 0px #a6a6a6; */
+  padding: 20px;
   flex: 1;
   margin-bottom: 20px;
+  background-image: url('../assets/images/grad2.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: contain;
+}
+
+.awards-rcard:hover{
+  border: 1px solid #fff;
 }
 
 .awards-vcard-bigimg img {
   border-radius: 10px;
   width: 100%;
   margin: 50px 20px 10px 0px;
+  object-fit: contain !important;
 }
 
 .awards-vcard-bigimg a {
@@ -388,7 +441,6 @@ export default {
 
 .awards-rcard h3 {
   color: #F7F7F7;
-  font-family: "Karla";
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -398,7 +450,6 @@ export default {
 
 .awards-rcard p {
   color: #A6A6A8;
-  font-family: "Karla";
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
@@ -471,7 +522,6 @@ export default {
 
 .awards-news h2 {
   color: #D7DF23;
-  font-family: "Karla";
   font-size: 42px;
   font-style: normal;
   font-weight: 700;
@@ -484,13 +534,24 @@ export default {
 .awards-news-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 60px;
   margin-top: 80px;
   margin-bottom: 50px;
 }
 
 .awards-news-card {
   display: flex;
-  margin: 0px 50px 50px 0px;
+  padding: 20px;
+  border: 1px solid #a6a6a6;
+  background-image: url('../assets/images/grad3.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: contain;
+}
+
+.awards-news-card:hover{
+  border: 1px solid white;
+  transition: 0.2s ease-in-out; 
 }
 
 /* .awards-nc-img{
@@ -522,7 +583,6 @@ export default {
 
 .awards-nc-right p {
   color: #A6A6A8;
-  font-family: "Karla";
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
@@ -548,34 +608,37 @@ export default {
 
 .awards-news-img {
   display: flex;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
+  gap: 60px;
 }
 
 .awards-news-img1 {
   flex: 1;
-  margin-right: 35px;
 }
 
 .awards-news-img2 {
   flex: 1;
-  margin-left: 35px;
 }
 
 .awards-news-img1 img {
   width: 100%;
+  border: 2px solid white;
 }
 
 .awards-news-img2 img {
   width: 100%;
+  border: 2px solid white;
 }
 
 @media screen and (max-width: 1220px) {
   .awards-ml-wrapper {
     margin-left: 50px;
   }
+
   .awards-vision {
     padding: 0px 50px;
   }
+
   .awards-news[data-v-d2f068a8] {
     padding: 0px 50px;
   }
@@ -586,6 +649,7 @@ export default {
     overflow-y: unset;
     overflow-x: clip;
   }
+
   .awards-main {
     height: unset;
     flex-direction: column;
@@ -628,60 +692,77 @@ export default {
     margin: 20px 0px 10px 0px;
     font-size: 20px;
   }
-  .awards-vcard p{
+
+  .awards-vcard p {
     padding-right: 0px;
     font-size: 16px;
     line-height: 20px;
   }
+
   .awards-vcard {
     padding-right: 0px;
   }
+
   .awards-vcard .awards-vcard-img {
     margin-top: 20px;
   }
+
   .awards-recog-container {
     display: flex;
     flex-direction: column;
   }
+
   .awards-rcard {
     padding-right: 0px;
   }
-  .awards-rcard h3{
+
+  .awards-rcard h3 {
     font-size: 20px;
   }
+
   .awards-rcard:nth-child(odd) p {
     padding-right: 0px;
   }
+
   .awards-recog-container img {
     width: 100%;
   }
-  .awards-news{
+
+  .awards-news {
     padding: 0px 14px;
   }
+
   .awards-news-container {
     display: flex;
     flex-direction: column;
   }
-  .awards-news-container{
+
+  .awards-news-container {
     margin-top: 0px;
     margin-bottom: 30px;
   }
+
   .awards-news-card {
     margin: 0px 0px 30px 0px;
   }
+
   .awards-news-card {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     flex-direction: column;
   }
+
   .awards-nc-right {
     padding-left: 0px;
   }
-  .awards-nc-img img{
+
+  .awards-nc-img img {
     width: 85%;
   }
+
   .awards-news-img {
     flex-direction: column;
   }
-}</style>
+}
+</style>

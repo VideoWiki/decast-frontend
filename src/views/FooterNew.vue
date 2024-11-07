@@ -90,14 +90,14 @@
                 </div>
             </div>
 
-            <!-- <div class="lg:w-1/5 w-full flex flex-col gap-12">
+            <div class="lg:w-1/5 w-full flex flex-col gap-12">
                 <div class="flex flex-col gap-2">
                     <h3 class="font-bold my-4 text-black-main">//Helpful.links</h3>
-                    <p class="text-black-main" @click="$router.push('/features')">>Features</p>
-                    <p class="text-black-main" @click="$router.push('/faq')">>Faqs</p>
+                    <!-- <p class="text-black-main" @click="$router.push('/features')">>Features</p>
+                    <p class="text-black-main" @click="$router.push('/faq')">>Faqs</p> -->
                     <p class="text-black-main" @click="$router.push('/achievements')">>Achievements</p>
                 </div>
-            </div> -->
+            </div>
             <ContactUsModal v-if="activeModal === 'contactUsModal'" :closeModal="() => setActiveModal('')"/>
         </div>
         <div class="max-w-4xl w-full m-auto">

@@ -249,7 +249,7 @@ export default {
                           symbol: 'ETH',
                           decimals: 18,
                         },
-                        blockExplorerUrls: ['https://optimism-sepolia.blockscout.com'],
+                        blockExplorerUrls: ['https://sepolia-optimism.etherscan.io/'],
                       },
                     ],
                   });

@@ -36,6 +36,7 @@
                                 <option value="137">Polygon</option>
                                 <option value="40">Telos EVM Mainnet</option>
                                 <option value="11155111">Sepolia</option>
+                                <option value="11155420">OP Sepolia</option>
                             </select>
                         </div>
 

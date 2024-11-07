@@ -219,7 +219,7 @@ export default {
       wind.postMessage(message, 'https://live1.decast.live');
     }, 2000);
     console.log(this.activeUserInfo);
-    this.onRoom();
+    // this.onRoom();
   },
   methods: {
     verifyAuthToken() {

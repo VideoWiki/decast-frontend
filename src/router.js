@@ -185,6 +185,14 @@ const router = new Router({
             rule: 'isPublic',
           },
         },
+        // {
+        //   path: '/awards',
+        //   name: 'Awards',
+        //   component: () => import('./views/Awards_2.vue'),
+        //   meta: {
+        //     rule: 'isPublic',
+        //   },
+        // },
         {
           path: '/privacy',
           name: 'Privacy Policy',

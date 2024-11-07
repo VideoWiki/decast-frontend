@@ -63,6 +63,15 @@ const networks = {
     rpcUrl: 'https://rpc.sepolia.ethpandaops.io',
     blockExplorerUrl: 'https://sepolia.etherscan.io',
   },
+  11155420:{
+    chainId: '0xaa37dc',
+    chainName: 'Optimism Sepolia',
+    currencyName: 'ether',
+    symbol:'ETH',
+    rpcUrls: 'https://sepolia.optimism.io',
+    blockExplorerUrls:'https://sepolia-optimism.etherscan.io/',
+  }
+                        
 };
 
 export default networks;
