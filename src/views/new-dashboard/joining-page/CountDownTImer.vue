@@ -24,15 +24,16 @@ export default {
     computed: {
         formattedTime() {
             let totalSeconds = this.remainingSeconds;
-            let hours = Math.floor(totalSeconds / 3600);
+            let days = Math.floor(totalSeconds / 86400); 
+            let hours = Math.floor((totalSeconds % 86400) / 3600);
             let minutes = Math.floor((totalSeconds % 3600) / 60);
             let seconds = totalSeconds % 60;
-            return `${this.pad(hours)}h ${this.pad(minutes)}m ${this.pad(seconds)}s`;
+            return `${this.pad(days)}d ${this.pad(hours)}h ${this.pad(minutes)}m ${this.pad(seconds)}s`;
         }
     },
     mounted() {
         // Update remaining time every second
-        this.startTimeUTC = this.castDetails.time;
+        this.startTimeUTC = `${this.castDetails.date}T${this.castDetails.time}Z`;
         this.callAPI();
         this.updateTime();
         this.timerInterval = setInterval(() => {
@@ -43,10 +44,8 @@ export default {
         pad(num) {
             return num.toString().padStart(2, '0');
         },
-        convertTimeToUTCSeconds(time) {
-            const [hours, minutes, seconds] = time.split(':').map(Number);
-            const now = new Date();
-            const utcDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hours, minutes, seconds));
+        convertTimeToUTCSeconds(datetime) {
+            const utcDate = new Date(datetime);
             return Math.floor(utcDate.getTime() / 1000);
         },
         updateTime() {
@@ -54,14 +53,12 @@ export default {
             const startTimeUTCSeconds = this.convertTimeToUTCSeconds(this.startTimeUTC);
             this.remainingSeconds = Math.max(0, startTimeUTCSeconds - currentTimeUTC);
             if (this.remainingSeconds === 0) {
-                // Countdown finished, clear the timer interval
                 clearInterval(this.timerInterval);
-                // Start calling API every 10 seconds
                 this.apiInterval = setInterval(() => {
                     if (!this.isCastStarted) {
-                        this.callAPI(); // Call API if isCastStarted is false
+                        this.callAPI();
                     }
-                }, 30000); // 30 seconds interval
+                }, 30000);
             }
         },
         callAPI() {
