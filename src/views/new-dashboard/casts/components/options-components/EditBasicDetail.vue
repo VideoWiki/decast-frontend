@@ -33,9 +33,9 @@
                         <span>cast.access</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="toggleSwitch"
-                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">access.public</button>
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">access.public</button>
                             <button class="custm-toggle" @click="toggleSwitch"
-                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">access.private</button>
+                                v-bind:style="stepOneProps.auth_type === 'public' ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">access.private</button>
                         </div>
                     </div>
                     <vs-button class="mt-8" type="border" @click="handleConfirmDetails">>>save</vs-button>
@@ -196,6 +196,7 @@ export default {
     border: 1px solid #FFFFFF;
     outline: none;
     cursor: pointer;
-    width: fit-content;
+    width: 150px;
+    text-align: left;
 }
 </style>

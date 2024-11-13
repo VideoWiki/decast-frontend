@@ -71,9 +71,9 @@
                         <span>decastStreaming()</span>
                         <div class="flex flex-col mt-2" v-if="!isLoading">
                             <button class="custm-toggle mb-1" @click="() => VWStream = true"
-                                v-bind:style="VWStream ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">enable</button>
+                                v-bind:style="VWStream ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">enable</button>
                             <button class="custm-toggle" @click="() => VWStream = false"
-                                v-bind:style="VWStream ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">disable</button>
+                                v-bind:style="VWStream ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">disable</button>
                         </div>
                     </div>
                     <vs-button class="mt-8" type="border" @click="updateCastWithStream">>>confirm</vs-button>
@@ -192,7 +192,8 @@ export default {
     border: 1px solid #FFFFFF;
     outline: none;
     cursor: pointer;
-    width: fit-content;
+    width: 100px;
+    text-align: left;
 }
 
 .collect-em-label {

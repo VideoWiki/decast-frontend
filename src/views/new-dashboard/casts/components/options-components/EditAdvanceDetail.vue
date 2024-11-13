@@ -12,9 +12,9 @@
                         <span>collectEmails()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepOneProps.public_otp = true"
-                                v-bind:style="stepOneProps.public_otp ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepOneProps.public_otp ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepOneProps.public_otp = false"
-                                v-bind:style="stepOneProps.public_otp ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepOneProps.public_otp ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -24,9 +24,9 @@
                         <span>recording()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepFourProps.start_stop_recording = true"
-                                v-bind:style="stepFourProps.start_stop_recording ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.start_stop_recording ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.start_stop_recording = false"
-                                v-bind:style="stepFourProps.start_stop_recording ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.start_stop_recording ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -35,9 +35,9 @@
                         <span>autoRecording()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepFourProps.record = true"
-                                v-bind:style="stepFourProps.record ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.record ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.record = false"
-                                v-bind:style="stepFourProps.record ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.record ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -47,9 +47,9 @@
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1"
                                 @click="() => stepFourProps.allow_moderator_to_unmute_user = true"
-                                v-bind:style="stepFourProps.allow_moderator_to_unmute_user ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.allow_moderator_to_unmute_user ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.allow_moderator_to_unmute_user = false"
-                                v-bind:style="stepFourProps.allow_moderator_to_unmute_user ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.allow_moderator_to_unmute_user ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -58,9 +58,9 @@
                         <span>noModEnd()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepFourProps.end_when_no_moderator = true"
-                                v-bind:style="stepFourProps.end_when_no_moderator ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.end_when_no_moderator ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.end_when_no_moderator = false"
-                                v-bind:style="stepFourProps.end_when_no_moderator ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.end_when_no_moderator ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -69,9 +69,9 @@
                         <span>lockLayout()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepFourProps.lock_layout = true"
-                                v-bind:style="stepFourProps.lock_layout ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.lock_layout ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.lock_layout = false"
-                                v-bind:style="stepFourProps.lock_layout ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.lock_layout ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -84,9 +84,9 @@
                         <span>muteOnStart()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepFourProps.mute_on_start = true"
-                                v-bind:style="stepFourProps.mute_on_start ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.mute_on_start ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.mute_on_start = false"
-                                v-bind:style="stepFourProps.mute_on_start ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.mute_on_start ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -95,9 +95,9 @@
                         <span>modOnlyCam()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepFourProps.webcam_only_for_moderator = true"
-                                v-bind:style="stepFourProps.webcam_only_for_moderator ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.webcam_only_for_moderator ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.webcam_only_for_moderator = false"
-                                v-bind:style="stepFourProps.webcam_only_for_moderator ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.webcam_only_for_moderator ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -106,9 +106,9 @@
                         <span>disableMic()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepFourProps.disable_mic = true"
-                                v-bind:style="stepFourProps.disable_mic ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.disable_mic ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.disable_mic = false"
-                                v-bind:style="stepFourProps.disable_mic ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.disable_mic ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -118,9 +118,9 @@
                         <span>viewOnlyMode()</span>
                         <div class="flex flex-col mt-2">
                             <button class="custm-toggle mb-1" @click="() => stepFourProps.viewer_mode = true"
-                                v-bind:style="stepFourProps.viewer_mode ? 'backgroundColor: #FFFFFF; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
+                                v-bind:style="stepFourProps.viewer_mode ? 'backgroundColor: #22C55E; color: #000000' : 'backgroundColor: #000000; color: #FFFFFF'">true</button>
                             <button class="custm-toggle" @click="() => stepFourProps.viewer_mode = false"
-                                v-bind:style="stepFourProps.viewer_mode ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #FFFFFF; color: #000000'">false</button>
+                                v-bind:style="stepFourProps.viewer_mode ? 'backgroundColor: #000000; color: #FFFFFF' : 'backgroundColor: #22C55E; color: #000000'">false</button>
                         </div>
                     </div>
 
@@ -158,7 +158,8 @@ export default {
     border: 1px solid #FFFFFF;
     outline: none;
     cursor: pointer;
-    width: fit-content;
+    width: 100px;
+    text-align: left;
 }
 
 .collect-em-label {

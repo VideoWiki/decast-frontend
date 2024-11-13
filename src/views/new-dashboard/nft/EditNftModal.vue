@@ -513,7 +513,8 @@ export default {
 .basic_btn_ {
     background: none;
     border: 1px solid #FFFFFF;
-    width: fit-content;
+    width: 100px;
+    text-align: left;
     color: #FFFFFF;
     cursor: pointer;
 }
@@ -541,7 +542,7 @@ input {
 }
 
 .active-btn {
-    background: #fff;
+    background: #22C55E;
     color: #000000;
     font: bold;
 }
