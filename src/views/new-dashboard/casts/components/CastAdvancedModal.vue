@@ -169,6 +169,7 @@ export default {
 </script>
 
 <style scoped>
+
 .custm-toggle {
     padding: 0.30rem 0.75rem !important;
     border: 1px solid #FFFFFF;
