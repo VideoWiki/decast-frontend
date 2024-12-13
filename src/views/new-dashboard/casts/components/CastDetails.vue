@@ -164,9 +164,6 @@ export default {
     color: #545454;
 }
 
-.parent_cast_cont_ {
-    /* overflow:scroll; */
-}
 
 .redi_btn {
     background-color: transparent;

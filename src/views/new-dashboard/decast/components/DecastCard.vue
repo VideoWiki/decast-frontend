@@ -103,68 +103,84 @@
                                 </g>
                             </g>
                         </svg></div>
-
-                    <div v-if="hasYoutubeStream">
-                        <svg fill="#ffffff" height="35px" width="35px" version="1.1" id="Layer_1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                            viewBox="0 0 512 512" xml:space="preserve">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <g>
+                    <vx-tooltip text="/ youtube" position="bottom">
+                        <div v-if="hasYoutubeStream">
+                            <svg fill="#ffffff" height="35px" width="35px" version="1.1" id="Layer_1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                viewBox="0 0 512 512" xml:space="preserve">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
                                     <g>
-                                        <path
-                                            d="M435.574,59.858H76.426C34.285,59.858,0,94.143,0,136.284v171.023c0,4.427,3.589,8.017,8.017,8.017 c4.427,0,8.017-3.589,8.017-8.017V136.284c0-33.3,27.092-60.393,60.393-60.393h359.148c33.3,0,60.393,27.092,60.393,60.393 v239.432c0,33.3-27.092,60.393-60.393,60.393H76.426c-33.3,0-60.393-27.092-60.393-60.393v-34.205 c0-4.427-3.589-8.017-8.017-8.017c-4.427,0-8.017,3.589-8.017,8.017v34.205c0,42.141,34.285,76.426,76.426,76.426h359.148 c42.141,0,76.426-34.285,76.426-76.426V136.284C512,94.143,477.715,59.858,435.574,59.858z">
-                                        </path>
-                                    </g>
-                                </g>
-                                <g>
-                                    <g>
-                                        <path
-                                            d="M362.982,249.278l-34.205-22.233c-3.712-2.412-8.677-1.359-11.091,2.353c-2.412,3.712-1.36,8.677,2.353,11.091 l23.864,15.511l-148.296,96.394V159.607l98.779,64.206c3.711,2.411,8.678,1.359,11.09-2.353c2.414-3.712,1.36-8.677-2.353-11.091 l-111.165-72.256c-5.24-3.407-12.384,0.491-12.384,6.721v222.33c0,6.226,7.142,10.131,12.385,6.721l171.023-111.165 C367.761,259.615,367.76,252.385,362.982,249.278z">
-                                        </path>
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>
-                        <div v-if="hasTwitchStream"
-                            class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
-                            <div>www.twitch.tv</div>
-                            <div class="flex gap-2 justify-center items-center">
-                                <vs-button class="custm-style">
-                                    <img src="@/assets/images/copy.svg" />
-                                </vs-button>
-                                <div class="basic_stream_btn_cont_">
-                                    <vx-tooltip v-if="castDetails.stream_status" text="Pause Stream" position="bottom">
-                                        <vs-button class="custm-style"
-                                            @click="toggleStream(castDetails.public_meeting_id, 'pause')">
-                                            <img src="@/assets/images/pause_stream.svg" alt="" />
-                                        </vs-button>
-                                    </vx-tooltip>
-                                    <vx-tooltip v-else text="Start Stream" position="bottom">
-                                        <vs-button class="custm-style"
-                                            @click="toggleStream(castDetails.public_meeting_id, 'start')">
-                                            <img src="@/assets/images/start_stream.svg" alt="" />
-                                        </vs-button>
-                                    </vx-tooltip>
-                                </div>
-                            </div>
-
-                            <div v-if="hasFacebookStream"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                    width="35" height="35" viewBox="0,0,256,256" style="fill:#000000;">
-                                    <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1"
-                                        stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"
-                                        stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
-                                        font-size="none" text-anchor="none" style="mix-blend-mode: normal">
-                                        <g transform="scale(5.12,5.12)">
+                                        <g>
                                             <path
-                                                d="M9,4c-2.74952,0 -5,2.25048 -5,5v32c0,2.74952 2.25048,5 5,5h16.83203c0.10799,0.01785 0.21818,0.01785 0.32617,0h5.67383c0.10799,0.01785 0.21818,0.01785 0.32617,0h8.8418c2.74952,0 5,-2.25048 5,-5v-32c0,-2.74952 -2.25048,-5 -5,-5zM9,6h32c1.66848,0 3,1.33152 3,3v32c0,1.66848 -1.33152,3 -3,3h-8v-14h3.82031l1.40039,-7h-5.2207v-2c0,-0.55749 0.05305,-0.60107 0.24023,-0.72266c0.18718,-0.12159 0.76559,-0.27734 1.75977,-0.27734h3v-5.63086l-0.57031,-0.27149c0,0 -2.29704,-1.09766 -5.42969,-1.09766c-2.25,0 -4.09841,0.89645 -5.28125,2.375c-1.18284,1.47855 -1.71875,3.45833 -1.71875,5.625v2h-3v7h3v14h-16c-1.66848,0 -3,-1.33152 -3,-3v-32c0,-1.66848 1.33152,-3 3,-3zM32,15c2.07906,0 3.38736,0.45846 4,0.70117v2.29883h-1c-1.15082,0 -2.07304,0.0952 -2.84961,0.59961c-0.77656,0.50441 -1.15039,1.46188 -1.15039,2.40039v4h4.7793l-0.59961,3h-4.17969v16h-4v-16h-3v-3h3v-4c0,-1.83333 0.46409,-3.35355 1.28125,-4.375c0.81716,-1.02145 1.96875,-1.625 3.71875,-1.625z">
+                                                d="M435.574,59.858H76.426C34.285,59.858,0,94.143,0,136.284v171.023c0,4.427,3.589,8.017,8.017,8.017 c4.427,0,8.017-3.589,8.017-8.017V136.284c0-33.3,27.092-60.393,60.393-60.393h359.148c33.3,0,60.393,27.092,60.393,60.393 v239.432c0,33.3-27.092,60.393-60.393,60.393H76.426c-33.3,0-60.393-27.092-60.393-60.393v-34.205 c0-4.427-3.589-8.017-8.017-8.017c-4.427,0-8.017,3.589-8.017,8.017v34.205c0,42.141,34.285,76.426,76.426,76.426h359.148 c42.141,0,76.426-34.285,76.426-76.426V136.284C512,94.143,477.715,59.858,435.574,59.858z">
                                             </path>
                                         </g>
                                     </g>
-                                </svg>
+                                    <g>
+                                        <g>
+                                            <path
+                                                d="M362.982,249.278l-34.205-22.233c-3.712-2.412-8.677-1.359-11.091,2.353c-2.412,3.712-1.36,8.677,2.353,11.091 l23.864,15.511l-148.296,96.394V159.607l98.779,64.206c3.711,2.411,8.678,1.359,11.09-2.353c2.414-3.712,1.36-8.677-2.353-11.091 l-111.165-72.256c-5.24-3.407-12.384,0.491-12.384,6.721v222.33c0,6.226,7.142,10.131,12.385,6.721l171.023-111.165 C367.761,259.615,367.76,252.385,362.982,249.278z">
+                                            </path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </vx-tooltip>
+                    <div v-if="hasTwitchStream"
+                        class="basic_stream_div_ flex flex-row justify-between items-center gap-12 w-full py-1 px-2">
+                        <div>www.twitch.tv</div>
+                        <div class="flex gap-2 justify-center items-center">
+                            <vs-button class="custm-style">
+                                <img src="@/assets/images/copy.svg" />
+                            </vs-button>
+                            <div class="basic_stream_btn_cont_">
+                                <vx-tooltip v-if="castDetails.stream_status" text="Pause Stream" position="bottom">
+                                    <vs-button class="custm-style"
+                                        @click="toggleStream(castDetails.public_meeting_id, 'pause')">
+                                        <img src="@/assets/images/pause_stream.svg" alt="" />
+                                    </vs-button>
+                                </vx-tooltip>
+                                <vx-tooltip v-else text="Start Stream" position="bottom">
+                                    <vs-button class="custm-style"
+                                        @click="toggleStream(castDetails.public_meeting_id, 'start')">
+                                        <img src="@/assets/images/start_stream.svg" alt="" />
+                                    </vs-button>
+                                </vx-tooltip>
                             </div>
                         </div>
+
+                        <div v-if="hasFacebookStream"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35"
+                                height="35" viewBox="0,0,256,256" style="fill:#000000;">
+                                <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1"
+                                    stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"
+                                    stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
+                                    font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                    <g transform="scale(5.12,5.12)">
+                                        <path
+                                            d="M9,4c-2.74952,0 -5,2.25048 -5,5v32c0,2.74952 2.25048,5 5,5h16.83203c0.10799,0.01785 0.21818,0.01785 0.32617,0h5.67383c0.10799,0.01785 0.21818,0.01785 0.32617,0h8.8418c2.74952,0 5,-2.25048 5,-5v-32c0,-2.74952 -2.25048,-5 -5,-5zM9,6h32c1.66848,0 3,1.33152 3,3v32c0,1.66848 -1.33152,3 -3,3h-8v-14h3.82031l1.40039,-7h-5.2207v-2c0,-0.55749 0.05305,-0.60107 0.24023,-0.72266c0.18718,-0.12159 0.76559,-0.27734 1.75977,-0.27734h3v-5.63086l-0.57031,-0.27149c0,0 -2.29704,-1.09766 -5.42969,-1.09766c-2.25,0 -4.09841,0.89645 -5.28125,2.375c-1.18284,1.47855 -1.71875,3.45833 -1.71875,5.625v2h-3v7h3v14h-16c-1.66848,0 -3,-1.33152 -3,-3v-32c0,-1.66848 1.33152,-3 3,-3zM32,15c2.07906,0 3.38736,0.45846 4,0.70117v2.29883h-1c-1.15082,0 -2.07304,0.0952 -2.84961,0.59961c-0.77656,0.50441 -1.15039,1.46188 -1.15039,2.40039v4h4.7793l-0.59961,3h-4.17969v16h-4v-16h-3v-3h3v-4c0,-1.83333 0.46409,-3.35355 1.28125,-4.375c0.81716,-1.02145 1.96875,-1.625 3.71875,-1.625z">
+                                        </path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+
+                    </div>
+                    <div class="basic_stream_btn_cont_">
+                        <vx-tooltip v-if="castDetails.stream_status" text="/ Pause Stream" position="bottom">
+                            <vs-button class="custm-style"
+                                @click="toggleStream(castDetails.public_meeting_id, 'pause')">
+                                <img src="@/assets/images/start_stream.svg" alt="" />
+                            </vs-button>
+                        </vx-tooltip>
+                        <vx-tooltip v-else text="/ Start Stream" position="bottom">
+                            <vs-button class="custm-style"
+                                @click="toggleStream(castDetails.public_meeting_id, 'start')">
+                                <img src="@/assets/images/pause_stream.svg" alt="" />
+                            </vs-button>
+                        </vx-tooltip>
                     </div>
                 </div>
             </div>
@@ -642,8 +658,17 @@ export default {
             data.append('description', this.stepOneProps.description);
             data.append('cast_type', this.stepOneProps.auth_type);
             data.append('collect_attendee_email', this.stepOneProps.public_otp ? 'True' : 'False');
+            console.log('args:', args);
             if (args && args.isReshedule) {
-                data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
+                console.log(args.isReshedule, 'fjfiuythskk');
+                console.log('startD:', this.stepOneProps.startD);
+                console.log('startTime:', this.stepOneProps.startTime);
+
+                const formattedStartTime = moment(`${this.stepOneProps.startD} ${this.stepOneProps.startTime}`, 'YYYY-MM-DD HH:mm')
+                    .format('YYYY-MM-DD HH:mm:ss');
+                console.log(formattedStartTime, 'fjfiuythskk');
+
+                data.append('schedule_time', formattedStartTime);
             }
             if (args && args.postponeMessage) {
                 data.append('cast_postponed', true);

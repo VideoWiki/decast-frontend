@@ -1,12 +1,4 @@
 const networks = {
-  4: {
-    chainId: '0x4',
-    chainName: 'Rinkeby',
-    currencyName: 'ether',
-    symbol: 'ETH',
-    rpcUrl: 'https://rinkey.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-    blockExplorerUrl: 'https://rinkey.etherscan.io',
-  },
   1: {
     chainId: '0x1',
     chainName: 'Ethereum Mainnet',
@@ -19,9 +11,9 @@ const networks = {
     chainId: '0x13881',
     chainName: 'Mumbai',
     currencyName: 'MATIC',
-    symbol: 'Mumbai',
+    symbol: 'MATIC', 
     rpcUrl: 'https://rpc-mumbai.maticvigil.com',
-    blockExplorerUrl: 'https://telos.net/',
+    blockExplorerUrl: 'https://explorer-mumbai.maticvigil.com/', 
   },
   100: {
     chainId: '0x64',
@@ -53,7 +45,7 @@ const networks = {
     currencyName: 'Goerli',
     symbol: 'Goerli',
     rpcUrl: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-    blockExplorerUrl: 'https://telos.net/',
+    blockExplorerUrl: 'https://goerli.etherscan.io', 
   },
   11155111: {
     chainId: '0xaa36a7', 
@@ -67,11 +59,10 @@ const networks = {
     chainId: '0xaa37dc',
     chainName: 'Optimism Sepolia',
     currencyName: 'ether',
-    symbol:'ETH',
-    rpcUrls: 'https://sepolia.optimism.io',
-    blockExplorerUrls:'https://sepolia-optimism.etherscan.io/',
+    symbol:'ETH', 
+    rpcUrl:'https://sepolia.optimism.io', 
+    blockExplorerUrl:'https://sepolia-optimism.etherscan.io/', 
   }
-                        
 };
 
 export default networks;

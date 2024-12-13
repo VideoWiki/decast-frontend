@@ -202,7 +202,7 @@
                                         </span>
                                         <span v-else>
                                             <span></span>
-                                            <vx-tooltip text="Didn't joined the event" position="bottom">
+                                            <vx-tooltip text="Didn't join the event" position="bottom">
                                                 <vs-icon icon-pack="feather" icon="icon-user-x" size="18px" color="red"
                                                     rounded="true"></vs-icon>
                                             </vx-tooltip>

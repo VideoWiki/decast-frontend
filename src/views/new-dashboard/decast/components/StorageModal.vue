@@ -72,6 +72,15 @@
                             </button>
                         </div>
 
+                        <div class="w-1/2 flex items-center justify-center gap-4 mt-auto">
+                            <button
+                                class="basic_start_btn_ w-1/2 p-2 text-lg bg-custom-lime text-black flex items-center justify-center cursor-pointer gap-2"
+                                @click="joinNow(castDetails.public_meeting_id)" :disabled="!selectedStorage">
+                                <img src="@/assets/images/start.png" alt="">Start Decast</button>
+                            <button class="cancel_btn_ w-1/2 p-2 text-lg bg-black cursor-pointer text-red-500"
+                                @click="closeModal">Cancel</button>
+                        </div>
+
                         <div style="color: #22c55e;">
                             <hr class="border-grey mb-2" />
                             /* Note: If your balance of minutes in the selected storage option (Sia or Swarm) is too low
@@ -82,14 +91,7 @@
                             <hr class="border-grey mt-2" />
                         </div>
 
-                        <div class="w-1/2 flex items-center justify-center gap-4 mt-auto">
-                            <button
-                                class="basic_start_btn_ w-1/2 p-2 text-lg bg-white text-black flex items-center justify-center cursor-pointer gap-2"
-                                @click="joinNow(castDetails.public_meeting_id)" :disabled="!selectedStorage">
-                                <img src="@/assets/images/start.png" alt="">Start Decast</button>
-                            <button class="cancel_btn_ w-1/2 p-2 text-lg bg-black cursor-pointer text-red-500"
-                                @click="closeModal">Cancel</button>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -176,17 +178,35 @@ export default {
                 attendee_password: '',
                 meetingId: '',
             };
+
             try {
                 this.$vs.loading();
                 const res = await this.$store.dispatch('cast/joinNow', data);
+
                 window.open(res.url, '_blank');
+
                 await this.updateStorageBackend(id);
                 this.closeModal();
                 this.$vs.loading.close();
                 this.getCastList();
             } catch (e) {
                 this.$vs.loading.close();
-                // console.log('error', e);
+
+                if (e.response?.data?.status === false &&
+                    e.response?.data?.message === "please check the scheduled cast start time") {
+                    this.$vs.notify({
+                        title: 'Warning',
+                        text: 'You can only access the cast 30 minutes or less before the scheduled start time.',
+                        color: 'warning',
+                    });
+                } else {
+                    console.error('Error while joining the meeting:', e);
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: 'Failed to join the meeting. Please try again later.',
+                        color: 'danger',
+                    });
+                }
             }
         },
         async getSelectedStorage() {
@@ -293,9 +313,9 @@ export default {
 }
 
 .basic_start_btn_ {
-    border: 1px solid #d7df23;
-    border-right: 2px solid #d7df23;
-    border-bottom: 2px solid #d7df23;
+    border: 1px solid #fff;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
 }
 
 .basic_start_btn_:disabled {

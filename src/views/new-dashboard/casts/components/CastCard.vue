@@ -651,12 +651,34 @@ export default {
         attendee_password: '',
         meetingId: '',
       };
+
       try {
+        this.$vs.loading();
         const res = await this.$store.dispatch('cast/joinNow', data);
-        this.isCastStart = true;
+
         window.open(res.url, '_blank');
+
+        this.isCastStart = true;
+        this.$vs.loading.close();
+
       } catch (e) {
-        console.log('error', e);
+        this.$vs.loading.close();
+
+        if (e.response?.data?.status === false &&
+          e.response?.data?.message === "please check the scheduled cast start time") {
+          this.$vs.notify({
+            title: 'Warning',
+            text: 'You can only access the cast 30 minutes or less before the scheduled start time.',
+            color: 'warning',
+          });
+        } else {
+          console.error('Error while joining the meeting:', e);
+          this.$vs.notify({
+            title: 'Error',
+            text: 'Failed to join the meeting. Please try again later.',
+            color: 'danger',
+          });
+        }
       }
     },
     async deleteCast(deleteCastId) {
@@ -765,10 +787,20 @@ export default {
       data.append('description', this.stepOneProps.description);
       data.append('cast_type', this.stepOneProps.auth_type);
       data.append('collect_attendee_email', this.stepOneProps.public_otp ? 'True' : 'False');
+      console.log('args:', args);  
       if (args && args.isReshedule) {
-        data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}${':00'}`);
+        console.log(args.isReshedule, 'fjfiuythskk');  
+        console.log('startD:', this.stepOneProps.startD);  
+        console.log('startTime:', this.stepOneProps.startTime); 
+
+        const formattedStartTime = moment(`${this.stepOneProps.startD} ${this.stepOneProps.startTime}`, 'YYYY-MM-DD HH:mm')
+          .format('YYYY-MM-DD HH:mm:ss');
+        console.log(formattedStartTime, 'fjfiuythskk');  
+
+        data.append('schedule_time', formattedStartTime);
       }
       if (args && args.postponeMessage) {
+        console.log(args.isReshedule, 'fjfiuythskk')
         data.append('cast_postponed', true);
         data.append('cast_postponed_message', args.postponeMessage);
       }

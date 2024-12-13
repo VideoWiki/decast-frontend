@@ -34,13 +34,7 @@
                     </div>
                     <div class="flex flex-col mt-8">
                         <span>cast.startTime</span>
-                        <StartTimeMenu :menuList="timeFrames" :stepOneProps="stepOneProps" class="menu-button">
-                            <template #menuButton>
-                                <div class="text-left">
-                                    {{ convertTo12(stepOneProps.startTime) }}
-                                </div>
-                            </template>
-                        </StartTimeMenu>
+                        <input type="time" v-model="stepOneProps.startTime" class="menu-button text-left" />
                     </div>
                     <div class="flex flex-col mt-8">
                         <span>cast.postpone</span>
@@ -48,7 +42,8 @@
                             <vs-textarea class="w-2/5 mt-2 txt-desc" id="postpone" v-model="postponeMessage"
                                 placeholder="//Postpone Message" height="70px"
                                 @keyup="postponeMessageError = postponeMessage === ''" />
-                            <p v-if="postponeMessageError" class="text-danger my-2 p-0">>> Postpone message is required</p>
+                            <p v-if="postponeMessageError" class="text-danger my-2 p-0">>> Postpone message is required
+                            </p>
                         </div>
                     </div>
                     <vs-button class="mt-8" type="border" @click="validateMessage">>>save</vs-button>
@@ -95,49 +90,13 @@ export default {
         convertTo12(time) {
             return moment(time, 'HH:mm:ss').format('h:mm A');
         },
-        validateMessage(){
-            if(this.postponeMessage === ''){
+        validateMessage() {
+            if (this.postponeMessage === '') {
                 this.postponeMessageError = true;
                 return;
             }
-            this.handleEditCast({postponeMessage: this.postponeMessage});
+            this.handleEditCast({ postponeMessage: this.postponeMessage });
         }
-        // handleEditSetup() {
-        //     this.$vs.loading();
-        //     var data = new FormData();
-        //     data.append('cast_id', this.castId);
-        //     data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
-        //     data.append('duration', this.stepTwoProps.duration);
-        //     data.append('timezone', this.stepOneProps.timezone);
-        //     this.$store
-        //         .dispatch('cast/formSubmit', data)
-        //         .then((response) => {
-        //             this.getCastList();
-        //             this.$vs.loading.close();
-        //             this.$vs.notify({
-        //                 title: 'Success',
-        //                 text: response.data.message,
-        //                 color: 'success',
-        //             });
-        //             this.closeModal();
-        //         })
-        //         .catch((error) => {
-        //             this.$vs.loading.close();
-        //             if (error) {
-        //                 this.$vs.notify({
-        //                     title: 'Error!',
-        //                     text: error.response.data.message,
-        //                     color: 'danger',
-        //                 });
-        //             } else {
-        //                 this.$vs.notify({
-        //                     title: 'Fields Missing!',
-        //                     text: 'Some Fields are Missing',
-        //                     color: 'danger',
-        //                 });
-        //             }
-        //         });
-        // }
     },
 }
 </script>
@@ -150,6 +109,7 @@ export default {
     background-color: #FFFFFF;
     color: #000000;
 }
+
 .txt-desc {
     background-color: #FFFFFF !important;
     border: none !important;

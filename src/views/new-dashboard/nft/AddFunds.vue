@@ -462,6 +462,7 @@ export default {
         };
     },
     created() {
+        this.selectedNetwork = this.networks[11155111];
         this.$store.dispatch('fetchUserMinutes');
         // this.getGasPrices();
         // this.startGasPriceInterval();

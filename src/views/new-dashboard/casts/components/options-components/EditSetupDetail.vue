@@ -36,7 +36,8 @@
                         <span>cast.startTime</span>
                         <input type="time" v-model="stepOneProps.startTime" class="menu-button text-left" />
                     </div>
-                    <vs-button class="mt-8" type="border" @click="handleEditCast({isReshedule: true})">>>save</vs-button>
+                    <vs-button class="mt-8" type="border"
+                        @click="handleEditCast({ isReshedule: true })">>>save</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
                     <p>>> Estimated time to setup > <span>5mins - 7mins</span></p>
@@ -74,46 +75,11 @@ export default {
             hoursFrame: hoursFrame,
         };
     },
+
     methods: {
         convertTo12(time) {
             return moment(time, 'HH:mm:ss').format('h:mm A');
         },
-        // handleEditSetup() {
-        //     this.$vs.loading();
-        //     var data = new FormData();
-        //     data.append('cast_id', this.castId);
-        //     data.append('schedule_time', `${this.stepOneProps.startD} ${this.stepOneProps.startTime}`);
-        //     data.append('duration', this.stepTwoProps.duration);
-        //     data.append('timezone', this.stepOneProps.timezone);
-        //     this.$store
-        //         .dispatch('cast/formSubmit', data)
-        //         .then((response) => {
-        //             this.getCastList();
-        //             this.$vs.loading.close();
-        //             this.$vs.notify({
-        //                 title: 'Success',
-        //                 text: response.data.message,
-        //                 color: 'success',
-        //             });
-        //             this.closeModal();
-        //         })
-        //         .catch((error) => {
-        //             this.$vs.loading.close();
-        //             if (error) {
-        //                 this.$vs.notify({
-        //                     title: 'Error!',
-        //                     text: error.response.data.message,
-        //                     color: 'danger',
-        //                 });
-        //             } else {
-        //                 this.$vs.notify({
-        //                     title: 'Fields Missing!',
-        //                     text: 'Some Fields are Missing',
-        //                     color: 'danger',
-        //                 });
-        //             }
-        //         });
-        // }
     },
 }
 </script>

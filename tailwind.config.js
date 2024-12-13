@@ -71,6 +71,7 @@ module.exports = {
 
     colors: {
       'primary': '#d7df23',
+      'custom-lime': '#22c55e',
       'transparent': 'transparent',
       'black': '#22292f',
       'dark-black':'#000000',
