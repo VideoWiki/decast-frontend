@@ -213,7 +213,11 @@ export default {
             const l_time = this.recording["End Time (Readable)"];
             const url = `${constants.apiCastUrl}/api/decast/rec/sia/download/?start_time=${start_time}&l_time=${l_time}&pub_id=${cast_id}`;
             try {
-                this.$vs.loading();
+                this.$vs.loading({
+                    type: 'corners',
+                    color: '#22c55e',
+                    text: 'Fetching your storage details...',
+                });
                 const response = await axios.get(url);
                 //console.log('Storage retrived successfully:', response.data);
                 this.taskId = response.data.task_id;
@@ -227,7 +231,11 @@ export default {
             await this.handleSiaStatus();
             const url = `${constants.apiCastUrl}/api/decast/rec/swarm/result/?task_id=${this.taskId}`;
 
-            this.$vs.loading();
+            this.$vs.loading({
+                    type: 'corners',
+                    color: '#22c55e',
+                    text: 'Downloading your recording...',
+                });
             // if (this.recording.is_deducted === false) {
             //     //console.log("size true");
             //     this.$vs.notify({
@@ -359,15 +367,15 @@ export default {
             //     return;
             // }
 
-            // if (this.swarmMinutes < this.recording["Playback Data"]["Playback Length"] && this.recording.is_deducted==false) {
-            //     this.$vs.notify({
-            //         title: 'Try again later',
-            //         text: 'Insufficient minutes available to download this recording. Please check your balance or upgrade your plan.',
-            //         color: 'danger',
-            //     });
-            //     this.$vs.loading.close();
-            //     return;
-            // }
+            if (this.swarmMinutes < this.recording["Playback Data"]["Playback Length"] && this.recording.is_deducted==false) {
+                this.$vs.notify({
+                    title: 'Try again later',
+                    text: 'Insufficient minutes available to download this recording. Please check your balance or upgrade your plan.',
+                    color: 'danger',
+                });
+                this.$vs.loading.close();
+                return;
+            }
 
             try {
                 let success = false;
