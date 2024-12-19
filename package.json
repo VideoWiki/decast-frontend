@@ -47,6 +47,7 @@
     "perfect-scrollbar": "^1.4.0",
     "plyr": "^3.6.12",
     "postcss-rtl": "1.5.0",
+    "posthog-js": "^1.194.1",
     "prismjs": "^1.16.0",
     "rollbar": "^2.19.3",
     "sass": "^1.66.1",

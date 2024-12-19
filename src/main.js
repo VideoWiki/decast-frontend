@@ -10,6 +10,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import Rollbar from 'rollbar';
+import posthogPlugin from "./plugins/posthog";
 
 // Vuesax Component Framework
 import Vuesax from 'vuesax';
@@ -105,6 +106,7 @@ Vue.use(VueProgressBar, {
   thickness: '0.5rem',
   autoFinish: false,
 });
+Vue.use(posthogPlugin);
 
 // Set the Rollbar instance in the Vue prototype
 // before creating the first Vue instance.

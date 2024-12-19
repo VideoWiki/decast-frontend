@@ -276,6 +276,7 @@ import EditPostponeDetail from './options-components/EditPostponeDetail.vue';
 import CustomCastUrl from './options-components/CustomCastUrl.vue';
 import CreateNftGating from '../../nft-gating/CreateNftGating.vue';
 import CreateSucessModal from '../../nft-gating/CreateSucessModal.vue';
+import { POSTHOG_EVENT } from '@/enums/PosthogEnums.js';
 
 export default {
   name: 'CastCard',
@@ -654,6 +655,10 @@ export default {
       try {
         const res = await this.$store.dispatch('cast/joinNow', data);
         this.isCastStart = true;
+        this.$posthog.capture(POSTHOG_EVENT.CAST_STARTED, {
+            'cast_id': id,
+            'is_user_authenticated': true
+          });
         window.open(res.url, '_blank');
       } catch (e) {
         console.log('error', e);

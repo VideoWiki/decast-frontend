@@ -58,6 +58,9 @@ export default {
         this.$store.commit('TOGGLE_LOGIN_POPUP', value);
       },
     },
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
   },
   methods: {
     toggleClassInBody(className) {
@@ -122,6 +125,11 @@ export default {
       'min-width:500px !important';
     obj = document.getElementsByClassName('vs-popup')[0];
     Object.assign(obj.style, styles);
+    if (this.activeUserInfo.id) {
+      this.$posthog.identify(this.activeUserInfo.id, {
+        'email': this.activeUserInfo.email
+      });
+    }
   },
   async created() {
     const dir = this.$vs.rtl ? 'rtl' : 'ltr';
@@ -197,10 +205,12 @@ body {
   -webkit-box-shadow: 3px 3px 0px 0px #FFFFFF !important;
   box-shadow: 3px 3px 0px 0px #FFFFFF !important;
 }
+
 .button-primary-filled.vs-button-primary.vs-button-filled:hover {
   -webkit-box-shadow: 2px 2px 0px 0px #FFFFFF !important;
   box-shadow: 2px 2px 0px 0px #FFFFFF !important;
 }
+
 .button-primary-filled.vs-button-primary.vs-button-filled.vs-button--text {
   color: #000000 !important;
   font-weight: 500;
@@ -219,6 +229,7 @@ body {
   padding: 10px;
   width: fit-content;
 }
+
 .button-primary-filled-new:hover {
   -webkit-box-shadow: 2px 2px 0px 0px #FFFFFF !important;
   box-shadow: 2px 2px 0px 0px #FFFFFF !important;
@@ -306,4 +317,5 @@ iframe {
   padding: 0;
   border-radius: 10px;
   background: #1f272f;
-}</style>
+}
+</style>

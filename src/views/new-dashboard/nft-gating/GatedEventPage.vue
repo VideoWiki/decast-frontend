@@ -45,7 +45,7 @@
                                 <span class="mx-2">|</span>
                                 <button class="req-modal-btn" @click="setActiveModal('pendingRequestModal')">Requests
                                     ({{
-                    pendingRequest.length }})</button>
+                                        pendingRequest.length }})</button>
                             </div>
                         </div>
                         <!-- <p @click="setActiveModal('allAudienceModal')">All Audience</p> -->
@@ -401,6 +401,7 @@ import EditBrandingModal from './EditBrandingModal';
 import RedeemAmountModal from './RedeemAmountModal';
 import constants from '../../../../constant';
 import AllAudienceModal from './AllAudienceModal.vue';
+import { POSTHOG_EVENT } from '@/enums/PosthogEnums.js';
 
 export default {
     name: 'GatedEventPage',
@@ -496,11 +497,18 @@ export default {
                                     cast_id: this.castDetails.public_meeting_id,
                                 }),
                             })
-
                             const index = this.rolesList.findIndex(item => item.tokenId === tokenId);
                             if (index !== -1) {
                                 this.$set(this.rolesList, index, { ...this.rolesList[index], ...{ isPurchased: true } });
                             }
+                            this.$posthog.capture(POSTHOG_EVENT.NFT_GATING_TICKET_PURCHASE, {
+                                'name': this.activeUserInfo.username,
+                                'email': this.activeUserInfo.email,
+                                'wallet_address': this.wallet_address,
+                                'role': roleName,
+                                'token_id': tokenId._hex,
+                                'cast_id': this.castDetails.public_meeting_id,
+                            });
                             this.$vs.notify({
                                 title: 'Hurray!🎉',
                                 text: 'Ticket minted successfully!',
@@ -537,6 +545,14 @@ export default {
                             if (index !== -1) {
                                 this.$set(this.rolesList, index, { ...this.rolesList[index], ...{ isPurchased: true } });
                             }
+                            this.$posthog.capture(POSTHOG_EVENT.NFT_GATING_TICKET_PURCHASE, {
+                                'name': this.activeUserInfo.username,
+                                'email': this.activeUserInfo.email,
+                                'wallet_address': this.wallet_address,
+                                'role': roleName,
+                                'token_id': tokenId._hex,
+                                'cast_id': this.castDetails.public_meeting_id,
+                            });
                             this.$vs.notify({
                                 title: 'Hurray!🎉',
                                 text: 'Ticket minted successfully!',

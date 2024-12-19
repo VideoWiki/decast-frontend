@@ -85,6 +85,8 @@
 </template>
 <script>
 import axios from '../../../axios';
+import { POSTHOG_EVENT } from '@/enums/PosthogEnums.js';
+
 export default {
   name: 'JoinRoom',
   data() {
@@ -104,6 +106,11 @@ export default {
     document.getElementById('loading-bg').style.display = 'block';
     this.name = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')).first_name : '';
     this.getUserDetails();
+  },
+  computed: {
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
   },
   methods: {
     joinRoom() {
@@ -143,6 +150,11 @@ export default {
           const roomUrl = data.room_url;
           window.location.href = roomUrl;
           this.isJoining = false;
+          this.$posthog.capture(POSTHOG_EVENT.USER_JOINED_ROOM, {
+            'room_id': this.roomId,
+            'is_user_authenticated': this.activeUserInfo.id ? true : false,
+            'email': this.activeUserInfo.id ? this.activeUserInfo.email : 'null'
+          });
           this.$vs.notify({
             title: 'Success',
             text: data.message,

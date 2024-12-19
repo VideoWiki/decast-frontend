@@ -17,11 +17,17 @@
                     </div>
                     <div>
                         <div class="logo-img">
+                            <button class="clear-img-btn" @click.stop="handleLogoRemove">
+                                <vx-tooltip :text="'set default logo'" position="top">x</vx-tooltip>
+                            </button>
                             <img :src="logoImg" @click="handleLogoUpload" />
                         </div>
                         <label class="custm-clr-label mt-1">/* Click to upload your logo */</label>
                     </div>
                     <div class="input-banner-btn mt-8" @click="triggerFileInput">
+                        <button class="clear-img-btn" v-if="imageSelected" @click.stop="handleBannerRemove">
+                            <vx-tooltip :text="'remove'">x</vx-tooltip>
+                        </button>
                         <div class="button-text">
                             <p for="fileInput" v-if="!imageSelected" class="text-one">
                                 /* <br>Click to upload or drag and drop your brand cover image <br>*/
@@ -30,15 +36,16 @@
                                 jpg, jpeg, png, or gif (recommended size 1440px by 600px)
                             </p>
                         </div>
-                        <input type="file" id="fileInput" @change="handleBannerUpload" accept="image/*" style="display: none"
-                            ref="fileInput" />
+                        <input type="file" id="fileInput" @change="handleBannerUpload" accept="image/*"
+                            style="display: none" ref="fileInput" />
                         <img v-if="imageSelected" :src="imageUrl" alt="Uploaded Image" style="cursor: pointer" />
                     </div>
                     <div class="choose-color mt-8">
                         <label class="text">brand.color</label>
                         <ColorPicker class="mt-2" :stepTwoProps="stepTwoProps" />
                     </div>
-                    <vs-button v-if="castType === 'branded-cast'" class="mt-8" type="border" @click="handleConfirmBranding">>>create</vs-button>
+                    <vs-button v-if="castType === 'branded-cast'" class="mt-8" type="border"
+                        @click="handleConfirmBranding">>>create</vs-button>
                     <vs-button v-else class="mt-8" type="border" @click="handleConfirmBranding">>>confirm</vs-button>
                 </div>
                 <div class="cast-modal-bottom">
@@ -117,7 +124,19 @@ export default {
             };
             fileInput.click();
         },
-        async handleConfirmBranding(){
+        handleBannerRemove() {
+            this.imageSelected = false;
+            this.imageUrl = '';
+            this.stepTwoProps.cover_image = '';
+        },
+        handleLogoRemove() {
+            var img;
+            img = require('@/assets/images/logot.svg');
+            this.img1Src = img;
+            this.logoImg = img;
+            this.stepTwoProps.logo = ''; // default logo will be automatically set by backend
+        },
+        async handleConfirmBranding() {
             if (this.castType === 'branded-cast') {
                 await this.createCast();
                 this.setActiveModal('castInviteModal');
@@ -140,8 +159,10 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    position: relative;
 }
-.logo-img img{
+
+.logo-img img {
     height: 90px;
     width: 90px;
     object-fit: contain;
@@ -157,11 +178,26 @@ export default {
     height: 140px;
     width: 350px;
     cursor: pointer;
+    position: relative;
 }
-.input-banner-btn img{
+
+.input-banner-btn img {
     height: 140px;
     width: 350px;
     object-fit: contain;
+}
+
+.clear-img-btn {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    top: -4px;
+    right: -4px;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    cursor: pointer;
 }
 
 .text-one {

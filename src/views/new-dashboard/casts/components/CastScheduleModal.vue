@@ -24,7 +24,7 @@
                     </div>
                     <div class="flex flex-col mt-8">
                         <span>cast.timeZone</span>
-                        <TimeZoneMenu :menuList="allTimeZone" :stepOneProps="stepOneProps" class="menu-button">
+                        <TimeZoneMenu :menuList="allTimeZone" :stepOneProps="stepOneProps">
                             <template #menuButton>
                                 <div class="text-left">
                                     {{ stepOneProps.timezone }}

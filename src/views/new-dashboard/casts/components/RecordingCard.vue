@@ -92,6 +92,7 @@ import SimpleMenu from '@/components/common/simpleMenu/SimpleMenu.vue';
 import MoreIcon from '@/assets/svgs/button-icons/more.vue';
 import RenameModal from './recording-options/RenameModal.vue';
 import DeleteModal from './recording-options/DeleteModal.vue';
+import { POSTHOG_EVENT } from '@/enums/PosthogEnums.js';
 
 export default {
     name: 'RecordingCard',
@@ -139,6 +140,11 @@ export default {
     },
     methods: {
         openRecording() {
+            this.$posthog.capture(POSTHOG_EVENT.CAST_RECORDING_ACCESSED, {
+                'recording_id': this.recording.url['Record ID'],
+                'cast_id': this.recording.url['pub_id'],
+            });
+            console.log("this.recording", this.recording);
             const playbackURL =
                 this.recording['Playback Data']['Playback URL'].replace(
                     '/presentation/2.3',

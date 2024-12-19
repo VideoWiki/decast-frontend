@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="isNftGated">
-      <JoinNftGatedCast :castDetailsProps="castDetails"/>
+      <JoinNftGatedCast :castDetailsProps="castDetails" />
     </div>
     <div v-else class="full-container">
       <div class="logo">
@@ -23,7 +23,9 @@
             <h2 class="room-name">{{ eventName }}</h2>
             <!-- <p v-if="running" class="room-status"><span></span> LIVE</p>
             <p v-else class="room-status"><span></span> Cast Offline</p> -->
-            <div v-if="castDetails && castDetails.time"><CountDownTImer :castDetails="castDetails"/></div>
+            <div v-if="castDetails && castDetails.time">
+              <CountDownTImer :castDetails="castDetails" />
+            </div>
 
             <!-- ask for OTP -->
             <div v-if="sentOtp && !verified">
@@ -292,6 +294,8 @@
 import Private from '@/layouts/components/navbar/components/Connect_Wallet.vue';
 import JoinNftGatedCast from './JoinNftGatedCast.vue';
 import CountDownTImer from './CountDownTImer.vue';
+import { POSTHOG_EVENT } from '@/enums/PosthogEnums.js';
+
 export default {
   name: 'JoinCast',
   components: { Private, JoinNftGatedCast, CountDownTImer },
@@ -338,6 +342,9 @@ export default {
     walletAddress() {
       console.log(this.$store.state.auth.isGetWalletAddress, 'getting wallet');
       return this.$store.state.auth.isGetWalletAddress;
+    },
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
     },
   },
   mounted() {
@@ -453,6 +460,11 @@ export default {
           .then(async (response) => {
             if (response.data.status) {
               console.log('public path');
+              this.$posthog.capture(POSTHOG_EVENT.USER_JOINED_CAST, {
+                'cast_id': this.meeting_id,
+                'is_user_authenticated': this.activeUserInfo.id ? true : false,
+                'email': this.activeUserInfo.id ? this.activeUserInfo.email : 'null'
+              });
               if (this.$route.query.pass !== undefined) {
                 console.log(payload);
                 await this.magicJoin(payload);
@@ -475,6 +487,11 @@ export default {
             });
           });
       } else {
+        this.$posthog.capture(POSTHOG_EVENT.USER_JOINED_CAST, {
+          'cast_id': this.meeting_id,
+          'is_user_authenticated': this.activeUserInfo.id ? true : false,
+          'email': this.activeUserInfo.id ? this.activeUserInfo.email : 'null'
+        });
         if (this.$route.query.pass !== undefined) {
           await this.magicJoin(payload);
         } else {
@@ -542,7 +559,7 @@ export default {
           }
         })
         .catch((e) => {
-          if(!this.running && e.response.status === 400){
+          if (!this.running && e.response.status === 400) {
             this.$vs.notify({
               title: 'Cast not started yet!',
               text: 'The cast you are trying to join has either ended or yet to begin',

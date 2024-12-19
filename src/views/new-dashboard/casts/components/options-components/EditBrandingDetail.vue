@@ -8,11 +8,17 @@
                     </div>
                     <div>
                         <div class="logo-img">
+                            <button class="clear-img-btn" @click.stop="handleLogoRemove">
+                                <vx-tooltip :text="'set default logo'" position="top">x</vx-tooltip>
+                            </button>
                             <img :src="logoImg" @click="handleLogoUpload" />
                         </div>
                         <label class="custm-clr-label mt-1">/* Click to upload your logo */</label>
                     </div>
                     <div class="input-banner-btn mt-8" @click="triggerFileInput">
+                        <button class="clear-img-btn" v-if="imageSelected" @click.stop="handleBannerRemove">
+                            <vx-tooltip :text="'remove'">x</vx-tooltip>
+                        </button>
                         <div class="button-text">
                             <p for="fileInput" v-if="!imageSelected" class="text-one">
                                 /* <br>Click to upload or drag and drop your brand cover image <br>*/
@@ -103,13 +109,24 @@ export default {
                     reader.onload = (event) => {
                         this.logoImg = event.target.result;
                         this.img1Src = event.target.result;
-                        console.log(file);
                         this.stepTwoProps.logo = file;
                     };
                     reader.readAsDataURL(file);
                 }
             };
             fileInput.click();
+        },
+        handleBannerRemove() {
+            this.imageSelected = false;
+            this.imageUrl = '';
+            this.stepTwoProps.cover_image = '';
+        },
+        handleLogoRemove() {
+            var img;
+            img = require('@/assets/images/logot.svg');
+            this.logoImg = img;
+            this.img1Src = img;
+            this.stepTwoProps.logo = '';
         },
     }
 }
@@ -126,6 +143,7 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    position: relative;
 }
 .logo-img img{
     height: 90px;
@@ -143,11 +161,24 @@ export default {
     height: 140px;
     width: 350px;
     cursor: pointer;
+    position: relative;
 }
-.input-banner-btn img{
+.input-banner-btn img {
     height: 140px;
     width: 350px;
     object-fit: contain;
+}
+.clear-img-btn {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    top: -5px;
+    right: -5px;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    cursor: pointer;
 }
 
 .text-one {

@@ -20,7 +20,7 @@
                             <div class="grid-item" @click="setActiveModal('liveStreamModal')">Live <br>Streaming</div>
 
                             <div class="grid-item" @click="setActiveModal('editPostponeDetail')" v-if="inviteeList.length>0">Postpone <br>Cast</div>
-                            <div class="grid-item" @click="setActiveModal('editSetupDetail')" v-else>Edit Setup <br>Details</div>
+                            <div class="grid-item" @click="setActiveModal('editSetupDetail')" v-else>Reshedule <br>Cast</div>
 
                             <div class="grid-item" @click="setActiveModal('editBasicDetail')">Edit Basic <br>Details</div>
                             <div class="grid-item" @click="setActiveModal('editBrandingDetail')">Edit Branding <br>Details

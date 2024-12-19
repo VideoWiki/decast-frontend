@@ -15,9 +15,9 @@ name<template>
               <img src="@/assets/images/menu.svg" />
             </vs-button>
           </template>
-        </SimpleMenu> -->
+</SimpleMenu> -->
         <div class="copy-btn-cont">
-          <vx-tooltip :text="'https://decast.live/j/'+room.short_code" position="bottom">
+          <vx-tooltip :text="'https://decast.live/j/' + room.short_code" position="bottom">
             <vs-button class="custm-style" @click="copy(room.short_code)">
               <img src="@/assets/images/copy.svg" />
             </vs-button>
@@ -35,8 +35,12 @@ name<template>
     <ShareRoomModal v-if="activeModal === 'shareRoomModal'" :room="room" :closeModal="() => setRoomModal('')" />
     <RoomOptionsModal v-if="activeModal === 'roomOptionsModal'" :closeModal="() => setActiveModal('')"
       :setActiveModal="setActiveModal" />
-    <CustomRoomUrl v-if="activeModal === 'customRoomUrl'" :closeModal="() => setActiveModal('')" :room="room" :getRoomList="getRoomList"/>
-    <RenameRoomModal v-if="activeModal === 'renameRoomModal'" :closeModal="() => setActiveModal('')" :roomDetails="room" :getRoomList="getRoomList"/>
+    <CustomRoomUrl v-if="activeModal === 'customRoomUrl'" :closeModal="() => setActiveModal('')" :room="room"
+      :getRoomList="getRoomList" />
+    <RenameRoomModal v-if="activeModal === 'renameRoomModal'" :closeModal="() => setActiveModal('')" :roomDetails="room"
+      :getRoomList="getRoomList" />
+    <RoomBrandingModal v-if="activeModal === 'roomBrandingModal'" :closeModal="() => setActiveModal('')"
+      :roomDetails="room" :getRoomList="getRoomList" />
     <DeleteRoomModal v-if="activeModal === 'deleteRoomModal'" :closeModal="() => setActiveModal('')"
       :roomName="room.room_name" :confirmDelete="() => deleteRoom(room)" />
   </div>
@@ -51,6 +55,8 @@ import RoomOptionsModal from './RoomOptionsModal.vue';
 import DeleteRoomModal from './options-components/DeleteRoomModal.vue';
 import CustomRoomUrl from './options-components/CustomRoomUrl.vue';
 import RenameRoomModal from './options-components/RenameRoomModal.vue';
+import RoomBrandingModal from './options-components/RoomBrandingModal.vue';
+import { POSTHOG_EVENT } from '@/enums/PosthogEnums.js';
 
 export default {
   name: 'RoomCard',
@@ -86,15 +92,16 @@ export default {
     RoomOptionsModal,
     DeleteRoomModal,
     CustomRoomUrl,
-    RenameRoomModal
-},
+    RenameRoomModal,
+    RoomBrandingModal,
+  },
   methods: {
     handleRoomClick() {
       let newId = this.room.room_url.split('/');
       this.$emit('room-click', {
         id: newId[newId.length - 1],
         roomLs: this.roomsList,
-        room:this.room,
+        room: this.room,
         type: this.room.type,
         room_name: this.room.room_name,
       });
@@ -133,6 +140,10 @@ export default {
         .then((res) => {
           this.isRoomStart = true;
           window.open(res.data.room_url, '_blank');
+          this.$posthog.capture(POSTHOG_EVENT.ROOM_STARTED, {
+            'room_id': id,
+            'is_user_authenticated': true
+          });
         })
         .catch((e) => {
           console.log(e);
@@ -183,6 +194,7 @@ export default {
 .custm-style:hover {
   box-shadow: none !important;
 }
+
 .room_list {
   border-top: 1px solid white;
   border-left: 1px solid white;
@@ -199,4 +211,3 @@ export default {
   box-shadow: 3px 3px 0px 0px #D7DF23;
 }
 </style>
-
