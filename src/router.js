@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import FullPage from '@/layouts/full-page/FullPage.vue';
 // import Landing from '@/views/Landing.vue';
 import Landing from '@/views/NewLanding__4.vue';
+import LerenLeren from '@/views/LerenLeren.vue';
+
 import Creators from '@/views/Creators.vue';
 import Sponsors from '@/views/Sponsors.vue';
 import Promoters from '@/views/Promoters.vue';
@@ -122,6 +124,14 @@ const router = new Router({
           path: '/infrastructure',
           name: 'Welcome to Decast | Infrastructure',
           component: Infrastructure,
+          meta: {
+            rule: 'isPublic',
+          },
+        },
+        {
+          path: '/leren-leren',
+          name: 'About | Leren Leren',
+          component: LerenLeren,
           meta: {
             rule: 'isPublic',
           },
